@@ -158,7 +158,7 @@ const disappearedCigarettes = [
   },
 ];
 
-const statusColors = {
+const statusColors: Record<string, string> = {
   banned: "bg-red-100 text-red-700 border-red-300",
   restricted: "bg-orange-100 text-orange-700 border-orange-300",
   extinct: "bg-gray-100 text-gray-700 border-gray-300",
@@ -166,7 +166,7 @@ const statusColors = {
   critical: "bg-red-100 text-red-700 border-red-300",
 };
 
-const statusLabels = {
+const statusLabels: Record<string, string> = {
   banned: "Interdit",
   restricted: "Restreint",
   extinct: "Éteint",
@@ -193,10 +193,10 @@ export function MoleculesDisparues() {
     <div className="min-h-screen bg-background">
       <div className="container py-6 max-w-6xl">
         <DynamicBreadcrumb
-          items={[
-            { label: "Accueil", href: "/" },
-            { label: "Recherche", href: "/axes-recherche" },
-            { label: "Molécules Disparues" },
+          segments={[
+            { label: "Accueil", path: "/" },
+            { label: "Recherche", path: "/axes-recherche" },
+            { label: "Molécules Disparues", path: "/molecules-disparues" },
           ]}
         />
 
@@ -577,20 +577,22 @@ export function MoleculesDisparues() {
           {/* Sources */}
           <TabsContent value="sources">
             <div className="space-y-4">
-              {[ax05Entry, pf23Entry, tabEntry].filter(Boolean).map((entry) => (
+              {[ax05Entry, pf23Entry, tabEntry].filter(Boolean).map((entry) => {
+                if (!entry) return null;
+                return (
                 <Card key={entry.id}>
                   <CardContent className="p-4">
                     <div className="flex items-start gap-3">
                       <BookOpen className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
                       <div className="flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <Badge variant="outline" className="text-xs font-mono">{entry.entry_code}</Badge>
+                          <Badge variant="outline" className="text-xs font-mono">{entry.entryCode}</Badge>
                           <h3 className="font-medium text-sm">{entry.title}</h3>
                         </div>
                         <p className="text-xs text-muted-foreground mb-3">{entry.summary}</p>
                         {entry.content && (
                           <div className="prose prose-sm max-w-none dark:prose-invert text-xs border-t pt-3">
-                            <ReactMarkdown className="prose prose-sm dark:prose-invert max-w-none">{entry.content.substring(0, 800) + (entry.content.length > 800 ? '...' : '')}</ReactMarkdown>
+                            <ReactMarkdown>{entry.content.substring(0, 800) + (entry.content.length > 800 ? '...' : '')}</ReactMarkdown>
                           </div>
                         )}
                         <Link href={`/axes-recherche/${entry.id}`}>
@@ -602,7 +604,11 @@ export function MoleculesDisparues() {
                     </div>
                   </CardContent>
                 </Card>
-              ))}
+                );
+              })}
+              {[ax05Entry, pf23Entry, tabEntry].filter(Boolean).length === 0 && (
+                <p className="text-muted-foreground text-sm">Aucune source disponible</p>
+              )}
 
               {/* Bibliographies externes */}
               <Card>

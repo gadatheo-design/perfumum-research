@@ -1245,7 +1245,7 @@ export async function executeEnrichment(): Promise<{
           linksCreated++;
         }
       } catch (error: any) {
-        errors.push(`Erreur pour ${plant.name} - ${comp.molecule}: ${error.message}`);
+        errors.push(`Erreur pour ${plant.name} - ${comp.molecule}: ${(error instanceof Error ? error.message : String(error))}`);
       }
     }
     if (plantLinksCreated > 0) plantsEnriched++;

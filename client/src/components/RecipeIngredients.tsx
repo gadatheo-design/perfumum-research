@@ -135,7 +135,7 @@ export function RecipeIngredients({ recipeId }: RecipeIngredientsProps) {
             })}
           </div>
           <div className="flex flex-wrap gap-3 text-xs">
-            {Object.entries(groupedByType).map(([type, items]) => {
+            {(Object.entries(groupedByType) as [string, typeof ingredients][]).map(([type, items]) => {
               const typeTotal = items.reduce((sum, i) => sum + (i.percentage || 0), 0);
               const colors: Record<string, string> = {
                 cannabis: "text-green-400",

@@ -122,7 +122,7 @@ export default function GlaciaireContent() {
       </div>
 
       {/* Connexions */}
-      <GammesConnexes currentGamme="glaciaire" />
+      <GammesConnexes currentGamme="glaciaire" relatedGammes={["petrichor", "volcanique", "biolab", "pheromones"]} />
     </div>
   );
 }

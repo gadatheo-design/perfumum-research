@@ -24,10 +24,18 @@ interface TabacWithTerroir {
   terroirClimate: string | null;
 }
 
-function parseProfile(raw: string | null) {
+interface AromaticProfile {
+  famille?: string;
+  notes_dominantes?: string;
+  notes_secondaires?: string;
+  caractere?: string;
+  descripteurs?: string[];
+  [key: string]: unknown;
+}
+function parseProfile(raw: string | null): AromaticProfile | null {
   if (!raw) return null;
   try {
-    const p = safeJsonParse(raw, null);
+    const p = safeJsonParse(raw, null) as AromaticProfile | null;
     if (p && typeof p === "object" && p.famille) return p;
     return null;
   } catch {
@@ -183,7 +191,7 @@ export default function TabacsOriginaux() {
   }, [allTabacs]);
 
   const countries = useMemo(() => {
-    const unique = [...new Set(tabacs.map(t => t.terroirCountry).filter(Boolean) as string[])];
+    const unique = Array.from(new Set(tabacs.map(t => t.terroirCountry).filter(Boolean) as string[]));
     return unique.sort();
   }, [tabacs]);
 
@@ -203,7 +211,7 @@ export default function TabacsOriginaux() {
     total: tabacs.length,
     oriental: tabacs.filter(t => t.type === "oriental").length,
     experimental: tabacs.filter(t => t.type === "experimental").length,
-    countries: [...new Set(tabacs.map(t => t.terroirCountry).filter(Boolean))].length,
+    countries: Array.from(new Set(tabacs.map(t => t.terroirCountry).filter(Boolean))).length,
   }), [tabacs]);
 
   if (error) {

@@ -132,10 +132,8 @@ export function AromaticRaritiesGraph({ materials, heritages }: Props) {
       .selectAll('g')
       .data(nodes)
       .join('g')
-      .call(d3.drag<SVGGElement, GraphNode>()
-        .on('start', dragstarted)
-        .on('drag', dragged)
-        .on('end', dragended));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .call(d3.drag<SVGGElement, GraphNode>().on('start', dragstarted).on('drag', dragged).on('end', dragended) as any);
 
     // Cercles des nœuds
     node.append('circle')

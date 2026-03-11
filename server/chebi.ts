@@ -141,7 +141,7 @@ export async function searchChEBI(name: string): Promise<ChEBISearchResult[]> {
       chebiAsciiName: item.chebiAsciiName,
       searchScore: item.searchScore || 0,
     }));
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('ChEBI search error:', error);
     return [];
   }
@@ -212,7 +212,7 @@ export async function getChEBIEntity(chebiId: string): Promise<ChEBIEntity | nul
       charge: entity.charge ? parseInt(entity.charge) : undefined,
       synonyms,
     };
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('ChEBI getEntity error:', error);
     return null;
   }
@@ -256,7 +256,7 @@ export async function enrichMoleculeFromChEBI(moleculeName: string): Promise<{
       success: true,
       data: entity,
     };
-  } catch (error) {
+  } catch (error: unknown) {
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Erreur inconnue',

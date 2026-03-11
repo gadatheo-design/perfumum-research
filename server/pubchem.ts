@@ -87,7 +87,7 @@ export async function searchCompoundByName(name: string): Promise<number[]> {
     
     const data = await response.json();
     return data.IdentifierList?.CID || [];
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`Error searching PubChem for "${name}":`, error);
     return [];
   }
@@ -134,7 +134,7 @@ export async function getCompoundProperties(cid: number): Promise<PubChemCompoun
     }
     
     return props as PubChemCompound;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`Error fetching properties for CID ${cid}:`, error);
     return null;
   }
@@ -155,7 +155,7 @@ export async function getCompoundSynonyms(cid: number): Promise<string[]> {
     
     const data = await response.json();
     return data.InformationList?.Information?.[0]?.Synonym || [];
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`Error fetching synonyms for CID ${cid}:`, error);
     return [];
   }
@@ -226,7 +226,7 @@ export async function enrichMolecule(moleculeName: string): Promise<EnrichmentRe
     result.success = true;
     return result;
     
-  } catch (error) {
+  } catch (error: unknown) {
     result.error = error instanceof Error ? error.message : 'Erreur inconnue';
     return result;
   }

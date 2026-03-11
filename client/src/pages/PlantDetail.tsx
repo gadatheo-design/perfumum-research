@@ -1208,8 +1208,9 @@ export default function PlantDetail() {
               <CardContent>
                 {/* Grouper par maison */}
                 {(() => {
-                  const byHouse: Record<string, typeof plantPerfumes> = {};
-                  for (const p of plantPerfumes) {
+                  type PerfumeRow = { id: number; perfume_name: string; perfume_house?: string; perfumer?: string; year?: number; role_in_perfume?: string; ingredient_type?: string; description?: string };
+                  const byHouse: Record<string, PerfumeRow[]> = {};
+                  for (const p of (plantPerfumes as PerfumeRow[])) {
                     const h = p.perfume_house || 'Indépendant';
                     if (!byHouse[h]) byHouse[h] = [];
                     byHouse[h].push(p);

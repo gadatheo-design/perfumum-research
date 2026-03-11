@@ -38,10 +38,18 @@ const TYPE_COLORS: Record<string, string> = {
   experimental: "bg-cyan-500/20 text-cyan-400 border-cyan-500/30",
 };
 
-function parseProfile(raw: string | null) {
+interface AromaticProfile {
+  famille?: string;
+  notes_dominantes?: string;
+  notes_secondaires?: string;
+  caractere?: string;
+  descripteurs?: string[];
+  [key: string]: unknown;
+}
+function parseProfile(raw: string | null): AromaticProfile | null {
   if (!raw) return null;
   try {
-    const p = safeJsonParse(raw, null);
+    const p = safeJsonParse(raw, null) as AromaticProfile | null;
     if (p && typeof p === "object" && p.famille) return p;
     return null;
   } catch {
@@ -172,9 +180,9 @@ export default function TabacsNaturels() {
 
   const countries = useMemo(() => {
     if (!tabacs) return [];
-    const unique = [...new Set((tabacs as TabacWithTerroir[])
+    const unique = Array.from(new Set((tabacs as TabacWithTerroir[])
       .map(t => t.terroirCountry)
-      .filter(Boolean) as string[])];
+      .filter(Boolean) as string[]));
     return unique.sort();
   }, [tabacs]);
 

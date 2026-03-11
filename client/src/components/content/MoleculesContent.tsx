@@ -232,7 +232,7 @@ export function MoleculesContent() {
                 </Badge>
               )}
             </Button>
-            <ViewToggle viewMode={viewMode} setViewMode={setViewMode} />
+            <ViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
           </div>
         </div>
 
@@ -242,16 +242,16 @@ export function MoleculesContent() {
             <CardContent className="pt-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <FilterSelect
-                  label="Famille"
                   value={familyFilter}
                   onChange={setFamilyFilter}
                   options={[{ value: "all", label: "Toutes" }, ...families]}
+                  placeholder="Famille"
                 />
                 <FilterSelect
-                  label="Classe chimique"
                   value={chemicalClassFilter}
                   onChange={setChemicalClassFilter}
                   options={[{ value: "all", label: "Toutes" }, ...chemicalClasses]}
+                  placeholder="Classe chimique"
                 />
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Intensité radar</label>
@@ -307,7 +307,7 @@ export function MoleculesContent() {
                     </CardTitle>
                   </Link>
                   <div className="flex items-center gap-1">
-                    <FavoriteButton moleculeId={molecule.id} size="sm" />
+                    <FavoriteButton page={{ id: String(molecule.id), title: molecule.name, href: `/molecule/${molecule.id}` }} size="sm" />
                     <Button
                       variant="ghost"
                       size="icon"
@@ -368,7 +368,7 @@ export function MoleculesContent() {
               key={molecule.id}
               molecule={molecule}
               isSelected={selectedMolecules.includes(molecule.id)}
-              onToggleSelect={() => toggleMoleculeSelection(molecule.id)}
+              onToggleSelection={() => toggleMoleculeSelection(molecule.id)}
             />
           ))}
         </div>
@@ -391,15 +391,15 @@ export function MoleculesContent() {
       {/* Floating Compare Bar */}
       {selectedMolecules.length > 0 && (
         <FloatingCompareBar
-          selectedIds={selectedMolecules}
-          entityType="molecules"
+          selectedCount={selectedMolecules.length}
+          maxCount={MAX_COMPARISON}
           onClear={clearSelection}
-          maxItems={MAX_COMPARISON}
+          onCompare={() => {}}
         />
       )}
 
       {/* Voir Aussi */}
-      <VoirAussi suggestions={suggestionsMolecules} />
+      <VoirAussi items={suggestionsMolecules} />
     </div>
   );
 }

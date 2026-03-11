@@ -105,7 +105,8 @@ const curingConfig: Record<string, { label: string; description: string }> = {
 function parseJsonArray(value: string | null | undefined): string[] {
   if (!value) return [];
   try {
-    return safeJsonParse(value, null);
+    const parsed = safeJsonParse(value, null);
+    return Array.isArray(parsed) ? parsed as string[] : value.split(";").map(s => s.trim()).filter(Boolean);
   } catch {
     return value.split(";").map(s => s.trim()).filter(Boolean);
   }

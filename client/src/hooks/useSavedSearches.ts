@@ -34,7 +34,7 @@ export function useSavedSearches() {
       const stored = localStorage.getItem(SEARCHES_KEY);
       if (stored) {
         const parsed = safeJsonParse(stored, null);
-        setSearches(parsed);
+        if (Array.isArray(parsed)) setSearches(parsed as SavedSearch[]);
       }
     } catch (error) {
       console.error('[useSavedSearches] Failed to load searches:', error);

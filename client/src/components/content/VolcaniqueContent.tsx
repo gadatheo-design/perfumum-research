@@ -122,7 +122,7 @@ export default function VolcaniqueContent() {
       </div>
 
       {/* Connexions */}
-      <GammesConnexes currentGamme="volcanique" />
+      <GammesConnexes currentGamme="volcanique" relatedGammes={["petrichor", "civilisations", "glaciaire", "biolab"]} />
     </div>
   );
 }

@@ -308,9 +308,9 @@ export default function IFRACompliance() {
                         </div>
                       </div>
                       <div className="flex items-center gap-2">
-                        {mol.ifraData?.reason && (
+                        {mol.ifraData?.reason != null && (
                           <span className="text-xs text-red-400">
-                            {mol.ifraData.reason}
+                            {String(mol.ifraData.reason as string)}
                           </span>
                         )}
                         {getStatusBadge('banned')}
@@ -364,12 +364,12 @@ export default function IFRACompliance() {
                       <div className="flex items-center gap-3">
                         {mol.ifraData?.maxPercent !== undefined && (
                           <span className="text-sm font-mono bg-orange-500/20 px-2 py-1 rounded">
-                            Max {mol.ifraData.maxPercent}%
+                            Max {String(mol.ifraData.maxPercent)}%
                           </span>
                         )}
-                        {mol.ifraData?.category && (
+                        {mol.ifraData?.category != null && (
                           <span className="text-xs text-muted-foreground">
-                            ({mol.ifraData.category})
+                            ({String(mol.ifraData.category as string)})
                           </span>
                         )}
                         {getStatusBadge('restricted')}
@@ -421,9 +421,9 @@ export default function IFRACompliance() {
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
-                        {mol.ifraData?.specification && (
+                        {mol.ifraData?.specification != null && (
                           <span className="text-xs text-yellow-400 max-w-xs truncate">
-                            {mol.ifraData.specification}
+                            {String(mol.ifraData.specification as string)}
                           </span>
                         )}
                         {getStatusBadge('specification_required')}

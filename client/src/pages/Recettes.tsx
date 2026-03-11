@@ -94,7 +94,7 @@ export default function Recettes() {
 
   // Recettes liées à la molécule sélectionnée (IDs)
   const { data: moleculeRecetteIds } = trpc.recettes.getByMoleculeName.useQuery(
-    selectedMolecule ?? '',
+    { moleculeName: selectedMolecule ?? '' },
     { enabled: !!selectedMolecule }
   );
   const moleculeRecetteIdSet = useMemo(
@@ -680,23 +680,24 @@ export default function Recettes() {
                     key={recette.id}
                     recette={recette}
                     isSelected={selectedForComparison.includes(recette.id)}
-                    onToggleSelection={(id, checked) => {
-                      if (checked) {
+                    onToggleSelection={() => {
+                      if (selectedForComparison.includes(recette.id)) {
+                        setSelectedForComparison(prev => prev.filter(i => i !== recette.id));
+                      } else {
                         if (selectedForComparison.length >= 4) {
                           toast({ title: "Maximum 4 recettes", description: "Vous pouvez comparer jusqu'à 4 recettes à la fois.", variant: "destructive" });
                         } else {
-                          setSelectedForComparison(prev => [...prev, id]);
+                          setSelectedForComparison(prev => [...prev, recette.id]);
                         }
-                      } else {
-                        setSelectedForComparison(prev => prev.filter(i => i !== id));
                       }
                     }}
-                    isFavorite={isFavorite(recette.id)}
+                    isFavorite={isFavorite(`/recettes/${recette.id}`)}
                     onFavorite={(id) => {
-                      toggleFavorite(id);
+                      const href = `/recettes/${id}`;
+                      toggleFavorite({ id: String(id), title: recette.name, href });
                       toast({ 
-                        title: isFavorite(id) ? "Retiré des favoris" : "Ajouté aux favoris",
-                        description: isFavorite(id) 
+                        title: isFavorite(href) ? "Retiré des favoris" : "Ajouté aux favoris",
+                        description: isFavorite(href) 
                           ? "La recette a été retirée de vos favoris" 
                           : "La recette a été ajoutée à vos favoris"
                       });
@@ -738,12 +739,13 @@ export default function Recettes() {
                   onExport={(id) => {
                     toast({ title: "Export PDF", description: "Fonctionnalité à venir" });
                   }}
-                  isFavorite={isFavorite(recette.id)}
+                  isFavorite={isFavorite(`/recettes/${recette.id}`)}
                   onFavorite={(id) => {
-                    toggleFavorite(id);
+                    const href = `/recettes/${id}`;
+                    toggleFavorite({ id: String(id), title: recette.name, href });
                     toast({ 
-                      title: isFavorite(id) ? "Retiré des favoris" : "Ajouté aux favoris",
-                      description: isFavorite(id) 
+                      title: isFavorite(href) ? "Retiré des favoris" : "Ajouté aux favoris",
+                      description: isFavorite(href) 
                         ? "La recette a été retirée de vos favoris" 
                         : "La recette a été ajoutée à vos favoris"
                     });

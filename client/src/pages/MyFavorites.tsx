@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/alert-dialog";
 
 export function MyFavorites() {
-  const { favorites, removeFavorite, clearAllFavorites } = useFavorites();
+  const { favorites, removeFavorite, clearFavorites: clearAllFavorites } = useFavorites();
   const [showClearDialog, setShowClearDialog] = useState(false);
 
   const handleClearAll = () => {

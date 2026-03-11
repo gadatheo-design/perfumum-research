@@ -63,7 +63,7 @@ export const researchRouter = router({
           data: results as any[],
           count: (results as any[]).length,
         };
-      } catch (error) {
+      } catch (error: unknown) {
         console.error("Error fetching research claims:", error);
         return {
           success: false,
@@ -125,7 +125,7 @@ export const researchRouter = router({
           data: results as any[],
           count: (results as any[]).length,
         };
-      } catch (error) {
+      } catch (error: unknown) {
         console.error("Error fetching research sources:", error);
         return {
           success: false,
@@ -168,7 +168,7 @@ export const researchRouter = router({
           success: true,
           data: (results as any[])[0],
         };
-      } catch (error) {
+      } catch (error: unknown) {
         console.error("Error fetching research claim:", error);
         return {
           success: false,
@@ -210,7 +210,7 @@ export const researchRouter = router({
           success: true,
           data: (results as any[])[0],
         };
-      } catch (error) {
+      } catch (error: unknown) {
         console.error("Error fetching research source:", error);
         return {
           success: false,
@@ -240,7 +240,7 @@ export const researchRouter = router({
       // Flatten the result array (db.execute returns [rows, fields])
       const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
       return Array.isArray(rows) ? rows : [];
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error fetching Perique compounds:", error);
       return [];
     }
@@ -286,7 +286,7 @@ export const researchRouter = router({
           sourcesByQuality: sourcesByQuality as any[],
         },
       };
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error fetching research statistics:", error);
       return {
         success: false,
@@ -313,7 +313,7 @@ export const researchRouter = router({
       // Flatten the result array (db.execute returns [rows, fields])
       const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
       return Array.isArray(rows) ? rows : [];
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error fetching historic cigarettes:", error);
       return [];
     }
@@ -342,7 +342,7 @@ export const researchRouter = router({
       // Flatten the result array (db.execute returns [rows, fields])
       const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
       return Array.isArray(rows) ? rows : [];
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error fetching Perique-molecule links:", error);
       return [];
     }
@@ -382,7 +382,7 @@ export const researchRouter = router({
         const result = await db.execute(sql.raw(query));
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         return Array.isArray(rows) ? rows : [];
-      } catch (error) {
+      } catch (error: unknown) {
         console.error("Error fetching TPS genes:", error);
         return [];
       }
@@ -403,7 +403,7 @@ export const researchRouter = router({
       
       const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
       return Array.isArray(rows) ? rows : [];
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error fetching biosynthetic pathways:", error);
       return [];
     }
@@ -442,7 +442,7 @@ export const researchRouter = router({
         diterpenes: getCount(diResult),
         pathways: getCount(pathwayResult),
       };
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error fetching genomic stats:", error);
       return {
         totalTpsGenes: 0,
@@ -516,7 +516,7 @@ export const researchRouter = router({
         
         const result = await db.execute(sql.raw(query));
         return (result as any)[0] || [];
-      } catch (error) {
+      } catch (error: unknown) {
         console.error("Error fetching TPS gene-molecule links:", error);
         return [];
       }
@@ -550,11 +550,11 @@ export const researchRouter = router({
         const result = await db.execute(sql.raw(query));
         return { success: true, id: (result as any)[0]?.insertId };
       } catch (error: any) {
-        if (error.code === 'ER_DUP_ENTRY') {
+        if ((error instanceof Error ? (error as NodeJS.ErrnoException).code : undefined) === 'ER_DUP_ENTRY') {
           return { success: false, error: "Cette liaison existe déjà" };
         }
         console.error("Error creating TPS gene-molecule link:", error);
-        return { success: false, error: error.message };
+        return { success: false, error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -572,7 +572,7 @@ export const researchRouter = router({
         return { success: true };
       } catch (error: any) {
         console.error("Error deleting TPS gene-molecule link:", error);
-        return { success: false, error: error.message };
+        return { success: false, error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -630,7 +630,7 @@ export const researchRouter = router({
         geneCoverage: tGenes > 0 ? (lGenes / tGenes) * 100 : 0,
         moleculeCoverage: tMols > 0 ? (lMols / tMols) * 100 : 0,
       };
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error fetching TPS gene-molecule link stats:", error);
       return {
         totalLinks: 0,
@@ -687,7 +687,7 @@ export const researchRouter = router({
       return { success: true, linksCreated };
     } catch (error: any) {
       console.error("Error auto-linking TPS genes to molecules:", error);
-      return { success: false, error: error.message, linksCreated: 0 };
+      return { success: false, error: (error instanceof Error ? error.message : String(error)), linksCreated: 0 };
     }
   }),
 
@@ -745,7 +745,7 @@ export const researchRouter = router({
         };
       } catch (error: any) {
         console.error("Error searching molecule matches:", error);
-        return { success: false, error: error.message, gene: null, matches: [] };
+        return { success: false, error: (error instanceof Error ? error.message : String(error)), gene: null, matches: [] };
       }
     }),
 
@@ -884,7 +884,7 @@ export const researchRouter = router({
         };
       } catch (error: any) {
         console.error("Error getting biosynthetic pathways:", error);
-        return { success: false, paths: [], stats: null, error: error.message };
+        return { success: false, paths: [], stats: null, error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -949,7 +949,7 @@ export const researchRouter = router({
         return { success: true, data };
       } catch (error: any) {
         console.error("Error getting molecular transformations:", error);
-        return { success: false, data: [], error: error.message };
+        return { success: false, data: [], error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -977,7 +977,7 @@ export const researchRouter = router({
       return { success: true, stats };
     } catch (error: any) {
       console.error("Error getting transformation stats:", error);
-      return { success: false, stats: null, error: error.message };
+      return { success: false, stats: null, error: (error instanceof Error ? error.message : String(error)) };
     }
   }),
 
@@ -1051,7 +1051,7 @@ export const researchRouter = router({
         return { success: true, message: "Transformation created successfully" };
       } catch (error: any) {
         console.error("Error creating molecular transformation:", error);
-        return { success: false, error: error.message };
+        return { success: false, error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -1078,7 +1078,7 @@ export const researchRouter = router({
       return { success: true, data };
     } catch (error: any) {
       console.error("Error getting transformation types:", error);
-      return { success: false, data: [], error: error.message };
+      return { success: false, data: [], error: (error instanceof Error ? error.message : String(error)) };
     }
   }),
 
@@ -1157,7 +1157,7 @@ export const researchRouter = router({
         return { success: true, impacts };
       } catch (error: any) {
         console.error("Error getting transformation recipe impacts:", error);
-        return { success: false, impacts: [], error: error.message };
+        return { success: false, impacts: [], error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -1198,7 +1198,7 @@ export const researchRouter = router({
         return { success: true, recipes };
       } catch (error: any) {
         console.error("Error getting recipes affected by transformation:", error);
-        return { success: false, recipes: [], error: error.message };
+        return { success: false, recipes: [], error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -1241,7 +1241,7 @@ export const researchRouter = router({
         return { success: true, transformations };
       } catch (error: any) {
         console.error("Error getting transformations affecting recipe:", error);
-        return { success: false, transformations: [], error: error.message };
+        return { success: false, transformations: [], error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -1296,7 +1296,7 @@ export const researchRouter = router({
       };
     } catch (error: any) {
       console.error("Error getting transformation impact stats:", error);
-      return { success: false, stats: null, error: error.message };
+      return { success: false, stats: null, error: (error instanceof Error ? error.message : String(error)) };
     }
   }),
 
@@ -1347,11 +1347,11 @@ export const researchRouter = router({
 
         return { success: true, message: "Impact link created successfully" };
       } catch (error: any) {
-        if (error.code === 'ER_DUP_ENTRY') {
+        if ((error instanceof Error ? (error as NodeJS.ErrnoException).code : undefined) === 'ER_DUP_ENTRY') {
           return { success: false, error: "Cette liaison existe déjà" };
         }
         console.error("Error creating transformation recipe impact:", error);
-        return { success: false, error: error.message };
+        return { success: false, error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -1371,7 +1371,7 @@ export const researchRouter = router({
         return { success: true };
       } catch (error: any) {
         console.error("Error deleting transformation recipe impact:", error);
-        return { success: false, error: error.message };
+        return { success: false, error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -1538,7 +1538,7 @@ export const researchRouter = router({
         };
       } catch (error: any) {
         console.error("Error getting transformation chains:", error);
-        return { success: false, nodes: [], links: [], chains: [], error: error.message };
+        return { success: false, nodes: [], links: [], chains: [], error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -1632,7 +1632,7 @@ export const researchRouter = router({
         };
       } catch (error: any) {
         console.error("Error getting transformations by molecule:", error);
-        return { success: false, asSource: [], asProduct: [], error: error.message };
+        return { success: false, asSource: [], asProduct: [], error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -1685,7 +1685,7 @@ export const researchRouter = router({
         };
       } catch (error: any) {
         console.error("Error fetching publications:", error);
-        return { success: false, data: [], count: 0, error: error.message };
+        return { success: false, data: [], count: 0, error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -1710,7 +1710,7 @@ export const researchRouter = router({
         return { success: true, data };
       } catch (error: any) {
         console.error("Error fetching publication:", error);
-        return { success: false, data: null, error: error.message };
+        return { success: false, data: null, error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -1752,7 +1752,7 @@ export const researchRouter = router({
         };
       } catch (error: any) {
         console.error("Error fetching analytical methods:", error);
-        return { success: false, data: [], error: error.message };
+        return { success: false, data: [], error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -1794,7 +1794,7 @@ export const researchRouter = router({
         };
       } catch (error: any) {
         console.error("Error fetching researchers:", error);
-        return { success: false, data: [], error: error.message };
+        return { success: false, data: [], error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -1840,7 +1840,7 @@ export const researchRouter = router({
         };
       } catch (error: any) {
         console.error("Error fetching institutions:", error);
-        return { success: false, data: [], error: error.message };
+        return { success: false, data: [], error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -1899,7 +1899,7 @@ export const researchRouter = router({
       };
     } catch (error: any) {
       console.error("Error fetching research stats:", error);
-      return { success: false, data: null, error: error.message };
+      return { success: false, data: null, error: (error instanceof Error ? error.message : String(error)) };
     }
   }),
 
@@ -1926,7 +1926,7 @@ export const researchRouter = router({
         };
       } catch (error: any) {
         console.error("Error fetching top cited publications:", error);
-        return { success: false, data: [], error: error.message };
+        return { success: false, data: [], error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -1958,7 +1958,7 @@ export const researchRouter = router({
       };
     } catch (error: any) {
       console.error("Error fetching methods performance:", error);
-      return { success: false, data: [], error: error.message };
+      return { success: false, data: [], error: (error instanceof Error ? error.message : String(error)) };
     }
   }),
 
@@ -2005,7 +2005,7 @@ export const researchRouter = router({
         };
       } catch (error: any) {
         console.error("Error fetching analytical methods:", error);
-        return { success: false, data: [], count: 0, error: error.message };
+        return { success: false, data: [], count: 0, error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -2052,7 +2052,7 @@ export const researchRouter = router({
         };
       } catch (error: any) {
         console.error("Error fetching molecular transformations:", error);
-        return { success: false, data: [], count: 0, error: error.message };
+        return { success: false, data: [], count: 0, error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -2140,7 +2140,7 @@ export const researchRouter = router({
         };
       } catch (error: any) {
         console.error("Error fetching publication-molecule links:", error);
-        return { success: false, links: [], publications: [], molecules: [], error: error.message };
+        return { success: false, links: [], publications: [], molecules: [], error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -2195,7 +2195,7 @@ export const researchRouter = router({
         };
       } catch (error: any) {
         console.error("Error fetching aromatic rarities:", error);
-        return { success: false, data: [], count: 0, error: error.message };
+        return { success: false, data: [], count: 0, error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 
@@ -2220,7 +2220,7 @@ export const researchRouter = router({
         };
       } catch (error: any) {
         console.error("Error fetching aromatic rarity:", error);
-        return { success: false, data: null, error: error.message };
+        return { success: false, data: null, error: (error instanceof Error ? error.message : String(error)) };
       }
     }),
 });

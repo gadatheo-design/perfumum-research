@@ -46,8 +46,7 @@ export const trackRedirect = (fromUrl: string, toUrl: string, reason?: string) =
     ReactGA.event({
       category: "redirect",
       action: "url_redirect",
-      label: `${fromUrl} → ${toUrl}`,
-      value: reason ? `reason: ${reason}` : undefined,
+      label: `${fromUrl} → ${toUrl}${reason ? ` (${reason})` : ''}`,
     });
     if (isDev) console.debug("[Analytics] Redirect tracked:", { fromUrl, toUrl, reason });
   } catch (error) {

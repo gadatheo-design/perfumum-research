@@ -342,7 +342,7 @@ export default function AdminGcmsImport() {
                 </div>
                 {plantSearch.data && plantSearch.data.length > 0 && !selectedPlant && (
                   <div className="border rounded-md divide-y max-h-48 overflow-y-auto">
-                    {plantSearch.data.map((p: PlantResult) => (
+                    {(plantSearch.data as PlantResult[]).map((p) => (
                       <button
                         key={p.id}
                         className="w-full text-left px-3 py-2 hover:bg-muted text-sm flex items-center justify-between"
@@ -414,7 +414,7 @@ export default function AdminGcmsImport() {
                       </div>
                       {molSearch.data && molSearch.data.length > 0 && molQuery === row.moleculeName && !row.moleculeId && (
                         <div className="border rounded-md divide-y max-h-36 overflow-y-auto z-10 bg-popover shadow-md">
-                          {molSearch.data.map((m: MolResult) => (
+                          {(molSearch.data as MolResult[]).map((m) => (
                             <button
                               key={m.id}
                               className="w-full text-left px-3 py-1.5 hover:bg-muted text-xs flex items-center justify-between"

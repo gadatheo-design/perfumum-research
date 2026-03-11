@@ -146,7 +146,7 @@ function MethodCard({ method, isPrimary }: MethodCardProps) {
           <div className="flex items-center gap-2 mb-2">
             <Badge className={`${categoryColor} text-white`}>
               {categoryIcon}
-              <span className="ml-1">{method.code || method.methodId}</span>
+              <span className="ml-1">{method.code || String(method.id)}</span>
             </Badge>
             {isPrimary && (
               <Badge variant="outline" className="border-yellow-500 text-yellow-600">

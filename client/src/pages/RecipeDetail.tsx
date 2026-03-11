@@ -5,12 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Cigarette, Clock, Leaf, FlaskConical, Sparkles } from "lucide-react";
+import { ArrowLeft, Cigarette, Clock, Leaf, FlaskConical, Sparkles, PlusCircle } from "lucide-react";
 import { RecipeIngredients } from "@/components/RecipeIngredients";
 import { RecipeContributionModal } from "@/components/RecipeContributionModal";
-import { PlusCircle } from "lucide-react";
+import { useState } from "react";
 
 export default function RecipeDetail() {
+  const [contributionOpen, setContributionOpen] = useState(false);
   const { slug } = useParams<{ slug: string }>();
   const { data: recipe, isLoading } = trpc.recipes.getById.useQuery({ slug });
 
@@ -79,15 +80,15 @@ export default function RecipeDetail() {
           <p className="text-lg text-muted-foreground">{recipe.concept}</p>
         )}
         <div className="mt-4">
+          <Button variant="outline" size="sm" className="gap-2 border-amber-500/50 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/30" onClick={() => setContributionOpen(true)}>
+            <PlusCircle className="h-4 w-4" />
+            Contribuer à cette recette
+          </Button>
           <RecipeContributionModal
+            open={contributionOpen}
+            onClose={() => setContributionOpen(false)}
             recipeId={recipe.id}
             recipeName={recipe.name}
-            trigger={
-              <Button variant="outline" size="sm" className="gap-2 border-amber-500/50 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/30">
-                <PlusCircle className="h-4 w-4" />
-                Contribuer à cette recette
-              </Button>
-            }
           />
         </div>
       </div>

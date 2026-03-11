@@ -223,7 +223,7 @@ export function RecettesContent() {
                 </Badge>
               )}
             </Button>
-            <ViewToggle viewMode={viewMode} setViewMode={setViewMode} />
+            <ViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
           </div>
         </div>
 
@@ -233,16 +233,16 @@ export function RecettesContent() {
             <CardContent className="pt-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <FilterSelect
-                  label="Catégorie"
                   value={selectedFamily || "all"}
                   onChange={(v) => setSelectedFamily(v === "all" ? null : v)}
                   options={[{ value: "all", label: "Toutes" }, ...families]}
+                  placeholder="Catégorie"
                 />
                 <FilterSelect
-                  label="Prototype"
                   value={selectedPrototype || "all"}
                   onChange={(v) => setSelectedPrototype(v === "all" ? null : v)}
                   options={[{ value: "all", label: "Tous" }, ...prototypes]}
+                  placeholder="Prototype"
                 />
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Intensité</label>
@@ -314,7 +314,9 @@ export function RecettesContent() {
               key={recette.id}
               recette={recette}
               isSelected={selectedForComparison.includes(recette.id)}
-              onToggleSelect={() => toggleComparison(recette.id)}
+              onToggleSelection={() => toggleComparison(recette.id)}
+              isFavorite={isFavorite(String(recette.id))}
+              onFavorite={(id) => toggleFavorite({ href: `/recettes/${id}`, title: recette.name || 'Recette', id: String(id) })}
             />
           ))}
         </div>
@@ -325,8 +327,8 @@ export function RecettesContent() {
               key={recette.id}
               recette={recette}
               isSelected={selectedForComparison.includes(recette.id)}
-              onToggleSelect={() => toggleComparison(recette.id)}
-              compact={viewMode === "compact"}
+              onSelect={() => toggleComparison(recette.id)}
+              variant={viewMode === "compact" ? "compact" : "default"}
             />
           ))}
         </div>
@@ -335,11 +337,10 @@ export function RecettesContent() {
       {/* Floating Compare Bar */}
       {selectedForComparison.length > 0 && (
         <FloatingCompareBar
-          count={selectedForComparison.length}
+          selectedCount={selectedForComparison.length}
           maxCount={4}
           onClear={clearComparison}
           onCompare={goToComparison}
-          type="recettes"
         />
       )}
     </div>

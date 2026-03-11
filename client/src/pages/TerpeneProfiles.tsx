@@ -309,10 +309,10 @@ export default function TerpeneProfiles() {
   }) || [];
 
   // Obtenir les landraces uniques
-  const uniqueLandraces = [...new Set(profiles?.map(p => p.landrace_name) || [])];
+  const uniqueLandraces = Array.from(new Set(profiles?.map(p => p.landrace_name) || []));
   
   // Obtenir les terpènes uniques
-  const uniqueTerpenes = [...new Set(filteredProfiles.map(p => p.terpene_name))];
+  const uniqueTerpenes = Array.from(new Set(filteredProfiles.map(p => p.terpene_name)));
 
   const toggleLandrace = (landrace: string) => {
     setSelectedLandraces(prev => 

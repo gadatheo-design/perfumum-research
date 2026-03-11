@@ -285,15 +285,15 @@ export async function createMolecule(data: Record<string, unknown>) {
   if (!db) throw new Error("Database not available");
   
   const result = await db.insert(molecules).values({
-    name: data.name,
-    chemicalFormula: data.chemicalFormula || null,
-    family: data.chemicalFamily || null,
-    functionalEffect: data.functionalEffect || null,
-    olfactiveProfile: data.olfactiveProfile || null,
-    emotionalResonance: data.emotionalResonance || null,
-    sourceOrigin: data.source || null,
-    concentration: data.concentration || null,
-    notes: data.notes || null,
+    name: String(data.name ?? ''),
+    chemicalFormula: data.chemicalFormula ? String(data.chemicalFormula) : null,
+    family: data.chemicalFamily ? String(data.chemicalFamily) : null,
+    functionalEffect: data.functionalEffect ? String(data.functionalEffect) : null,
+    olfactiveProfile: data.olfactiveProfile ? String(data.olfactiveProfile) : null,
+    emotionalResonance: data.emotionalResonance ? String(data.emotionalResonance) : null,
+    sourceOrigin: data.source ? String(data.source) : null,
+    concentration: data.concentration ? String(data.concentration) : null,
+    notes: data.notes ? String(data.notes) : null,
   });
   
   return result;
@@ -892,7 +892,7 @@ export async function getMoleculeTimelineData() {
     .orderBy(molecules.createdAt);
   
   // Group by month
-  const monthlyData: Record<string, { count: number; cumulative: number; molecules: { id: number | null; name: string | null; family: string | null; createdAt: Date | null }[] }> = {};
+  const monthlyData: Record<string, { count: number; cumulative: number; molecules: { id: number; name: string; family: string | null }[] }> = {};
   let cumulative = 0;
   
   allMolecules.forEach(molecule => {
@@ -909,10 +909,9 @@ export async function getMoleculeTimelineData() {
     cumulative++;
     monthlyData[monthKey].cumulative = cumulative;
     monthlyData[monthKey].molecules.push({
-      id: molecule.id,
-      name: molecule.name,
+      id: molecule.id ?? 0,
+      name: molecule.name ?? '',
       family: molecule.family,
-      createdAt: molecule.createdAt ?? null,
     });
   });
   

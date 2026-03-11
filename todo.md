@@ -2101,3 +2101,9 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Corriger percentageMin string vs number dans molecules.ts (schéma Drizzle decimal → number)
 - [x] Corriger les incompatibilités d'enums dans les routers (plant.category, role)
 - [x] Corriger les erreurs client dans AromaticRaritiesGraph.tsx et AccordsContent.tsx
+
+## SESSION 11 MARS 2026 — Wave 4 TypeScript : error.message, imports circulaires, mémoire tsc
+
+- [ ] Script batch : corriger tous les catch(error) → catch(error: unknown) + instanceof Error dans server/db/
+- [ ] Refactoriser les imports circulaires molecules/plants/tabacs vers shared-helpers.ts
+- [ ] Augmenter la mémoire Node.js pour tsc (NODE_OPTIONS max-old-space-size=4096)

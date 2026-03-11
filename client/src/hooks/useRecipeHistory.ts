@@ -20,7 +20,7 @@ export function useRecipeHistory() {
       const stored = localStorage.getItem(HISTORY_KEY);
       if (stored) {
         const parsed = safeJsonParse(stored, null);
-        setHistory(parsed);
+        if (Array.isArray(parsed)) setHistory(parsed as RecipeHistoryItem[]);
       }
     } catch (error) {
       console.error('[useRecipeHistory] Failed to load history:', error);

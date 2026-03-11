@@ -276,11 +276,9 @@ export async function getAllBibliographyEntries(filters?: {
   const conditions: SQL[] = [];
   
   if (filters?.entryType) {
-    // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
     conditions.push(eq(bibliographyEntries.entryType, filters.entryType as any));
   }
   if (filters?.researchDomain) {
-    // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
     conditions.push(eq(bibliographyEntries.researchDomain, filters.researchDomain as any));
   }
   if (filters?.year) {
@@ -293,17 +291,15 @@ export async function getAllBibliographyEntries(filters?: {
     conditions.push(lte(bibliographyEntries.year, filters.yearMax));
   }
   if (filters?.readStatus) {
-    // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
     conditions.push(eq(bibliographyEntries.readStatus, filters.readStatus as any));
   }
   if (filters?.search) {
-    conditions.push(
-      or(
-        like(bibliographyEntries.title, `%${filters.search}%`),
-        like(bibliographyEntries.authors, `%${filters.search}%`),
-        like(bibliographyEntries.entryKey, `%${filters.search}%`)
-      )
+    const searchCondition = or(
+      like(bibliographyEntries.title, `%${filters.search}%`),
+      like(bibliographyEntries.authors, `%${filters.search}%`),
+      like(bibliographyEntries.entryKey, `%${filters.search}%`)
     );
+    if (searchCondition) conditions.push(searchCondition);
   }
   
   // Filtre par type d'entité liée
@@ -312,7 +308,7 @@ export async function getAllBibliographyEntries(filters?: {
       .select({ bibliographyId: sql<number>`bibliography_id` })
       .from(sql`bibliography_entity_links`)
       .where(sql`entity_type = ${filters.entityType}`);
-    const bibIds = entityLinks.map((l: unknown) => l.bibliographyId);
+    const bibIds = entityLinks.map((l) => l.bibliographyId);
     if (bibIds.length > 0) {
       conditions.push(inArray(bibliographyEntries.id, bibIds));
     } else {
@@ -412,7 +408,6 @@ export async function updateBibliographyEntry(id: number, data: Partial<InsertBi
   if (!db) return null;
   
   await db.update(bibliographyEntries)
-    // @ts-expect-error -- dynamic update object; fields validated by caller
     .set(data as any)
     .where(eq(bibliographyEntries.id, id));
   
@@ -503,7 +498,7 @@ export async function bulkCreateBibliographyEntries(entries: InsertBibliographyE
       success++;
     } catch (error: unknown) {
       failed++;
-      errors.push(`${entry.entryKey}: ${error.message}`);
+      errors.push(`${entry.entryKey}: ${(error instanceof Error ? error.message : String(error))}`);
     }
   }
   
@@ -526,12 +521,11 @@ export async function linkBibliographyToAxis(bibliographyId: number, axisId: num
     const [result] = await db.insert(bibliographyAxisLinks).values({
       bibliographyId,
       axisId,
-      // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
       relevance: relevance as any || 'secondaire',
       notes,
     });
     return { id: result.insertId, bibliographyId, axisId };
-  } catch (error) {
+  } catch (error: unknown) {
     // Lien déjà existant
     return null;
   }
@@ -804,7 +798,6 @@ export function parseCSVBibliography(csvString: string): Partial<InsertBibliogra
           break;
         case 'domain':
         case 'research_domain':
-          // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
           entry.researchDomain = value as any;
           break;
         case 'notes':
@@ -968,7 +961,6 @@ export async function getAllReferenceCitations(filters?: {
     conditions.push(eq(referenceCitations.citedId, filters.citedId));
   }
   if (filters?.citationType) {
-    // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
     conditions.push(eq(referenceCitations.citationType, filters.citationType as any));
   }
   if (filters?.verified !== undefined) {
@@ -1027,7 +1019,6 @@ export async function getCitationGraph(filters?: {
   // Construire les conditions pour les citations
   const citationConditions: SQL[] = [];
   if (filters?.citationType) {
-    // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
     citationConditions.push(eq(referenceCitations.citationType, filters.citationType as any));
   }
   if (filters?.minWeight) {
@@ -1059,7 +1050,6 @@ export async function getCitationGraph(filters?: {
   // Construire les conditions pour les références
   const refConditions: SQL[] = [inArray(bibliographyEntries.id, Array.from(refIds))];
   if (filters?.researchDomain) {
-    // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
     refConditions.push(eq(bibliographyEntries.researchDomain, filters.researchDomain as any));
   }
   
@@ -1179,7 +1169,6 @@ export async function createReferenceCitation(data: {
   const [result] = await db.insert(referenceCitations).values({
     citingId: data.citingId,
     citedId: data.citedId,
-    // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
     citationType: (data.citationType || 'direct') as any,
     context: data.context,
     pageNumber: data.pageNumber,
@@ -1205,7 +1194,6 @@ export async function updateReferenceCitation(id: number, data: {
   if (!db) return null;
   
   await db.update(referenceCitations)
-    // @ts-expect-error -- dynamic update object; fields validated by caller
     .set(data as any)
     .where(eq(referenceCitations.id, id));
   
@@ -1235,7 +1223,6 @@ export async function verifyReferenceCitation(id: number, userId?: number) {
       verified: true,
       verifiedBy: userId,
       verifiedAt: new Date(),
-    // @ts-expect-error -- dynamic object cast; runtime shape validated by caller
     } as any)
     .where(eq(referenceCitations.id, id));
   
@@ -1591,7 +1578,6 @@ export async function getReferenceTagsByCategory(category: string) {
   return db
     .select()
     .from(referenceTags)
-    // @ts-expect-error -- string enum; runtime value validated by caller
     .where(eq(referenceTags.category, category as any))
     .orderBy(referenceTags.name);
 }
@@ -1624,7 +1610,6 @@ export async function createReferenceTag(data: {
   if (!db) return null;
   const [result] = await db
     .insert(referenceTags)
-    // @ts-expect-error -- dynamic insert object; fields validated by caller
     .values(data as any);
   return getReferenceTagBySlug(data.slug);
 }
@@ -1642,7 +1627,6 @@ export async function updateReferenceTag(id: number, data: Partial<{
   if (!db) return null;
   await db
     .update(referenceTags)
-    // @ts-expect-error -- dynamic update object; fields validated by caller
     .set(data as any)
     .where(eq(referenceTags.id, id));
   const [tag] = await db
@@ -1792,7 +1776,6 @@ export async function createReferenceNote(data: {
   if (!db) return null;
   const [result] = await db
     .insert(referenceNotes)
-    // @ts-expect-error -- dynamic insert object; fields validated by caller
     .values(data as any);
   
   // Get the inserted note
@@ -1821,7 +1804,6 @@ export async function updateReferenceNote(id: number, data: Partial<{
   if (!db) return null;
   await db
     .update(referenceNotes)
-    // @ts-expect-error -- dynamic update object; fields validated by caller
     .set(data as any)
     .where(eq(referenceNotes.id, id));
   return getReferenceNoteById(id);
@@ -1852,7 +1834,6 @@ export async function getReferenceNotesByType(noteType: string) {
     })
     .from(referenceNotes)
     .innerJoin(v3References, eq(referenceNotes.referenceId, v3References.id))
-    // @ts-expect-error -- string enum; runtime value validated by caller
     .where(eq(referenceNotes.noteType, noteType as any))
     .orderBy(desc(referenceNotes.createdAt));
 }
@@ -2223,7 +2204,6 @@ export async function importBibliographyFromJson(
 
       await db.insert(bibliographyEntries).values({
         entryKey,
-        // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
         entryType: entryType as any,
         title: entry.title,
         authors: entry.author || null,
@@ -2232,7 +2212,6 @@ export async function importBibliographyFromJson(
         publisher: entry.publisher || null,
         url: entry.url || null,
         abstract: entry.content || entry.quote || null,
-        // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
         researchDomain: researchDomain as any,
         readStatus: 'unread',
         notes: entry.source ? `Source: ${entry.source}` : null,
@@ -2241,7 +2220,7 @@ export async function importBibliographyFromJson(
       success++;
     } catch (error: unknown) {
       failed++;
-      errors.push(`${entry.id}: ${error.message}`);
+      errors.push(`${entry.id}: ${(error instanceof Error ? error.message : String(error))}`);
     }
   }
 
@@ -2579,3 +2558,52 @@ export async function getReferenceEntityLinkGraphData() {
 }
 
 
+
+// ============================================================================
+// KEYWORD UTILITY HELPERS (used by suggestReferenceEntityLinks)
+// ============================================================================
+
+/** Stop words to exclude from keyword extraction */
+const STOP_WORDS = new Set([
+  'a', 'an', 'the', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for',
+  'of', 'with', 'by', 'from', 'is', 'are', 'was', 'were', 'be', 'been',
+  'has', 'have', 'had', 'do', 'does', 'did', 'will', 'would', 'could',
+  'should', 'may', 'might', 'can', 'this', 'that', 'these', 'those',
+  'it', 'its', 'as', 'not', 'no', 'so', 'if', 'then', 'than', 'when',
+  'le', 'la', 'les', 'de', 'du', 'des', 'un', 'une', 'et', 'ou', 'en',
+  'dans', 'sur', 'par', 'pour', 'avec', 'sans', 'est', 'sont', 'se',
+]);
+
+/**
+ * Extract meaningful keywords from a text string.
+ * Returns an array of lowercase tokens, filtered of stop words and short tokens.
+ */
+function extractKeywords(text: string): string[] {
+  if (!text) return [];
+  return text
+    .toLowerCase()
+    .replace(/[^a-z0-9\u00c0-\u024f\s-]/g, ' ')
+    .split(/\s+/)
+    .filter(w => w.length >= 3 && !STOP_WORDS.has(w));
+}
+
+/**
+ * Calculate a similarity score (0–100) between two keyword arrays.
+ * Uses Jaccard index on the union of both sets.
+ */
+function calculateKeywordSimilarity(kw1: string[], kw2: string[]): number {
+  if (kw1.length === 0 || kw2.length === 0) return 0;
+  const set1 = new Set(kw1);
+  const set2 = new Set(kw2);
+  const intersection = new Set(Array.from(set1).filter(k => set2.has(k)));
+  const union = new Set([...Array.from(set1), ...Array.from(set2)]);
+  return union.size === 0 ? 0 : Math.round((intersection.size / union.size) * 100);
+}
+
+/**
+ * Return the keywords that appear in both arrays.
+ */
+function findCommonKeywords(kw1: string[], kw2: string[]): string[] {
+  const set2 = new Set(kw2);
+  return kw1.filter(k => set2.has(k));
+}

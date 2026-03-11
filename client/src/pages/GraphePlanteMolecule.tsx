@@ -29,6 +29,8 @@ interface PlantMoleculeLink {
   percentageTypical: string | null;
   isSignature: number | null;
   role: string | null;
+  moleculeOlfactiveProfile?: string | null;
+  [key: string]: unknown;
 }
 
 export default function GraphePlanteMolecule() {
@@ -41,24 +43,25 @@ export default function GraphePlanteMolecule() {
   const { data: stats } = trpc.linkingCoverage.getPlantMoleculeAuditStats.useQuery();
   
   // Calculer les statistiques à partir des données
-  const graphStats = links ? {
-    totalLinks: links.length,
-    uniquePlants: new Set(links.map((l: PlantMoleculeLink) => l.plantId)).size,
-    uniqueMolecules: new Set(links.map((l: PlantMoleculeLink) => l.moleculeId)).size,
-    signatureLinks: links.filter((l: PlantMoleculeLink) => l.isSignature === 1).length,
-    majorLinks: links.filter((l: PlantMoleculeLink) => l.role === "majeur").length,
-    secondaryLinks: links.filter((l: PlantMoleculeLink) => l.role === "secondaire").length,
-    traceLinks: links.filter((l: PlantMoleculeLink) => l.role === "trace").length,
+  const typedLinks = links as PlantMoleculeLink[] | undefined;
+  const graphStats = typedLinks ? {
+    totalLinks: typedLinks.length,
+    uniquePlants: new Set(typedLinks.map((l) => l.plantId)).size,
+    uniqueMolecules: new Set(typedLinks.map((l) => l.moleculeId)).size,
+    signatureLinks: typedLinks.filter((l) => l.isSignature === 1).length,
+    majorLinks: typedLinks.filter((l) => l.role === "majeur").length,
+    secondaryLinks: typedLinks.filter((l) => l.role === "secondaire").length,
+    traceLinks: typedLinks.filter((l) => l.role === "trace").length,
   } : null;
   
   // Familles de molécules uniques
-  const moleculeFamilies = links 
-    ? Array.from(new Set(links.map((l: PlantMoleculeLink) => l.moleculeFamily).filter(Boolean)))
+  const moleculeFamilies = typedLinks 
+    ? Array.from(new Set(typedLinks.map((l) => l.moleculeFamily).filter(Boolean)))
     : [];
   
   // Familles de plantes uniques
-  const plantFamilies = links 
-    ? Array.from(new Set(links.map((l: PlantMoleculeLink) => l.plantFamily).filter(Boolean)))
+  const plantFamilies = typedLinks 
+    ? Array.from(new Set(typedLinks.map((l) => l.plantFamily).filter(Boolean)))
     : [];
 
   return (
@@ -225,7 +228,7 @@ export default function GraphePlanteMolecule() {
                   <div className="flex flex-wrap gap-2">
                     {moleculeFamilies.length > 0 ? (
                       moleculeFamilies.map((family) => {
-                        const count = links?.filter((l: PlantMoleculeLink) => l.moleculeFamily === family).length || 0;
+                        const count = links?.filter((l) => (l as PlantMoleculeLink).moleculeFamily === family).length || 0;
                         return (
                           <Badge key={family as string} variant="secondary">
                             {family as string} ({count})
@@ -254,7 +257,7 @@ export default function GraphePlanteMolecule() {
                   <div className="flex flex-wrap gap-2">
                     {plantFamilies.length > 0 ? (
                       plantFamilies.map((family) => {
-                        const count = links?.filter((l: PlantMoleculeLink) => l.plantFamily === family).length || 0;
+                        const count = links?.filter((l) => (l as PlantMoleculeLink).plantFamily === family).length || 0;
                         return (
                           <Badge key={family as string} variant="outline">
                             {family as string} ({count})

@@ -2160,7 +2160,7 @@ export const appRouter = router({
             errors,
             rowCount: parsedData.length,
           };
-        } catch (error) {
+        } catch (error: unknown) {
           return {
             success: false,
             data: [],
@@ -2221,7 +2221,7 @@ export const appRouter = router({
                 errors.push(`Molécule "${item.nom}" introuvable pour mise à jour`);
               }
             }
-          } catch (error) {
+          } catch (error: unknown) {
             errors.push(`Erreur pour "${item.nom}": ${error instanceof Error ? error.message : 'Erreur inconnue'}`);
           }
         }
@@ -2290,7 +2290,7 @@ export const appRouter = router({
                 errors.push(`Recette "${item.nom}" introuvable pour mise à jour`);
               }
             }
-          } catch (error) {
+          } catch (error: unknown) {
             errors.push(`Erreur pour "${item.nom}": ${error instanceof Error ? error.message : 'Erreur inconnue'}`);
           }
         }
@@ -2345,7 +2345,7 @@ export const appRouter = router({
                 errors.push(`Accord "${item.nom}" introuvable pour mise à jour`);
               }
             }
-          } catch (error) {
+          } catch (error: unknown) {
             errors.push(`Erreur pour "${item.nom}": ${error instanceof Error ? error.message : 'Erreur inconnue'}`);
           }
         }
@@ -2399,7 +2399,7 @@ export const appRouter = router({
                 errors.push(`Famille "${item.nom}" introuvable pour mise à jour`);
               }
             }
-          } catch (error) {
+          } catch (error: unknown) {
             errors.push(`Erreur pour "${item.nom}": ${error instanceof Error ? error.message : 'Erreur inconnue'}`);
           }
         }
@@ -2470,7 +2470,7 @@ export const appRouter = router({
                 errors.push(`Matière "${item.nom}" introuvable pour mise à jour`);
               }
             }
-          } catch (error) {
+          } catch (error: unknown) {
             errors.push(`Erreur pour "${item.nom}": ${error instanceof Error ? error.message : 'Erreur inconnue'}`);
           }
         }
@@ -3051,7 +3051,7 @@ export const appRouter = router({
             
             // Pause pour éviter le rate limiting
             await new Promise(resolve => setTimeout(resolve, 200));
-          } catch (error) {
+          } catch (error: unknown) {
             results.push({ id: origin.id, name: origin.name, success: false, error: (error as Error).message });
           }
         }
@@ -5643,7 +5643,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
 
             const newImage = await db.createSampleImage(imageData);
             results.push({ filename, success: true, imageId: newImage?.id });
-          } catch (error) {
+          } catch (error: unknown) {
             results.push({ filename, success: false, error: error instanceof Error ? error.message : 'Erreur inconnue' });
           }
         }
@@ -5695,7 +5695,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
             notes: mol.climaticAxis ? `Axe climatique: ${mol.climaticAxis}` : null,
           });
           imported.push(result);
-        } catch (error) {
+        } catch (error: unknown) {
           errors.push(`Erreur pour "${mol.name}": ${error}`);
         }
       }
@@ -5796,7 +5796,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
               .join(" | "),
           });
           imported.push(result);
-        } catch (error) {
+        } catch (error: unknown) {
           errors.push(`Erreur pour "${plant.name}": ${error}`);
         }
       }
@@ -6081,7 +6081,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
               iupacName: result.iupacName,
               error: result.error,
             });
-          } catch (error) {
+          } catch (error: unknown) {
             results.push({
               moleculeId: molecule.id,
               moleculeName: molecule.name,
@@ -9076,11 +9076,12 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       .mutation(async ({ input, ctx }) => {
         return db.applySuggestedLinks(input, ctx.user?.id);
       }),
-    }),
+    
     // Get graph data for D3.js visualization
     getGraphData: publicProcedure.query(async () => {
       return db.getReferenceEntityLinkGraphData();
     }),
+  }),
   // ============================================================================
   // CONTRIBUTOR INTERFACE - Détection de doublons et ajout de données
   contributor: router({
@@ -10101,7 +10102,7 @@ Réponds avec un JSON contenant:
             };
           }
           throw new Error("Réponse IA invalide");
-        } catch (error) {
+        } catch (error: unknown) {
           console.error("Erreur classification IA:", error);
           return {
             success: false,
@@ -10182,7 +10183,7 @@ Réponds avec un JSON contenant:
                 };
               }
               throw new Error("Réponse invalide");
-            } catch (error) {
+            } catch (error: unknown) {
               return {
                 id: molecule.id,
                 name: molecule.name,
@@ -10235,7 +10236,7 @@ Réponds avec un JSON contenant:
             success: true,
             profile: typeof content === "string" ? content : "",
           };
-        } catch (error) {
+        } catch (error: unknown) {
           return {
             success: false,
             error: error instanceof Error ? error.message : "Erreur inconnue",
@@ -10477,7 +10478,7 @@ Familles olfactives disponibles:
                 };
               }
               throw new Error("Réponse invalide");
-            } catch (error) {
+            } catch (error: unknown) {
               return {
                 id: molecule.id,
                 name: molecule.name,
@@ -10644,7 +10645,7 @@ Familles olfactives disponibles:
                 };
               }
               throw new Error("Réponse invalide");
-            } catch (error) {
+            } catch (error: unknown) {
               return {
                 id: molecule.id,
                 name: molecule.name,

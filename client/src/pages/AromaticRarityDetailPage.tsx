@@ -61,6 +61,14 @@ export default function AromaticRarityDetailPage() {
     rarity: (raw.rarity_regime as string) || (raw.rarity as string) || '',
     origin: (raw.geography as string) || (raw.origin as string) || '',
     description: (raw.notes as string) || (raw.description as string) || '',
+    latinName: (raw.latin_name as string) || (raw.latinName as string) || null,
+    transformation: (raw.transformation as string) || null,
+    proportion: (raw.proportion as string) || null,
+    volatility: (raw.volatility as string) || null,
+    localization: (raw.localization as string) || null,
+    keyMolecules: (raw.key_molecules as string)
+      ? (raw.key_molecules as string).split(',').map((s: string) => s.trim()).filter(Boolean)
+      : [],
   } : null;
 
   if (!material) {
@@ -85,7 +93,7 @@ export default function AromaticRarityDetailPage() {
     );
   }
 
-  const rarityColor = {
+  const rarityColor: Record<string, string> = {
     'Critique': 'bg-red-100 text-red-800 border-red-300',
     'Menacé': 'bg-orange-100 text-orange-800 border-orange-300',
     'Vulnérable': 'bg-yellow-100 text-yellow-800 border-yellow-300',

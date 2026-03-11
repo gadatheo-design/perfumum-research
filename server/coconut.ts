@@ -140,7 +140,7 @@ export async function searchCOCONUT(name: string, limit: number = 5): Promise<CO
     }
     
     return data.data;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('COCONUT search error:', error);
     return [];
   }
@@ -166,7 +166,7 @@ export async function getCOCONUTMolecule(coconutId: string): Promise<COCONUTMole
     
     const data = await response.json();
     return data.data || data;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('COCONUT getMolecule error:', error);
     return null;
   }
@@ -192,7 +192,7 @@ export async function searchCOCONUTBySMILES(smiles: string): Promise<COCONUTMole
     
     const data = await response.json();
     return data.data || [];
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('COCONUT SMILES search error:', error);
     return [];
   }
@@ -257,7 +257,7 @@ export async function enrichMoleculeFromCOCONUT(moleculeName: string): Promise<{
         citations: molecule.citations?.map(c => ({ doi: c.doi, title: c.title })),
       },
     };
-  } catch (error) {
+  } catch (error: unknown) {
     return {
       success: false,
       error: error instanceof Error ? error.message : 'Erreur inconnue',

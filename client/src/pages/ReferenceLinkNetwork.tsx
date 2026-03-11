@@ -159,16 +159,16 @@ export default function ReferenceLinkNetwork() {
     );
   }
 
-  const entityTypes = ['all', ...new Set(graphData?.nodes.map(n => n.type).filter(t => t !== 'reference') || [])];
-  const linkTypes = ['all', ...new Set(graphData?.links.map(l => l.linkType) || [])];
+  const entityTypes = ['all', ...Array.from(new Set((graphData?.nodes || []).map((n: Node) => n.type).filter((t: string) => t !== 'reference')))];
+  const linkTypes = ['all', ...Array.from(new Set((graphData?.links || []).map((l: Link) => l.linkType)))];
 
   return (
     <div className="min-h-screen bg-background">
       <div className="container py-8">
         <Breadcrumbs
-          items={[
-            { label: 'Accueil', href: '/' },
-            { label: 'Références', href: '/references-v3' },
+          customItems={[
+            { label: 'Accueil', path: '/' },
+            { label: 'Références', path: '/references-v3' },
             { label: 'Réseau de liaisons' }
           ]}
         />

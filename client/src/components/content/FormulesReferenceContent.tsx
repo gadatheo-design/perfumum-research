@@ -194,7 +194,7 @@ export function FormulesReferenceContent() {
                 </Badge>
               )}
             </Button>
-            <ViewToggle viewMode={viewMode} setViewMode={handleViewChange} />
+            <ViewToggle viewMode={viewMode} onViewModeChange={handleViewChange} />
           </div>
         </div>
 
@@ -204,10 +204,10 @@ export function FormulesReferenceContent() {
             <CardContent className="pt-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <FilterSelect
-                  label="Famille olfactive"
                   value={selectedFamily}
                   onChange={setSelectedFamily}
                   options={familyOptions}
+                  placeholder="Famille olfactive"
                 />
               </div>
               

@@ -22,10 +22,10 @@ interface RecetteListItemProps {
     avgSpiciness: number | null;
     avgEarthiness: number | null;
   };
-  isSelected: boolean;
-  onToggleSelection: (id: number, checked: boolean) => void;
-  isFavorite: boolean;
-  onFavorite: (id: number) => void;
+  isSelected?: boolean;
+  onToggleSelection?: () => void;
+  isFavorite?: boolean;
+  onFavorite?: (id: number) => void;
 }
 
 export function RecetteListItem({ 
@@ -67,7 +67,7 @@ export function RecetteListItem({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            onToggleSelection(recette.id, !isSelected);
+            onToggleSelection?.();
           }}
           className={cn(
             "w-5 h-5 rounded border-2 flex items-center justify-center cursor-pointer transition-colors shrink-0",
@@ -138,7 +138,7 @@ export function RecetteListItem({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            onFavorite(recette.id);
+            onFavorite?.(recette.id);
           }}
         >
           {isFavorite ? (

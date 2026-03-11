@@ -178,7 +178,7 @@ export function MoleculeListItem({
         <div className="flex items-center gap-2 shrink-0">
           {/* Favorite button */}
           <div onClick={(e) => e.preventDefault()}>
-            <FavoriteButton moleculeId={molecule.id} moleculeName={molecule.name} variant="icon" />
+            <FavoriteButton page={{ id: String(molecule.id), title: molecule.name || '', href: `/molecules/${molecule.id}` }} variant="ghost" />
           </div>
           
           {/* Arrow indicator */}

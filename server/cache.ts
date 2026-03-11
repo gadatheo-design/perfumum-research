@@ -100,7 +100,7 @@ class MemoryCache {
     let count = 0;
     const regex = new RegExp(pattern);
     
-    for (const key of this.cache.keys()) {
+    for (const key of Array.from(this.cache.keys())) {
       if (regex.test(key)) {
         this.cache.delete(key);
         count++;
@@ -139,7 +139,7 @@ class MemoryCache {
     let oldestKey: string | null = null;
     let oldestTime = Infinity;
 
-    for (const [key, entry] of this.cache.entries()) {
+    for (const [key, entry] of Array.from(this.cache.entries())) {
       if (entry.timestamp < oldestTime) {
         oldestTime = entry.timestamp;
         oldestKey = key;

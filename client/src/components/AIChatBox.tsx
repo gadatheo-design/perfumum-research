@@ -262,7 +262,7 @@ export function AIChatBox({
                     >
                       {message.role === "assistant" ? (
                         <div className="prose prose-sm dark:prose-invert max-w-none">
-                          <ReactMarkdown className="prose prose-sm dark:prose-invert max-w-none">{message.content}</ReactMarkdown>
+                          <ReactMarkdown>{message.content}</ReactMarkdown>
                         </div>
                       ) : (
                         <p className="whitespace-pre-wrap text-sm">

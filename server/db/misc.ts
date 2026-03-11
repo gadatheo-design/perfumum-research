@@ -241,8 +241,51 @@ import {
   recetteRawMaterials,
   RecetteRawMaterial,
   InsertRecetteRawMaterial,
+  // Research Publications & Analytical Methods
+  researchPublications,
+  analyticalMethods,
+  type ResearchPublication,
+  type InsertResearchPublication,
+  type AnalyticalMethod,
+  type InsertAnalyticalMethod,
+  // Ghost Varieties
+  ghostVarieties,
+  ghostVarietyMoleculeLinks,
+  ghostVarietyPlantLinks,
+  ghostVarietyImages,
+  type GhostVariety,
+  type GhostVarietyMoleculeLink,
+  type GhostVarietyPlantLink,
+  type GhostVarietyImage,
+  type InsertGhostVarietyImage,
+  // Classification & Notifications
+  classificationSnapshots,
+  classificationReviews,
+  notifications,
+  type ClassificationSnapshot,
+  type InsertClassificationSnapshot,
+  type ClassificationReview,
+  type InsertClassificationReview,
+  // Researchers & Institutions
+  researchers,
+  researchInstitutions,
+  type Researcher,
+  type InsertResearcher,
+  type ResearchInstitution,
+  type InsertResearchInstitution,
+  // Molecule Analytical Methods
+  moleculeAnalyticalMethods,
+  type MoleculeAnalyticalMethod,
+  type InsertMoleculeAnalyticalMethod,
 } from "../../drizzle/schema";
 import { getDb } from './core';
+import { getLinksForReference } from './bibliography';
+import { getOrphanMoleculeStats } from './molecules';
+import { getLinkingCoverageStats } from './recettes';
+import { createNotification } from './users';
+import { getGhostVarietyById } from './genealogy';
+import { getGhostVarietyMoleculeLinks } from './molecules';
+import { getGhostVarietyPlantLinks } from './plants';
 
 import { ENV } from '../_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
@@ -465,7 +508,6 @@ export async function createChemicalFamily(data: {
   
   const result = await db.insert(chemicalFamilies).values({
     name: data.name,
-    // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
     type: data.type as any,
     subcategory: data.subcategory || null,
     description: data.description || null,
@@ -477,7 +519,6 @@ export async function createChemicalFamily(data: {
     exampleMolecules: data.exampleMolecules || null,
   });
   
-  // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
   return { id: Number((result as any).insertId || (result as any)[0]?.insertId || 0), ...data };
 }
 
@@ -762,10 +803,8 @@ export async function recordModification(
   entityType: "prototype" | "molecule" | "accord" | "recette" | "famille" | "matiere" | "synergie" | "tradition",
   entityId: number,
   operation: "create" | "update" | "delete",
-  // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
-  stateBefore: any,
-  // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
-  stateAfter: any,
+  stateBefore: unknown,
+  stateAfter: unknown,
   userId: number = 1
 ) {
   const db = await getDb();
@@ -790,30 +829,31 @@ export async function recordModification(
 // FONCTIONS CREATE MANQUANTES (pour undo history)
 // ============================================================================
 
-// @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
-export async function createAccord(data: any) {
+export async function createAccord(data: Record<string, unknown>) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
   const result = await db.insert(accords).values({
-    name: data.nom || data.name,
-    familyId: data.familleId || data.familyId || null,
-    olfactiveProfile: data.olfactiveProfile || data.description || null,
-    notes: data.notes || null,
+    name: String(data.nom ?? data.name ?? ''),
+    familyId: (data.familleId ?? data.familyId ?? null) as number | null,
+    olfactiveProfile: (data.olfactiveProfile ?? data.description ?? null) as string | null,
+    notes: (data.notes ?? null) as string | null,
   });
   
   return result;
 }
 
-// @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
-export async function createFamily(data: any) {
+export async function createFamily(data: Record<string, unknown>) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
+  const validTypes = ['perfumeum12', 'biomineralis', 'petrichor', 'volcanique', 'solarmineralis', 'necrogeo', 'other'] as const;
+  const rawType = String(data.type ?? 'other');
+  const familyType = (validTypes.includes(rawType as typeof validTypes[number]) ? rawType : 'other') as typeof validTypes[number];
   const result = await db.insert(families).values({
-    name: data.nom || data.name,
-    type: data.type || "other",
-    description: data.description || null,
+    name: String(data.nom ?? data.name ?? ''),
+    type: familyType,
+    description: (data.description ?? null) as string | null,
   });
   
   return result;
@@ -1070,7 +1110,6 @@ export async function getSampleImagesByCategory(category: string) {
   
   return db.select()
     .from(sampleImages)
-    // @ts-expect-error -- string enum; runtime value validated by caller
     .where(eq(sampleImages.category, category as any))
     .orderBy(desc(sampleImages.createdAt));
 }
@@ -1228,7 +1267,6 @@ export async function getAlternativesByType(alternativeType: string) {
   return await db
     .select()
     .from(sustainableAlternatives)
-    // @ts-expect-error -- string enum; runtime value validated by caller
     .where(eq(sustainableAlternatives.alternativeType, alternativeType as any))
     .orderBy(sustainableAlternatives.threatenedPlantName);
 }
@@ -1249,15 +1287,12 @@ export async function searchSustainableAlternatives(filters: {
     conditions.push(eq(sustainableAlternatives.threatenedPlantId, filters.threatenedPlantId));
   }
   if (filters.alternativeType) {
-    // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
     conditions.push(eq(sustainableAlternatives.alternativeType, filters.alternativeType as any));
   }
   if (filters.availability) {
-    // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
     conditions.push(eq(sustainableAlternatives.availability, filters.availability as any));
   }
   if (filters.olfactiveSimilarity) {
-    // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
     conditions.push(eq(sustainableAlternatives.olfactiveSimilarity, filters.olfactiveSimilarity as any));
   }
   if (filters.searchQuery) {
@@ -1372,7 +1407,6 @@ export async function createSustainableAlternative(data: {
   const db = await getDb();
   if (!db) return null;
   
-  // @ts-expect-error -- dynamic insert object; fields validated by caller
   const [result] = await db.insert(sustainableAlternatives).values(data as any);
   return getSustainableAlternativeById(result.insertId);
 }
@@ -1402,7 +1436,6 @@ export async function updateSustainableAlternative(id: number, data: {
   
   await db
     .update(sustainableAlternatives)
-    // @ts-expect-error -- dynamic update object; fields validated by caller
     .set(data as any)
     .where(eq(sustainableAlternatives.id, id));
   
@@ -1935,7 +1968,7 @@ export async function getRawMaterialsByMolecule(moleculeId: number) {
     // Vérifier dans les molécules dominantes
     if (rm.dominantMolecules && Array.isArray(rm.dominantMolecules)) {
       const hasMolecule = rm.dominantMolecules.some(
-        (dm: Record<string, unknown>) => dm.name?.toLowerCase().includes(moleculeNameLower) || dm.moleculeId === moleculeId
+        (dm: Record<string, unknown>) => (typeof dm.name === 'string' && dm.name.toLowerCase().includes(moleculeNameLower)) || dm.moleculeId === moleculeId
       );
       if (hasMolecule) return true;
     }
@@ -3352,7 +3385,7 @@ export async function modifyAndApplyReview(
     .set({
       status: 'modified',
       manualChemicalClass: modifications.chemicalClass,
-      manualOlfactiveFamily: (modifications as Record<string, unknown>).olfactiveFamily ?? (modifications as Record<string, unknown>).family,
+      manualOlfactiveFamily: (modifications.olfactiveFamily ?? null) as string | null,
       manualOlfactiveProfile: modifications.olfactiveProfile,
       reviewedAt: new Date(),
       reviewedBy: userId,
@@ -3421,7 +3454,7 @@ export async function createReviewsForLowConfidenceClassifications(
         aiChemicalClass: result.classification.chemicalClass,
         aiChemicalClassConfidence: result.classification.chemicalClassConfidence,
         aiChemicalClassReasoning: result.classification.chemicalClassReasoning,
-        aiOlfactiveFamily: (result.classification as Record<string, unknown>).olfactiveFamily ?? (result.classification as Record<string, unknown>).family,
+        aiOlfactiveFamily: (typeof (result.classification as Record<string, unknown>).olfactiveFamily === 'string' ? (result.classification as Record<string, unknown>).olfactiveFamily : null) as string | null,
         aiOlfactiveFamilyConfidence: result.classification.olfactiveFamilyConfidence,
         aiOlfactiveFamilyReasoning: result.classification.olfactiveFamilyReasoning,
         aiSuggestedOlfactiveProfile: result.classification.suggestedOlfactiveProfile,
@@ -3632,7 +3665,6 @@ export async function getResearchPublicationsByFocus(focus: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(researchPublications)
-    // @ts-expect-error -- string enum; runtime value validated by caller
     .where(eq(researchPublications.researchFocus, focus as any))
     .orderBy(desc(researchPublications.citations));
 }
@@ -3641,7 +3673,6 @@ export async function getResearchPublicationsBySubject(subject: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(researchPublications)
-    // @ts-expect-error -- string enum; runtime value validated by caller
     .where(eq(researchPublications.subjectMatter, subject as any))
     .orderBy(desc(researchPublications.citations));
 }
@@ -3685,7 +3716,6 @@ export async function getAnalyticalMethodsByCategory(category: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(analyticalMethods)
-    // @ts-expect-error -- string enum; runtime value validated by caller
     .where(eq(analyticalMethods.category, category as any))
     .orderBy(desc(analyticalMethods.performanceScore));
 }
@@ -3756,7 +3786,6 @@ export async function getResearchersByStatus(status: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(researchers)
-    // @ts-expect-error -- string enum; runtime value validated by caller
     .where(eq(researchers.status, status as any))
     .orderBy(desc(researchers.totalCitations));
 }
@@ -3800,7 +3829,6 @@ export async function getResearchInstitutionsByType(type: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(researchInstitutions)
-    // @ts-expect-error -- string enum; runtime value validated by caller
     .where(eq(researchInstitutions.institutionType, type as any))
     .orderBy(desc(researchInstitutions.totalCitations));
 }

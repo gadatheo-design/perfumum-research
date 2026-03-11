@@ -122,7 +122,7 @@ export default function BioLabContent() {
       </div>
 
       {/* Connexions */}
-      <GammesConnexes currentGamme="bio-lab" />
+      <GammesConnexes currentGamme="biolab" relatedGammes={["petrichor", "volcanique", "civilisations", "signatures"]} />
     </div>
   );
 }

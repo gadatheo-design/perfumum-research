@@ -42,9 +42,9 @@ export default function MoleculeSearch() {
           <div className="flex justify-center gap-4 mt-4 text-sm text-muted-foreground">
             <span>{stats.totalMolecules} molécules</span>
             <span>•</span>
-            <span>{stats.totalPlants || 258} plantes</span>
+            <span>258 plantes</span>
             <span>•</span>
-            <span>{stats.totalLinks || 956} liaisons</span>
+            <span>956 liaisons</span>
           </div>
         )}
       </div>

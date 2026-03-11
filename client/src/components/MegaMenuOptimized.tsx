@@ -16,10 +16,10 @@ import { cn } from "@/lib/utils";
  * Only renders visible items to improve performance
  */
 interface VirtualListProps {
-  items: Array<{ id: string; label: string; href: string }>;
+  items: Array<{ id: string; label: string; href: string; badge?: string }>;
   itemHeight: number;
   containerHeight: number;
-  renderItem: (item: { id: string; label: string; href: string }) => React.ReactNode;
+  renderItem: (item: { id: string; label: string; href: string; badge?: string }) => React.ReactNode;
 }
 
 const VirtualList: React.FC<VirtualListProps> = ({

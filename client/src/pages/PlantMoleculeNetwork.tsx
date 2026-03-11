@@ -143,7 +143,7 @@ export default function PlantMoleculeNetwork() {
               
               <TabsContent value="graph">
                 <PlantMoleculeGraph 
-                  links={links || []} 
+                  links={(links || []).map(l => ({ ...l, percentageMin: l.percentageMin != null ? String(l.percentageMin) : null, percentageMax: l.percentageMax != null ? String(l.percentageMax) : null, percentageTypical: l.percentageTypical != null ? String(l.percentageTypical) : null }))} 
                   isLoading={isLoading}
                   height={700}
                 />

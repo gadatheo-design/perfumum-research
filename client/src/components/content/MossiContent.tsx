@@ -122,7 +122,7 @@ export default function MossiContent() {
       </div>
 
       {/* Connexions */}
-      <GammesConnexes currentGamme="mossi" />
+      <GammesConnexes currentGamme="civilisations" relatedGammes={["petrichor", "volcanique", "traditions", "signatures"]} />
     </div>
   );
 }

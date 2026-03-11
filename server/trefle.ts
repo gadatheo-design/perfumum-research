@@ -153,7 +153,7 @@ export async function searchPlants(query: string, page: number = 1): Promise<Tre
     
     const data = await response.json();
     return data as TrefleSearchResult;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`Error searching Trefle for "${query}":`, error);
     return searchPlantsLocal(query);
   }
@@ -181,7 +181,7 @@ export async function getPlantDetails(trefleId: number): Promise<TreflePlantDeta
     
     const data = await response.json();
     return data.data as TreflePlantDetails;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error(`Error fetching Trefle plant ${trefleId}:`, error);
     return null;
   }
@@ -411,7 +411,7 @@ export async function enrichPlant(plantName: string, scientificName?: string): P
     result.success = true;
     return result;
     
-  } catch (error) {
+  } catch (error: unknown) {
     result.error = error instanceof Error ? error.message : 'Erreur inconnue';
     return result;
   }

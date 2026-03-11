@@ -665,7 +665,7 @@ export async function previewGcmsImport(
     const mysql = await import('mysql2/promise');
     const conn = await mysql.createConnection(process.env.DATABASE_URL!);
 
-    const results: unknown[] = [];
+    const results: Array<{ moleculeName: string; moleculeDbName: string; moleculeId: number | undefined; percentageTypical: number | undefined; percentageMin: number | undefined; percentageMax: number | undefined; role: string; isSignature: boolean; source: string | undefined; status: string }> = [];
     for (const mol of molecules) {
       let moleculeId = mol.moleculeId;
       let moleculeDbName = mol.moleculeName;
@@ -676,13 +676,9 @@ export async function previewGcmsImport(
         const [found] = await conn.execute(
           `SELECT id, name FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
           [mol.moleculeName]
-        // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
         ) as any[];
-        // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
         if ((found as any[]).length > 0) {
-          // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
           moleculeId = (found as any[])[0].id;
-          // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
           moleculeDbName = (found as any[])[0].name;
         } else {
           status = 'molecule_not_found';
@@ -693,9 +689,7 @@ export async function previewGcmsImport(
         const [existing] = await conn.execute(
           `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
           [plantId, moleculeId]
-        // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
         ) as any[];
-        // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
         if ((existing as any[]).length > 0) {
           status = overwriteExisting ? 'will_update' : 'already_exists_skip';
         }
@@ -749,11 +743,8 @@ export async function importGcmsBatch(
           const [found] = await conn.execute(
             `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
             [mol.moleculeName]
-          // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
           ) as any[];
-          // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
           if ((found as any[]).length > 0) {
-            // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
             moleculeId = (found as any[])[0].id;
           } else {
             notFound++;
@@ -765,10 +756,8 @@ export async function importGcmsBatch(
         const [existing] = await conn.execute(
           `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
           [plantId, moleculeId]
-        // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
         ) as any[];
 
-        // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
         if ((existing as any[]).length > 0) {
           if (overwriteExisting) {
             await conn.execute(`
@@ -801,7 +790,7 @@ export async function importGcmsBatch(
           created++;
         }
       } catch (rowErr: unknown) {
-        errors.push(`Erreur pour "${mol.moleculeName}": ${rowErr.message}`);
+        errors.push(`Erreur pour "${mol.moleculeName}": ${rowErr instanceof Error ? rowErr.message : String(rowErr)}`);
       }
     }
 
@@ -848,9 +837,7 @@ export async function importGcmsFromCsv(
           const [plants] = await conn.execute(
             `SELECT id FROM plants WHERE LOWER(name) = LOWER(?) OR LOWER(latin_name) = LOWER(?) LIMIT 1`,
             [row.plantName, row.plantName]
-          // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
           ) as any[];
-          // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
           plantCache[row.plantName] = (plants as any[]).length > 0 ? (plants as any[])[0].id : null;
         }
         const plantId = plantCache[row.plantName];
@@ -864,24 +851,19 @@ export async function importGcmsFromCsv(
         const [mols] = await conn.execute(
           `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
           [row.moleculeName]
-        // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
         ) as any[];
-        // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
         if ((mols as any[]).length === 0) {
           notFound++;
           errors.push(`Molécule non trouvée : "${row.moleculeName}"`);
           continue;
         }
-        // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
         const moleculeId = (mols as any[])[0].id;
 
         const [existing] = await conn.execute(
           `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
           [plantId, moleculeId]
-        // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
         ) as any[];
 
-        // @ts-expect-error -- string enum or dynamic type; runtime value validated by caller
         if ((existing as any[]).length > 0) {
           if (overwriteExisting) {
             await conn.execute(`
@@ -914,7 +896,7 @@ export async function importGcmsFromCsv(
           created++;
         }
       } catch (rowErr: unknown) {
-        errors.push(`Erreur ligne "${row.plantName}/${row.moleculeName}": ${rowErr.message}`);
+        errors.push(`Erreur ligne "${row.plantName}/${row.moleculeName}": ${rowErr instanceof Error ? rowErr.message : String(rowErr)}`);
       }
     }
 

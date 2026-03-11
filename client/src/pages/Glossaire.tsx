@@ -72,7 +72,7 @@ export function Glossaire() {
     // Filter by letter
     if (selectedLetter) {
       terms = terms.filter((term) => {
-        const l = term.letter || term.term.charAt(0).toUpperCase();
+        const l = term.term.charAt(0).toUpperCase();
         return l === selectedLetter;
       });
     }
@@ -94,7 +94,7 @@ export function Glossaire() {
   const groupedByLetter = useMemo(() => {
     const groups: Record<string, typeof filteredTerms> = {};
     filteredTerms.forEach((t) => {
-      const letter = (t.letter || t.term.charAt(0)).toUpperCase();
+      const letter = t.term.charAt(0).toUpperCase();
       if (!groups[letter]) groups[letter] = [];
       groups[letter].push(t);
     });
@@ -106,7 +106,7 @@ export function Glossaire() {
   // Letters present in ALL terms (for nav)
   const lettersInAll = useMemo(() => {
     const s = new Set<string>();
-    allTerms.forEach((t) => s.add((t.letter || t.term.charAt(0)).toUpperCase()));
+    allTerms.forEach((t) => s.add(t.term.charAt(0).toUpperCase()));
     return s;
   }, [allTerms]);
 
@@ -319,7 +319,7 @@ export function Glossaire() {
               {lettersInResults.map((letter) => (
                 <section
                   key={letter}
-                  ref={(el) => { letterRefs.current[letter] = el; }}
+                  ref={(el) => { letterRefs.current[letter] = el as HTMLDivElement | null; }}
                 >
                   {/* Séparateur alphabétique */}
                   <div className="flex items-center gap-3 mb-4">
@@ -365,9 +365,9 @@ export function Glossaire() {
                               </h3>
                               <p className="text-foreground leading-relaxed">{term.definition}</p>
                             </div>
-                            {term.source && (
+                            {term.context && (
                               <p className="text-xs text-muted-foreground italic border-l-2 border-primary/20 pl-2">
-                                {term.source}
+                                {term.context}
                               </p>
                             )}
                           </CardContent>

@@ -116,7 +116,7 @@ export function AccordsContent() {
                 </Badge>
               )}
             </Button>
-            <ViewToggle viewMode={viewMode} setViewMode={setViewMode} />
+            <ViewToggle viewMode={viewMode} onViewModeChange={setViewMode} />
           </div>
         </div>
 
@@ -126,10 +126,10 @@ export function AccordsContent() {
             <CardContent className="pt-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 <FilterSelect
-                  label="Texture"
                   value={textureFilter}
                   onChange={setTextureFilter}
                   options={[{ value: "all", label: "Toutes" }, ...textures]}
+                  placeholder="Texture"
                 />
               </div>
               

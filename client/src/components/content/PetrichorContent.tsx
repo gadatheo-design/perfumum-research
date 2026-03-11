@@ -135,7 +135,7 @@ export default function PetrichorContent() {
       </div>
 
       {/* Connexions */}
-      <GammesConnexes currentGamme="petrichor" />
+      <GammesConnexes currentGamme="petrichor" relatedGammes={["volcanique", "glaciaire", "biolab", "civilisations"]} />
     </div>
   );
 }
