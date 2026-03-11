@@ -1588,6 +1588,10 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getRecentActivity(input?.limit);
       }),
+
+    getKoppenStats: publicProcedure.query(async () => {
+      return await db.getKoppenZoneStats();
+    }),
   }),
 
   // Synergies Moléculaires

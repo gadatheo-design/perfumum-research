@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: terroirs
  * Généré automatiquement depuis server/db.ts
@@ -415,28 +414,26 @@ export async function getContentStatistics() {
 // ============================================================================
 
 export async function listGeographicZones(filters: {
-  zoneType?: string;
-  threatLevel?: string;
+  zoneType?: "threatened_concentration" | "sustainable_alternatives" | "biodiversity_hotspot" | "conservation_area";
+  threatLevel?: "critical" | "high" | "medium" | "low" | "stable";
 }) {
   const { zoneType, threatLevel } = filters;
   const db = await getDb();
   if (!db) return [];
   
-  let query = db.select().from(geographicZones);
-  
-  const conditions = [];
+  const conditions: ReturnType<typeof eq>[] = [];
   if (zoneType) {
-    conditions.push(eq(geographicZones.zoneType, zoneType as any));
+    conditions.push(eq(geographicZones.zoneType, zoneType));
   }
   if (threatLevel) {
-    conditions.push(eq(geographicZones.threatLevel, threatLevel as any));
+    conditions.push(eq(geographicZones.threatLevel, threatLevel));
   }
   
   if (conditions.length > 0) {
-    query = query.where(and(...conditions)) as any;
+    return await db.select().from(geographicZones).where(and(...conditions));
   }
   
-  return await query;
+  return await db.select().from(geographicZones);
 }
 
 export async function getGeographicZone(zoneId: number) {
@@ -479,10 +476,10 @@ export async function getPlantsByGeographicZone(zoneId: number) {
 export async function createGeographicZone(data: {
   name: string;
   region: string;
-  zoneType: string;
-  coordinates: any;
+  zoneType: "threatened_concentration" | "sustainable_alternatives" | "biodiversity_hotspot" | "conservation_area";
+  coordinates: { lat: number; lng: number }[];
   description?: string;
-  threatLevel?: string;
+  threatLevel?: "critical" | "high" | "medium" | "low" | "stable";
   speciesCount?: number;
   conservationPriority?: string;
   overlayColor?: string;
@@ -495,17 +492,17 @@ export async function createGeographicZone(data: {
   if (!db) return null;
   const [result] = await db
     .insert(geographicZones)
-    .values(data as any);
+    .values(data);
   return getGeographicZone(result.insertId);
 }
 
 export async function updateGeographicZone(zoneId: number, data: {
   name?: string;
   region?: string;
-  zoneType?: string;
-  coordinates?: any;
+  zoneType?: "threatened_concentration" | "sustainable_alternatives" | "biodiversity_hotspot" | "conservation_area";
+  coordinates?: { lat: number; lng: number }[];
   description?: string;
-  threatLevel?: string;
+  threatLevel?: "critical" | "high" | "medium" | "low" | "stable";
   speciesCount?: number;
   conservationPriority?: string;
   overlayColor?: string;
@@ -518,7 +515,7 @@ export async function updateGeographicZone(zoneId: number, data: {
   if (!db) return null;
   await db
     .update(geographicZones)
-    .set(data as any)
+    .set(data)
     .where(eq(geographicZones.id, zoneId));
   return getGeographicZone(zoneId);
 }

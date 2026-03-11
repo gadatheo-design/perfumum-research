@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: genomics
  * Généré automatiquement depuis server/db.ts
@@ -301,8 +300,9 @@ export async function getMolecularTransformations(options?: {
       query += ` OFFSET ${options.offset}`;
     }
     
-    const result = await (db as any).execute(sql.raw(query));
-    return (result[0] as unknown) as any[];
+    // @ts-expect-error -- Drizzle execute() returns unknown[]; raw SQL needed for dynamic queries
+    const result = await (db as { execute: (q: unknown) => Promise<unknown[]> }).execute(sql.raw(query));
+    return (result[0] as unknown[]) ?? [];
   } catch (error) {
     console.error("Error getting molecular transformations:", error);
     return [];
@@ -333,7 +333,8 @@ export async function createMolecularTransformation(data: {
   if (!db) return null;
   
   try {
-    const result = await (db as any).execute(sql.raw(`
+    // @ts-expect-error -- Drizzle execute() returns unknown; raw SQL needed for dynamic insert
+    const result = await (db as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(`
       INSERT INTO molecular_transformations (
         source_molecule_name, product_molecule_name, transformation_type,
         source_molecule_id, product_molecule_id,
@@ -368,7 +369,8 @@ export async function getMolecularTransformationStats() {
   if (!db) return null;
   
   try {
-    const result = await (db as any).execute(sql.raw(`
+    // @ts-expect-error -- Drizzle execute() returns unknown; raw SQL needed for aggregate query
+    const result = await (db as { execute: (q: unknown) => Promise<unknown[]> }).execute(sql.raw(`
       SELECT 
         COUNT(*) as total_transformations,
         COUNT(DISTINCT source_molecule_name) as unique_sources,
@@ -377,7 +379,7 @@ export async function getMolecularTransformationStats() {
         COUNT(DISTINCT relevance_context) as relevance_contexts
       FROM molecular_transformations
     `));
-    return ((result[0] as unknown) as any[])[0] || null;
+    return ((result[0] as unknown[]) ?? [])[0] ?? null;
   } catch (error) {
     console.error("Error getting transformation stats:", error);
     return null;

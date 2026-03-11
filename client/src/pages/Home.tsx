@@ -19,6 +19,8 @@ import { Play } from "lucide-react";
 export default function Home() {
   // Récupérer les statistiques dynamiques depuis l'API
   const { data: stats } = trpc.dashboard.getStats.useQuery();
+  // Récupérer les zones climatiques Köppen
+  const { data: koppenStats } = trpc.dashboard.getKoppenStats.useQuery();
   
   // Track page view
   useEffect(() => {
@@ -721,6 +723,67 @@ export default function Home() {
                   </CardContent>
                 </Card>
                 </HoverScale>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Köppen Climate Zones Section */}
+        <section className="section-spacing bg-gradient-to-b from-background to-muted/20">
+          <div className="container">
+            <div className="max-w-5xl mx-auto">
+              <div className="flex items-center gap-3 mb-4 justify-center">
+                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                  <Globe2 className="h-5 w-5 text-emerald-500" />
+                </div>
+                <h2 className="text-3xl md:text-4xl font-bold">Géographie Olfactive</h2>
+              </div>
+              <p className="text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
+                Distribution des plantes aromatiques selon les zones climatiques de Köppen — {koppenStats ? koppenStats.reduce((s, z) => s + z.count, 0) : '...'} plantes géolocalisées.
+              </p>
+
+              {/* Barres Köppen */}
+              <div className="space-y-3">
+                {(koppenStats ?? []).slice(0, 8).map((zone, i) => {
+                  const maxCount = koppenStats?.[0]?.count ?? 1;
+                  const pct = Math.round((zone.count / maxCount) * 100);
+                  const labels: Record<string, { label: string; color: string }> = {
+                    Cfb: { label: 'Océanique tempéré', color: 'bg-sky-500' },
+                    Aw:  { label: 'Savane tropicale', color: 'bg-amber-500' },
+                    Af:  { label: 'Tropical humide', color: 'bg-emerald-500' },
+                    Cfa: { label: 'Subtropical humide', color: 'bg-lime-500' },
+                    Csa: { label: 'Méditerranéen', color: 'bg-orange-500' },
+                    BSh: { label: 'Semi-aride chaud', color: 'bg-yellow-600' },
+                    Am:  { label: 'Mousson tropicale', color: 'bg-teal-500' },
+                    Dfb: { label: 'Continental humide', color: 'bg-blue-500' },
+                    BWh: { label: 'Désertique chaud', color: 'bg-red-400' },
+                    Cwa: { label: 'Subtropical montagnard', color: 'bg-green-600' },
+                  };
+                  const info = labels[zone.zone] ?? { label: zone.zone, color: 'bg-primary' };
+                  return (
+                    <div key={zone.zone} className="flex items-center gap-4">
+                      <div className="w-10 text-right text-xs font-mono font-bold text-muted-foreground shrink-0">{zone.zone}</div>
+                      <div className="flex-1 relative h-8 bg-muted/40 rounded-md overflow-hidden">
+                        <div
+                          className={`h-full ${info.color} opacity-80 transition-all duration-700 rounded-md`}
+                          style={{ width: `${pct}%` }}
+                        />
+                        <span className="absolute inset-0 flex items-center px-3 text-xs font-medium text-foreground">
+                          {info.label}
+                        </span>
+                      </div>
+                      <div className="w-12 text-right text-sm font-bold tabular-nums shrink-0">{zone.count}</div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="mt-8 text-center">
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="/plantes">
+                    Explorer les plantes par zone <ArrowRight className="h-3 w-3 ml-2" />
+                  </Link>
+                </Button>
               </div>
             </div>
           </div>

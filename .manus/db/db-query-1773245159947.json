@@ -1,0 +1,43 @@
+{
+  "query": "SHOW COLUMNS FROM plants LIKE '%koppen%'; SELECT koppen_zone, COUNT(*) as count FROM plants WHERE koppen_zone IS NOT NULL AND koppen_zone != '' GROUP BY koppen_zone ORDER BY count DESC LIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW COLUMNS FROM plants LIKE '%koppen%'; SELECT koppen_zone, COUNT(*) as count FROM plants WHERE koppen_zone IS NOT NULL AND koppen_zone != '' GROUP BY koppen_zone ORDER BY count DESC LIMIT 15;",
+  "rows": [
+    {
+      "Field": "koppen_zone",
+      "Type": "varchar(10)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "koppen_description",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    }
+  ],
+  "messages": [
+    "koppen_zone\tcount",
+    "Cfb\t124",
+    "Aw\t93",
+    "Af\t50",
+    "Cfa\t47",
+    "Csa\t44",
+    "BSh\t23",
+    "Dfb\t9",
+    "Am\t9",
+    "BWh\t4",
+    "Cwa\t2",
+    "Csb\t2",
+    "Aw, Am\t1",
+    "BWk\t1",
+    "Cs, Csa\t1",
+    "BWh, BWk\t1"
+  ],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nkoppen_zone\tvarchar(10)\tYES\t\tNULL\t\nkoppen_description\tvarchar(100)\tYES\t\tNULL\t\nkoppen_zone\tcount\nCfb\t124\nAw\t93\nAf\t50\nCfa\t47\nCsa\t44\nBSh\t23\nDfb\t9\nAm\t9\nBWh\t4\nCwa\t2\nCsb\t2\nAw, Am\t1\nBWk\t1\nCs, Csa\t1\nBWh, BWk\t1\n",
+  "stderr": "",
+  "execution_time_ms": 485
+}

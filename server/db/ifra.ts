@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: ifra
  * Généré automatiquement depuis server/db.ts
@@ -498,12 +497,13 @@ export async function getIfraStats() {
 /**
  * Update molecule with IFRA regulatory data
  */
-export async function updateMoleculeIFRAData(moleculeId: number, ifraData: IFRAData): Promise<void> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function updateMoleculeIFRAData(moleculeId: number, ifraData: any): Promise<void> {
   const db = await getDb();
   if (!db) return;
   
   const query = "UPDATE molecules SET ifra_status = '" + ifraData.status + "', ifra_data = '" + JSON.stringify(ifraData).replace(/'/g, "''") + "', ifra_enriched_at = NOW() WHERE id = " + moleculeId;
-  await (db as any).execute(query);
+  await (db as unknown as { execute: (q: string) => Promise<unknown> }).execute(query);
 }
 
 /**
@@ -518,21 +518,22 @@ export async function getMoleculesByIFRAStatus(
   name: string;
   casNumber: string | null;
   ifraStatus: string;
-  ifraData: any;
+  ifraData: Record<string, unknown> | null;
 }[]> {
   const db = await getDb();
   if (!db) return [];
   
-  const [rows] = await (db as any).execute(
+  // @ts-expect-error -- Drizzle execute() with raw SQL string; needed for parameterized query
+  const [rows] = await (db as { execute: (q: string) => Promise<[Record<string, unknown>[], unknown]> }).execute(
     "SELECT id, name, cas_number as casNumber, ifra_status as ifraStatus, ifra_data as ifraData FROM molecules WHERE ifra_status = '" + status + "' ORDER BY name ASC LIMIT " + limit + " OFFSET " + offset
   );
   
-  return (rows as any[]).map(r => ({
-    id: r.id,
-    name: r.name,
-    casNumber: r.casNumber,
-    ifraStatus: r.ifraStatus,
-    ifraData: r.ifraData ? (typeof r.ifraData === 'string' ? JSON.parse(r.ifraData) : r.ifraData) : null,
+  return (rows as Record<string, unknown>[]).map(r => ({
+    id: r.id as number,
+    name: r.name as string,
+    casNumber: r.casNumber as string | null,
+    ifraStatus: r.ifraStatus as string,
+    ifraData: r.ifraData ? (typeof r.ifraData === 'string' ? JSON.parse(r.ifraData) as Record<string, unknown> : r.ifraData as Record<string, unknown>) : null,
   }));
 }
 
@@ -547,14 +548,15 @@ export async function getUnenrichedMoleculesForIFRA(limit: number = 50): Promise
   const db = await getDb();
   if (!db) return [];
   
-  const [rows] = await (db as any).execute(
+  // @ts-expect-error -- Drizzle execute() with raw SQL string; needed for parameterized query
+  const [rows] = await (db as { execute: (q: string) => Promise<[Record<string, unknown>[], unknown]> }).execute(
     'SELECT id, name, cas_number as casNumber FROM molecules WHERE ifra_enriched_at IS NULL ORDER BY name ASC LIMIT ' + limit
   );
   
-  return (rows as any[]).map(r => ({
-    id: r.id,
-    name: r.name,
-    casNumber: r.casNumber,
+  return (rows as Record<string, unknown>[]).map(r => ({
+    id: r.id as number,
+    name: r.name as string,
+    casNumber: r.casNumber as string | null,
   }));
 }
 
@@ -573,7 +575,8 @@ export async function getIFRAEnrichmentStats(): Promise<{
   const db = await getDb();
   if (!db) return { total: 0, enriched: 0, percentage: 0, banned: 0, restricted: 0, specRequired: 0, notRegulated: 0 };
   
-  const [rows] = await (db as any).execute(
+  // @ts-expect-error -- Drizzle execute() with raw SQL string; needed for aggregate query
+  const [rows] = await (db as { execute: (q: string) => Promise<[Record<string, unknown>[], unknown]> }).execute(
     `SELECT 
       COUNT(*) as total,
       SUM(CASE WHEN ifra_enriched_at IS NOT NULL THEN 1 ELSE 0 END) as enriched,
@@ -584,15 +587,17 @@ export async function getIFRAEnrichmentStats(): Promise<{
     FROM molecules`
   );
   
-  const stats = (rows as any[])[0];
+  const stats = (rows as Record<string, unknown>[])[0] ?? {};
+  const total = Number(stats.total) || 0;
+  const enriched = Number(stats.enriched) || 0;
   return {
-    total: stats.total || 0,
-    enriched: stats.enriched || 0,
-    percentage: stats.total > 0 ? Math.round((stats.enriched / stats.total) * 100) : 0,
-    banned: stats.banned || 0,
-    restricted: stats.restricted || 0,
-    specRequired: stats.specRequired || 0,
-    notRegulated: stats.notRegulated || 0,
+    total,
+    enriched,
+    percentage: total > 0 ? Math.round((enriched / total) * 100) : 0,
+    banned: Number(stats.banned) || 0,
+    restricted: Number(stats.restricted) || 0,
+    specRequired: Number(stats.specRequired) || 0,
+    notRegulated: Number(stats.notRegulated) || 0,
   };
 }
 

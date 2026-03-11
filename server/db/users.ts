@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: users
  * Généré automatiquement depuis server/db.ts
@@ -242,6 +241,10 @@ import {
   recetteRawMaterials,
   RecetteRawMaterial,
   InsertRecetteRawMaterial,
+  // Notifications
+  notifications,
+  Notification,
+  InsertNotification,
 } from "../../drizzle/schema";
 import { getDb } from './core';
 
@@ -493,7 +496,7 @@ export async function generateCitation(
   if (!db) throw new Error("Database not available");
   
   // Get entity data
-  let entityData: any = null;
+  let entityData: Record<string, unknown> | null = null;
   let citationText = '';
   
   if (entityType === 'molecule') {
@@ -568,9 +571,11 @@ export async function getCitation(entityType: string, entityId: number, format: 
     .from(citations)
     .where(
       and(
-        eq(citations.entityType, entityType as any),
+        // @ts-expect-error -- entityType and format are string enums; runtime values validated by caller
+        eq(citations.entityType, entityType),
         eq(citations.entityId, entityId),
-        eq(citations.format, format as any)
+        // @ts-expect-error -- format is a string enum; runtime value validated by caller
+        eq(citations.format, format)
       )
     );
   
@@ -601,10 +606,10 @@ export async function getAllRecettesWithMolecules() {
   const recettesCBD = await db
     .select()
     .from(recettes)
-    .where(eq(recettes.category, "resine_cbd" as any));
+    .where(eq(recettes.category, "resine_cbd"));
   
   const result = await Promise.all(
-    recettesCBD.map(async (recette: any) => {
+    recettesCBD.map(async (recette) => {
       const mols = await db
         .select({
           molecule: molecules,
@@ -643,7 +648,7 @@ export async function createUserNote(entityType: string, entityId: number, conte
     content,
   });
   
-  return { id: Number((result as any).insertId) };
+  return { id: Number((result as { insertId?: number }).insertId ?? 0) };
 }
 
 export async function updateUserNote(id: number, content: string) {

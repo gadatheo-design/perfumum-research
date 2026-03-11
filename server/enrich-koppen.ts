@@ -201,6 +201,10 @@ export async function enrichKoppenData() {
 
   // Query plants without Köppen data
   const db = await getDb();
+  if (!db) {
+    console.error("❌ Database connection failed");
+    return { updated: 0, total: 0 };
+  }
   const plantsWithoutKoppen = await db
     .select()
     .from(plants)
@@ -257,7 +261,7 @@ export async function enrichKoppenData() {
 
   for (const update of updates) {
     try {
-      await db
+      await db!
         .update(plants)
         .set({
           koppenZone: update.zones,

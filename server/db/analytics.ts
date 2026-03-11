@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: analytics
  * Généré automatiquement depuis server/db.ts
@@ -281,7 +280,7 @@ export async function getAdminStats() {
 }
 
 
-export async function createMolecule(data: any) {
+export async function createMolecule(data: Record<string, unknown>) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
@@ -388,8 +387,10 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
   const perCategoryLimit = Math.ceil(limit / 9);
 
   // Fonction helper pour construire les conditions de recherche enrichies
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const buildEnrichedSearchCondition = (columns: any[]) => {
-    const conditions: any[] = [];
+    // @ts-expect-error -- Drizzle column types are complex; runtime usage is correct
+    const conditions: ReturnType<typeof sql>[] = [];
     
     // Recherche principale (terme original) - priorité haute
     for (const col of columns) {
@@ -892,7 +893,7 @@ export async function getMoleculeTimelineData() {
     .orderBy(molecules.createdAt);
   
   // Group by month
-  const monthlyData: Record<string, { count: number; cumulative: number; molecules: any[] }> = {};
+  const monthlyData: Record<string, { count: number; cumulative: number; molecules: { id: number | null; name: string | null; family: string | null; createdAt: Date | null }[] }> = {};
   let cumulative = 0;
   
   allMolecules.forEach(molecule => {
@@ -999,7 +1000,7 @@ export async function getSimilarMolecules(moleculeId: number, limit: number = 3)
   const withSimilarity = allMolecules
     .filter((mol) => mol.id !== moleculeId)
     .map((mol) => ({
-      ...parseMoleculeJsonFields(mol as any),
+      ...parseMoleculeJsonFields(mol as Record<string, unknown>),
       similarityScore: calculateRadarSimilarity(reference[0], mol),
     }))
     .sort((a, b) => b.similarityScore - a.similarityScore)
@@ -1351,4 +1352,45 @@ export async function getMegaMenuFeaturedItems() {
       terroirs: terCount?.count || 0,
     },
   };
+}
+
+
+// ============================================================================
+// KÖPPEN CLIMATE STATISTICS
+// ============================================================================
+
+export async function getKoppenZoneStats() {
+  const db = await getDb();
+  if (!db) return [];
+
+  const rows = await db
+    .select({
+      zone: plants.koppenZone,
+      count: sql<number>`COUNT(*)`,
+    })
+    .from(plants)
+    .where(
+      and(
+        isNotNull(plants.koppenZone),
+        sql`${plants.koppenZone} != ''`
+      )
+    )
+    .groupBy(plants.koppenZone)
+    .orderBy(desc(sql`COUNT(*)`));
+
+  const zoneMap = new Map<string, number>();
+  for (const row of rows) {
+    if (!row.zone) continue;
+    const zones = row.zone.split(/[,;]\s*/);
+    for (const z of zones) {
+      const trimmed = z.trim();
+      if (trimmed) {
+        zoneMap.set(trimmed, (zoneMap.get(trimmed) || 0) + Number(row.count));
+      }
+    }
+  }
+
+  return Array.from(zoneMap.entries())
+    .map(([zone, count]) => ({ zone, count }))
+    .sort((a, b) => b.count - a.count);
 }

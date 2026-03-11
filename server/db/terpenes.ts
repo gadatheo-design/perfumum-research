@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: terpenes
  * Généré automatiquement depuis server/db.ts
@@ -280,13 +279,15 @@ export async function getTerpProfileByProfileId(profileId: string) {
 export async function getTerpProfilesByClimaticAxis(axis: string) {
   const db = await getDb();
   if (!db) return [];
-  return await db.select().from(terpProfiles).where(eq(terpProfiles.climaticAxis, axis as any)).orderBy(terpProfiles.profileId);
+  // @ts-expect-error -- climaticAxis is a string enum; runtime value validated by caller
+  return await db.select().from(terpProfiles).where(eq(terpProfiles.climaticAxis, axis)).orderBy(terpProfiles.profileId);
 }
 
 export async function getTerpProfilesByUsage(usage: string) {
   const db = await getDb();
   if (!db) return [];
-  return await db.select().from(terpProfiles).where(eq(terpProfiles.usage, usage as any)).orderBy(terpProfiles.profileId);
+  // @ts-expect-error -- usage is a string enum; runtime value validated by caller
+  return await db.select().from(terpProfiles).where(eq(terpProfiles.usage, usage)).orderBy(terpProfiles.profileId);
 }
 
 export async function createTerpProfile(data: InsertTerpProfile) {

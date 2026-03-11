@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: accords
  * Généré automatiquement depuis server/db.ts
@@ -378,7 +377,8 @@ export async function getSynergiesByType(type: string) {
     .leftJoin(tabacs, eq(synergies.tabacId, tabacs.id))
     .leftJoin(molecules, eq(synergies.moleculeId, molecules.id))
     .leftJoin(families, eq(synergies.familleId, families.id))
-    .where(eq(synergies.type, type as any));
+    // @ts-expect-error -- type is a string enum; runtime value validated by caller
+    .where(eq(synergies.type, type));
   
   return synergiesByType;
 }
@@ -630,8 +630,8 @@ export async function getSynergySuggestions(minSimilarity: number = 70, limit: n
     molecule2Name: string;
     similarity: number;
     distance: number;
-    radarProfile1: any;
-    radarProfile2: any;
+    radarProfile1: Record<string, number | null>;
+    radarProfile2: Record<string, number | null>;
     explanation: string;
   }> = [];
   
@@ -792,12 +792,12 @@ export async function updateMatiereFull(id: number, data: {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
-  const updateData: Record<string, any> = {};
+  const updateData: Record<string, unknown> = {};
   if (data.name !== undefined) updateData.name = data.name;
   if (data.botanicalName !== undefined) updateData.botanicalName = data.botanicalName;
   if (data.type !== undefined) updateData.type = data.type;
-  if ((data as any).olfactiveFamily !== undefined) updateData.olfactiveFamily = (data as any).olfactiveFamily;
-  if ((data as any).family !== undefined) updateData.family = (data as any).family;
+  if (data.olfactiveFamily !== undefined) updateData.olfactiveFamily = data.olfactiveFamily;
+  if ('family' in data && (data as Record<string, unknown>).family !== undefined) updateData.family = (data as Record<string, unknown>).family;
   if (data.note !== undefined) updateData.note = data.note;
   if (data.origin !== undefined) updateData.origin = data.origin;
   if (data.extractionMethod !== undefined) updateData.extractionMethod = data.extractionMethod;

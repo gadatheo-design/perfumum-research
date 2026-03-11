@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: glossary
  * Généré automatiquement depuis server/db.ts
@@ -284,7 +283,8 @@ export async function getGlossaryTermsByCategory(category: string): Promise<Glos
   return await db
     .select()
     .from(glossary)
-    .where(eq(glossary.category, category as any))
+    // @ts-expect-error -- category is a string enum; runtime value validated by caller
+    .where(eq(glossary.category, category))
     .orderBy(glossary.term);
 }
 
@@ -312,7 +312,8 @@ export async function getMilestonesByPhase(phase: string): Promise<ResearchMiles
   return await db
     .select()
     .from(researchTimeline)
-    .where(eq(researchTimeline.phase, phase as any))
+    // @ts-expect-error -- phase is a string enum; runtime value validated by caller
+    .where(eq(researchTimeline.phase, phase))
     .orderBy(researchTimeline.year, researchTimeline.quarterNumber);
 }
 

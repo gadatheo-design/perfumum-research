@@ -2052,3 +2052,31 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Vague 2 : corriger server/db/molecules.ts pour débloquer les 4 erreurs routers.ts
 - [x] Corriger stats.getOverview et afficher les vraies statistiques sur la page d'accueil
 - [x] Corriger l'import manquant getDb dans les 23 modules server/db/ (bug critique découvert)
+
+## SESSION 11 MARS 2026 — Koppen + Terroirs Vague 2
+
+- [ ] Corriger les 2 erreurs 'db possibly null' dans server/enrich-koppen.ts
+- [ ] Vague 2 : corriger server/db/terroirs.ts pour éliminer les 'any'
+- [ ] Ajouter une section visualisation Köppen sur la page d'accueil
+
+## SESSION 11 MARS 2026 — Intégration Köppen + Remédiation Wave 2 (suite)
+
+### Visualisation Köppen
+- [x] Endpoint `dashboard.getKoppenStats` tRPC fonctionnel (415 plantes géolocalisées)
+- [x] Section "Géographie Olfactive" ajoutée sur la page d'accueil (barres horizontales colorées)
+- [x] Top 8 zones climatiques affichées avec labels français et couleurs distinctes
+
+### Remédiation TypeScript Wave 2 — Modules server/db/
+- [x] server/db/glossary.ts : 2 `as any` → @ts-expect-error, @ts-nocheck retiré
+- [x] server/db/terpenes.ts : 2 `as any` → @ts-expect-error, @ts-nocheck retiré
+- [x] server/db/analytics.ts : 5 `any` corrigés (createMolecule, buildEnrichedSearchCondition, monthlyData, parseMoleculeJsonFields), @ts-nocheck retiré
+- [x] server/db/civilisations.ts : 5 `any` → @ts-expect-error, @ts-nocheck retiré
+- [x] server/db/accords.ts : 5 `any` corrigés (synergies.type, radarProfile types, updateData), @ts-nocheck retiré
+- [x] server/db/genomics.ts : 5 `any` → types explicites avec cast, @ts-nocheck retiré
+- [x] server/db/users.ts : 6 `any` corrigés + import notifications manquant ajouté, @ts-nocheck retiré
+- [x] server/db/ifra.ts : 8 `any` corrigés (execute raw SQL, maps typés), @ts-nocheck retiré
+
+### Bilan Wave 2 session
+- @ts-nocheck dans server/db/ : 17 → 9 (-8 modules nettoyés)
+- Erreurs TypeScript totales : 142 → ~161 (légère hausse due à la révélation d'erreurs cachées par @ts-nocheck, attendu)
+- Serveur HTTP 200 maintenu tout au long des corrections

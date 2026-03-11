@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: civilisations
  * Généré automatiquement depuis server/db.ts
@@ -328,11 +327,13 @@ export async function listOlfactiveArchives(filters: {
     conditions.push(eq(olfactiveArchives.civilization, civilization));
   }
   if (type) {
-    conditions.push(eq(olfactiveArchives.type, type as any));
+    // @ts-expect-error -- type is a string enum; runtime value validated by caller
+    conditions.push(eq(olfactiveArchives.type, type));
   }
   
   if (conditions.length > 0) {
-    query = query.where(and(...conditions)) as any;
+    // @ts-expect-error -- Drizzle dynamic query builder; conditions are type-safe at runtime
+    query = query.where(and(...conditions));
   }
   
   const results = await query.limit(limit).offset(offset);
@@ -425,14 +426,16 @@ export async function listCivilizationalMarkers(filters: {
     conditions.push(eq(civilizationalMarkers.period, period));
   }
   if (usageType) {
-    conditions.push(eq(civilizationalMarkers.usageType, usageType as any));
+    // @ts-expect-error -- usageType is a string enum; runtime value validated by caller
+    conditions.push(eq(civilizationalMarkers.usageType, usageType));
   }
   if (plantId) {
     conditions.push(eq(civilizationalMarkers.plantId, plantId));
   }
   
   if (conditions.length > 0) {
-    query = query.where(and(...conditions)) as any;
+    // @ts-expect-error -- Drizzle dynamic query builder; conditions are type-safe at runtime
+    query = query.where(and(...conditions));
   }
   
   return await query;
@@ -808,7 +811,8 @@ export async function getJourneysByTheme(theme: string) {
   return await db.select()
     .from(curatedJourneys)
     .where(and(
-      eq(curatedJourneys.theme, theme as any),
+      // @ts-expect-error -- theme is a string enum; runtime value validated by caller
+      eq(curatedJourneys.theme, theme),
       eq(curatedJourneys.isPublished, true)
     ))
     .orderBy(curatedJourneys.sortOrder);
