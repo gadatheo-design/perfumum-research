@@ -5,11 +5,27 @@ import path from "path";
 import { defineConfig } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 
+// Plugin qui supprime les location.reload() du client Vite HMR
+// Le proxy Manus ne supporte pas les WebSockets → les reconnexions HMR
+// provoquent des rechargements infinis. On remplace reload() par console.debug().
+const noHmrReload = (): import('vite').Plugin => ({
+  name: 'no-hmr-reload',
+  transform(code: string, id: string) {
+    if (id.includes('@vite/client') || id.includes('vite/dist/client')) {
+      const patched = code
+        .replace(/location\.reload\(\)/g, 'console.debug("[HMR] reload suppressed by noHmrReload plugin")')
+        .replace(/window\.location\.reload\(\)/g, 'console.debug("[HMR] reload suppressed")');
+      return { code: patched, map: null };
+    }
+  },
+});
+
 const plugins = [
   react(),
   tailwindcss(),
   jsxLocPlugin(),
   vitePluginManusRuntime({ injectTo: "body" }),
+  noHmrReload(),
 ];
 
 export default defineConfig({

@@ -516,24 +516,26 @@ export default function GenealogyGraph() {
           {/* Main Graph Area */}
           <div className="lg:col-span-3">
             <Card className="h-[700px]">
-              <CardContent className="p-0 h-full" ref={containerRef}>
-                {isLoading ? (
-                  <div className="flex items-center justify-center h-full">
-                    <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                  </div>
-                ) : graphData?.nodes.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
-                    <GitBranch className="h-16 w-16 mb-4 opacity-50" />
-                    <p className="text-lg font-medium">Aucune donnée généalogique</p>
-                    <p className="text-sm">Ajustez les filtres ou importez des données</p>
-                  </div>
-                ) : (
+              <CardContent className="p-0 h-full">
+                <div ref={containerRef} className="relative w-full h-full">
+                  {isLoading && (
+                    <div className="absolute inset-0 flex items-center justify-center z-10">
+                      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+                    </div>
+                  )}
+                  {!isLoading && graphData?.nodes.length === 0 && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground">
+                      <GitBranch className="h-16 w-16 mb-4 opacity-50" />
+                      <p className="text-lg font-medium">Aucune donnée généalogique</p>
+                      <p className="text-sm">Ajustez les filtres ou importez des données</p>
+                    </div>
+                  )}
                   <svg
                     ref={svgRef}
                     className="w-full h-full"
-                    style={{ background: "var(--background)" }}
+                    style={{ background: "var(--background)", display: (!isLoading && (graphData?.nodes.length ?? 0) > 0) ? 'block' : 'none' }}
                   />
-                )}
+                </div>
               </CardContent>
             </Card>
 
