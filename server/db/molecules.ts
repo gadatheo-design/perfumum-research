@@ -243,6 +243,8 @@ import {
   RecetteRawMaterial,
   InsertRecetteRawMaterial,
 } from "../../drizzle/schema";
+import { getDb } from './core';
+
 import { ENV } from '../_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
 import { expandWithScientificNames, getScientificDictionaryStats } from '../../shared/botanicalLatinNames';
@@ -1159,7 +1161,7 @@ export async function getAllPlantMoleculeLinks() {
 /**
  * Récupère les plantes associées à une molécule
  */
-export async function getPlantsByMolecule(moleculeId: number) {
+export async function getPlantsByMolecule(moleculeId: number): Promise<Array<{ plant: Plant; percentageMin: number | null; percentageMax: number | null; percentageTypical: number | null; isSignature: number | null; role: string | null }>> {
   const db = await getDb();
   if (!db) return [];
   
@@ -1603,7 +1605,7 @@ export async function getOrphanMoleculeStats(): Promise<OrphanMoleculeStats | nu
 
 export type OrphanFilter = 'all' | 'no_family' | 'no_chemical_class' | 'no_cas' | 'no_iupac' | 'no_formula' | 'no_olfactive_profile' | 'no_radar';
 
-export async function getOrphanMoleculesList(filter: OrphanFilter = 'all', limit: number = 100, offset: number = 0) {
+export async function getOrphanMoleculesList(filter: OrphanFilter = 'all', limit: number = 100, offset: number = 0): Promise<{ molecules: Molecule[]; total: number }> {
   const db = await getDb();
   if (!db) return { molecules: [], total: 0 };
 

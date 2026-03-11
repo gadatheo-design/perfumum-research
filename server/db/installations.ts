@@ -242,6 +242,8 @@ import {
   RecetteRawMaterial,
   InsertRecetteRawMaterial,
 } from "../../drizzle/schema";
+import { getDb } from './core';
+
 import { ENV } from '../_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
 import { expandWithScientificNames, getScientificDictionaryStats } from '../../shared/botanicalLatinNames';

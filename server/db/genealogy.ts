@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: genealogy
  * Généré automatiquement depuis server/db.ts
@@ -242,7 +241,13 @@ import {
   recetteRawMaterials,
   RecetteRawMaterial,
   InsertRecetteRawMaterial,
+  // Ghost Varieties
+  ghostVarieties,
+  GhostVariety,
+  InsertGhostVariety,
 } from "../../drizzle/schema";
+import { getDb } from './core';
+
 import { ENV } from '../_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
 import { expandWithScientificNames, getScientificDictionaryStats } from '../../shared/botanicalLatinNames';
@@ -374,22 +379,22 @@ export async function getAllGhostVarieties(): Promise<GhostVariety[]> {
 /**
  * Get ghost varieties by variety type
  */
-export async function getGhostVarietiesByType(varietyType: string): Promise<GhostVariety[]> {
+export async function getGhostVarietiesByType(varietyType: "rose" | "jasmine" | "tobacco" | "cannabis" | "lavender" | "citrus" | "aromatic_herb" | "resin_tree" | "other"): Promise<GhostVariety[]> {
   const db = await getDb();
   if (!db) return [];
   return db.select().from(ghostVarieties)
-    .where(eq(ghostVarieties.varietyType, varietyType as any))
+    .where(eq(ghostVarieties.varietyType, varietyType))
     .orderBy(desc(ghostVarieties.createdAt));
 }
 
 /**
  * Get ghost varieties by conservation status
  */
-export async function getGhostVarietiesByStatus(status: string): Promise<GhostVariety[]> {
+export async function getGhostVarietiesByStatus(status: "extinct" | "extinct_wild" | "critically_endangered" | "endangered" | "vulnerable" | "near_threatened" | "reconstructed" | "unknown"): Promise<GhostVariety[]> {
   const db = await getDb();
   if (!db) return [];
   return db.select().from(ghostVarieties)
-    .where(eq(ghostVarieties.conservationStatus, status as any))
+    .where(eq(ghostVarieties.conservationStatus, status))
     .orderBy(desc(ghostVarieties.createdAt));
 }
 

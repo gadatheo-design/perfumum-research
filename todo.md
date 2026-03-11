@@ -2045,3 +2045,10 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Corrections dans routers.ts : 29 callbacks typés explicitement
 - [x] Modules server/db/ : @ts-nocheck maintenu (Vague 2 à traiter progressivement)
 - [x] Mémoire tsc --watch : 57.6% → 48.7% RAM (amélioration grâce à tsconfig.check.json)
+
+## SESSION 11 MARS 2026 — Vague 2 TypeScript + Stats UI
+
+- [x] Vague 2 : corriger server/db/genealogy.ts (2 any) et retirer @ts-nocheck
+- [x] Vague 2 : corriger server/db/molecules.ts pour débloquer les 4 erreurs routers.ts
+- [x] Corriger stats.getOverview et afficher les vraies statistiques sur la page d'accueil
+- [x] Corriger l'import manquant getDb dans les 23 modules server/db/ (bug critique découvert)
