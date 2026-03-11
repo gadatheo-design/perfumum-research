@@ -1,0 +1,9 @@
+{
+  "query": "DELETE FROM variety_genealogy \nWHERE NOT EXISTS (SELECT 1 FROM plant_varieties v WHERE v.id = variety_genealogy.variety_id)\n   OR NOT EXISTS (SELECT 1 FROM plant_varieties p WHERE p.id = variety_genealogy.parent_variety_id);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute DELETE FROM variety_genealogy \nWHERE NOT EXISTS (SELECT 1 FROM plant_varieties v WHERE v.id = variety_genealogy.variety_id)\n   OR NOT EXISTS (SELECT 1 FROM plant_varieties p WHERE p.id = variety_genealogy.parent_variety_id);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 375
+}

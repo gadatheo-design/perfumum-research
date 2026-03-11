@@ -1,0 +1,46 @@
+{
+  "query": "SELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS \nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'variety_genealogy' \nORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS \nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'variety_genealogy' \nORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id",
+      "COLUMN_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "variety_id",
+      "COLUMN_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "parent_variety_id",
+      "COLUMN_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "relationship_type",
+      "COLUMN_TYPE": "enum('parent','hybrid','clone','mutation')"
+    },
+    {
+      "COLUMN_NAME": "cross_date",
+      "COLUMN_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "breeder",
+      "COLUMN_TYPE": "varchar(255)"
+    },
+    {
+      "COLUMN_NAME": "notes",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "created_at",
+      "COLUMN_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "updated_at",
+      "COLUMN_TYPE": "timestamp"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tCOLUMN_TYPE\nid\tint\nvariety_id\tint\nparent_variety_id\tint\nrelationship_type\tenum('parent','hybrid','clone','mutation')\ncross_date\tint\nbreeder\tvarchar(255)\nnotes\ttext\ncreated_at\ttimestamp\nupdated_at\ttimestamp\n",
+  "stderr": "",
+  "execution_time_ms": 347
+}

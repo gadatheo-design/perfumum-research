@@ -7559,9 +7559,11 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
     // Données du graphe généalogique pour D3.js
     getGraphData: publicProcedure
       .input(z.object({
-        plantType: z.enum(["cannabis", "tobacco", "all"]).default("all"),
+        plantType: z.enum(["cannabis", "tobacco", "aromatic", "flower", "other", "all"]).default("all"),
         includeModern: z.boolean().default(true),
         includeLandraces: z.boolean().default(true),
+        relationshipTypes: z.array(z.enum(["parent", "hybrid", "clone", "mutation"])).optional(),
+        region: z.string().optional(),
       }).optional())
       .query(async ({ input }) => {
         return await db.getGenealogyGraphData(input ?? {});

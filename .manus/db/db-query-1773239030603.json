@@ -1,0 +1,545 @@
+{
+  "query": "SELECT TABLE_NAME, TABLE_ROWS, CREATE_TIME\nFROM information_schema.TABLES \nWHERE TABLE_SCHEMA = DATABASE()\nAND TABLE_NAME NOT IN (\n  'absorbe_profiles', 'accord_civilisations', 'accords', 'analytical_methods',\n  'analytics_events', 'aromatic_accords', 'aromatic_molecules_tabac', 'aromatic_rarities',\n  'axis_connections', 'axis_reference_links', 'bibliography_axis_links', 'bibliography_entries',\n  'botanical_states', 'cannabis_strains', 'chemical_families', 'chemotypes',\n  'cigarillo_molecule_links', 'citations', 'civilizational_markers', 'classification_reviews',\n  'classification_snapshots', 'climate_studies', 'comparative_analyses', 'curated_journeys',\n  'entourage_rules', 'experimental_accord_civilisations', 'experimental_accords',\n  'extended_supplier_materials', 'extended_suppliers', 'extraction_methods', 'extraction_tests',\n  'families', 'field_archives', 'final_recipe_terp_profiles', 'final_recipes',\n  'formulation_suggestions', 'genomic_molecule_links', 'genomic_plant_links',\n  'geographic_origins', 'geographic_zones', 'ghost_varieties', 'ghost_variety_images',\n  'ghost_variety_molecule_links', 'ghost_variety_plant_links', 'glossary',\n  'ifra_categories', 'ifra_restrictions', 'installation_families', 'installation_recettes',\n  'installations', 'inventory_entries', 'journey_items', 'laboratoire', 'laboratoire_molecules',\n  'laboratoire_recettes', 'landraces', 'leaf_economies', 'leaf_economy_molecules',\n  'milestones', 'modification_history', 'molecular_interactions', 'molecular_protocols',\n  'molecular_transformations', 'molecule_accords', 'molecule_analytical_methods',\n  'molecule_chemical_families', 'molecule_families', 'molecule_notes', 'molecule_origins',\n  'molecule_perfumes', 'molecule_plant_sources', 'molecule_synergies', 'molecules',\n  'molecules_recettes', 'notifications', 'olfactive_archives', 'olfactory_traditions',\n  'petrichor', 'petrichor_experimental_accords', 'petrichor_molecules', 'petrichor_recettes',\n  'petrichor_tabacs', 'plant_analyses', 'plant_contributions', 'plant_extractions',\n  'plant_geographic_zones', 'plant_molecules', 'plant_samples', 'plant_terroirs',\n  'plant_varieties', 'plants', 'prototype_chemical_families', 'prototype_laboratoire',\n  'prototype_molecules', 'prototypes', 'publication_methods', 'publication_molecules',\n  'publication_researchers', 'publication_transformations', 'pyrazines',\n  'pyrolysis_transformations', 'raw_material_molecules', 'raw_materials',\n  'recette_molecules', 'recette_raw_materials', 'recette_tabac_associations', 'recettes',\n  'recettes_formules_reference', 'recherche_radicale', 'recipe_versions',\n  'reference_citations', 'reference_entity_links', 'reference_notes', 'reference_tags',\n  'research_axes', 'research_claims', 'research_entries', 'research_institutions',\n  'research_publications', 'research_sources', 'research_timeline',\n  'researcher_institutions', 'researchers', 'sample_images', 'saved_formulas',\n  'sensory_scales', 'shared_collections', 'situated_smells', 'supplier_materials',\n  'suppliers', 'sustainable_alternatives', 'synergies', 'tabac_accords',\n  'tabac_civilisations', 'tabac_molecules', 'tabacs', 'tasting_notes',\n  'terp_profile_molecules', 'terp_profile_plants', 'terp_profiles',\n  'terpene_comparison_profiles', 'terpene_synergies', 'terroir_specialties', 'terroirs',\n  'thematic_axes', 'tobacco_additives', 'tobacco_cannabis_accords',\n  'tobacco_formula_installations', 'tobacco_formulas', 'tobacco_terroirs',\n  'tobacco_varieties', 'tps_gene_molecules', 'tps_genes', 'traditions_olfactives',\n  'user_favorites', 'user_notes', 'users', 'v3_reference_tag_links', 'v3_references',\n  'variety_genealogy', 'volcanique', 'volcanique_experimental_accords',\n  'volcanique_molecules', 'volcanique_recettes', 'volcanique_tabacs',\n  '__drizzle_migrations'\n)\nORDER BY TABLE_NAME\nLIMIT 107;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT TABLE_NAME, TABLE_ROWS, CREATE_TIME\nFROM information_schema.TABLES \nWHERE TABLE_SCHEMA = DATABASE()\nAND TABLE_NAME NOT IN (\n  'absorbe_profiles', 'accord_civilisations', 'accords', 'analytical_methods',\n  'analytics_events', 'aromatic_accords', 'aromatic_molecules_tabac', 'aromatic_rarities',\n  'axis_connections', 'axis_reference_links', 'bibliography_axis_links', 'bibliography_entries',\n  'botanical_states', 'cannabis_strains', 'chemical_families', 'chemotypes',\n  'cigarillo_molecule_links', 'citations', 'civilizational_markers', 'classification_reviews',\n  'classification_snapshots', 'climate_studies', 'comparative_analyses', 'curated_journeys',\n  'entourage_rules', 'experimental_accord_civilisations', 'experimental_accords',\n  'extended_supplier_materials', 'extended_suppliers', 'extraction_methods', 'extraction_tests',\n  'families', 'field_archives', 'final_recipe_terp_profiles', 'final_recipes',\n  'formulation_suggestions', 'genomic_molecule_links', 'genomic_plant_links',\n  'geographic_origins', 'geographic_zones', 'ghost_varieties', 'ghost_variety_images',\n  'ghost_variety_molecule_links', 'ghost_variety_plant_links', 'glossary',\n  'ifra_categories', 'ifra_restrictions', 'installation_families', 'installation_recettes',\n  'installations', 'inventory_entries', 'journey_items', 'laboratoire', 'laboratoire_molecules',\n  'laboratoire_recettes', 'landraces', 'leaf_economies', 'leaf_economy_molecules',\n  'milestones', 'modification_history', 'molecular_interactions', 'molecular_protocols',\n  'molecular_transformations', 'molecule_accords', 'molecule_analytical_methods',\n  'molecule_chemical_families', 'molecule_families', 'molecule_notes', 'molecule_origins',\n  'molecule_perfumes', 'molecule_plant_sources', 'molecule_synergies', 'molecules',\n  'molecules_recettes', 'notifications', 'olfactive_archives', 'olfactory_traditions',\n  'petrichor', 'petrichor_experimental_accords', 'petrichor_molecules', 'petrichor_recettes',\n  'petrichor_tabacs', 'plant_analyses', 'plant_contributions', 'plant_extractions',\n  'plant_geographic_zones', 'plant_molecules', 'plant_samples', 'plant_terroirs',\n  'plant_varieties', 'plants', 'prototype_chemical_families', 'prototype_laboratoire',\n  'prototype_molecules', 'prototypes', 'publication_methods', 'publication_molecules',\n  'publication_researchers', 'publication_transformations', 'pyrazines',\n  'pyrolysis_transformations', 'raw_material_molecules', 'raw_materials',\n  'recette_molecules', 'recette_raw_materials', 'recette_tabac_associations', 'recettes',\n  'recettes_formules_reference', 'recherche_radicale', 'recipe_versions',\n  'reference_citations', 'reference_entity_links', 'reference_notes', 'reference_tags',\n  'research_axes', 'research_claims', 'research_entries', 'research_institutions',\n  'research_publications', 'research_sources', 'research_timeline',\n  'researcher_institutions', 'researchers', 'sample_images', 'saved_formulas',\n  'sensory_scales', 'shared_collections', 'situated_smells', 'supplier_materials',\n  'suppliers', 'sustainable_alternatives', 'synergies', 'tabac_accords',\n  'tabac_civilisations', 'tabac_molecules', 'tabacs', 'tasting_notes',\n  'terp_profile_molecules', 'terp_profile_plants', 'terp_profiles',\n  'terpene_comparison_profiles', 'terpene_synergies', 'terroir_specialties', 'terroirs',\n  'thematic_axes', 'tobacco_additives', 'tobacco_cannabis_accords',\n  'tobacco_formula_installations', 'tobacco_formulas', 'tobacco_terroirs',\n  'tobacco_varieties', 'tps_gene_molecules', 'tps_genes', 'traditions_olfactives',\n  'user_favorites', 'user_notes', 'users', 'v3_reference_tag_links', 'v3_references',\n  'variety_genealogy', 'volcanique', 'volcanique_experimental_accords',\n  'volcanique_molecules', 'volcanique_recettes', 'volcanique_tabacs',\n  '__drizzle_migrations'\n)\nORDER BY TABLE_NAME\nLIMIT 107;",
+  "rows": [
+    {
+      "TABLE_NAME": "axis_source_nez",
+      "TABLE_ROWS": "13",
+      "CREATE_TIME": "2026-01-06 14:12:59"
+    },
+    {
+      "TABLE_NAME": "bibliographie",
+      "TABLE_ROWS": "21",
+      "CREATE_TIME": "2025-12-29 23:52:31"
+    },
+    {
+      "TABLE_NAME": "bibliography_entity_links",
+      "TABLE_ROWS": "9015",
+      "CREATE_TIME": "2026-01-10 15:25:15"
+    },
+    {
+      "TABLE_NAME": "bibliography_sources",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 05:20:50"
+    },
+    {
+      "TABLE_NAME": "biosynthetic_pathways",
+      "TABLE_ROWS": "4",
+      "CREATE_TIME": "2026-01-29 11:10:04"
+    },
+    {
+      "TABLE_NAME": "biotech_molecules",
+      "TABLE_ROWS": "13",
+      "CREATE_TIME": "2026-01-06 14:36:41"
+    },
+    {
+      "TABLE_NAME": "cannabis_landraces",
+      "TABLE_ROWS": "14",
+      "CREATE_TIME": "2026-01-31 06:43:26"
+    },
+    {
+      "TABLE_NAME": "cigarillo_recipe_ingredients",
+      "TABLE_ROWS": "127",
+      "CREATE_TIME": "2026-01-31 10:34:48"
+    },
+    {
+      "TABLE_NAME": "cigarillo_recipes",
+      "TABLE_ROWS": "32",
+      "CREATE_TIME": "2026-01-31 06:43:01"
+    },
+    {
+      "TABLE_NAME": "citizen_observations",
+      "TABLE_ROWS": "20",
+      "CREATE_TIME": "2026-01-06 14:36:48"
+    },
+    {
+      "TABLE_NAME": "civilizational_timeline",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-07 09:09:03"
+    },
+    {
+      "TABLE_NAME": "climate_axis_matrix",
+      "TABLE_ROWS": "12",
+      "CREATE_TIME": "2026-01-06 15:46:17"
+    },
+    {
+      "TABLE_NAME": "evidence_bibliography_links",
+      "TABLE_ROWS": "133",
+      "CREATE_TIME": "2026-01-07 16:33:41"
+    },
+    {
+      "TABLE_NAME": "field_archive_molecule_links",
+      "TABLE_ROWS": "22",
+      "CREATE_TIME": "2026-01-28 17:19:37"
+    },
+    {
+      "TABLE_NAME": "gcms_chromatograms",
+      "TABLE_ROWS": "6",
+      "CREATE_TIME": "2026-01-30 11:50:03"
+    },
+    {
+      "TABLE_NAME": "gcms_peaks",
+      "TABLE_ROWS": "60",
+      "CREATE_TIME": "2026-01-30 11:50:11"
+    },
+    {
+      "TABLE_NAME": "gene_terpene_links",
+      "TABLE_ROWS": "24",
+      "CREATE_TIME": "2026-01-30 09:40:47"
+    },
+    {
+      "TABLE_NAME": "genealogy_extended",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 14:00:41"
+    },
+    {
+      "TABLE_NAME": "genome_samples",
+      "TABLE_ROWS": "8",
+      "CREATE_TIME": "2026-01-06 14:36:10"
+    },
+    {
+      "TABLE_NAME": "genome_sequences",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 14:36:10"
+    },
+    {
+      "TABLE_NAME": "gestion_agenda",
+      "TABLE_ROWS": "2",
+      "CREATE_TIME": "2025-12-29 23:53:12"
+    },
+    {
+      "TABLE_NAME": "gestion_budget",
+      "TABLE_ROWS": "5",
+      "CREATE_TIME": "2025-12-29 23:53:17"
+    },
+    {
+      "TABLE_NAME": "gestion_mentorat",
+      "TABLE_ROWS": "4",
+      "CREATE_TIME": "2025-12-29 23:53:17"
+    },
+    {
+      "TABLE_NAME": "glossary_terms",
+      "TABLE_ROWS": "68",
+      "CREATE_TIME": "2026-03-08 01:43:10"
+    },
+    {
+      "TABLE_NAME": "heritage_chemotypes_timeline",
+      "TABLE_ROWS": "20",
+      "CREATE_TIME": "2026-01-07 16:33:30"
+    },
+    {
+      "TABLE_NAME": "historic_cigarettes",
+      "TABLE_ROWS": "11",
+      "CREATE_TIME": "2026-01-29 00:20:29"
+    },
+    {
+      "TABLE_NAME": "historical_cigarettes",
+      "TABLE_ROWS": "21",
+      "CREATE_TIME": "2026-01-28 22:32:27"
+    },
+    {
+      "TABLE_NAME": "historical_trade_routes",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-07 09:09:16"
+    },
+    {
+      "TABLE_NAME": "impact_metrics",
+      "TABLE_ROWS": "5",
+      "CREATE_TIME": "2026-01-06 15:46:28"
+    },
+    {
+      "TABLE_NAME": "landrace_pyrolysis_profiles",
+      "TABLE_ROWS": "22",
+      "CREATE_TIME": "2026-01-30 11:19:43"
+    },
+    {
+      "TABLE_NAME": "landrace_terpene_profiles",
+      "TABLE_ROWS": "38",
+      "CREATE_TIME": "2026-01-30 11:30:30"
+    },
+    {
+      "TABLE_NAME": "landrace_terpenes",
+      "TABLE_ROWS": "112",
+      "CREATE_TIME": "2026-01-31 06:43:30"
+    },
+    {
+      "TABLE_NAME": "lost_molecules",
+      "TABLE_ROWS": "37",
+      "CREATE_TIME": "2026-01-07 15:58:35"
+    },
+    {
+      "TABLE_NAME": "lost_varieties",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 14:00:35"
+    },
+    {
+      "TABLE_NAME": "material_sources",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-03-07 08:53:18"
+    },
+    {
+      "TABLE_NAME": "memory_olfaction_concepts",
+      "TABLE_ROWS": "24",
+      "CREATE_TIME": "2026-01-06 03:11:39"
+    },
+    {
+      "TABLE_NAME": "molecular_comparisons",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 14:00:48"
+    },
+    {
+      "TABLE_NAME": "molecular_markers",
+      "TABLE_ROWS": "30",
+      "CREATE_TIME": "2026-01-06 14:36:31"
+    },
+    {
+      "TABLE_NAME": "molecule_contributions",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-03-05 15:37:16"
+    },
+    {
+      "TABLE_NAME": "molecule_evidence",
+      "TABLE_ROWS": "64",
+      "CREATE_TIME": "2026-01-07 15:58:43"
+    },
+    {
+      "TABLE_NAME": "molecule_links_unified",
+      "TABLE_ROWS": "NULL",
+      "CREATE_TIME": "2026-01-30 15:56:52"
+    },
+    {
+      "TABLE_NAME": "molecule_notes_view",
+      "TABLE_ROWS": "NULL",
+      "CREATE_TIME": "2026-01-30 15:57:08"
+    },
+    {
+      "TABLE_NAME": "molecule_recettes",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2025-12-02 17:26:03"
+    },
+    {
+      "TABLE_NAME": "molecule_synergies_view",
+      "TABLE_ROWS": "NULL",
+      "CREATE_TIME": "2026-01-30 15:57:03"
+    },
+    {
+      "TABLE_NAME": "ms_spectra",
+      "TABLE_ROWS": "67",
+      "CREATE_TIME": "2026-01-30 13:05:04"
+    },
+    {
+      "TABLE_NAME": "olfaction_memory",
+      "TABLE_ROWS": "8",
+      "CREATE_TIME": "2026-01-06 03:11:30"
+    },
+    {
+      "TABLE_NAME": "olfaction_memory_article_concepts",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 03:11:53"
+    },
+    {
+      "TABLE_NAME": "olfaction_memory_article_sources",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 03:11:52"
+    },
+    {
+      "TABLE_NAME": "olfaction_memory_sources",
+      "TABLE_ROWS": "12",
+      "CREATE_TIME": "2026-01-06 03:11:46"
+    },
+    {
+      "TABLE_NAME": "olfactory_memories",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-07 07:24:23"
+    },
+    {
+      "TABLE_NAME": "partner_institutions",
+      "TABLE_ROWS": "16",
+      "CREATE_TIME": "2026-01-06 14:36:58"
+    },
+    {
+      "TABLE_NAME": "perfumum_fellowships",
+      "TABLE_ROWS": "1",
+      "CREATE_TIME": "2026-01-06 14:36:58"
+    },
+    {
+      "TABLE_NAME": "perfumum_fermentation_runs",
+      "TABLE_ROWS": "1",
+      "CREATE_TIME": "2026-01-06 14:36:41"
+    },
+    {
+      "TABLE_NAME": "perfumum_gcms_runs",
+      "TABLE_ROWS": "8",
+      "CREATE_TIME": "2026-01-06 14:36:30"
+    },
+    {
+      "TABLE_NAME": "perfumum_glossary",
+      "TABLE_ROWS": "7",
+      "CREATE_TIME": "2026-01-06 15:46:17"
+    },
+    {
+      "TABLE_NAME": "perfumum_herbarium_samples",
+      "TABLE_ROWS": "12",
+      "CREATE_TIME": "2026-01-06 14:36:30"
+    },
+    {
+      "TABLE_NAME": "perfumum_manuscripts",
+      "TABLE_ROWS": "26",
+      "CREATE_TIME": "2026-01-06 14:36:20"
+    },
+    {
+      "TABLE_NAME": "perfumum_molecules",
+      "TABLE_ROWS": "62",
+      "CREATE_TIME": "2026-01-06 15:46:28"
+    },
+    {
+      "TABLE_NAME": "perfumum_plant_molecules",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 15:46:28"
+    },
+    {
+      "TABLE_NAME": "perfumum_plants",
+      "TABLE_ROWS": "30",
+      "CREATE_TIME": "2026-01-06 15:46:28"
+    },
+    {
+      "TABLE_NAME": "perfumum_research_axes",
+      "TABLE_ROWS": "6",
+      "CREATE_TIME": "2026-01-06 14:36:01"
+    },
+    {
+      "TABLE_NAME": "perique_compounds",
+      "TABLE_ROWS": "278",
+      "CREATE_TIME": "2026-01-28 23:59:22"
+    },
+    {
+      "TABLE_NAME": "perique_fermentation_stages",
+      "TABLE_ROWS": "7",
+      "CREATE_TIME": "2026-01-30 11:29:20"
+    },
+    {
+      "TABLE_NAME": "perique_molecule_links",
+      "TABLE_ROWS": "213",
+      "CREATE_TIME": "2026-01-29 02:08:01"
+    },
+    {
+      "TABLE_NAME": "plant_perfumes",
+      "TABLE_ROWS": "58",
+      "CREATE_TIME": "2026-03-04 22:46:55"
+    },
+    {
+      "TABLE_NAME": "projets_artistiques",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2025-12-29 23:53:07"
+    },
+    {
+      "TABLE_NAME": "protocol_steps",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-31 06:43:17"
+    },
+    {
+      "TABLE_NAME": "publication_molecule_links",
+      "TABLE_ROWS": "113",
+      "CREATE_TIME": "2026-01-30 13:53:46"
+    },
+    {
+      "TABLE_NAME": "raw_material_plants",
+      "TABLE_ROWS": "16",
+      "CREATE_TIME": "2026-01-28 23:24:34"
+    },
+    {
+      "TABLE_NAME": "recipe_contributions",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-03-05 15:37:16"
+    },
+    {
+      "TABLE_NAME": "regions",
+      "TABLE_ROWS": "8",
+      "CREATE_TIME": "2026-01-10 15:25:14"
+    },
+    {
+      "TABLE_NAME": "research_axes_innovants",
+      "TABLE_ROWS": "6",
+      "CREATE_TIME": "2026-01-06 14:17:48"
+    },
+    {
+      "TABLE_NAME": "research_axis_nez",
+      "TABLE_ROWS": "10",
+      "CREATE_TIME": "2026-01-06 14:12:46"
+    },
+    {
+      "TABLE_NAME": "research_content",
+      "TABLE_ROWS": "43",
+      "CREATE_TIME": "2026-01-06 15:46:08"
+    },
+    {
+      "TABLE_NAME": "research_edges",
+      "TABLE_ROWS": "12",
+      "CREATE_TIME": "2026-01-06 14:36:58"
+    },
+    {
+      "TABLE_NAME": "research_entry_axes",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 05:20:38"
+    },
+    {
+      "TABLE_NAME": "research_entry_sources",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 05:20:51"
+    },
+    {
+      "TABLE_NAME": "research_entry_tags",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 05:20:40"
+    },
+    {
+      "TABLE_NAME": "research_tags",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 05:20:39"
+    },
+    {
+      "TABLE_NAME": "scent_blends",
+      "TABLE_ROWS": "12",
+      "CREATE_TIME": "2026-01-06 15:46:17"
+    },
+    {
+      "TABLE_NAME": "seasonal_variations",
+      "TABLE_ROWS": "23",
+      "CREATE_TIME": "2026-03-04 14:23:08"
+    },
+    {
+      "TABLE_NAME": "soil_analyses",
+      "TABLE_ROWS": "9",
+      "CREATE_TIME": "2026-01-30 10:34:19"
+    },
+    {
+      "TABLE_NAME": "source_article_nez",
+      "TABLE_ROWS": "13",
+      "CREATE_TIME": "2026-01-06 14:12:53"
+    },
+    {
+      "TABLE_NAME": "supplier_alternative_links",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 02:59:35"
+    },
+    {
+      "TABLE_NAME": "tabac_molecule_links",
+      "TABLE_ROWS": "237",
+      "CREATE_TIME": "2026-03-05 11:37:59"
+    },
+    {
+      "TABLE_NAME": "tabac_terroir_links",
+      "TABLE_ROWS": "39",
+      "CREATE_TIME": "2026-01-28 22:19:53"
+    },
+    {
+      "TABLE_NAME": "technical_protocols",
+      "TABLE_ROWS": "11",
+      "CREATE_TIME": "2026-01-31 06:43:13"
+    },
+    {
+      "TABLE_NAME": "temperature_zones",
+      "TABLE_ROWS": "6",
+      "CREATE_TIME": "2026-01-30 11:19:43"
+    },
+    {
+      "TABLE_NAME": "terroir_contributions",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-03-05 15:37:16"
+    },
+    {
+      "TABLE_NAME": "text_fragments",
+      "TABLE_ROWS": "29",
+      "CREATE_TIME": "2026-01-06 14:36:20"
+    },
+    {
+      "TABLE_NAME": "tissue_culture_lines",
+      "TABLE_ROWS": "10",
+      "CREATE_TIME": "2026-01-06 14:36:41"
+    },
+    {
+      "TABLE_NAME": "tobacco_blends",
+      "TABLE_ROWS": "15",
+      "CREATE_TIME": "2026-01-28 23:50:25"
+    },
+    {
+      "TABLE_NAME": "tobacco_cannabis_accord_recettes",
+      "TABLE_ROWS": "23",
+      "CREATE_TIME": "2026-01-28 23:23:49"
+    },
+    {
+      "TABLE_NAME": "tobacco_cigarettes",
+      "TABLE_ROWS": "5",
+      "CREATE_TIME": "2026-01-30 10:34:12"
+    },
+    {
+      "TABLE_NAME": "tobacco_compounds",
+      "TABLE_ROWS": "252",
+      "CREATE_TIME": "2026-01-30 10:34:05"
+    },
+    {
+      "TABLE_NAME": "tobacco_extinct_varieties",
+      "TABLE_ROWS": "5",
+      "CREATE_TIME": "2026-01-28 23:50:25"
+    },
+    {
+      "TABLE_NAME": "tobacco_hybrids",
+      "TABLE_ROWS": "12",
+      "CREATE_TIME": "2026-01-28 23:50:25"
+    },
+    {
+      "TABLE_NAME": "tobacco_landraces",
+      "TABLE_ROWS": "20",
+      "CREATE_TIME": "2026-01-30 10:33:58"
+    },
+    {
+      "TABLE_NAME": "tps_molecule_links",
+      "TABLE_ROWS": "682",
+      "CREATE_TIME": "2026-01-30 11:01:14"
+    },
+    {
+      "TABLE_NAME": "trade_routes",
+      "TABLE_ROWS": "10",
+      "CREATE_TIME": "2026-01-06 14:36:20"
+    },
+    {
+      "TABLE_NAME": "transformation_recipe_impacts",
+      "TABLE_ROWS": "81",
+      "CREATE_TIME": "2026-01-29 23:42:29"
+    },
+    {
+      "TABLE_NAME": "varieties",
+      "TABLE_ROWS": "9",
+      "CREATE_TIME": "2026-01-10 15:25:14"
+    },
+    {
+      "TABLE_NAME": "variety_historical_records",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 14:00:27"
+    },
+    {
+      "TABLE_NAME": "variety_molecular_profiles",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 13:59:46"
+    },
+    {
+      "TABLE_NAME": "variety_molecules",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-10 15:25:14"
+    },
+    {
+      "TABLE_NAME": "verified_suppliers",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 02:59:29"
+    },
+    {
+      "TABLE_NAME": "vr_scenes",
+      "TABLE_ROWS": "1",
+      "CREATE_TIME": "2026-01-06 14:36:48"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\tTABLE_ROWS\tCREATE_TIME\naxis_source_nez\t13\t2026-01-06 14:12:59\nbibliographie\t21\t2025-12-29 23:52:31\nbibliography_entity_links\t9015\t2026-01-10 15:25:15\nbibliography_sources\t0\t2026-01-06 05:20:50\nbiosynthetic_pathways\t4\t2026-01-29 11:10:04\nbiotech_molecules\t13\t2026-01-06 14:36:41\ncannabis_landraces\t14\t2026-01-31 06:43:26\ncigarillo_recipe_ingredients\t127\t2026-01-31 10:34:48\ncigarillo_recipes\t32\t2026-01-31 06:43:01\ncitizen_observations\t20\t2026-01-06 14:36:48\ncivilizational_timeline\t0\t2026-01-07 09:09:03\nclimate_axis_matrix\t12\t2026-01-06 15:46:17\nevidence_bibliography_links\t133\t2026-01-07 16:33:41\nfield_archive_molecule_links\t22\t2026-01-28 17:19:37\ngcms_chromatograms\t6\t2026-01-30 11:50:03\ngcms_peaks\t60\t2026-01-30 11:50:11\ngene_terpene_links\t24\t2026-01-30 09:40:47\ngenealogy_extended\t0\t2026-01-06 14:00:41\ngenome_samples\t8\t2026-01-06 14:36:10\ngenome_sequences\t0\t2026-01-06 14:36:10\ngestion_agenda\t2\t2025-12-29 23:53:12\ngestion_budget\t5\t2025-12-29 23:53:17\ngestion_mentorat\t4\t2025-12-29 23:53:17\nglossary_terms\t68\t2026-03-08 01:43:10\nheritage_chemotypes_timeline\t20\t2026-01-07 16:33:30\nhistoric_cigarettes\t11\t2026-01-29 00:20:29\nhistorical_cigarettes\t21\t2026-01-28 22:32:27\nhistorical_trade_routes\t0\t2026-01-07 09:09:16\nimpact_metrics\t5\t2026-01-06 15:46:28\nlandrace_pyrolysis_profiles\t22\t2026-01-30 11:19:43\nlandrace_terpene_profiles\t38\t2026-01-30 11:30:30\nlandrace_terpenes\t112\t2026-01-31 06:43:30\nlost_molecules\t37\t2026-01-07 15:58:35\nlost_varieties\t0\t2026-01-06 14:00:35\nmaterial_sources\t0\t2026-03-07 08:53:18\nmemory_olfaction_concepts\t24\t2026-01-06 03:11:39\nmolecular_comparisons\t0\t2026-01-06 14:00:48\nmolecular_markers\t30\t2026-01-06 14:36:31\nmolecule_contributions\t0\t2026-03-05 15:37:16\nmolecule_evidence\t64\t2026-01-07 15:58:43\nmolecule_links_unified\tNULL\t2026-01-30 15:56:52\nmolecule_notes_view\tNULL\t2026-01-30 15:57:08\nmolecule_recettes\t0\t2025-12-02 17:26:03\nmolecule_synergies_view\tNULL\t2026-01-30 15:57:03\nms_spectra\t67\t2026-01-30 13:05:04\nolfaction_memory\t8\t2026-01-06 03:11:30\nolfaction_memory_article_concepts\t0\t2026-01-06 03:11:53\nolfaction_memory_article_sources\t0\t2026-01-06 03:11:52\nolfaction_memory_sources\t12\t2026-01-06 03:11:46\nolfactory_memories\t0\t2026-01-07 07:24:23\npartner_institutions\t16\t2026-01-06 14:36:58\nperfumum_fellowships\t1\t2026-01-06 14:36:58\nperfumum_fermentation_runs\t1\t2026-01-06 14:36:41\nperfumum_gcms_runs\t8\t2026-01-06 14:36:30\nperfumum_glossary\t7\t2026-01-06 15:46:17\nperfumum_herbarium_samples\t12\t2026-01-06 14:36:30\nperfumum_manuscripts\t26\t2026-01-06 14:36:20\nperfumum_molecules\t62\t2026-01-06 15:46:28\nperfumum_plant_molecules\t0\t2026-01-06 15:46:28\nperfumum_plants\t30\t2026-01-06 15:46:28\nperfumum_research_axes\t6\t2026-01-06 14:36:01\nperique_compounds\t278\t2026-01-28 23:59:22\nperique_fermentation_stages\t7\t2026-01-30 11:29:20\nperique_molecule_links\t213\t2026-01-29 02:08:01\nplant_perfumes\t58\t2026-03-04 22:46:55\nprojets_artistiques\t0\t2025-12-29 23:53:07\nprotocol_steps\t0\t2026-01-31 06:43:17\npublication_molecule_links\t113\t2026-01-30 13:53:46\nraw_material_plants\t16\t2026-01-28 23:24:34\nrecipe_contributions\t0\t2026-03-05 15:37:16\nregions\t8\t2026-01-10 15:25:14\nresearch_axes_innovants\t6\t2026-01-06 14:17:48\nresearch_axis_nez\t10\t2026-01-06 14:12:46\nresearch_content\t43\t2026-01-06 15:46:08\nresearch_edges\t12\t2026-01-06 14:36:58\nresearch_entry_axes\t0\t2026-01-06 05:20:38\nresearch_entry_sources\t0\t2026-01-06 05:20:51\nresearch_entry_tags\t0\t2026-01-06 05:20:40\nresearch_tags\t0\t2026-01-06 05:20:39\nscent_blends\t12\t2026-01-06 15:46:17\nseasonal_variations\t23\t2026-03-04 14:23:08\nsoil_analyses\t9\t2026-01-30 10:34:19\nsource_article_nez\t13\t2026-01-06 14:12:53\nsupplier_alternative_links\t0\t2026-01-06 02:59:35\ntabac_molecule_links\t237\t2026-03-05 11:37:59\ntabac_terroir_links\t39\t2026-01-28 22:19:53\ntechnical_protocols\t11\t2026-01-31 06:43:13\ntemperature_zones\t6\t2026-01-30 11:19:43\nterroir_contributions\t0\t2026-03-05 15:37:16\ntext_fragments\t29\t2026-01-06 14:36:20\ntissue_culture_lines\t10\t2026-01-06 14:36:41\ntobacco_blends\t15\t2026-01-28 23:50:25\ntobacco_cannabis_accord_recettes\t23\t2026-01-28 23:23:49\ntobacco_cigarettes\t5\t2026-01-30 10:34:12\ntobacco_compounds\t252\t2026-01-30 10:34:05\ntobacco_extinct_varieties\t5\t2026-01-28 23:50:25\ntobacco_hybrids\t12\t2026-01-28 23:50:25\ntobacco_landraces\t20\t2026-01-30 10:33:58\ntps_molecule_links\t682\t2026-01-30 11:01:14\ntrade_routes\t10\t2026-01-06 14:36:20\ntransformation_recipe_impacts\t81\t2026-01-29 23:42:29\nvarieties\t9\t2026-01-10 15:25:14\nvariety_historical_records\t0\t2026-01-06 14:00:27\nvariety_molecular_profiles\t0\t2026-01-06 13:59:46\nvariety_molecules\t0\t2026-01-10 15:25:14\nverified_suppliers\t0\t2026-01-06 02:59:29\nvr_scenes\t1\t2026-01-06 14:36:48\n",
+  "stderr": "",
+  "execution_time_ms": 385
+}

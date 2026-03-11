@@ -1,0 +1,759 @@
+{
+  "query": "SELECT t.TABLE_NAME, t.TABLE_ROWS, t.CREATE_TIME,\n  GROUP_CONCAT(c.COLUMN_NAME ORDER BY c.ORDINAL_POSITION SEPARATOR ', ') as columns,\n  GROUP_CONCAT(c.COLUMN_TYPE ORDER BY c.ORDINAL_POSITION SEPARATOR '|') as col_types\nFROM information_schema.TABLES t\nLEFT JOIN information_schema.COLUMNS c \n  ON c.TABLE_SCHEMA = t.TABLE_SCHEMA AND c.TABLE_NAME = t.TABLE_NAME\nWHERE t.TABLE_SCHEMA = DATABASE()\nAND t.TABLE_NAME NOT IN (\n  'absorbe_profiles', 'accord_civilisations', 'accords', 'analytical_methods',\n  'analytics_events', 'aromatic_accords', 'aromatic_molecules_tabac', 'aromatic_rarities',\n  'axis_connections', 'axis_reference_links', 'bibliography_axis_links', 'bibliography_entries',\n  'botanical_states', 'cannabis_strains', 'chemical_families', 'chemotypes',\n  'cigarillo_molecule_links', 'citations', 'civilizational_markers', 'classification_reviews',\n  'classification_snapshots', 'climate_studies', 'comparative_analyses', 'curated_journeys',\n  'entourage_rules', 'experimental_accord_civilisations', 'experimental_accords',\n  'extended_supplier_materials', 'extended_suppliers', 'extraction_methods', 'extraction_tests',\n  'families', 'field_archives', 'final_recipe_terp_profiles', 'final_recipes',\n  'formulation_suggestions', 'genomic_molecule_links', 'genomic_plant_links',\n  'geographic_origins', 'geographic_zones', 'ghost_varieties', 'ghost_variety_images',\n  'ghost_variety_molecule_links', 'ghost_variety_plant_links', 'glossary',\n  'ifra_categories', 'ifra_restrictions', 'installation_families', 'installation_recettes',\n  'installations', 'inventory_entries', 'journey_items', 'laboratoire', 'laboratoire_molecules',\n  'laboratoire_recettes', 'landraces', 'leaf_economies', 'leaf_economy_molecules',\n  'milestones', 'modification_history', 'molecular_interactions', 'molecular_protocols',\n  'molecular_transformations', 'molecule_accords', 'molecule_analytical_methods',\n  'molecule_chemical_families', 'molecule_families', 'molecule_notes', 'molecule_origins',\n  'molecule_perfumes', 'molecule_plant_sources', 'molecule_synergies', 'molecules',\n  'molecules_recettes', 'notifications', 'olfactive_archives', 'olfactory_traditions',\n  'petrichor', 'petrichor_experimental_accords', 'petrichor_molecules', 'petrichor_recettes',\n  'petrichor_tabacs', 'plant_analyses', 'plant_contributions', 'plant_extractions',\n  'plant_geographic_zones', 'plant_molecules', 'plant_samples', 'plant_terroirs',\n  'plant_varieties', 'plants', 'prototype_chemical_families', 'prototype_laboratoire',\n  'prototype_molecules', 'prototypes', 'publication_methods', 'publication_molecules',\n  'publication_researchers', 'publication_transformations', 'pyrazines',\n  'pyrolysis_transformations', 'raw_material_molecules', 'raw_materials',\n  'recette_molecules', 'recette_raw_materials', 'recette_tabac_associations', 'recettes',\n  'recettes_formules_reference', 'recherche_radicale', 'recipe_versions',\n  'reference_citations', 'reference_entity_links', 'reference_notes', 'reference_tags',\n  'research_axes', 'research_claims', 'research_entries', 'research_institutions',\n  'research_publications', 'research_sources', 'research_timeline',\n  'researcher_institutions', 'researchers', 'sample_images', 'saved_formulas',\n  'sensory_scales', 'shared_collections', 'situated_smells', 'supplier_materials',\n  'suppliers', 'sustainable_alternatives', 'synergies', 'tabac_accords',\n  'tabac_civilisations', 'tabac_molecules', 'tabacs', 'tasting_notes',\n  'terp_profile_molecules', 'terp_profile_plants', 'terp_profiles',\n  'terpene_comparison_profiles', 'terpene_synergies', 'terroir_specialties', 'terroirs',\n  'thematic_axes', 'tobacco_additives', 'tobacco_cannabis_accords',\n  'tobacco_formula_installations', 'tobacco_formulas', 'tobacco_terroirs',\n  'tobacco_varieties', 'tps_gene_molecules', 'tps_genes', 'traditions_olfactives',\n  'user_favorites', 'user_notes', 'users', 'v3_reference_tag_links', 'v3_references',\n  'variety_genealogy', 'volcanique', 'volcanique_experimental_accords',\n  'volcanique_molecules', 'volcanique_recettes', 'volcanique_tabacs',\n  '__drizzle_migrations'\n)\nGROUP BY t.TABLE_NAME, t.TABLE_ROWS, t.CREATE_TIME\nORDER BY t.TABLE_NAME;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT t.TABLE_NAME, t.TABLE_ROWS, t.CREATE_TIME,\n  GROUP_CONCAT(c.COLUMN_NAME ORDER BY c.ORDINAL_POSITION SEPARATOR ', ') as columns,\n  GROUP_CONCAT(c.COLUMN_TYPE ORDER BY c.ORDINAL_POSITION SEPARATOR '|') as col_types\nFROM information_schema.TABLES t\nLEFT JOIN information_schema.COLUMNS c \n  ON c.TABLE_SCHEMA = t.TABLE_SCHEMA AND c.TABLE_NAME = t.TABLE_NAME\nWHERE t.TABLE_SCHEMA = DATABASE()\nAND t.TABLE_NAME NOT IN (\n  'absorbe_profiles', 'accord_civilisations', 'accords', 'analytical_methods',\n  'analytics_events', 'aromatic_accords', 'aromatic_molecules_tabac', 'aromatic_rarities',\n  'axis_connections', 'axis_reference_links', 'bibliography_axis_links', 'bibliography_entries',\n  'botanical_states', 'cannabis_strains', 'chemical_families', 'chemotypes',\n  'cigarillo_molecule_links', 'citations', 'civilizational_markers', 'classification_reviews',\n  'classification_snapshots', 'climate_studies', 'comparative_analyses', 'curated_journeys',\n  'entourage_rules', 'experimental_accord_civilisations', 'experimental_accords',\n  'extended_supplier_materials', 'extended_suppliers', 'extraction_methods', 'extraction_tests',\n  'families', 'field_archives', 'final_recipe_terp_profiles', 'final_recipes',\n  'formulation_suggestions', 'genomic_molecule_links', 'genomic_plant_links',\n  'geographic_origins', 'geographic_zones', 'ghost_varieties', 'ghost_variety_images',\n  'ghost_variety_molecule_links', 'ghost_variety_plant_links', 'glossary',\n  'ifra_categories', 'ifra_restrictions', 'installation_families', 'installation_recettes',\n  'installations', 'inventory_entries', 'journey_items', 'laboratoire', 'laboratoire_molecules',\n  'laboratoire_recettes', 'landraces', 'leaf_economies', 'leaf_economy_molecules',\n  'milestones', 'modification_history', 'molecular_interactions', 'molecular_protocols',\n  'molecular_transformations', 'molecule_accords', 'molecule_analytical_methods',\n  'molecule_chemical_families', 'molecule_families', 'molecule_notes', 'molecule_origins',\n  'molecule_perfumes', 'molecule_plant_sources', 'molecule_synergies', 'molecules',\n  'molecules_recettes', 'notifications', 'olfactive_archives', 'olfactory_traditions',\n  'petrichor', 'petrichor_experimental_accords', 'petrichor_molecules', 'petrichor_recettes',\n  'petrichor_tabacs', 'plant_analyses', 'plant_contributions', 'plant_extractions',\n  'plant_geographic_zones', 'plant_molecules', 'plant_samples', 'plant_terroirs',\n  'plant_varieties', 'plants', 'prototype_chemical_families', 'prototype_laboratoire',\n  'prototype_molecules', 'prototypes', 'publication_methods', 'publication_molecules',\n  'publication_researchers', 'publication_transformations', 'pyrazines',\n  'pyrolysis_transformations', 'raw_material_molecules', 'raw_materials',\n  'recette_molecules', 'recette_raw_materials', 'recette_tabac_associations', 'recettes',\n  'recettes_formules_reference', 'recherche_radicale', 'recipe_versions',\n  'reference_citations', 'reference_entity_links', 'reference_notes', 'reference_tags',\n  'research_axes', 'research_claims', 'research_entries', 'research_institutions',\n  'research_publications', 'research_sources', 'research_timeline',\n  'researcher_institutions', 'researchers', 'sample_images', 'saved_formulas',\n  'sensory_scales', 'shared_collections', 'situated_smells', 'supplier_materials',\n  'suppliers', 'sustainable_alternatives', 'synergies', 'tabac_accords',\n  'tabac_civilisations', 'tabac_molecules', 'tabacs', 'tasting_notes',\n  'terp_profile_molecules', 'terp_profile_plants', 'terp_profiles',\n  'terpene_comparison_profiles', 'terpene_synergies', 'terroir_specialties', 'terroirs',\n  'thematic_axes', 'tobacco_additives', 'tobacco_cannabis_accords',\n  'tobacco_formula_installations', 'tobacco_formulas', 'tobacco_terroirs',\n  'tobacco_varieties', 'tps_gene_molecules', 'tps_genes', 'traditions_olfactives',\n  'user_favorites', 'user_notes', 'users', 'v3_reference_tag_links', 'v3_references',\n  'variety_genealogy', 'volcanique', 'volcanique_experimental_accords',\n  'volcanique_molecules', 'volcanique_recettes', 'volcanique_tabacs',\n  '__drizzle_migrations'\n)\nGROUP BY t.TABLE_NAME, t.TABLE_ROWS, t.CREATE_TIME\nORDER BY t.TABLE_NAME;",
+  "rows": [
+    {
+      "TABLE_NAME": "axis_source_nez",
+      "TABLE_ROWS": "13",
+      "CREATE_TIME": "2026-01-06 14:12:59",
+      "columns": "id, axis_id, source_id, confidence, evidence, created_at",
+      "col_types": "int|varchar(100)|varchar(100)|decimal(3,2)|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "bibliographie",
+      "TABLE_ROWS": "21",
+      "CREATE_TIME": "2025-12-29 23:52:31",
+      "columns": "id, auteur, titre, type, idee_cle, application_perfumeum, statut, annee, editeur, isbn, url, notes, chapitre_memoire, created_at, updated_at",
+      "col_types": "int|varchar(255)|varchar(500)|enum('livre','article','anthologie','essai','projet_recherche','these','memoire','autre')|text|text|enum('lu','en_cours','a_lire')|int|varchar(255)|varchar(50)|text|text|varchar(100)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "bibliography_entity_links",
+      "TABLE_ROWS": "9015",
+      "CREATE_TIME": "2026-01-10 15:25:15",
+      "columns": "id, bibliography_id, entity_type, entity_id, link_type, relevance_score, notes, created_by, created_at",
+      "col_types": "int|int|enum('molecule','plant','variety','terroir','recette','region','accord','civilization')|int|enum('primary_source','supporting','methodology','historical','genomic','chemical','ethnobotanical','conservation')|int|text|int|timestamp"
+    },
+    {
+      "TABLE_NAME": "bibliography_sources",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 05:20:50",
+      "columns": "id, source_type, title, authors, publication_year, publication_month, access_date, journal, volume, issue, pages, publisher, edition, language, doi, isbn, issn, pmid, arxiv_id, url, abstract, keywords, notes, quotes, relevance_score, relevant_axes, file_url, file_name, citation_apa, citation_bibtex, is_verified, created_at, updated_at",
+      "col_types": "int|enum('scientific_paper','book','book_chapter','thesis','conference','patent','report','article','website','database','podcast','video','interview','archive','dataset','software','other')|varchar(1000)|text|int|int|timestamp|varchar(500)|varchar(50)|varchar(50)|varchar(100)|varchar(500)|varchar(50)|varchar(50)|varchar(255)|varchar(20)|varchar(20)|varchar(20)|varchar(50)|varchar(2000)|text|text|text|text|int|text|varchar(2000)|varchar(255)|text|text|tinyint(1)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "biosynthetic_pathways",
+      "TABLE_ROWS": "4",
+      "CREATE_TIME": "2026-01-29 11:10:04",
+      "columns": "id, name, abbreviation, location, main_products, key_enzymes, precursors, description, source_reference, created_at",
+      "col_types": "int|varchar(255)|varchar(50)|enum('plastid','cytosol','mitochondria','both')|text|text|text|text|varchar(500)|timestamp"
+    },
+    {
+      "TABLE_NAME": "biotech_molecules",
+      "TABLE_ROWS": "13",
+      "CREATE_TIME": "2026-01-06 14:36:41",
+      "columns": "id, molecule_id, molecule_name, natural_source, cas_number, heterologous_genes, host_organism, yield_mg_l, purity_percent, production_status, advantages, limitations, notes, axis_id, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(255)|varchar(255)|varchar(20)|json|varchar(100)|decimal(10,2)|decimal(5,2)|enum('research','pilot','commercial','discontinued')|json|json|text|varchar(50)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "cannabis_landraces",
+      "TABLE_ROWS": "14",
+      "CREATE_TIME": "2026-01-31 06:43:26",
+      "columns": "id, name, slug, alternate_names, type, origin, region, country, altitude, climate, history, traditional_use, aromatic_profile, head_notes, heart_notes, base_notes, effects, effect_type, thc_range, cbd_range, total_terpene_content, dominant_terpenes, secondary_terpenes, terpene_profile, flavor_profile, growing_difficulty, flowering_time, yield_potential, resistances, conservation_status, genetic_purity, descendants, cigarillo_potential, suggested_pairings, image_url, sources, plant_id, created_at, updated_at",
+      "col_types": "int|varchar(255)|varchar(255)|varchar(500)|enum('indica','sativa','hybrid')|varchar(255)|varchar(255)|varchar(100)|varchar(100)|varchar(100)|text|text|text|varchar(255)|varchar(255)|varchar(255)|text|enum('énergisant','relaxant','équilibré','méditatif','créatif')|varchar(50)|varchar(50)|varchar(50)|json|json|json|text|enum('facile','moyen','difficile','expert')|varchar(100)|varchar(100)|text|enum('commun','rare','menacé','en danger','disparu')|varchar(100)|text|text|text|varchar(500)|text|int|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "cigarillo_recipe_ingredients",
+      "TABLE_ROWS": "127",
+      "CREATE_TIME": "2026-01-31 10:34:48",
+      "columns": "id, recipe_id, ingredient_type, ingredient_name, percentage, quantity_per_kg, aromatic_profile, justification, molecule_id, plant_id, order, landrace_id",
+      "col_types": "int|int|enum('cannabis','tabac','molecule','extract','other')|varchar(255)|decimal(5,2)|decimal(8,2)|text|text|int|int|int|int"
+    },
+    {
+      "TABLE_NAME": "cigarillo_recipes",
+      "TABLE_ROWS": "32",
+      "CREATE_TIME": "2026-01-31 06:43:01",
+      "columns": "id, name, slug, collection, concept, cannabis_component, cannabis_profile, tobacco_component, tobacco_profile, perfume_component, perfume_profile, cannabis_percentage, tobacco_percentage, perfume_percentage, expected_experience, maturation_days, maturation_method, wrapper_leaf, rolling_density, resting_days, first_third, second_third, last_third, pairings_suggestions, target_audience, difficulty_level, terpene_profile, full_composition, protocol_id, source_file, created_at, updated_at",
+      "col_types": "int|varchar(255)|varchar(255)|varchar(100)|text|varchar(255)|text|varchar(255)|text|varchar(255)|text|decimal(5,2)|decimal(5,2)|decimal(5,2)|text|int|varchar(100)|varchar(100)|varchar(50)|int|text|text|text|text|text|enum('débutant','intermédiaire','avancé','expert')|json|json|int|varchar(255)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "citizen_observations",
+      "TABLE_ROWS": "20",
+      "CREATE_TIME": "2026-01-06 14:36:48",
+      "columns": "id, obs_id, user_handle, plant_guess, lat, lon, obs_date, photo_url, confidence_ai, status, notes, axis_id, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(100)|varchar(255)|decimal(10,6)|decimal(10,6)|date|varchar(500)|decimal(3,2)|enum('submitted','pending_review','verified','rejected')|text|varchar(50)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "civilizational_timeline",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-07 09:09:03",
+      "columns": "id, title, description, start_year, end_year, era, precision, region, civilization, modern_countries, coordinates, olfactive_elements, related_molecules, related_plants, related_traditions, event_type, significance, related_event_ids, trade_route_ids, sources, image_url, verified, created_at, updated_at",
+      "col_types": "int|varchar(255)|text|int|int|enum('prehistoire','antiquite','moyen_age','renaissance','moderne','contemporain')|enum('exact','decennie','siecle','millenaire','estimation')|varchar(255)|varchar(255)|json|json|json|json|json|json|enum('decouverte','commerce','rituel','innovation','extinction','migration','guerre','echange_culturel','legislation')|enum('mineure','notable','majeure','revolutionnaire')|json|json|json|varchar(500)|tinyint|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "climate_axis_matrix",
+      "TABLE_ROWS": "12",
+      "CREATE_TIME": "2026-01-06 15:46:17",
+      "columns": "id, climate_axis, medium, target_diffusion, target_persistence, volatility_bias, carrier_or_support, safety_notes, created_at, updated_at",
+      "col_types": "int|enum('vent','bois','peau','disparition')|enum('parfum','encens','espace')|enum('low','medium','high')|enum('short','medium','long')|enum('top','heart','base')|varchar(255)|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "evidence_bibliography_links",
+      "TABLE_ROWS": "133",
+      "CREATE_TIME": "2026-01-07 16:33:41",
+      "columns": "id, evidence_id, bibliography_id, link_type, match_method, match_score, notes, verified, verified_by, verified_at, created_by, created_at, updated_at",
+      "col_types": "int|int|int|enum('primary','secondary','methodology','context')|enum('doi','title','manual','auto')|int|text|tinyint(1)|int|timestamp|int|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "field_archive_molecule_links",
+      "TABLE_ROWS": "22",
+      "CREATE_TIME": "2026-01-28 17:19:37",
+      "columns": "id, field_archive_id, molecule_id, detection_method, concentration, confidence, notes, created_at, updated_at",
+      "col_types": "int|int|int|enum('gc_ms','headspace','sensory','hypothesis','literature','other')|varchar(50)|enum('high','medium','low')|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "gcms_chromatograms",
+      "TABLE_ROWS": "6",
+      "CREATE_TIME": "2026-01-30 11:50:03",
+      "columns": "id, landrace_id, landrace_name, analysis_date, instrument, column_type, carrier_gas, flow_rate, injection_volume, split_ratio, oven_program, total_peaks, identified_peaks, notes, created_at",
+      "col_types": "int|int|varchar(255)|date|varchar(255)|varchar(255)|varchar(50)|decimal(5,2)|decimal(5,2)|varchar(50)|text|int|int|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "gcms_peaks",
+      "TABLE_ROWS": "60",
+      "CREATE_TIME": "2026-01-30 11:50:11",
+      "columns": "id, chromatogram_id, retention_time, peak_area, peak_height, compound_name, cas_number, match_quality, concentration_ppm, created_at",
+      "col_types": "int|int|decimal(6,3)|decimal(12,2)|decimal(12,2)|varchar(255)|varchar(50)|int|decimal(10,4)|timestamp"
+    },
+    {
+      "TABLE_NAME": "gene_terpene_links",
+      "TABLE_ROWS": "24",
+      "CREATE_TIME": "2026-01-30 09:40:47",
+      "columns": "id, gene_id, gene_name, subfamily, terpene_class, substrate, terpene_product, olfactive_notes, plant_id, created_at, updated_at, molecule_id",
+      "col_types": "int|varchar(30)|varchar(100)|varchar(20)|varchar(50)|varchar(100)|varchar(100)|text|int|timestamp|timestamp|int"
+    },
+    {
+      "TABLE_NAME": "genealogy_extended",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 14:00:41",
+      "columns": "id, genealogy_id, genetic_similarity, shared_markers, inherited_molecules, inherited_traits, crossing_method, crossing_location, crossing_documentation, validation_status, validation_method, validation_references, created_at, updated_at",
+      "col_types": "int|int|int|json|json|json|enum('natural','controlled','backcross','selfing','mutation_induced','tissue_culture','unknown')|varchar(255)|text|enum('confirmed','documented','inferred','hypothetical')|varchar(255)|json|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "genome_samples",
+      "TABLE_ROWS": "8",
+      "CREATE_TIME": "2026-01-06 14:36:10",
+      "columns": "id, sample_id, plant_latin_name, population_code, region, collection_method, non_destructive, date_collected, storage, permit_ref, metadata, notes, axis_id, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(255)|varchar(50)|varchar(100)|enum('pollen','fallen_leaf','seed','tissue','herbarium_clip','other')|tinyint(1)|date|enum('silica_gel','-20C','-80C','LN2','room_temp','unknown')|varchar(100)|json|text|varchar(50)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "genome_sequences",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 14:36:10",
+      "columns": "id, sequence_id, sample_id, gene_target, sequence_type, platform, coverage, quality_score, accession_number, deposit_date, data_file, notes, axis_id, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(50)|varchar(100)|enum('whole_genome','transcriptome','amplicon','targeted')|varchar(100)|int|int|varchar(50)|date|varchar(500)|text|varchar(50)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "gestion_agenda",
+      "TABLE_ROWS": "2",
+      "CREATE_TIME": "2025-12-29 23:53:12",
+      "columns": "id, date, evenement, type, lieu, description, statut, notes, created_at, updated_at",
+      "col_types": "int|timestamp|varchar(255)|enum('rencontre','presentation','deadline','mentorat','terrain','laboratoire','autre')|varchar(255)|text|enum('planifie','confirme','realise','annule')|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "gestion_budget",
+      "TABLE_ROWS": "5",
+      "CREATE_TIME": "2025-12-29 23:53:17",
+      "columns": "id, date, description, montant, categorie, type, statut, notes, created_at, updated_at",
+      "col_types": "int|timestamp|varchar(255)|decimal(10,2)|enum('materiel','deplacement','formation','documentation','laboratoire','autre')|enum('depense','revenu')|enum('prevu','engage','paye')|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "gestion_mentorat",
+      "TABLE_ROWS": "4",
+      "CREATE_TIME": "2025-12-29 23:53:17",
+      "columns": "id, date, duree, mentor, sujet, type, notes, actions_suivre, created_at, updated_at",
+      "col_types": "int|timestamp|int|varchar(255)|varchar(255)|enum('technique','artistique','theorique','methodologique','administratif','autre')|text|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "glossary_terms",
+      "TABLE_ROWS": "68",
+      "CREATE_TIME": "2026-03-08 01:43:10",
+      "columns": "id, term, definition, category, letter, source, created_at, updated_at",
+      "col_types": "int|varchar(255)|text|varchar(100)|char(1)|varchar(255)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "heritage_chemotypes_timeline",
+      "TABLE_ROWS": "20",
+      "CREATE_TIME": "2026-01-07 16:33:30",
+      "columns": "id, period_code, period_name, start_year, end_year, region_code, region_name, chemotype_class, description, historical_context, evidence_count, primary_sources, linked_molecule_ids, linked_main_molecule_ids, analytical_methods, color, display_order, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(255)|int|int|varchar(50)|varchar(255)|enum('alkaloid','cannabinoid','terpene','sesquiterpene','monoterpene','phenolic','flavonoid','other')|text|text|int|json|json|json|json|varchar(20)|int|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "historic_cigarettes",
+      "TABLE_ROWS": "11",
+      "CREATE_TIME": "2026-01-29 00:20:29",
+      "columns": "id, name, name_original, region, country, manufacturer, creation_year, status, format, has_filter, price_historical, tobacco_composition, intensity, character_description, dominant_notes, perfumery_score, perfumery_applications, perfumery_approach, tier, createdAt, updatedAt",
+      "col_types": "int|varchar(255)|varchar(255)|varchar(100)|varchar(100)|varchar(255)|int|varchar(50)|varchar(100)|tinyint(1)|varchar(100)|text|int|varchar(255)|text|decimal(3,1)|text|text|int|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "historical_cigarettes",
+      "TABLE_ROWS": "21",
+      "CREATE_TIME": "2026-01-28 22:32:27",
+      "columns": "id, brand_name, manufacturer, country_of_origin, years_active, year_introduced, year_discontinued, tobacco_blend, tobacco_types, additives, flavor_profile, nicotine_content, tar_content, filter_type, packaging_description, marketing_claims, historical_significance, discontinuation_reason, collector_value, related_brands, source_references, image_url, created_at, updated_at",
+      "col_types": "int|varchar(255)|varchar(255)|varchar(100)|varchar(50)|int|int|text|text|text|text|decimal(5,2)|decimal(5,2)|varchar(100)|text|text|text|text|varchar(100)|text|text|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "historical_trade_routes",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-07 09:09:16",
+      "columns": "id, name, alternative_names, description, start_point, end_point, waypoints, route_path, total_distance, active_from, active_to, peak_period, traded_goods, olfactive_goods, related_molecules, related_plants, civilizations_involved, cultural_exchanges, route_type, importance, sources, image_url, map_url, verified, created_at, updated_at",
+      "col_types": "int|varchar(255)|json|text|varchar(255)|varchar(255)|json|json|int|int|int|varchar(255)|json|json|json|json|json|json|enum('terrestre','maritime','fluviale','mixte')|enum('locale','regionale','continentale','mondiale')|json|varchar(500)|varchar(500)|tinyint|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "impact_metrics",
+      "TABLE_ROWS": "5",
+      "CREATE_TIME": "2026-01-06 15:46:28",
+      "columns": "id, year, genomes_sequenced_target, chemical_profiles_target, documents_digitized_target, citizen_contributors_target, partners_target, notes, created_at, updated_at",
+      "col_types": "int|int|int|int|int|int|int|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "landrace_pyrolysis_profiles",
+      "TABLE_ROWS": "22",
+      "CREATE_TIME": "2026-01-30 11:19:43",
+      "columns": "id, landrace_name, region, cannabis_type, dominant_terpene, terpene_percentage, pyrolysis_products, smoke_signature, toxicity_level, created_at",
+      "col_types": "int|varchar(255)|varchar(100)|varchar(50)|varchar(100)|varchar(20)|text|text|enum('low','moderate','moderate_high','high','very_high')|timestamp"
+    },
+    {
+      "TABLE_NAME": "landrace_terpene_profiles",
+      "TABLE_ROWS": "38",
+      "CREATE_TIME": "2026-01-30 11:30:30",
+      "columns": "id, landrace_id, landrace_name, terpene_name, terpene_category, concentration_ppm, concentration_percent, relative_abundance, detection_method, retention_time, peak_area, olfactory_contribution, notes, source_reference, created_at",
+      "col_types": "int|int|varchar(100)|varchar(100)|varchar(50)|decimal(10,4)|decimal(8,6)|decimal(5,2)|varchar(50)|decimal(8,4)|decimal(15,2)|text|text|varchar(255)|timestamp"
+    },
+    {
+      "TABLE_NAME": "landrace_terpenes",
+      "TABLE_ROWS": "112",
+      "CREATE_TIME": "2026-01-31 06:43:30",
+      "columns": "id, landrace_id, terpene_name, percentage, percentage_range, aromatic_notes, natural_sources, molecule_id, is_primary",
+      "col_types": "int|int|varchar(100)|decimal(5,2)|varchar(50)|text|text|int|tinyint(1)"
+    },
+    {
+      "TABLE_NAME": "lost_molecules",
+      "TABLE_ROWS": "37",
+      "CREATE_TIME": "2026-01-07 15:58:35",
+      "columns": "id, molecule_id, name, molecule_class, formula, notes, linked_molecule_id, created_at, updated_at",
+      "col_types": "int|varchar(100)|varchar(255)|varchar(100)|varchar(100)|text|int|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "lost_varieties",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 14:00:35",
+      "columns": "id, lost_variety_id, plant_id, name, latin_name, historical_names, extinction_status, last_known_date, extinction_date, extinction_cause, extinction_details, historical_range, morphological_description, olfactive_description, therapeutic_uses, cultural_significance, hypothetical_molecular_profile, reconstruction_possibility, reconstruction_notes, closest_living_relatives, primary_sources, image_url, created_at, updated_at",
+      "col_types": "int|varchar(30)|int|varchar(255)|varchar(255)|json|enum('extinct','extinct_in_wild','presumed_extinct','possibly_extinct','rediscovered')|int|int|enum('overexploitation','habitat_loss','climate_change','disease','hybridization','war_conflict','unknown')|text|json|text|text|text|text|json|enum('possible','partial','unlikely','impossible')|text|json|json|varchar(500)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "material_sources",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-03-07 08:53:18",
+      "columns": "id, material_id, plant_id, plant_part, extraction_method, yield_percentage, quality_grade, terroir_id, notes, created_at",
+      "col_types": "int|int|int|enum('feuille','fleur','fruit','graine','ecorce','bois','racine','rhizome','resine','gomme','latex','mousse','lichen','algue','entier','secretion','autre')|enum('distillation_vapeur','expression_a_froid','extraction_solvant','co2_supercritique','enfleurage','maceration','percolation','hydrodistillation','autre')|decimal(5,3)|enum('premium','standard','industriel')|int|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "memory_olfaction_concepts",
+      "TABLE_ROWS": "24",
+      "CREATE_TIME": "2026-01-06 03:11:39",
+      "columns": "id, name, slug, type, definition, description, scientific_basis, historical_context, key_researchers, seminal_papers, illustration, diagrams, created_at, updated_at",
+      "col_types": "int|varchar(255)|varchar(255)|enum('phenomenon','brain_structure','memory_type','mechanism','disorder','therapy','ritual')|text|text|text|text|text|text|varchar(1000)|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "molecular_comparisons",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 14:00:48",
+      "columns": "id, comparison_id, ancient_profile_id, modern_variety_id, lost_variety_id, overall_similarity, terpene_profile_similarity, olfactive_profile_similarity, molecular_differences, lost_molecules, gained_molecules, analysis_notes, evolution_hypothesis, selection_pressures, reconstruction_relevance, reconstruction_notes, comparison_date, analyst, created_at, updated_at",
+      "col_types": "int|varchar(30)|int|int|int|int|int|int|json|json|json|text|text|json|enum('critical','important','useful','marginal')|text|timestamp|varchar(255)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "molecular_markers",
+      "TABLE_ROWS": "30",
+      "CREATE_TIME": "2026-01-06 14:36:31",
+      "columns": "id, marker_id, botanical_family, molecule_name, cas_number, typical_percentage, is_key_marker, biosynthesis_pathway, notes, axis_id, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(100)|varchar(255)|varchar(20)|decimal(5,2)|tinyint(1)|varchar(100)|text|varchar(50)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "molecule_contributions",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-03-05 15:37:16",
+      "columns": "id, molecule_id, user_id, user_name, contribution_type, status, source_title, source_authors, source_year, source_doi, source_url, therapeutic_property, therapeutic_evidence, therapeutic_notes, usage_context, usage_description, synonym_name, synonym_language, image_url, image_caption, note_content, note_category, description, bibliography_refs, admin_notes, reviewed_by, reviewed_at, created_at, updated_at",
+      "col_types": "int|int|varchar(255)|varchar(255)|enum('source','therapeutic','usage','synonym','image','note')|enum('pending','approved','rejected')|varchar(500)|varchar(500)|int|varchar(200)|text|varchar(300)|varchar(100)|text|varchar(300)|text|varchar(255)|varchar(50)|text|varchar(500)|text|varchar(100)|text|text|text|varchar(255)|timestamp|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "molecule_evidence",
+      "TABLE_ROWS": "64",
+      "CREATE_TIME": "2026-01-07 15:58:43",
+      "columns": "id, evidence_id, lost_molecule_id, molecule_name, marker_type, process_context, method, time_context, region_context, entity_type, entity_name, entity_id, claim_summary, confidence, reference_id, reference_title, doi, url, tags, evidence_notes, method_id, created_at, updated_at",
+      "col_types": "int|varchar(100)|int|varchar(255)|varchar(100)|varchar(255)|varchar(255)|varchar(500)|varchar(255)|enum('plant','animal','material','reference')|varchar(255)|varchar(100)|text|enum('low','medium','high')|varchar(100)|text|varchar(255)|text|text|text|varchar(30)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "molecule_links_unified",
+      "TABLE_ROWS": "NULL",
+      "CREATE_TIME": "2026-01-30 15:56:52",
+      "columns": "id, molecule_id, link_type, target_id, target_name, metadata, created_at",
+      "col_types": "int|int|varchar(15)|int|varchar(255)|json|timestamp"
+    },
+    {
+      "TABLE_NAME": "molecule_notes_view",
+      "TABLE_ROWS": "NULL",
+      "CREATE_TIME": "2026-01-30 15:57:08",
+      "columns": "id, user_id, user_name, molecule_id, molecule_name, note, tags, created_at, updated_at",
+      "col_types": "int|int|text|int|varchar(255)|text|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "molecule_recettes",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2025-12-02 17:26:03",
+      "columns": "moleculeId, recetteId",
+      "col_types": "int|int"
+    },
+    {
+      "TABLE_NAME": "molecule_synergies_view",
+      "TABLE_ROWS": "NULL",
+      "CREATE_TIME": "2026-01-30 15:57:03",
+      "columns": "id, molecule1_id, molecule1_name, molecule2_id, molecule2_name, type, description, chemical_mechanism, applications, createdAt",
+      "col_types": "int|int|varchar(255)|int|varchar(255)|enum('potentialisation','stabilisation','transformation','masquage','neutralisation')|text|text|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "ms_spectra",
+      "TABLE_ROWS": "67",
+      "CREATE_TIME": "2026-01-30 13:05:04",
+      "columns": "id, compound_name, cas_number, molecular_formula, molecular_weight, ionization_mode, base_peak_mz, base_peak_intensity, spectrum_data, fragmentation_pattern, source, created_at, retention_index, retention_index_type",
+      "col_types": "int|varchar(255)|varchar(50)|varchar(100)|decimal(10,4)|enum('EI','CI','ESI','APCI')|decimal(10,4)|int|json|text|varchar(100)|timestamp|decimal(10,2)|varchar(20)"
+    },
+    {
+      "TABLE_NAME": "olfaction_memory",
+      "TABLE_ROWS": "8",
+      "CREATE_TIME": "2026-01-06 03:11:30",
+      "columns": "id, title, slug, category, summary, content, key_findings, authors, institutions, publication_date, source_url, doi, historical_period, start_year, end_year, brain_regions, civilizations, tags, images, diagrams, videos, related_molecule_ids, related_plant_ids, related_archive_ids, status, featured, created_at, updated_at, created_by",
+      "col_types": "int|varchar(500)|varchar(255)|enum('neurological','historical','psychological','cultural','scientific_study','artistic','therapeutic')|text|text|text|text|text|timestamp|varchar(1000)|varchar(255)|varchar(255)|int|int|text|text|text|text|text|text|text|text|text|enum('draft','review','published','archived')|tinyint(1)|timestamp|timestamp|int"
+    },
+    {
+      "TABLE_NAME": "olfaction_memory_article_concepts",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 03:11:53",
+      "columns": "id, article_id, concept_id, created_at",
+      "col_types": "int|int|int|timestamp"
+    },
+    {
+      "TABLE_NAME": "olfaction_memory_article_sources",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 03:11:52",
+      "columns": "id, article_id, source_id, citation_context, created_at",
+      "col_types": "int|int|int|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "olfaction_memory_sources",
+      "TABLE_ROWS": "12",
+      "CREATE_TIME": "2026-01-06 03:11:46",
+      "columns": "id, source_type, title, authors, publication_year, journal, volume, issue, pages, publisher, doi, isbn, url, abstract, notes, relevance_score, key_topics, created_at, updated_at",
+      "col_types": "int|enum('scientific_paper','book','book_chapter','thesis','conference','podcast','article','documentary','website')|varchar(500)|text|int|varchar(255)|varchar(50)|varchar(50)|varchar(50)|varchar(255)|varchar(255)|varchar(20)|varchar(1000)|text|text|int|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "olfactory_memories",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-07 07:24:23",
+      "columns": "id, molecule_id, recette_id, accord_id, odor_name, odor_description, memory_title, memory_description, memory_period, primary_emotion, secondary_emotions, emotional_valence, emotional_intensity, cultural_context, prevalence, scientific_basis, references, created_by, created_at, updated_at",
+      "col_types": "int|int|int|int|varchar(255)|text|varchar(255)|text|enum('early_childhood','childhood','adolescence','young_adult','adult','mature','elder','universal')|enum('joy','nostalgia','serenity','comfort','excitement','melancholy','fear','disgust','surprise','love','grief','spirituality')|json|enum('positive','negative','neutral','ambivalent')|int|enum('western','eastern','african','latin_american','middle_eastern','oceanian','universal')|enum('universal','common','moderate','rare','individual')|text|json|int|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "partner_institutions",
+      "TABLE_ROWS": "16",
+      "CREATE_TIME": "2026-01-06 14:36:58",
+      "columns": "id, partner_id, name, country, type, focus, contact, mou_status, notes, axis_id, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(255)|varchar(100)|enum('university','research_institute','botanic_garden','museum','industry','ngo','government','other')|json|varchar(255)|enum('idea','discussion','draft','signed','active','expired')|text|varchar(50)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "perfumum_fellowships",
+      "TABLE_ROWS": "1",
+      "CREATE_TIME": "2026-01-06 14:36:58",
+      "columns": "id, fellowship_id, title, region_focus, duration_months, budget_chf, deliverables, selection_criteria, status, notes, axis_id, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(255)|varchar(100)|int|int|json|json|enum('draft','open','reviewing','awarded','in_progress','completed','cancelled')|text|varchar(50)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "perfumum_fermentation_runs",
+      "TABLE_ROWS": "1",
+      "CREATE_TIME": "2026-01-06 14:36:41",
+      "columns": "id, run_id, target_molecule, host, gene_source, bioreactor_l, yield_g_l, purity_percent, notes, axis_id, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(255)|enum('S_cerevisiae','E_coli','Y_lipolytica','Other')|varchar(255)|decimal(10,2)|decimal(10,4)|decimal(5,2)|text|varchar(50)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "perfumum_gcms_runs",
+      "TABLE_ROWS": "8",
+      "CREATE_TIME": "2026-01-06 14:36:30",
+      "columns": "id, run_id, sample_ref, method, instrument, run_date, standards, top_compounds, data_file, notes, axis_id, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(50)|enum('GC-MS','GC-MS/MS','HS-SPME-GC-MS','LC-MS','Other')|varchar(255)|date|json|json|varchar(500)|text|varchar(50)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "perfumum_glossary",
+      "TABLE_ROWS": "7",
+      "CREATE_TIME": "2026-01-06 15:46:17",
+      "columns": "id, term_id, term, definition_fr, definition_en, category, related_terms, related_axes, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(255)|text|text|varchar(100)|json|json|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "perfumum_herbarium_samples",
+      "TABLE_ROWS": "12",
+      "CREATE_TIME": "2026-01-06 14:36:30",
+      "columns": "id, herbarium_id, plant_latin_name, year, collection, repository, sample_type, allowed_sampling, notes, axis_id, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(255)|int|varchar(255)|varchar(255)|enum('pressed_leaf','flower','seed','bark','root','whole_plant')|tinyint(1)|text|varchar(50)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "perfumum_manuscripts",
+      "TABLE_ROWS": "26",
+      "CREATE_TIME": "2026-01-06 14:36:20",
+      "columns": "id, manuscript_id, title, language, date_range, repository, region, license, scan_url, ocr_status, tags, notes, axis_id, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(500)|varchar(100)|varchar(50)|varchar(255)|varchar(100)|enum('CC-BY','CC-BY-SA','CC0','All-rights-reserved','Unknown')|varchar(500)|enum('queued','in_progress','completed','failed','manual')|json|text|varchar(50)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "perfumum_molecules",
+      "TABLE_ROWS": "62",
+      "CREATE_TIME": "2026-01-06 15:46:28",
+      "columns": "id, molecule_name, family, odor_key, role, climatic_axis, created_at, updated_at",
+      "col_types": "int|varchar(255)|varchar(100)|text|enum('diffusion','modulation','structure','fixation')|varchar(100)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "perfumum_plant_molecules",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 15:46:28",
+      "columns": "id, plant_id, molecule_id, percentage, notes, created_at",
+      "col_types": "int|int|int|decimal(5,2)|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "perfumum_plants",
+      "TABLE_ROWS": "30",
+      "CREATE_TIME": "2026-01-06 15:46:28",
+      "columns": "id, name, latin_name, family, category, origin, habitat, olfactive_signature, dominant_molecules, climatic_axis, traditional_use, absorbe_use, kingdom, division, class_field, order_name, genus, species, life_cycle, harvest_period, essential_oil_yield, notes, created_at, updated_at",
+      "col_types": "int|varchar(255)|varchar(255)|varchar(100)|varchar(100)|text|text|text|text|varchar(100)|text|text|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "perfumum_research_axes",
+      "TABLE_ROWS": "6",
+      "CREATE_TIME": "2026-01-06 14:36:01",
+      "columns": "id, axis_id, slug, title_fr, title_en, tagline_fr, tagline_en, description_fr, description_en, default_layout, status, color, icon, sort_order, kpis, ui_modules, core_entities, default_filters, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(100)|varchar(255)|varchar(255)|text|text|text|text|varchar(255)|enum('draft','mvp','active','archived')|varchar(20)|varchar(50)|int|json|json|json|json|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "perique_compounds",
+      "TABLE_ROWS": "278",
+      "CREATE_TIME": "2026-01-28 23:59:22",
+      "columns": "id, name, formula, concentration_pct, category, subcategory, olfactory_notes, perfumery_potential, dosage_perfumery, origin, is_new_tobacco_isolate, source_reference, created_at, updated_at",
+      "col_types": "int|varchar(255)|varchar(100)|decimal(10,4)|varchar(100)|varchar(100)|text|varchar(50)|varchar(50)|varchar(255)|tinyint(1)|varchar(500)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "perique_fermentation_stages",
+      "TABLE_ROWS": "7",
+      "CREATE_TIME": "2026-01-30 11:29:20",
+      "columns": "id, stage_number, stage_name, duration_months, start_month, end_month, temperature_min, temperature_max, humidity_percent, ph_level, oxygen_level, description, biochemical_processes, key_enzymes, compounds_formed, compounds_degraded, olfactory_changes, color_changes, created_at",
+      "col_types": "int|int|varchar(100)|int|int|int|decimal(5,2)|decimal(5,2)|decimal(5,2)|decimal(4,2)|varchar(50)|text|text|text|text|text|text|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "perique_molecule_links",
+      "TABLE_ROWS": "213",
+      "CREATE_TIME": "2026-01-29 02:08:01",
+      "columns": "id, perique_compound_id, molecule_id, match_type, confidence, notes, created_at, match_score, is_verified, verified_by, verified_at",
+      "col_types": "int|int|int|varchar(50)|decimal(3,2)|text|timestamp|decimal(5,4)|tinyint(1)|int|timestamp"
+    },
+    {
+      "TABLE_NAME": "plant_perfumes",
+      "TABLE_ROWS": "58",
+      "CREATE_TIME": "2026-03-04 22:46:55",
+      "columns": "id, plant_id, perfume_name, perfume_house, perfumer, year, role_in_perfume, ingredient_type, description, created_at",
+      "col_types": "int|int|varchar(255)|varchar(255)|varchar(255)|int|enum('signature','accord_principal','note_coeur','note_fond','note_tete','ingredient_cle')|varchar(100)|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "projets_artistiques",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2025-12-29 23:53:07",
+      "columns": "id, nom, code, type, lieu, altitude, date_debut, date_fin, description, contexte, odeur_dominante, activation, documentation, couches_activees, statut, notes, created_at, updated_at",
+      "col_types": "int|varchar(255)|varchar(50)|enum('terrain','installation','performance','exposition','collaboration','recherche','autre')|varchar(255)|int|timestamp|timestamp|text|text|text|text|text|text|enum('planifie','en_cours','realise','archive')|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "protocol_steps",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-31 06:43:17",
+      "columns": "id, protocol_id, step_number, title, description, duration, temperature, humidity, equipment, notes, checkpoints",
+      "col_types": "int|int|int|varchar(255)|text|varchar(100)|varchar(50)|varchar(50)|varchar(255)|text|json"
+    },
+    {
+      "TABLE_NAME": "publication_molecule_links",
+      "TABLE_ROWS": "113",
+      "CREATE_TIME": "2026-01-30 13:53:46",
+      "columns": "id, publication_id, molecule_id, relationship_type, notes, created_at",
+      "col_types": "int|int|int|enum('studies','mentions','analyzes','synthesizes')|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "raw_material_plants",
+      "TABLE_ROWS": "16",
+      "CREATE_TIME": "2026-01-28 23:24:34",
+      "columns": "id, raw_material_id, plant_id, part_used, extraction_yield, notes, created_at",
+      "col_types": "int|int|int|varchar(100)|decimal(5,2)|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "recipe_contributions",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-03-05 15:37:16",
+      "columns": "id, recipe_id, user_id, user_name, contribution_type, status, ingredient_name, ingredient_quantity, ingredient_unit, ingredient_notes, variant_name, variant_description, image_url, image_caption, note_content, note_category, description, bibliography_refs, admin_notes, reviewed_by, reviewed_at, created_at, updated_at",
+      "col_types": "int|int|varchar(255)|varchar(255)|enum('ingredient','variant','note','image','correction')|enum('pending','approved','rejected')|varchar(255)|varchar(100)|varchar(50)|text|varchar(255)|text|text|varchar(500)|text|varchar(100)|text|text|text|varchar(255)|timestamp|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "regions",
+      "TABLE_ROWS": "8",
+      "CREATE_TIME": "2026-01-10 15:25:14",
+      "columns": "id, name, code, country, continent, description, climate, latitude, longitude, notes, created_at, updated_at",
+      "col_types": "int|varchar(255)|varchar(50)|varchar(100)|enum('africa','asia','europe','north_america','south_america','oceania','global')|text|varchar(100)|decimal(10,7)|decimal(10,7)|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "research_axes_innovants",
+      "TABLE_ROWS": "6",
+      "CREATE_TIME": "2026-01-06 14:17:48",
+      "columns": "id, axis_code, title_fr, title_en, description_fr, description_en, methodologies, target_species, partnerships, kpis, priority_level, status, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(300)|varchar(300)|text|text|json|json|json|json|enum('critical','high','medium','low')|enum('active','planned','completed','paused')|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "research_axis_nez",
+      "TABLE_ROWS": "10",
+      "CREATE_TIME": "2026-01-06 14:12:46",
+      "columns": "id, axis_id, slug, title_fr, title_en, novelty_tagline, description_fr, description_en, ui_module, core_entities, kpis, default_filters_json, created_at, updated_at",
+      "col_types": "int|varchar(100)|varchar(200)|varchar(500)|varchar(500)|text|text|text|varchar(200)|varchar(500)|varchar(500)|json|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "research_content",
+      "TABLE_ROWS": "43",
+      "CREATE_TIME": "2026-01-06 15:46:08",
+      "columns": "id, content_id, slug, axis_id, title, content_type, lang, status, file_path, evidence_level, tags, regions, content, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(255)|varchar(50)|varchar(500)|enum('axis_overview','research_note','case_study','protocol','glossary')|varchar(10)|enum('draft','published','archived')|varchar(500)|enum('confirmed','probable','hypothetical')|json|json|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "research_edges",
+      "TABLE_ROWS": "12",
+      "CREATE_TIME": "2026-01-06 14:36:58",
+      "columns": "id, from_type, from_id, to_type, to_id, edge_type, weight, confidence, notes, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(50)|varchar(50)|varchar(50)|varchar(50)|decimal(5,2)|decimal(3,2)|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "research_entry_axes",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 05:20:38",
+      "columns": "id, entry_id, axis_id, created_at",
+      "col_types": "int|int|int|timestamp"
+    },
+    {
+      "TABLE_NAME": "research_entry_sources",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 05:20:51",
+      "columns": "id, entry_id, source_id, citation_context, page_reference, created_at",
+      "col_types": "int|int|int|text|varchar(100)|timestamp"
+    },
+    {
+      "TABLE_NAME": "research_entry_tags",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 05:20:40",
+      "columns": "id, entry_id, tag_id, created_at",
+      "col_types": "int|int|int|timestamp"
+    },
+    {
+      "TABLE_NAME": "research_tags",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 05:20:39",
+      "columns": "id, name, slug, description, color, category, usage_count, created_at, updated_at",
+      "col_types": "int|varchar(100)|varchar(100)|text|varchar(20)|enum('topic','method','material','region','period','emotion','molecule','plant','technology','other')|int|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "scent_blends",
+      "TABLE_ROWS": "12",
+      "CREATE_TIME": "2026-01-06 15:46:17",
+      "columns": "id, blend_id, climate_axis, intended_medium, concept, materials, safety_notes, created_at, updated_at",
+      "col_types": "int|varchar(50)|enum('vent','bois','peau','disparition')|enum('parfum','encens','espace')|varchar(255)|json|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "seasonal_variations",
+      "TABLE_ROWS": "23",
+      "CREATE_TIME": "2026-03-04 14:23:08",
+      "columns": "id, plant_id, season, harvest_period, temperature_range, humidity_range, notes, key_molecules, yield_modifier, quality_score, extraction_notes, created_at, updated_at",
+      "col_types": "int|int|enum('printemps','ete','automne','hiver')|varchar(100)|varchar(50)|varchar(50)|text|json|decimal(4,2)|int|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "soil_analyses",
+      "TABLE_ROWS": "9",
+      "CREATE_TIME": "2026-01-30 10:34:19",
+      "columns": "id, terroir_name, country, region, soil_type, soil_classification, ph_level, organic_matter_percent, nitrogen_content, phosphorus_content, potassium_content, calcium_content, magnesium_content, iron_content, drainage_quality, water_retention, altitude_meters, climate_type, annual_rainfall_mm, temperature_range, impact_on_tobacco, aromatic_influence, comparison_notes, source_references, created_at",
+      "col_types": "int|varchar(200)|varchar(100)|varchar(100)|varchar(100)|varchar(200)|decimal(3,1)|decimal(5,2)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|int|varchar(100)|int|varchar(100)|text|text|text|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "source_article_nez",
+      "TABLE_ROWS": "13",
+      "CREATE_TIME": "2026-01-06 14:12:53",
+      "columns": "id, source_id, url, title, lang, published_at, author, categories, themes, created_at, updated_at",
+      "col_types": "int|varchar(100)|varchar(1000)|varchar(500)|enum('fr','en')|date|varchar(300)|varchar(500)|varchar(500)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "supplier_alternative_links",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 02:59:35",
+      "columns": "id, supplier_id, alternative_id, product_name, product_code, price_range, availability_status, notes, created_at, updated_at",
+      "col_types": "int|int|int|varchar(255)|varchar(100)|varchar(100)|enum('in_stock','limited_stock','on_demand','seasonal','out_of_stock')|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "tabac_molecule_links",
+      "TABLE_ROWS": "237",
+      "CREATE_TIME": "2026-03-05 11:37:59",
+      "columns": "id, tabac_id, molecule_id, concentration, notes, created_at",
+      "col_types": "int|int|int|decimal(10,4)|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "tabac_terroir_links",
+      "TABLE_ROWS": "39",
+      "CREATE_TIME": "2026-01-28 22:19:53",
+      "columns": "id, tabac_id, terroir_id, soil_ph, soil_type, nitrogen_level, potassium_level, climate_notes, cultivation_notes, created_at",
+      "col_types": "int|int|int|decimal(3,1)|varchar(100)|varchar(50)|varchar(50)|text|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "technical_protocols",
+      "TABLE_ROWS": "11",
+      "CREATE_TIME": "2026-01-31 06:43:13",
+      "columns": "id, name, slug, category, objective, summary, full_content, equipment_required, estimated_cost, duration, difficulty_level, safety_notes, quality_control, steps, parameters, expected_results, troubleshooting, source_file, related_protocol_ids, created_at, updated_at",
+      "col_types": "int|varchar(255)|varchar(255)|enum('extraction','maturation','roulage','nebulisation','cryo-micronisation','analyse_sensorielle','validation','autre')|text|text|text|json|varchar(100)|varchar(100)|enum('débutant','intermédiaire','avancé','expert')|text|text|json|json|text|text|varchar(255)|json|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "temperature_zones",
+      "TABLE_ROWS": "6",
+      "CREATE_TIME": "2026-01-30 11:19:43",
+      "columns": "id, zone_name, temp_min, temp_max, description, created_at",
+      "col_types": "int|varchar(50)|int|int|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "terroir_contributions",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-03-05 15:37:16",
+      "columns": "id, terroir_id, user_id, user_name, contribution_type, status, image_url, image_caption, plant_name, plant_id, plant_notes, production_year, production_quantity, production_quality, history_period, history_content, note_content, note_category, description, bibliography_refs, admin_notes, reviewed_by, reviewed_at, created_at, updated_at",
+      "col_types": "int|int|varchar(255)|varchar(255)|enum('image','plant_link','note','production_data','history')|enum('pending','approved','rejected')|text|varchar(500)|varchar(255)|int|text|int|varchar(100)|varchar(200)|varchar(200)|text|text|varchar(100)|text|text|text|varchar(255)|timestamp|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "text_fragments",
+      "TABLE_ROWS": "29",
+      "CREATE_TIME": "2026-01-06 14:36:20",
+      "columns": "id, fragment_id, manuscript_id, language, original_text, translation_fr, translation_en, entities, evidence_level, notes, axis_id, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(50)|varchar(100)|text|text|text|json|enum('confirmed','probable','hypothetical')|text|varchar(50)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "tissue_culture_lines",
+      "TABLE_ROWS": "10",
+      "CREATE_TIME": "2026-01-06 14:36:41",
+      "columns": "id, line_id, plant_latin_name, origin, method, status, storage, notes, axis_id, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(255)|varchar(255)|enum('meristem','callus','somatic_embryo','protoplast','other')|enum('active','dormant','cryopreserved','lost','distributed')|enum('in_vitro','-20C','-80C','LN2','field')|text|varchar(50)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "tobacco_blends",
+      "TABLE_ROWS": "15",
+      "CREATE_TIME": "2026-01-28 23:50:25",
+      "columns": "id, name, type, category, origin_country, producer, year_created, status, composition, aromatic_profile, history, reputation, perfumery_potential, storytelling, availability, originality_score, created_at, updated_at",
+      "col_types": "int|varchar(255)|varchar(100)|varchar(100)|varchar(100)|varchar(255)|varchar(50)|varchar(100)|json|json|text|text|varchar(100)|text|varchar(100)|int|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "tobacco_cannabis_accord_recettes",
+      "TABLE_ROWS": "23",
+      "CREATE_TIME": "2026-01-28 23:23:49",
+      "columns": "id, accord_id, recette_id, relation_type, relevance_score, notes, created_at",
+      "col_types": "int|int|int|varchar(50)|decimal(3,2)|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "tobacco_cigarettes",
+      "TABLE_ROWS": "5",
+      "CREATE_TIME": "2026-01-30 10:34:12",
+      "columns": "id, brand_name, alternate_names, origin_country, origin_city, manufacturer, creation_year, discontinuation_year, status, format, has_filter, tobacco_blend, aromatic_intensity, aromatic_character, dominant_notes, secondary_notes, perfumery_potential_score, perfumery_applications, perfumery_approach, historical_price, historical_notes, cultural_significance, region_category, source_references, created_at",
+      "col_types": "int|varchar(200)|varchar(255)|varchar(100)|varchar(100)|varchar(200)|int|int|enum('active','discontinued','rare','unknown')|varchar(100)|tinyint(1)|text|int|text|text|text|decimal(3,1)|text|text|varchar(100)|text|text|enum('soviet','oriental','chinese','european','american','other')|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "tobacco_compounds",
+      "TABLE_ROWS": "252",
+      "CREATE_TIME": "2026-01-30 10:34:05",
+      "columns": "id, compound_name, cas_number, chemical_class, category, landrace_source, concentration_ppm, concentration_percent, is_new_tobacco_isolate, aromatic_notes, perfumery_relevance, biosynthetic_pathway, related_molecule_id, source_reference, data_certainty, created_at",
+      "col_types": "int|varchar(200)|varchar(50)|varchar(100)|varchar(100)|varchar(100)|decimal(10,4)|decimal(10,6)|tinyint(1)|text|text|varchar(100)|int|varchar(255)|enum('confirmed','hypothetical','estimated')|timestamp"
+    },
+    {
+      "TABLE_NAME": "tobacco_extinct_varieties",
+      "TABLE_ROWS": "5",
+      "CREATE_TIME": "2026-01-28 23:50:25",
+      "columns": "id, name, alternative_names, status, extinction_year, origin_country, region, history, genomics, botanical_characteristics, aromatic_profile, molecular_composition, perfumery_potential, created_at, updated_at",
+      "col_types": "int|varchar(255)|json|varchar(100)|varchar(50)|varchar(100)|varchar(255)|json|json|json|json|json|json|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "tobacco_hybrids",
+      "TABLE_ROWS": "12",
+      "CREATE_TIME": "2026-01-28 23:50:25",
+      "columns": "id, name, type, parent_1, parent_2, development_year, country, selection_objective, agronomic_characteristics, aromatic_profile, perfumery_potential, availability, originality_score, storytelling, created_at, updated_at",
+      "col_types": "int|varchar(255)|varchar(100)|varchar(255)|varchar(255)|varchar(50)|varchar(100)|text|json|json|varchar(100)|varchar(100)|int|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "tobacco_landraces",
+      "TABLE_ROWS": "20",
+      "CREATE_TIME": "2026-01-30 10:33:58",
+      "columns": "id, name, alternate_names, country, region, terroir_description, species, genetic_origin, creation_period, status, rarity_score, aromatic_profile, aromatic_intensity, dominant_notes, secondary_notes, indoles_ppm, terpenes_floraux_ppm, lactones_ppm, molecular_profile_type, data_certainty, perfumery_potential_score, perfumery_applications, cultivation_notes, curing_method, historical_notes, source_references, created_at, updated_at",
+      "col_types": "int|varchar(100)|varchar(255)|varchar(100)|varchar(100)|text|varchar(100)|text|varchar(100)|enum('active','rare','endangered','extinct','unknown')|int|text|int|text|text|decimal(10,2)|decimal(10,2)|decimal(10,2)|enum('cuir-animal','floral-mielle','cremeux-gourmand','mixte','unknown')|enum('confirmed','hypothetical','estimated')|decimal(3,1)|text|text|varchar(100)|text|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "tps_molecule_links",
+      "TABLE_ROWS": "682",
+      "CREATE_TIME": "2026-01-30 11:01:14",
+      "columns": "id, tps_gene_id, molecule_id, link_type, confidence, notes, created_at",
+      "col_types": "int|int|int|enum('direct_product','precursor','derivative','related')|enum('confirmed','probable','hypothetical')|text|timestamp"
+    },
+    {
+      "TABLE_NAME": "trade_routes",
+      "TABLE_ROWS": "10",
+      "CREATE_TIME": "2026-01-06 14:36:20",
+      "columns": "id, route_id, name, time_start, time_end, nodes, materials, notes, sources, axis_id, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(255)|int|int|json|json|text|json|varchar(50)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "transformation_recipe_impacts",
+      "TABLE_ROWS": "81",
+      "CREATE_TIME": "2026-01-29 23:42:29",
+      "columns": "id, transformation_id, recette_id, impact_type, impact_description, olfactory_contribution, percentage_contribution, temperature_range, notes, source_reference, created_at, updated_at",
+      "col_types": "int|int|int|enum('major','moderate','minor','trace')|text|text|decimal(5,2)|varchar(100)|text|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "varieties",
+      "TABLE_ROWS": "9",
+      "CREATE_TIME": "2026-01-10 15:25:14",
+      "columns": "id, name, code, plant_id, region_id, type, genetic_lineage, chemotype, dominant_compounds, thc_content, cbd_content, terpene_profile, aromatic_profile, conservation_status, historical_notes, notes, created_at, updated_at",
+      "col_types": "int|varchar(255)|varchar(50)|int|int|enum('cultivar','landrace','hybrid','wild','heirloom','experimental')|text|varchar(100)|text|decimal(5,2)|decimal(5,2)|json|text|enum('common','rare','endangered','extinct','unknown')|text|text|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "variety_historical_records",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 14:00:27",
+      "columns": "id, record_id, variety_id, record_type, date_created, year_estimate, location, country, region, title, author, content, original_language, historical_name, synonyms, description_excerpt, mentioned_characteristics, authenticity_level, reliability_score, source_url, archive_location, catalog_number, image_url, created_at, updated_at",
+      "col_types": "int|varchar(30)|int|enum('botanical_description','trade_record','agricultural_manual','pharmacopoeia','herbarium_specimen','artistic_depiction','travel_account','scientific_paper','patent','oral_tradition','other')|varchar(100)|int|varchar(255)|varchar(100)|varchar(255)|varchar(500)|varchar(255)|text|varchar(50)|varchar(255)|json|text|json|enum('original','copy','transcription','reconstruction')|int|varchar(500)|varchar(255)|varchar(100)|varchar(500)|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "variety_molecular_profiles",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 13:59:46",
+      "columns": "id, profile_id, variety_id, historical_period, year_estimate, year_range_start, year_range_end, source_type, source_description, source_references, molecular_composition, terpene_profile, olfactive_description, olfactive_notes, confidence_level, modern_comparison_notes, divergence_score, created_at, updated_at",
+      "col_types": "int|varchar(30)|int|enum('prehistoric','ancient','medieval','renaissance','enlightenment','industrial','modern','contemporary')|int|int|int|enum('archaeological','historical_text','herbarium','genetic_analysis','reconstruction','contemporary_sample')|text|json|json|json|text|json|enum('confirmed','probable','hypothetical','speculative')|text|int|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "variety_molecules",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-10 15:25:14",
+      "columns": "id, variety_id, molecule_id, percentage_min, percentage_max, average_percentage, notes, source, created_at",
+      "col_types": "int|int|int|decimal(5,2)|decimal(5,2)|decimal(5,2)|text|varchar(255)|timestamp"
+    },
+    {
+      "TABLE_NAME": "verified_suppliers",
+      "TABLE_ROWS": "0",
+      "CREATE_TIME": "2026-01-06 02:59:29",
+      "columns": "id, name, company_type, country, region, address, website, email, phone, contact_person, certifications, specialties, sustainable_practices, sustainability_rating, quality_rating, reliability_rating, minimum_order_quantity, lead_time, payment_terms, ships_to, verified, verified_by, verified_at, last_contact_date, notes, supplier_references, created_at, updated_at",
+      "col_types": "int|varchar(255)|enum('producer','cooperative','distributor','laboratory','biotechnology','artisan','other')|varchar(100)|varchar(255)|text|varchar(500)|varchar(255)|varchar(50)|varchar(255)|json|json|text|int|int|int|varchar(100)|varchar(100)|varchar(255)|json|tinyint(1)|varchar(255)|timestamp|timestamp|text|json|timestamp|timestamp"
+    },
+    {
+      "TABLE_NAME": "vr_scenes",
+      "TABLE_ROWS": "1",
+      "CREATE_TIME": "2026-01-06 14:36:48",
+      "columns": "id, scene_id, title, era, location, assets, scent_cues, hardware, notes, axis_id, created_at, updated_at",
+      "col_types": "int|varchar(50)|varchar(255)|varchar(100)|varchar(255)|json|json|varchar(255)|text|varchar(50)|timestamp|timestamp"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\tTABLE_ROWS\tCREATE_TIME\tcolumns\tcol_types\naxis_source_nez\t13\t2026-01-06 14:12:59\tid, axis_id, source_id, confidence, evidence, created_at\tint|varchar(100)|varchar(100)|decimal(3,2)|text|timestamp\nbibliographie\t21\t2025-12-29 23:52:31\tid, auteur, titre, type, idee_cle, application_perfumeum, statut, annee, editeur, isbn, url, notes, chapitre_memoire, created_at, updated_at\tint|varchar(255)|varchar(500)|enum('livre','article','anthologie','essai','projet_recherche','these','memoire','autre')|text|text|enum('lu','en_cours','a_lire')|int|varchar(255)|varchar(50)|text|text|varchar(100)|timestamp|timestamp\nbibliography_entity_links\t9015\t2026-01-10 15:25:15\tid, bibliography_id, entity_type, entity_id, link_type, relevance_score, notes, created_by, created_at\tint|int|enum('molecule','plant','variety','terroir','recette','region','accord','civilization')|int|enum('primary_source','supporting','methodology','historical','genomic','chemical','ethnobotanical','conservation')|int|text|int|timestamp\nbibliography_sources\t0\t2026-01-06 05:20:50\tid, source_type, title, authors, publication_year, publication_month, access_date, journal, volume, issue, pages, publisher, edition, language, doi, isbn, issn, pmid, arxiv_id, url, abstract, keywords, notes, quotes, relevance_score, relevant_axes, file_url, file_name, citation_apa, citation_bibtex, is_verified, created_at, updated_at\tint|enum('scientific_paper','book','book_chapter','thesis','conference','patent','report','article','website','database','podcast','video','interview','archive','dataset','software','other')|varchar(1000)|text|int|int|timestamp|varchar(500)|varchar(50)|varchar(50)|varchar(100)|varchar(500)|varchar(50)|varchar(50)|varchar(255)|varchar(20)|varchar(20)|varchar(20)|varchar(50)|varchar(2000)|text|text|text|text|int|text|varchar(2000)|varchar(255)|text|text|tinyint(1)|timestamp|timestamp\nbiosynthetic_pathways\t4\t2026-01-29 11:10:04\tid, name, abbreviation, location, main_products, key_enzymes, precursors, description, source_reference, created_at\tint|varchar(255)|varchar(50)|enum('plastid','cytosol','mitochondria','both')|text|text|text|text|varchar(500)|timestamp\nbiotech_molecules\t13\t2026-01-06 14:36:41\tid, molecule_id, molecule_name, natural_source, cas_number, heterologous_genes, host_organism, yield_mg_l, purity_percent, production_status, advantages, limitations, notes, axis_id, created_at, updated_at\tint|varchar(50)|varchar(255)|varchar(255)|varchar(20)|json|varchar(100)|decimal(10,2)|decimal(5,2)|enum('research','pilot','commercial','discontinued')|json|json|text|varchar(50)|timestamp|timestamp\ncannabis_landraces\t14\t2026-01-31 06:43:26\tid, name, slug, alternate_names, type, origin, region, country, altitude, climate, history, traditional_use, aromatic_profile, head_notes, heart_notes, base_notes, effects, effect_type, thc_range, cbd_range, total_terpene_content, dominant_terpenes, secondary_terpenes, terpene_profile, flavor_profile, growing_difficulty, flowering_time, yield_potential, resistances, conservation_status, genetic_purity, descendants, cigarillo_potential, suggested_pairings, image_url, sources, plant_id, created_at, updated_at\tint|varchar(255)|varchar(255)|varchar(500)|enum('indica','sativa','hybrid')|varchar(255)|varchar(255)|varchar(100)|varchar(100)|varchar(100)|text|text|text|varchar(255)|varchar(255)|varchar(255)|text|enum('énergisant','relaxant','équilibré','méditatif','créatif')|varchar(50)|varchar(50)|varchar(50)|json|json|json|text|enum('facile','moyen','difficile','expert')|varchar(100)|varchar(100)|text|enum('commun','rare','menacé','en danger','disparu')|varchar(100)|text|text|text|varchar(500)|text|int|timestamp|timestamp\ncigarillo_recipe_ingredients\t127\t2026-01-31 10:34:48\tid, recipe_id, ingredient_type, ingredient_name, percentage, quantity_per_kg, aromatic_profile, justification, molecule_id, plant_id, order, landrace_id\tint|int|enum('cannabis','tabac','molecule','extract','other')|varchar(255)|decimal(5,2)|decimal(8,2)|text|text|int|int|int|int\ncigarillo_recipes\t32\t2026-01-31 06:43:01\tid, name, slug, collection, concept, cannabis_component, cannabis_profile, tobacco_component, tobacco_profile, perfume_component, perfume_profile, cannabis_percentage, tobacco_percentage, perfume_percentage, expected_experience, maturation_days, maturation_method, wrapper_leaf, rolling_density, resting_days, first_third, second_third, last_third, pairings_suggestions, target_audience, difficulty_level, terpene_profile, full_composition, protocol_id, source_file, created_at, updated_at\tint|varchar(255)|varchar(255)|varchar(100)|text|varchar(255)|text|varchar(255)|text|varchar(255)|text|decimal(5,2)|decimal(5,2)|decimal(5,2)|text|int|varchar(100)|varchar(100)|varchar(50)|int|text|text|text|text|text|enum('débutant','intermédiaire','avancé','expert')|json|json|int|varchar(255)|timestamp|timestamp\ncitizen_observations\t20\t2026-01-06 14:36:48\tid, obs_id, user_handle, plant_guess, lat, lon, obs_date, photo_url, confidence_ai, status, notes, axis_id, created_at, updated_at\tint|varchar(50)|varchar(100)|varchar(255)|decimal(10,6)|decimal(10,6)|date|varchar(500)|decimal(3,2)|enum('submitted','pending_review','verified','rejected')|text|varchar(50)|timestamp|timestamp\ncivilizational_timeline\t0\t2026-01-07 09:09:03\tid, title, description, start_year, end_year, era, precision, region, civilization, modern_countries, coordinates, olfactive_elements, related_molecules, related_plants, related_traditions, event_type, significance, related_event_ids, trade_route_ids, sources, image_url, verified, created_at, updated_at\tint|varchar(255)|text|int|int|enum('prehistoire','antiquite','moyen_age','renaissance','moderne','contemporain')|enum('exact','decennie','siecle','millenaire','estimation')|varchar(255)|varchar(255)|json|json|json|json|json|json|enum('decouverte','commerce','rituel','innovation','extinction','migration','guerre','echange_culturel','legislation')|enum('mineure','notable','majeure','revolutionnaire')|json|json|json|varchar(500)|tinyint|timestamp|timestamp\nclimate_axis_matrix\t12\t2026-01-06 15:46:17\tid, climate_axis, medium, target_diffusion, target_persistence, volatility_bias, carrier_or_support, safety_notes, created_at, updated_at\tint|enum('vent','bois','peau','disparition')|enum('parfum','encens','espace')|enum('low','medium','high')|enum('short','medium','long')|enum('top','heart','base')|varchar(255)|text|timestamp|timestamp\nevidence_bibliography_links\t133\t2026-01-07 16:33:41\tid, evidence_id, bibliography_id, link_type, match_method, match_score, notes, verified, verified_by, verified_at, created_by, created_at, updated_at\tint|int|int|enum('primary','secondary','methodology','context')|enum('doi','title','manual','auto')|int|text|tinyint(1)|int|timestamp|int|timestamp|timestamp\nfield_archive_molecule_links\t22\t2026-01-28 17:19:37\tid, field_archive_id, molecule_id, detection_method, concentration, confidence, notes, created_at, updated_at\tint|int|int|enum('gc_ms','headspace','sensory','hypothesis','literature','other')|varchar(50)|enum('high','medium','low')|text|timestamp|timestamp\ngcms_chromatograms\t6\t2026-01-30 11:50:03\tid, landrace_id, landrace_name, analysis_date, instrument, column_type, carrier_gas, flow_rate, injection_volume, split_ratio, oven_program, total_peaks, identified_peaks, notes, created_at\tint|int|varchar(255)|date|varchar(255)|varchar(255)|varchar(50)|decimal(5,2)|decimal(5,2)|varchar(50)|text|int|int|text|timestamp\ngcms_peaks\t60\t2026-01-30 11:50:11\tid, chromatogram_id, retention_time, peak_area, peak_height, compound_name, cas_number, match_quality, concentration_ppm, created_at\tint|int|decimal(6,3)|decimal(12,2)|decimal(12,2)|varchar(255)|varchar(50)|int|decimal(10,4)|timestamp\ngene_terpene_links\t24\t2026-01-30 09:40:47\tid, gene_id, gene_name, subfamily, terpene_class, substrate, terpene_product, olfactive_notes, plant_id, created_at, updated_at, molecule_id\tint|varchar(30)|varchar(100)|varchar(20)|varchar(50)|varchar(100)|varchar(100)|text|int|timestamp|timestamp|int\ngenealogy_extended\t0\t2026-01-06 14:00:41\tid, genealogy_id, genetic_similarity, shared_markers, inherited_molecules, inherited_traits, crossing_method, crossing_location, crossing_documentation, validation_status, validation_method, validation_references, created_at, updated_at\tint|int|int|json|json|json|enum('natural','controlled','backcross','selfing','mutation_induced','tissue_culture','unknown')|varchar(255)|text|enum('confirmed','documented','inferred','hypothetical')|varchar(255)|json|timestamp|timestamp\ngenome_samples\t8\t2026-01-06 14:36:10\tid, sample_id, plant_latin_name, population_code, region, collection_method, non_destructive, date_collected, storage, permit_ref, metadata, notes, axis_id, created_at, updated_at\tint|varchar(50)|varchar(255)|varchar(50)|varchar(100)|enum('pollen','fallen_leaf','seed','tissue','herbarium_clip','other')|tinyint(1)|date|enum('silica_gel','-20C','-80C','LN2','room_temp','unknown')|varchar(100)|json|text|varchar(50)|timestamp|timestamp\ngenome_sequences\t0\t2026-01-06 14:36:10\tid, sequence_id, sample_id, gene_target, sequence_type, platform, coverage, quality_score, accession_number, deposit_date, data_file, notes, axis_id, created_at, updated_at\tint|varchar(50)|varchar(50)|varchar(100)|enum('whole_genome','transcriptome','amplicon','targeted')|varchar(100)|int|int|varchar(50)|date|varchar(500)|text|varchar(50)|timestamp|timestamp\ngestion_agenda\t2\t2025-12-29 23:53:12\tid, date, evenement, type, lieu, description, statut, notes, created_at, updated_at\tint|timestamp|varchar(255)|enum('rencontre','presentation','deadline','mentorat','terrain','laboratoire','autre')|varchar(255)|text|enum('planifie','confirme','realise','annule')|text|timestamp|timestamp\ngestion_budget\t5\t2025-12-29 23:53:17\tid, date, description, montant, categorie, type, statut, notes, created_at, updated_at\tint|timestamp|varchar(255)|decimal(10,2)|enum('materiel','deplacement','formation','documentation','laboratoire','autre')|enum('depense','revenu')|enum('prevu','engage','paye')|text|timestamp|timestamp\ngestion_mentorat\t4\t2025-12-29 23:53:17\tid, date, duree, mentor, sujet, type, notes, actions_suivre, created_at, updated_at\tint|timestamp|int|varchar(255)|varchar(255)|enum('technique','artistique','theorique','methodologique','administratif','autre')|text|text|timestamp|timestamp\nglossary_terms\t68\t2026-03-08 01:43:10\tid, term, definition, category, letter, source, created_at, updated_at\tint|varchar(255)|text|varchar(100)|char(1)|varchar(255)|timestamp|timestamp\nheritage_chemotypes_timeline\t20\t2026-01-07 16:33:30\tid, period_code, period_name, start_year, end_year, region_code, region_name, chemotype_class, description, historical_context, evidence_count, primary_sources, linked_molecule_ids, linked_main_molecule_ids, analytical_methods, color, display_order, created_at, updated_at\tint|varchar(50)|varchar(255)|int|int|varchar(50)|varchar(255)|enum('alkaloid','cannabinoid','terpene','sesquiterpene','monoterpene','phenolic','flavonoid','other')|text|text|int|json|json|json|json|varchar(20)|int|timestamp|timestamp\nhistoric_cigarettes\t11\t2026-01-29 00:20:29\tid, name, name_original, region, country, manufacturer, creation_year, status, format, has_filter, price_historical, tobacco_composition, intensity, character_description, dominant_notes, perfumery_score, perfumery_applications, perfumery_approach, tier, createdAt, updatedAt\tint|varchar(255)|varchar(255)|varchar(100)|varchar(100)|varchar(255)|int|varchar(50)|varchar(100)|tinyint(1)|varchar(100)|text|int|varchar(255)|text|decimal(3,1)|text|text|int|timestamp|timestamp\nhistorical_cigarettes\t21\t2026-01-28 22:32:27\tid, brand_name, manufacturer, country_of_origin, years_active, year_introduced, year_discontinued, tobacco_blend, tobacco_types, additives, flavor_profile, nicotine_content, tar_content, filter_type, packaging_description, marketing_claims, historical_significance, discontinuation_reason, collector_value, related_brands, source_references, image_url, created_at, updated_at\tint|varchar(255)|varchar(255)|varchar(100)|varchar(50)|int|int|text|text|text|text|decimal(5,2)|decimal(5,2)|varchar(100)|text|text|text|text|varchar(100)|text|text|text|timestamp|timestamp\nhistorical_trade_routes\t0\t2026-01-07 09:09:16\tid, name, alternative_names, description, start_point, end_point, waypoints, route_path, total_distance, active_from, active_to, peak_period, traded_goods, olfactive_goods, related_molecules, related_plants, civilizations_involved, cultural_exchanges, route_type, importance, sources, image_url, map_url, verified, created_at, updated_at\tint|varchar(255)|json|text|varchar(255)|varchar(255)|json|json|int|int|int|varchar(255)|json|json|json|json|json|json|enum('terrestre','maritime','fluviale','mixte')|enum('locale','regionale','continentale','mondiale')|json|varchar(500)|varchar(500)|tinyint|timestamp|timestamp\nimpact_metrics\t5\t2026-01-06 15:46:28\tid, year, genomes_sequenced_target, chemical_profiles_target, documents_digitized_target, citizen_contributors_target, partners_target, notes, created_at, updated_at\tint|int|int|int|int|int|int|text|timestamp|timestamp\nlandrace_pyrolysis_profiles\t22\t2026-01-30 11:19:43\tid, landrace_name, region, cannabis_type, dominant_terpene, terpene_percentage, pyrolysis_products, smoke_signature, toxicity_level, created_at\tint|varchar(255)|varchar(100)|varchar(50)|varchar(100)|varchar(20)|text|text|enum('low','moderate','moderate_high','high','very_high')|timestamp\nlandrace_terpene_profiles\t38\t2026-01-30 11:30:30\tid, landrace_id, landrace_name, terpene_name, terpene_category, concentration_ppm, concentration_percent, relative_abundance, detection_method, retention_time, peak_area, olfactory_contribution, notes, source_reference, created_at\tint|int|varchar(100)|varchar(100)|varchar(50)|decimal(10,4)|decimal(8,6)|decimal(5,2)|varchar(50)|decimal(8,4)|decimal(15,2)|text|text|varchar(255)|timestamp\nlandrace_terpenes\t112\t2026-01-31 06:43:30\tid, landrace_id, terpene_name, percentage, percentage_range, aromatic_notes, natural_sources, molecule_id, is_primary\tint|int|varchar(100)|decimal(5,2)|varchar(50)|text|text|int|tinyint(1)\nlost_molecules\t37\t2026-01-07 15:58:35\tid, molecule_id, name, molecule_class, formula, notes, linked_molecule_id, created_at, updated_at\tint|varchar(100)|varchar(255)|varchar(100)|varchar(100)|text|int|timestamp|timestamp\nlost_varieties\t0\t2026-01-06 14:00:35\tid, lost_variety_id, plant_id, name, latin_name, historical_names, extinction_status, last_known_date, extinction_date, extinction_cause, extinction_details, historical_range, morphological_description, olfactive_description, therapeutic_uses, cultural_significance, hypothetical_molecular_profile, reconstruction_possibility, reconstruction_notes, closest_living_relatives, primary_sources, image_url, created_at, updated_at\tint|varchar(30)|int|varchar(255)|varchar(255)|json|enum('extinct','extinct_in_wild','presumed_extinct','possibly_extinct','rediscovered')|int|int|enum('overexploitation','habitat_loss','climate_change','disease','hybridization','war_conflict','unknown')|text|json|text|text|text|text|json|enum('possible','partial','unlikely','impossible')|text|json|json|varchar(500)|timestamp|timestamp\nmaterial_sources\t0\t2026-03-07 08:53:18\tid, material_id, plant_id, plant_part, extraction_method, yield_percentage, quality_grade, terroir_id, notes, created_at\tint|int|int|enum('feuille','fleur','fruit','graine','ecorce','bois','racine','rhizome','resine','gomme','latex','mousse','lichen','algue','entier','secretion','autre')|enum('distillation_vapeur','expression_a_froid','extraction_solvant','co2_supercritique','enfleurage','maceration','percolation','hydrodistillation','autre')|decimal(5,3)|enum('premium','standard','industriel')|int|text|timestamp\nmemory_olfaction_concepts\t24\t2026-01-06 03:11:39\tid, name, slug, type, definition, description, scientific_basis, historical_context, key_researchers, seminal_papers, illustration, diagrams, created_at, updated_at\tint|varchar(255)|varchar(255)|enum('phenomenon','brain_structure','memory_type','mechanism','disorder','therapy','ritual')|text|text|text|text|text|text|varchar(1000)|text|timestamp|timestamp\nmolecular_comparisons\t0\t2026-01-06 14:00:48\tid, comparison_id, ancient_profile_id, modern_variety_id, lost_variety_id, overall_similarity, terpene_profile_similarity, olfactive_profile_similarity, molecular_differences, lost_molecules, gained_molecules, analysis_notes, evolution_hypothesis, selection_pressures, reconstruction_relevance, reconstruction_notes, comparison_date, analyst, created_at, updated_at\tint|varchar(30)|int|int|int|int|int|int|json|json|json|text|text|json|enum('critical','important','useful','marginal')|text|timestamp|varchar(255)|timestamp|timestamp\nmolecular_markers\t30\t2026-01-06 14:36:31\tid, marker_id, botanical_family, molecule_name, cas_number, typical_percentage, is_key_marker, biosynthesis_pathway, notes, axis_id, created_at, updated_at\tint|varchar(50)|varchar(100)|varchar(255)|varchar(20)|decimal(5,2)|tinyint(1)|varchar(100)|text|varchar(50)|timestamp|timestamp\nmolecule_contributions\t0\t2026-03-05 15:37:16\tid, molecule_id, user_id, user_name, contribution_type, status, source_title, source_authors, source_year, source_doi, source_url, therapeutic_property, therapeutic_evidence, therapeutic_notes, usage_context, usage_description, synonym_name, synonym_language, image_url, image_caption, note_content, note_category, description, bibliography_refs, admin_notes, reviewed_by, reviewed_at, created_at, updated_at\tint|int|varchar(255)|varchar(255)|enum('source','therapeutic','usage','synonym','image','note')|enum('pending','approved','rejected')|varchar(500)|varchar(500)|int|varchar(200)|text|varchar(300)|varchar(100)|text|varchar(300)|text|varchar(255)|varchar(50)|text|varchar(500)|text|varchar(100)|text|text|text|varchar(255)|timestamp|timestamp|timestamp\nmolecule_evidence\t64\t2026-01-07 15:58:43\tid, evidence_id, lost_molecule_id, molecule_name, marker_type, process_context, method, time_context, region_context, entity_type, entity_name, entity_id, claim_summary, confidence, reference_id, reference_title, doi, url, tags, evidence_notes, method_id, created_at, updated_at\tint|varchar(100)|int|varchar(255)|varchar(100)|varchar(255)|varchar(255)|varchar(500)|varchar(255)|enum('plant','animal','material','reference')|varchar(255)|varchar(100)|text|enum('low','medium','high')|varchar(100)|text|varchar(255)|text|text|text|varchar(30)|timestamp|timestamp\nmolecule_links_unified\tNULL\t2026-01-30 15:56:52\tid, molecule_id, link_type, target_id, target_name, metadata, created_at\tint|int|varchar(15)|int|varchar(255)|json|timestamp\nmolecule_notes_view\tNULL\t2026-01-30 15:57:08\tid, user_id, user_name, molecule_id, molecule_name, note, tags, created_at, updated_at\tint|int|text|int|varchar(255)|text|text|timestamp|timestamp\nmolecule_recettes\t0\t2025-12-02 17:26:03\tmoleculeId, recetteId\tint|int\nmolecule_synergies_view\tNULL\t2026-01-30 15:57:03\tid, molecule1_id, molecule1_name, molecule2_id, molecule2_name, type, description, chemical_mechanism, applications, createdAt\tint|int|varchar(255)|int|varchar(255)|enum('potentialisation','stabilisation','transformation','masquage','neutralisation')|text|text|text|timestamp\nms_spectra\t67\t2026-01-30 13:05:04\tid, compound_name, cas_number, molecular_formula, molecular_weight, ionization_mode, base_peak_mz, base_peak_intensity, spectrum_data, fragmentation_pattern, source, created_at, retention_index, retention_index_type\tint|varchar(255)|varchar(50)|varchar(100)|decimal(10,4)|enum('EI','CI','ESI','APCI')|decimal(10,4)|int|json|text|varchar(100)|timestamp|decimal(10,2)|varchar(20)\nolfaction_memory\t8\t2026-01-06 03:11:30\tid, title, slug, category, summary, content, key_findings, authors, institutions, publication_date, source_url, doi, historical_period, start_year, end_year, brain_regions, civilizations, tags, images, diagrams, videos, related_molecule_ids, related_plant_ids, related_archive_ids, status, featured, created_at, updated_at, created_by\tint|varchar(500)|varchar(255)|enum('neurological','historical','psychological','cultural','scientific_study','artistic','therapeutic')|text|text|text|text|text|timestamp|varchar(1000)|varchar(255)|varchar(255)|int|int|text|text|text|text|text|text|text|text|text|enum('draft','review','published','archived')|tinyint(1)|timestamp|timestamp|int\nolfaction_memory_article_concepts\t0\t2026-01-06 03:11:53\tid, article_id, concept_id, created_at\tint|int|int|timestamp\nolfaction_memory_article_sources\t0\t2026-01-06 03:11:52\tid, article_id, source_id, citation_context, created_at\tint|int|int|text|timestamp\nolfaction_memory_sources\t12\t2026-01-06 03:11:46\tid, source_type, title, authors, publication_year, journal, volume, issue, pages, publisher, doi, isbn, url, abstract, notes, relevance_score, key_topics, created_at, updated_at\tint|enum('scientific_paper','book','book_chapter','thesis','conference','podcast','article','documentary','website')|varchar(500)|text|int|varchar(255)|varchar(50)|varchar(50)|varchar(50)|varchar(255)|varchar(255)|varchar(20)|varchar(1000)|text|text|int|text|timestamp|timestamp\nolfactory_memories\t0\t2026-01-07 07:24:23\tid, molecule_id, recette_id, accord_id, odor_name, odor_description, memory_title, memory_description, memory_period, primary_emotion, secondary_emotions, emotional_valence, emotional_intensity, cultural_context, prevalence, scientific_basis, references, created_by, created_at, updated_at\tint|int|int|int|varchar(255)|text|varchar(255)|text|enum('early_childhood','childhood','adolescence','young_adult','adult','mature','elder','universal')|enum('joy','nostalgia','serenity','comfort','excitement','melancholy','fear','disgust','surprise','love','grief','spirituality')|json|enum('positive','negative','neutral','ambivalent')|int|enum('western','eastern','african','latin_american','middle_eastern','oceanian','universal')|enum('universal','common','moderate','rare','individual')|text|json|int|timestamp|timestamp\npartner_institutions\t16\t2026-01-06 14:36:58\tid, partner_id, name, country, type, focus, contact, mou_status, notes, axis_id, created_at, updated_at\tint|varchar(50)|varchar(255)|varchar(100)|enum('university','research_institute','botanic_garden','museum','industry','ngo','government','other')|json|varchar(255)|enum('idea','discussion','draft','signed','active','expired')|text|varchar(50)|timestamp|timestamp\nperfumum_fellowships\t1\t2026-01-06 14:36:58\tid, fellowship_id, title, region_focus, duration_months, budget_chf, deliverables, selection_criteria, status, notes, axis_id, created_at, updated_at\tint|varchar(50)|varchar(255)|varchar(100)|int|int|json|json|enum('draft','open','reviewing','awarded','in_progress','completed','cancelled')|text|varchar(50)|timestamp|timestamp\nperfumum_fermentation_runs\t1\t2026-01-06 14:36:41\tid, run_id, target_molecule, host, gene_source, bioreactor_l, yield_g_l, purity_percent, notes, axis_id, created_at, updated_at\tint|varchar(50)|varchar(255)|enum('S_cerevisiae','E_coli','Y_lipolytica','Other')|varchar(255)|decimal(10,2)|decimal(10,4)|decimal(5,2)|text|varchar(50)|timestamp|timestamp\nperfumum_gcms_runs\t8\t2026-01-06 14:36:30\tid, run_id, sample_ref, method, instrument, run_date, standards, top_compounds, data_file, notes, axis_id, created_at, updated_at\tint|varchar(50)|varchar(50)|enum('GC-MS','GC-MS/MS','HS-SPME-GC-MS','LC-MS','Other')|varchar(255)|date|json|json|varchar(500)|text|varchar(50)|timestamp|timestamp\nperfumum_glossary\t7\t2026-01-06 15:46:17\tid, term_id, term, definition_fr, definition_en, category, related_terms, related_axes, created_at, updated_at\tint|varchar(50)|varchar(255)|text|text|varchar(100)|json|json|timestamp|timestamp\nperfumum_herbarium_samples\t12\t2026-01-06 14:36:30\tid, herbarium_id, plant_latin_name, year, collection, repository, sample_type, allowed_sampling, notes, axis_id, created_at, updated_at\tint|varchar(50)|varchar(255)|int|varchar(255)|varchar(255)|enum('pressed_leaf','flower','seed','bark','root','whole_plant')|tinyint(1)|text|varchar(50)|timestamp|timestamp\nperfumum_manuscripts\t26\t2026-01-06 14:36:20\tid, manuscript_id, title, language, date_range, repository, region, license, scan_url, ocr_status, tags, notes, axis_id, created_at, updated_at\tint|varchar(50)|varchar(500)|varchar(100)|varchar(50)|varchar(255)|varchar(100)|enum('CC-BY','CC-BY-SA','CC0','All-rights-reserved','Unknown')|varchar(500)|enum('queued','in_progress','completed','failed','manual')|json|text|varchar(50)|timestamp|timestamp\nperfumum_molecules\t62\t2026-01-06 15:46:28\tid, molecule_name, family, odor_key, role, climatic_axis, created_at, updated_at\tint|varchar(255)|varchar(100)|text|enum('diffusion','modulation','structure','fixation')|varchar(100)|timestamp|timestamp\nperfumum_plant_molecules\t0\t2026-01-06 15:46:28\tid, plant_id, molecule_id, percentage, notes, created_at\tint|int|int|decimal(5,2)|text|timestamp\nperfumum_plants\t30\t2026-01-06 15:46:28\tid, name, latin_name, family, category, origin, habitat, olfactive_signature, dominant_molecules, climatic_axis, traditional_use, absorbe_use, kingdom, division, class_field, order_name, genus, species, life_cycle, harvest_period, essential_oil_yield, notes, created_at, updated_at\tint|varchar(255)|varchar(255)|varchar(100)|varchar(100)|text|text|text|text|varchar(100)|text|text|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|text|timestamp|timestamp\nperfumum_research_axes\t6\t2026-01-06 14:36:01\tid, axis_id, slug, title_fr, title_en, tagline_fr, tagline_en, description_fr, description_en, default_layout, status, color, icon, sort_order, kpis, ui_modules, core_entities, default_filters, created_at, updated_at\tint|varchar(50)|varchar(100)|varchar(255)|varchar(255)|text|text|text|text|varchar(255)|enum('draft','mvp','active','archived')|varchar(20)|varchar(50)|int|json|json|json|json|timestamp|timestamp\nperique_compounds\t278\t2026-01-28 23:59:22\tid, name, formula, concentration_pct, category, subcategory, olfactory_notes, perfumery_potential, dosage_perfumery, origin, is_new_tobacco_isolate, source_reference, created_at, updated_at\tint|varchar(255)|varchar(100)|decimal(10,4)|varchar(100)|varchar(100)|text|varchar(50)|varchar(50)|varchar(255)|tinyint(1)|varchar(500)|timestamp|timestamp\nperique_fermentation_stages\t7\t2026-01-30 11:29:20\tid, stage_number, stage_name, duration_months, start_month, end_month, temperature_min, temperature_max, humidity_percent, ph_level, oxygen_level, description, biochemical_processes, key_enzymes, compounds_formed, compounds_degraded, olfactory_changes, color_changes, created_at\tint|int|varchar(100)|int|int|int|decimal(5,2)|decimal(5,2)|decimal(5,2)|decimal(4,2)|varchar(50)|text|text|text|text|text|text|text|timestamp\nperique_molecule_links\t213\t2026-01-29 02:08:01\tid, perique_compound_id, molecule_id, match_type, confidence, notes, created_at, match_score, is_verified, verified_by, verified_at\tint|int|int|varchar(50)|decimal(3,2)|text|timestamp|decimal(5,4)|tinyint(1)|int|timestamp\nplant_perfumes\t58\t2026-03-04 22:46:55\tid, plant_id, perfume_name, perfume_house, perfumer, year, role_in_perfume, ingredient_type, description, created_at\tint|int|varchar(255)|varchar(255)|varchar(255)|int|enum('signature','accord_principal','note_coeur','note_fond','note_tete','ingredient_cle')|varchar(100)|text|timestamp\nprojets_artistiques\t0\t2025-12-29 23:53:07\tid, nom, code, type, lieu, altitude, date_debut, date_fin, description, contexte, odeur_dominante, activation, documentation, couches_activees, statut, notes, created_at, updated_at\tint|varchar(255)|varchar(50)|enum('terrain','installation','performance','exposition','collaboration','recherche','autre')|varchar(255)|int|timestamp|timestamp|text|text|text|text|text|text|enum('planifie','en_cours','realise','archive')|text|timestamp|timestamp\nprotocol_steps\t0\t2026-01-31 06:43:17\tid, protocol_id, step_number, title, description, duration, temperature, humidity, equipment, notes, checkpoints\tint|int|int|varchar(255)|text|varchar(100)|varchar(50)|varchar(50)|varchar(255)|text|json\npublication_molecule_links\t113\t2026-01-30 13:53:46\tid, publication_id, molecule_id, relationship_type, notes, created_at\tint|int|int|enum('studies','mentions','analyzes','synthesizes')|text|timestamp\nraw_material_plants\t16\t2026-01-28 23:24:34\tid, raw_material_id, plant_id, part_used, extraction_yield, notes, created_at\tint|int|int|varchar(100)|decimal(5,2)|text|timestamp\nrecipe_contributions\t0\t2026-03-05 15:37:16\tid, recipe_id, user_id, user_name, contribution_type, status, ingredient_name, ingredient_quantity, ingredient_unit, ingredient_notes, variant_name, variant_description, image_url, image_caption, note_content, note_category, description, bibliography_refs, admin_notes, reviewed_by, reviewed_at, created_at, updated_at\tint|int|varchar(255)|varchar(255)|enum('ingredient','variant','note','image','correction')|enum('pending','approved','rejected')|varchar(255)|varchar(100)|varchar(50)|text|varchar(255)|text|text|varchar(500)|text|varchar(100)|text|text|text|varchar(255)|timestamp|timestamp|timestamp\nregions\t8\t2026-01-10 15:25:14\tid, name, code, country, continent, description, climate, latitude, longitude, notes, created_at, updated_at\tint|varchar(255)|varchar(50)|varchar(100)|enum('africa','asia','europe','north_america','south_america','oceania','global')|text|varchar(100)|decimal(10,7)|decimal(10,7)|text|timestamp|timestamp\nresearch_axes_innovants\t6\t2026-01-06 14:17:48\tid, axis_code, title_fr, title_en, description_fr, description_en, methodologies, target_species, partnerships, kpis, priority_level, status, created_at, updated_at\tint|varchar(50)|varchar(300)|varchar(300)|text|text|json|json|json|json|enum('critical','high','medium','low')|enum('active','planned','completed','paused')|timestamp|timestamp\nresearch_axis_nez\t10\t2026-01-06 14:12:46\tid, axis_id, slug, title_fr, title_en, novelty_tagline, description_fr, description_en, ui_module, core_entities, kpis, default_filters_json, created_at, updated_at\tint|varchar(100)|varchar(200)|varchar(500)|varchar(500)|text|text|text|varchar(200)|varchar(500)|varchar(500)|json|timestamp|timestamp\nresearch_content\t43\t2026-01-06 15:46:08\tid, content_id, slug, axis_id, title, content_type, lang, status, file_path, evidence_level, tags, regions, content, created_at, updated_at\tint|varchar(50)|varchar(255)|varchar(50)|varchar(500)|enum('axis_overview','research_note','case_study','protocol','glossary')|varchar(10)|enum('draft','published','archived')|varchar(500)|enum('confirmed','probable','hypothetical')|json|json|text|timestamp|timestamp\nresearch_edges\t12\t2026-01-06 14:36:58\tid, from_type, from_id, to_type, to_id, edge_type, weight, confidence, notes, created_at, updated_at\tint|varchar(50)|varchar(50)|varchar(50)|varchar(50)|varchar(50)|decimal(5,2)|decimal(3,2)|text|timestamp|timestamp\nresearch_entry_axes\t0\t2026-01-06 05:20:38\tid, entry_id, axis_id, created_at\tint|int|int|timestamp\nresearch_entry_sources\t0\t2026-01-06 05:20:51\tid, entry_id, source_id, citation_context, page_reference, created_at\tint|int|int|text|varchar(100)|timestamp\nresearch_entry_tags\t0\t2026-01-06 05:20:40\tid, entry_id, tag_id, created_at\tint|int|int|timestamp\nresearch_tags\t0\t2026-01-06 05:20:39\tid, name, slug, description, color, category, usage_count, created_at, updated_at\tint|varchar(100)|varchar(100)|text|varchar(20)|enum('topic','method','material','region','period','emotion','molecule','plant','technology','other')|int|timestamp|timestamp\nscent_blends\t12\t2026-01-06 15:46:17\tid, blend_id, climate_axis, intended_medium, concept, materials, safety_notes, created_at, updated_at\tint|varchar(50)|enum('vent','bois','peau','disparition')|enum('parfum','encens','espace')|varchar(255)|json|text|timestamp|timestamp\nseasonal_variations\t23\t2026-03-04 14:23:08\tid, plant_id, season, harvest_period, temperature_range, humidity_range, notes, key_molecules, yield_modifier, quality_score, extraction_notes, created_at, updated_at\tint|int|enum('printemps','ete','automne','hiver')|varchar(100)|varchar(50)|varchar(50)|text|json|decimal(4,2)|int|text|timestamp|timestamp\nsoil_analyses\t9\t2026-01-30 10:34:19\tid, terroir_name, country, region, soil_type, soil_classification, ph_level, organic_matter_percent, nitrogen_content, phosphorus_content, potassium_content, calcium_content, magnesium_content, iron_content, drainage_quality, water_retention, altitude_meters, climate_type, annual_rainfall_mm, temperature_range, impact_on_tobacco, aromatic_influence, comparison_notes, source_references, created_at\tint|varchar(200)|varchar(100)|varchar(100)|varchar(100)|varchar(200)|decimal(3,1)|decimal(5,2)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|varchar(100)|int|varchar(100)|int|varchar(100)|text|text|text|text|timestamp\nsource_article_nez\t13\t2026-01-06 14:12:53\tid, source_id, url, title, lang, published_at, author, categories, themes, created_at, updated_at\tint|varchar(100)|varchar(1000)|varchar(500)|enum('fr','en')|date|varchar(300)|varchar(500)|varchar(500)|timestamp|timestamp\nsupplier_alternative_links\t0\t2026-01-06 02:59:35\tid, supplier_id, alternative_id, product_name, product_code, price_range, availability_status, notes, created_at, updated_at\tint|int|int|varchar(255)|varchar(100)|varchar(100)|enum('in_stock','limited_stock','on_demand','seasonal','out_of_stock')|text|timestamp|timestamp\ntabac_molecule_links\t237\t2026-03-05 11:37:59\tid, tabac_id, molecule_id, concentration, notes, created_at\tint|int|int|decimal(10,4)|text|timestamp\ntabac_terroir_links\t39\t2026-01-28 22:19:53\tid, tabac_id, terroir_id, soil_ph, soil_type, nitrogen_level, potassium_level, climate_notes, cultivation_notes, created_at\tint|int|int|decimal(3,1)|varchar(100)|varchar(50)|varchar(50)|text|text|timestamp\ntechnical_protocols\t11\t2026-01-31 06:43:13\tid, name, slug, category, objective, summary, full_content, equipment_required, estimated_cost, duration, difficulty_level, safety_notes, quality_control, steps, parameters, expected_results, troubleshooting, source_file, related_protocol_ids, created_at, updated_at\tint|varchar(255)|varchar(255)|enum('extraction','maturation','roulage','nebulisation','cryo-micronisation','analyse_sensorielle','validation','autre')|text|text|text|json|varchar(100)|varchar(100)|enum('débutant','intermédiaire','avancé','expert')|text|text|json|json|text|text|varchar(255)|json|timestamp|timestamp\ntemperature_zones\t6\t2026-01-30 11:19:43\tid, zone_name, temp_min, temp_max, description, created_at\tint|varchar(50)|int|int|text|timestamp\nterroir_contributions\t0\t2026-03-05 15:37:16\tid, terroir_id, user_id, user_name, contribution_type, status, image_url, image_caption, plant_name, plant_id, plant_notes, production_year, production_quantity, production_quality, history_period, history_content, note_content, note_category, description, bibliography_refs, admin_notes, reviewed_by, reviewed_at, created_at, updated_at\tint|int|varchar(255)|varchar(255)|enum('image','plant_link','note','production_data','history')|enum('pending','approved','rejected')|text|varchar(500)|varchar(255)|int|text|int|varchar(100)|varchar(200)|varchar(200)|text|text|varchar(100)|text|text|text|varchar(255)|timestamp|timestamp|timestamp\ntext_fragments\t29\t2026-01-06 14:36:20\tid, fragment_id, manuscript_id, language, original_text, translation_fr, translation_en, entities, evidence_level, notes, axis_id, created_at, updated_at\tint|varchar(50)|varchar(50)|varchar(100)|text|text|text|json|enum('confirmed','probable','hypothetical')|text|varchar(50)|timestamp|timestamp\ntissue_culture_lines\t10\t2026-01-06 14:36:41\tid, line_id, plant_latin_name, origin, method, status, storage, notes, axis_id, created_at, updated_at\tint|varchar(50)|varchar(255)|varchar(255)|enum('meristem','callus','somatic_embryo','protoplast','other')|enum('active','dormant','cryopreserved','lost','distributed')|enum('in_vitro','-20C','-80C','LN2','field')|text|varchar(50)|timestamp|timestamp\ntobacco_blends\t15\t2026-01-28 23:50:25\tid, name, type, category, origin_country, producer, year_created, status, composition, aromatic_profile, history, reputation, perfumery_potential, storytelling, availability, originality_score, created_at, updated_at\tint|varchar(255)|varchar(100)|varchar(100)|varchar(100)|varchar(255)|varchar(50)|varchar(100)|json|json|text|text|varchar(100)|text|varchar(100)|int|timestamp|timestamp\ntobacco_cannabis_accord_recettes\t23\t2026-01-28 23:23:49\tid, accord_id, recette_id, relation_type, relevance_score, notes, created_at\tint|int|int|varchar(50)|decimal(3,2)|text|timestamp\ntobacco_cigarettes\t5\t2026-01-30 10:34:12\tid, brand_name, alternate_names, origin_country, origin_city, manufacturer, creation_year, discontinuation_year, status, format, has_filter, tobacco_blend, aromatic_intensity, aromatic_character, dominant_notes, secondary_notes, perfumery_potential_score, perfumery_applications, perfumery_approach, historical_price, historical_notes, cultural_significance, region_category, source_references, created_at\tint|varchar(200)|varchar(255)|varchar(100)|varchar(100)|varchar(200)|int|int|enum('active','discontinued','rare','unknown')|varchar(100)|tinyint(1)|text|int|text|text|text|decimal(3,1)|text|text|varchar(100)|text|text|enum('soviet','oriental','chinese','european','american','other')|text|timestamp\ntobacco_compounds\t252\t2026-01-30 10:34:05\tid, compound_name, cas_number, chemical_class, category, landrace_source, concentration_ppm, concentration_percent, is_new_tobacco_isolate, aromatic_notes, perfumery_relevance, biosynthetic_pathway, related_molecule_id, source_reference, data_certainty, created_at\tint|varchar(200)|varchar(50)|varchar(100)|varchar(100)|varchar(100)|decimal(10,4)|decimal(10,6)|tinyint(1)|text|text|varchar(100)|int|varchar(255)|enum('confirmed','hypothetical','estimated')|timestamp\ntobacco_extinct_varieties\t5\t2026-01-28 23:50:25\tid, name, alternative_names, status, extinction_year, origin_country, region, history, genomics, botanical_characteristics, aromatic_profile, molecular_composition, perfumery_potential, created_at, updated_at\tint|varchar(255)|json|varchar(100)|varchar(50)|varchar(100)|varchar(255)|json|json|json|json|json|json|timestamp|timestamp\ntobacco_hybrids\t12\t2026-01-28 23:50:25\tid, name, type, parent_1, parent_2, development_year, country, selection_objective, agronomic_characteristics, aromatic_profile, perfumery_potential, availability, originality_score, storytelling, created_at, updated_at\tint|varchar(255)|varchar(100)|varchar(255)|varchar(255)|varchar(50)|varchar(100)|text|json|json|varchar(100)|varchar(100)|int|text|timestamp|timestamp\ntobacco_landraces\t20\t2026-01-30 10:33:58\tid, name, alternate_names, country, region, terroir_description, species, genetic_origin, creation_period, status, rarity_score, aromatic_profile, aromatic_intensity, dominant_notes, secondary_notes, indoles_ppm, terpenes_floraux_ppm, lactones_ppm, molecular_profile_type, data_certainty, perfumery_potential_score, perfumery_applications, cultivation_notes, curing_method, historical_notes, source_references, created_at, updated_at\tint|varchar(100)|varchar(255)|varchar(100)|varchar(100)|text|varchar(100)|text|varchar(100)|enum('active','rare','endangered','extinct','unknown')|int|text|int|text|text|decimal(10,2)|decimal(10,2)|decimal(10,2)|enum('cuir-animal','floral-mielle','cremeux-gourmand','mixte','unknown')|enum('confirmed','hypothetical','estimated')|decimal(3,1)|text|text|varchar(100)|text|text|timestamp|timestamp\ntps_molecule_links\t682\t2026-01-30 11:01:14\tid, tps_gene_id, molecule_id, link_type, confidence, notes, created_at\tint|int|int|enum('direct_product','precursor','derivative','related')|enum('confirmed','probable','hypothetical')|text|timestamp\ntrade_routes\t10\t2026-01-06 14:36:20\tid, route_id, name, time_start, time_end, nodes, materials, notes, sources, axis_id, created_at, updated_at\tint|varchar(50)|varchar(255)|int|int|json|json|text|json|varchar(50)|timestamp|timestamp\ntransformation_recipe_impacts\t81\t2026-01-29 23:42:29\tid, transformation_id, recette_id, impact_type, impact_description, olfactory_contribution, percentage_contribution, temperature_range, notes, source_reference, created_at, updated_at\tint|int|int|enum('major','moderate','minor','trace')|text|text|decimal(5,2)|varchar(100)|text|text|timestamp|timestamp\nvarieties\t9\t2026-01-10 15:25:14\tid, name, code, plant_id, region_id, type, genetic_lineage, chemotype, dominant_compounds, thc_content, cbd_content, terpene_profile, aromatic_profile, conservation_status, historical_notes, notes, created_at, updated_at\tint|varchar(255)|varchar(50)|int|int|enum('cultivar','landrace','hybrid','wild','heirloom','experimental')|text|varchar(100)|text|decimal(5,2)|decimal(5,2)|json|text|enum('common','rare','endangered','extinct','unknown')|text|text|timestamp|timestamp\nvariety_historical_records\t0\t2026-01-06 14:00:27\tid, record_id, variety_id, record_type, date_created, year_estimate, location, country, region, title, author, content, original_language, historical_name, synonyms, description_excerpt, mentioned_characteristics, authenticity_level, reliability_score, source_url, archive_location, catalog_number, image_url, created_at, updated_at\tint|varchar(30)|int|enum('botanical_description','trade_record','agricultural_manual','pharmacopoeia','herbarium_specimen','artistic_depiction','travel_account','scientific_paper','patent','oral_tradition','other')|varchar(100)|int|varchar(255)|varchar(100)|varchar(255)|varchar(500)|varchar(255)|text|varchar(50)|varchar(255)|json|text|json|enum('original','copy','transcription','reconstruction')|int|varchar(500)|varchar(255)|varchar(100)|varchar(500)|timestamp|timestamp\nvariety_molecular_profiles\t0\t2026-01-06 13:59:46\tid, profile_id, variety_id, historical_period, year_estimate, year_range_start, year_range_end, source_type, source_description, source_references, molecular_composition, terpene_profile, olfactive_description, olfactive_notes, confidence_level, modern_comparison_notes, divergence_score, created_at, updated_at\tint|varchar(30)|int|enum('prehistoric','ancient','medieval','renaissance','enlightenment','industrial','modern','contemporary')|int|int|int|enum('archaeological','historical_text','herbarium','genetic_analysis','reconstruction','contemporary_sample')|text|json|json|json|text|json|enum('confirmed','probable','hypothetical','speculative')|text|int|timestamp|timestamp\nvariety_molecules\t0\t2026-01-10 15:25:14\tid, variety_id, molecule_id, percentage_min, percentage_max, average_percentage, notes, source, created_at\tint|int|int|decimal(5,2)|decimal(5,2)|decimal(5,2)|text|varchar(255)|timestamp\nverified_suppliers\t0\t2026-01-06 02:59:29\tid, name, company_type, country, region, address, website, email, phone, contact_person, certifications, specialties, sustainable_practices, sustainability_rating, quality_rating, reliability_rating, minimum_order_quantity, lead_time, payment_terms, ships_to, verified, verified_by, verified_at, last_contact_date, notes, supplier_references, created_at, updated_at\tint|varchar(255)|enum('producer','cooperative','distributor','laboratory','biotechnology','artisan','other')|varchar(100)|varchar(255)|text|varchar(500)|varchar(255)|varchar(50)|varchar(255)|json|json|text|int|int|int|varchar(100)|varchar(100)|varchar(255)|json|tinyint(1)|varchar(255)|timestamp|timestamp|text|json|timestamp|timestamp\nvr_scenes\t1\t2026-01-06 14:36:48\tid, scene_id, title, era, location, assets, scent_cues, hardware, notes, axis_id, created_at, updated_at\tint|varchar(50)|varchar(255)|varchar(100)|varchar(255)|json|json|varchar(255)|text|varchar(50)|timestamp|timestamp\n",
+  "stderr": "",
+  "execution_time_ms": 429
+}

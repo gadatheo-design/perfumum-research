@@ -1,0 +1,14 @@
+{
+  "query": "SELECT \n  (SELECT COUNT(*) FROM variety_genealogy) as total_relations,\n  (SELECT COUNT(*) FROM variety_genealogy vg\n   WHERE NOT EXISTS (SELECT 1 FROM plant_varieties v WHERE v.id = vg.variety_id)\n      OR NOT EXISTS (SELECT 1 FROM plant_varieties p WHERE p.id = vg.parent_variety_id)\n  ) as orphelins_restants;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  (SELECT COUNT(*) FROM variety_genealogy) as total_relations,\n  (SELECT COUNT(*) FROM variety_genealogy vg\n   WHERE NOT EXISTS (SELECT 1 FROM plant_varieties v WHERE v.id = vg.variety_id)\n      OR NOT EXISTS (SELECT 1 FROM plant_varieties p WHERE p.id = vg.parent_variety_id)\n  ) as orphelins_restants;",
+  "rows": [
+    {
+      "total_relations": "70",
+      "orphelins_restants": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_relations\torphelins_restants\n70\t0\n",
+  "stderr": "",
+  "execution_time_ms": 377
+}

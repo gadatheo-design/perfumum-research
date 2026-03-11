@@ -1957,3 +1957,69 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Auditer les 541 raw_materials sans plant_id
 - [ ] Enrichir les liaisons plante-matière première via script
 - [ ] Sauvegarder le checkpoint
+
+
+## SESSION ACTUELLE — Amélioration de la page Généalogie
+
+### ✅ Filtres multi-catégories et types de relation
+- [x] Mettre à jour le router genealogy.getGraphData (nouvelles catégories : aromatic, flower, other)
+- [x] Mettre à jour getGenealogyGraphData dans db.ts (filtres relationshipTypes, region, categoryBreakdown)
+- [x] Réécrire GenealogyGraph.tsx avec filtres multi-catégories (Cannabis, Tabac, Aromatiques, Fleurs, Autres)
+- [x] Ajouter filtres par type de relation (Parent, Hybride, Clone, Mutation) avec checkboxes
+- [x] Coloration des nœuds par catégorie de plante (toggle couleur par catégorie / par région)
+- [x] Légende enrichie avec couleurs par catégorie et types de liens
+- [x] Statistiques par catégorie dans le panneau latéral
+- [x] Sauvegarder le checkpoint
+
+## SESSION 11 MARS 2026 — Stabilisation technique (6 actions d'audit)
+
+- [ ] Action 1 : Désactiver tsc --watch dans package.json (libérer 2,28 Go RAM)
+- [ ] Action 2 : Créer drizzle/schema-extended.ts (documenter 107 tables orphelines)
+- [ ] Action 3 : Nettoyer les 54 orphelins variety_genealogy en DB
+- [ ] Action 4 : Découper server/db.ts en modules thématiques server/db/
+- [ ] Action 6 : Nettoyer les artefacts (migrations en double, fichiers orphelins)
+
+---
+
+## 🔧 SESSION 11 MARS 2026 — Stabilisation technique (6 actions d'audit)
+
+### ✅ Action 1 : Optimisation de tsc --watch
+- [x] Créer `tsconfig.check.json` allégé (728 → ~175 fichiers inclus, -76%)
+- [x] Modifier `package.json` script `check` pour utiliser `tsconfig.check.json`
+- [x] Réduction estimée de la consommation mémoire de `tsc --watch`
+
+### ✅ Action 2 : Audit des tables orphelines
+- [x] Vérification complète : les 165 tables DB sont toutes dans `drizzle/schema.ts`
+- [x] Aucune vraie table orpheline — l'audit initial était basé sur une liste incomplète
+- [x] Schéma et migrations sont parfaitement synchronisés
+
+### ✅ Action 3 : Nettoyage des orphelins variety_genealogy
+- [x] Suppression des enregistrements orphelins (variety_id ou parent_variety_id inexistants)
+- [x] Vérification post-suppression : 0 orphelin restant
+- [x] Intégrité référentielle de variety_genealogy restaurée
+
+### ✅ Action 4 : Découpage de server/db.ts en modules thématiques
+- [x] Créer le script `scripts-remediation/split_db.py`
+- [x] Générer 24 modules thématiques dans `server/db/` (accords, analytics, bibliography, etc.)
+- [x] Créer `server/db/core.ts` pour getDb, upsertUser, getUserByOpenId
+- [x] Créer `server/db/index.ts` qui réexporte tout (compatibilité totale)
+- [x] `server/db.ts` redirige vers `server/db/index.ts`
+- [x] Corriger les chemins d'import (`../drizzle/schema` → `../../drizzle/schema`)
+- [x] Serveur HTTP 200 après découpage
+
+### ✅ Action 5 : Remédiation TypeScript — scripts Vague 1 et Vague 2
+- [x] Créer `scripts-remediation/wave1_remove_nocheck.py` (369 fichiers éligibles)
+- [x] Créer `scripts-remediation/wave2_fix_any.py` (6 transformations automatiques)
+- [x] Créer `scripts-remediation/README.md` avec documentation complète
+- [x] Tests validés : dry-run, application, rollback
+
+### ✅ Action 6 : Nettoyage des artefacts
+- [x] Archiver `drizzle/0000_chubby_rumiko_fujikawa.sql` (migration en double)
+- [x] Archiver `drizzle/0000_last_nemesis.sql` (migration en double)
+- [x] Archiver `drizzle/add-geographic-zones.sql` (migration manuelle hors journal)
+- [x] Archiver `drizzle/schema-tobacco-cannabis.ts` (schéma non importé)
+- [x] Archiver `drizzle/schema_modification_history.ts` (schéma non importé)
+- [x] Archiver `server/routers/data-import.ts` (router non connecté)
+- [x] Archiver `server/routers/genealogy-procedure.ts` (procédure non connectée)
+- [x] Archiver `server/import-data.ts` (script non utilisé)
+- [x] Créer `_archive/README.md` avec documentation des fichiers archivés

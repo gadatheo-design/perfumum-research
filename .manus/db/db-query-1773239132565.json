@@ -1,0 +1,130 @@
+{
+  "query": "SELECT vg.id, vg.variety_id, vg.parent_variety_id,\n  v1.name as variety_name, v2.name as parent_name,\n  CASE WHEN v1.id IS NULL THEN 'variety_id manquant' ELSE 'parent_variety_id manquant' END as raison\nFROM variety_genealogy vg\nLEFT JOIN plant_varieties v1 ON v1.id = vg.variety_id\nLEFT JOIN plant_varieties v2 ON v2.id = vg.parent_variety_id\nWHERE v1.id IS NULL OR v2.id IS NULL\nLIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT vg.id, vg.variety_id, vg.parent_variety_id,\n  v1.name as variety_name, v2.name as parent_name,\n  CASE WHEN v1.id IS NULL THEN 'variety_id manquant' ELSE 'parent_variety_id manquant' END as raison\nFROM variety_genealogy vg\nLEFT JOIN plant_varieties v1 ON v1.id = vg.variety_id\nLEFT JOIN plant_varieties v2 ON v2.id = vg.parent_variety_id\nWHERE v1.id IS NULL OR v2.id IS NULL\nLIMIT 15;",
+  "rows": [
+    {
+      "id": "30031",
+      "variety_id": "7",
+      "parent_variety_id": "330002",
+      "variety_name": "Thai (Thai Stick)",
+      "parent_name": "NULL",
+      "raison": "parent_variety_id manquant"
+    },
+    {
+      "id": "30032",
+      "variety_id": "8",
+      "parent_variety_id": "330002",
+      "variety_name": "Chocolate Thai",
+      "parent_name": "NULL",
+      "raison": "parent_variety_id manquant"
+    },
+    {
+      "id": "30025",
+      "variety_id": "9",
+      "parent_variety_id": "330002",
+      "variety_name": "Highland Thai",
+      "parent_name": "NULL",
+      "raison": "parent_variety_id manquant"
+    },
+    {
+      "id": "90019",
+      "variety_id": "30003",
+      "parent_variety_id": "750012",
+      "variety_name": "Lavandula angustifolia var. delphinensis (Lavande du Dauphiné)",
+      "parent_name": "NULL",
+      "raison": "parent_variety_id manquant"
+    },
+    {
+      "id": "30005",
+      "variety_id": "120022",
+      "parent_variety_id": "120021",
+      "variety_name": "NULL",
+      "parent_name": "NULL",
+      "raison": "variety_id manquant"
+    },
+    {
+      "id": "30006",
+      "variety_id": "120020",
+      "parent_variety_id": "120016",
+      "variety_name": "NULL",
+      "parent_name": "NULL",
+      "raison": "variety_id manquant"
+    },
+    {
+      "id": "30007",
+      "variety_id": "150007",
+      "parent_variety_id": "120007",
+      "variety_name": "NULL",
+      "parent_name": "Skunk #1",
+      "raison": "variety_id manquant"
+    },
+    {
+      "id": "30012",
+      "variety_id": "150006",
+      "parent_variety_id": "120007",
+      "variety_name": "NULL",
+      "parent_name": "Skunk #1",
+      "raison": "variety_id manquant"
+    },
+    {
+      "id": "30013",
+      "variety_id": "120019",
+      "parent_variety_id": "120017",
+      "variety_name": "NULL",
+      "parent_name": "NULL",
+      "raison": "variety_id manquant"
+    },
+    {
+      "id": "30014",
+      "variety_id": "120018",
+      "parent_variety_id": "120019",
+      "variety_name": "NULL",
+      "parent_name": "NULL",
+      "raison": "variety_id manquant"
+    },
+    {
+      "id": "30015",
+      "variety_id": "120014",
+      "parent_variety_id": "120013",
+      "variety_name": "NULL",
+      "parent_name": "NULL",
+      "raison": "variety_id manquant"
+    },
+    {
+      "id": "30016",
+      "variety_id": "120015",
+      "parent_variety_id": "120016",
+      "variety_name": "NULL",
+      "parent_name": "NULL",
+      "raison": "variety_id manquant"
+    },
+    {
+      "id": "30018",
+      "variety_id": "150002",
+      "parent_variety_id": "600018",
+      "variety_name": "NULL",
+      "parent_name": "NULL",
+      "raison": "variety_id manquant"
+    },
+    {
+      "id": "30019",
+      "variety_id": "150001",
+      "parent_variety_id": "8",
+      "variety_name": "NULL",
+      "parent_name": "Chocolate Thai",
+      "raison": "variety_id manquant"
+    },
+    {
+      "id": "30020",
+      "variety_id": "150004",
+      "parent_variety_id": "600018",
+      "variety_name": "NULL",
+      "parent_name": "NULL",
+      "raison": "variety_id manquant"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tvariety_id\tparent_variety_id\tvariety_name\tparent_name\traison\n30031\t7\t330002\tThai (Thai Stick)\tNULL\tparent_variety_id manquant\n30032\t8\t330002\tChocolate Thai\tNULL\tparent_variety_id manquant\n30025\t9\t330002\tHighland Thai\tNULL\tparent_variety_id manquant\n90019\t30003\t750012\tLavandula angustifolia var. delphinensis (Lavande du Dauphiné)\tNULL\tparent_variety_id manquant\n30005\t120022\t120021\tNULL\tNULL\tvariety_id manquant\n30006\t120020\t120016\tNULL\tNULL\tvariety_id manquant\n30007\t150007\t120007\tNULL\tSkunk #1\tvariety_id manquant\n30012\t150006\t120007\tNULL\tSkunk #1\tvariety_id manquant\n30013\t120019\t120017\tNULL\tNULL\tvariety_id manquant\n30014\t120018\t120019\tNULL\tNULL\tvariety_id manquant\n30015\t120014\t120013\tNULL\tNULL\tvariety_id manquant\n30016\t120015\t120016\tNULL\tNULL\tvariety_id manquant\n30018\t150002\t600018\tNULL\tNULL\tvariety_id manquant\n30019\t150001\t8\tNULL\tChocolate Thai\tvariety_id manquant\n30020\t150004\t600018\tNULL\tNULL\tvariety_id manquant\n",
+  "stderr": "",
+  "execution_time_ms": 358
+}

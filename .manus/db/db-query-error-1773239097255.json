@@ -1,0 +1,8 @@
+{
+  "query": "SELECT vg.id, vg.variety_id, vg.parent_variety_id, vg.relation_type,\n  v1.name as variety_name, v2.name as parent_name\nFROM variety_genealogy vg\nLEFT JOIN plant_varieties v1 ON v1.id = vg.variety_id\nLEFT JOIN plant_varieties v2 ON v2.id = vg.parent_variety_id\nWHERE v1.id IS NULL OR v2.id IS NULL\nLIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT vg.id, vg.variety_id, vg.parent_variety_id, vg.relation_type,\n  v1.name as variety_name, v2.name as parent_name\nFROM variety_genealogy vg\nLEFT JOIN plant_varieties v1 ON v1.id = vg.variety_id\nLEFT JOIN plant_varieties v2 ON v2.id = vg.parent_variety_id\nWHERE v1.id IS NULL OR v2.id IS NULL\nLIMIT 20;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'vg.relation_type' in 'field list'"
+  ]
+}

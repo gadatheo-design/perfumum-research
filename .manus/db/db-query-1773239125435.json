@@ -1,0 +1,13 @@
+{
+  "query": "SELECT COUNT(*) as total_orphelins FROM variety_genealogy vg\nWHERE NOT EXISTS (SELECT 1 FROM plant_varieties v WHERE v.id = vg.variety_id)\n   OR NOT EXISTS (SELECT 1 FROM plant_varieties p WHERE p.id = vg.parent_variety_id);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT COUNT(*) as total_orphelins FROM variety_genealogy vg\nWHERE NOT EXISTS (SELECT 1 FROM plant_varieties v WHERE v.id = vg.variety_id)\n   OR NOT EXISTS (SELECT 1 FROM plant_varieties p WHERE p.id = vg.parent_variety_id);",
+  "rows": [
+    {
+      "total_orphelins": "58"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_orphelins\n58\n",
+  "stderr": "",
+  "execution_time_ms": 375
+}

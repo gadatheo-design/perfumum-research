@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Link, useLocation } from "wouter";
 import { ChevronRight, Home, MoreHorizontal } from "lucide-react";
 import { useState, useMemo } from "react";

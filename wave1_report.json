@@ -1,0 +1,3300 @@
+{
+  "generated_at": "2026-03-11T09:59:03.256037",
+  "mode": "dry-run",
+  "project": "/home/ubuntu/perfumum-research",
+  "summary": {
+    "total_nocheck": 616,
+    "eligible_wave1": 376,
+    "edge_cases": 7,
+    "ineligible": 240,
+    "modified": 0,
+    "skipped": 0,
+    "errors": 0
+  },
+  "eligible_files": [
+    {
+      "path": "client/src/const.ts",
+      "lines": 19,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/_core/hooks/useAuth.ts",
+      "lines": 86,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/AIChatBox.tsx",
+      "lines": 337,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/AIClassificationSuggestion.tsx",
+      "lines": 510,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/AnimatedCard.tsx",
+      "lines": 76,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/AromaticRaritiesGraph.tsx",
+      "lines": 305,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/AtmospheresBohme.tsx",
+      "lines": 190,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/AtmosphericTexture.tsx",
+      "lines": 168,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/BotanicalImageUpload.tsx",
+      "lines": 250,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/CacheStatsWidget.tsx",
+      "lines": 182,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/CascadeBiosynthetique.tsx",
+      "lines": 191,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/CertificationFilter.tsx",
+      "lines": 186,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/CombinedChromatogram.tsx",
+      "lines": 368,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ComparateurAccordsMossi.tsx",
+      "lines": 373,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/D3RadarChart.tsx",
+      "lines": 249,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/DashboardLayout.tsx",
+      "lines": 268,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/DashboardLayoutSkeleton.tsx",
+      "lines": 48,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/DateRangeFilter.tsx",
+      "lines": 217,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/DetailSidebar.tsx",
+      "lines": 234,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/DosageCalculator.tsx",
+      "lines": 345,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/DynamicBreadcrumb.tsx",
+      "lines": 476,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/EmptyState.tsx",
+      "lines": 129,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ErrorBoundary.tsx",
+      "lines": 64,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/FavoriteButton.tsx",
+      "lines": 72,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/FloatingCompareBar.tsx",
+      "lines": 62,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/GammeBadge.tsx",
+      "lines": 92,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/GammesConnexes.tsx",
+      "lines": 144,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/GlobalSearch.tsx",
+      "lines": 467,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/GoogleAnalytics.tsx",
+      "lines": 142,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/GuidedAnnotation.tsx",
+      "lines": 541,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/GuidedNavigation.tsx",
+      "lines": 801,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/HexagonalRadar.tsx",
+      "lines": 121,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/IFRAStatusBadge.tsx",
+      "lines": 139,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ImageUpload.tsx",
+      "lines": 243,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/LazyImage.tsx",
+      "lines": 185,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/LeafEconomyImageUpload.tsx",
+      "lines": 259,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/LegacyRedirect.tsx",
+      "lines": 40,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/LoadingSpinner.tsx",
+      "lines": 210,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/MSSpectrumPopup.tsx",
+      "lines": 247,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/Map.tsx",
+      "lines": 157,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/MegaMenuOptimized.test.tsx",
+      "lines": 329,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/MegaMenuOptimized.tsx",
+      "lines": 297,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/MiniRadarChart.tsx",
+      "lines": 100,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/MobileBottomNav.tsx",
+      "lines": 137,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/MolecularGraph.tsx",
+      "lines": 302,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/MolecularRadar.tsx",
+      "lines": 329,
+      "edge_case": true,
+      "edge_reasons": [
+        "non-null assertion '!.'"
+      ]
+    },
+    {
+      "path": "client/src/components/Molecule3DViewer.tsx",
+      "lines": 687,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/MoleculeAnalyticalMethods.tsx",
+      "lines": 261,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/MoleculeLink.tsx",
+      "lines": 235,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/MoleculeListItem.tsx",
+      "lines": 192,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/MoleculeOfTheDay.tsx",
+      "lines": 89,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/NotesEditor.tsx",
+      "lines": 211,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/NotificationBell.tsx",
+      "lines": 279,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/OptimizedImage.tsx",
+      "lines": 148,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/PWAInstallPrompt.tsx",
+      "lines": 135,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/PageTransition.tsx",
+      "lines": 512,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/PrefetchLink.tsx",
+      "lines": 48,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ProtocolesDilution.tsx",
+      "lines": 233,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/PrototypeRadarChart.tsx",
+      "lines": 188,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/RadarChart.tsx",
+      "lines": 131,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/RecentlyViewed.tsx",
+      "lines": 95,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/RecetteCard.tsx",
+      "lines": 391,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/RecetteCardSkeleton.tsx",
+      "lines": 69,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/RecetteDetailSkeleton.tsx",
+      "lines": 78,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/RecetteListItem.tsx",
+      "lines": 155,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/RecipeIngredients.tsx",
+      "lines": 220,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/RecipeRadarChart.tsx",
+      "lines": 280,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/RecommendationsCard.tsx",
+      "lines": 138,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ReferencesList.tsx",
+      "lines": 116,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/RegulatoryProfile.tsx",
+      "lines": 344,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/RelatedEntities.tsx",
+      "lines": 174,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ResearchNews.tsx",
+      "lines": 124,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/SVGRadarChart.tsx",
+      "lines": 298,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/SavedSearches.tsx",
+      "lines": 117,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ScrollToTop.tsx",
+      "lines": 42,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/SimilarRecipes.tsx",
+      "lines": 110,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/SkeletonLoader.tsx",
+      "lines": 165,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/StatCard.tsx",
+      "lines": 43,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/StatisticsCharts.tsx",
+      "lines": 236,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/StatusBadge.tsx",
+      "lines": 125,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/SynergiesHeatmap.tsx",
+      "lines": 192,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/TagsNotesEditor.tsx",
+      "lines": 517,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/TerpeneRadarChart.tsx",
+      "lines": 250,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/TerroirsMap.tsx",
+      "lines": 342,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/TimelinePhilosophique.tsx",
+      "lines": 118,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/TriangleConceptuel.tsx",
+      "lines": 159,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/TruncatableText.tsx",
+      "lines": 90,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ViewToggle.tsx",
+      "lines": 109,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/VoirAussi.tsx",
+      "lines": 225,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/WorldSourcingMap.tsx",
+      "lines": 393,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ZoneConservationSection.tsx",
+      "lines": 250,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ZoneSpeciesPanel.tsx",
+      "lines": 348,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/skeletons.tsx",
+      "lines": 109,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/cards/AccordCard.tsx",
+      "lines": 127,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/cards/MatiereCard.tsx",
+      "lines": 145,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/cards/PrototypeCard.tsx",
+      "lines": 73,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/charts/ConcentrationBarChart.tsx",
+      "lines": 166,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/charts/EnhancedHeatmap.tsx",
+      "lines": 869,
+      "edge_case": true,
+      "edge_reasons": [
+        "non-null assertion '!.'"
+      ]
+    },
+    {
+      "path": "client/src/components/charts/FamilyPieChart.tsx",
+      "lines": 123,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/charts/FamilyRankingChart.tsx",
+      "lines": 111,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/charts/ForceGraph.tsx",
+      "lines": 628,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/charts/GammeDistributionChart.tsx",
+      "lines": 109,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/charts/MolecularSynergiesHeatmap.tsx",
+      "lines": 233,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/charts/MultiRadarChart.tsx",
+      "lines": 533,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/charts/ResearchTimelineChart.tsx",
+      "lines": 206,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/charts/TimelineChart.tsx",
+      "lines": 121,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/charts/TopMoleculesChart.tsx",
+      "lines": 102,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/AccordsContent.tsx",
+      "lines": 223,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/BioLabContent.tsx",
+      "lines": 130,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/CalculateurContent.tsx",
+      "lines": 121,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/ChemicalFamiliesContent.tsx",
+      "lines": 268,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/FamillesContent.tsx",
+      "lines": 166,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/FormulationContent.tsx",
+      "lines": 137,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/FormulesReferenceContent.tsx",
+      "lines": 404,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/GlaciaireContent.tsx",
+      "lines": 130,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/MoleculesContent.tsx",
+      "lines": 409,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/MossiContent.tsx",
+      "lines": 130,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/OutilsOverviewContent.tsx",
+      "lines": 201,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/PetrichorContent.tsx",
+      "lines": 143,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/RecettesContent.tsx",
+      "lines": 351,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/SynergiesContent.tsx",
+      "lines": 138,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/VisualisationsContent.tsx",
+      "lines": 140,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/content/VolcaniqueContent.tsx",
+      "lines": 130,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/filters/ActiveFiltersChips.tsx",
+      "lines": 53,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/filters/FilterSelect.tsx",
+      "lines": 34,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/filters/ProfileAutocomplete.tsx",
+      "lines": 205,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/filters/SearchBar.tsx",
+      "lines": 25,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/layout/Breadcrumb.tsx",
+      "lines": 38,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/layout/Footer.tsx",
+      "lines": 153,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/layout/Header.tsx",
+      "lines": 235,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/layout/TabsContainer.tsx",
+      "lines": 190,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/milestones/AddMilestoneDialog.tsx",
+      "lines": 135,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/milestones/MilestoneMarkers.tsx",
+      "lines": 90,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/skeletons/index.tsx",
+      "lines": 591,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/accordion.tsx",
+      "lines": 66,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/alert-dialog.tsx",
+      "lines": 157,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/alert.tsx",
+      "lines": 68,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/aspect-ratio.tsx",
+      "lines": 11,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/avatar.tsx",
+      "lines": 53,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/badge-custom.tsx",
+      "lines": 90,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/badge.tsx",
+      "lines": 48,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/breadcrumb.tsx",
+      "lines": 111,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/button-group.tsx",
+      "lines": 85,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/button.tsx",
+      "lines": 62,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/calendar.tsx",
+      "lines": 213,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/card-skeleton.tsx",
+      "lines": 503,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/card.tsx",
+      "lines": 94,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/carousel.tsx",
+      "lines": 241,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/chart.tsx",
+      "lines": 357,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/checkbox.tsx",
+      "lines": 32,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/collapsible.tsx",
+      "lines": 33,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/command.tsx",
+      "lines": 186,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/context-menu.tsx",
+      "lines": 252,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/drawer.tsx",
+      "lines": 135,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/dropdown-menu.tsx",
+      "lines": 257,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/empty.tsx",
+      "lines": 106,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/feedback.tsx",
+      "lines": 467,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/field.tsx",
+      "lines": 244,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/form.tsx",
+      "lines": 170,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/hover-card.tsx",
+      "lines": 44,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/input-group.tsx",
+      "lines": 170,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/input-otp.tsx",
+      "lines": 77,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/item.tsx",
+      "lines": 195,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/kbd.tsx",
+      "lines": 30,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/label.tsx",
+      "lines": 24,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/menubar.tsx",
+      "lines": 276,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/navigation-menu.tsx",
+      "lines": 170,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/pagination.tsx",
+      "lines": 129,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/popover.tsx",
+      "lines": 48,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/progress.tsx",
+      "lines": 31,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/radio-group.tsx",
+      "lines": 45,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/resizable.tsx",
+      "lines": 56,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/responsive-table.tsx",
+      "lines": 61,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/scroll-area.tsx",
+      "lines": 58,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/select.tsx",
+      "lines": 187,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/separator.tsx",
+      "lines": 28,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/sheet.tsx",
+      "lines": 141,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/sidebar.tsx",
+      "lines": 736,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/skeleton.tsx",
+      "lines": 15,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/slider.tsx",
+      "lines": 63,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/sonner.tsx",
+      "lines": 25,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/spinner.tsx",
+      "lines": 18,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/switch.tsx",
+      "lines": 31,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/table.tsx",
+      "lines": 116,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/tabs.tsx",
+      "lines": 66,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/toggle-group.tsx",
+      "lines": 75,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/toggle.tsx",
+      "lines": 47,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/components/ui/tooltip.tsx",
+      "lines": 61,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/config/guidedTours.ts",
+      "lines": 544,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/contexts/GuidedNavigationContext.tsx",
+      "lines": 646,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/contexts/ThemeContext.tsx",
+      "lines": 66,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/use-toast.ts",
+      "lines": 53,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/useCollaboration.ts",
+      "lines": 319,
+      "edge_case": true,
+      "edge_reasons": [
+        "non-null assertion '!.'"
+      ]
+    },
+    {
+      "path": "client/src/hooks/useComposition.ts",
+      "lines": 83,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/useDebounce.ts",
+      "lines": 27,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/useFavorites.ts",
+      "lines": 100,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/useFocusTrap.ts",
+      "lines": 80,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/useKeyboardNavigation.ts",
+      "lines": 166,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/useLazyComponent.ts",
+      "lines": 150,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/useMobile.tsx",
+      "lines": 23,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/useNavigationHistory.ts",
+      "lines": 86,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/usePageTracking.ts",
+      "lines": 14,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/usePrefetch.ts",
+      "lines": 202,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/usePullToRefresh.ts",
+      "lines": 125,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/useRecipeHistory.ts",
+      "lines": 84,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/useSavedSearches.ts",
+      "lines": 101,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/useScrollAnimation.ts",
+      "lines": 115,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/useScrollReveal.ts",
+      "lines": 62,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/hooks/useSwipeGesture.ts",
+      "lines": 115,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/lib/analytics.ts",
+      "lines": 122,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/lib/exportPDF.ts",
+      "lines": 345,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/lib/gammeMapping.ts",
+      "lines": 128,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/lib/linkifyMolecules.tsx",
+      "lines": 48,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/lib/olfactiveParser.ts",
+      "lines": 74,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/lib/pdfExport.ts",
+      "lines": 282,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/lib/radarSimilarity.ts",
+      "lines": 157,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/lib/recetteExportUtils.ts",
+      "lines": 142,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/lib/spectrumParsers.ts",
+      "lines": 413,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/lib/utils.ts",
+      "lines": 48,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AIClassificationBatch.tsx",
+      "lines": 912,
+      "edge_case": true,
+      "edge_reasons": [
+        "non-null assertion '!.'"
+      ]
+    },
+    {
+      "path": "client/src/pages/APropos.tsx",
+      "lines": 317,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AbsorbeXDashboard.tsx",
+      "lines": 240,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AbsorbeXGuideLaboratoire.tsx",
+      "lines": 833,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AbsorbeXManifeste.tsx",
+      "lines": 245,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AbsorbeXNeuroOlfaction.tsx",
+      "lines": 496,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AbsorbeXNotesRecherche.tsx",
+      "lines": 205,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AbsorbeXOdeursPerdues.tsx",
+      "lines": 535,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AbsorbeXPatrimoine.tsx",
+      "lines": 383,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AbsorbeXQuantique.tsx",
+      "lines": 532,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Accords.tsx",
+      "lines": 198,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Admin.tsx",
+      "lines": 673,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AdminAIClassification.tsx",
+      "lines": 614,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AdminNotifications.tsx",
+      "lines": 338,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AdminOrphanMolecules.tsx",
+      "lines": 493,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AdminProgressReport.tsx",
+      "lines": 514,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AdminValidation.tsx",
+      "lines": 512,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AnalyticalMethodsPage.tsx",
+      "lines": 388,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AnalyticsDashboard.tsx",
+      "lines": 366,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ArchiveTerrainDetail.tsx",
+      "lines": 315,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ArchivesTerrain.tsx",
+      "lines": 150,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/AromaticRarityDetailPage.tsx",
+      "lines": 461,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Associations.tsx",
+      "lines": 399,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/BioMineralis.tsx",
+      "lines": 377,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/BotaniqueCritique.tsx",
+      "lines": 245,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/CalculateurCout.tsx",
+      "lines": 1028,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/CarteOrigines.tsx",
+      "lines": 695,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ChemicalFamilies.tsx",
+      "lines": 551,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ChimieTabac.tsx",
+      "lines": 566,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/CivilisationDetail.tsx",
+      "lines": 241,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Civilisations.tsx",
+      "lines": 319,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Collaborations.tsx",
+      "lines": 289,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ColombieLine.tsx",
+      "lines": 470,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ComparaisonTerpenes.tsx",
+      "lines": 570,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ComparateurAvance.tsx",
+      "lines": 363,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/CompareRecettes.tsx",
+      "lines": 351,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/CompareTerpenes.tsx",
+      "lines": 264,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Contact.tsx",
+      "lines": 90,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Contribuer.tsx",
+      "lines": 332,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/CorrelationAnalysis.tsx",
+      "lines": 322,
+      "edge_case": true,
+      "edge_reasons": [
+        "non-null assertion '!.'"
+      ]
+    },
+    {
+      "path": "client/src/pages/CourbesVolatilite.tsx",
+      "lines": 433,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/DashboardMinimal.tsx",
+      "lines": 13,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/DashboardRecherche.tsx",
+      "lines": 400,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/DegradationTerpenes.tsx",
+      "lines": 449,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/DilutionCalculator.tsx",
+      "lines": 299,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/EnrichissementPubChem.tsx",
+      "lines": 616,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/EnrichmentDashboard.tsx",
+      "lines": 372,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/EtudeClimatiqueDetail.tsx",
+      "lines": 247,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Etudes.tsx",
+      "lines": 138,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/EtudesClimatiques.tsx",
+      "lines": 121,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ExperimentalAccords.tsx",
+      "lines": 238,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Familles.tsx",
+      "lines": 258,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/FamillesList.tsx",
+      "lines": 202,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Favoris.tsx",
+      "lines": 439,
+      "edge_case": true,
+      "edge_reasons": [
+        "non-null assertion '!.'"
+      ]
+    },
+    {
+      "path": "client/src/pages/FondementsPhilosophiques.tsx",
+      "lines": 486,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/FormulesReference.tsx",
+      "lines": 719,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Fournisseurs.tsx",
+      "lines": 695,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/GalerieBotaniques.tsx",
+      "lines": 464,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/GammePheromones.tsx",
+      "lines": 318,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/GammeRaretes.tsx",
+      "lines": 616,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/GammeSignatures.tsx",
+      "lines": 262,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/GammesBioLab.tsx",
+      "lines": 324,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/GammesGlaciaire.tsx",
+      "lines": 321,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/GammesHub.tsx",
+      "lines": 183,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/GammesMossi.tsx",
+      "lines": 410,
+      "edge_case": true,
+      "edge_reasons": [
+        "non-null assertion '!.'"
+      ]
+    },
+    {
+      "path": "client/src/pages/GammesPetrichor.tsx",
+      "lines": 343,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/GammesVolcanique.tsx",
+      "lines": 308,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/GestionPage.tsx",
+      "lines": 186,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/GhostVarietiesExplorer.tsx",
+      "lines": 595,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Glossaire.tsx",
+      "lines": 417,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/GlossaireVisuelRadar.tsx",
+      "lines": 279,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/GrapheMoleculesFamillesChimiques.tsx",
+      "lines": 478,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/GraphePlanteMolecule.tsx",
+      "lines": 393,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/HistoricCigarettes.tsx",
+      "lines": 293,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/IFRACompliance.tsx",
+      "lines": 469,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ImportCSV.tsx",
+      "lines": 330,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Installations.tsx",
+      "lines": 242,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/InteractionsTabacCannabis.tsx",
+      "lines": 571,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Inventaire.tsx",
+      "lines": 723,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Journal.tsx",
+      "lines": 286,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Laboratoire.tsx",
+      "lines": 390,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/LaboratoireRecettes.tsx",
+      "lines": 309,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/LandraceDetail.tsx",
+      "lines": 241,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/LeProjet.tsx",
+      "lines": 370,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/LeafEconomies.tsx",
+      "lines": 343,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/LeafEconomyDetail.tsx",
+      "lines": 770,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Manifeste.tsx",
+      "lines": 228,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/MatriceSynergies.tsx",
+      "lines": 337,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/MethodeAbsorbe.tsx",
+      "lines": 846,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/MethodologieRecherche.tsx",
+      "lines": 347,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ModelesAnalytiquesGCMS.tsx",
+      "lines": 601,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/MoleculeSearch.tsx",
+      "lines": 201,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/MoleculesDisparues.tsx",
+      "lines": 641,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/MoleculesHub.tsx",
+      "lines": 144,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/MyFavorites.tsx",
+      "lines": 170,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/NichePlantMoleculeLinking.tsx",
+      "lines": 730,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/NotFound.tsx",
+      "lines": 31,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Nouveautes.tsx",
+      "lines": 465,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/OutilFormulation.tsx",
+      "lines": 735,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Outils.tsx",
+      "lines": 215,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/OutilsFormulation.tsx",
+      "lines": 249,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/OutilsHub.tsx",
+      "lines": 158,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/PeriqueFermentation.tsx",
+      "lines": 632,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/PhylogeneticView.tsx",
+      "lines": 49,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/PlantMoleculeNetwork.tsx",
+      "lines": 351,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/PlantsHub.tsx",
+      "lines": 160,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ProgrammesRecherche.tsx",
+      "lines": 150,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Projets.tsx",
+      "lines": 273,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ProportionsCalculator.tsx",
+      "lines": 442,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ProtocoleMoleculaireDetail.tsx",
+      "lines": 305,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ProtocolesMaturation.tsx",
+      "lines": 427,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ProtocolesMoleculaires.tsx",
+      "lines": 129,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Prototypes.tsx",
+      "lines": 204,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/PyrolyseCombustion.tsx",
+      "lines": 451,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/RecetteColombie.tsx",
+      "lines": 628,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Recettes.tsx",
+      "lines": 778,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/RecettesHub.tsx",
+      "lines": 130,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/RecettesLeafEconomies.tsx",
+      "lines": 300,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Recherche.tsx",
+      "lines": 512,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/RechercheGlobale.tsx",
+      "lines": 504,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/RechercheScientifique.tsx",
+      "lines": 238,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/RecipeDetail.tsx",
+      "lines": 194,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/RecipeTimeline.tsx",
+      "lines": 334,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ReferenceLinkNetwork.tsx",
+      "lines": 273,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/ReseauMoleculePlante.tsx",
+      "lines": 663,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/SankeyFlow.tsx",
+      "lines": 325,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Sourcing.tsx",
+      "lines": 703,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/SourcingColombie.tsx",
+      "lines": 464,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/SourcingFrance.tsx",
+      "lines": 553,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/SourcingInde.tsx",
+      "lines": 568,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/SourcingMadagascar.tsx",
+      "lines": 556,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/SourcingNorthAmerica.tsx",
+      "lines": 807,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Statistics.tsx",
+      "lines": 216,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Statistiques.tsx",
+      "lines": 323,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/SuggestionsSynergies.tsx",
+      "lines": 198,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/SynergiesTerpenesNiches.tsx",
+      "lines": 341,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/SystemePerfumum.tsx",
+      "lines": 442,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/TabacsNaturels.tsx",
+      "lines": 321,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/TabacsOriginaux.tsx",
+      "lines": 323,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/TerpeneProfiles.tsx",
+      "lines": 593,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Terrains.tsx",
+      "lines": 248,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/TerroirMapPage.tsx",
+      "lines": 299,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Timeline.tsx",
+      "lines": 416,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/TimelineBotanique.tsx",
+      "lines": 296,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/VarietesFantomes.tsx",
+      "lines": 373,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/Visualisations.tsx",
+      "lines": 534,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/_dev/ComponentShowcase.tsx",
+      "lines": 1438,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/methodologie/EchelleAbsorbe.tsx",
+      "lines": 607,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/methodologie/GCMS.tsx",
+      "lines": 507,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/methodologie/MethodologieAbsorbe.tsx",
+      "lines": 340,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/methodologie/Pyrolyse.tsx",
+      "lines": 308,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/prototypes/C1.tsx",
+      "lines": 346,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/prototypes/C2.tsx",
+      "lines": 360,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/prototypes/C3.tsx",
+      "lines": 365,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "client/src/pages/prototypes/C4.tsx",
+      "lines": 197,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "server/cache.ts",
+      "lines": 240,
+      "edge_case": false,
+      "edge_reasons": []
+    },
+    {
+      "path": "server/enrich-koppen.ts",
+      "lines": 294,
+      "edge_case": false,
+      "edge_reasons": []
+    }
+  ],
+  "edge_case_files": [
+    {
+      "path": "client/src/components/MolecularRadar.tsx",
+      "lines": 329,
+      "reasons": [
+        "non-null assertion '!.'"
+      ]
+    },
+    {
+      "path": "client/src/components/charts/EnhancedHeatmap.tsx",
+      "lines": 869,
+      "reasons": [
+        "non-null assertion '!.'"
+      ]
+    },
+    {
+      "path": "client/src/hooks/useCollaboration.ts",
+      "lines": 319,
+      "reasons": [
+        "non-null assertion '!.'"
+      ]
+    },
+    {
+      "path": "client/src/pages/AIClassificationBatch.tsx",
+      "lines": 912,
+      "reasons": [
+        "non-null assertion '!.'"
+      ]
+    },
+    {
+      "path": "client/src/pages/CorrelationAnalysis.tsx",
+      "lines": 322,
+      "reasons": [
+        "non-null assertion '!.'"
+      ]
+    },
+    {
+      "path": "client/src/pages/Favoris.tsx",
+      "lines": 439,
+      "reasons": [
+        "non-null assertion '!.'"
+      ]
+    },
+    {
+      "path": "client/src/pages/GammesMossi.tsx",
+      "lines": 410,
+      "reasons": [
+        "non-null assertion '!.'"
+      ]
+    }
+  ],
+  "ineligible_files": [
+    {
+      "path": "client/src/components/AIEnrichButton.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/AddInventoryModal.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/components/AnalyticsDashboard.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/AxisForceGraph.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/components/AxisSelector.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/BiosyntheticPathwayFlow.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/BiosyntheticPathwayViz.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/ChemicalFamilyHierarchyGraph.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/CitationGraph.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/CitationManager.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/CitationNetworkView.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/CollaborationPanel.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/components/DuplicateManagementModal.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/EnhancedRadarChart.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/components/EntityConnectionBar.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/EntityLinker.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/ForceGraph.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/ForceGraphAxes.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/GenealogyTree.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/LeafletMap.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/components/LinkedReferences.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/MobileMenu.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/PlantImageUpload.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/components/PlantMoleculeGraph.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/RecentActivity.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/components/RecommendationsPanel.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/components/SankeyDiagram.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/SeasonalVariations.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/SeeAlso.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/SmartSearch.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/SynergySuggestions.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/TerroirMap.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/TerroirMapLeaflet.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/TimelineAromatic.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/TransformationChainGraph.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/components/VerifiedSuppliersPanel.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/charts/EnhancedSankeyDiagram.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/charts/OlfactiveRadarChart.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/components/charts/PlantTerroirNetworkGraph.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/charts/RecipeNetworkGraph.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/charts/TerrainPlantMoleculeGraph.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/content/CarteContent.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/content/GammesOverviewContent.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/content/PlantsContent.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/content/TerroirsContent.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/content/VarietiesContent.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/components/forms/FinalRecipeForm.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/components/forms/TerpProfileForm.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/components/ui/dialog.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/components/ui/input.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/components/ui/textarea.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/hooks/usePersistFn.ts",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/lib/exportStatisticsPDF.ts",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/lib/exportUtils.ts",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/AbsorbeScale.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/AccordsDedies.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/AdminChemicalFamilyLinking.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/AdminContributions.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/AdminDuplicates.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/AdminHistorique.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/AdminImportExport.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/AdminMoleculeNew.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/AdminMolecules.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/AdminRecettes.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/AdminReferences.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/AdvancedSearch.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/AlternativesDurables.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/AnalysisHub.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/AnalyticsDashboardAdvanced.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/Archives.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ArchivesOlfactives.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/AromaticRarities.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/AxeRechercheDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/AxesRecherche.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/BatchImport.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/Bibliographie.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/BibliographieGlobale.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/BibliographiePage.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/BiosyntheticPathways.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/BulkImportReferences.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/CSVValidationImport.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/CannabisLandraces.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/CarteInteractiveTerroirs.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/CartePlantesGPS.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/CarteTerroirsPlantes.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/CarteTerroirsRecherche.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/CarteVarietes.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ChemicalFamilyGraph.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/Chemotypes.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ChemotypesExplorer.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/CigarilloRecipes.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ClaimsAndProofs.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ClaimsAndProofsPage.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ClassificationReviewQueue.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ComparaisonAvancee.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ComparaisonExtractions.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ComparaisonMolecules.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/Compare.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/CompareMoleculesAdvanced.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/CompareRadar.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/CompoundSearch.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ContributorInterface.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/CorrelationsParfumTabacCannabis.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/CoverageGoalDashboard.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/CrossSearch.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/EnhancedRadarDemo.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/ExportBibliographique.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ExtractionMethods.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/FamilyDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/FinalRecipes.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/GCMSChromatograms.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/Gallery.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/Gammes.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/GenealogyGraph.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/GenerateurFormules.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/GenomicsExplorer.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/GhostVarietyDetail.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/GhostVarietyForm.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/GhostVarietyImageUpload.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/GrapheAxesThematiques.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/GrapheMoleculesRecettes.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/GrapheReferencesAxes.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/GrapheTerroirPlanteMolecule.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/H2LinkingInterface.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/H3LinkingInterface.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/HeritageConservation.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/HistoriqueFormules.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/Ifra.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ImportCSVPreview.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/InventoryDashboard.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/LandraceComparator.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/LeafEconomyForm.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/LinkingDashboard.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/MSSpectraViewer.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/MatriceInteractive.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/MolecularTransformations.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/MoleculeDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/MoleculePlantRelations.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/MoleculeRecetteAudit.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/MoleculeRecetteDragDrop.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/MoleculeRecetteImportCSV.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/MoleculeRecetteLinking.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/Molecules.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/MonDashboard.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/OdeurSitueeDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/OdeursSituees.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/OlfactiveStats.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/OriginesGeographiques.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/OsmothequeMolecules.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ParcoursDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ParcoursOlfactif.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/PatrimoineMenace.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/PerceptSearch.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/PeriqueCompounds.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/PlantForm.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/PlantMoleculeAudit.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/PlantMoleculeLinking.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/PlantTerroirAudit.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/PlantTerroirDragDrop.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/PlantTerroirImportCSV.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/PlantTerroirLinking.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/PlantTerroirNetwork.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/PlantVarieties.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ProtocolDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/PrototypeDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/PublicationMoleculeGraph.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/PyrolysisVisualization.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/RadarCorrelationHeatmap.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/RawMaterialDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/RawMaterialForm.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/RawMaterials.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/RawMaterialsInventory.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/RecetteCBDDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/RecetteDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/RecettesTL.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/RechercheAvancee.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/RechercheProfilMoleculaire.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/RechercheRadicale.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/RecipeNetworkPage.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ReferenceEntityLinkManager.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ReferencesGraph.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ReferencesV3.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/RelationsGraph.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ResearchData.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/Reseau.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ReseauAxes.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ReseauLiaisons.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/ResinesCBD.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/SimplifiedContributorForm.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/SmilesViewer.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/SoilAnalysis.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/SourcingHub.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/SpectraComparison.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/SpectraIdentification.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/SuggestReferenceLinks.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/SynergiesGraphVisualization.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/SynergiesHeatmap.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/SynergiesMoleculaires.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/SynergiesPage.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/TabacDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/TechnicalProtocols.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/TerpProfiles.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/TerpProfilesCompare.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/TerpeneDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/TerroirDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/Terroirs.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/TestExtractionDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/TestsExtraction.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/TimelineInteractive.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/TimelinePerfumum.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/TobaccoLandraceDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/TobaccoLandraces.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/TpsGenesExplorer.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/VarietyDetail.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/VarietyForm.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/VisualisationsCorrelation.tsx",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "client/src/pages/VueDetailConnexions.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/__tests__/ClaimsAndProofs.test.ts",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/__tests__/Tabacotheque.test.ts",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/AIBatchEnrich.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/AIBatchEnrichMolecules.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/AdminAccords.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/AdminFamilles.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/AdminMatieres.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/AdminMoleculesIndex.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/AdminPlantMolecules.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/AdminSynergies.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/CigarilloMoleculeLinking.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/DataQuality.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/GBIFBatch.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/LiaisonRecettesMolecules.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/MoleculeManager.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/MoleculeOriginsAdmin.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/PubChemBatch.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/PubChemIupacBatch.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/admin/TerroirsGeocode.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "client/src/pages/outils/EditeurFormulation.tsx",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "server/link-analysis.ts",
+      "reason": "cast 'as any'"
+    },
+    {
+      "path": "server/routers/gbif.ts",
+      "reason": "type 'any' explicite"
+    },
+    {
+      "path": "server/routers/lotus.ts",
+      "reason": "type 'any' explicite"
+    }
+  ],
+  "execution_results": []
+}
