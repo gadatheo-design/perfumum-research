@@ -2231,10 +2231,10 @@ export const plantMolecules = mysqlTable("plant_molecules", {
   plantId: int("plant_id").notNull().references(() => plants.id),
   moleculeId: int("molecule_id").notNull().references(() => molecules.id),
   // Pourcentages de composition (ex: linalol 25-45% dans la lavande)
-  percentageMin: decimal("percentage_min", { precision: 5, scale: 2 }), // Pourcentage minimum
-  percentageMax: decimal("percentage_max", { precision: 5, scale: 2 }), // Pourcentage maximum
-  percentageTypical: decimal("percentage_typical", { precision: 5, scale: 2 }), // Pourcentage typique/moyen
-  percentage: decimal("percentage", { precision: 5, scale: 2 }), // Pourcentage (legacy)
+  percentageMin: decimal("percentage_min", { precision: 5, scale: 2, mode: 'number' }), // Pourcentage minimum
+  percentageMax: decimal("percentage_max", { precision: 5, scale: 2, mode: 'number' }), // Pourcentage maximum
+  percentageTypical: decimal("percentage_typical", { precision: 5, scale: 2, mode: 'number' }), // Pourcentage typique/moyen
+  percentage: decimal("percentage", { precision: 5, scale: 2, mode: 'number' }), // Pourcentage (legacy)
   // Classification
   isSignature: int("is_signature").default(0), // 1 = molécule signature de la plante
   role: mysqlEnum("role", [

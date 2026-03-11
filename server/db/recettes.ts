@@ -1554,7 +1554,7 @@ export async function autoLinkPlantMolecules(options: {
       await db.insert(plantMolecules).values({
         plantId: s.plantId,
         moleculeId: s.moleculeId,
-        percentageTypical: s.percentageTypical.toString(),
+        percentageTypical: s.percentageTypical,
         role: s.role,
         notes: `Auto-liaison: ${s.reason} (confiance: ${Math.round(s.confidence * 100)}%)`,
       });

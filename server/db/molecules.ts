@@ -870,9 +870,9 @@ export async function addMoleculeToPlant(
   plantId: number, 
   moleculeId: number, 
   options?: {
-    percentageMin?: string;
-    percentageMax?: string;
-    percentageTypical?: string;
+    percentageMin?: number;
+    percentageMax?: number;
+    percentageTypical?: number;
     isSignature?: number;
     role?: "majeur" | "secondaire" | "trace" | "variable";
     notes?: string;
@@ -1231,9 +1231,9 @@ export async function createPlantMoleculeLink(data: {
   const result = await db.insert(plantMolecules).values({
     plantId: data.plantId,
     moleculeId: data.moleculeId,
-    percentageMin: data.percentageMin?.toString(),
-    percentageMax: data.percentageMax?.toString(),
-    percentageTypical: data.percentageTypical?.toString(),
+    percentageMin: data.percentageMin,
+    percentageMax: data.percentageMax,
+    percentageTypical: data.percentageTypical,
     isSignature: data.isSignature || 0,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     role: data.role as any,
@@ -1277,9 +1277,9 @@ export async function updatePlantMoleculeLink(
 
   await db.update(plantMolecules)
     .set({
-      ...(data.percentageMin !== undefined && { percentageMin: data.percentageMin?.toString() ?? null }),
-      ...(data.percentageMax !== undefined && { percentageMax: data.percentageMax?.toString() ?? null }),
-      ...(data.percentageTypical !== undefined && { percentageTypical: data.percentageTypical?.toString() ?? null }),
+      ...(data.percentageMin !== undefined && { percentageMin: data.percentageMin ?? null }),
+      ...(data.percentageMax !== undefined && { percentageMax: data.percentageMax ?? null }),
+      ...(data.percentageTypical !== undefined && { percentageTypical: data.percentageTypical ?? null }),
       ...(data.isSignature !== undefined && { isSignature: data.isSignature }),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ...(data.role !== undefined && { role: data.role as any }),

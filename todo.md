@@ -2095,3 +2095,9 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Nettoyer server/db/research_axes.ts (@ts-nocheck + any)
 - [x] Nettoyer server/db/tabacs.ts (@ts-nocheck + any)
 - [x] Corriger AromaticRarityDetailPage.tsx : propriétés rarity/origin/description/transformation/proportion/volatility/localization manquantes dans le type de retour du router aromaticRarities
+
+## SESSION 11 MARS 2026 — Wave 3 TypeScript : Enums, percentageMin, Composants graphiques
+
+- [x] Corriger percentageMin string vs number dans molecules.ts (schéma Drizzle decimal → number)
+- [x] Corriger les incompatibilités d'enums dans les routers (plant.category, role)
+- [x] Corriger les erreurs client dans AromaticRaritiesGraph.tsx et AccordsContent.tsx

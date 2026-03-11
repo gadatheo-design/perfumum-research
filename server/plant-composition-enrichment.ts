@@ -1239,7 +1239,7 @@ export async function executeEnrichment(): Promise<{
           await db.insert(plantMolecules).values({
             plantId: plant.id,
             moleculeId: moleculeId,
-            percentage: comp.percentage?.toString() || null,
+            percentage: comp.percentage ?? null,
           });
           plantLinksCreated++;
           linksCreated++;
