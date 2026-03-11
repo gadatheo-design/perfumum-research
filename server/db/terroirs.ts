@@ -481,7 +481,7 @@ export async function createGeographicZone(data: {
   description?: string;
   threatLevel?: "critical" | "high" | "medium" | "low" | "stable";
   speciesCount?: number;
-  conservationPriority?: string;
+  conservationPriority?: "urgent" | "high" | "medium" | "low";
   overlayColor?: string;
   overlayOpacity?: string;
   sustainableAlternatives?: string;
@@ -504,7 +504,7 @@ export async function updateGeographicZone(zoneId: number, data: {
   description?: string;
   threatLevel?: "critical" | "high" | "medium" | "low" | "stable";
   speciesCount?: number;
-  conservationPriority?: string;
+  conservationPriority?: "urgent" | "high" | "medium" | "low";
   overlayColor?: string;
   overlayOpacity?: string;
   sustainableAlternatives?: string;

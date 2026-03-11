@@ -300,7 +300,6 @@ export async function getMolecularTransformations(options?: {
       query += ` OFFSET ${options.offset}`;
     }
     
-    // @ts-expect-error -- Drizzle execute() returns unknown[]; raw SQL needed for dynamic queries
     const result = await (db as { execute: (q: unknown) => Promise<unknown[]> }).execute(sql.raw(query));
     return (result[0] as unknown[]) ?? [];
   } catch (error) {
@@ -333,7 +332,6 @@ export async function createMolecularTransformation(data: {
   if (!db) return null;
   
   try {
-    // @ts-expect-error -- Drizzle execute() returns unknown; raw SQL needed for dynamic insert
     const result = await (db as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(`
       INSERT INTO molecular_transformations (
         source_molecule_name, product_molecule_name, transformation_type,
@@ -369,7 +367,6 @@ export async function getMolecularTransformationStats() {
   if (!db) return null;
   
   try {
-    // @ts-expect-error -- Drizzle execute() returns unknown; raw SQL needed for aggregate query
     const result = await (db as { execute: (q: unknown) => Promise<unknown[]> }).execute(sql.raw(`
       SELECT 
         COUNT(*) as total_transformations,

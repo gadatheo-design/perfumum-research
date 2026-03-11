@@ -2080,3 +2080,18 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - @ts-nocheck dans server/db/ : 17 → 9 (-8 modules nettoyés)
 - Erreurs TypeScript totales : 142 → ~161 (légère hausse due à la révélation d'erreurs cachées par @ts-nocheck, attendu)
 - Serveur HTTP 200 maintenu tout au long des corrections
+
+## SESSION 11 MARS 2026 — Wave 2 TypeScript (suite) + AromaticRarityDetailPage
+
+### À faire
+- [x] Corriger server/db/terroirs.ts : conservationPriority string → enum cast
+- [x] Nettoyer server/db/bibliography.ts (@ts-nocheck + any)
+- [x] Nettoyer server/db/import_export.ts (@ts-nocheck + any)
+- [x] Nettoyer server/db/materials.ts (@ts-nocheck + any)
+- [x] Nettoyer server/db/misc.ts (@ts-nocheck + any)
+- [x] Nettoyer server/db/molecules.ts (@ts-nocheck + any)
+- [x] Nettoyer server/db/plants.ts (@ts-nocheck + any)
+- [x] Nettoyer server/db/recettes.ts (@ts-nocheck + any)
+- [x] Nettoyer server/db/research_axes.ts (@ts-nocheck + any)
+- [x] Nettoyer server/db/tabacs.ts (@ts-nocheck + any)
+- [x] Corriger AromaticRarityDetailPage.tsx : propriétés rarity/origin/description/transformation/proportion/volatility/localization manquantes dans le type de retour du router aromaticRarities

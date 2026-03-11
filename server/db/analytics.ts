@@ -243,7 +243,7 @@ import {
   InsertRecetteRawMaterial,
 } from "../../drizzle/schema";
 import { getDb } from './core';
-
+import { parseMoleculeJsonFields } from './molecules';
 import { ENV } from '../_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
 import { expandWithScientificNames, getScientificDictionaryStats } from '../../shared/botanicalLatinNames';
@@ -389,7 +389,6 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
   // Fonction helper pour construire les conditions de recherche enrichies
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const buildEnrichedSearchCondition = (columns: any[]) => {
-    // @ts-expect-error -- Drizzle column types are complex; runtime usage is correct
     const conditions: ReturnType<typeof sql>[] = [];
     
     // Recherche principale (terme original) - priorité haute
@@ -913,6 +912,7 @@ export async function getMoleculeTimelineData() {
       id: molecule.id,
       name: molecule.name,
       family: molecule.family,
+      createdAt: molecule.createdAt ?? null,
     });
   });
   

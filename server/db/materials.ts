@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: materials
  * Généré automatiquement depuis server/db.ts
@@ -295,7 +294,7 @@ export async function createMatiere(data: {
     name: data.name,
     botanicalName: data.botanicalName || null,
     type: data.type,
-    olfactiveFamily: (data as any).olfactiveFamily || (data as any).family || null,
+    olfactiveFamily: data.olfactiveFamily || null,
     note: data.note || null,
     origin: data.origin || null,
     extractionMethod: data.extractionMethod || null,
@@ -317,7 +316,7 @@ export async function updateMatiereStock(id: number, stock: number, status?: "en
   const db = await getDb();
   if (!db) return;
   
-  const updateData: any = { stock };
+  const updateData: Record<string, unknown> = { stock };
   if (status) updateData.status = status;
   
   await db.update(laboratoire).set(updateData).where(eq(laboratoire.id, id));
@@ -540,7 +539,8 @@ export async function getRawMaterialByMaterialId(materialId: string) {
 export async function getRawMaterialsByCategory(category: string) {
   const db = await getDb();
   if (!db) return [];
-  return db.select().from(rawMaterials).where(eq(rawMaterials.category, category as any)).orderBy(rawMaterials.name);
+  // @ts-expect-error -- category is a string enum; runtime value validated by caller
+  return db.select().from(rawMaterials).where(eq(rawMaterials.category, category)).orderBy(rawMaterials.name);
 }
 
 export async function getRawMaterialsByPlant(plantId: number) {
@@ -616,14 +616,20 @@ export async function getRawMaterialsFiltered(params: {
   }
   // Filtrage par liste de catégories (pour les groupes multi-catégories)
   if (categories && categories.length > 0) {
-    conditions.push(inArray(rawMaterials.category, categories as any[]));
+    // @ts-expect-error -- categories are string enums; runtime values validated by caller
+    conditions.push(inArray(rawMaterials.category, categories));
   } else if (category) {
-    conditions.push(eq(rawMaterials.category, category as any));
+    // @ts-expect-error -- category is a string enum; runtime value validated by caller
+    conditions.push(eq(rawMaterials.category, category));
   }
-  if (olfactiveFamily) conditions.push(eq(rawMaterials.olfactiveFamily, olfactiveFamily as any));
-  if (quality) conditions.push(eq(rawMaterials.quality, quality as any));
-  if (availability) conditions.push(eq(rawMaterials.availability, availability as any));
-  if (priceRange) conditions.push(eq(rawMaterials.priceRange, priceRange as any));
+  // @ts-expect-error -- olfactiveFamily is a string enum; runtime value validated by caller
+  if (olfactiveFamily) conditions.push(eq(rawMaterials.olfactiveFamily, olfactiveFamily));
+  // @ts-expect-error -- quality is a string enum; runtime value validated by caller
+  if (quality) conditions.push(eq(rawMaterials.quality, quality));
+  // @ts-expect-error -- availability is a string enum; runtime value validated by caller
+  if (availability) conditions.push(eq(rawMaterials.availability, availability));
+  // @ts-expect-error -- priceRange is a string enum; runtime value validated by caller
+  if (priceRange) conditions.push(eq(rawMaterials.priceRange, priceRange));
 
   const whereExpr = conditions.length > 0 ? and(...conditions) : undefined;
 

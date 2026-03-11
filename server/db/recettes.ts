@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: recettes
  * Généré automatiquement depuis server/db.ts
@@ -415,6 +414,7 @@ export async function createRecette(data: InsertRecette): Promise<Recette> {
   if (!db) throw new Error('Database not available');
   
   const result = await db.insert(recettes).values(data);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const insertedId = Number((result as any)[0]?.insertId || 0);
   
   const created = await getRecetteById(insertedId);
@@ -507,17 +507,17 @@ export async function getMoleculeByName(name: string): Promise<Molecule | undefi
   return result[0];
 }
 
-export async function updateMolecule(id: number, data: any) {
+export async function updateMolecule(id: number, data: Record<string, unknown>) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
   await db.update(molecules)
     .set({
-      name: data.nom || undefined,
-      chemicalFormula: data.formule || undefined,
-      family: data.familleChimique || undefined,
-      olfactiveProfile: data.noteOlfactive || undefined,
-      notes: data.description || undefined,
+      name: data.nom ? String(data.nom) : undefined,
+      chemicalFormula: data.formule ? String(data.formule) : undefined,
+      family: data.familleChimique ? String(data.familleChimique) : undefined,
+      olfactiveProfile: data.noteOlfactive ? String(data.noteOlfactive) : undefined,
+      notes: data.description ? String(data.description) : undefined,
     })
     .where(eq(molecules.id, id));
 }
@@ -538,15 +538,15 @@ export async function getAccordByName(name: string): Promise<Accord | undefined>
   return result[0];
 }
 
-export async function updateAccord(id: number, data: any) {
+export async function updateAccord(id: number, data: Record<string, unknown>) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
   await db.update(accords)
     .set({
-      name: data.nom || undefined,
-      notes: data.description || undefined,
-      familyId: data.familleId || undefined,
+      name: data.nom ? String(data.nom) : undefined,
+      notes: data.description ? String(data.description) : undefined,
+      familyId: data.familleId ? Number(data.familleId) : undefined,
     })
     .where(eq(accords.id, id));
 }
@@ -559,14 +559,14 @@ export async function getFamilyByName(name: string): Promise<Family | undefined>
   return result[0];
 }
 
-export async function updateFamily(id: number, data: any) {
+export async function updateFamily(id: number, data: Record<string, unknown>) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
   await db.update(families)
     .set({
-      name: data.nom || undefined,
-      description: data.description || undefined,
+      name: data.nom ? String(data.nom) : undefined,
+      description: data.description ? String(data.description) : undefined,
     })
     .where(eq(families.id, id));
 }
@@ -579,21 +579,20 @@ export async function getMatiereByName(name: string): Promise<Laboratoire | unde
   return result[0];
 }
 
-export async function updateMatiere(id: number, data: any) {
+export async function updateMatiere(id: number, data: Record<string, unknown>) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
   
-  await db.update(laboratoire)
-    .set({
-      name: data.nom || undefined,
-      type: data.type || undefined,
-      origin: data.origine || undefined,
-      supplier: data.fournisseur || undefined,
-      pricePerMl: data.prixUnitaire || undefined,
-      purchaseDate: data.dateAchat || undefined,
-      technicalNotes: data.notes || undefined,
-    })
-    .where(eq(laboratoire.id, id));
+  const updateSet: Record<string, unknown> = {};
+  if (data.nom) updateSet.name = String(data.nom);
+  if (data.type) updateSet.type = String(data.type);
+  if (data.origine) updateSet.origin = String(data.origine);
+  if (data.fournisseur) updateSet.supplier = String(data.fournisseur);
+  if (data.prixUnitaire) updateSet.pricePerMl = Number(data.prixUnitaire);
+  if (data.dateAchat) updateSet.purchaseDate = new Date(String(data.dateAchat));
+  if (data.notes) updateSet.technicalNotes = String(data.notes);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await db.update(laboratoire).set(updateSet as any).where(eq(laboratoire.id, id));
 }
 
 
@@ -694,13 +693,15 @@ export async function getFinalRecipeByRecipeId(recipeId: string) {
 export async function getFinalRecipesByType(recipeType: string) {
   const db = await getDb();
   if (!db) return [];
-  return await db.select().from(finalRecipes).where(eq(finalRecipes.recipeType, recipeType as any)).orderBy(finalRecipes.recipeId);
+  // @ts-expect-error -- recipeType is a string enum; runtime value validated by caller
+  return await db.select().from(finalRecipes).where(eq(finalRecipes.recipeType, recipeType)).orderBy(finalRecipes.recipeId);
 }
 
 export async function getFinalRecipesByClimaticAxis(axis: string) {
   const db = await getDb();
   if (!db) return [];
-  return await db.select().from(finalRecipes).where(eq(finalRecipes.climaticAxis, axis as any)).orderBy(finalRecipes.recipeId);
+  // @ts-expect-error -- climaticAxis is a string enum; runtime value validated by caller
+  return await db.select().from(finalRecipes).where(eq(finalRecipes.climaticAxis, axis)).orderBy(finalRecipes.recipeId);
 }
 
 export async function getRadicalRecipes() {
@@ -1099,8 +1100,8 @@ export async function bulkImportMoleculeRecettes(relations: Array<{
     try {
       await db.insert(moleculesRecettes).values(toInsert);
       imported = toInsert.length;
-    } catch (error: any) {
-      errors.push(`Erreur d'insertion: ${error.message}`);
+    } catch (error: unknown) {
+      errors.push(`Erreur d'insertion: ${(error as Error).message}`);
     }
   }
 
@@ -1158,8 +1159,8 @@ export async function createMultipleMoleculeRecettes(relations: Array<{
   if (toInsert.length > 0) {
     try {
       await db.insert(moleculesRecettes).values(toInsert);
-    } catch (error: any) {
-      errors.push(`Erreur d'insertion: ${error.message}`);
+    } catch (error: unknown) {
+      errors.push(`Erreur d'insertion: ${(error as Error).message}`);
       return { success: false, created: 0, errors };
     }
   }
@@ -1404,12 +1405,12 @@ export async function autoLinkMoleculeRecettes(options: {
   if (toInsert.length > 0) {
     try {
       await db.insert(moleculesRecettes).values(toInsert);
-    } catch (error: any) {
+    } catch (error: unknown) {
       return {
         success: false,
         created: 0,
         suggestions: sortedSuggestions,
-        errors: [`Erreur d'insertion: ${error.message}`],
+        errors: [`Erreur d'insertion: ${(error as Error).message}`],
       };
     }
   }
@@ -1558,9 +1559,9 @@ export async function autoLinkPlantMolecules(options: {
         notes: `Auto-liaison: ${s.reason} (confiance: ${Math.round(s.confidence * 100)}%)`,
       });
       created++;
-    } catch (error: any) {
-      if (!error.message.includes('Duplicate')) {
-        errors.push(`Erreur pour ${s.plantName} - ${s.moleculeName}: ${error.message}`);
+    } catch (error: unknown) {
+      if (!(error as Error).message.includes('Duplicate')) {
+        errors.push(`Erreur pour ${s.plantName} - ${s.moleculeName}: ${(error as Error).message}`);
       }
     }
   }
@@ -1808,7 +1809,8 @@ export async function getCompletudeRawMaterials(params: {
       extractionYield: rawMaterials.extractionYield,
     })
     .from(rawMaterials)
-    .where(category ? eq(rawMaterials.category, category as any) : undefined);
+    // @ts-expect-error -- category is a string enum; runtime value validated by caller
+    .where(category ? eq(rawMaterials.category, category) : undefined);
 
   // Calculer le score de complétude pour chaque matière première
   const scored = allMaterials.map((m) => {

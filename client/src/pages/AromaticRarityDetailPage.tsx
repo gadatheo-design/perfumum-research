@@ -40,22 +40,27 @@ export default function AromaticRarityDetailPage() {
     );
   }
 
-  const raw = rarityData?.data;
+  // The data returned from the DB is typed as unknown; cast to access fields
+  const raw = rarityData?.data as Record<string, unknown> | null | undefined;
   const material = raw ? {
-    id: raw.rarity_id,
-    name: raw.name,
-    category: raw.category || '',
-    geography: raw.geography || '',
-    rarity_regime: raw.rarity_regime || '',
-    cultural_status: raw.cultural_status || '',
-    source_type: raw.source_type || '',
-    extractability: raw.extractability || '',
-    key_molecules: raw.key_molecules || '',
-    absorbe_potential: raw.absorbe_potential || '',
-    notes: raw.notes || '',
-    references: raw.references || '',
-    temporal_behavior: raw.temporal_behavior || '',
-    industrial_products: raw.industrial_products || '',
+    id: (raw.rarity_id as string) || '',
+    name: (raw.name as string) || '',
+    category: (raw.category as string) || '',
+    geography: (raw.geography as string) || '',
+    rarity_regime: (raw.rarity_regime as string) || '',
+    cultural_status: (raw.cultural_status as string) || '',
+    source_type: (raw.source_type as string) || '',
+    extractability: (raw.extractability as string) || '',
+    key_molecules: (raw.key_molecules as string) || '',
+    absorbe_potential: (raw.absorbe_potential as string) || '',
+    notes: (raw.notes as string) || '',
+    references: (raw.references as string) || '',
+    temporal_behavior: (raw.temporal_behavior as string) || '',
+    industrial_products: (raw.industrial_products as string) || '',
+    // Propriétés supplémentaires utilisées dans le rendu
+    rarity: (raw.rarity_regime as string) || (raw.rarity as string) || '',
+    origin: (raw.geography as string) || (raw.origin as string) || '',
+    description: (raw.notes as string) || (raw.description as string) || '',
   } : null;
 
   if (!material) {

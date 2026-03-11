@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: research_axes
  * Généré automatiquement depuis server/db.ts
@@ -242,9 +241,16 @@ import {
   recetteRawMaterials,
   RecetteRawMaterial,
   InsertRecetteRawMaterial,
+  // Synergies avancées
+  entourageRules,
+  EntourageRule,
+  molecularInteractions,
+  MolecularInteraction,
+  formulationSuggestions,
+  FormulationSuggestion,
 } from "../../drizzle/schema";
 import { getDb } from './core';
-
+import { getAllThematicAxes } from './bibliography';
 import { ENV } from '../_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
 import { expandWithScientificNames, getScientificDictionaryStats } from '../../shared/botanicalLatinNames';
@@ -268,15 +274,18 @@ export async function getAllResearchAxes(filters?: {
   
   let query = db.select().from(researchAxes);
   
-  const conditions: any[] = [];
+  const conditions: SQL[] = [];
   
   if (filters?.status) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     conditions.push(eq(researchAxes.status, filters.status as any));
   }
   if (filters?.category) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     conditions.push(eq(researchAxes.category, filters.category as any));
   }
   if (filters?.priority) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     conditions.push(eq(researchAxes.priority, filters.priority as any));
   }
   if (filters?.parentAxisId !== undefined) {
@@ -288,7 +297,9 @@ export async function getAllResearchAxes(filters?: {
   }
   
   if (conditions.length > 0) {
-    query = query.where(and(...conditions)) as any;
+    // @ts-expect-error -- Drizzle query builder chain; runtime usage is correct
+
+    query = query.where(and(...conditions));
   }
   
   return query.orderBy(researchAxes.axisCode);
@@ -322,9 +333,8 @@ export async function updateResearchAxis(id: number, data: Partial<InsertResearc
   const db = await getDb();
   if (!db) return null;
   
-  await db.update(researchAxes)
-    .set(data as any)
-    .where(eq(researchAxes.id, id));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await db.update(researchAxes).set(data as any).where(eq(researchAxes.id, id));
   
   return getResearchAxisById(id);
 }
@@ -395,41 +405,52 @@ export async function getAllResearchEntries(filters?: {
   
   let query = db.select().from(researchEntries);
   
-  const conditions: any[] = [];
+  const conditions: SQL[] = [];
   
   if (filters?.axisId) {
     conditions.push(eq(researchEntries.axisId, filters.axisId));
   }
   if (filters?.entryType) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     conditions.push(eq(researchEntries.entryType, filters.entryType as any));
   }
   if (filters?.status) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     conditions.push(eq(researchEntries.status, filters.status as any));
   }
   if (filters?.importance) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     conditions.push(eq(researchEntries.importance, filters.importance as any));
   }
   if (filters?.search) {
-    conditions.push(
-      or(
-        like(researchEntries.title, `%${filters.search}%`),
-        like(researchEntries.content, `%${filters.search}%`),
-        like(researchEntries.entryCode, `%${filters.search}%`)
-      )
+    const searchCond = or(
+      like(researchEntries.title, `%${filters.search}%`),
+      like(researchEntries.content, `%${filters.search}%`),
+      like(researchEntries.entryCode, `%${filters.search}%`)
     );
+    if (searchCond) conditions.push(searchCond);
   }
   
   if (conditions.length > 0) {
-    query = query.where(and(...conditions)) as any;
+    // @ts-expect-error -- Drizzle query builder chain; runtime usage is correct
+
+    query = query.where(and(...conditions));
   }
   
-  query = query.orderBy(researchEntries.sortOrder, desc(researchEntries.createdAt)) as any;
+  // @ts-expect-error -- Drizzle query builder chain; runtime usage is correct
+
+  
+  query = query.orderBy(researchEntries.sortOrder, desc(researchEntries.createdAt));
   
   if (filters?.limit) {
-    query = query.limit(filters.limit) as any;
+    // @ts-expect-error -- Drizzle query builder chain; runtime usage is correct
+
+    query = query.limit(filters.limit);
   }
   if (filters?.offset) {
-    query = query.offset(filters.offset) as any;
+    // @ts-expect-error -- Drizzle query builder chain; runtime usage is correct
+
+    query = query.offset(filters.offset);
   }
   
   return query;
@@ -463,9 +484,8 @@ export async function updateResearchEntry(id: number, data: Partial<InsertResear
   const db = await getDb();
   if (!db) return null;
   
-  await db.update(researchEntries)
-    .set(data as any)
-    .where(eq(researchEntries.id, id));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await db.update(researchEntries).set(data as any).where(eq(researchEntries.id, id));
   
   return getResearchEntryById(id);
 }
@@ -584,7 +604,7 @@ export async function getAxisGraphData() {
   }));
   
   // Build links
-  const links = connections.map((conn: any) => ({
+  const links = connections.map((conn: Record<string, unknown>) => ({
     source: conn.sourceAxisId,
     target: conn.targetAxisId,
     strength: conn.strength,
@@ -608,6 +628,7 @@ export async function createAxisConnection(data: {
   if (!db) return { success: false };
   await db
     .insert(axisConnections)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .values(data as any)
     .onDuplicateKeyUpdate({ set: { strength: data.strength } });
   return { success: true };
@@ -730,7 +751,7 @@ export async function getAllAxisReferenceLinks(filters?: {
   const db = await getDb();
   if (!db) return [];
   
-  const conditions: any[] = [];
+  const conditions: SQL[] = [];
   
   if (filters?.axisId) {
     conditions.push(eq(axisReferenceLinks.axisId, filters.axisId));
@@ -739,16 +760,20 @@ export async function getAllAxisReferenceLinks(filters?: {
     conditions.push(eq(axisReferenceLinks.referenceId, filters.referenceId));
   }
   if (filters?.linkType) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     conditions.push(eq(axisReferenceLinks.linkType, filters.linkType as any));
   }
   if (filters?.confidence) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     conditions.push(eq(axisReferenceLinks.confidence, filters.confidence as any));
   }
   
   let query = db.select().from(axisReferenceLinks);
   
   if (conditions.length > 0) {
-    query = query.where(and(...conditions)) as any;
+    // @ts-expect-error -- Drizzle query builder chain; runtime usage is correct
+
+    query = query.where(and(...conditions));
   }
   
   return query.orderBy(desc(axisReferenceLinks.relevanceScore));
@@ -838,6 +863,7 @@ export async function createAxisReferenceLink(data: {
   const db = await getDb();
   if (!db) throw new Error('Database not initialized');
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [result] = await db.insert(axisReferenceLinks).values(data as any);
   return { id: result.insertId, ...data };
 }
@@ -858,6 +884,7 @@ export async function updateAxisReferenceLink(id: number, data: {
   const db = await getDb();
   if (!db) throw new Error('Database not initialized');
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await db.update(axisReferenceLinks).set(data as any).where(eq(axisReferenceLinks.id, id));
   return getAxisReferenceLinkById(id);
 }
@@ -888,7 +915,7 @@ export async function getAxisReferenceGraphData() {
   const linkedRefIds = Array.from(new Set(allLinks.map(l => l.referenceId)));
   
   // Récupérer les références liées
-  let references: any[] = [];
+  let references: (typeof v3References.$inferSelect)[] = [];
   if (linkedRefIds.length > 0) {
     references = await db
       .select()
@@ -924,8 +951,8 @@ export async function getAxisReferenceGraphData() {
     nodes.push({
       id: `ref-${ref.id}`,
       type: 'reference',
-      label: ref.title.substring(0, 50) + (ref.title.length > 50 ? '...' : ''),
-      year: ref.year,
+      label: (ref.title ?? '').substring(0, 50) + ((ref.title ?? '').length > 50 ? '...' : ''),
+      year: ref.year ?? undefined,
       color: '#3b82f6', // Bleu pour les références
       size: 15,
     });
@@ -1037,11 +1064,12 @@ export async function bulkCreateAxisReferenceLinks(links: Array<{
   
   for (const link of links) {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await db.insert(axisReferenceLinks).values(link as any);
       created++;
-    } catch (error: any) {
-      if (!error.message.includes('Duplicate')) {
-        errors.push(`Erreur pour axe ${link.axisId} - ref ${link.referenceId}: ${error.message}`);
+    } catch (error: unknown) {
+      if (!(error as Error).message.includes('Duplicate')) {
+        errors.push(`Erreur pour axe ${link.axisId} - ref ${link.referenceId}: ${(error as Error).message}`);
       }
     }
   }
@@ -1076,11 +1104,12 @@ export async function getForceGraphDataReferencesAxes(options?: {
   
   // Get all thematic axes
   const axes = metaAxisFilter && metaAxisFilter !== 'all'
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ? await db.select().from(thematicAxes).where(eq(thematicAxes.metaAxis, metaAxisFilter as any)).orderBy(thematicAxes.displayOrder)
     : await db.select().from(thematicAxes).orderBy(thematicAxes.displayOrder);
   
   // Get all v3 references with their primary axis
-  let references: typeof v3References.$inferSelect[] = [];
+  let references: (typeof v3References.$inferSelect)[] = [];
   if (metaAxisFilter && metaAxisFilter !== 'all') {
     // Filter references by meta-axis through their primary axis
     const axisIds = axes.map(a => a.id);

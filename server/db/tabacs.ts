@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: tabacs
  * Généré automatiquement depuis server/db.ts
@@ -242,9 +241,26 @@ import {
   recetteRawMaterials,
   RecetteRawMaterial,
   InsertRecetteRawMaterial,
+  terpeneComparisonProfiles,
+  TerpeneComparisonProfile,
+  InsertTerpeneComparisonProfile,
+  entourageRules,
+  EntourageRule,
+  InsertEntourageRule,
+  formulationSuggestions,
+  FormulationSuggestion,
+  InsertFormulationSuggestion,
+  aromaticAccords,
+  AromaticAccord,
+  InsertAromaticAccord,
+  molecularInteractions,
+  MolecularInteraction,
+  InsertMolecularInteraction,
 } from "../../drizzle/schema";
 import { getDb } from './core';
-
+import { getMoleculeById } from './molecules';
+import { enrichMoleculeWithTranslation } from '../pubchem';
+import { enrichMoleculeWithTranslationChEBI } from '../chebi';
 import { ENV } from '../_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
 import { expandWithScientificNames, getScientificDictionaryStats } from '../../shared/botanicalLatinNames';
@@ -295,7 +311,7 @@ export async function getTabacsWithTerroir(): Promise<any[]> {
     LEFT JOIN terroirs te ON te.id = ttl.terroir_id
     ORDER BY t.type, t.name
   `);
-  return (result as any)[0] as any[];
+  return (result as any)[0] as unknown[];
 }
 
 export async function getTabacsByType(type: string): Promise<any[]> {
@@ -312,7 +328,7 @@ export async function getTabacsByType(type: string): Promise<any[]> {
     WHERE t.type = ${type}
     ORDER BY t.name
   `);
-  return (result as any)[0] as any[];
+  return (result as any)[0] as unknown[];
 }
 
 export async function getTabacWithMolecules(tabacId: number): Promise<any> {
@@ -328,9 +344,9 @@ export async function getTabacWithMolecules(tabacId: number): Promise<any> {
     WHERE t.id = ${tabacId}
     LIMIT 1
   `);
-  const tabacRows = (tabacResult as any)[0] as any[];
+  const tabacRows = (tabacResult as any)[0] as unknown[];
   if (!tabacRows.length) return null;
-  const tabac = tabacRows[0];
+  const tabac = tabacRows[0] as Record<string, unknown>;
   // Get molecules via tabac_molecule_links (direct links, preferred)
   const molResult = await db.execute(sql`
     SELECT m.id, m.name, m.family, m.olfactiveProfile as odor_description,
@@ -340,7 +356,7 @@ export async function getTabacWithMolecules(tabacId: number): Promise<any> {
     WHERE tml.tabac_id = ${tabacId}
     ORDER BY m.name
   `);
-  let molecules = (molResult as any)[0] as any[];
+  let molecules = (molResult as any)[0] as unknown[];
 
   // Fallback: search via plants if no direct links
   if (molecules.length === 0) {
@@ -354,7 +370,7 @@ export async function getTabacWithMolecules(tabacId: number): Promise<any> {
       ORDER BY pm.percentage_typical DESC
       LIMIT 20
     `);
-    molecules = (plantMolResult as any)[0] as any[];
+    molecules = (plantMolResult as any)[0] as unknown[];
   }
 
   return { ...tabac, molecules };
@@ -396,6 +412,7 @@ export async function getMolecularInteractionById(id: number): Promise<Molecular
 export async function getMolecularInteractionsByCategory(category: string): Promise<MolecularInteraction[]> {
   const db = await getDb();
   if (!db) return [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return db.select().from(molecularInteractions)
     .where(eq(molecularInteractions.sourceCategory, category as any))
     .orderBy(molecularInteractions.name);
@@ -404,6 +421,7 @@ export async function getMolecularInteractionsByCategory(category: string): Prom
 export async function getMolecularInteractionsBySynergyType(synergyType: string): Promise<MolecularInteraction[]> {
   const db = await getDb();
   if (!db) return [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return db.select().from(molecularInteractions)
     .where(eq(molecularInteractions.synergyType, synergyType as any))
     .orderBy(molecularInteractions.name);
@@ -446,6 +464,7 @@ export async function getAromaticAccordById(id: number): Promise<AromaticAccord 
 export async function getAromaticAccordsByCategory(category: string): Promise<AromaticAccord[]> {
   const db = await getDb();
   if (!db) return [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return db.select().from(aromaticAccords)
     .where(eq(aromaticAccords.category, category as any))
     .orderBy(aromaticAccords.name);
@@ -488,6 +507,7 @@ export async function getTerpeneComparisonProfileById(id: number): Promise<Terpe
 export async function getTerpeneComparisonProfilesBySource(sourceType: string): Promise<TerpeneComparisonProfile[]> {
   const db = await getDb();
   if (!db) return [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return db.select().from(terpeneComparisonProfiles)
     .where(eq(terpeneComparisonProfiles.sourceType, sourceType as any))
     .orderBy(terpeneComparisonProfiles.name);
@@ -530,6 +550,7 @@ export async function getFormulationSuggestionById(id: number): Promise<Formulat
 export async function getFormulationSuggestionsByType(formulationType: string): Promise<FormulationSuggestion[]> {
   const db = await getDb();
   if (!db) return [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return db.select().from(formulationSuggestions)
     .where(eq(formulationSuggestions.formulationType, formulationType as any))
     .orderBy(formulationSuggestions.name);
@@ -580,6 +601,7 @@ export async function getEntourageRuleById(id: number): Promise<EntourageRule | 
 export async function getEntourageRulesByType(ruleType: string): Promise<EntourageRule[]> {
   const db = await getDb();
   if (!db) return [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return db.select().from(entourageRules)
     .where(eq(entourageRules.ruleType, ruleType as any))
     .orderBy(entourageRules.name);
@@ -842,7 +864,7 @@ export async function getAllTobaccoLandraces() {
   const result = await db.execute(sql`
     SELECT * FROM tobacco_landraces ORDER BY perfumery_potential_score DESC
   `);
-  return (result[0] as unknown) as any[];
+  return (result[0] as unknown) as unknown[];
 }
 
 export async function getTobaccoLandracesByRegion(region: string) {
@@ -854,7 +876,7 @@ export async function getTobaccoLandracesByRegion(region: string) {
     WHERE country LIKE ${`%${region}%`} OR region LIKE ${`%${region}%`}
     ORDER BY perfumery_potential_score DESC
   `);
-  return (result[0] as unknown) as any[];
+  return (result[0] as unknown) as unknown[];
 }
 
 export async function getTobaccoLandracesByMolecularProfile(profileType: string) {
@@ -866,7 +888,7 @@ export async function getTobaccoLandracesByMolecularProfile(profileType: string)
     WHERE molecular_profile_type = ${profileType}
     ORDER BY perfumery_potential_score DESC
   `);
-  return (result[0] as unknown) as any[];
+  return (result[0] as unknown) as unknown[];
 }
 
 export async function getTobaccoLandraceById(id: number) {
@@ -876,7 +898,7 @@ export async function getTobaccoLandraceById(id: number) {
   const result = await db.execute(sql`
     SELECT * FROM tobacco_landraces WHERE id = ${id}
   `);
-  const rows = (result[0] as unknown) as any[];
+  const rows = (result[0] as unknown) as unknown[];
   return rows[0] || null;
 }
 
@@ -885,25 +907,25 @@ export async function getTobaccoLandracesStats() {
   if (!db) return { total: 0, byCountry: [], byProfile: [], byStatus: [] };
   
   const _total = await db.execute(sql`SELECT COUNT(*) as count FROM tobacco_landraces`);
-  const [total] = (_total[0] as unknown) as any[];
+  const total = ((_total[0] as unknown) as Record<string,unknown>[]);
   const _byCountry = await db.execute(sql`
     SELECT country, COUNT(*) as count FROM tobacco_landraces GROUP BY country ORDER BY count DESC
   `);
-  const [byCountry] = (_byCountry[0] as unknown) as any[];
+  const byCountry = ((_byCountry[0] as unknown) as unknown[]);
   const _byProfile = await db.execute(sql`
     SELECT molecular_profile_type as profile, COUNT(*) as count FROM tobacco_landraces GROUP BY molecular_profile_type
   `);
-  const [byProfile] = (_byProfile[0] as unknown) as any[];
+  const byProfile = ((_byProfile[0] as unknown) as unknown[]);
   const _byStatus = await db.execute(sql`
     SELECT status, COUNT(*) as count FROM tobacco_landraces GROUP BY status
   `);
-  const [byStatus] = (_byStatus[0] as unknown) as any[];
+  const byStatus = ((_byStatus[0] as unknown) as unknown[]);
   
   return {
-    total: (total as any[])[0]?.count || 0,
-    byCountry: byCountry as any[],
-    byProfile: byProfile as any[],
-    byStatus: byStatus as any[]
+    total: Number(total[0]?.count || 0),
+    byCountry: byCountry,
+    byProfile: byProfile,
+    byStatus: byStatus as unknown[]
   };
 }
 
@@ -916,7 +938,7 @@ export async function getAllTobaccoCigarettes() {
   const result = await db.execute(sql`
     SELECT * FROM tobacco_cigarettes ORDER BY perfumery_potential_score DESC
   `);
-  return (result[0] as unknown) as any[];
+  return (result[0] as unknown) as unknown[];
 }
 
 export async function getTobaccoCigarettesByCategory(category: string) {
@@ -928,7 +950,7 @@ export async function getTobaccoCigarettesByCategory(category: string) {
     WHERE region_category = ${category}
     ORDER BY perfumery_potential_score DESC
   `);
-  return (result[0] as unknown) as any[];
+  return (result[0] as unknown) as unknown[];
 }
 
 export async function getTobaccoCigaretteById(id: number) {
@@ -938,7 +960,7 @@ export async function getTobaccoCigaretteById(id: number) {
   const result = await db.execute(sql`
     SELECT * FROM tobacco_cigarettes WHERE id = ${id}
   `);
-  const rows = (result[0] as unknown) as any[];
+  const rows = (result[0] as unknown) as unknown[];
   return rows[0] || null;
 }
 
@@ -947,20 +969,20 @@ export async function getTobaccoCigarettesStats() {
   if (!db) return { total: 0, byCategory: [], byStatus: [] };
   
   const _total = await db.execute(sql`SELECT COUNT(*) as count FROM tobacco_cigarettes`);
-  const [total] = (_total[0] as unknown) as any[];
+  const total = ((_total[0] as unknown) as Record<string,unknown>[]);
   const _byCategory = await db.execute(sql`
     SELECT region_category as category, COUNT(*) as count FROM tobacco_cigarettes GROUP BY region_category
   `);
-  const [byCategory] = (_byCategory[0] as unknown) as any[];
+  const byCategory = ((_byCategory[0] as unknown) as unknown[]);
   const _byStatus = await db.execute(sql`
     SELECT status, COUNT(*) as count FROM tobacco_cigarettes GROUP BY status
   `);
-  const [byStatus] = (_byStatus[0] as unknown) as any[];
+  const byStatus = ((_byStatus[0] as unknown) as unknown[]);
   
   return {
-    total: (total as any[])[0]?.count || 0,
-    byCategory: byCategory as any[],
-    byStatus: byStatus as any[]
+    total: Number(total[0]?.count || 0),
+    byCategory: byCategory,
+    byStatus: byStatus
   };
 }
 
@@ -973,7 +995,7 @@ export async function getAllTobaccoCompounds() {
   const result = await db.execute(sql`
     SELECT * FROM tobacco_compounds ORDER BY chemical_class, compound_name
   `);
-  return (result[0] as unknown) as any[];
+  return (result[0] as unknown) as unknown[];
 }
 
 export async function getTobaccoCompoundsByCategory(category: string) {
@@ -985,7 +1007,7 @@ export async function getTobaccoCompoundsByCategory(category: string) {
     WHERE category = ${category}
     ORDER BY compound_name
   `);
-  return (result[0] as unknown) as any[];
+  return (result[0] as unknown) as unknown[];
 }
 
 export async function getTobaccoCompoundsByLandrace(landrace: string) {
@@ -997,7 +1019,7 @@ export async function getTobaccoCompoundsByLandrace(landrace: string) {
     WHERE landrace_source = ${landrace}
     ORDER BY compound_name
   `);
-  return (result[0] as unknown) as any[];
+  return (result[0] as unknown) as unknown[];
 }
 
 export async function getNewTobaccoIsolates() {
@@ -1009,7 +1031,7 @@ export async function getNewTobaccoIsolates() {
     WHERE is_new_tobacco_isolate = TRUE
     ORDER BY compound_name
   `);
-  return (result[0] as unknown) as any[];
+  return (result[0] as unknown) as unknown[];
 }
 
 export async function getTobaccoCompoundsStats() {
@@ -1017,25 +1039,25 @@ export async function getTobaccoCompoundsStats() {
   if (!db) return { total: 0, byCategory: [], byClass: [], newIsolates: 0 };
   
   const _total = await db.execute(sql`SELECT COUNT(*) as count FROM tobacco_compounds`);
-  const [total] = (_total[0] as unknown) as any[];
+  const total = ((_total[0] as unknown) as unknown[]);
   const _byCategory = await db.execute(sql`
     SELECT category, COUNT(*) as count FROM tobacco_compounds GROUP BY category ORDER BY count DESC
   `);
-  const [byCategory] = (_byCategory[0] as unknown) as any[];
+  const byCategory = ((_byCategory[0] as unknown) as unknown[]);
   const _byClass = await db.execute(sql`
     SELECT chemical_class as class, COUNT(*) as count FROM tobacco_compounds GROUP BY chemical_class ORDER BY count DESC
   `);
-  const [byClass] = (_byClass[0] as unknown) as any[];
+  const byClass = ((_byClass[0] as unknown) as unknown[]);
   const _newIsolates = await db.execute(sql`
     SELECT COUNT(*) as count FROM tobacco_compounds WHERE is_new_tobacco_isolate = TRUE
   `);
-  const [newIsolates] = (_newIsolates[0] as unknown) as any[];
+  const newIsolates = ((_newIsolates[0] as unknown) as unknown[]);
   
   return {
-    total: (total as any[])[0]?.count || 0,
-    byCategory: byCategory as any[],
-    byClass: byClass as any[],
-    newIsolates: (newIsolates as any[])[0]?.count || 0
+    total: (total[0] as Record<string, unknown>)?.count || 0,
+    byCategory: byCategory,
+    byClass: byClass,
+    newIsolates: (newIsolates[0] as Record<string, unknown>)?.count || 0
   };
 }
 
@@ -1048,7 +1070,7 @@ export async function getAllSoilAnalyses() {
   const result = await db.execute(sql`
     SELECT * FROM soil_analyses ORDER BY terroir_name
   `);
-  return (result[0] as unknown) as any[];
+  return (result[0] as unknown) as unknown[];
 }
 
 export async function getSoilAnalysisByTerroir(terroir: string) {
@@ -1058,7 +1080,7 @@ export async function getSoilAnalysisByTerroir(terroir: string) {
   const result = await db.execute(sql`
     SELECT * FROM soil_analyses WHERE terroir_name = ${terroir}
   `);
-  const rows = (result[0] as unknown) as any[];
+  const rows = (result[0] as unknown) as unknown[];
   return rows[0] || null;
 }
 
@@ -1067,13 +1089,13 @@ export async function compareSoilAnalyses(terroir1: string, terroir2: string) {
   if (!db) return { terroir1: null, terroir2: null };
   
   const _result1 = await db.execute(sql`SELECT * FROM soil_analyses WHERE terroir_name = ${terroir1}`);
-  const [result1] = (_result1[0] as unknown) as any[];
+  const result1 = ((_result1[0] as unknown) as unknown[])[0] as Record<string, unknown> | undefined;
   const _result2 = await db.execute(sql`SELECT * FROM soil_analyses WHERE terroir_name = ${terroir2}`);
-  const [result2] = (_result2[0] as unknown) as any[];
+  const result2 = ((_result2[0] as unknown) as unknown[])[0] as Record<string, unknown> | undefined;
   
   return {
-    terroir1: (result1 as any[])[0] || null,
-    terroir2: (result2 as any[])[0] || null
+    terroir1: ((result1 as unknown) as unknown[])[0] || null,
+    terroir2: ((result2 as unknown) as unknown[])[0] || null
   };
 }
 
@@ -1089,9 +1111,8 @@ export async function getPyrolysisTransformationsByMolecule(moleculeName: string
     WHERE source_molecule = ${moleculeName}
     ORDER BY temperature_range ASC
   `);
-  return (result[0] as unknown) as any[];
+   return (result[0] as unknown) as unknown[];
 }
-
 export async function getPyrolysisTransformationsByProduct(productName: string) {
   const db = await getDb();
   if (!db) return [];
@@ -1101,9 +1122,8 @@ export async function getPyrolysisTransformationsByProduct(productName: string) 
     WHERE product_molecule = ${productName}
     ORDER BY temperature_range ASC
   `);
-  return (result[0] as unknown) as any[];
+   return (result[0] as unknown) as unknown[];
 }
-
 export async function getAllPyrolysisTransformations() {
   const db = await getDb();
   if (!db) return [];
@@ -1112,10 +1132,12 @@ export async function getAllPyrolysisTransformations() {
     SELECT * FROM pyrolysis_transformations ORDER BY source_molecule, temperature_range
   `);
   // mysql2 retourne [rows, fields] — on prend result[0] pour les lignes
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const rows = Array.isArray(result) && Array.isArray((result as any)[0])
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ? (result as any)[0]
-    : (result[0] as unknown) as any[];
-  return rows as any[];
+    : (result[0] as unknown) as unknown[];
+  return rows;
 }
 
 export async function getTemperatureZones() {
@@ -1125,9 +1147,8 @@ export async function getTemperatureZones() {
   const result = await db.execute(sql`
     SELECT * FROM temperature_zones ORDER BY temp_min ASC
   `);
-  return (result[0] as unknown) as any[];
+  return (result[0] as unknown) as unknown[];
 }
-
 export async function getLandracePyrolysisProfiles() {
   const db = await getDb();
   if (!db) return [];
@@ -1135,9 +1156,8 @@ export async function getLandracePyrolysisProfiles() {
   const result = await db.execute(sql`
     SELECT * FROM landrace_pyrolysis_profiles ORDER BY landrace_name
   `);
-  return (result[0] as unknown) as any[];
+   return (result[0] as unknown) as unknown[];
 }
-
 export async function getLandracePyrolysisProfile(landraceName: string) {
   const db = await getDb();
   if (!db) return null;
@@ -1145,7 +1165,7 @@ export async function getLandracePyrolysisProfile(landraceName: string) {
   const result = await db.execute(sql`
     SELECT * FROM landrace_pyrolysis_profiles WHERE landrace_name = ${landraceName}
   `);
-  const rows = (result[0] as unknown) as any[];
+  const rows = (result[0] as unknown) as unknown[];
   return rows[0] || null;
 }
 
@@ -1154,12 +1174,12 @@ export async function getPlantFamiliesWithCategories(): Promise<{family: string;
   const db = await getDb();
   if (!db) return [];
   const familyResult = await db.execute(sql`SELECT family, COUNT(*) as count FROM plants WHERE family IS NOT NULL AND family != '' GROUP BY family ORDER BY count DESC`);
-  const families = (familyResult[0] as unknown as any[]).map((r: any) => ({family: r.family as string, count: Number(r.count)}));
+  const families = (familyResult[0] as unknown as unknown[]).map((r) => ({family: (r as Record<string,unknown>).family as string, count: Number((r as Record<string,unknown>).count)}));
   const results: {family: string; count: number; categories: { category: string; count: number }[]}[] = [];
   for (const { family, count } of families) {
     const familyVal = family;
     const catResult = await db.execute(sql`SELECT category, COUNT(*) as count FROM plants WHERE family = ${familyVal} GROUP BY category ORDER BY count DESC`);
-    const categories = (catResult[0] as unknown as any[]).map((r: any) => ({category: r.category as string, count: Number(r.count)}));
+    const categories = (catResult[0] as unknown as unknown[]).map((r) => ({category: (r as Record<string,unknown>).category as string, count: Number((r as Record<string,unknown>).count)}));
     results.push({ family, count, categories });
   }
   return results;
@@ -1195,9 +1215,10 @@ export async function getMoleculesWithSmiles(params: {
   
   // Count total
   const countQuery = `SELECT COUNT(*) as total FROM molecules ${whereClause}`;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const _countResult = await (db as any).query(countQuery, queryParams);
   const countResult = _countResult[0];
-  const total = Number((countResult as any[])[0]?.total || 0);
+  const total = Number(((countResult as unknown[])[0] as Record<string,unknown>)?.total || 0);
   
   // Get molecules
   const selectQuery = `
@@ -1208,8 +1229,10 @@ export async function getMoleculesWithSmiles(params: {
     ORDER BY name ASC
     LIMIT ? OFFSET ?
   `;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [molecules] = await (db as any).execute(selectQuery, [...queryParams, limit, offset]);
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return { molecules: molecules as any[], total };
 }
 
@@ -1225,9 +1248,9 @@ export async function getChemicalClasses(): Promise<{ name: string; count: numbe
     ORDER BY count DESC
   `);
   
-  return ((result[0] as unknown) as any[]).map(r => ({
-    name: r.name as string,
-    count: Number(r.count)
+  return ((result[0] as unknown) as unknown[]).map(r => ({
+    name: (r as Record<string, unknown>).name as string,
+    count: Number((r as Record<string, unknown>).count)
   }));
 }
 
@@ -1251,7 +1274,7 @@ export async function getSmilesStats(): Promise<{
     FROM molecules
   `);
   
-  const row = (result[0] as unknown) as any[][0];
+  const row = ((result[0] as unknown) as unknown[])[0] as Record<string, unknown>;
   return {
     total: Number(row?.total || 0),
     withSmiles: Number(row?.withSmiles || 0),

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: molecules
  * Généré automatiquement depuis server/db.ts
@@ -242,8 +241,17 @@ import {
   recetteRawMaterials,
   RecetteRawMaterial,
   InsertRecetteRawMaterial,
+  ghostVarietyMoleculeLinks,
+  GhostVarietyMoleculeLink,
+  InsertGhostVarietyMoleculeLink,
+  genomicMoleculeLinks,
+  GenomicMoleculeLink,
+  InsertGenomicMoleculeLink,
 } from "../../drizzle/schema";
 import { getDb } from './core';
+import type { FlavornetData } from '../flavornet';
+import { enrichMoleculeWithTranslationCOCONUT } from '../coconut';
+import { getPlantVarietyById } from './plants';
 
 import { ENV } from '../_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
@@ -313,6 +321,7 @@ export async function getAllMolecules(): Promise<Molecule[]> {
   const db = await getDb();
   if (!db) return [];
   const rows = await db.select().from(molecules);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return rows.map(r => parseMoleculeJsonFields(r as any)) as Molecule[];
 }
 
@@ -322,6 +331,7 @@ export async function getMoleculeById(id: number): Promise<Molecule | undefined>
   const result = await db.select().from(molecules).where(eq(molecules.id, id)).limit(1);
   const mol = result[0];
   if (!mol) return undefined;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return parseMoleculeJsonFields(mol as any) as Molecule;
 }
 
@@ -341,6 +351,7 @@ export async function getMoleculeWithRelations(id: number) {
   const moleculesList = await db.select().from(molecules).where(eq(molecules.id, id));
   if (moleculesList.length === 0) return null;
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mol = parseMoleculeJsonFields(moleculesList[0] as any);
   
   // Get related recettes via molecule_recettes
@@ -1224,6 +1235,7 @@ export async function createPlantMoleculeLink(data: {
     percentageMax: data.percentageMax?.toString(),
     percentageTypical: data.percentageTypical?.toString(),
     isSignature: data.isSignature || 0,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     role: data.role as any,
   });
   
@@ -1269,6 +1281,7 @@ export async function updatePlantMoleculeLink(
       ...(data.percentageMax !== undefined && { percentageMax: data.percentageMax?.toString() ?? null }),
       ...(data.percentageTypical !== undefined && { percentageTypical: data.percentageTypical?.toString() ?? null }),
       ...(data.isSignature !== undefined && { isSignature: data.isSignature }),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ...(data.role !== undefined && { role: data.role as any }),
       ...(data.source !== undefined && { source: data.source }),
     })
@@ -1299,6 +1312,7 @@ export async function updateVarietyConservationStatus(
   
   await db.update(plantVarieties)
     .set({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       conservationStatus: data.conservationStatus as any,
       conservationNotes: data.conservationNotes,
       threatFactors: data.threatFactors,
@@ -1917,9 +1931,11 @@ export async function getTpsGeneMoleculeLinks(filters?: {
     
     const db = await getDb();
     if (!db) return [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = await (db as any).execute(sql.raw(query.replace(/\?/g, (_, i) => `'${String(params[i] || '').replace(/'/g, "''")}'`)));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (result[0] as unknown) as any[];
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error getting TPS gene-molecule links:', error);
     return [];
   }
@@ -1939,18 +1955,19 @@ export async function createTpsGeneMoleculeLink(data: {
     if (!db) return { success: false, error: 'Database connection failed' };
     const evidenceSource = data.evidenceSource ? `'${data.evidenceSource.replace(/'/g, "''")}'` : 'NULL';
     const notes = data.notes ? `'${data.notes.replace(/'/g, "''")}'` : 'NULL';
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (db as any).execute(sql.raw(`
       INSERT INTO tps_gene_molecules 
         (tps_gene_id, molecule_id, relationship_type, confidence_level, evidence_source, notes)
        VALUES (${data.tpsGeneId}, ${data.moleculeId}, '${data.relationshipType || 'produces'}', '${data.confidenceLevel || 'inferred'}', ${evidenceSource}, ${notes})
     `));
     return { success: true, id: 0 };
-  } catch (error: any) {
-    if (error.code === 'ER_DUP_ENTRY') {
+  } catch (error: unknown) {
+    if ((error as any).code === 'ER_DUP_ENTRY') {
       return { success: false, error: 'Cette liaison existe déjà' };
     }
     console.error('Error creating TPS gene-molecule link:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: (error as Error).message };
   }
 }
 
@@ -1994,12 +2011,13 @@ export async function updateTpsGeneMoleculeLink(
     const db = await getDb();
     if (!db) return { success: false, error: 'Database connection failed' };
     const setClause = updates.map((u, i) => u.replace('?', `'${String(params[i]).replace(/'/g, "''")}'`)).join(', ');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (db as any).execute(sql.raw(`UPDATE tps_gene_molecules SET ${setClause} WHERE id = ${id}`));
     
     return { success: true };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating TPS gene-molecule link:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: (error as Error).message };
   }
 }
 
@@ -2008,11 +2026,12 @@ export async function deleteTpsGeneMoleculeLink(id: number) {
   try {
     const db = await getDb();
     if (!db) return { success: false, error: 'Database connection failed' };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (db as any).execute(sql.raw(`DELETE FROM tps_gene_molecules WHERE id = ${id}`));
     return { success: true };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error deleting TPS gene-molecule link:', error);
-    return { success: false, error: error.message };
+    return { success: false, error: (error as Error).message };
   }
 }
 
@@ -2034,43 +2053,57 @@ export async function getTpsGeneMoleculeLinkStats() {
       };
     }
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const totalLinksResult = await (db as any).execute(sql.raw(
       'SELECT COUNT(*) as count FROM tps_gene_molecules'
     ));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const totalLinks = ((totalLinksResult[0] as unknown) as any[])[0]?.count || 0;
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const byRelationshipResult = await (db as any).execute(sql.raw(`
       SELECT relationship_type as type, COUNT(*) as count 
       FROM tps_gene_molecules 
       GROUP BY relationship_type
     `));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const byRelationship = (byRelationshipResult[0] as unknown) as any[];
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const byConfidenceResult = await (db as any).execute(sql.raw(`
       SELECT confidence_level as level, COUNT(*) as count 
       FROM tps_gene_molecules 
       GROUP BY confidence_level
     `));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const byConfidence = (byConfidenceResult[0] as unknown) as any[];
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const linkedGenesResult = await (db as any).execute(sql.raw(`
       SELECT COUNT(DISTINCT tps_gene_id) as count FROM tps_gene_molecules
     `));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const linkedGenes = ((linkedGenesResult[0] as unknown) as any[])[0]?.count || 0;
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const linkedMoleculesResult = await (db as any).execute(sql.raw(`
       SELECT COUNT(DISTINCT molecule_id) as count FROM tps_gene_molecules
     `));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const linkedMolecules = ((linkedMoleculesResult[0] as unknown) as any[])[0]?.count || 0;
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const totalGenesResult = await (db as any).execute(sql.raw(
       'SELECT COUNT(*) as count FROM tps_genes'
     ));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const totalGenesCount = ((totalGenesResult[0] as unknown) as any[])[0]?.count || 0;
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const totalMoleculesResult = await (db as any).execute(sql.raw(
       'SELECT COUNT(*) as count FROM molecules'
     ));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const totalMoleculesCount = ((totalMoleculesResult[0] as unknown) as any[])[0]?.count || 0;
     
     return {
@@ -2084,7 +2117,7 @@ export async function getTpsGeneMoleculeLinkStats() {
       geneCoverage: linkedGenes / (totalGenesCount || 1) * 100,
       moleculeCoverage: linkedMolecules / (totalMoleculesCount || 1) * 100,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error getting TPS gene-molecule link stats:', error);
     return {
       totalLinks: 0,
@@ -2109,15 +2142,19 @@ export async function autoLinkTpsGenesToMolecules() {
     }
     
     // Get all TPS genes with their main products
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const genesResult = await (db as any).execute(sql.raw(`
       SELECT id, name, main_product FROM tps_genes
     `));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const genes = (genesResult[0] as unknown) as any[];
     
     // Get all molecules
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const moleculesResult = await (db as any).execute(sql.raw(`
       SELECT id, name FROM molecules
     `));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const moleculesList = (moleculesResult[0] as unknown) as any[];
     
     let linksCreated = 0;
@@ -2149,9 +2186,9 @@ export async function autoLinkTpsGenesToMolecules() {
     }
     
     return { success: true, linksCreated };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error auto-linking TPS genes to molecules:', error);
-    return { success: false, error: error.message, linksCreated: 0 };
+    return { success: false, error: (error as Error).message, linksCreated: 0 };
   }
 }
 
@@ -2164,9 +2201,11 @@ export async function searchMoleculeMatchesForTpsGene(tpsGeneId: number) {
     }
     
     // Get the TPS gene details
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const geneResult = await (db as any).execute(sql.raw(
       `SELECT * FROM tps_genes WHERE id = ${tpsGeneId}`
     ));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const geneRows = (geneResult[0] as unknown) as any[];
     
     const gene = geneRows[0];
@@ -2180,6 +2219,7 @@ export async function searchMoleculeMatchesForTpsGene(tpsGeneId: number) {
     const searchTerm = mainProduct.toLowerCase().replace(/'/g, "''");
     const olfactoryTerm = (olfactoryNotes.split(',')[0] || '').replace(/'/g, "''");
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const matchesResult = await (db as any).execute(sql.raw(`
       SELECT 
         m.id,
@@ -2194,6 +2234,7 @@ export async function searchMoleculeMatchesForTpsGene(tpsGeneId: number) {
         OR (m.olfactiveProfile IS NOT NULL AND m.olfactiveProfile LIKE '%${olfactoryTerm}%')
       LIMIT 20
     `));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const matches = (matchesResult[0] as unknown) as any[];
     
     return {
@@ -2206,9 +2247,9 @@ export async function searchMoleculeMatchesForTpsGene(tpsGeneId: number) {
       },
       matches,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error searching molecule matches:', error);
-    return { success: false, error: error.message, matches: [] };
+    return { success: false, error: (error as Error).message, matches: [] };
   }
 }
 
@@ -2243,6 +2284,7 @@ export async function getTpsGenesByMolecule(moleculeId: number) {
     
     // Search for TPS genes that produce this molecule
     // Using gene_terpene_links table and matching by terpene_product field
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = await (db as any).execute(sql.raw(`
       SELECT 
         gtl.id,
@@ -2266,8 +2308,10 @@ export async function getTpsGenesByMolecule(moleculeId: number) {
       ORDER BY gtl.gene_name
     `));
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rows = (result[0] as unknown) as any[];
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return rows.map((row: any) => ({
       id: row.id,
       geneName: row.gene_name,
@@ -2299,6 +2343,7 @@ export async function getAllTpsGenes() {
   if (!db) return [];
   
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = await (db as any).execute(sql.raw(`
       SELECT 
         gtl.id,
@@ -2323,8 +2368,10 @@ export async function getAllTpsGenes() {
       ORDER BY gtl.gene_name
     `));
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rows = (result[0] as unknown) as any[];
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return rows.map((row: any) => ({
       id: row.id,
       geneName: row.gene_name,
@@ -2357,6 +2404,7 @@ export async function getTpsGeneStats() {
   if (!db) return null;
   
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = await (db as any).execute(sql.raw(`
       SELECT 
         COUNT(*) as total_genes,
@@ -2367,9 +2415,11 @@ export async function getTpsGeneStats() {
       FROM gene_terpene_links
     `));
     
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const stats = ((result[0] as unknown) as any[])[0];
     
     // Get genes by species
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const speciesResult = await (db as any).execute(sql.raw(`
       SELECT plant_id as species, COUNT(*) as count
       FROM gene_terpene_links
@@ -2379,6 +2429,7 @@ export async function getTpsGeneStats() {
     `));
     
     // Get genes by product type (terpene_class)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const productTypeResult = await (db as any).execute(sql.raw(`
       SELECT terpene_class as product_type, COUNT(*) as count
       FROM gene_terpene_links
@@ -2393,10 +2444,12 @@ export async function getTpsGeneStats() {
       enzymeClasses: stats?.enzyme_classes || 0,
       productTypes: stats?.product_types || 0,
       pathways: stats?.pathways || 0,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       bySpecies: (speciesResult[0] as unknown as any[]).map((r: any) => ({
         species: r.species,
         count: r.count,
       })),
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       byProductType: (productTypeResult[0] as unknown as any[]).map((r: any) => ({
         productType: r.product_type,
         count: r.count,
@@ -2434,17 +2487,19 @@ export async function enrichMoleculeFromCOCONUTWithTranslation(moleculeId: numbe
   if (!db) return { success: false, message: 'Database connection failed' };
   
   // Récupérer la molécule
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows] = await (db as any).execute(
     'SELECT id, name, coconut_id FROM molecules WHERE id = ?',
     [moleculeId]
   );
   
-  const molecules = rows as any[];
+  const molecules = rows as unknown[];
   if (molecules.length === 0) {
     return { success: false, message: 'Molécule non trouvée' };
   }
   
-  const molecule = molecules[0];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const molecule = molecules[0] as any;
   
   // Vérifier si déjà enrichie via COCONUT
   if (molecule.coconut_id) {
@@ -2462,6 +2517,7 @@ export async function enrichMoleculeFromCOCONUTWithTranslation(moleculeId: numbe
   }
   
   // Mettre à jour la base de données
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await (db as any).execute(
     `UPDATE molecules SET 
       coconut_id = ?,
@@ -2502,11 +2558,13 @@ export async function getUnenrichedMoleculesForCOCONUT(limit: number = 50): Prom
   const db = await getDb();
   if (!db) return [];
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows] = await (db as any).execute(
     'SELECT id, name, pubchem_cid IS NOT NULL as hasPubChem, chebi_id IS NOT NULL as hasChEBI FROM molecules WHERE coconut_id IS NULL ORDER BY name ASC LIMIT ' + limit
   );
   
-  return (rows as any[]).map(r => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (rows as any[]).map((r: any) => ({
     id: r.id,
     name: r.name,
     hasPubChem: Boolean(r.hasPubChem),
@@ -2526,6 +2584,7 @@ export async function getCOCONUTEnrichmentStats(): Promise<{
   const db = await getDb();
   if (!db) return { total: 0, enriched: 0, percentage: 0, withOrganisms: 0 };
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows] = await (db as any).execute(
     `SELECT 
       COUNT(*) as total,
@@ -2534,7 +2593,8 @@ export async function getCOCONUTEnrichmentStats(): Promise<{
     FROM molecules`
   );
   
-  const stats = (rows as any[])[0];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const stats = (rows as any[])[0] as any;
   return {
     total: stats.total || 0,
     enriched: stats.enriched || 0,
@@ -2573,6 +2633,7 @@ export async function updateMoleculeCOCONUTData(moleculeId: number, data: {
     (citationsJson ? ", coconut_citations = '" + citationsJson + "'" : "") +
     ", coconut_enriched_at = NOW() WHERE id = " + moleculeId;
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await (db as any).execute(query);
 }
 
@@ -2592,11 +2653,13 @@ export async function getMoleculesWithCOCONUTOrganisms(
   const db = await getDb();
   if (!db) return [];
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows] = await (db as any).execute(
     "SELECT id, name, coconut_id as coconutId, np_likeness_score as npLikenessScore, coconut_organisms as organisms FROM molecules WHERE coconut_organisms IS NOT NULL AND coconut_organisms != '[]' ORDER BY name ASC LIMIT " + limit + " OFFSET " + offset
   );
   
-  return (rows as any[]).map(r => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (rows as any[]).map((r: any) => ({
     id: r.id,
     name: r.name,
     coconutId: r.coconutId,
@@ -2629,6 +2692,7 @@ export async function updateMoleculeFlavornetData(moleculeId: number, data: Flav
     (kovatsJson ? ", flavornet_kovats_ri = '" + kovatsJson + "'" : "") +
     ", flavornet_enriched_at = NOW() WHERE id = " + moleculeId;
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await (db as any).execute(query);
 }
 
@@ -2643,11 +2707,13 @@ export async function getUnenrichedMoleculesForFlavornet(limit: number = 100): P
   const db = await getDb();
   if (!db) return [];
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows] = await (db as any).execute(
     'SELECT id, name, cas_number as casNumber FROM molecules WHERE flavornet_percepts IS NULL ORDER BY name ASC LIMIT ' + limit
   );
   
-  return (rows as any[]).map(r => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (rows as any[]).map((r: any) => ({
     id: r.id,
     name: r.name,
     casNumber: r.casNumber,
@@ -2669,11 +2735,13 @@ export async function getMoleculesWithFlavornetPercepts(
   const db = await getDb();
   if (!db) return [];
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows] = await (db as any).execute(
     "SELECT id, name, flavornet_percepts as percepts, flavornet_kovats_ri as kovatsRI FROM molecules WHERE flavornet_percepts IS NOT NULL AND flavornet_percepts != '[]' ORDER BY name ASC LIMIT " + limit + " OFFSET " + offset
   );
   
-  return (rows as any[]).map(r => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (rows as any[]).map((r: any) => ({
     id: r.id,
     name: r.name,
     percepts: r.percepts ? (typeof r.percepts === 'string' ? JSON.parse(r.percepts) : r.percepts) : [],
@@ -2694,16 +2762,24 @@ export async function getFlavornetEnrichmentStats(): Promise<{
   const db = await getDb();
   if (!db) return { total: 0, enriched: 0, percentage: 0, withPercepts: 0, withKovatsRI: 0 };
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [totalRows] = await (db as any).execute('SELECT COUNT(*) as count FROM molecules');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const total = (totalRows as any[])[0]?.count || 0;
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [enrichedRows] = await (db as any).execute('SELECT COUNT(*) as count FROM molecules WHERE flavornet_percepts IS NOT NULL');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const enriched = (enrichedRows as any[])[0]?.count || 0;
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [perceptsRows] = await (db as any).execute("SELECT COUNT(*) as count FROM molecules WHERE flavornet_percepts IS NOT NULL AND flavornet_percepts != '[]'");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const withPercepts = (perceptsRows as any[])[0]?.count || 0;
   
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [kovatsRows] = await (db as any).execute('SELECT COUNT(*) as count FROM molecules WHERE flavornet_kovats_ri IS NOT NULL');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const withKovatsRI = (kovatsRows as any[])[0]?.count || 0;
   
   return {
@@ -2762,6 +2838,7 @@ export async function searchMoleculesByName(name: string): Promise<{
 export async function getMoleculePerfumes(moleculeId: number) {
   const db = await getDb();
   if (!db) return [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const result = await (db as any).execute(sql.raw(
     `SELECT
        mp.id,
@@ -2776,7 +2853,9 @@ export async function getMoleculePerfumes(moleculeId: number) {
      WHERE mp.molecule_id = ${moleculeId}
      ORDER BY mp.year ASC`
   ));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const rows: any[] = (result[0] as unknown) as any[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return rows.map((r: any) => ({
     id: r.id as number,
     perfumeName: r.perfumeName as string,
@@ -2804,6 +2883,7 @@ export async function getAllMoleculePerfumeLinks(): Promise<Array<{
   try {
     const db = await getDb();
     if (!db) return [];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const result = await (db as any).execute(sql.raw(
       `SELECT
          mp.molecule_id       AS moleculeId,
@@ -2819,7 +2899,9 @@ export async function getAllMoleculePerfumeLinks(): Promise<Array<{
        JOIN molecules m ON m.id = mp.molecule_id
        ORDER BY mp.perfume_house, mp.perfume_name, mp.role_in_perfume`
     ));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rows: any[] = (result[0] as unknown) as any[];
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return rows.map((r: any) => ({
       moleculeId: Number(r.moleculeId),
       moleculeName: r.moleculeName as string,
@@ -2831,7 +2913,7 @@ export async function getAllMoleculePerfumeLinks(): Promise<Array<{
       concentration: r.concentration as string | null,
       description: r.description as string | null,
     }));
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error getting all molecule-perfume links:', error);
     return [];
   }
@@ -2853,8 +2935,8 @@ export async function getPlantPerfumes(plantId: number) {
       [plantId]
     );
     await conn.end();
-    return rows as any[];
-  } catch (error: any) {
+    return rows as unknown[];
+  } catch (error: unknown) {
     console.error('Error getting plant perfumes:', error);
     return [];
   }

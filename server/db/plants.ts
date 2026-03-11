@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Module: plants
  * Généré automatiquement depuis server/db.ts
@@ -242,8 +241,28 @@ import {
   recetteRawMaterials,
   RecetteRawMaterial,
   InsertRecetteRawMaterial,
+  // Ghost Variety Plant Links
+  ghostVarietyPlantLinks,
+  GhostVarietyPlantLink,
+  InsertGhostVarietyPlantLink,
+  // Genomic Plant Links
+  genomicPlantLinks,
+  GenomicPlantLink,
+  InsertGenomicPlantLink,
+  // Genomic Molecule Links
+  genomicMoleculeLinks,
+  GenomicMoleculeLink,
+  InsertGenomicMoleculeLink,
+  // Ghost Varieties
+  ghostVarieties,
+  GhostVariety,
+  InsertGhostVariety,
 } from "../../drizzle/schema";
 import { getDb } from './core';
+import { getRawMaterialsByPlant, getRawMaterialsByTerroir } from './materials';
+import { getTerroirSpecialties, getPlantTerroirSpecialties } from './terroirs';
+import { getMoleculeById, getMoleculeRawMaterials, getMoleculeOrigins, getMoleculePlantSources, getPlantMoleculeSources } from './molecules';
+import { getMoleculeIfraRestrictions } from './ifra';
 
 import { ENV } from '../_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
@@ -275,6 +294,7 @@ export async function getPlantById(id: number) {
 export async function getPlantsByCategory(category: string) {
   const db = await getDb();
   if (!db) return [];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return await db.select().from(plants).where(eq(plants.category, category as any)).orderBy(plants.name);
 }
 
@@ -294,6 +314,7 @@ export async function getPlantsWithGPSByCategory(category: string) {
   if (!db) return [];
   return await db.select().from(plants)
     .where(and(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       eq(plants.category, category as any),
       isNotNull(plants.latitude),
       isNotNull(plants.longitude)
@@ -1119,17 +1140,20 @@ export async function getPlantVarietiesWithFilters(filters: {
     .leftJoin(plants, eq(plantVarieties.plantId, plants.id))
     .$dynamic();
   
-  const conditions: any[] = [];
+  const conditions: SQL[] = [];
   
   if (filters.plantCategory) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     conditions.push(eq(plants.category, filters.plantCategory as any));
   }
   
   if (filters.varietyType) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     conditions.push(eq(plantVarieties.varietyType, filters.varietyType as any));
   }
   
   if (filters.conservationStatus) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     conditions.push(eq(plantVarieties.conservationStatus, filters.conservationStatus as any));
   }
   
@@ -1273,6 +1297,7 @@ export async function getVarietiesByType(varietyType: string) {
   })
     .from(plantVarieties)
     .leftJoin(plants, eq(plantVarieties.plantId, plants.id))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     .where(eq(plantVarieties.varietyType, varietyType as any))
     .orderBy(plantVarieties.name);
 }
@@ -1338,20 +1363,22 @@ export async function listThreatenedPlants(filters: {
   const conditions = [];
   // Par défaut : filtrer sur les statuts menacés (EX, EW, CR, EN, VU, NT, DD)
   if (iucn) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     conditions.push(eq(plants.conservationStatus, iucn as any));
   } else {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     conditions.push(inArray(plants.conservationStatus, ['EX', 'EW', 'CR', 'EN', 'VU', 'NT', 'DD'] as any[]));
   }
   if (cites) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     conditions.push(eq(plants.citesAppendix, cites as any));
   }
   if (region) {
     conditions.push(like(plants.origin, `%${region}%`));
   }
   
-  query = query.where(and(...conditions)) as any;
-  
-  return await query;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return await (query as any).where(and(...conditions));
 }
 
 export async function getPlantConservationStatus(plantId: number) {
@@ -1379,6 +1406,7 @@ export async function updatePlantConservationStatus(plantId: number, data: {
   conservationStatus?: string;
   citesAppendix?: string;
   conservationNotes?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   threatFactors?: any;
   sustainableAlternatives?: string;
   lastAssessmentYear?: number;
@@ -1386,10 +1414,8 @@ export async function updatePlantConservationStatus(plantId: number, data: {
 }) {
   const db = await getDb();
   if (!db) return null;
-  await db
-    .update(plants)
-    .set(data as any)
-    .where(eq(plants.id, plantId));
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await db.update(plants).set(data as any).where(eq(plants.id, plantId));
   return getPlantConservationStatus(plantId);
 }
 
@@ -1585,8 +1611,8 @@ export async function bulkImportPlantTerroirs(relations: Array<{
     try {
       await db.insert(plantTerroirs).values(toInsert);
       imported = toInsert.length;
-    } catch (error: any) {
-      errors.push(`Erreur d'insertion: ${error.message}`);
+    } catch (error: unknown) {
+      errors.push(`Erreur d'insertion: ${(error as Error).message}`);
     }
   }
 
@@ -1711,8 +1737,8 @@ export async function createMultiplePlantTerroirs(relations: Array<{
   if (toInsert.length > 0) {
     try {
       await db.insert(plantTerroirs).values(toInsert);
-    } catch (error: any) {
-      errors.push(`Erreur d'insertion: ${error.message}`);
+    } catch (error: unknown) {
+      errors.push(`Erreur d'insertion: ${(error as Error).message}`);
       return { success: false, created: 0, errors };
     }
   }
@@ -2402,6 +2428,7 @@ export async function bulkCreateGenomicMoleculeLinks(
         referenceId: link.referenceId,
         moleculeId: link.moleculeId,
         genomicAxis: link.genomicAxis,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         linkType: (link.linkType as any) || 'characterization',
         relevanceScore: link.relevanceScore || 50,
         confidence: link.confidence || 'medium',
@@ -2409,9 +2436,9 @@ export async function bulkCreateGenomicMoleculeLinks(
         createdBy,
       });
       success++;
-    } catch (error: any) {
+    } catch (error: unknown) {
       failed++;
-      errors.push(`Failed to link molecule ${link.moleculeId}: ${error.message}`);
+      errors.push(`Failed to link molecule ${link.moleculeId}: ${(error as Error).message}`);
     }
   }
   
@@ -2446,6 +2473,7 @@ export async function bulkCreateGenomicPlantLinks(
         referenceId: link.referenceId,
         plantId: link.plantId,
         genomicAxis: link.genomicAxis,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         linkType: (link.linkType as any) || 'genome_sequencing',
         relevanceScore: link.relevanceScore || 50,
         confidence: link.confidence || 'medium',
@@ -2453,9 +2481,9 @@ export async function bulkCreateGenomicPlantLinks(
         createdBy,
       });
       success++;
-    } catch (error: any) {
+    } catch (error: unknown) {
       failed++;
-      errors.push(`Failed to link plant ${link.plantId}: ${error.message}`);
+      errors.push(`Failed to link plant ${link.plantId}: ${(error as Error).message}`);
     }
   }
   
@@ -2616,8 +2644,8 @@ export async function getPlantContributions(plantId: number, status?: string) {
     query += ` ORDER BY created_at DESC`;
     const [rows] = await conn.execute(query, params);
     await conn.end();
-    return rows as any[];
-  } catch (error: any) {
+    return rows as unknown[];
+  } catch (error: unknown) {
     console.error('Error getting plant contributions:', error);
     return [];
   }
@@ -2636,8 +2664,8 @@ export async function getAllPendingContributionsForAdmin() {
       ORDER BY pc.created_at DESC
     `);
     await conn.end();
-    return rows as any[];
-  } catch (error: any) {
+    return rows as unknown[];
+  } catch (error: unknown) {
     console.error('Error getting pending contributions:', error);
     return [];
   }
@@ -2660,8 +2688,8 @@ export async function getAllContributionsForAdmin(status?: string) {
     query += ` ORDER BY pc.created_at DESC LIMIT 200`;
     const [rows] = await conn.execute(query, params);
     await conn.end();
-    return rows as any[];
-  } catch (error: any) {
+    return rows as unknown[];
+  } catch (error: unknown) {
     console.error('Error getting contributions:', error);
     return [];
   }
@@ -2697,6 +2725,7 @@ export async function submitPlantContribution(data: {
   bibType?: string;
   // GC-MS
   gcmsMethod?: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   gcmsMolecules?: any;
   gcmsConditions?: string;
   // Tradition olfactive
@@ -2735,7 +2764,7 @@ export async function submitPlantContribution(data: {
     ]);
     await conn.end();
     return { success: true, id: (result as any).insertId };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error submitting plant contribution:', error);
     throw error;
   }
@@ -2756,7 +2785,7 @@ export async function reviewPlantContribution(
       `SELECT * FROM plant_contributions WHERE id = ?`,
       [contributionId]
     ) as any[];
-    const contribution = (rows as any[])[0];
+    const contribution = (rows as unknown[])[0] as Record<string, unknown>;
     if (!contribution) {
       await conn.end();
       throw new Error(`Contribution #${contributionId} not found`);
@@ -2783,7 +2812,7 @@ export async function reviewPlantContribution(
           `SELECT id, image_url FROM plants WHERE id = ?`,
           [contribution.plant_id]
         ) as any[];
-        const plant = (plantRows as any[])[0];
+        const plant = (plantRows as any[])[0] as Record<string, unknown> | undefined;
         if (plant && !plant.image_url) {
           // Pas d'image principale : définir cette image comme image principale
           await conn.execute(
@@ -2831,7 +2860,7 @@ export async function reviewPlantContribution(
             `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
             [contribution.molecule_name]
           ) as any[];
-          const mol = (molRows as any[])[0];
+          const mol = (molRows as any[])[0] as Record<string, unknown> | undefined;
           if (mol) {
             const [existing] = await conn.execute(
               `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
@@ -2869,7 +2898,7 @@ export async function reviewPlantContribution(
             `SELECT id FROM terroirs WHERE LOWER(name) LIKE LOWER(?) OR LOWER(region) LIKE LOWER(?) LIMIT 1`,
             [`%${contribution.terroir || contribution.region}%`, `%${contribution.region || contribution.terroir}%`]
           ) as any[];
-          const terroir = (terroirRows as any[])[0];
+          const terroir = (terroirRows as any[])[0] as Record<string, unknown> | undefined;
           if (terroir) {
             // Vérifier si le lien n'existe pas déjà
             const [existingLink] = await conn.execute(
@@ -2906,9 +2935,9 @@ export async function reviewPlantContribution(
             `SELECT ethnobotanical_uses FROM plants WHERE id = ?`,
             [contribution.plant_id]
           ) as any[];
-          const plant = (plantRows as any[])[0];
+          const plant = (plantRows as any[])[0] as Record<string, unknown>;
           let uses: any[] = [];
-          try { uses = JSON.parse(plant?.ethnobotanical_uses || '[]'); } catch { uses = []; }
+          try { uses = JSON.parse((plant?.ethnobotanical_uses as string) || '[]'); } catch { uses = []; }
           uses.push({ source: 'contribution', date: new Date().toISOString().split('T')[0], content: contribution.note_content, references: contribution.references || null });
           await conn.execute(
             `UPDATE plants SET ethnobotanical_uses = ?, updated_at = NOW() WHERE id = ?`,
@@ -2928,7 +2957,7 @@ export async function reviewPlantContribution(
 
     await conn.end();
     return { success: true, integrationResults };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error reviewing plant contribution:', error);
     throw error;
   }
@@ -2951,8 +2980,8 @@ export async function getContributionStats() {
       FROM plant_contributions
     `);
     await conn.end();
-    return (rows as any[])[0] || { total: 0, pending: 0, approved: 0, rejected: 0 };
-  } catch (error: any) {
+    return (rows as unknown[])[0] || { total: 0, pending: 0, approved: 0, rejected: 0 };
+  } catch (error: unknown) {
     console.error('Error getting contribution stats:', error);
     return { total: 0, pending: 0, approved: 0, rejected: 0 };
   }
