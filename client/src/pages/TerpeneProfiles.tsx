@@ -72,7 +72,7 @@ function RadarChart({
     const centerY = height / 2;
 
     // Obtenir tous les terpènes uniques
-    const allTerpenes = [...new Set(data.map(d => d.terpene_name))];
+    const allTerpenes = Array.from(new Set(data.map(d => d.terpene_name)));
     const angleSlice = (Math.PI * 2) / allTerpenes.length;
 
     // Échelle radiale

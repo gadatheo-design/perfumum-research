@@ -25,7 +25,8 @@ import {
   Globe,
   Link2,
   PackageOpen,
-  ArrowRightLeft
+  ArrowRightLeft,
+  Image
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -319,6 +320,22 @@ export default function Admin() {
       href: "/admin/reclassify-molecules",
       color: "text-amber-600",
       bgColor: "bg-amber-50",
+    },
+    {
+      title: "Images Botaniques — Wikimedia",
+      description: "Enrichir automatiquement les images de plantes via Wikipedia et Wikimedia Commons (483 plantes recuperables par nom latin).",
+      icon: Image,
+      href: "/admin/wikimedia-batch",
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50",
+    },
+    {
+      title: "SMILES — PubChem Batch",
+      description: "Recuperer les SMILES manquants via PubChem CID (491 molecules) ou CAS (49 molecules). Couverture actuelle : 19% → potentiel 80%+.",
+      icon: FlaskConical,
+      href: "/admin/smiles-batch",
+      color: "text-violet-600",
+      bgColor: "bg-violet-50",
     },
   ];
 

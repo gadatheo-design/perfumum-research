@@ -106,6 +106,8 @@ const AIBatchEnrichMolecules = React.lazy(() => import('./pages/admin/AIBatchEnr
 const ChEBIBatch = React.lazy(() => import('./pages/admin/ChEBIBatch'));
 const PubChemIupacBatch = React.lazy(() => import('./pages/admin/PubChemIupacBatch'));
 const GBIFBatch = React.lazy(() => import('./pages/admin/GBIFBatch'));
+const WikimediaBatch = React.lazy(() => import('./pages/admin/WikimediaBatch'));
+const SmilesBatch = React.lazy(() => import('./pages/admin/SmilesBatch'));
 const LOTUSBatch = React.lazy(() => import('./pages/admin/LOTUSBatch'));
 const KNApSAcKBatch = React.lazy(() => import('./pages/admin/KNApSAcKBatch'));
 const AdminBundleVisualizer = React.lazy(() => import('./pages/AdminBundleVisualizer'));
@@ -502,6 +504,8 @@ function Router() {
       <Route path="/admin/pubchem-batch" component={PubChemBatch} />
       <Route path="/admin/chebi-batch" component={ChEBIBatch} />
       <Route path="/admin/gbif-batch" component={GBIFBatch} />
+      <Route path="/admin/wikimedia-batch" component={WikimediaBatch} />
+      <Route path="/admin/smiles-batch" component={SmilesBatch} />
       <Route path="/admin/lotus-batch" component={LOTUSBatch} />
       <Route path="/admin/knapsack-batch" component={KNApSAcKBatch} />
       <Route path="/admin/bundle-visualizer" component={AdminBundleVisualizer} />

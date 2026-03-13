@@ -38,7 +38,7 @@ export default function HistoricCigarettes() {
 
   const countries = useMemo(() => {
     if (!cigarettes) return [];
-    const uniqueCountries = [...new Set((cigarettes as HistoricCigarette[]).map(c => c.country))];
+    const uniqueCountries = Array.from(new Set((cigarettes as HistoricCigarette[]).map(c => c.country)));
     return uniqueCountries.sort();
   }, [cigarettes]);
 

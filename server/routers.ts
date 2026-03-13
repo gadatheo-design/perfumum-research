@@ -70,6 +70,7 @@ import { duplicatesRouter } from "./routers/duplicates";
 import { moleculeManagerRouter } from "./routers/moleculeManager";
 import { correlationsRouter } from "./routers/correlations";
 import { cigarilloMoleculeLinksRouter } from "./routers/cigarilloMoleculeLinks";
+import { wikimediaImagesRouter } from "./routers/wikimedia-images";
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -11503,6 +11504,8 @@ Familles olfactives disponibles:
   correlations: correlationsRouter,
   // Cigarillo-Molecule Links
   cigarilloMoleculeLinks: cigarilloMoleculeLinksRouter,
+  // Wikimedia Images Enrichment (Feature 4.7)
+  wikimediaImages: wikimediaImagesRouter,
   // Data Quality Dashboard
   dataQuality: router({
     getMetrics: publicProcedure.query(async () => {

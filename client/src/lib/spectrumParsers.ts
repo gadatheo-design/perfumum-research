@@ -111,7 +111,7 @@ export function parseMSP(content: string): ParseResult {
       } else {
         // Parse peaks - formats: "mz intensity;" or "mz intensity" or "(mz intensity)"
         // Support multiple peaks per line
-        const peakMatches = trimmedLine.matchAll(/(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)/g);
+        const peakMatches = Array.from(trimmedLine.matchAll(/(\d+(?:\.\d+)?)\s+(\d+(?:\.\d+)?)/g));
         for (const match of peakMatches) {
           const mz = parseFloat(match[1]);
           const intensity = parseFloat(match[2]);
@@ -219,7 +219,7 @@ export function parseJDX(content: string): ParseResult {
       } else if (inDataSection) {
         // Parse data points
         // Support formats: "x, y" or "x y" or "(x, y)"
-        const dataMatches = trimmedLine.matchAll(/(\d+(?:\.\d+)?)[,\s]+(\d+(?:\.\d+)?)/g);
+        const dataMatches = Array.from(trimmedLine.matchAll(/(\d+(?:\.\d+)?)[,\s]+(\d+(?:\.\d+)?)/g));
         for (const match of dataMatches) {
           const mz = parseFloat(match[1]);
           const intensity = parseFloat(match[2]);

@@ -65,11 +65,13 @@ export default function CartePlantesGPS() {
   const [showFilters, setShowFilters] = useState(true);
   const [selectedClimaticAxes, setSelectedClimaticAxes] = useState<Set<ClimaticAxisId>>(new Set());
   const [showClimaticFilter, setShowClimaticFilter] = useState(false);
+  const [moleculeFilter, setMoleculeFilter] = useState("");
+  const [showMoleculeFilter, setShowMoleculeFilter] = useState(false);
 
   // Récupérer toutes les plantes avec GPS
   const { data: plantsWithGPS, isLoading } = trpc.plants.getWithGPS.useQuery();
 
-  // Filtrer les plantes par catégories sélectionnées et axes climatiques
+  // Filtrer les plantes par catégories sélectionnées, axes climatiques et molécule
   const filteredPlants = useMemo(() => {
     if (!plantsWithGPS) return [];
     let filtered = plantsWithGPS.filter(p => selectedCategories.has(p.category as CategoryId));
@@ -77,7 +79,6 @@ export default function CartePlantesGPS() {
     // Filtrer par axe climatique si des axes sont sélectionnés
     if (selectedClimaticAxes.size > 0) {
       filtered = filtered.filter(p => {
-        // Vérifier si la plante a un axe climatique correspondant
         const plantAxis = (p as any).climaticAxis;
         if (!plantAxis) return false;
         return selectedClimaticAxes.has(plantAxis as ClimaticAxisId) ||
@@ -86,9 +87,24 @@ export default function CartePlantesGPS() {
                (plantAxis.includes('disparition') && selectedClimaticAxes.has('disparition'));
       });
     }
+
+    // Filtrer par molécule dominante
+    if (moleculeFilter.trim()) {
+      const query = moleculeFilter.toLowerCase().trim();
+      filtered = filtered.filter(p => {
+        const mols = (p as any).dominantMolecules;
+        if (!mols) return false;
+        try {
+          const arr: string[] = typeof mols === 'string' ? JSON.parse(mols) : mols;
+          return arr.some(m => m.toLowerCase().includes(query));
+        } catch {
+          return String(mols).toLowerCase().includes(query);
+        }
+      });
+    }
     
     return filtered;
-  }, [plantsWithGPS, selectedCategories, selectedClimaticAxes]);
+  }, [plantsWithGPS, selectedCategories, selectedClimaticAxes, moleculeFilter]);
 
   // Statistiques par catégorie
   const categoryStats = useMemo(() => {
@@ -457,6 +473,67 @@ export default function CartePlantesGPS() {
                           <p className="text-xs text-muted-foreground">
                             {selectedClimaticAxes.size} axe{selectedClimaticAxes.size > 1 ? 's' : ''} sélectionné{selectedClimaticAxes.size > 1 ? 's' : ''}
                           </p>
+                        </div>
+                      )}
+                    </CardContent>
+                  )}
+                </Card>
+
+                {/* Filtre par molécule dominante */}
+                <Card className="border-violet-200 dark:border-violet-800">
+                  <CardHeader className="pb-2">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        <FlaskConical className="h-5 w-5 text-violet-600" />
+                        Molécule
+                      </CardTitle>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => setShowMoleculeFilter(!showMoleculeFilter)}
+                      >
+                        {showMoleculeFilter ? <X className="h-4 w-4" /> : <Filter className="h-4 w-4" />}
+                      </Button>
+                    </div>
+                    <CardDescription className="text-xs">
+                      Filtrer par molécule dominante
+                    </CardDescription>
+                  </CardHeader>
+                  {showMoleculeFilter && (
+                    <CardContent className="space-y-3">
+                      <div className="relative">
+                        <input
+                          type="text"
+                          placeholder="Ex: Limonène, Myrcène, Linalool..."
+                          value={moleculeFilter}
+                          onChange={e => setMoleculeFilter(e.target.value)}
+                          className="w-full border rounded px-3 py-2 text-sm bg-background pr-8"
+                        />
+                        {moleculeFilter && (
+                          <button
+                            onClick={() => setMoleculeFilter("")}
+                            className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                          >
+                            <X className="h-3 w-3" />
+                          </button>
+                        )}
+                      </div>
+                      {moleculeFilter && (
+                        <p className="text-xs text-violet-600">
+                          {filteredPlants.length} plante{filteredPlants.length !== 1 ? 's' : ''} contenant « {moleculeFilter} »
+                        </p>
+                      )}
+                      {!moleculeFilter && (
+                        <div className="space-y-1">
+                          {["Limonène", "Myrcène", "Linalool", "Caryophyllène", "Pinene", "Terpinolene"].map(mol => (
+                            <button
+                              key={mol}
+                              onClick={() => setMoleculeFilter(mol)}
+                              className="text-xs px-2 py-1 rounded bg-violet-500/10 text-violet-600 hover:bg-violet-500/20 mr-1 mb-1"
+                            >
+                              {mol}
+                            </button>
+                          ))}
                         </div>
                       )}
                     </CardContent>

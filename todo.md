@@ -2107,3 +2107,13 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Script batch : corriger tous les catch(error) → catch(error: unknown) + instanceof Error dans server/db/
 - [ ] Refactoriser les imports circulaires molecules/plants/tabacs vers shared-helpers.ts
 - [ ] Augmenter la mémoire Node.js pour tsc (NODE_OPTIONS max-old-space-size=4096)
+
+## SESSION 13 MARS 2026 — Features 4.6, 4.7, 4.8 (Enrichissement SMILES, Images, Carte)
+- [x] Feature 4.7 — Router wikimediaImages.ts : getStats, getPlantsBatch, updatePlantImage, enrichBatch
+- [x] Feature 4.7 — Page admin WikimediaBatch.tsx : enrichissement images de plantes via Wikimedia API
+- [x] Feature 4.7 — Entree WikimediaBatch dans Admin.tsx (carte emeraude)
+- [x] Feature 4.6 — Router smiles-cas-enrichment.ts : getSmilesStats, enrichSmilesByCid, enrichSmilesByCas
+- [x] Feature 4.6 — Page admin SmilesBatch.tsx : enrichissement SMILES via PubChem CID/CAS (491+49 molecules recuperables)
+- [x] Feature 4.6 — Entree SmilesBatch dans Admin.tsx (carte violette)
+- [x] Feature 4.8 — Filtre moleculaire dans CartePlantesGPS.tsx (recherche par molecule dominante + suggestions rapides)
+- [x] Feature 4.8 — Filtre moleculaire combine avec filtres categorie et axe climatique existants
