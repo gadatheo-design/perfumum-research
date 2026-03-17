@@ -1,0 +1,58 @@
+{
+  "query": "\nSELECT id, name, cas_number, formula, family, chemical_class, smiles, status,\n  LENGTH(COALESCE(notes,'')) as notes_len,\n  (SELECT COUNT(*) FROM plant_molecules pm WHERE pm.molecule_id = m.id) as plant_links\nFROM molecules m\nWHERE id IN (1710025, 1720014, 1710027, 1720012)\nORDER BY id;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, cas_number, formula, family, chemical_class, smiles, status,\n  LENGTH(COALESCE(notes,'')) as notes_len,\n  (SELECT COUNT(*) FROM plant_molecules pm WHERE pm.molecule_id = m.id) as plant_links\nFROM molecules m\nWHERE id IN (1710025, 1720014, 1710027, 1720012)\nORDER BY id;\n",
+  "rows": [
+    {
+      "id": "1710025",
+      "name": "CBGA (Acide Cannabigérolique)",
+      "cas_number": "25555-57-1",
+      "formula": "NULL",
+      "family": "cannabinoide",
+      "chemical_class": "NULL",
+      "smiles": "CCCCC1=CC(=C(C=C1)CC=C(C)CCC=C(C)C)O",
+      "status": "validated",
+      "notes_len": "0",
+      "plant_links": "43"
+    },
+    {
+      "id": "1710027",
+      "name": "CBCA (Acide Cannabichroménique)",
+      "cas_number": "28172-17-0",
+      "formula": "NULL",
+      "family": "cannabinoide",
+      "chemical_class": "NULL",
+      "smiles": "NULL",
+      "status": "validated",
+      "notes_len": "0",
+      "plant_links": "43"
+    },
+    {
+      "id": "1720012",
+      "name": "CBCA",
+      "cas_number": "25687-47-2",
+      "formula": "C22H30O4",
+      "family": "cannabinoide",
+      "chemical_class": "phenol",
+      "smiles": "OC(=O)c1c(O)cc(CCCCC)cc1C2(C)CCC=C2C",
+      "status": "validated",
+      "notes_len": "125",
+      "plant_links": "2"
+    },
+    {
+      "id": "1720014",
+      "name": "CBGA",
+      "cas_number": "25555-57-1",
+      "formula": "C22H32O4",
+      "family": "cannabinoide",
+      "chemical_class": "phenol",
+      "smiles": "OC(=O)c1c(O)cc(CCCCC)cc1CC=C(C)CCC",
+      "status": "validated",
+      "notes_len": "229",
+      "plant_links": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcas_number\tformula\tfamily\tchemical_class\tsmiles\tstatus\tnotes_len\tplant_links\n1710025\tCBGA (Acide Cannabigérolique)\t25555-57-1\tNULL\tcannabinoide\tNULL\tCCCCC1=CC(=C(C=C1)CC=C(C)CCC=C(C)C)O\tvalidated\t0\t43\n1710027\tCBCA (Acide Cannabichroménique)\t28172-17-0\tNULL\tcannabinoide\tNULL\tNULL\tvalidated\t0\t43\n1720012\tCBCA\t25687-47-2\tC22H30O4\tcannabinoide\tphenol\tOC(=O)c1c(O)cc(CCCCC)cc1C2(C)CCC=C2C\tvalidated\t125\t2\n1720014\tCBGA\t25555-57-1\tC22H32O4\tcannabinoide\tphenol\tOC(=O)c1c(O)cc(CCCCC)cc1CC=C(C)CCC\tvalidated\t229\t2\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

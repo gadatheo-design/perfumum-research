@@ -1,0 +1,9 @@
+{
+  "query": "\nDELETE FROM plant_molecules WHERE molecule_id IN (1720012, 1720014);\nDELETE FROM molecules WHERE id IN (1720012, 1720014);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nDELETE FROM plant_molecules WHERE molecule_id IN (1720012, 1720014);\nDELETE FROM molecules WHERE id IN (1720012, 1720014);\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 156
+}

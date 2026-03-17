@@ -1,0 +1,9 @@
+{
+  "query": "\nUPDATE molecules SET\n  formula = 'C22H32O4',\n  chemical_class = 'phenol',\n  smiles = 'OC(=O)c1c(O)cc(CCCCC)cc1CC=C(C)CCC',\n  notes = 'Acide cannabigérolique — précurseur universel de tous les cannabinoïdes (THCA, CBDA, CBCA). Synthétisé par CBGAS (olivetol + GPP). Voie biosynthétique centrale du cannabis. Référence : Taura et al. (2007), FEBS Letters.'\nWHERE id = 1710025;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nUPDATE molecules SET\n  formula = 'C22H32O4',\n  chemical_class = 'phenol',\n  smiles = 'OC(=O)c1c(O)cc(CCCCC)cc1CC=C(C)CCC',\n  notes = 'Acide cannabigérolique — précurseur universel de tous les cannabinoïdes (THCA, CBDA, CBCA). Synthétisé par CBGAS (olivetol + GPP). Voie biosynthétique centrale du cannabis. Référence : Taura et al. (2007), FEBS Letters.'\nWHERE id = 1710025;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 62
+}

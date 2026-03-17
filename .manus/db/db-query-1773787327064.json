@@ -1,0 +1,9 @@
+{
+  "query": "\nUPDATE molecules SET\n  formula = 'C22H30O4',\n  chemical_class = 'phenol',\n  smiles = 'OC(=O)c1c(O)cc(CCCCC)cc1C2(C)CCC=C2C',\n  notes = 'Acide cannabichromenique — précurseur du CBC. Moins étudié que THCA/CBDA. Propriétés anti-inflammatoires potentielles. CAS : 25687-47-2.'\nWHERE id = 1710027;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nUPDATE molecules SET\n  formula = 'C22H30O4',\n  chemical_class = 'phenol',\n  smiles = 'OC(=O)c1c(O)cc(CCCCC)cc1C2(C)CCC=C2C',\n  notes = 'Acide cannabichromenique — précurseur du CBC. Moins étudié que THCA/CBDA. Propriétés anti-inflammatoires potentielles. CAS : 25687-47-2.'\nWHERE id = 1710027;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 64
+}

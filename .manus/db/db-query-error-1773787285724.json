@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT id, name, cas_number, formula, family, chemical_class, smiles, notes, status,\n  (SELECT COUNT(*) FROM plant_molecules pm WHERE pm.molecule_id = m.id) as plant_links,\n  (SELECT COUNT(*) FROM molecule_synergies ms WHERE ms.molecule_id_1 = m.id OR ms.molecule_id_2 = m.id) as synergy_links\nFROM molecules m\nWHERE id IN (1710025, 1720014, 1710027, 1720012)\nORDER BY id;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, cas_number, formula, family, chemical_class, smiles, notes, status,\n  (SELECT COUNT(*) FROM plant_molecules pm WHERE pm.molecule_id = m.id) as plant_links,\n  (SELECT COUNT(*) FROM molecule_synergies ms WHERE ms.molecule_id_1 = m.id OR ms.molecule_id_2 = m.id) as synergy_links\nFROM molecules m\nWHERE id IN (1710025, 1720014, 1710027, 1720012)\nORDER BY id;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'ms.molecule_id_1' in 'where clause'"
+  ]
+}
