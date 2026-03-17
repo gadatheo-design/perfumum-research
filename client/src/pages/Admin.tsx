@@ -337,6 +337,14 @@ export default function Admin() {
       color: "text-violet-600",
       bgColor: "bg-violet-50",
     },
+    {
+      title: "Méthodes d'Extraction",
+      description: "Gérer les méthodes d'extraction (distillation, CO₂ supercritique, enfleurage…) : créer, modifier, supprimer. Interface de délégation pour collaborateurs.",
+      icon: FlaskConical,
+      href: "/admin/extraction-methods",
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50",
+    },
   ];
 
   return (

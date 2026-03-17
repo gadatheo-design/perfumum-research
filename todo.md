@@ -2140,8 +2140,10 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Analyse sources batch 2 (8 PDFs + Odeuropa 4 PDFs + 2 schémas) complète
 - [x] Analyse sources batch 3 (30+ sources : PDFs, CSVs, schéma cannabinoïde) complète
 - [x] Plan d'intégration NOSE/Odeuropa rédigé (plan_integration_NOSE_PERFUMUM.md)
-- [ ] Priorité 1B : Créer fiches plantes manquantes (Aframomum melegueta, Rhodiola rosea, Nardostachys jatamansi, Picea brachytyla)
-- [ ] Priorité 2 : Enrichir fiches tabac avec données norisoprénoïdes et phénols (articles Saygili, tabac chinois, caroténoïdes)
-- [ ] Priorité 3 : Ajouter schéma biosynthèse cannabinoïde dans fiche Cannabis sativa
-- [ ] Priorité 4 : Créer table ExtractionMethod (Patel et al.)
-- [ ] Priorité 5 : Intégrer 84 plantes aromatiques Burkina Faso (chantier long terme)
+- [x] Priorité 1B : Créer fiches plantes manquantes (Rhodiola rosea créée, GC-MS enrichi pour Aframomum melegueta, Nardostachys jatamansi, Picea brachytyla)
+- [x] Priorité 2 : Enrichir fiches tabac avec données norisoprénoïdes et phénols (1390 nouveaux liens moléculaires)
+- [x] Priorité 3 : Enrichir Cannabis sativa avec composés prénylés soufrés et précurseurs biosynthétiques (965 nouveaux liens)
+- [x] Priorité 4 : Interface admin méthodes d'extraction — router tRPC (getAll/create/update/delete/getStats), page /admin/extraction-methods, lien dans Admin.tsx
+- [ ] Priorité 5 : Interface admin propriétés thermiques et matrice ABSORBE (visualisation/édition)
+- [ ] Priorité 6 : Intégrer 84 plantes aromatiques Burkina Faso (chantier long terme)
+- [ ] Priorité 7 : Système de suivi espèces menacées (Rhodiola rosea, Nardostachys jatamansi déjà marquées)
