@@ -2117,3 +2117,31 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Feature 4.6 — Entree SmilesBatch dans Admin.tsx (carte violette)
 - [x] Feature 4.8 — Filtre moleculaire dans CartePlantesGPS.tsx (recherche par molecule dominante + suggestions rapides)
 - [x] Feature 4.8 — Filtre moleculaire combine avec filtres categorie et axe climatique existants
+
+## SESSION 17 MARS 2026 — Import données internes (Priorité 1A)
+- [x] Migration SQL : 22 colonnes thermal_* et absorbe_* ajoutées à raw_materials
+- [x] Import Cartographie Thermique : 25 matériaux avec scores TRI/SAI/HPI (perfumum_thermal_cartography_full.csv)
+- [x] Import Matrice ABSORBE : 22 molécules avec comportement eau/graisse (perfumum_absorbe_matrix_aqueux_vs_graisse_mapped.csv)
+- [x] Import Recettes Beurre de Cacao : Cacao Mystique, Noisette Cacao, Rose Cacao Délicat
+- [x] Script idempotent scripts/import-thermal-absorbe.mjs créé
+- [x] Guide de délégation collègues rédigé (PERFUMUM_Guide_Integration_Collaborateurs.md)
+- [x] Analyse sources batch 2 (8 PDFs + Odeuropa) complète
+- [x] Analyse sources batch 3 (30+ sources) complète
+- [x] Plan d'intégration NOSE/Odeuropa rédigé
+
+## SESSION 17 MARS 2026 — Import données internes (Priorité 1A) + Analyses sources
+- [x] Migration SQL : 22 colonnes thermal_* et absorbe_* ajoutées à raw_materials
+- [x] Import Cartographie Thermique : 25 matériaux avec scores TRI/SAI/HPI
+- [x] Import Matrice ABSORBE : 22 molécules avec comportement eau/graisse
+- [x] Import Recettes Beurre de Cacao : Cacao Mystique, Noisette Cacao, Rose Cacao Délicat
+- [x] Script idempotent scripts/import-thermal-absorbe.mjs créé
+- [x] Guide de délégation collègues rédigé (PERFUMUM_Guide_Integration_Collaborateurs.md)
+- [x] Analyse sources batch 1 (6 articles texte) complète
+- [x] Analyse sources batch 2 (8 PDFs + Odeuropa 4 PDFs + 2 schémas) complète
+- [x] Analyse sources batch 3 (30+ sources : PDFs, CSVs, schéma cannabinoïde) complète
+- [x] Plan d'intégration NOSE/Odeuropa rédigé (plan_integration_NOSE_PERFUMUM.md)
+- [ ] Priorité 1B : Créer fiches plantes manquantes (Aframomum melegueta, Rhodiola rosea, Nardostachys jatamansi, Picea brachytyla)
+- [ ] Priorité 2 : Enrichir fiches tabac avec données norisoprénoïdes et phénols (articles Saygili, tabac chinois, caroténoïdes)
+- [ ] Priorité 3 : Ajouter schéma biosynthèse cannabinoïde dans fiche Cannabis sativa
+- [ ] Priorité 4 : Créer table ExtractionMethod (Patel et al.)
+- [ ] Priorité 5 : Intégrer 84 plantes aromatiques Burkina Faso (chantier long terme)
