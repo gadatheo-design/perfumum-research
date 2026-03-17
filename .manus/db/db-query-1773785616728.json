@@ -1,0 +1,20 @@
+{
+  "query": "SELECT id, name, latin_name FROM plants WHERE latin_name IN ('Cistus creticus', 'Cistus incanus', 'Cananga odorata', 'Plumeria rubra', 'Ganoderma lucidum', 'Zingiber mioga', 'Malus domestica') LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, latin_name FROM plants WHERE latin_name IN ('Cistus creticus', 'Cistus incanus', 'Cananga odorata', 'Plumeria rubra', 'Ganoderma lucidum', 'Zingiber mioga', 'Malus domestica') LIMIT 10;",
+  "rows": [
+    {
+      "id": "30009",
+      "name": "Ylang-Ylang",
+      "latin_name": "Cananga odorata"
+    },
+    {
+      "id": "450002",
+      "name": "Cacaloxochitl",
+      "latin_name": "Plumeria rubra"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\n30009\tYlang-Ylang\tCananga odorata\n450002\tCacaloxochitl\tPlumeria rubra\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}

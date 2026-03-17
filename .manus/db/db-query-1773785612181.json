@@ -1,0 +1,35 @@
+{
+  "query": "SELECT m.id, m.name, LEFT(m.coconut_organisms, 400) as orgs FROM molecules m WHERE m.coconut_organisms IS NOT NULL LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT m.id, m.name, LEFT(m.coconut_organisms, 400) as orgs FROM molecules m WHERE m.coconut_organisms IS NOT NULL LIMIT 5;",
+  "rows": [
+    {
+      "id": "3",
+      "name": "Ambroxan",
+      "orgs": "[{\"name\": \"Cistus creticus\", \"rank\": \"species\"}, {\"name\": \"Cistus incanus\", \"rank\": \"species\"}, {\"name\": \"Eukaryota\", \"rank\": \"higher\"}, {\"name\": \"Plantae\", \"rank\": \"higher\"}, {\"name\": \"Cistus\", \"rank\": \"higher\"}, {\"name\": \"Archaeplastida\", \"rank\": \"higher\"}, {\"name\": \"Cistaceae\", \"rank\": \"higher\"}]"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol",
+      "orgs": "[{\"name\": \"Ganoderma lucidum\", \"rank\": \"species\"}, {\"name\": \"Fungi\", \"rank\": \"higher\"}, {\"name\": \"Polyporaceae\", \"rank\": \"higher\"}, {\"name\": \"Ganodermataceae\", \"rank\": \"higher\"}, {\"name\": \"Agaricomycetes\", \"rank\": \"higher\"}, {\"name\": \"Ganoderma\", \"rank\": \"higher\"}]"
+    },
+    {
+      "id": "90033",
+      "name": "2-heptanone",
+      "orgs": "[{\"name\": \"Bacillus anthracis\", \"rank\": \"species\"}, {\"name\": \"Citrullus lanatus\", \"rank\": \"species\"}, {\"name\": \"Croton eluteria\", \"rank\": \"species\"}, {\"name\": \"Zingiber mioga\", \"rank\": \"species\"}, {\"name\": \"Amorphophallus eichleri\", \"rank\": \"species\"}, {\"name\": \"Ophrys × arachnitiformis\", \"rank\": \"species\"}, {\"name\": \"Ophrys arachnitiformis\", \"rank\": \"species\"}, {\"name\": \"Pelargonium vitifolium\", "
+    },
+    {
+      "id": "90065",
+      "name": "Benzyl salicylate",
+      "orgs": "[{\"name\": \"Desmos chinensis\", \"rank\": \"species\"}, {\"name\": \"Plumeria rubra\", \"rank\": \"species\"}, {\"name\": \"Uvaria grandiflora\", \"rank\": \"species\"}, {\"name\": \"Cedronella canariensis\", \"rank\": \"species\"}, {\"name\": \"Erica manipuliflora\", \"rank\": \"species\"}, {\"name\": \"Cananga odorata\", \"rank\": \"species\"}, {\"name\": \"Daphne papyracea\", \"rank\": \"species\"}, {\"name\": \"Friesodielsia enghiana\", \"rank\": \"spec"
+    },
+    {
+      "id": "210011",
+      "name": "Benzyl acetate",
+      "orgs": "[{\"name\": \"Malus domestica\", \"rank\": \"species\"}, {\"name\": \"Curio articulatus\", \"rank\": \"species\"}, {\"name\": \"Tanacetum parthenium\", \"rank\": \"species\"}, {\"name\": \"Vaccinium vitis-idaea\", \"rank\": \"species\"}, {\"name\": \"Mandragora autumnalis\", \"rank\": \"species\"}, {\"name\": \"Malus pumila\", \"rank\": \"species\"}, {\"name\": \"Cananga odorata\", \"rank\": \"species\"}, {\"name\": \"Daphne papyracea\", \"rank\": \"species\"}"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\torgs\n3\tAmbroxan\t[{\"name\": \"Cistus creticus\", \"rank\": \"species\"}, {\"name\": \"Cistus incanus\", \"rank\": \"species\"}, {\"name\": \"Eukaryota\", \"rank\": \"higher\"}, {\"name\": \"Plantae\", \"rank\": \"higher\"}, {\"name\": \"Cistus\", \"rank\": \"higher\"}, {\"name\": \"Archaeplastida\", \"rank\": \"higher\"}, {\"name\": \"Cistaceae\", \"rank\": \"higher\"}]\n30002\tLinalol\t[{\"name\": \"Ganoderma lucidum\", \"rank\": \"species\"}, {\"name\": \"Fungi\", \"rank\": \"higher\"}, {\"name\": \"Polyporaceae\", \"rank\": \"higher\"}, {\"name\": \"Ganodermataceae\", \"rank\": \"higher\"}, {\"name\": \"Agaricomycetes\", \"rank\": \"higher\"}, {\"name\": \"Ganoderma\", \"rank\": \"higher\"}]\n90033\t2-heptanone\t[{\"name\": \"Bacillus anthracis\", \"rank\": \"species\"}, {\"name\": \"Citrullus lanatus\", \"rank\": \"species\"}, {\"name\": \"Croton eluteria\", \"rank\": \"species\"}, {\"name\": \"Zingiber mioga\", \"rank\": \"species\"}, {\"name\": \"Amorphophallus eichleri\", \"rank\": \"species\"}, {\"name\": \"Ophrys × arachnitiformis\", \"rank\": \"species\"}, {\"name\": \"Ophrys arachnitiformis\", \"rank\": \"species\"}, {\"name\": \"Pelargonium vitifolium\", \n90065\tBenzyl salicylate\t[{\"name\": \"Desmos chinensis\", \"rank\": \"species\"}, {\"name\": \"Plumeria rubra\", \"rank\": \"species\"}, {\"name\": \"Uvaria grandiflora\", \"rank\": \"species\"}, {\"name\": \"Cedronella canariensis\", \"rank\": \"species\"}, {\"name\": \"Erica manipuliflora\", \"rank\": \"species\"}, {\"name\": \"Cananga odorata\", \"rank\": \"species\"}, {\"name\": \"Daphne papyracea\", \"rank\": \"species\"}, {\"name\": \"Friesodielsia enghiana\", \"rank\": \"spec\n210011\tBenzyl acetate\t[{\"name\": \"Malus domestica\", \"rank\": \"species\"}, {\"name\": \"Curio articulatus\", \"rank\": \"species\"}, {\"name\": \"Tanacetum parthenium\", \"rank\": \"species\"}, {\"name\": \"Vaccinium vitis-idaea\", \"rank\": \"species\"}, {\"name\": \"Mandragora autumnalis\", \"rank\": \"species\"}, {\"name\": \"Malus pumila\", \"rank\": \"species\"}, {\"name\": \"Cananga odorata\", \"rank\": \"species\"}, {\"name\": \"Daphne papyracea\", \"rank\": \"species\"}\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}
