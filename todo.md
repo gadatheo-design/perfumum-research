@@ -2144,6 +2144,7 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Priorité 2 : Enrichir fiches tabac avec données norisoprénoïdes et phénols (1390 nouveaux liens moléculaires)
 - [x] Priorité 3 : Enrichir Cannabis sativa avec composés prénylés soufrés et précurseurs biosynthétiques (965 nouveaux liens)
 - [x] Priorité 4 : Interface admin méthodes d'extraction — router tRPC (getAll/create/update/delete/getStats), page /admin/extraction-methods, lien dans Admin.tsx
+- [x] Correction données base : Javanole ajouté (id=1710030, CAS 4883-60-7), doublon Ocimène fusionné (id=1320031→1320074), 22 variétés Cannabis sativa latin_names variétaux assignés, 12 plantes sans latin_name complétées, 29 molécules sans famille classifiées (thiols, cannabinoïdes, alcaloïdes, glycosides, sesquiterpènes...)
 - [ ] Priorité 5 : Interface admin propriétés thermiques et matrice ABSORBE (visualisation/édition)
 - [ ] Priorité 6 : Intégrer 84 plantes aromatiques Burkina Faso (chantier long terme)
 - [ ] Priorité 7 : Système de suivi espèces menacées (Rhodiola rosea, Nardostachys jatamansi déjà marquées)
