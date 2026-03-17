@@ -210,7 +210,7 @@ export default function COCONUTBatch() {
           <div className="flex items-center gap-4">
             <label className="text-sm font-medium w-40">Taille du batch</label>
             <div className="flex items-center gap-2">
-              {[20, 50, 100, 200].map(n => (
+              {[50, 100, 200, 500, 1000].map(n => (
                 <Button
                   key={n}
                   variant={batchSize === n ? "default" : "outline"}

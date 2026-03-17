@@ -1,0 +1,106 @@
+{
+  "query": "\nSELECT p.id, p.name,\n  COUNT(CASE WHEN m.family IN ('Norisoprénoïde','norisoprenoide','norisoprenoid') THEN 1 END) as noris,\n  COUNT(CASE WHEN m.family IN ('Phénol','phenol') OR m.name IN ('Catéchol','Crésol','Syringol') THEN 1 END) as phenols\nFROM plants p\nLEFT JOIN plant_molecules pm ON pm.plant_id = p.id\nLEFT JOIN molecules m ON m.id = pm.molecule_id\nWHERE p.name LIKE '%Nicotiana%' OR p.name LIKE '%Virginia%' OR p.name LIKE '%Burley%' OR p.name LIKE '%Latakia%' OR p.name LIKE '%Samsun%' OR p.name LIKE '%Caporal%'\nGROUP BY p.id, p.name\nORDER BY p.name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT p.id, p.name,\n  COUNT(CASE WHEN m.family IN ('Norisoprénoïde','norisoprenoide','norisoprenoid') THEN 1 END) as noris,\n  COUNT(CASE WHEN m.family IN ('Phénol','phenol') OR m.name IN ('Catéchol','Crésol','Syringol') THEN 1 END) as phenols\nFROM plants p\nLEFT JOIN plant_molecules pm ON pm.plant_id = p.id\nLEFT JOIN molecules m ON m.id = pm.molecule_id\nWHERE p.name LIKE '%Nicotiana%' OR p.name LIKE '%Virginia%' OR p.name LIKE '%Burley%' OR p.name LIKE '%Latakia%' OR p.name LIKE '%Samsun%' OR p.name LIKE '%Caporal%'\nGROUP BY p.id, p.name\nORDER BY p.name;\n",
+  "rows": [
+    {
+      "id": "8",
+      "name": "Burley (air-cured)",
+      "noris": "3",
+      "phenols": "6"
+    },
+    {
+      "id": "840005",
+      "name": "Latakia",
+      "noris": "2",
+      "phenols": "6"
+    },
+    {
+      "id": "150002",
+      "name": "Latakia",
+      "noris": "3",
+      "phenols": "9"
+    },
+    {
+      "id": "870020",
+      "name": "Malawi Burley",
+      "noris": "2",
+      "phenols": "6"
+    },
+    {
+      "id": "330003",
+      "name": "Nicotiana benthamiana",
+      "noris": "2",
+      "phenols": "6"
+    },
+    {
+      "id": "330005",
+      "name": "Nicotiana sylvestris",
+      "noris": "2",
+      "phenols": "6"
+    },
+    {
+      "id": "990001",
+      "name": "Nicotiana tabacum var. Caporal",
+      "noris": "2",
+      "phenols": "6"
+    },
+    {
+      "id": "990002",
+      "name": "Nicotiana tabacum var. Latakia",
+      "noris": "2",
+      "phenols": "6"
+    },
+    {
+      "id": "990003",
+      "name": "Nicotiana tabacum var. Samsun",
+      "noris": "2",
+      "phenols": "6"
+    },
+    {
+      "id": "990004",
+      "name": "Nicotiana tabacum var. Virginia Bright",
+      "noris": "2",
+      "phenols": "6"
+    },
+    {
+      "id": "330006",
+      "name": "Nicotiana tomentosiformis",
+      "noris": "2",
+      "phenols": "6"
+    },
+    {
+      "id": "840001",
+      "name": "Samsun",
+      "noris": "2",
+      "phenols": "7"
+    },
+    {
+      "id": "660005",
+      "name": "Tabac Latakia",
+      "noris": "0",
+      "phenols": "6"
+    },
+    {
+      "id": "810026",
+      "name": "Tabac Latakia",
+      "noris": "2",
+      "phenols": "6"
+    },
+    {
+      "id": "480015",
+      "name": "Tabac — Nicotiana glauca (tabac arborescent)",
+      "noris": "2",
+      "phenols": "6"
+    },
+    {
+      "id": "7",
+      "name": "Virginia (flue-cured)",
+      "noris": "3",
+      "phenols": "6"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tnoris\tphenols\n8\tBurley (air-cured)\t3\t6\n840005\tLatakia\t2\t6\n150002\tLatakia\t3\t9\n870020\tMalawi Burley\t2\t6\n330003\tNicotiana benthamiana\t2\t6\n330005\tNicotiana sylvestris\t2\t6\n990001\tNicotiana tabacum var. Caporal\t2\t6\n990002\tNicotiana tabacum var. Latakia\t2\t6\n990003\tNicotiana tabacum var. Samsun\t2\t6\n990004\tNicotiana tabacum var. Virginia Bright\t2\t6\n330006\tNicotiana tomentosiformis\t2\t6\n840001\tSamsun\t2\t7\n660005\tTabac Latakia\t0\t6\n810026\tTabac Latakia\t2\t6\n480015\tTabac — Nicotiana glauca (tabac arborescent)\t2\t6\n7\tVirginia (flue-cured)\t3\t6\n",
+  "stderr": "",
+  "execution_time_ms": 68
+}

@@ -2193,3 +2193,13 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 
 ### Priorité 6 — Bibliographie (~50 références)
 - [ ] Intégrer ~50 références des 3 batches avec DOI, auteurs, année, résumé, tags thématiques
+
+## SESSION 17/03/2026 — Batch LOTUS 1000, Priorités 3 et 4
+
+- [x] Augmenter limite batch LOTUS à 1000 (router max=1000 + UI options 50/100/200/500/1000)
+- [x] Priorité 3 : Dihydroactinidiolide créé (id=1720003) + 25 liaisons norisoprenöïdes → 12 tabacs (β-damascénone, β-ionone, dihydroactinidiolide)
+- [x] Priorité 3 : Catéchol/Crésol reclassiés → phenol_fume
+- [x] Priorité 3 : Voie caroténoïde → norisoprénoïde documentée dans Cannabis sativa
+- [x] Priorité 4 : CBCA + CBGA créés, 5 liaisons cannabinoïdes → Cannabis, famille cannabinoide = 7 molécules
+- [x] Priorité 4 : 3 glycosides aromatiques créés (Géranyl glucoside, Linalyl glucoside, Benzyl glucoside)
+- [x] Priorité 4 : Phénols fumés : Catéchol/Crésol reclassiés, Guaïacol/Phénol/Syringol déjà en famille Phenol

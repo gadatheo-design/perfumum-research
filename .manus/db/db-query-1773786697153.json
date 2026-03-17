@@ -1,0 +1,220 @@
+{
+  "query": "\nSELECT pm.plant_id, p.name as plant_name, pm.molecule_id, m.name as mol_name, m.family\nFROM plant_molecules pm\nJOIN plants p ON p.id = pm.plant_id\nJOIN molecules m ON m.id = pm.molecule_id\nWHERE p.name LIKE '%Nicotiana%' OR p.name LIKE '%Virginia%' OR p.name LIKE '%Burley%' OR p.name LIKE '%Latakia%' OR p.name LIKE '%Samsun%' OR p.name LIKE '%Caporal%'\nAND m.name IN ('Guaiacol','Phénol','Catéchol','Crésol','Syringol','Bêta-damascone','Dihydro-β-ionone')\nORDER BY p.name, m.name\nLIMIT 30;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT pm.plant_id, p.name as plant_name, pm.molecule_id, m.name as mol_name, m.family\nFROM plant_molecules pm\nJOIN plants p ON p.id = pm.plant_id\nJOIN molecules m ON m.id = pm.molecule_id\nWHERE p.name LIKE '%Nicotiana%' OR p.name LIKE '%Virginia%' OR p.name LIKE '%Burley%' OR p.name LIKE '%Latakia%' OR p.name LIKE '%Samsun%' OR p.name LIKE '%Caporal%'\nAND m.name IN ('Guaiacol','Phénol','Catéchol','Crésol','Syringol','Bêta-damascone','Dihydro-β-ionone')\nORDER BY p.name, m.name\nLIMIT 30;\n",
+  "rows": [
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "1290009",
+      "mol_name": "2-Méthoxypyrazine",
+      "family": "aromatique"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "720032",
+      "mol_name": "4-Vinylguaiacol",
+      "family": "Composé du tabac"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "1290018",
+      "mol_name": "5-Méthylfurfural",
+      "family": "gourmand"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "1710017",
+      "mol_name": "Acide sclareolique",
+      "family": "acide"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "570021",
+      "mol_name": "Alpha-Ionone",
+      "family": "Norisoprénoïde"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "900012",
+      "mol_name": "Anabasine",
+      "family": "Alcaloïde"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "900011",
+      "mol_name": "Anatabine",
+      "family": "Alcaloïde"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "1110017",
+      "mol_name": "Catéchol",
+      "family": "Non classé"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "1710016",
+      "mol_name": "Cembratrienediol (α-CBT-diol)",
+      "family": "diterpene"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "1710014",
+      "mol_name": "Cotinine",
+      "family": "alcaloide"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "720022",
+      "mol_name": "Dihydro-β-ionone",
+      "family": "Composé du tabac"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "1290017",
+      "mol_name": "Farnesylacetone",
+      "family": "epice"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "930006",
+      "mol_name": "Furfural",
+      "family": "Hétérocycle"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "1410080",
+      "mol_name": "Geranyl acetone",
+      "family": "fruite"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "90021",
+      "mol_name": "Guaiacol",
+      "family": "Phénol"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "1710012",
+      "mol_name": "Hydroquinone",
+      "family": "phenol"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "30007",
+      "mol_name": "Limonène",
+      "family": "Monoterpène"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "1710015",
+      "mol_name": "Myosmine",
+      "family": "alcaloide"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "1710011",
+      "mol_name": "Mégastigmatriénone (isomère 1)",
+      "family": "norisoprenoide"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "720028",
+      "mol_name": "Neophytadiene",
+      "family": "Composé du tabac"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "720033",
+      "mol_name": "Nicotine",
+      "family": "Composé du tabac"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "720034",
+      "mol_name": "Nornicotine",
+      "family": "Composé du tabac"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "690008",
+      "mol_name": "Phytol",
+      "family": "vert"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "1350027",
+      "mol_name": "Phénol",
+      "family": "Phénol"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "1710013",
+      "mol_name": "Résorcinol",
+      "family": "phenol"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "960004",
+      "mol_name": "Sclareol",
+      "family": "Diterpène"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "720027",
+      "mol_name": "Solanone",
+      "family": "Composé du tabac"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "1350034",
+      "mol_name": "Solanésol",
+      "family": "Diterpène"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "750012",
+      "mol_name": "Syringol",
+      "family": "Phénol"
+    },
+    {
+      "plant_id": "8",
+      "plant_name": "Burley (air-cured)",
+      "molecule_id": "810038",
+      "mol_name": "megastigmatrienone",
+      "family": "Norisoprénoïde"
+    }
+  ],
+  "messages": [],
+  "stdout": "plant_id\tplant_name\tmolecule_id\tmol_name\tfamily\n8\tBurley (air-cured)\t1290009\t2-Méthoxypyrazine\taromatique\n8\tBurley (air-cured)\t720032\t4-Vinylguaiacol\tComposé du tabac\n8\tBurley (air-cured)\t1290018\t5-Méthylfurfural\tgourmand\n8\tBurley (air-cured)\t1710017\tAcide sclareolique\tacide\n8\tBurley (air-cured)\t570021\tAlpha-Ionone\tNorisoprénoïde\n8\tBurley (air-cured)\t900012\tAnabasine\tAlcaloïde\n8\tBurley (air-cured)\t900011\tAnatabine\tAlcaloïde\n8\tBurley (air-cured)\t1110017\tCatéchol\tNon classé\n8\tBurley (air-cured)\t1710016\tCembratrienediol (α-CBT-diol)\tditerpene\n8\tBurley (air-cured)\t1710014\tCotinine\talcaloide\n8\tBurley (air-cured)\t720022\tDihydro-β-ionone\tComposé du tabac\n8\tBurley (air-cured)\t1290017\tFarnesylacetone\tepice\n8\tBurley (air-cured)\t930006\tFurfural\tHétérocycle\n8\tBurley (air-cured)\t1410080\tGeranyl acetone\tfruite\n8\tBurley (air-cured)\t90021\tGuaiacol\tPhénol\n8\tBurley (air-cured)\t1710012\tHydroquinone\tphenol\n8\tBurley (air-cured)\t30007\tLimonène\tMonoterpène\n8\tBurley (air-cured)\t1710015\tMyosmine\talcaloide\n8\tBurley (air-cured)\t1710011\tMégastigmatriénone (isomère 1)\tnorisoprenoide\n8\tBurley (air-cured)\t720028\tNeophytadiene\tComposé du tabac\n8\tBurley (air-cured)\t720033\tNicotine\tComposé du tabac\n8\tBurley (air-cured)\t720034\tNornicotine\tComposé du tabac\n8\tBurley (air-cured)\t690008\tPhytol\tvert\n8\tBurley (air-cured)\t1350027\tPhénol\tPhénol\n8\tBurley (air-cured)\t1710013\tRésorcinol\tphenol\n8\tBurley (air-cured)\t960004\tSclareol\tDiterpène\n8\tBurley (air-cured)\t720027\tSolanone\tComposé du tabac\n8\tBurley (air-cured)\t1350034\tSolanésol\tDiterpène\n8\tBurley (air-cured)\t750012\tSyringol\tPhénol\n8\tBurley (air-cured)\t810038\tmegastigmatrienone\tNorisoprénoïde\n",
+  "stderr": "",
+  "execution_time_ms": 112
+}

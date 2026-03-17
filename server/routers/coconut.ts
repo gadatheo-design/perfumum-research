@@ -192,7 +192,7 @@ export const coconutRouter = router({
    */
   enrichBatch: publicProcedure
     .input(z.object({
-      limit: z.number().optional().default(50),
+      limit: z.number().min(1).max(1000).optional().default(50),
     }))
     .mutation(async ({ input }) => {
       const molecules = await db.getUnenrichedMoleculesForCOCONUT(input.limit);
