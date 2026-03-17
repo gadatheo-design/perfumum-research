@@ -282,6 +282,14 @@ export default function Admin() {
       bgColor: "bg-teal-50",
     },
     {
+      title: "COCONUT — Enrichissement Produits Naturels",
+      description: "Enrichir les molécules avec l'identifiant COCONUT, score NP-likeness, organismes sources et citations (716 000+ molécules, 70 000+ organismes).",
+      icon: Globe,
+      href: "/admin/coconut-batch",
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50",
+    },
+    {
       title: "KNApSAcK — Liaisons Plante-Molécule",
       description: "Enrichir les liaisons plante-molécule via KNApSAcK (101 500+ paires espèce-molécule) — matching CAS/nom, sans crédits IA.",
       icon: Database,

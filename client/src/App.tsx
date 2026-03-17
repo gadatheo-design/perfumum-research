@@ -109,6 +109,7 @@ const GBIFBatch = React.lazy(() => import('./pages/admin/GBIFBatch'));
 const WikimediaBatch = React.lazy(() => import('./pages/admin/WikimediaBatch'));
 const SmilesBatch = React.lazy(() => import('./pages/admin/SmilesBatch'));
 const LOTUSBatch = React.lazy(() => import('./pages/admin/LOTUSBatch'));
+const COCONUTBatch = React.lazy(() => import('./pages/admin/COCONUTBatch'));
 const ExtractionMethodsAdmin = React.lazy(() => import('./pages/admin/ExtractionMethodsAdmin'));
 const KNApSAcKBatch = React.lazy(() => import('./pages/admin/KNApSAcKBatch'));
 const AdminBundleVisualizer = React.lazy(() => import('./pages/AdminBundleVisualizer'));
@@ -508,6 +509,7 @@ function Router() {
       <Route path="/admin/wikimedia-batch" component={WikimediaBatch} />
       <Route path="/admin/smiles-batch" component={SmilesBatch} />
       <Route path="/admin/lotus-batch" component={LOTUSBatch} />
+      <Route path="/admin/coconut-batch" component={COCONUTBatch} />
       <Route path="/admin/knapsack-batch" component={KNApSAcKBatch} />
       <Route path="/admin/bundle-visualizer" component={AdminBundleVisualizer} />
       <Route path="/admin/reclassify-molecules" component={AdminReclassifyMolecules} />
