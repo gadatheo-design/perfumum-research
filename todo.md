@@ -2209,3 +2209,15 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Renommer cannabinoïdes : CBGA, CBCA, THCA, CBDV, THCV standardisés (noms courts sans parenthèses)
 - [x] Page Conservation /conservation créée : 47 espèces menacées (1 EX, 9 CR, 13 EN, 15 VU, 7 NT, 2 DD), filtres UICN/CITES, légende, lien dans MegaMenu "Axes de Recherche"
 - [ ] Priorité 6 : Intégrer 84 plantes aromatiques Burkina Faso (chantier long terme)
+
+- [ ] Molécules exclusives aux espèces menacées dans page Conservation (section dédiée CR/EN/EX)
+- [ ] Import 84 plantes aromatiques Burkina Faso (ABSORBE_Batchs.xlsx)
+
+## SESSION 18/03/2026 — Conservation, Burkina Faso, Molécules exclusives
+
+- [x] Section molécules exclusives aux espèces menacées dans page Conservation (60 molécules identifiées, router plants.getExclusiveMolecules créé)
+- [x] Import 84 plantes aromatiques Burkina Faso (Ouedraogo et al. 2024) : 26 nouvelles + 62 enrichies. Total base: 524 plantes
+- [x] Cannabinoïdes standardisés : CBGA, CBCA, THCA, CBDV, THCV (noms courts sans parenthèses)
+- [x] Fusion doublons CBCA (1710027 conservé) et CBGA (1710025 conservé)
+- [x] Croisement LOTUS automatique intégré dans coconut.enrichMolecule et enrichBatch
+- [x] Batch LOTUS étendu à 1000 molécules par passe

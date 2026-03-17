@@ -1,0 +1,610 @@
+{
+  "query": "\nSELECT \n  m.id,\n  m.name,\n  m.family,\n  m.chemical_class,\n  COUNT(DISTINCT pm.plant_id) as total_plant_count,\n  GROUP_CONCAT(DISTINCT p.conservation_status ORDER BY p.conservation_status SEPARATOR ', ') as statuses,\n  GROUP_CONCAT(DISTINCT p.name ORDER BY p.name SEPARATOR ' | ') as plant_names,\n  GROUP_CONCAT(DISTINCT p.latin_name ORDER BY p.latin_name SEPARATOR ' | ') as latin_names\nFROM molecules m\nJOIN plant_molecules pm ON pm.molecule_id = m.id\nJOIN plants p ON p.id = pm.plant_id\nWHERE p.conservation_status IN ('CR', 'EN', 'EX', 'EW')\nGROUP BY m.id, m.name, m.family, m.chemical_class\nHAVING COUNT(DISTINCT pm.plant_id) = COUNT(DISTINCT CASE WHEN p.conservation_status IN ('CR', 'EN', 'EX', 'EW') THEN pm.plant_id END)\nORDER BY \n  CASE MAX(p.conservation_status) WHEN 'EX' THEN 1 WHEN 'EW' THEN 2 WHEN 'CR' THEN 3 WHEN 'EN' THEN 4 ELSE 5 END,\n  m.name\nLIMIT 60;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  m.id,\n  m.name,\n  m.family,\n  m.chemical_class,\n  COUNT(DISTINCT pm.plant_id) as total_plant_count,\n  GROUP_CONCAT(DISTINCT p.conservation_status ORDER BY p.conservation_status SEPARATOR ', ') as statuses,\n  GROUP_CONCAT(DISTINCT p.name ORDER BY p.name SEPARATOR ' | ') as plant_names,\n  GROUP_CONCAT(DISTINCT p.latin_name ORDER BY p.latin_name SEPARATOR ' | ') as latin_names\nFROM molecules m\nJOIN plant_molecules pm ON pm.molecule_id = m.id\nJOIN plants p ON p.id = pm.plant_id\nWHERE p.conservation_status IN ('CR', 'EN', 'EX', 'EW')\nGROUP BY m.id, m.name, m.family, m.chemical_class\nHAVING COUNT(DISTINCT pm.plant_id) = COUNT(DISTINCT CASE WHEN p.conservation_status IN ('CR', 'EN', 'EX', 'EW') THEN pm.plant_id END)\nORDER BY \n  CASE MAX(p.conservation_status) WHEN 'EX' THEN 1 WHEN 'EW' THEN 2 WHEN 'CR' THEN 3 WHEN 'EN' THEN 4 ELSE 5 END,\n  m.name\nLIMIT 60;\n",
+  "rows": [
+    {
+      "id": "870001",
+      "name": "Anéthole",
+      "family": "Phénylpropanoïde",
+      "chemical_class": "ether",
+      "total_plant_count": "1",
+      "statuses": "EX",
+      "plant_names": "Silphium",
+      "latin_names": "Ferula drudeana (probable)"
+    },
+    {
+      "id": "780015",
+      "name": "Acaciine",
+      "family": "Flavonoïde",
+      "chemical_class": "other",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "60008",
+      "name": "Acide Caféique",
+      "family": "Phénol",
+      "chemical_class": "phenol",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "60010",
+      "name": "Acide Coumarique",
+      "family": "Phénol",
+      "chemical_class": "other",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "780012",
+      "name": "Acide oléanolique",
+      "family": "Triterpène",
+      "chemical_class": "other",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1320079",
+      "name": "Acide protocatechuique",
+      "family": "autre",
+      "chemical_class": "aromatic",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "780011",
+      "name": "Acide ursolique",
+      "family": "Triterpène",
+      "chemical_class": "other",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1650009",
+      "name": "Acétate de thymyle",
+      "family": "herbace",
+      "chemical_class": "ester",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "990031",
+      "name": "Agarol",
+      "family": "Sesquiterpène",
+      "chemical_class": "sesquiterpene",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Aquilaria",
+      "latin_names": "Aquilaria malaccensis"
+    },
+    {
+      "id": "990039",
+      "name": "Alpha-bulnesene",
+      "family": "Sesquiterpène",
+      "chemical_class": "sesquiterpene",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Aquilaria",
+      "latin_names": "Aquilaria malaccensis"
+    },
+    {
+      "id": "990040",
+      "name": "Alpha-guaiene",
+      "family": "boise",
+      "chemical_class": "sesquiterpene",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Aquilaria",
+      "latin_names": "Aquilaria malaccensis"
+    },
+    {
+      "id": "780016",
+      "name": "Aristolen-9β-ol",
+      "family": "Sesquiterpène",
+      "chemical_class": "sesquiterpene",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1710050",
+      "name": "Aristolene",
+      "family": "sesquiterpene",
+      "chemical_class": "NULL",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1710003",
+      "name": "Aristolène",
+      "family": "sesquiterpene",
+      "chemical_class": "NULL",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1710049",
+      "name": "Calarene",
+      "family": "sesquiterpene",
+      "chemical_class": "NULL",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "840002",
+      "name": "Curzérène",
+      "family": "Sesquiterpène",
+      "chemical_class": "sesquiterpene",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Commiphora",
+      "latin_names": "Commiphora wightii"
+    },
+    {
+      "id": "1320026",
+      "name": "Ferulic acid",
+      "family": "epice",
+      "chemical_class": "aromatic",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Aquilaria",
+      "latin_names": "Aquilaria malaccensis"
+    },
+    {
+      "id": "840001",
+      "name": "Furanoeudesma-1,3-diène",
+      "family": "Sesquiterpène",
+      "chemical_class": "sesquiterpene",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Commiphora",
+      "latin_names": "Commiphora wightii"
+    },
+    {
+      "id": "1710046",
+      "name": "Jatamansone",
+      "family": "sesquiterpene",
+      "chemical_class": "NULL",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "990033",
+      "name": "Jinkoh-eremol",
+      "family": "Sesquiterpène",
+      "chemical_class": "sesquiterpene",
+      "total_plant_count": "2",
+      "statuses": "CR",
+      "plant_names": "Aquilaria | Bois d'agar",
+      "latin_names": "Aquilaria crassna | Aquilaria malaccensis"
+    },
+    {
+      "id": "780017",
+      "name": "Kanshone A",
+      "family": "Sesquiterpène",
+      "chemical_class": "ketone",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1380027",
+      "name": "Nardol",
+      "family": "terreux",
+      "chemical_class": "sesquiterpene",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "780010",
+      "name": "Nardosinone",
+      "family": "Sesquiterpène",
+      "chemical_class": "sesquiterpene",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "780018",
+      "name": "Nardosinonediol",
+      "family": "terreux",
+      "chemical_class": "sesquiterpene",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1320042",
+      "name": "Naringenin",
+      "family": "agrume",
+      "chemical_class": "heterocyclic",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Commiphora",
+      "latin_names": "Commiphora wightii"
+    },
+    {
+      "id": "780014",
+      "name": "Octacosanol",
+      "family": "autre",
+      "chemical_class": "alcohol",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "90054",
+      "name": "Patchoulol",
+      "family": "Sesquiterpène",
+      "chemical_class": "alcohol",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1320109",
+      "name": "Pinoresinol",
+      "family": "autre",
+      "chemical_class": "lactone",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1300010",
+      "name": "Quercétine",
+      "family": "autre",
+      "chemical_class": "aromatic",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1320044",
+      "name": "Rutin",
+      "family": "autre",
+      "chemical_class": "heterocyclic",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1320108",
+      "name": "Sesamin",
+      "family": "autre",
+      "chemical_class": "lactone",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Commiphora",
+      "latin_names": "Commiphora wightii"
+    },
+    {
+      "id": "990041",
+      "name": "Seychellene",
+      "family": "Sesquiterpène",
+      "chemical_class": "sesquiterpene",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1710002",
+      "name": "Seychellène",
+      "family": "sesquiterpene",
+      "chemical_class": "NULL",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1710004",
+      "name": "Spirojatamol",
+      "family": "sesquiterpene",
+      "chemical_class": "NULL",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1710048",
+      "name": "Valeranone",
+      "family": "sesquiterpene",
+      "chemical_class": "NULL",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "810002",
+      "name": "beta-pinene",
+      "family": "Monoterpène",
+      "chemical_class": "monoterpene",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "810016",
+      "name": "valerianol",
+      "family": "Sesquiterpène",
+      "chemical_class": "alcohol",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Aquilaria",
+      "latin_names": "Aquilaria malaccensis"
+    },
+    {
+      "id": "1710001",
+      "name": "α-Gurjunène",
+      "family": "sesquiterpene",
+      "chemical_class": "NULL",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1710047",
+      "name": "β-Eudesmol",
+      "family": "sesquiterpene",
+      "chemical_class": "NULL",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "1050007",
+      "name": "β-Patchoulène",
+      "family": "Sesquiterpène",
+      "chemical_class": "sesquiterpene",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "690010",
+      "name": "β-Vétivène",
+      "family": "Sesquiterpène",
+      "chemical_class": "sesquiterpene",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "780013",
+      "name": "β-sitostérol",
+      "family": "autre",
+      "chemical_class": "diterpene",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Nard (Spikenard)",
+      "latin_names": "Nardostachys jatamansi"
+    },
+    {
+      "id": "840005",
+      "name": "β-Élémène",
+      "family": "Sesquiterpène",
+      "chemical_class": "sesquiterpene",
+      "total_plant_count": "1",
+      "statuses": "CR",
+      "plant_names": "Commiphora",
+      "latin_names": "Commiphora wightii"
+    },
+    {
+      "id": "1290020",
+      "name": "1-Nonanal",
+      "family": "aromatique",
+      "chemical_class": "aldehyde",
+      "total_plant_count": "1",
+      "statuses": "EN",
+      "plant_names": "Rhodiola (Orpin rose)",
+      "latin_names": "Rhodiola rosea"
+    },
+    {
+      "id": "1710007",
+      "name": "1-Octanol",
+      "family": "alcool",
+      "chemical_class": "NULL",
+      "total_plant_count": "1",
+      "statuses": "EN",
+      "plant_names": "Rhodiola (Orpin rose)",
+      "latin_names": "Rhodiola rosea"
+    },
+    {
+      "id": "1410016",
+      "name": "1-Octen-3-ol",
+      "family": "vert",
+      "chemical_class": "alcohol",
+      "total_plant_count": "1",
+      "statuses": "EN",
+      "plant_names": "Cèdre de l'Atlas",
+      "latin_names": "Cedrus atlantica"
+    },
+    {
+      "id": "1710022",
+      "name": "3-Mercaptohexan-1-ol (3MH)",
+      "family": "thiol",
+      "chemical_class": "NULL",
+      "total_plant_count": "9",
+      "statuses": "CR, EN",
+      "plant_names": "Acapulco Gold | Afghan Kush | Angola Red | Colombian Gold | Lebanese Red | Malawi Gold | Oaxacan | Panama Red | Thai / Thai Stick",
+      "latin_names": "Cannabis sativa 'Lebanese Red' | Cannabis sativa subsp. indica var. afghanica 'Afghan Kush' | Cannabis sativa var. indica 'Acapulco Gold' | Cannabis sativa var. indica 'Angola Red' | Cannabis sativa var. indica 'Colombian Gold' | Cannabis sativa var. indica 'Malawi Gold' | Cannabis sativa var. indica 'Oaxacan' | Cannabis sativa var. indica 'Panama Red' | Cannabis sativa var. indica 'Thai'"
+    },
+    {
+      "id": "1710019",
+      "name": "3-Méthyl-2-butène-1-thiol (321-thiol)",
+      "family": "thiol",
+      "chemical_class": "NULL",
+      "total_plant_count": "9",
+      "statuses": "CR, EN",
+      "plant_names": "Acapulco Gold | Afghan Kush | Angola Red | Colombian Gold | Lebanese Red | Malawi Gold | Oaxacan | Panama Red | Thai / Thai Stick",
+      "latin_names": "Cannabis sativa 'Lebanese Red' | Cannabis sativa subsp. indica var. afghanica 'Afghan Kush' | Cannabis sativa var. indica 'Acapulco Gold' | Cannabis sativa var. indica 'Angola Red' | Cannabis sativa var. indica 'Colombian Gold' | Cannabis sativa var. indica 'Malawi Gold' | Cannabis sativa var. indica 'Oaxacan' | Cannabis sativa var. indica 'Panama Red' | Cannabis sativa var. indica 'Thai'"
+    },
+    {
+      "id": "1710020",
+      "name": "3-Méthylbutane-1-thiol",
+      "family": "thiol",
+      "chemical_class": "NULL",
+      "total_plant_count": "9",
+      "statuses": "CR, EN",
+      "plant_names": "Acapulco Gold | Afghan Kush | Angola Red | Colombian Gold | Lebanese Red | Malawi Gold | Oaxacan | Panama Red | Thai / Thai Stick",
+      "latin_names": "Cannabis sativa 'Lebanese Red' | Cannabis sativa subsp. indica var. afghanica 'Afghan Kush' | Cannabis sativa var. indica 'Acapulco Gold' | Cannabis sativa var. indica 'Angola Red' | Cannabis sativa var. indica 'Colombian Gold' | Cannabis sativa var. indica 'Malawi Gold' | Cannabis sativa var. indica 'Oaxacan' | Cannabis sativa var. indica 'Panama Red' | Cannabis sativa var. indica 'Thai'"
+    },
+    {
+      "id": "1710021",
+      "name": "4-Méthyl-4-mercaptopentan-2-one (4MMP)",
+      "family": "thiol",
+      "chemical_class": "NULL",
+      "total_plant_count": "9",
+      "statuses": "CR, EN",
+      "plant_names": "Acapulco Gold | Afghan Kush | Angola Red | Colombian Gold | Lebanese Red | Malawi Gold | Oaxacan | Panama Red | Thai / Thai Stick",
+      "latin_names": "Cannabis sativa 'Lebanese Red' | Cannabis sativa subsp. indica var. afghanica 'Afghan Kush' | Cannabis sativa var. indica 'Acapulco Gold' | Cannabis sativa var. indica 'Angola Red' | Cannabis sativa var. indica 'Colombian Gold' | Cannabis sativa var. indica 'Malawi Gold' | Cannabis sativa var. indica 'Oaxacan' | Cannabis sativa var. indica 'Panama Red' | Cannabis sativa var. indica 'Thai'"
+    },
+    {
+      "id": "720032",
+      "name": "4-Vinylguaiacol",
+      "family": "Composé du tabac",
+      "chemical_class": "phenol",
+      "total_plant_count": "3",
+      "statuses": "CR, EN",
+      "plant_names": "Perique | Tabac Xanthi | Tabac Yenidje",
+      "latin_names": "Nicotiana tabacum var. Perique | Nicotiana tabacum var. Xanthi | Nicotiana tabacum var. Yenidje"
+    },
+    {
+      "id": "1410064",
+      "name": "6-Methyl-5-hepten-2-one",
+      "family": "fruite",
+      "chemical_class": "ketone",
+      "total_plant_count": "1",
+      "statuses": "EN",
+      "plant_names": "Rhodiola (Orpin rose)",
+      "latin_names": "Rhodiola rosea"
+    },
+    {
+      "id": "1300030",
+      "name": "Abietol",
+      "family": "boise",
+      "chemical_class": "diterpene",
+      "total_plant_count": "1",
+      "statuses": "EN",
+      "plant_names": "Cèdre de l'Atlas",
+      "latin_names": "Cedrus atlantica"
+    },
+    {
+      "id": "1620004",
+      "name": "Acide Cinnamique",
+      "family": "epice",
+      "chemical_class": "aromatic",
+      "total_plant_count": "1",
+      "statuses": "EN",
+      "plant_names": "Styrax liquide",
+      "latin_names": "Liquidambar orientalis"
+    },
+    {
+      "id": "1710023",
+      "name": "Acide Olivétolique",
+      "family": "acide",
+      "chemical_class": "NULL",
+      "total_plant_count": "9",
+      "statuses": "CR, EN",
+      "plant_names": "Acapulco Gold | Afghan Kush | Angola Red | Colombian Gold | Lebanese Red | Malawi Gold | Oaxacan | Panama Red | Thai / Thai Stick",
+      "latin_names": "Cannabis sativa 'Lebanese Red' | Cannabis sativa subsp. indica var. afghanica 'Afghan Kush' | Cannabis sativa var. indica 'Acapulco Gold' | Cannabis sativa var. indica 'Angola Red' | Cannabis sativa var. indica 'Colombian Gold' | Cannabis sativa var. indica 'Malawi Gold' | Cannabis sativa var. indica 'Oaxacan' | Cannabis sativa var. indica 'Panama Red' | Cannabis sativa var. indica 'Thai'"
+    },
+    {
+      "id": "1350024",
+      "name": "Acide abiétique",
+      "family": "Diterpène",
+      "chemical_class": "diterpene",
+      "total_plant_count": "3",
+      "statuses": "EN",
+      "plant_names": "Black Spruce | Cèdre de l'Atlas | Styrax liquide",
+      "latin_names": "Cedrus atlantica | Liquidambar orientalis | Picea mariana"
+    },
+    {
+      "id": "1710017",
+      "name": "Acide sclareolique",
+      "family": "acide",
+      "chemical_class": "NULL",
+      "total_plant_count": "3",
+      "statuses": "CR, EN",
+      "plant_names": "Perique | Tabac Xanthi | Tabac Yenidje",
+      "latin_names": "Nicotiana tabacum var. Perique | Nicotiana tabacum var. Xanthi | Nicotiana tabacum var. Yenidje"
+    },
+    {
+      "id": "570019",
+      "name": "Acétate de Géranyle",
+      "family": "Monoterpène",
+      "chemical_class": "ester",
+      "total_plant_count": "1",
+      "statuses": "EN",
+      "plant_names": "Rhodiola (Orpin rose)",
+      "latin_names": "Rhodiola rosea"
+    },
+    {
+      "id": "1710045",
+      "name": "Acétate de géranyle",
+      "family": "terpene",
+      "chemical_class": "NULL",
+      "total_plant_count": "1",
+      "statuses": "EN",
+      "plant_names": "Rhodiola (Orpin rose)",
+      "latin_names": "Rhodiola rosea"
+    },
+    {
+      "id": "570055",
+      "name": "Alcool cinnamique",
+      "family": "Phénylpropanoïde",
+      "chemical_class": "aromatic",
+      "total_plant_count": "1",
+      "statuses": "EN",
+      "plant_names": "Styrax liquide",
+      "latin_names": "Liquidambar orientalis"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tfamily\tchemical_class\ttotal_plant_count\tstatuses\tplant_names\tlatin_names\n870001\tAnéthole\tPhénylpropanoïde\tether\t1\tEX\tSilphium\tFerula drudeana (probable)\n780015\tAcaciine\tFlavonoïde\tother\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n60008\tAcide Caféique\tPhénol\tphenol\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n60010\tAcide Coumarique\tPhénol\tother\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n780012\tAcide oléanolique\tTriterpène\tother\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1320079\tAcide protocatechuique\tautre\taromatic\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n780011\tAcide ursolique\tTriterpène\tother\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1650009\tAcétate de thymyle\therbace\tester\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n990031\tAgarol\tSesquiterpène\tsesquiterpene\t1\tCR\tAquilaria\tAquilaria malaccensis\n990039\tAlpha-bulnesene\tSesquiterpène\tsesquiterpene\t1\tCR\tAquilaria\tAquilaria malaccensis\n990040\tAlpha-guaiene\tboise\tsesquiterpene\t1\tCR\tAquilaria\tAquilaria malaccensis\n780016\tAristolen-9β-ol\tSesquiterpène\tsesquiterpene\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1710050\tAristolene\tsesquiterpene\tNULL\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1710003\tAristolène\tsesquiterpene\tNULL\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1710049\tCalarene\tsesquiterpene\tNULL\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n840002\tCurzérène\tSesquiterpène\tsesquiterpene\t1\tCR\tCommiphora\tCommiphora wightii\n1320026\tFerulic acid\tepice\taromatic\t1\tCR\tAquilaria\tAquilaria malaccensis\n840001\tFuranoeudesma-1,3-diène\tSesquiterpène\tsesquiterpene\t1\tCR\tCommiphora\tCommiphora wightii\n1710046\tJatamansone\tsesquiterpene\tNULL\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n990033\tJinkoh-eremol\tSesquiterpène\tsesquiterpene\t2\tCR\tAquilaria | Bois d'agar\tAquilaria crassna | Aquilaria malaccensis\n780017\tKanshone A\tSesquiterpène\tketone\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1380027\tNardol\tterreux\tsesquiterpene\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n780010\tNardosinone\tSesquiterpène\tsesquiterpene\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n780018\tNardosinonediol\tterreux\tsesquiterpene\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1320042\tNaringenin\tagrume\theterocyclic\t1\tCR\tCommiphora\tCommiphora wightii\n780014\tOctacosanol\tautre\talcohol\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n90054\tPatchoulol\tSesquiterpène\talcohol\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1320109\tPinoresinol\tautre\tlactone\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1300010\tQuercétine\tautre\taromatic\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1320044\tRutin\tautre\theterocyclic\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1320108\tSesamin\tautre\tlactone\t1\tCR\tCommiphora\tCommiphora wightii\n990041\tSeychellene\tSesquiterpène\tsesquiterpene\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1710002\tSeychellène\tsesquiterpene\tNULL\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1710004\tSpirojatamol\tsesquiterpene\tNULL\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1710048\tValeranone\tsesquiterpene\tNULL\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n810002\tbeta-pinene\tMonoterpène\tmonoterpene\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n810016\tvalerianol\tSesquiterpène\talcohol\t1\tCR\tAquilaria\tAquilaria malaccensis\n1710001\tα-Gurjunène\tsesquiterpene\tNULL\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1710047\tβ-Eudesmol\tsesquiterpene\tNULL\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n1050007\tβ-Patchoulène\tSesquiterpène\tsesquiterpene\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n690010\tβ-Vétivène\tSesquiterpène\tsesquiterpene\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n780013\tβ-sitostérol\tautre\tditerpene\t1\tCR\tNard (Spikenard)\tNardostachys jatamansi\n840005\tβ-Élémène\tSesquiterpène\tsesquiterpene\t1\tCR\tCommiphora\tCommiphora wightii\n1290020\t1-Nonanal\taromatique\taldehyde\t1\tEN\tRhodiola (Orpin rose)\tRhodiola rosea\n1710007\t1-Octanol\talcool\tNULL\t1\tEN\tRhodiola (Orpin rose)\tRhodiola rosea\n1410016\t1-Octen-3-ol\tvert\talcohol\t1\tEN\tCèdre de l'Atlas\tCedrus atlantica\n1710022\t3-Mercaptohexan-1-ol (3MH)\tthiol\tNULL\t9\tCR, EN\tAcapulco Gold | Afghan Kush | Angola Red | Colombian Gold | Lebanese Red | Malawi Gold | Oaxacan | Panama Red | Thai / Thai Stick\tCannabis sativa 'Lebanese Red' | Cannabis sativa subsp. indica var. afghanica 'Afghan Kush' | Cannabis sativa var. indica 'Acapulco Gold' | Cannabis sativa var. indica 'Angola Red' | Cannabis sativa var. indica 'Colombian Gold' | Cannabis sativa var. indica 'Malawi Gold' | Cannabis sativa var. indica 'Oaxacan' | Cannabis sativa var. indica 'Panama Red' | Cannabis sativa var. indica 'Thai'\n1710019\t3-Méthyl-2-butène-1-thiol (321-thiol)\tthiol\tNULL\t9\tCR, EN\tAcapulco Gold | Afghan Kush | Angola Red | Colombian Gold | Lebanese Red | Malawi Gold | Oaxacan | Panama Red | Thai / Thai Stick\tCannabis sativa 'Lebanese Red' | Cannabis sativa subsp. indica var. afghanica 'Afghan Kush' | Cannabis sativa var. indica 'Acapulco Gold' | Cannabis sativa var. indica 'Angola Red' | Cannabis sativa var. indica 'Colombian Gold' | Cannabis sativa var. indica 'Malawi Gold' | Cannabis sativa var. indica 'Oaxacan' | Cannabis sativa var. indica 'Panama Red' | Cannabis sativa var. indica 'Thai'\n1710020\t3-Méthylbutane-1-thiol\tthiol\tNULL\t9\tCR, EN\tAcapulco Gold | Afghan Kush | Angola Red | Colombian Gold | Lebanese Red | Malawi Gold | Oaxacan | Panama Red | Thai / Thai Stick\tCannabis sativa 'Lebanese Red' | Cannabis sativa subsp. indica var. afghanica 'Afghan Kush' | Cannabis sativa var. indica 'Acapulco Gold' | Cannabis sativa var. indica 'Angola Red' | Cannabis sativa var. indica 'Colombian Gold' | Cannabis sativa var. indica 'Malawi Gold' | Cannabis sativa var. indica 'Oaxacan' | Cannabis sativa var. indica 'Panama Red' | Cannabis sativa var. indica 'Thai'\n1710021\t4-Méthyl-4-mercaptopentan-2-one (4MMP)\tthiol\tNULL\t9\tCR, EN\tAcapulco Gold | Afghan Kush | Angola Red | Colombian Gold | Lebanese Red | Malawi Gold | Oaxacan | Panama Red | Thai / Thai Stick\tCannabis sativa 'Lebanese Red' | Cannabis sativa subsp. indica var. afghanica 'Afghan Kush' | Cannabis sativa var. indica 'Acapulco Gold' | Cannabis sativa var. indica 'Angola Red' | Cannabis sativa var. indica 'Colombian Gold' | Cannabis sativa var. indica 'Malawi Gold' | Cannabis sativa var. indica 'Oaxacan' | Cannabis sativa var. indica 'Panama Red' | Cannabis sativa var. indica 'Thai'\n720032\t4-Vinylguaiacol\tComposé du tabac\tphenol\t3\tCR, EN\tPerique | Tabac Xanthi | Tabac Yenidje\tNicotiana tabacum var. Perique | Nicotiana tabacum var. Xanthi | Nicotiana tabacum var. Yenidje\n1410064\t6-Methyl-5-hepten-2-one\tfruite\tketone\t1\tEN\tRhodiola (Orpin rose)\tRhodiola rosea\n1300030\tAbietol\tboise\tditerpene\t1\tEN\tCèdre de l'Atlas\tCedrus atlantica\n1620004\tAcide Cinnamique\tepice\taromatic\t1\tEN\tStyrax liquide\tLiquidambar orientalis\n1710023\tAcide Olivétolique\tacide\tNULL\t9\tCR, EN\tAcapulco Gold | Afghan Kush | Angola Red | Colombian Gold | Lebanese Red | Malawi Gold | Oaxacan | Panama Red | Thai / Thai Stick\tCannabis sativa 'Lebanese Red' | Cannabis sativa subsp. indica var. afghanica 'Afghan Kush' | Cannabis sativa var. indica 'Acapulco Gold' | Cannabis sativa var. indica 'Angola Red' | Cannabis sativa var. indica 'Colombian Gold' | Cannabis sativa var. indica 'Malawi Gold' | Cannabis sativa var. indica 'Oaxacan' | Cannabis sativa var. indica 'Panama Red' | Cannabis sativa var. indica 'Thai'\n1350024\tAcide abiétique\tDiterpène\tditerpene\t3\tEN\tBlack Spruce | Cèdre de l'Atlas | Styrax liquide\tCedrus atlantica | Liquidambar orientalis | Picea mariana\n1710017\tAcide sclareolique\tacide\tNULL\t3\tCR, EN\tPerique | Tabac Xanthi | Tabac Yenidje\tNicotiana tabacum var. Perique | Nicotiana tabacum var. Xanthi | Nicotiana tabacum var. Yenidje\n570019\tAcétate de Géranyle\tMonoterpène\tester\t1\tEN\tRhodiola (Orpin rose)\tRhodiola rosea\n1710045\tAcétate de géranyle\tterpene\tNULL\t1\tEN\tRhodiola (Orpin rose)\tRhodiola rosea\n570055\tAlcool cinnamique\tPhénylpropanoïde\taromatic\t1\tEN\tStyrax liquide\tLiquidambar orientalis\n",
+  "stderr": "",
+  "execution_time_ms": 103
+}

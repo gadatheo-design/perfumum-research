@@ -1,0 +1,18 @@
+{
+  "query": "SHOW COLUMNS FROM plants LIKE '%terroir%'; SHOW COLUMNS FROM plants LIKE '%origin%'; SHOW COLUMNS FROM plants LIKE '%region%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW COLUMNS FROM plants LIKE '%terroir%'; SHOW COLUMNS FROM plants LIKE '%origin%'; SHOW COLUMNS FROM plants LIKE '%region%';",
+  "rows": [
+    {
+      "Field": "origin",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\norigin\tvarchar(255)\tYES\t\tNULL\t\n",
+  "stderr": "",
+  "execution_time_ms": 64
+}

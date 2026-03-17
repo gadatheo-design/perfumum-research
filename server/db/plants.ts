@@ -2987,3 +2987,56 @@ export async function getContributionStats() {
   }
 }
 
+
+// ============================================================================
+// MOLÉCULES EXCLUSIVES AUX ESPÈCES MENACÉES
+// ============================================================================
+
+/**
+ * Retourne les molécules présentes UNIQUEMENT dans des plantes CR/EN/EX/EW
+ * (absentes de toutes les plantes LC/VU/NT/NE)
+ */
+export async function getExclusiveMolecules(statuses: string[] = ['EX', 'EW', 'CR', 'EN']) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const placeholders = statuses.map(() => '?').join(', ');
+  const [rows] = await (db as any).execute(
+    `SELECT
+      m.id,
+      m.name,
+      m.family,
+      m.chemical_class,
+      m.cas_number,
+      COUNT(DISTINCT pm.plant_id) AS total_plant_count,
+      GROUP_CONCAT(DISTINCT p.conservation_status ORDER BY p.conservation_status SEPARATOR ',') AS statuses,
+      GROUP_CONCAT(DISTINCT p.name ORDER BY p.name SEPARATOR ' | ') AS plant_names,
+      GROUP_CONCAT(DISTINCT p.latin_name ORDER BY p.latin_name SEPARATOR ' | ') AS latin_names,
+      GROUP_CONCAT(DISTINCT p.id ORDER BY p.id SEPARATOR ',') AS plant_ids
+    FROM molecules m
+    JOIN plant_molecules pm ON pm.molecule_id = m.id
+    JOIN plants p ON p.id = pm.plant_id
+    WHERE p.conservation_status IN (${placeholders})
+    GROUP BY m.id, m.name, m.family, m.chemical_class, m.cas_number
+    HAVING COUNT(DISTINCT pm.plant_id) = COUNT(DISTINCT CASE WHEN p.conservation_status IN (${placeholders}) THEN pm.plant_id END)
+    ORDER BY
+      CASE MAX(p.conservation_status)
+        WHEN 'EX' THEN 1 WHEN 'EW' THEN 2 WHEN 'CR' THEN 3 WHEN 'EN' THEN 4 ELSE 5
+      END,
+      m.name
+    LIMIT 200`,
+    [...statuses, ...statuses]
+  );
+  return (rows as any[]).map((r: any) => ({
+    id: Number(r.id),
+    name: r.name as string,
+    family: r.family as string | null,
+    chemicalClass: r.chemical_class as string | null,
+    casNumber: r.cas_number as string | null,
+    totalPlantCount: Number(r.total_plant_count),
+    statuses: (r.statuses as string || '').split(',').filter(Boolean),
+    plantNames: (r.plant_names as string || '').split(' | ').filter(Boolean),
+    latinNames: (r.latin_names as string || '').split(' | ').filter(Boolean),
+    plantIds: (r.plant_ids as string || '').split(',').filter(Boolean).map(Number),
+  }));
+}

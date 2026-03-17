@@ -3,7 +3,6 @@ import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Select,
@@ -12,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Search, Leaf, AlertTriangle, ShieldAlert, Skull, Info } from "lucide-react";
+import { Search, Leaf, AlertTriangle, ShieldAlert, Skull, Info, FlaskConical, ChevronDown, ChevronUp } from "lucide-react";
 
 // ─── UICN config ────────────────────────────────────────────────────────────
 const UICN_CONFIG: Record<string, { label: string; color: string; bg: string; border: string; icon: React.ReactNode; description: string }> = {
@@ -88,6 +87,14 @@ const CITES_CONFIG: Record<string, { label: string; color: string }> = {
   III: { label: "CITES III", color: "bg-yellow-100 text-yellow-800 border-yellow-200" },
 };
 
+// Couleur par statut le plus critique
+const WORST_STATUS_COLOR: Record<string, string> = {
+  EX: "bg-gray-900 text-white",
+  EW: "bg-gray-700 text-white",
+  CR: "bg-red-600 text-white",
+  EN: "bg-orange-500 text-white",
+};
+
 function UICNBadge({ status }: { status: string }) {
   const cfg = UICN_CONFIG[status];
   if (!cfg) return null;
@@ -115,6 +122,147 @@ function CITESBadge({ appendix }: { appendix: string | null }) {
 
 const STATUS_ORDER = ["EX", "EW", "CR", "EN", "VU", "NT", "DD", "LC"];
 
+// ─── Section molécules exclusives ───────────────────────────────────────────
+function ExclusiveMoleculesSection() {
+  const [expanded, setExpanded] = useState(false);
+  const [filterStatus, setFilterStatus] = useState<string>("all");
+
+  const { data: molecules, isLoading } = trpc.plants.getExclusiveMolecules.useQuery({
+    statuses: ["EX", "EW", "CR", "EN"],
+  });
+
+  const filtered = useMemo(() => {
+    if (!molecules) return [];
+    if (filterStatus === "all") return molecules;
+    return molecules.filter((m) => m.statuses.includes(filterStatus));
+  }, [molecules, filterStatus]);
+
+  const displayed = expanded ? filtered : filtered.slice(0, 12);
+
+  const countByStatus = useMemo(() => {
+    if (!molecules) return {};
+    const counts: Record<string, number> = {};
+    for (const m of molecules) {
+      const worst = STATUS_ORDER.find((s) => m.statuses.includes(s)) || "EN";
+      counts[worst] = (counts[worst] || 0) + 1;
+    }
+    return counts;
+  }, [molecules]);
+
+  return (
+    <div className="border-t bg-red-50/30">
+      <div className="max-w-6xl mx-auto px-4 py-10">
+        {/* Header section */}
+        <div className="flex items-start gap-4 mb-6">
+          <div className="p-2.5 rounded-xl bg-red-100 border border-red-200 shrink-0">
+            <FlaskConical className="w-6 h-6 text-red-700" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h2 className="text-xl font-bold tracking-tight">Molécules en péril</h2>
+            <p className="text-sm text-muted-foreground mt-1 max-w-2xl">
+              Ces molécules odorantes sont documentées <strong>exclusivement</strong> dans des espèces EX, EW, CR ou EN.
+              Si ces plantes disparaissent, ces composés chimiques disparaissent avec elles — patrimoine olfactif irremplaçable.
+            </p>
+          </div>
+        </div>
+
+        {/* Stats par statut */}
+        {!isLoading && molecules && (
+          <div className="flex flex-wrap gap-2 mb-5">
+            <button
+              onClick={() => setFilterStatus("all")}
+              className={`px-3 py-1 rounded-full text-xs font-semibold border transition-all ${
+                filterStatus === "all"
+                  ? "bg-foreground text-background border-transparent"
+                  : "border-border text-muted-foreground hover:bg-muted"
+              }`}
+            >
+              Toutes ({molecules.length})
+            </button>
+            {["EX", "EW", "CR", "EN"].filter((s) => countByStatus[s]).map((s) => {
+              const cfg = UICN_CONFIG[s];
+              return (
+                <button
+                  key={s}
+                  onClick={() => setFilterStatus(filterStatus === s ? "all" : s)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-all ${
+                    filterStatus === s
+                      ? `${cfg.bg} text-white border-transparent`
+                      : `border-current ${cfg.color} bg-transparent hover:bg-red-50`
+                  }`}
+                >
+                  {cfg.icon}
+                  {s} ({countByStatus[s]})
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {/* Grid */}
+        {isLoading ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div key={i} className="h-20 rounded-lg bg-muted animate-pulse" />
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
+          <p className="text-sm text-muted-foreground py-6 text-center">Aucune molécule trouvée</p>
+        ) : (
+          <>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+              {displayed.map((mol) => {
+                const worstStatus = STATUS_ORDER.find((s) => mol.statuses.includes(s)) || "EN";
+                const worstCfg = UICN_CONFIG[worstStatus];
+                return (
+                  <Link key={mol.id} href={`/molecules/${mol.id}`}>
+                    <div className={`group relative rounded-lg border-l-4 bg-card hover:shadow-md transition-all cursor-pointer p-3 h-full ${worstCfg.border}`}>
+                      {/* Status badge */}
+                      <div className="flex items-center justify-between gap-1 mb-1.5">
+                        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded text-white ${worstCfg.bg}`}>
+                          {worstStatus}
+                        </span>
+                        {mol.family && (
+                          <span className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded truncate max-w-[80px]">
+                            {mol.family}
+                          </span>
+                        )}
+                      </div>
+                      {/* Molecule name */}
+                      <p className="text-sm font-semibold leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                        {mol.name}
+                      </p>
+                      {/* Plant sources */}
+                      <p className="text-[11px] text-muted-foreground mt-1 line-clamp-2 italic">
+                        {mol.plantNames.slice(0, 2).join(", ")}
+                        {mol.plantNames.length > 2 && ` +${mol.plantNames.length - 2}`}
+                      </p>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+
+            {filtered.length > 12 && (
+              <button
+                onClick={() => setExpanded(!expanded)}
+                className="mt-4 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mx-auto"
+              >
+                {expanded ? (
+                  <><ChevronUp className="w-4 h-4" /> Réduire</>
+                ) : (
+                  <><ChevronDown className="w-4 h-4" /> Voir les {filtered.length - 12} autres molécules</>
+                )}
+              </button>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Page principale ─────────────────────────────────────────────────────────
 export default function Conservation() {
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<string>("all");
@@ -249,7 +397,7 @@ export default function Conservation() {
         </p>
       </div>
 
-      {/* Grid */}
+      {/* Grid plantes */}
       <div className="max-w-6xl mx-auto px-4 pb-16">
         {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -317,6 +465,9 @@ export default function Conservation() {
           </div>
         )}
       </div>
+
+      {/* Section molécules exclusives */}
+      <ExclusiveMoleculesSection />
 
       {/* UICN Legend */}
       <div className="border-t bg-muted/30">

@@ -3777,6 +3777,13 @@ export const appRouter = router({
     getConservationStats: publicProcedure.query(async () => {
       return db.getConservationStats();
     }),
+    getExclusiveMolecules: publicProcedure
+      .input(z.object({
+        statuses: z.array(z.string()).default(['EX', 'EW', 'CR', 'EN']),
+      }))
+      .query(async ({ input }) => {
+        return db.getExclusiveMolecules(input.statuses);
+      }),
     getWithMolecules: publicProcedure
       .input(z.object({ varietyId: z.number() }))
       .query(async ({ input }) => {
