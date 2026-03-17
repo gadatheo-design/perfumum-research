@@ -2221,3 +2221,5 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Fusion doublons CBCA (1710027 conservé) et CBGA (1710025 conservé)
 - [x] Croisement LOTUS automatique intégré dans coconut.enrichMolecule et enrichBatch
 - [x] Batch LOTUS étendu à 1000 molécules par passe
+
+- [x] Liaisons plant_molecules créées pour les 26 nouvelles plantes Burkina Faso : 61 liaisons + 11 molécules créées (alpha-elemene, Longifolene, Bicyclogermacrene, Tricyclene, Acétate de bornyle, Isothiocyanate de benzyle, Acide hexadécanoïque, Friedelan-3-one, 1-dodecanol, p-cymène, 4-hydroxy-4-méthylpentan-2-one). Base: 524 plantes · 977 molécules · 9059 liaisons
