@@ -14,6 +14,97 @@ import {
 } from "../coconut";
 import * as db from "../db";
 
+/**
+ * Croise les organismes LOTUS d'une molécule avec les plantes en base
+ * et crée automatiquement les liaisons plant_molecules manquantes.
+ * 
+ * Logique de matching :
+ * - Match exact sur latin_name (ex: "Cananga odorata" = "Cananga odorata")
+ * - Match par genre si une seule plante du genre est en base
+ * - Seules les espèces (rank=species) sont croisées, pas les taxons supérieurs
+ */
+async function crossRefLotusOrganisms(
+  moleculeId: number,
+  organisms: { name: string; rank?: string }[]
+): Promise<{ newLinks: number; skipped: number }> {
+  if (!organisms || organisms.length === 0) return { newLinks: 0, skipped: 0 };
+
+  // Récupérer toutes les plantes avec latin_name
+  const allPlants = await db.getAllPlants();
+  const plantsWithLatin = allPlants.filter(p => p.latinName && p.latinName.trim() !== '');
+
+  // Construire les index de matching
+  const byExact = new Map<string, typeof plantsWithLatin[0]>();
+  const byGenus = new Map<string, typeof plantsWithLatin>();
+
+  for (const plant of plantsWithLatin) {
+    const latin = plant.latinName!.trim().toLowerCase();
+    byExact.set(latin, plant);
+    const genus = latin.split(' ')[0];
+    if (!byGenus.has(genus)) byGenus.set(genus, []);
+    byGenus.get(genus)!.push(plant);
+  }
+
+  let newLinks = 0;
+  let skipped = 0;
+
+  // Filtrer uniquement les espèces
+  const species = organisms.filter(o => o.rank === 'species');
+
+  for (const org of species) {
+    const orgName = org.name.trim().toLowerCase()
+      .replace(/×\s*/g, '')
+      .replace(/\s+var\..*/, '')
+      .replace(/\s+subsp\..*/, '')
+      .replace(/\s+f\..*/, '')
+      .trim();
+
+    // Match exact
+    let matchedPlant = byExact.get(orgName);
+
+    // Match par genre si pas de match exact
+    if (!matchedPlant) {
+      const genus = orgName.split(' ')[0];
+      const genusMatches = byGenus.get(genus) || [];
+      if (genusMatches.length === 1) {
+        matchedPlant = genusMatches[0];
+      } else if (genusMatches.length > 1) {
+        const twoWords = orgName.split(' ').slice(0, 2).join(' ');
+        matchedPlant = genusMatches.find(p =>
+          p.latinName!.toLowerCase().startsWith(twoWords)
+        );
+      }
+    }
+
+    if (!matchedPlant) continue;
+
+    // Vérifier si la liaison existe déjà
+    const exists = await db.checkPlantMoleculeLinkExists(matchedPlant.id, moleculeId);
+    if (exists) {
+      skipped++;
+      continue;
+    }
+
+    // Créer la liaison
+    try {
+      await db.createPlantMoleculeLink({
+        plantId: matchedPlant.id,
+        moleculeId,
+      });
+      newLinks++;
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      if (!msg.includes('Duplicate') && !msg.includes('ER_DUP')) {
+        console.error(`LOTUS crossref error ${matchedPlant.id}:${moleculeId}:`, msg);
+      } else {
+        skipped++;
+      }
+    }
+  }
+
+  return { newLinks, skipped };
+}
+
 export const coconutRouter = router({
   /**
    * Search COCONUT database for a molecule
@@ -78,13 +169,20 @@ export const coconutRouter = router({
         citations: result.citations,
       });
 
+      // Croisement automatique LOTUS → plant_molecules
+      const crossRef = await crossRefLotusOrganisms(
+        input.moleculeId,
+        result.organisms || []
+      );
+
       return {
         success: true,
-        message: `Molécule enrichie via COCONUT: ${result.name}`,
+        message: `Molécule enrichie via LOTUS: ${result.name}`,
         data: {
           coconutId: result.coconut_id,
           npLikenessScore: result.np_likeness_score,
           organisms: result.organisms,
+          newPlantLinks: crossRef.newLinks,
         }
       };
     }),
@@ -119,6 +217,12 @@ export const coconutRouter = router({
               citations: result.citations,
             });
             
+            // Croisement automatique LOTUS → plant_molecules
+            const crossRef = await crossRefLotusOrganisms(
+              molecule.id,
+              result.organisms || []
+            );
+            
             results.enriched++;
             if (result.organisms && result.organisms.length > 0) {
               results.withOrganisms++;
@@ -128,6 +232,7 @@ export const coconutRouter = router({
               name: molecule.name,
               success: true,
               organisms: result.organisms?.length || 0,
+              newPlantLinks: crossRef.newLinks,
             });
           } else {
             results.details.push({

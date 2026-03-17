@@ -2152,21 +2152,22 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 ## PLAN D'INTÉGRATION GÉNÉRAL PRIORISÉ (17/03/2026)
 
 ### Priorité 1 — Données internes prêtes à l'import
-- [ ] Créer table thermal_properties + importer 28 matériaux ABSORBE (CSV cartographie thermique)
-- [ ] Ajouter champs behavior_water, behavior_fat, log_p aux molécules + importer 23 lignes ABSORBE
-- [ ] Importer 3 recettes beurre de cacao (Cacao Mystique, Noisette Cacao, Rose Cacao Délicat)
-- [ ] Créer 6 molécules soufrées prénylées cannabis (prenylthiol, 3-méthyl-2-butène-1-thiol, etc.)
-- [ ] Intégrer schéma biosynthèse cannabinoïde dans fiche Cannabis sativa
-- [ ] Ajouter données GC-MS Aframomum melegueta (article Ajaiyeoba)
+- [x] Table thermal_properties + 25 matériaux ABSORBE — déjà importés dans raw_materials (colonnes thermal_tri/sai/hpi)
+- [x] Champs behavior_water/fat + 22 lignes ABSORBE — déjà importés dans raw_materials
+- [x] 3 recettes beurre de cacao — déjà en base (Cacao Mystique, Noisette Cacao, Rose Cacao Délicat)
+- [x] 6 molécules soufrées prénylées cannabis créées + 12 liaisons Cannabis sativa
+- [x] Biosynthèse cannabinoïde intégrée dans Cannabis sativa (CBGA→THCA/CBDA/CBCA→THC/CBD/CBC)
+- [x] GC-MS Aframomum melegueta — déjà en base (34 molécules liées)
+- [x] Croisement LOTUS automatique intégré dans coconut.enrichMolecule et enrichBatch
 
 ### Priorité 2 — Nouvelles fiches plantes GC-MS peer-reviewed
-- [ ] Créer fiche Paeonia lactiflora (pivoine) — linalol, β-ocimène, germacrène D
-- [ ] Créer/enrichir fiche Rhodiola rosea — géraniol, 1-octanol, rosaridin (CITES menacée)
-- [ ] Créer/enrichir fiche Nardostachys jatamansi — jatamansone, β-eudesmol, nardol (CITES App. II)
-- [ ] Enrichir fiche Erythroxylum coca — méthyl salicylate, trans-cinnamaldéhyde (ethnobotanique)
-- [ ] Créer fiche Capsicum annuum — linalol, nérolidol, cis-β-farnésène (variabilité intra-espèce)
-- [ ] Enrichir fiche Boswellia sacra — acide boswellique, incensole acétate
-- [ ] Enrichir fiche Commiphora myrrha — furanosesquiterpènes
+- [x] Fiche Paeonia lactiflora créée (10 mols, Tian 2019)
+- [x] Fiche Rhodiola rosea enrichie (+7 mols, statut EN, CITES)
+- [x] Fiche Nardostachys jatamansi enrichie (+6 mols, statut CR, CITES App. II)
+- [x] Fiche Erythroxylum coca enrichie (+9 mols, ethnobotanique)
+- [x] Fiche Capsicum annuum créée (9 mols, Kollmannsberger 2011)
+- [x] Fiche Boswellia sacra enrichie (+9 mols)
+- [x] Fiche Commiphora myrrha enrichie (+10 mols)
 
 ### Priorité 3 — Enrichissement fiches tabac
 - [ ] Ajouter norisoprénoïdes aux fiches tabac (β-damascénone, β-ionone)
