@@ -1,0 +1,38 @@
+{
+  "query": "\nSELECT conservation_status, COUNT(*) as count\nFROM plants\nWHERE conservation_status IS NOT NULL AND conservation_status != 'NE'\nGROUP BY conservation_status\nORDER BY CASE conservation_status \n  WHEN 'EX' THEN 1 WHEN 'EW' THEN 2 WHEN 'CR' THEN 3 \n  WHEN 'EN' THEN 4 WHEN 'VU' THEN 5 WHEN 'NT' THEN 6 \n  WHEN 'LC' THEN 7 ELSE 8 END;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT conservation_status, COUNT(*) as count\nFROM plants\nWHERE conservation_status IS NOT NULL AND conservation_status != 'NE'\nGROUP BY conservation_status\nORDER BY CASE conservation_status \n  WHEN 'EX' THEN 1 WHEN 'EW' THEN 2 WHEN 'CR' THEN 3 \n  WHEN 'EN' THEN 4 WHEN 'VU' THEN 5 WHEN 'NT' THEN 6 \n  WHEN 'LC' THEN 7 ELSE 8 END;\n",
+  "rows": [
+    {
+      "conservation_status": "EX",
+      "count": "1"
+    },
+    {
+      "conservation_status": "CR",
+      "count": "9"
+    },
+    {
+      "conservation_status": "EN",
+      "count": "13"
+    },
+    {
+      "conservation_status": "VU",
+      "count": "15"
+    },
+    {
+      "conservation_status": "NT",
+      "count": "7"
+    },
+    {
+      "conservation_status": "LC",
+      "count": "40"
+    },
+    {
+      "conservation_status": "DD",
+      "count": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "conservation_status\tcount\nEX\t1\nCR\t9\nEN\t13\nVU\t15\nNT\t7\nLC\t40\nDD\t2\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

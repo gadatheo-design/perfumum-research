@@ -47,6 +47,7 @@ import {
   Zap,
   LayoutGrid,
   ExternalLink,
+  ShieldAlert,
 } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -813,6 +814,13 @@ export function MegaMenu() {
           path: "/outils/export-bibliographique",
           icon: <Download className="h-4 w-4" />,
           description: "BibTeX, RIS, EndNote",
+        },
+        {
+          label: "Conservation",
+          path: "/conservation",
+          icon: <ShieldAlert className="h-4 w-4" />,
+          description: "47 esp\u00e8ces menac\u00e9es \u00b7 UICN \u00b7 CITES",
+          badge: "47",
         },
       ],
     },

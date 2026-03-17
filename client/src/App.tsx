@@ -38,6 +38,7 @@ const MoleculesDisparues = React.lazy(() => import('./pages/MoleculesDisparues')
 const AbsorbeXGuideLaboratoire = React.lazy(() => import('@/pages/AbsorbeXGuideLaboratoire').then(m => ({ default: m.AbsorbeXGuideLaboratoire })));
 const AromaticRarities = React.lazy(() => import('@/pages/AromaticRarities'));
 const AromaticRarityDetailPage = React.lazy(() => import('@/pages/AromaticRarityDetailPage'));
+const Conservation = React.lazy(() => import('@/pages/Conservation'));
 const ClaimsAndProofs = React.lazy(() => import('@/pages/ClaimsAndProofs'));
 const Tabacotheque = React.lazy(() => import('@/pages/Tabacotheque').then(m => ({ default: m.Tabacotheque })));
 const ClaimsAndProofsPage = React.lazy(() => import('@/pages/ClaimsAndProofsPage').then(m => ({ default: m.ClaimsAndProofsPage })));
@@ -616,6 +617,9 @@ function Router() {
       <Route path="/aromatic-rarities" component={AromaticRarities} />
       <Route path="/aromatic-rarities/:id" component={AromaticRarityDetailPage} />
       <Route path="/matieres-premieres-rares" component={AromaticRarities} />
+
+      {/* === CONSERVATION === */}
+      <Route path="/conservation" component={Conservation} />
       
       {/* === ERREURS === */}
       <Route path="/prototypes" component={Prototypes} />

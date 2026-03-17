@@ -1,0 +1,480 @@
+{
+  "query": "\nSELECT id, name, latin_name, category, conservation_status, cites_appendix, olfactive_signature,\n  (SELECT COUNT(*) FROM plant_molecules pm WHERE pm.plant_id = p.id) as molecule_count\nFROM plants p\nWHERE conservation_status IS NOT NULL AND conservation_status != 'NE' AND conservation_status != 'LC'\nORDER BY \n  CASE conservation_status \n    WHEN 'EX' THEN 1 WHEN 'EW' THEN 2 WHEN 'CR' THEN 3 \n    WHEN 'EN' THEN 4 WHEN 'VU' THEN 5 WHEN 'NT' THEN 6 \n    ELSE 7 END,\n  name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, latin_name, category, conservation_status, cites_appendix, olfactive_signature,\n  (SELECT COUNT(*) FROM plant_molecules pm WHERE pm.plant_id = p.id) as molecule_count\nFROM plants p\nWHERE conservation_status IS NOT NULL AND conservation_status != 'NE' AND conservation_status != 'LC'\nORDER BY \n  CASE conservation_status \n    WHEN 'EX' THEN 1 WHEN 'EW' THEN 2 WHEN 'CR' THEN 3 \n    WHEN 'EN' THEN 4 WHEN 'VU' THEN 5 WHEN 'NT' THEN 6 \n    ELSE 7 END,\n  name;\n",
+  "rows": [
+    {
+      "id": "270008",
+      "name": "Silphium",
+      "latin_name": "Ferula drudeana (probable)",
+      "category": "resine",
+      "conservation_status": "EX",
+      "cites_appendix": "NONE",
+      "olfactive_signature": "Inconnu - décrit comme aromatique, résineux, avec des notes d'ail et de fenouil",
+      "molecule_count": "1"
+    },
+    {
+      "id": "870004",
+      "name": "Angola Red",
+      "latin_name": "Cannabis sativa var. indica 'Angola Red'",
+      "category": "cannabis",
+      "conservation_status": "CR",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Épicé, boisé, terreux, poivré, fumé intense",
+      "molecule_count": "27"
+    },
+    {
+      "id": "210038",
+      "name": "Aquilaria",
+      "latin_name": "Aquilaria malaccensis",
+      "category": "aromatique",
+      "conservation_status": "CR",
+      "cites_appendix": "II",
+      "olfactive_signature": "Boisé profond, animal, cuiré, fumé, notes de miel et de tabac. L'un des parfums les plus précieux au monde.",
+      "molecule_count": "6"
+    },
+    {
+      "id": "240002",
+      "name": "Bois d'agar",
+      "latin_name": "Aquilaria crassna",
+      "category": "bois",
+      "conservation_status": "CR",
+      "cites_appendix": "II",
+      "olfactive_signature": "Boisé profond, résineux, animalique, fumé, notes de cuir et de miel",
+      "molecule_count": "1"
+    },
+    {
+      "id": "210039",
+      "name": "Commiphora",
+      "latin_name": "Commiphora wightii",
+      "category": "aromatique",
+      "conservation_status": "CR",
+      "cites_appendix": "II",
+      "olfactive_signature": "Balsamique, légèrement amer, notes de myrrhe avec une touche médicinale",
+      "molecule_count": "6"
+    },
+    {
+      "id": "270005",
+      "name": "Costus",
+      "latin_name": "Saussurea costus",
+      "category": "racine",
+      "conservation_status": "CR",
+      "cites_appendix": "I",
+      "olfactive_signature": "Animal, cuiré, notes de violette et d'iris avec une facette terreuse",
+      "molecule_count": "2"
+    },
+    {
+      "id": "180003",
+      "name": "Nard (Spikenard)",
+      "latin_name": "Nardostachys jatamansi",
+      "category": "racine",
+      "conservation_status": "CR",
+      "cites_appendix": "II",
+      "olfactive_signature": "Terreux, animal, musqué, notes de valériane et de patchouli avec une touche verte",
+      "molecule_count": "33"
+    },
+    {
+      "id": "870008",
+      "name": "Panama Red",
+      "latin_name": "Cannabis sativa var. indica 'Panama Red'",
+      "category": "cannabis",
+      "conservation_status": "CR",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Épicé, citrus, terreux, boisé, sesquiterpènes dominants",
+      "molecule_count": "26"
+    },
+    {
+      "id": "810024",
+      "name": "Tabac Yenidje",
+      "latin_name": "Nicotiana tabacum var. Yenidje",
+      "category": "tabac",
+      "conservation_status": "CR",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Curry, lait de coco, crémeux, cannelle, muscade, clou de girofle, encens, floral, boisé",
+      "molecule_count": "26"
+    },
+    {
+      "id": "870003",
+      "name": "Thai / Thai Stick",
+      "latin_name": "Cannabis sativa var. indica 'Thai'",
+      "category": "cannabis",
+      "conservation_status": "CR",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Citrus, terreux, floral, tropical, épicé doux",
+      "molecule_count": "26"
+    },
+    {
+      "id": "870010",
+      "name": "Acapulco Gold",
+      "latin_name": "Cannabis sativa var. indica 'Acapulco Gold'",
+      "category": "cannabis",
+      "conservation_status": "EN",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Caramel, sucré, terreux, épicé, boisé",
+      "molecule_count": "26"
+    },
+    {
+      "id": "870001",
+      "name": "Afghan Kush",
+      "latin_name": "Cannabis sativa subsp. indica var. afghanica 'Afghan Kush'",
+      "category": "cannabis",
+      "conservation_status": "EN",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Terreux, musqué, épicé, poivré, résineux",
+      "molecule_count": "26"
+    },
+    {
+      "id": "210040",
+      "name": "Aniba",
+      "latin_name": "Aniba rosaeodora",
+      "category": "aromatique",
+      "conservation_status": "EN",
+      "cites_appendix": "II",
+      "olfactive_signature": "Floral-boisé, notes de rose et de linalol, frais et légèrement épicé",
+      "molecule_count": "2"
+    },
+    {
+      "id": "660756",
+      "name": "Black Spruce",
+      "latin_name": "Picea mariana",
+      "category": "autre",
+      "conservation_status": "EN",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Accords conifère froid, résineux, camphré-doux",
+      "molecule_count": "20"
+    },
+    {
+      "id": "870009",
+      "name": "Colombian Gold",
+      "latin_name": "Cannabis sativa var. indica 'Colombian Gold'",
+      "category": "cannabis",
+      "conservation_status": "EN",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Citrus, skunk, terreux, sucré, limonène dominant",
+      "molecule_count": "26"
+    },
+    {
+      "id": "30015",
+      "name": "Cèdre de l'Atlas",
+      "latin_name": "Cedrus atlantica",
+      "category": "bois",
+      "conservation_status": "EN",
+      "cites_appendix": "NONE",
+      "olfactive_signature": "Boisé sec, légèrement fumé, notes de crayon et de résine",
+      "molecule_count": "12"
+    },
+    {
+      "id": "870007",
+      "name": "Lebanese Red",
+      "latin_name": "Cannabis sativa 'Lebanese Red'",
+      "category": "cannabis",
+      "conservation_status": "EN",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Terreux, épicé, cèdre, résineux, boisé",
+      "molecule_count": "26"
+    },
+    {
+      "id": "870005",
+      "name": "Malawi Gold",
+      "latin_name": "Cannabis sativa var. indica 'Malawi Gold'",
+      "category": "cannabis",
+      "conservation_status": "EN",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Floral, pin, herbacé, sucré, terpinolène dominant",
+      "molecule_count": "26"
+    },
+    {
+      "id": "870011",
+      "name": "Oaxacan",
+      "latin_name": "Cannabis sativa var. indica 'Oaxacan'",
+      "category": "cannabis",
+      "conservation_status": "EN",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Linalool dominant, floral, boisé, épicé doux",
+      "molecule_count": "26"
+    },
+    {
+      "id": "840003",
+      "name": "Perique",
+      "latin_name": "Nicotiana tabacum var. Perique",
+      "category": "tabac",
+      "conservation_status": "EN",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Fermenté, fruité, prune, figue, boisé-chêne, cuir, whiskey, éthéré, winey",
+      "molecule_count": "26"
+    },
+    {
+      "id": "1080001",
+      "name": "Rhodiola (Orpin rose)",
+      "latin_name": "Rhodiola rosea",
+      "category": "racine",
+      "conservation_status": "EN",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Rose, geranium, terreux, legerement musque, notes de cire",
+      "molecule_count": "19"
+    },
+    {
+      "id": "240005",
+      "name": "Styrax liquide",
+      "latin_name": "Liquidambar orientalis",
+      "category": "resine",
+      "conservation_status": "EN",
+      "cites_appendix": "NONE",
+      "olfactive_signature": "Balsamique doux, vanillé, légèrement fumé, notes de cannelle et d'ambre",
+      "molecule_count": "6"
+    },
+    {
+      "id": "810025",
+      "name": "Tabac Xanthi",
+      "latin_name": "Nicotiana tabacum var. Xanthi",
+      "category": "tabac",
+      "conservation_status": "EN",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Terreux, sol calcaire, épicé, curry, cumin, puissant, aromatique",
+      "molecule_count": "26"
+    },
+    {
+      "id": "840002",
+      "name": "Basma",
+      "latin_name": "Nicotiana tabacum var. Basma",
+      "category": "tabac",
+      "conservation_status": "VU",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Délicat, aromatique, unique, fin, floral léger",
+      "molecule_count": "26"
+    },
+    {
+      "id": "30013",
+      "name": "Bois de Santal",
+      "latin_name": "Santalum album",
+      "category": "bois",
+      "conservation_status": "VU",
+      "cites_appendix": "II",
+      "olfactive_signature": "Boisé crémeux, lacté, doux, légèrement sucré avec des notes de rose et de musc",
+      "molecule_count": "26"
+    },
+    {
+      "id": "150009",
+      "name": "Copal",
+      "latin_name": "Bursera spp.",
+      "category": "resine",
+      "conservation_status": "VU",
+      "cites_appendix": "NONE",
+      "olfactive_signature": "Citronné vif, pin, frais, notes de résine fraîche",
+      "molecule_count": "6"
+    },
+    {
+      "id": "870013",
+      "name": "Djebel (Dubec)",
+      "latin_name": "Nicotiana tabacum var. djebel",
+      "category": "tabac",
+      "conservation_status": "VU",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Doux, très aromatique, proche Basma, floral-épicé",
+      "molecule_count": "26"
+    },
+    {
+      "id": "870006",
+      "name": "Durban Poison",
+      "latin_name": "Cannabis sativa var. indica 'Durban Poison'",
+      "category": "cannabis",
+      "conservation_status": "VU",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Anis, réglisse, pin, terreux, épicé",
+      "molecule_count": "26"
+    },
+    {
+      "id": "270002",
+      "name": "Encens d'Éthiopie",
+      "latin_name": "Boswellia papyrifera",
+      "category": "resine",
+      "conservation_status": "VU",
+      "cites_appendix": "NONE",
+      "olfactive_signature": "Encens frais et légèrement citronné, notes vertes et résineuses",
+      "molecule_count": "13"
+    },
+    {
+      "id": "270011",
+      "name": "Galbanum",
+      "latin_name": "Ferula gummosa",
+      "category": "resine",
+      "conservation_status": "VU",
+      "cites_appendix": "NONE",
+      "olfactive_signature": "Vert intense, résineux, notes de feuille de tomate et de pin",
+      "molecule_count": "5"
+    },
+    {
+      "id": "870002",
+      "name": "Hindu Kush",
+      "latin_name": "Cannabis sativa subsp. indica var. afghanica 'Hindu Kush'",
+      "category": "cannabis",
+      "conservation_status": "VU",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Terreux, pin, épicé, sandalwood, résineux",
+      "molecule_count": "26"
+    },
+    {
+      "id": "900002",
+      "name": "Isfahan",
+      "latin_name": "Nicotiana tabacum var. isfahan",
+      "category": "tabac",
+      "conservation_status": "VU",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Oriental, doux, aromatique",
+      "molecule_count": "26"
+    },
+    {
+      "id": "840005",
+      "name": "Latakia",
+      "latin_name": "Nicotiana tabacum var. Latakia",
+      "category": "tabac",
+      "conservation_status": "VU",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Fumé, cuir, épicé, boisé, résine, camphrée",
+      "molecule_count": "28"
+    },
+    {
+      "id": "1050001",
+      "name": "Mousse de Chêne (Oakmoss)",
+      "latin_name": "Evernia prunastri",
+      "category": "autre",
+      "conservation_status": "VU",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Terreux, boisé, mousse humide, légèrement marin, notes vertes et animales. Accord caractéristique des Chypres et Fougères classiques.",
+      "molecule_count": "13"
+    },
+    {
+      "id": "840001",
+      "name": "Samsun",
+      "latin_name": "Nicotiana tabacum var. Samsun",
+      "category": "tabac",
+      "conservation_status": "VU",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Doux, noisette, aromatique, épicé léger, combustion lente",
+      "molecule_count": "33"
+    },
+    {
+      "id": "240001",
+      "name": "Sandalwood australien",
+      "latin_name": "Santalum spicatum",
+      "category": "bois",
+      "conservation_status": "VU",
+      "cites_appendix": "NONE",
+      "olfactive_signature": "Boisé crémeux, doux et lacté, moins intense que le santal indien mais plus durable",
+      "molecule_count": "6"
+    },
+    {
+      "id": "900001",
+      "name": "Shirazi",
+      "latin_name": "Nicotiana tabacum var. shirazi",
+      "category": "tabac",
+      "conservation_status": "VU",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Riche, plein, savoureux, épicé, haute nicotine",
+      "molecule_count": "26"
+    },
+    {
+      "id": "270012",
+      "name": "Élémi",
+      "latin_name": "Canarium luzonicum",
+      "category": "resine",
+      "conservation_status": "VU",
+      "cites_appendix": "NONE",
+      "olfactive_signature": "Frais, citronné, notes de pin et d'encens avec une facette épicée",
+      "molecule_count": "22"
+    },
+    {
+      "id": "900006",
+      "name": "Badan Wild Tobacco",
+      "latin_name": "Nicotiana tabacum var. badan-wild",
+      "category": "tabac",
+      "conservation_status": "NT",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Sauvage, composés génétiques ancestraux",
+      "molecule_count": "26"
+    },
+    {
+      "id": "900005",
+      "name": "Bishan Wild Tobacco",
+      "latin_name": "Nicotiana tabacum var. bishan-wild",
+      "category": "tabac",
+      "conservation_status": "NT",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Sauvage, vert intense, composés uniques non domestiqués",
+      "molecule_count": "26"
+    },
+    {
+      "id": "30014",
+      "name": "Encens / Oliban",
+      "latin_name": "Boswellia carterii",
+      "category": "resine",
+      "conservation_status": "NT",
+      "cites_appendix": "NONE",
+      "olfactive_signature": "Résine sacrée aux facettes balsamiques, citronnées et légèrement poivrées. Notes de fond mystiques avec une fumée douce et une fraîcheur résineuse paradoxale. Évoque les temples, la méditation et les rituels anciens. L'oliban de Somalie est réputé pour sa qualité supérieure avec des notes de citron et de pin.",
+      "molecule_count": "9"
+    },
+    {
+      "id": "270006",
+      "name": "Iris de Florence",
+      "latin_name": "Iris pallida",
+      "category": "racine",
+      "conservation_status": "NT",
+      "cites_appendix": "NONE",
+      "olfactive_signature": "Poudré, floral, notes de violette et de carotte avec une facette terreuse",
+      "molecule_count": "4"
+    },
+    {
+      "id": "150011",
+      "name": "Myrrhe",
+      "latin_name": "Commiphora myrrha",
+      "category": "resine",
+      "conservation_status": "NT",
+      "cites_appendix": "NONE",
+      "olfactive_signature": "Balsamique, amer, médicinal, notes de réglisse",
+      "molecule_count": "25"
+    },
+    {
+      "id": "150008",
+      "name": "Oliban (Encens)",
+      "latin_name": "Boswellia sacra",
+      "category": "resine",
+      "conservation_status": "NT",
+      "cites_appendix": "NONE",
+      "olfactive_signature": "Boisé, citronné, balsamique, notes encens sacré",
+      "molecule_count": "38"
+    },
+    {
+      "id": "210004",
+      "name": "Palo santo",
+      "latin_name": "Bursera graveolens",
+      "category": "aromatique",
+      "conservation_status": "NT",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "Boisé doux, notes de citron, menthe et encens avec une facette sucrée",
+      "molecule_count": "5"
+    },
+    {
+      "id": "270010",
+      "name": "Opoponax (Myrrhe douce)",
+      "latin_name": "Commiphora guidottii",
+      "category": "resine",
+      "conservation_status": "DD",
+      "cites_appendix": "NONE",
+      "olfactive_signature": "Balsamique doux, notes de lavande, miel et encens avec une facette anisée",
+      "molecule_count": "3"
+    },
+    {
+      "id": "930002",
+      "name": "Quercus funebris",
+      "latin_name": "Poyomatli (usage historique)",
+      "category": "aromatique",
+      "conservation_status": "DD",
+      "cites_appendix": "NULL",
+      "olfactive_signature": "[\"boisé\",\"fumé\",\"résineux\"]",
+      "molecule_count": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tcategory\tconservation_status\tcites_appendix\tolfactive_signature\tmolecule_count\n270008\tSilphium\tFerula drudeana (probable)\tresine\tEX\tNONE\tInconnu - décrit comme aromatique, résineux, avec des notes d'ail et de fenouil\t1\n870004\tAngola Red\tCannabis sativa var. indica 'Angola Red'\tcannabis\tCR\tNULL\tÉpicé, boisé, terreux, poivré, fumé intense\t27\n210038\tAquilaria\tAquilaria malaccensis\taromatique\tCR\tII\tBoisé profond, animal, cuiré, fumé, notes de miel et de tabac. L'un des parfums les plus précieux au monde.\t6\n240002\tBois d'agar\tAquilaria crassna\tbois\tCR\tII\tBoisé profond, résineux, animalique, fumé, notes de cuir et de miel\t1\n210039\tCommiphora\tCommiphora wightii\taromatique\tCR\tII\tBalsamique, légèrement amer, notes de myrrhe avec une touche médicinale\t6\n270005\tCostus\tSaussurea costus\tracine\tCR\tI\tAnimal, cuiré, notes de violette et d'iris avec une facette terreuse\t2\n180003\tNard (Spikenard)\tNardostachys jatamansi\tracine\tCR\tII\tTerreux, animal, musqué, notes de valériane et de patchouli avec une touche verte\t33\n870008\tPanama Red\tCannabis sativa var. indica 'Panama Red'\tcannabis\tCR\tNULL\tÉpicé, citrus, terreux, boisé, sesquiterpènes dominants\t26\n810024\tTabac Yenidje\tNicotiana tabacum var. Yenidje\ttabac\tCR\tNULL\tCurry, lait de coco, crémeux, cannelle, muscade, clou de girofle, encens, floral, boisé\t26\n870003\tThai / Thai Stick\tCannabis sativa var. indica 'Thai'\tcannabis\tCR\tNULL\tCitrus, terreux, floral, tropical, épicé doux\t26\n870010\tAcapulco Gold\tCannabis sativa var. indica 'Acapulco Gold'\tcannabis\tEN\tNULL\tCaramel, sucré, terreux, épicé, boisé\t26\n870001\tAfghan Kush\tCannabis sativa subsp. indica var. afghanica 'Afghan Kush'\tcannabis\tEN\tNULL\tTerreux, musqué, épicé, poivré, résineux\t26\n210040\tAniba\tAniba rosaeodora\taromatique\tEN\tII\tFloral-boisé, notes de rose et de linalol, frais et légèrement épicé\t2\n660756\tBlack Spruce\tPicea mariana\tautre\tEN\tNULL\tAccords conifère froid, résineux, camphré-doux\t20\n870009\tColombian Gold\tCannabis sativa var. indica 'Colombian Gold'\tcannabis\tEN\tNULL\tCitrus, skunk, terreux, sucré, limonène dominant\t26\n30015\tCèdre de l'Atlas\tCedrus atlantica\tbois\tEN\tNONE\tBoisé sec, légèrement fumé, notes de crayon et de résine\t12\n870007\tLebanese Red\tCannabis sativa 'Lebanese Red'\tcannabis\tEN\tNULL\tTerreux, épicé, cèdre, résineux, boisé\t26\n870005\tMalawi Gold\tCannabis sativa var. indica 'Malawi Gold'\tcannabis\tEN\tNULL\tFloral, pin, herbacé, sucré, terpinolène dominant\t26\n870011\tOaxacan\tCannabis sativa var. indica 'Oaxacan'\tcannabis\tEN\tNULL\tLinalool dominant, floral, boisé, épicé doux\t26\n840003\tPerique\tNicotiana tabacum var. Perique\ttabac\tEN\tNULL\tFermenté, fruité, prune, figue, boisé-chêne, cuir, whiskey, éthéré, winey\t26\n1080001\tRhodiola (Orpin rose)\tRhodiola rosea\tracine\tEN\tNULL\tRose, geranium, terreux, legerement musque, notes de cire\t19\n240005\tStyrax liquide\tLiquidambar orientalis\tresine\tEN\tNONE\tBalsamique doux, vanillé, légèrement fumé, notes de cannelle et d'ambre\t6\n810025\tTabac Xanthi\tNicotiana tabacum var. Xanthi\ttabac\tEN\tNULL\tTerreux, sol calcaire, épicé, curry, cumin, puissant, aromatique\t26\n840002\tBasma\tNicotiana tabacum var. Basma\ttabac\tVU\tNULL\tDélicat, aromatique, unique, fin, floral léger\t26\n30013\tBois de Santal\tSantalum album\tbois\tVU\tII\tBoisé crémeux, lacté, doux, légèrement sucré avec des notes de rose et de musc\t26\n150009\tCopal\tBursera spp.\tresine\tVU\tNONE\tCitronné vif, pin, frais, notes de résine fraîche\t6\n870013\tDjebel (Dubec)\tNicotiana tabacum var. djebel\ttabac\tVU\tNULL\tDoux, très aromatique, proche Basma, floral-épicé\t26\n870006\tDurban Poison\tCannabis sativa var. indica 'Durban Poison'\tcannabis\tVU\tNULL\tAnis, réglisse, pin, terreux, épicé\t26\n270002\tEncens d'Éthiopie\tBoswellia papyrifera\tresine\tVU\tNONE\tEncens frais et légèrement citronné, notes vertes et résineuses\t13\n270011\tGalbanum\tFerula gummosa\tresine\tVU\tNONE\tVert intense, résineux, notes de feuille de tomate et de pin\t5\n870002\tHindu Kush\tCannabis sativa subsp. indica var. afghanica 'Hindu Kush'\tcannabis\tVU\tNULL\tTerreux, pin, épicé, sandalwood, résineux\t26\n900002\tIsfahan\tNicotiana tabacum var. isfahan\ttabac\tVU\tNULL\tOriental, doux, aromatique\t26\n840005\tLatakia\tNicotiana tabacum var. Latakia\ttabac\tVU\tNULL\tFumé, cuir, épicé, boisé, résine, camphrée\t28\n1050001\tMousse de Chêne (Oakmoss)\tEvernia prunastri\tautre\tVU\tNULL\tTerreux, boisé, mousse humide, légèrement marin, notes vertes et animales. Accord caractéristique des Chypres et Fougères classiques.\t13\n840001\tSamsun\tNicotiana tabacum var. Samsun\ttabac\tVU\tNULL\tDoux, noisette, aromatique, épicé léger, combustion lente\t33\n240001\tSandalwood australien\tSantalum spicatum\tbois\tVU\tNONE\tBoisé crémeux, doux et lacté, moins intense que le santal indien mais plus durable\t6\n900001\tShirazi\tNicotiana tabacum var. shirazi\ttabac\tVU\tNULL\tRiche, plein, savoureux, épicé, haute nicotine\t26\n270012\tÉlémi\tCanarium luzonicum\tresine\tVU\tNONE\tFrais, citronné, notes de pin et d'encens avec une facette épicée\t22\n900006\tBadan Wild Tobacco\tNicotiana tabacum var. badan-wild\ttabac\tNT\tNULL\tSauvage, composés génétiques ancestraux\t26\n900005\tBishan Wild Tobacco\tNicotiana tabacum var. bishan-wild\ttabac\tNT\tNULL\tSauvage, vert intense, composés uniques non domestiqués\t26\n30014\tEncens / Oliban\tBoswellia carterii\tresine\tNT\tNONE\tRésine sacrée aux facettes balsamiques, citronnées et légèrement poivrées. Notes de fond mystiques avec une fumée douce et une fraîcheur résineuse paradoxale. Évoque les temples, la méditation et les rituels anciens. L'oliban de Somalie est réputé pour sa qualité supérieure avec des notes de citron et de pin.\t9\n270006\tIris de Florence\tIris pallida\tracine\tNT\tNONE\tPoudré, floral, notes de violette et de carotte avec une facette terreuse\t4\n150011\tMyrrhe\tCommiphora myrrha\tresine\tNT\tNONE\tBalsamique, amer, médicinal, notes de réglisse\t25\n150008\tOliban (Encens)\tBoswellia sacra\tresine\tNT\tNONE\tBoisé, citronné, balsamique, notes encens sacré\t38\n210004\tPalo santo\tBursera graveolens\taromatique\tNT\tNULL\tBoisé doux, notes de citron, menthe et encens avec une facette sucrée\t5\n270010\tOpoponax (Myrrhe douce)\tCommiphora guidottii\tresine\tDD\tNONE\tBalsamique doux, notes de lavande, miel et encens avec une facette anisée\t3\n930002\tQuercus funebris\tPoyomatli (usage historique)\taromatique\tDD\tNULL\t[\"boisé\",\"fumé\",\"résineux\"]\t0\n",
+  "stderr": "",
+  "execution_time_ms": 71
+}

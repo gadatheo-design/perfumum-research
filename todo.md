@@ -2203,3 +2203,9 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Priorité 4 : CBCA + CBGA créés, 5 liaisons cannabinoïdes → Cannabis, famille cannabinoide = 7 molécules
 - [x] Priorité 4 : 3 glycosides aromatiques créés (Géranyl glucoside, Linalyl glucoside, Benzyl glucoside)
 - [x] Priorité 4 : Phénols fumés : Catéchol/Crésol reclassiés, Guaïacol/Phénol/Syringol déjà en famille Phenol
+
+## SESSION 17/03/2026 — Conservation, Cannabinoïdes, Batch LOTUS
+
+- [x] Renommer cannabinoïdes : CBGA, CBCA, THCA, CBDV, THCV standardisés (noms courts sans parenthèses)
+- [x] Page Conservation /conservation créée : 47 espèces menacées (1 EX, 9 CR, 13 EN, 15 VU, 7 NT, 2 DD), filtres UICN/CITES, légende, lien dans MegaMenu "Axes de Recherche"
+- [ ] Priorité 6 : Intégrer 84 plantes aromatiques Burkina Faso (chantier long terme)

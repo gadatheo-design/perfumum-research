@@ -1,0 +1,35 @@
+{
+  "query": "\nUPDATE molecules SET name = 'CBGA' WHERE id = 1710025;\nUPDATE molecules SET name = 'CBCA' WHERE id = 1710027;\nSELECT id, name, family FROM molecules WHERE family = 'cannabinoide' ORDER BY id;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nUPDATE molecules SET name = 'CBGA' WHERE id = 1710025;\nUPDATE molecules SET name = 'CBCA' WHERE id = 1710027;\nSELECT id, name, family FROM molecules WHERE family = 'cannabinoide' ORDER BY id;\n",
+  "rows": [
+    {
+      "id": "1710025",
+      "name": "CBGA",
+      "family": "cannabinoide"
+    },
+    {
+      "id": "1710026",
+      "name": "THCA (Acide Tétrahydrocannabinolique)",
+      "family": "cannabinoide"
+    },
+    {
+      "id": "1710027",
+      "name": "CBCA",
+      "family": "cannabinoide"
+    },
+    {
+      "id": "1710028",
+      "name": "CBDV (Cannabidivarine)",
+      "family": "cannabinoide"
+    },
+    {
+      "id": "1710029",
+      "name": "THCV (Tétrahydrocannabivarine)",
+      "family": "cannabinoide"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tfamily\n1710025\tCBGA\tcannabinoide\n1710026\tTHCA (Acide Tétrahydrocannabinolique)\tcannabinoide\n1710027\tCBCA\tcannabinoide\n1710028\tCBDV (Cannabidivarine)\tcannabinoide\n1710029\tTHCV (Tétrahydrocannabivarine)\tcannabinoide\n",
+  "stderr": "",
+  "execution_time_ms": 112
+}
