@@ -2148,3 +2148,47 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Priorité 5 : Interface admin propriétés thermiques et matrice ABSORBE (visualisation/édition)
 - [ ] Priorité 6 : Intégrer 84 plantes aromatiques Burkina Faso (chantier long terme)
 - [ ] Priorité 7 : Système de suivi espèces menacées (Rhodiola rosea, Nardostachys jatamansi déjà marquées)
+
+## PLAN D'INTÉGRATION GÉNÉRAL PRIORISÉ (17/03/2026)
+
+### Priorité 1 — Données internes prêtes à l'import
+- [ ] Créer table thermal_properties + importer 28 matériaux ABSORBE (CSV cartographie thermique)
+- [ ] Ajouter champs behavior_water, behavior_fat, log_p aux molécules + importer 23 lignes ABSORBE
+- [ ] Importer 3 recettes beurre de cacao (Cacao Mystique, Noisette Cacao, Rose Cacao Délicat)
+- [ ] Créer 6 molécules soufrées prénylées cannabis (prenylthiol, 3-méthyl-2-butène-1-thiol, etc.)
+- [ ] Intégrer schéma biosynthèse cannabinoïde dans fiche Cannabis sativa
+- [ ] Ajouter données GC-MS Aframomum melegueta (article Ajaiyeoba)
+
+### Priorité 2 — Nouvelles fiches plantes GC-MS peer-reviewed
+- [ ] Créer fiche Paeonia lactiflora (pivoine) — linalol, β-ocimène, germacrène D
+- [ ] Créer/enrichir fiche Rhodiola rosea — géraniol, 1-octanol, rosaridin (CITES menacée)
+- [ ] Créer/enrichir fiche Nardostachys jatamansi — jatamansone, β-eudesmol, nardol (CITES App. II)
+- [ ] Enrichir fiche Erythroxylum coca — méthyl salicylate, trans-cinnamaldéhyde (ethnobotanique)
+- [ ] Créer fiche Capsicum annuum — linalol, nérolidol, cis-β-farnésène (variabilité intra-espèce)
+- [ ] Enrichir fiche Boswellia sacra — acide boswellique, incensole acétate
+- [ ] Enrichir fiche Commiphora myrrha — furanosesquiterpènes
+
+### Priorité 3 — Enrichissement fiches tabac
+- [ ] Ajouter norisoprénoïdes aux fiches tabac (β-damascénone, β-ionone)
+- [ ] Documenter voie caroténoïde → norisoprénoïde dans section "Transformation moléculaire"
+- [ ] Ajouter phénols de pyrolyse (guaïacol, phénol) aux fiches tabac
+- [ ] Enrichir fiche Samsun avec données génétiques SSR (19 lignées, nicotine 0.76-1.16%)
+- [ ] Ajouter variabilité intra-plante (position foliaire) aux fiches tabac
+
+### Priorité 4 — Nouvelles familles chimiques sous-représentées
+- [ ] Compléter famille Composés soufrés volatils (VSC) — prenylthiol, 3-méthyl-2-butène-1-thiol
+- [ ] Compléter famille Norisoprénoïdes — β-damascénone, β-ionone, dihydroactinidiolide
+- [ ] Compléter famille Phénols fumés — guaïacol, phénol, catéchol
+- [ ] Compléter famille Cannabinoïdes — THCA, CBDA, CBCA, THC, CBD, CBC, CBGA
+- [ ] Compléter famille Glycosides aromatiques — précurseurs glycosidiques géraniol, linalol
+
+### Priorité 5 — Nouvelles sections thématiques
+- [ ] Section "Plantes menacées et patrimoine olfactif" (Rhodiola, Nard, Picea brachytyla)
+- [ ] Section "Chimie de la combustion et pyrolyse" (phénols, caroténoïdes, profragrances)
+- [ ] Section "Traditions olfactives — Kannauj" (attar, deg-bhapka, PCI)
+- [ ] Section "Futurisme et art olfactif" (fil narratif Atlas Mnémosyne, Verbeek)
+- [ ] Section "Plantes des Suds — Burkina Faso" (84 nouvelles fiches potentielles)
+- [ ] Section "Écologies nomades — Amazonie" (coca, savoirs Murui, décolonialité)
+
+### Priorité 6 — Bibliographie (~50 références)
+- [ ] Intégrer ~50 références des 3 batches avec DOI, auteurs, année, résumé, tags thématiques
