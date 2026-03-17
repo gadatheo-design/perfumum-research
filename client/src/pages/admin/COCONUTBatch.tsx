@@ -75,7 +75,7 @@ export default function COCONUTBatch() {
     const molecules = result.data || [];
 
     if (molecules.length === 0) {
-      addLog({ id: 0, name: "—", status: "skipped", message: "Aucune molécule à enrichir via COCONUT." });
+      addLog({ id: 0, name: "—", status: "skipped", message: "Aucune molécule à enrichir via LOTUS." });
       setIsRunning(false);
       if (timerRef.current) clearInterval(timerRef.current);
       return;
@@ -106,7 +106,8 @@ export default function COCONUTBatch() {
             id: mol.id,
             name: mol.name,
             status: "success",
-            message: `COCONUT ID: ${res.data?.coconutId} · ${res.data?.organisms || 0} organisme(s)`,
+            message: `LOTUS ID: ${res.data?.coconutId} · ${res.data?.organisms || 0} organisme(s)`,
+
             coconutId: res.data?.coconutId,
             organisms: res.data?.organisms,
           });
@@ -115,7 +116,7 @@ export default function COCONUTBatch() {
           addLog({ id: mol.id, name: mol.name, status: "skipped", message: res.message });
         } else {
           setFailed(prev => prev + 1);
-          addLog({ id: mol.id, name: mol.name, status: "error", message: res.message || "Non trouvée dans COCONUT" });
+          addLog({ id: mol.id, name: mol.name, status: "error", message: res.message || "Non trouvée dans LOTUS" });
         }
       } catch (err: any) {
         setProcessed(prev => prev + 1);
@@ -123,7 +124,7 @@ export default function COCONUTBatch() {
         addLog({ id: mol.id, name: mol.name, status: "error", message: err.message || "Erreur réseau" });
       }
 
-      // Rate limit : 300ms entre chaque appel (COCONUT est plus permissif que PubChem)
+      // Rate limit : 400ms entre chaque appel (LOTUS recommande un délai raisonnable)
       await sleep(350);
     }
 
@@ -164,10 +165,10 @@ export default function COCONUTBatch() {
         <div>
           <h1 className="text-2xl font-bold flex items-center gap-2">
             <Globe className="h-6 w-6 text-emerald-500" />
-            Enrichissement COCONUT
+            Enrichissement LOTUS
           </h1>
           <p className="text-sm text-muted-foreground">
-            Base de données de produits naturels — 716 000+ molécules, 70 000+ organismes
+            Base de données de produits naturels — 750 000+ molécules, Wikidata-backed
           </p>
         </div>
       </div>
@@ -181,7 +182,7 @@ export default function COCONUTBatch() {
           </Card>
           <Card className="p-4 text-center">
             <div className="text-2xl font-bold text-emerald-600">{stats.enriched ?? 0}</div>
-            <div className="text-xs text-muted-foreground mt-1">Enrichies COCONUT</div>
+            <div className="text-xs text-muted-foreground mt-1">Enrichies LOTUS</div>
           </Card>
           <Card className="p-4 text-center">
             <div className="text-2xl font-bold text-amber-600">{stats.unenriched ?? 0}</div>
@@ -202,7 +203,7 @@ export default function COCONUTBatch() {
             Paramètres du batch
           </CardTitle>
           <CardDescription>
-            COCONUT enrichit les molécules avec leur ID naturel, score NP-likeness, organismes sources et citations.
+            LOTUS enrichit les molécules avec leur identifiant naturel, score NP-likeness, organismes sources et classification chimique.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
