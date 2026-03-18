@@ -114,6 +114,7 @@ const COCONUTBatch = React.lazy(() => import('./pages/admin/COCONUTBatch'));
 const ExtractionMethodsAdmin = React.lazy(() => import('./pages/admin/ExtractionMethodsAdmin'));
 const AdminThermalMatrix = React.lazy(() => import('./pages/AdminThermalMatrix'));
 const AdminNOSE = React.lazy(() => import('./pages/AdminNOSE'));
+const AdminStorylines = React.lazy(() => import('./pages/AdminStorylines'));
 const KNApSAcKBatch = React.lazy(() => import('./pages/admin/KNApSAcKBatch'));
 const AdminBundleVisualizer = React.lazy(() => import('./pages/AdminBundleVisualizer'));
 const AdminReclassifyMolecules = React.lazy(() => import('./pages/AdminReclassifyMolecules'));
@@ -520,6 +521,7 @@ function Router() {
       <Route path="/admin/extraction-methods" component={ExtractionMethodsAdmin} />
       <Route path="/admin/thermal-matrix" component={AdminThermalMatrix} />
       <Route path="/admin/nose" component={AdminNOSE} />
+      <Route path="/admin/storylines" component={AdminStorylines} />
       
       {/* === RECHERCHE === */}
       <LazyRoute path="/recherche-avancee" component={RechercheAvancee} />

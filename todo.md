@@ -2286,3 +2286,22 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Import GC-MS : détection des doublons avant confirmation (option overwrite)
 - [x] Procédure olfactiveEmissions.importFromCsv avec détection doublons et option overwrite
 - [x] Template CSV téléchargeable (nose_emissions_template.csv)
+
+## SESSION 18/03/2026 — NOSE Phase 3 + Liaisons bibliographiques
+
+- [ ] NOSE Phase 3 : créer table `storylines` (fils narratifs Atlas Mnémosyne)
+- [ ] NOSE Phase 3 : créer table `story_elements` (éléments de récit liés aux entités)
+- [ ] NOSE Phase 3 : router tRPC storylines (CRUD + getByPlant/Molecule)
+- [ ] NOSE Phase 3 : page admin /admin/storylines avec gestion des fils narratifs
+- [ ] Lier les 34 nouvelles références aux plantes (bibliography_entity_links)
+- [ ] Lier les 34 nouvelles références aux molécules (bibliography_entity_links)
+
+## SESSION 18/03/2026 — NOSE Phase 3 + Liaisons bibliographiques
+
+- [x] NOSE Phase 3 : créer tables `storylines` et `story_elements` (Atlas Mnémosyne)
+- [x] NOSE Phase 3 : 5 fils narratifs de départ insérés (Route encens, Tabac rituel, Roses ottomanes, Cannabis sacré, Bois sacrés)
+- [x] NOSE Phase 3 : router tRPC storylines (CRUD + getStats + getByPlant/Molecule)
+- [x] NOSE Phase 3 : page /admin/storylines avec liste, création, édition, suppression
+- [x] Lier 48 liens bibliographiques (34 nouvelles références × entités plantes/molécules)
+- [x] Corriger colonnes id + entity_id + bibliography_id en BIGINT dans bibliography_entity_links (dépassement INT)
+- [x] Vérifier 48 liens insérés en base (ref 600001-600034)

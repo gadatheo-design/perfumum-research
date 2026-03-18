@@ -1,0 +1,36 @@
+{
+  "query": "SHOW CREATE TABLE bibliography_entity_links;\nSELECT MAX(id) as max_id, COUNT(*) as total FROM bibliography_entity_links;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW CREATE TABLE bibliography_entity_links;\nSELECT MAX(id) as max_id, COUNT(*) as total FROM bibliography_entity_links;",
+  "rows": [
+    {
+      "Table": "bibliography_entity_links",
+      "Create Table": "CREATE TABLE `bibliography_entity_links` ("
+    },
+    {
+      "Table": "max_id",
+      "Create Table": "total"
+    },
+    {
+      "Table": "2147483647",
+      "Create Table": "10995"
+    }
+  ],
+  "messages": [
+    "  `id` int NOT NULL AUTO_INCREMENT,",
+    "  `bibliography_id` bigint NOT NULL,",
+    "  `entity_type` enum('molecule','plant','variety','terroir','recette','region','accord','civilization') NOT NULL,",
+    "  `entity_id` bigint NOT NULL,",
+    "  `link_type` enum('primary_source','supporting','methodology','historical','genomic','chemical','ethnobotanical','conservation') DEFAULT 'supporting',",
+    "  `relevance_score` int DEFAULT '50',",
+    "  `notes` text DEFAULT NULL,",
+    "  `created_by` int DEFAULT NULL,",
+    "  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,",
+    "  PRIMARY KEY (`id`) /*T![clustered_index] CLUSTERED */,",
+    "  UNIQUE KEY `unique_bibliography_entity` (`bibliography_id`,`entity_type`,`entity_id`),",
+    "  KEY `entity_type_idx` (`entity_type`,`entity_id`)",
+    ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin AUTO_INCREMENT=2147573648"
+  ],
+  "stdout": "Table\tCreate Table\nbibliography_entity_links\tCREATE TABLE `bibliography_entity_links` (\n  `id` int NOT NULL AUTO_INCREMENT,\n  `bibliography_id` bigint NOT NULL,\n  `entity_type` enum('molecule','plant','variety','terroir','recette','region','accord','civilization') NOT NULL,\n  `entity_id` bigint NOT NULL,\n  `link_type` enum('primary_source','supporting','methodology','historical','genomic','chemical','ethnobotanical','conservation') DEFAULT 'supporting',\n  `relevance_score` int DEFAULT '50',\n  `notes` text DEFAULT NULL,\n  `created_by` int DEFAULT NULL,\n  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,\n  PRIMARY KEY (`id`) /*T![clustered_index] CLUSTERED */,\n  UNIQUE KEY `unique_bibliography_entity` (`bibliography_id`,`entity_type`,`entity_id`),\n  KEY `entity_type_idx` (`entity_type`,`entity_id`)\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin AUTO_INCREMENT=2147573648\nmax_id\ttotal\n2147483647\t10995\n",
+  "stderr": "",
+  "execution_time_ms": 67
+}

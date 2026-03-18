@@ -273,10 +273,10 @@ export const olfactiveEmissionsRouter = router({
       const conn = await getDb();
       try {
         await conn.execute("DELETE FROM olfactive_emissions WHERE id = ?", [input.id]);
+        return { success: true };
       } finally {
         await conn.end();
       }
-      return { success: true };
     }),
 
   importFromCsv: protectedProcedure

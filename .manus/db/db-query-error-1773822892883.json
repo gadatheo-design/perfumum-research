@@ -1,0 +1,8 @@
+{
+  "query": "INSERT INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, notes) VALUES \n(600022, 'plant', 1080001, 'conservation', 'Menaces Rhodiola rosea'),\n(600023, 'plant', 180003, 'chemical', 'GC-MS Nardostachys jatamansi'),\n(600006, 'plant', 1, 'chemical', 'Terpénoïdes Picea brachytyla');\nSELECT COUNT(*) as n FROM bibliography_entity_links WHERE bibliography_id >= 600000;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute INSERT INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, notes) VALUES \n(600022, 'plant', 1080001, 'conservation', 'Menaces Rhodiola rosea'),\n(600023, 'plant', 180003, 'chemical', 'GC-MS Nardostachys jatamansi'),\n(600006, 'plant', 1, 'chemical', 'Terpénoïdes Picea brachytyla');\nSELECT COUNT(*) as n FROM bibliography_entity_links WHERE bibliography_id >= 600000;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1690 (22003) at line 1: constant 2147543845 overflows int"
+  ]
+}

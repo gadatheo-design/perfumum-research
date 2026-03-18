@@ -369,6 +369,14 @@ export default function Admin() {
       color: "text-blue-600",
       bgColor: "bg-blue-50",
     },
+    {
+      title: "Atlas Mnémosyne — Fils Narratifs",
+      description: "NOSE Phase 3 (od:L14) : gérer les storylines transversaux — La Route de l'Encens, Tabac & Rituel, Plantes Menacées...",
+      icon: BookOpen,
+      href: "/admin/storylines",
+      color: "text-indigo-600",
+      bgColor: "bg-indigo-50",
+    },
   ];
 
   return (

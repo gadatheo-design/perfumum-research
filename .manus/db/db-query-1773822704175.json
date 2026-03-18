@@ -1,0 +1,23 @@
+{
+  "query": "SHOW COLUMNS FROM bibliography_entity_links WHERE Field = 'bibliography_id';\nSELECT MIN(id), MAX(id) FROM bibliography_entries;\nSELECT MIN(id), MAX(id) FROM bibliography_entries WHERE id >= 600000;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW COLUMNS FROM bibliography_entity_links WHERE Field = 'bibliography_id';\nSELECT MIN(id), MAX(id) FROM bibliography_entries;\nSELECT MIN(id), MAX(id) FROM bibliography_entries WHERE id >= 600000;",
+  "rows": [
+    {
+      "Field": "bibliography_id",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "MUL",
+      "Default": "NULL",
+      "Extra": ""
+    }
+  ],
+  "messages": [
+    "MIN(id)\tMAX(id)",
+    "150002\t600034",
+    "MIN(id)\tMAX(id)",
+    "600001\t600034"
+  ],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nbibliography_id\tint\tNO\tMUL\tNULL\t\nMIN(id)\tMAX(id)\n150002\t600034\nMIN(id)\tMAX(id)\n600001\t600034\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

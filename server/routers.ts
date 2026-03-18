@@ -74,6 +74,7 @@ import { wikimediaImagesRouter } from "./routers/wikimedia-images";
 import { extractionMethodsAdminRouter } from './routers/extraction-methods-admin';
 import { olfactiveEmissionsRouter } from './routers/olfactive-emissions';
 import { olfactiveExperiencesRouter } from './routers/olfactive-experiences';
+import { storylinesRouter } from './routers/storylines';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -12160,6 +12161,8 @@ Familles olfactives disponibles:
   olfactiveEmissions: olfactiveEmissionsRouter,
   // NOSE Phase 2 — Olfactive Experiences (od:L13 Smell Experience)
   olfactiveExperiences: olfactiveExperiencesRouter,
+  // NOSE Phase 3 — Storylines / Atlas Mnémosyne
+  storylines: storylinesRouter,
 });
 export type AppRouter = typeof appRouter;
 
