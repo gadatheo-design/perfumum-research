@@ -1,0 +1,9 @@
+{
+  "query": "\nALTER TABLE molecules \n  ADD COLUMN wikidata_qid VARCHAR(20) NULL COMMENT 'Wikidata QID (e.g. Q193178 for linalool)',\n  ADD COLUMN wikidata_enriched_at TIMESTAMP NULL COMMENT 'When Wikidata data was fetched';\n\nALTER TABLE plants \n  ADD COLUMN wikidata_qid VARCHAR(20) NULL COMMENT 'Wikidata QID (e.g. Q193178 for Rosa damascena)',\n  ADD COLUMN wikidata_enriched_at TIMESTAMP NULL COMMENT 'When Wikidata data was fetched';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nALTER TABLE molecules \n  ADD COLUMN wikidata_qid VARCHAR(20) NULL COMMENT 'Wikidata QID (e.g. Q193178 for linalool)',\n  ADD COLUMN wikidata_enriched_at TIMESTAMP NULL COMMENT 'When Wikidata data was fetched';\n\nALTER TABLE plants \n  ADD COLUMN wikidata_qid VARCHAR(20) NULL COMMENT 'Wikidata QID (e.g. Q193178 for Rosa damascena)',\n  ADD COLUMN wikidata_enriched_at TIMESTAMP NULL COMMENT 'When Wikidata data was fetched';\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 1094
+}

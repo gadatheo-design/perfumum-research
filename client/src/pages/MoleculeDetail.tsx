@@ -1310,6 +1310,17 @@ export default function MoleculeDetail() {
                         ChEBI
                       </a>
                     )}
+                    {(molecule as any).wikidata_qid && (
+                      <a
+                        href={`https://www.wikidata.org/entity/${(molecule as any).wikidata_qid}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors text-sm font-medium"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                        Wikidata {(molecule as any).wikidata_qid}
+                      </a>
+                    )}
                   </div>
                 </div>
               )}

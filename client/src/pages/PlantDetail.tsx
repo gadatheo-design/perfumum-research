@@ -30,7 +30,8 @@ import {
   BookOpen,
   ExternalLink,
   Copy,
-  Check
+  Check,
+  Globe
 } from "lucide-react";
 import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfile";
 import { PlantImageUpload, PlantImageGallery } from "@/components/PlantImageUpload";
@@ -1742,6 +1743,23 @@ function NomenclatureTab({ plant }: { plant: any }) {
                   <div className="min-w-0">
                     <p className="text-sm font-medium group-hover:text-primary">The Plant List</p>
                     <p className="text-xs text-muted-foreground truncate">Nomenclature de référence</p>
+                  </div>
+                  <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
+                </a>
+              )}
+              {(plant as any).wikidata_qid && (
+                <a
+                  href={`https://www.wikidata.org/entity/${(plant as any).wikidata_qid}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-lg border border-purple-200 dark:border-purple-800 hover:bg-purple-50 dark:hover:bg-purple-950/30 transition-colors group"
+                >
+                  <div className="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center flex-shrink-0">
+                    <Globe className="h-4 w-4 text-purple-600" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium group-hover:text-purple-600">Wikidata</p>
+                    <p className="text-xs text-muted-foreground truncate font-mono">{(plant as any).wikidata_qid}</p>
                   </div>
                   <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
                 </a>

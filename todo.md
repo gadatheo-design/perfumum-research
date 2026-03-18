@@ -2305,3 +2305,20 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Lier 48 liens bibliographiques (34 nouvelles références × entités plantes/molécules)
 - [x] Corriger colonnes id + entity_id + bibliography_id en BIGINT dans bibliography_entity_links (dépassement INT)
 - [x] Vérifier 48 liens insérés en base (ref 600001-600034)
+
+## SESSION 18/03/2026 — NOSE Phase 4 : Identifiants Wikidata
+
+- [x] Analyse résultats LOTUS : 140 trouvées (28%), 356 non trouvées catégorisées (descriptifs olfactifs, cannabinoïdes, synthèse, plantes)
+- [x] Ajouter colonnes `wikidata_qid` et `wikidata_enriched_at` dans `molecules` via ALTER TABLE
+- [x] Ajouter colonnes `wikidata_qid` et `wikidata_enriched_at` dans `plants` via ALTER TABLE
+- [x] Créer service `server/wikidata.ts` : searchMoleculeQid, searchPlantQid, getWikidataProperties, generateJsonLd
+- [x] Créer router tRPC `server/routers/wikidata.ts` : getStats, searchMolecule, searchPlant, setMoleculeQid, setPlantQid, batchEnrichMolecules, batchEnrichPlants, listEnrichedMolecules, listEnrichedPlants, exportMoleculeJsonLd, exportPlantJsonLd, clearMoleculeQid, clearPlantQid
+- [x] Enregistrer wikidataRouter dans server/routers.ts
+- [x] Créer page admin `/admin/wikidata-batch` : batch enrichissement, recherche manuelle, liste paginée, assignation/suppression QID
+- [x] Ajouter lien "Wikidata QIDs — NOSE Phase 4" dans la page Admin principale
+- [x] Ajouter badge Wikidata QID dans MoleculeDetail.tsx (section "Bases de données externes")
+- [x] Ajouter lien Wikidata QID dans PlantDetail.tsx (section "Bases de données botaniques")
+- [x] Écrire tests vitest `server/wikidata.test.ts` (19 tests, 100% passés)
+- [x] Export JSON-LD compatible NOSE/Odeuropa/Europeana (generateJsonLd)
+- [ ] NOSE Phase 5 : intégration SPARQL endpoint pour requêtes croisées
+- [ ] Enrichissement batch automatique Wikidata (lancer le premier batch de 50 molécules)

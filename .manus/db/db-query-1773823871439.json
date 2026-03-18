@@ -1,0 +1,14 @@
+{
+  "query": "\nSELECT COLUMN_NAME, COLUMN_TYPE \nFROM INFORMATION_SCHEMA.COLUMNS \nWHERE TABLE_NAME = 'plants' \nAND TABLE_SCHEMA = DATABASE()\nAND COLUMN_NAME IN ('coconut_id', 'wikidata_qid', 'gbif_id', 'ncbi_taxon_id', 'inat_taxon_id')\nORDER BY COLUMN_NAME;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT COLUMN_NAME, COLUMN_TYPE \nFROM INFORMATION_SCHEMA.COLUMNS \nWHERE TABLE_NAME = 'plants' \nAND TABLE_SCHEMA = DATABASE()\nAND COLUMN_NAME IN ('coconut_id', 'wikidata_qid', 'gbif_id', 'ncbi_taxon_id', 'inat_taxon_id')\nORDER BY COLUMN_NAME;\n",
+  "rows": [
+    {
+      "COLUMN_NAME": "gbif_id",
+      "COLUMN_TYPE": "varchar(50)"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tCOLUMN_TYPE\ngbif_id\tvarchar(50)\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}

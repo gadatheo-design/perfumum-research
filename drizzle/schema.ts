@@ -222,6 +222,9 @@ export const molecules = mysqlTable("molecules", {
   coconutOrganisms: json("coconut_organisms").$type<{ name: string; rank?: string }[]>(), // Source organisms
   coconutCitations: json("coconut_citations").$type<{ doi?: string; title?: string }[]>(), // Citations from COCONUT
   coconutEnrichedAt: timestamp("coconut_enriched_at"), // When COCONUT data was fetched
+  // Wikidata integration (NOSE Phase 4 / Odeuropa interoperability)
+  wikidataQid: varchar("wikidata_qid", { length: 20 }), // Wikidata QID (e.g., "Q193178" for linalool)
+  wikidataEnrichedAt: timestamp("wikidata_enriched_at"), // When Wikidata data was fetched
   // IFRA regulatory data
   ifraStatus: mysqlEnum("ifra_status", ['not_regulated', 'banned', 'restricted', 'specification_required']).default('not_regulated'),
   ifraData: json("ifra_data").$type<{
@@ -1986,6 +1989,8 @@ export const plants = mysqlTable("plants", {
   gbifId: varchar("gbif_id", { length: 50 }), // Identifiant GBIF pour lien direct
   itisId: varchar("itis_id", { length: 50 }), // Identifiant ITIS pour lien direct
   powId: varchar("pow_id", { length: 50 }), // Identifiant Plants of the World (POWO)
+  wikidataQid: varchar("wikidata_qid", { length: 20 }), // Wikidata QID (e.g., "Q193178" for Rosa damascena)
+  wikidataEnrichedAt: timestamp("wikidata_enriched_at"), // When Wikidata data was fetched
   // Métadonnées
   notes: text("notes"),
   imageUrl: varchar("image_url", { length: 500 }),

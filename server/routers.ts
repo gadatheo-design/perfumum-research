@@ -75,6 +75,7 @@ import { extractionMethodsAdminRouter } from './routers/extraction-methods-admin
 import { olfactiveEmissionsRouter } from './routers/olfactive-emissions';
 import { olfactiveExperiencesRouter } from './routers/olfactive-experiences';
 import { storylinesRouter } from './routers/storylines';
+import { wikidataRouter } from './routers/wikidata';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -12163,6 +12164,8 @@ Familles olfactives disponibles:
   olfactiveExperiences: olfactiveExperiencesRouter,
   // NOSE Phase 3 — Storylines / Atlas Mnémosyne
   storylines: storylinesRouter,
+  // NOSE Phase 4 — Wikidata QIDs (interopérabilité Odeuropa/Europeana)
+  wikidata: wikidataRouter,
 });
 export type AppRouter = typeof appRouter;
 
