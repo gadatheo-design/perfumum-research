@@ -339,6 +339,8 @@ export const dataCleanupRouter = router({
         notes: cleanNotes,
       });
 
+      // Supprimer toutes les FK avant de supprimer la molécule
+      await deleteAllMoleculeFKs(db, input.moleculeId);
       await db.delete(molecules).where(eq(molecules.id, input.moleculeId));
 
       return {

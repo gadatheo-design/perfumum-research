@@ -1,0 +1,50 @@
+{
+  "query": "\nSELECT id, name FROM molecules \nWHERE wikidata_qid IS NULL \nAND name IS NOT NULL\nAND name NOT REGEXP '^(Test|Terre|Fumée|Résine|traces|profil|aldéhyde)'\nORDER BY id\nLIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name FROM molecules \nWHERE wikidata_qid IS NULL \nAND name IS NOT NULL\nAND name NOT REGEXP '^(Test|Terre|Fumée|Résine|traces|profil|aldéhyde)'\nORDER BY id\nLIMIT 10;\n",
+  "rows": [
+    {
+      "id": "60003",
+      "name": "Acide Décanoïque (C10)"
+    },
+    {
+      "id": "90002",
+      "name": "2-MIB (2-Methylisoborneol)"
+    },
+    {
+      "id": "90003",
+      "name": "Sclerene"
+    },
+    {
+      "id": "90008",
+      "name": "Aluminium aldehyde"
+    },
+    {
+      "id": "90019",
+      "name": "Ionone β"
+    },
+    {
+      "id": "90020",
+      "name": "Ionone γ"
+    },
+    {
+      "id": "90025",
+      "name": "Glycine pyrolysée"
+    },
+    {
+      "id": "90026",
+      "name": "Hydroxyproline pyrolysée"
+    },
+    {
+      "id": "90028",
+      "name": "IBQ (Isobutyl quinoléine)"
+    },
+    {
+      "id": "90036",
+      "name": "Sandalore pyrolysé"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n60003\tAcide Décanoïque (C10)\n90002\t2-MIB (2-Methylisoborneol)\n90003\tSclerene\n90008\tAluminium aldehyde\n90019\tIonone β\n90020\tIonone γ\n90025\tGlycine pyrolysée\n90026\tHydroxyproline pyrolysée\n90028\tIBQ (Isobutyl quinoléine)\n90036\tSandalore pyrolysé\n",
+  "stderr": "",
+  "execution_time_ms": 61
+}

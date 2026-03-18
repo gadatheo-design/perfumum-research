@@ -5859,7 +5859,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         moleculeId: z.number(),
       }))
       .mutation(async ({ input }) => {
-        const { enrichMolecule, inferChemicalClass } = await import('./pubchem');
+        const { enrichMoleculeWithTranslation, inferChemicalClass } = await import('./pubchem');
         
         // Récupérer la molécule
         const molecule = await db.getMoleculeById(input.moleculeId);
@@ -5867,8 +5867,8 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           throw new Error('Molécule non trouvée');
         }
         
-        // Enrichir via PubChem
-        const result = await enrichMolecule(molecule.name);
+        // Enrichir via PubChem avec traduction FR→EN
+        const result = await enrichMoleculeWithTranslation(molecule.name, molecule.casNumber || undefined);
         
         if (result.success) {
           // Mettre à jour la molécule
@@ -5903,7 +5903,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         moleculeIds: z.array(z.number()),
       }))
       .mutation(async ({ input }) => {
-        const { enrichMolecule, inferChemicalClass } = await import('./pubchem');
+        const { enrichMoleculeWithTranslation, inferChemicalClass } = await import('./pubchem');
         
         const results: Array<{
           moleculeId: number;
@@ -5926,7 +5926,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
             continue;
           }
           
-          const result = await enrichMolecule(molecule.name);
+          const result = await enrichMoleculeWithTranslation(molecule.name, molecule.casNumber || undefined);
           
           if (result.success) {
             const chemicalClass = inferChemicalClass(result.iupacName, result.molecularFormula);
@@ -6069,7 +6069,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         startIndex: z.number().min(0).default(0),
       }))
       .mutation(async ({ input }) => {
-        const { enrichMolecule, inferChemicalClass } = await import('./pubchem');
+        const { enrichMoleculeWithTranslation, inferChemicalClass } = await import('./pubchem');
         
         const allMolecules = await db.getAllMolecules();
         
@@ -6092,7 +6092,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         
         for (const molecule of batch) {
           try {
-            const result = await enrichMolecule(molecule.name);
+            const result = await enrichMoleculeWithTranslation(molecule.name, (molecule as any).casNumber || undefined);
             
             if (result.success) {
               const chemicalClass = inferChemicalClass(result.iupacName, result.molecularFormula);

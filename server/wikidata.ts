@@ -29,15 +29,48 @@ export async function searchMoleculeQid(name: string): Promise<WikidataResult | 
     const result = await searchWikidata(name, 'molecule');
     if (result) return result;
 
-    // Essayer avec les variantes (sans accents, etc.)
-    const normalized = name
-      .normalize('NFD')
-      .replace(/[\u0300-\u036f]/g, '')
-      .replace(/[αβγδ]/g, (c) => ({ α: 'alpha', β: 'beta', γ: 'gamma', δ: 'delta' }[c] || c));
-    
-    if (normalized !== name) {
-      const result2 = await searchWikidata(normalized, 'molecule');
+    // Normaliser les caractères grecs Unicode (\u03b1/\u03b2/\u03b3/\u03b4) en préfixes ASCII
+    const withGreekNormalized = name
+      .replace(/\u03b1/g, 'alpha')
+      .replace(/\u03b2/g, 'beta')
+      .replace(/\u03b3/g, 'gamma')
+      .replace(/\u03b4/g, 'delta')
+      .replace(/\u03b5/g, 'epsilon')
+      .replace(/\u03b6/g, 'zeta')
+      .replace(/\u03b7/g, 'eta')
+      .replace(/\u03b8/g, 'theta')
+      .replace(/\u03b9/g, 'iota')
+      .replace(/\u03ba/g, 'kappa')
+      .replace(/\u03bb/g, 'lambda')
+      .replace(/\u03bc/g, 'mu')
+      .replace(/\u03bd/g, 'nu')
+      .replace(/\u03be/g, 'xi')
+      .replace(/\u03c0/g, 'pi')
+      .replace(/\u03c1/g, 'rho')
+      .replace(/\u03c3/g, 'sigma')
+      .replace(/\u03c4/g, 'tau')
+      .replace(/\u03c9/g, 'omega');
+
+    if (withGreekNormalized !== name) {
+      const result2 = await searchWikidata(withGreekNormalized, 'molecule');
       if (result2) return result2;
+    }
+
+    // Essayer sans accents (pour les noms fran\u00e7ais)
+    const withoutAccents = withGreekNormalized
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '');
+
+    if (withoutAccents !== withGreekNormalized) {
+      const result3 = await searchWikidata(withoutAccents, 'molecule');
+      if (result3) return result3;
+    }
+
+    // Essayer en minuscules (certains noms Wikidata sont en minuscules)
+    const lowercase = withoutAccents.toLowerCase();
+    if (lowercase !== withoutAccents) {
+      const result4 = await searchWikidata(lowercase, 'molecule');
+      if (result4) return result4;
     }
 
     return null;

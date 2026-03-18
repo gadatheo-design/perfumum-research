@@ -2377,3 +2377,8 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Page admin SparqlExplorer (5 onglets : stats, molécule, batch, SPARQL libre, templates)
 - [x] 6 templates de requêtes SPARQL prédéfinis (art, science, botanique, usage, parfumerie, europeana)
 - [x] 24 tests vitest (100% pass)
+
+## BUGS 18/03/2026 — Signalés par l'utilisateur
+- [ ] BUG: PubChem ne trouve toujours pas les molécules malgré les corrections
+- [ ] BUG: Migration raw_materials — même erreur FK delete sur 22 entrées
+- [ ] BUG: Wikidata batch — pas de résultats retournés

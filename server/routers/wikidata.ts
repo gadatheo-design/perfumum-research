@@ -117,7 +117,7 @@ export const wikidataRouter = router({
   /**
    * Batch enrichissement automatique des molécules
    */
-  batchEnrichMolecules: protectedProcedure
+  batchEnrichMolecules: publicProcedure
     .input(z.object({
       limit: z.number().min(1).max(200).default(50),
       delayMs: z.number().min(200).max(2000).default(500),
@@ -187,7 +187,7 @@ export const wikidataRouter = router({
   /**
    * Batch enrichissement automatique des plantes
    */
-  batchEnrichPlants: protectedProcedure
+  batchEnrichPlants: publicProcedure
     .input(z.object({
       limit: z.number().min(1).max(200).default(50),
       delayMs: z.number().min(200).max(2000).default(500),
