@@ -1,0 +1,322 @@
+{
+  "query": "\nSELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, ORDINAL_POSITION\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plants'\nAND ORDINAL_POSITION > 20\nORDER BY ORDINAL_POSITION;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT COLUMN_NAME, DATA_TYPE, IS_NULLABLE, ORDINAL_POSITION\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plants'\nAND ORDINAL_POSITION > 20\nORDER BY ORDINAL_POSITION;\n",
+  "rows": [
+    {
+      "COLUMN_NAME": "kingdom",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "21"
+    },
+    {
+      "COLUMN_NAME": "division",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "22"
+    },
+    {
+      "COLUMN_NAME": "class",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "23"
+    },
+    {
+      "COLUMN_NAME": "order_name",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "24"
+    },
+    {
+      "COLUMN_NAME": "genus",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "25"
+    },
+    {
+      "COLUMN_NAME": "species",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "26"
+    },
+    {
+      "COLUMN_NAME": "subspecies",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "27"
+    },
+    {
+      "COLUMN_NAME": "morphology",
+      "DATA_TYPE": "json",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "28"
+    },
+    {
+      "COLUMN_NAME": "life_cycle",
+      "DATA_TYPE": "enum",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "29"
+    },
+    {
+      "COLUMN_NAME": "growth_conditions",
+      "DATA_TYPE": "json",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "30"
+    },
+    {
+      "COLUMN_NAME": "harvest_period",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "31"
+    },
+    {
+      "COLUMN_NAME": "optimal_harvest_stage",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "32"
+    },
+    {
+      "COLUMN_NAME": "yield_per_hectare",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "33"
+    },
+    {
+      "COLUMN_NAME": "essential_oil_yield",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "34"
+    },
+    {
+      "COLUMN_NAME": "storage_duration",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "35"
+    },
+    {
+      "COLUMN_NAME": "storage_conditions",
+      "DATA_TYPE": "text",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "36"
+    },
+    {
+      "COLUMN_NAME": "certifications",
+      "DATA_TYPE": "json",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "37"
+    },
+    {
+      "COLUMN_NAME": "cites_appendix",
+      "DATA_TYPE": "enum",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "38"
+    },
+    {
+      "COLUMN_NAME": "conservation_notes",
+      "DATA_TYPE": "text",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "39"
+    },
+    {
+      "COLUMN_NAME": "threat_factors",
+      "DATA_TYPE": "json",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "40"
+    },
+    {
+      "COLUMN_NAME": "sustainable_alternatives",
+      "DATA_TYPE": "text",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "41"
+    },
+    {
+      "COLUMN_NAME": "last_assessment_year",
+      "DATA_TYPE": "int",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "42"
+    },
+    {
+      "COLUMN_NAME": "historical_status",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "43"
+    },
+    {
+      "COLUMN_NAME": "conservation_status",
+      "DATA_TYPE": "enum",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "44"
+    },
+    {
+      "COLUMN_NAME": "latitude",
+      "DATA_TYPE": "decimal",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "45"
+    },
+    {
+      "COLUMN_NAME": "longitude",
+      "DATA_TYPE": "decimal",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "46"
+    },
+    {
+      "COLUMN_NAME": "latitude_min",
+      "DATA_TYPE": "decimal",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "47"
+    },
+    {
+      "COLUMN_NAME": "latitude_max",
+      "DATA_TYPE": "decimal",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "48"
+    },
+    {
+      "COLUMN_NAME": "altitude_min",
+      "DATA_TYPE": "int",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "49"
+    },
+    {
+      "COLUMN_NAME": "altitude_max",
+      "DATA_TYPE": "int",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "50"
+    },
+    {
+      "COLUMN_NAME": "koppen_zone",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "51"
+    },
+    {
+      "COLUMN_NAME": "koppen_description",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "52"
+    },
+    {
+      "COLUMN_NAME": "precipitation_min",
+      "DATA_TYPE": "int",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "53"
+    },
+    {
+      "COLUMN_NAME": "precipitation_max",
+      "DATA_TYPE": "int",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "54"
+    },
+    {
+      "COLUMN_NAME": "temperature_min",
+      "DATA_TYPE": "int",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "55"
+    },
+    {
+      "COLUMN_NAME": "temperature_max",
+      "DATA_TYPE": "int",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "56"
+    },
+    {
+      "COLUMN_NAME": "status",
+      "DATA_TYPE": "enum",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "57"
+    },
+    {
+      "COLUMN_NAME": "validation_status",
+      "DATA_TYPE": "enum",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "58"
+    },
+    {
+      "COLUMN_NAME": "validated_by",
+      "DATA_TYPE": "int",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "59"
+    },
+    {
+      "COLUMN_NAME": "validated_at",
+      "DATA_TYPE": "timestamp",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "60"
+    },
+    {
+      "COLUMN_NAME": "contributor_id",
+      "DATA_TYPE": "int",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "61"
+    },
+    {
+      "COLUMN_NAME": "therapeutic_properties",
+      "DATA_TYPE": "json",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "62"
+    },
+    {
+      "COLUMN_NAME": "ethnobotanical_uses",
+      "DATA_TYPE": "json",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "63"
+    },
+    {
+      "COLUMN_NAME": "historical_significance",
+      "DATA_TYPE": "text",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "64"
+    },
+    {
+      "COLUMN_NAME": "synonyms",
+      "DATA_TYPE": "json",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "65"
+    },
+    {
+      "COLUMN_NAME": "author_citation",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "66"
+    },
+    {
+      "COLUMN_NAME": "gbif_id",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "67"
+    },
+    {
+      "COLUMN_NAME": "itis_id",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "68"
+    },
+    {
+      "COLUMN_NAME": "pow_id",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "69"
+    },
+    {
+      "COLUMN_NAME": "wikidata_qid",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "70"
+    },
+    {
+      "COLUMN_NAME": "europeana_id",
+      "DATA_TYPE": "varchar",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "71"
+    },
+    {
+      "COLUMN_NAME": "wikidata_enriched_at",
+      "DATA_TYPE": "timestamp",
+      "IS_NULLABLE": "YES",
+      "ORDINAL_POSITION": "72"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tDATA_TYPE\tIS_NULLABLE\tORDINAL_POSITION\nkingdom\tvarchar\tYES\t21\ndivision\tvarchar\tYES\t22\nclass\tvarchar\tYES\t23\norder_name\tvarchar\tYES\t24\ngenus\tvarchar\tYES\t25\nspecies\tvarchar\tYES\t26\nsubspecies\tvarchar\tYES\t27\nmorphology\tjson\tYES\t28\nlife_cycle\tenum\tYES\t29\ngrowth_conditions\tjson\tYES\t30\nharvest_period\tvarchar\tYES\t31\noptimal_harvest_stage\tvarchar\tYES\t32\nyield_per_hectare\tvarchar\tYES\t33\nessential_oil_yield\tvarchar\tYES\t34\nstorage_duration\tvarchar\tYES\t35\nstorage_conditions\ttext\tYES\t36\ncertifications\tjson\tYES\t37\ncites_appendix\tenum\tYES\t38\nconservation_notes\ttext\tYES\t39\nthreat_factors\tjson\tYES\t40\nsustainable_alternatives\ttext\tYES\t41\nlast_assessment_year\tint\tYES\t42\nhistorical_status\tvarchar\tYES\t43\nconservation_status\tenum\tYES\t44\nlatitude\tdecimal\tYES\t45\nlongitude\tdecimal\tYES\t46\nlatitude_min\tdecimal\tYES\t47\nlatitude_max\tdecimal\tYES\t48\naltitude_min\tint\tYES\t49\naltitude_max\tint\tYES\t50\nkoppen_zone\tvarchar\tYES\t51\nkoppen_description\tvarchar\tYES\t52\nprecipitation_min\tint\tYES\t53\nprecipitation_max\tint\tYES\t54\ntemperature_min\tint\tYES\t55\ntemperature_max\tint\tYES\t56\nstatus\tenum\tYES\t57\nvalidation_status\tenum\tYES\t58\nvalidated_by\tint\tYES\t59\nvalidated_at\ttimestamp\tYES\t60\ncontributor_id\tint\tYES\t61\ntherapeutic_properties\tjson\tYES\t62\nethnobotanical_uses\tjson\tYES\t63\nhistorical_significance\ttext\tYES\t64\nsynonyms\tjson\tYES\t65\nauthor_citation\tvarchar\tYES\t66\ngbif_id\tvarchar\tYES\t67\nitis_id\tvarchar\tYES\t68\npow_id\tvarchar\tYES\t69\nwikidata_qid\tvarchar\tYES\t70\neuropeana_id\tvarchar\tYES\t71\nwikidata_enriched_at\ttimestamp\tYES\t72\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

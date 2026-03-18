@@ -2576,3 +2576,37 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Phase 8D : Getty AAT SPARQL (vocabulaire contrôlé pour les 70 traditions olfactives)
 - [ ] Compléter les 31 traditions sans QID Wikidata
 - [ ] Documenter Zizanol, α-Vétivène, β-Vétispirène avec PubChem + notes scientifiques
+
+## SESSION 19 MARS 2026 — Phase 8A : Wikidata SPARQL étendu + PubChem batch
+
+- [x] Auditer l'état actuel : GBIF déjà 511/535 (95,5%), ChEBI 0/818, SMILES 180/818 (22%)
+- [x] Script SPARQL Wikidata (P683) : 558/758 molécules enrichies avec ChEBI IDs (74%)
+- [x] Script PubChem batch (ConnectivitySMILES + XLogP) : 574 SMILES résolus, 0 erreur
+- [x] État final molécules : SMILES 754/818 (92%) · XLogP 581/818 (71%) · ChEBI 558/818 (68%)
+
+## SESSION 19 MARS 2026 — Intégrations API : ChEBI, GBIF, IUCN, Getty AAT, OpenAlex
+
+### Phase 8B : ChEBI API — Classification chimique automatique
+- [ ] Script enrich-chebi-classification.mjs : récupérer familles chimiques via ChEBI IDs déjà présents (558 molécules)
+- [ ] Mettre à jour chemical_family pour les ~550 molécules sans famille chimique
+- [ ] Ajouter liens ChEBI dans l'onglet Nomenclature de MoleculeDetail
+
+### Phase 8C : GBIF API — Distribution géographique
+- [ ] Script enrich-gbif-occurrences.mjs : récupérer nb occurrences + pays principaux pour les 511 plantes avec gbif_id
+- [ ] Ajouter colonne gbif_occurrence_count + gbif_countries (JSON) dans plants
+- [ ] Mini-carte de distribution dans PlantDetail (onglet GBIF)
+
+### Phase 8D : IUCN Red List API — Statuts de conservation
+- [ ] Obtenir token IUCN Red List API (https://apiv3.iucnredlist.org/api/v3/token)
+- [ ] Script enrich-iucn-status.mjs : mettre à jour conservation_status pour les 535 plantes
+- [ ] Alertes automatiques en cas de reclassification CR/EN
+
+### Phase 8E : Getty AAT SPARQL — Vocabulaire traditions olfactives
+- [ ] Script enrich-getty-aat.mjs : relier les 70 traditions olfactives aux concepts AAT
+- [ ] Ajouter colonne getty_aat_id dans traditions_olfactives
+- [ ] Afficher lien Getty AAT dans TraditionDetail
+
+### Phase 8F : OpenAlex API — Bibliographie scientifique automatique
+- [ ] Script enrich-openalex.mjs : récupérer publications récentes par molécule/plante
+- [ ] Intégrer les publications dans bibliography_sources avec entity_links
+- [ ] Onglet "Publications scientifiques" dans MoleculeDetail et PlantDetail

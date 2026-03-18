@@ -1,0 +1,8 @@
+{
+  "query": "\n-- Audit colonnes plants\nSELECT \n  COUNT(*) as total_plants,\n  SUM(CASE WHEN wikidata_qid IS NOT NULL THEN 1 ELSE 0 END) as with_qid,\n  SUM(CASE WHEN pubchem_cid IS NOT NULL THEN 1 ELSE 0 END) as with_pubchem,\n  SUM(CASE WHEN gbif_key IS NOT NULL THEN 1 ELSE 0 END) as with_gbif\nFROM plants;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Audit colonnes plants\nSELECT \n  COUNT(*) as total_plants,\n  SUM(CASE WHEN wikidata_qid IS NOT NULL THEN 1 ELSE 0 END) as with_qid,\n  SUM(CASE WHEN pubchem_cid IS NOT NULL THEN 1 ELSE 0 END) as with_pubchem,\n  SUM(CASE WHEN gbif_key IS NOT NULL THEN 1 ELSE 0 END) as with_gbif\nFROM plants;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 3: Unknown column 'pubchem_cid' in ''"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "query": "\nSELECT COLUMN_NAME, DATA_TYPE, ORDINAL_POSITION\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'molecules'\nAND COLUMN_NAME IN ('xlogp', 'molecular_formula', 'molecular_weight', 'smiles', 'chebi_id', 'inchi_key', 'iupac_name', 'pubchem_cid')\nORDER BY ORDINAL_POSITION;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT COLUMN_NAME, DATA_TYPE, ORDINAL_POSITION\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'molecules'\nAND COLUMN_NAME IN ('xlogp', 'molecular_formula', 'molecular_weight', 'smiles', 'chebi_id', 'inchi_key', 'iupac_name', 'pubchem_cid')\nORDER BY ORDINAL_POSITION;\n",
+  "rows": [
+    {
+      "COLUMN_NAME": "iupac_name",
+      "DATA_TYPE": "varchar",
+      "ORDINAL_POSITION": "34"
+    },
+    {
+      "COLUMN_NAME": "pubchem_cid",
+      "DATA_TYPE": "int",
+      "ORDINAL_POSITION": "42"
+    },
+    {
+      "COLUMN_NAME": "smiles",
+      "DATA_TYPE": "text",
+      "ORDINAL_POSITION": "43"
+    },
+    {
+      "COLUMN_NAME": "inchi_key",
+      "DATA_TYPE": "varchar",
+      "ORDINAL_POSITION": "45"
+    },
+    {
+      "COLUMN_NAME": "xlogp",
+      "DATA_TYPE": "decimal",
+      "ORDINAL_POSITION": "47"
+    },
+    {
+      "COLUMN_NAME": "chebi_id",
+      "DATA_TYPE": "varchar",
+      "ORDINAL_POSITION": "55"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tDATA_TYPE\tORDINAL_POSITION\niupac_name\tvarchar\t34\npubchem_cid\tint\t42\nsmiles\ttext\t43\ninchi_key\tvarchar\t45\nxlogp\tdecimal\t47\nchebi_id\tvarchar\t55\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

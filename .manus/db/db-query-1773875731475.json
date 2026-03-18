@@ -1,0 +1,18 @@
+{
+  "query": "\n-- Plants : état des identifiants externes\nSELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN wikidata_qid IS NOT NULL THEN 1 ELSE 0 END) as with_wikidata,\n  SUM(CASE WHEN gbif_id IS NOT NULL THEN 1 ELSE 0 END) as with_gbif,\n  SUM(CASE WHEN europeana_id IS NOT NULL THEN 1 ELSE 0 END) as with_europeana,\n  SUM(CASE WHEN itis_id IS NOT NULL THEN 1 ELSE 0 END) as with_itis,\n  SUM(CASE WHEN pow_id IS NOT NULL THEN 1 ELSE 0 END) as with_pow\nFROM plants;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Plants : état des identifiants externes\nSELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN wikidata_qid IS NOT NULL THEN 1 ELSE 0 END) as with_wikidata,\n  SUM(CASE WHEN gbif_id IS NOT NULL THEN 1 ELSE 0 END) as with_gbif,\n  SUM(CASE WHEN europeana_id IS NOT NULL THEN 1 ELSE 0 END) as with_europeana,\n  SUM(CASE WHEN itis_id IS NOT NULL THEN 1 ELSE 0 END) as with_itis,\n  SUM(CASE WHEN pow_id IS NOT NULL THEN 1 ELSE 0 END) as with_pow\nFROM plants;\n",
+  "rows": [
+    {
+      "total": "535",
+      "with_wikidata": "512",
+      "with_gbif": "511",
+      "with_europeana": "0",
+      "with_itis": "196",
+      "with_pow": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\twith_wikidata\twith_gbif\twith_europeana\twith_itis\twith_pow\n535\t512\t511\t0\t196\t0\n",
+  "stderr": "",
+  "execution_time_ms": 61
+}

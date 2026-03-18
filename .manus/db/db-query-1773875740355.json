@@ -1,0 +1,20 @@
+{
+  "query": "\nSELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN wikidata_qid IS NOT NULL THEN 1 ELSE 0 END) as with_wikidata,\n  SUM(CASE WHEN pubchem_cid IS NOT NULL THEN 1 ELSE 0 END) as with_pubchem,\n  SUM(CASE WHEN chebi_id IS NOT NULL THEN 1 ELSE 0 END) as with_chebi,\n  SUM(CASE WHEN cas_number IS NOT NULL THEN 1 ELSE 0 END) as with_cas,\n  SUM(CASE WHEN iupac_name IS NOT NULL THEN 1 ELSE 0 END) as with_iupac,\n  SUM(CASE WHEN smiles IS NOT NULL THEN 1 ELSE 0 END) as with_smiles,\n  SUM(CASE WHEN inchi_key IS NOT NULL THEN 1 ELSE 0 END) as with_inchi\nFROM molecules;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN wikidata_qid IS NOT NULL THEN 1 ELSE 0 END) as with_wikidata,\n  SUM(CASE WHEN pubchem_cid IS NOT NULL THEN 1 ELSE 0 END) as with_pubchem,\n  SUM(CASE WHEN chebi_id IS NOT NULL THEN 1 ELSE 0 END) as with_chebi,\n  SUM(CASE WHEN cas_number IS NOT NULL THEN 1 ELSE 0 END) as with_cas,\n  SUM(CASE WHEN iupac_name IS NOT NULL THEN 1 ELSE 0 END) as with_iupac,\n  SUM(CASE WHEN smiles IS NOT NULL THEN 1 ELSE 0 END) as with_smiles,\n  SUM(CASE WHEN inchi_key IS NOT NULL THEN 1 ELSE 0 END) as with_inchi\nFROM molecules;\n",
+  "rows": [
+    {
+      "total": "818",
+      "with_wikidata": "758",
+      "with_pubchem": "751",
+      "with_chebi": "0",
+      "with_cas": "734",
+      "with_iupac": "761",
+      "with_smiles": "180",
+      "with_inchi": "627"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\twith_wikidata\twith_pubchem\twith_chebi\twith_cas\twith_iupac\twith_smiles\twith_inchi\n818\t758\t751\t0\t734\t761\t180\t627\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

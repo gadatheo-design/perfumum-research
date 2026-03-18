@@ -1,0 +1,45 @@
+{
+  "query": "\nSELECT id, name, wikidata_qid, pubchem_cid, cas_number\nFROM molecules\nWHERE wikidata_qid IS NOT NULL\nORDER BY id\nLIMIT 5;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, wikidata_qid, pubchem_cid, cas_number\nFROM molecules\nWHERE wikidata_qid IS NOT NULL\nORDER BY id\nLIMIT 5;\n",
+  "rows": [
+    {
+      "id": "3",
+      "name": "Ambroxan",
+      "wikidata_qid": "Q2793438",
+      "pubchem_cid": "10857465",
+      "cas_number": "6790-58-5"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol",
+      "wikidata_qid": "Q105247687",
+      "pubchem_cid": "6549",
+      "cas_number": "78-70-6"
+    },
+    {
+      "id": "30004",
+      "name": "Géosmine",
+      "wikidata_qid": "Q420233",
+      "pubchem_cid": "29746",
+      "cas_number": "19700-21-1"
+    },
+    {
+      "id": "30005",
+      "name": "β-Caryophyllène",
+      "wikidata_qid": "Q421614",
+      "pubchem_cid": "5281515",
+      "cas_number": "87-44-5"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène",
+      "wikidata_qid": "Q424577",
+      "pubchem_cid": "31253",
+      "cas_number": "123-35-3"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\twikidata_qid\tpubchem_cid\tcas_number\n3\tAmbroxan\tQ2793438\t10857465\t6790-58-5\n30002\tLinalol\tQ105247687\t6549\t78-70-6\n30004\tGéosmine\tQ420233\t29746\t19700-21-1\n30005\tβ-Caryophyllène\tQ421614\t5281515\t87-44-5\n30006\tMyrcène\tQ424577\t31253\t123-35-3\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

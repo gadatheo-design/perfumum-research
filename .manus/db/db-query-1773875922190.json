@@ -1,0 +1,45 @@
+{
+  "query": "\nSELECT id, name, pubchem_cid, smiles, xlogp\nFROM molecules\nWHERE pubchem_cid IS NOT NULL\nORDER BY id\nLIMIT 5;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, pubchem_cid, smiles, xlogp\nFROM molecules\nWHERE pubchem_cid IS NOT NULL\nORDER BY id\nLIMIT 5;\n",
+  "rows": [
+    {
+      "id": "3",
+      "name": "Ambroxan",
+      "pubchem_cid": "10857465",
+      "smiles": "CC12CCCC(C)(C1CCC3C2(CCCO3)C)O",
+      "xlogp": "4.70"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol",
+      "pubchem_cid": "6549",
+      "smiles": "CC(C)=CCCC(C)(C=C)O",
+      "xlogp": "NULL"
+    },
+    {
+      "id": "30004",
+      "name": "Géosmine",
+      "pubchem_cid": "29746",
+      "smiles": "CC1CCCC2(C1CCC(C2)O)C",
+      "xlogp": "NULL"
+    },
+    {
+      "id": "30005",
+      "name": "β-Caryophyllène",
+      "pubchem_cid": "5281515",
+      "smiles": "CC1=CCCC(=C)C2CC(C2CC1)(C)C",
+      "xlogp": "NULL"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène",
+      "pubchem_cid": "31253",
+      "smiles": "CC(=CCCC(=C)C=C)C",
+      "xlogp": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tpubchem_cid\tsmiles\txlogp\n3\tAmbroxan\t10857465\tCC12CCCC(C)(C1CCC3C2(CCCO3)C)O\t4.70\n30002\tLinalol\t6549\tCC(C)=CCCC(C)(C=C)O\tNULL\n30004\tGéosmine\t29746\tCC1CCCC2(C1CCC(C2)O)C\tNULL\n30005\tβ-Caryophyllène\t5281515\tCC1=CCCC(=C)C2CC(C2CC1)(C)C\tNULL\n30006\tMyrcène\t31253\tCC(=CCCC(=C)C=C)C\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

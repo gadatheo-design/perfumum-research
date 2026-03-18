@@ -1,0 +1,17 @@
+{
+  "query": "\nSELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN chebi_id IS NOT NULL THEN 1 ELSE 0 END) as with_chebi,\n  SUM(CASE WHEN smiles IS NOT NULL AND smiles != '' THEN 1 ELSE 0 END) as with_smiles,\n  SUM(CASE WHEN xlogp IS NOT NULL THEN 1 ELSE 0 END) as with_xlogp,\n  SUM(CASE WHEN inchi_key IS NOT NULL THEN 1 ELSE 0 END) as with_inchi\nFROM molecules;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN chebi_id IS NOT NULL THEN 1 ELSE 0 END) as with_chebi,\n  SUM(CASE WHEN smiles IS NOT NULL AND smiles != '' THEN 1 ELSE 0 END) as with_smiles,\n  SUM(CASE WHEN xlogp IS NOT NULL THEN 1 ELSE 0 END) as with_xlogp,\n  SUM(CASE WHEN inchi_key IS NOT NULL THEN 1 ELSE 0 END) as with_inchi\nFROM molecules;\n",
+  "rows": [
+    {
+      "total": "818",
+      "with_chebi": "558",
+      "with_smiles": "180",
+      "with_xlogp": "581",
+      "with_inchi": "627"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\twith_chebi\twith_smiles\twith_xlogp\twith_inchi\n818\t558\t180\t581\t627\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

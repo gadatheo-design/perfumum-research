@@ -1,0 +1,45 @@
+{
+  "query": "\n-- Molecules : colonnes identifiants externes\nSELECT COLUMN_NAME, DATA_TYPE, ORDINAL_POSITION\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'molecules'\nAND COLUMN_NAME IN ('wikidata_qid', 'pubchem_cid', 'chebi_id', 'gbif_id', 'cas_number', 'inchi_key', 'smiles', 'iupac_name', 'europeana_id')\nORDER BY ORDINAL_POSITION;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Molecules : colonnes identifiants externes\nSELECT COLUMN_NAME, DATA_TYPE, ORDINAL_POSITION\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'molecules'\nAND COLUMN_NAME IN ('wikidata_qid', 'pubchem_cid', 'chebi_id', 'gbif_id', 'cas_number', 'inchi_key', 'smiles', 'iupac_name', 'europeana_id')\nORDER BY ORDINAL_POSITION;\n",
+  "rows": [
+    {
+      "COLUMN_NAME": "iupac_name",
+      "DATA_TYPE": "varchar",
+      "ORDINAL_POSITION": "34"
+    },
+    {
+      "COLUMN_NAME": "cas_number",
+      "DATA_TYPE": "varchar",
+      "ORDINAL_POSITION": "35"
+    },
+    {
+      "COLUMN_NAME": "pubchem_cid",
+      "DATA_TYPE": "int",
+      "ORDINAL_POSITION": "42"
+    },
+    {
+      "COLUMN_NAME": "smiles",
+      "DATA_TYPE": "text",
+      "ORDINAL_POSITION": "43"
+    },
+    {
+      "COLUMN_NAME": "inchi_key",
+      "DATA_TYPE": "varchar",
+      "ORDINAL_POSITION": "45"
+    },
+    {
+      "COLUMN_NAME": "chebi_id",
+      "DATA_TYPE": "varchar",
+      "ORDINAL_POSITION": "55"
+    },
+    {
+      "COLUMN_NAME": "wikidata_qid",
+      "DATA_TYPE": "varchar",
+      "ORDINAL_POSITION": "70"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tDATA_TYPE\tORDINAL_POSITION\niupac_name\tvarchar\t34\ncas_number\tvarchar\t35\npubchem_cid\tint\t42\nsmiles\ttext\t43\ninchi_key\tvarchar\t45\nchebi_id\tvarchar\t55\nwikidata_qid\tvarchar\t70\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}
