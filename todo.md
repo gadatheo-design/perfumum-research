@@ -2500,3 +2500,22 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Script enrich-molecule-qids.mjs : 143 molécules TYPE A résolues par CAS/IUPAC
 - [x] Classification 28 entrées TYPE F (patrimoniales/CITES/accords) — documentées, pas de QID molécule
 - [x] État DB final : 509/532 plantes (95,7%) + 745/837 molécules (89,0%) avec QID
+
+## SESSION 18 MARS 2026 — Reclassification TYPE F + Europeana Civilisation
+
+- [ ] Analyser les 28 entrées TYPE F et définir leur destination (raw_materials vs plants vs suppression)
+- [ ] Créer table raw_materials dans le schéma Drizzle (matières premières botaniques, accords, pyrolysats)
+- [ ] Migrer les entrées TYPE F vers raw_materials ou plants selon leur nature
+- [ ] Mettre à jour l'interface admin pour gérer les raw_materials
+- [ ] Activer EuropeanaWidget sur les pages CivilisationDetail
+
+## SESSION 18 MARS 2026 — Reclassification TYPE F + Widget Europeana Civilisation
+
+- [x] Analyser les 28 entrées TYPE F (matières premières, accords, pyrolysats)
+- [x] Migrer 10 entrées vers table laboratoire (Absolue Rose, Oliban, Vetiver, Oud, Karité, Jasmin, Santal, Hinoki, Labrador Tea, Feuille oranger)
+- [x] Migrer 5 cultivars vers plants (Rose de Kazanlık, Musk mallow)
+- [x] Supprimer les 28 entrées TYPE F de la table molecules (avec FK cleanup)
+- [x] État final : 818 molécules · 82 laboratoire · 535 plantes
+- [x] Étendre EuropeanaWidget pour supporter type="civilisation" (recherche libre par nom)
+- [x] Intégrer EuropeanaWidget dans CivilisationDetail (8 vignettes, titre personnalisé)
+- [x] Corriger props EuropeanaWidget (wikidataQid supprimé, entityType→type)

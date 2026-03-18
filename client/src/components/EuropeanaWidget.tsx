@@ -23,11 +23,19 @@ import {
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 interface EuropeanaWidgetProps {
-  type: "plant" | "molecule";
-  entityId: number;
+  /** type d'entité : plant, molecule, ou civilisation (recherche libre par nom) */
+  type?: "plant" | "molecule" | "civilisation";
+  entityId?: number;
   entityName: string;
+  /** Pour le type civilisation : QID Wikidata optionnel */
+  wikidataQid?: string;
+  /** Titre personnalisé du widget */
+  title?: string;
+  /** Description personnalisée */
+  description?: string;
   /** Nombre de vignettes à afficher (défaut : 4) */
   limit?: number;
+  maxItems?: number;
   /** Classe CSS supplémentaire pour le conteneur */
   className?: string;
 }
@@ -112,25 +120,35 @@ function ArtworkThumb({
 // ─── Widget principal ─────────────────────────────────────────────────────────
 
 export function EuropeanaWidget({
-  type,
+  type = "plant",
   entityId,
   entityName,
+  wikidataQid,
+  title,
+  description,
   limit = 4,
+  maxItems,
   className = "",
 }: EuropeanaWidgetProps) {
   const [enabled, setEnabled] = useState(false);
+  const effectiveLimit = maxItems ?? limit;
 
   // Requête selon le type
   const plantQuery = trpc.europeana.searchByPlant.useQuery(
-    { plantId: entityId, limit },
-    { enabled: enabled && type === "plant" }
+    { plantId: entityId ?? 0, limit: effectiveLimit },
+    { enabled: enabled && type === "plant" && !!entityId }
   );
   const moleculeQuery = trpc.europeana.searchByMolecule.useQuery(
-    { moleculeId: entityId, limit },
-    { enabled: enabled && type === "molecule" }
+    { moleculeId: entityId ?? 0, limit: effectiveLimit },
+    { enabled: enabled && type === "molecule" && !!entityId }
+  );
+  // Recherche libre pour les traditions olfactives / civilisations
+  const freeQuery = trpc.europeana.freeSearch.useQuery(
+    { query: entityName, rows: effectiveLimit },
+    { enabled: enabled && type === "civilisation" }
   );
 
-  const queryResult = type === "plant" ? plantQuery : moleculeQuery;
+  const queryResult = type === "plant" ? plantQuery : type === "molecule" ? moleculeQuery : freeQuery;
   const { data, isLoading, error } = queryResult;
 
   const isDemo = data?.error?.includes("non configurée") || data?.error?.includes("démonstration");
@@ -142,7 +160,7 @@ export function EuropeanaWidget({
         <CardTitle className="text-sm flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             <Globe className="h-4 w-4 text-cyan-600 shrink-0" />
-            <span>Collections Europeana</span>
+            <span>{title ?? "Collections Europeana"}</span>
           </div>
           {data?.apiAvailable && (
             <Badge variant="outline" className="text-xs text-green-600 border-green-400 font-normal">
@@ -162,7 +180,7 @@ export function EuropeanaWidget({
         {!enabled && (
           <div className="text-center py-3">
             <p className="text-xs text-muted-foreground mb-3">
-              Rechercher "{entityName}" dans les collections muséales européennes
+              {description ?? `Rechercher "${entityName}" dans les collections muséales européennes`}
             </p>
             <Button
               variant="outline"
@@ -205,8 +223,8 @@ export function EuropeanaWidget({
         {/* Grille de vignettes */}
         {hasResults && !isLoading && (
           <>
-            <div className={`grid gap-2 ${limit <= 4 ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2 sm:grid-cols-3"}`}>
-              {data.items.slice(0, limit).map((item, i) => (
+            <div className={`grid gap-2 ${effectiveLimit <= 4 ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"}`}>
+              {data.items.slice(0, effectiveLimit).map((item, i) => (
                 <ArtworkThumb key={`${item.id}-${i}`} item={item} />
               ))}
             </div>

@@ -8,6 +8,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import ReactFlow, { Background, Controls, Node, Edge } from "reactflow";
 import "reactflow/dist/style.css";
 import { useMemo } from "react";
+import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 
 export default function CivilisationDetail() {
   const params = useParams();
@@ -234,6 +235,15 @@ export default function CivilisationDetail() {
           </CardContent>
         </Card>
       )}
+
+      {/* Widget Europeana — Collections muséales liées à cette tradition olfactive */}
+      <EuropeanaWidget
+        type="civilisation"
+        entityName={civilisation.name}
+        title={`Collections muséales — ${civilisation.name}`}
+        description={`Œuvres d'art et objets culturels liés à la tradition olfactive ${civilisation.name} dans les collections européennes.`}
+        maxItems={8}
+      />
     </div>
   );
 }

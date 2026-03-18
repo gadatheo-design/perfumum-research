@@ -1,0 +1,25 @@
+{
+  "query": "\nDELETE FROM molecule_synergies WHERE molecule1_id IN (330007, 1290005, 810048) OR molecule2_id IN (330007, 1290005, 810048);\nDELETE FROM raw_material_molecules WHERE molecule_id IN (330007, 1290005, 810048);\nDELETE FROM molecule_plant_sources WHERE molecule_id IN (330007, 1290005, 810048);\nDELETE FROM plant_molecules WHERE molecule_id IN (330007, 1290005, 810048);\nDELETE FROM molecule_accords WHERE moleculeId IN (330007, 1290005, 810048);\nDELETE FROM molecule_families WHERE moleculeId IN (330007, 1290005, 810048);\nDELETE FROM recette_molecules WHERE molecule_id IN (330007, 1290005, 810048);\nDELETE FROM molecules WHERE id IN (330007, 1290005, 810048);\nSELECT COUNT(*) AS molecules_total FROM molecules;\nSELECT COUNT(*) AS laboratoire_total FROM laboratoire;\nSELECT COUNT(*) AS plants_total FROM plants;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nDELETE FROM molecule_synergies WHERE molecule1_id IN (330007, 1290005, 810048) OR molecule2_id IN (330007, 1290005, 810048);\nDELETE FROM raw_material_molecules WHERE molecule_id IN (330007, 1290005, 810048);\nDELETE FROM molecule_plant_sources WHERE molecule_id IN (330007, 1290005, 810048);\nDELETE FROM plant_molecules WHERE molecule_id IN (330007, 1290005, 810048);\nDELETE FROM molecule_accords WHERE moleculeId IN (330007, 1290005, 810048);\nDELETE FROM molecule_families WHERE moleculeId IN (330007, 1290005, 810048);\nDELETE FROM recette_molecules WHERE molecule_id IN (330007, 1290005, 810048);\nDELETE FROM molecules WHERE id IN (330007, 1290005, 810048);\nSELECT COUNT(*) AS molecules_total FROM molecules;\nSELECT COUNT(*) AS laboratoire_total FROM laboratoire;\nSELECT COUNT(*) AS plants_total FROM plants;\n",
+  "rows": [
+    {
+      "molecules_total": "818"
+    },
+    {
+      "molecules_total": "laboratoire_total"
+    },
+    {
+      "molecules_total": "82"
+    },
+    {
+      "molecules_total": "plants_total"
+    },
+    {
+      "molecules_total": "535"
+    }
+  ],
+  "messages": [],
+  "stdout": "molecules_total\n818\nlaboratoire_total\n82\nplants_total\n535\n",
+  "stderr": "",
+  "execution_time_ms": 184
+}
