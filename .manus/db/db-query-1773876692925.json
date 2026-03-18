@@ -1,0 +1,70 @@
+{
+  "query": "\nSELECT chemical_class, COUNT(*) as cnt\nFROM molecules\nWHERE chemical_class IS NOT NULL\nGROUP BY chemical_class\nORDER BY cnt DESC\nLIMIT 15;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT chemical_class, COUNT(*) as cnt\nFROM molecules\nWHERE chemical_class IS NOT NULL\nGROUP BY chemical_class\nORDER BY cnt DESC\nLIMIT 15;\n",
+  "rows": [
+    {
+      "chemical_class": "sesquiterpene",
+      "cnt": "99"
+    },
+    {
+      "chemical_class": "other",
+      "cnt": "93"
+    },
+    {
+      "chemical_class": "heterocyclic",
+      "cnt": "91"
+    },
+    {
+      "chemical_class": "ketone",
+      "cnt": "75"
+    },
+    {
+      "chemical_class": "monoterpene",
+      "cnt": "58"
+    },
+    {
+      "chemical_class": "ester",
+      "cnt": "54"
+    },
+    {
+      "chemical_class": "aldehyde",
+      "cnt": "46"
+    },
+    {
+      "chemical_class": "alcohol",
+      "cnt": "42"
+    },
+    {
+      "chemical_class": "phenol",
+      "cnt": "36"
+    },
+    {
+      "chemical_class": "diterpene",
+      "cnt": "36"
+    },
+    {
+      "chemical_class": "aromatic",
+      "cnt": "29"
+    },
+    {
+      "chemical_class": "lactone",
+      "cnt": "28"
+    },
+    {
+      "chemical_class": "sulfur_compound",
+      "cnt": "18"
+    },
+    {
+      "chemical_class": "ether",
+      "cnt": "15"
+    },
+    {
+      "chemical_class": "coumarin",
+      "cnt": "12"
+    }
+  ],
+  "messages": [],
+  "stdout": "chemical_class\tcnt\nsesquiterpene\t99\nother\t93\nheterocyclic\t91\nketone\t75\nmonoterpene\t58\nester\t54\naldehyde\t46\nalcohol\t42\nphenol\t36\nditerpene\t36\naromatic\t29\nlactone\t28\nsulfur_compound\t18\nether\t15\ncoumarin\t12\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

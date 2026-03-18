@@ -1,0 +1,14 @@
+{
+  "query": "\nSELECT COUNT(*) as without_class,\n  SUM(CASE WHEN chebi_id IS NOT NULL THEN 1 ELSE 0 END) as without_class_with_chebi\nFROM molecules\nWHERE chemical_class IS NULL;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT COUNT(*) as without_class,\n  SUM(CASE WHEN chebi_id IS NOT NULL THEN 1 ELSE 0 END) as without_class_with_chebi\nFROM molecules\nWHERE chemical_class IS NULL;\n",
+  "rows": [
+    {
+      "without_class": "70",
+      "without_class_with_chebi": "30"
+    }
+  ],
+  "messages": [],
+  "stdout": "without_class\twithout_class_with_chebi\n70\t30\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

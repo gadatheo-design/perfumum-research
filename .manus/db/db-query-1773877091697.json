@@ -1,0 +1,74 @@
+{
+  "query": "\nSELECT COLUMN_NAME, DATA_TYPE\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'traditions_olfactives'\nORDER BY ORDINAL_POSITION;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT COLUMN_NAME, DATA_TYPE\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'traditions_olfactives'\nORDER BY ORDINAL_POSITION;\n",
+  "rows": [
+    {
+      "COLUMN_NAME": "id",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "name",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "region",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "symbolicMaterials",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "signatureAccordId",
+      "DATA_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "longDescription",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "temporality",
+      "DATA_TYPE": "enum"
+    },
+    {
+      "COLUMN_NAME": "bibliographicReferences",
+      "DATA_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "createdAt",
+      "DATA_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "updatedAt",
+      "DATA_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "wikidata_qid",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "wikidata_enriched_at",
+      "DATA_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "europeana_entity_id",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "getty_aat_id",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "getty_aat_label",
+      "DATA_TYPE": "varchar"
+    },
+    {
+      "COLUMN_NAME": "getty_enriched_at",
+      "DATA_TYPE": "timestamp"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tDATA_TYPE\nid\tint\nname\tvarchar\nregion\tvarchar\nsymbolicMaterials\ttext\nsignatureAccordId\tint\nlongDescription\ttext\ntemporality\tenum\nbibliographicReferences\ttext\ncreatedAt\ttimestamp\nupdatedAt\ttimestamp\nwikidata_qid\tvarchar\nwikidata_enriched_at\ttimestamp\neuropeana_entity_id\tvarchar\ngetty_aat_id\tvarchar\ngetty_aat_label\tvarchar\ngetty_enriched_at\ttimestamp\n",
+  "stderr": "",
+  "execution_time_ms": 145
+}

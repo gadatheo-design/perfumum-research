@@ -1,0 +1,15 @@
+{
+  "query": "\nSELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN gbif_id IS NOT NULL THEN 1 ELSE 0 END) as with_gbif_id,\n  SUM(CASE WHEN conservation_status IS NOT NULL THEN 1 ELSE 0 END) as with_iucn_status\nFROM plants;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN gbif_id IS NOT NULL THEN 1 ELSE 0 END) as with_gbif_id,\n  SUM(CASE WHEN conservation_status IS NOT NULL THEN 1 ELSE 0 END) as with_iucn_status\nFROM plants;\n",
+  "rows": [
+    {
+      "total": "535",
+      "with_gbif_id": "511",
+      "with_iucn_status": "535"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\twith_gbif_id\twith_iucn_status\n535\t511\t535\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

@@ -1,0 +1,22 @@
+{
+  "query": "\nSELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES\nWHERE TABLE_SCHEMA = DATABASE()\nAND (TABLE_NAME LIKE '%recette%molecule%' OR TABLE_NAME LIKE '%molecule%recette%' \n     OR TABLE_NAME LIKE '%recipe%ingredient%' OR TABLE_NAME LIKE '%accord%molecule%'\n     OR TABLE_NAME = 'recette_molecules' OR TABLE_NAME = 'recettes_molecules')\nORDER BY TABLE_NAME;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES\nWHERE TABLE_SCHEMA = DATABASE()\nAND (TABLE_NAME LIKE '%recette%molecule%' OR TABLE_NAME LIKE '%molecule%recette%' \n     OR TABLE_NAME LIKE '%recipe%ingredient%' OR TABLE_NAME LIKE '%accord%molecule%'\n     OR TABLE_NAME = 'recette_molecules' OR TABLE_NAME = 'recettes_molecules')\nORDER BY TABLE_NAME;\n",
+  "rows": [
+    {
+      "TABLE_NAME": "cigarillo_recipe_ingredients"
+    },
+    {
+      "TABLE_NAME": "molecule_recettes"
+    },
+    {
+      "TABLE_NAME": "molecules_recettes"
+    },
+    {
+      "TABLE_NAME": "recette_molecules"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\ncigarillo_recipe_ingredients\nmolecule_recettes\nmolecules_recettes\nrecette_molecules\n",
+  "stderr": "",
+  "execution_time_ms": 61
+}

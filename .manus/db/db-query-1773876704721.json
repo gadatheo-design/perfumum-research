@@ -1,0 +1,130 @@
+{
+  "query": "\nSELECT id, name, chebi_id, family\nFROM molecules\nWHERE chemical_class IS NULL AND chebi_id IS NOT NULL\nORDER BY id\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, chebi_id, family\nFROM molecules\nWHERE chemical_class IS NULL AND chebi_id IS NOT NULL\nORDER BY id\nLIMIT 20;\n",
+  "rows": [
+    {
+      "id": "1710007",
+      "name": "1-Octanol",
+      "chebi_id": "CHEBI:16188",
+      "family": "alcool"
+    },
+    {
+      "id": "1710012",
+      "name": "Hydroquinone",
+      "chebi_id": "CHEBI:17594",
+      "family": "phenol"
+    },
+    {
+      "id": "1710014",
+      "name": "Cotinine",
+      "chebi_id": "CHEBI:68641",
+      "family": "alcaloide"
+    },
+    {
+      "id": "1710017",
+      "name": "Acide sclareolique",
+      "chebi_id": "CHEBI:156168",
+      "family": "acide"
+    },
+    {
+      "id": "1710018",
+      "name": "Acide 3-méthylvalérique",
+      "chebi_id": "CHEBI:166883",
+      "family": "acide"
+    },
+    {
+      "id": "1710022",
+      "name": "3-Mercaptohexan-1-ol (3MH)",
+      "chebi_id": "CHEBI:77690",
+      "family": "thiol"
+    },
+    {
+      "id": "1710023",
+      "name": "Acide Olivétolique",
+      "chebi_id": "CHEBI:66955",
+      "family": "acide"
+    },
+    {
+      "id": "1710024",
+      "name": "GPP (Géranyl Pyrophosphate)",
+      "chebi_id": "CHEBI:17211",
+      "family": "precurseur_terpenique"
+    },
+    {
+      "id": "1710026",
+      "name": "THCA",
+      "chebi_id": "CHEBI:143723",
+      "family": "cannabinoide"
+    },
+    {
+      "id": "1710030",
+      "name": "Javanole",
+      "chebi_id": "CHEBI:180438",
+      "family": "herbace"
+    },
+    {
+      "id": "1710039",
+      "name": "Géraniol",
+      "chebi_id": "CHEBI:17447",
+      "family": "terpene"
+    },
+    {
+      "id": "1710043",
+      "name": "Rosavine",
+      "chebi_id": "CHEBI:139523",
+      "family": "terpene"
+    },
+    {
+      "id": "1710044",
+      "name": "n-Décanol",
+      "chebi_id": "CHEBI:28903",
+      "family": "terpene"
+    },
+    {
+      "id": "1710047",
+      "name": "β-Eudesmol",
+      "chebi_id": "CHEBI:10284",
+      "family": "sesquiterpene"
+    },
+    {
+      "id": "1710053",
+      "name": "Cinnamate de méthyle",
+      "chebi_id": "CHEBI:6857",
+      "family": "terpene"
+    },
+    {
+      "id": "1710055",
+      "name": "cis-β-Farnésène",
+      "chebi_id": "CHEBI:39242",
+      "family": "terpene"
+    },
+    {
+      "id": "1710058",
+      "name": "Acide boswellique",
+      "chebi_id": "CHEBI:192014",
+      "family": "terpene"
+    },
+    {
+      "id": "1710061",
+      "name": "Cembrène A",
+      "chebi_id": "CHEBI:82800",
+      "family": "terpene"
+    },
+    {
+      "id": "1900048",
+      "name": "Acide hexadécanoïque",
+      "chebi_id": "CHEBI:15756",
+      "family": "acid"
+    },
+    {
+      "id": "1903429",
+      "name": "Isothiocyanate de benzyle",
+      "chebi_id": "CHEBI:17484",
+      "family": "phenol"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tchebi_id\tfamily\n1710007\t1-Octanol\tCHEBI:16188\talcool\n1710012\tHydroquinone\tCHEBI:17594\tphenol\n1710014\tCotinine\tCHEBI:68641\talcaloide\n1710017\tAcide sclareolique\tCHEBI:156168\tacide\n1710018\tAcide 3-méthylvalérique\tCHEBI:166883\tacide\n1710022\t3-Mercaptohexan-1-ol (3MH)\tCHEBI:77690\tthiol\n1710023\tAcide Olivétolique\tCHEBI:66955\tacide\n1710024\tGPP (Géranyl Pyrophosphate)\tCHEBI:17211\tprecurseur_terpenique\n1710026\tTHCA\tCHEBI:143723\tcannabinoide\n1710030\tJavanole\tCHEBI:180438\therbace\n1710039\tGéraniol\tCHEBI:17447\tterpene\n1710043\tRosavine\tCHEBI:139523\tterpene\n1710044\tn-Décanol\tCHEBI:28903\tterpene\n1710047\tβ-Eudesmol\tCHEBI:10284\tsesquiterpene\n1710053\tCinnamate de méthyle\tCHEBI:6857\tterpene\n1710055\tcis-β-Farnésène\tCHEBI:39242\tterpene\n1710058\tAcide boswellique\tCHEBI:192014\tterpene\n1710061\tCembrène A\tCHEBI:82800\tterpene\n1900048\tAcide hexadécanoïque\tCHEBI:15756\tacid\n1903429\tIsothiocyanate de benzyle\tCHEBI:17484\tphenol\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

@@ -1,0 +1,184 @@
+{
+  "query": "\nSELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES\nWHERE TABLE_SCHEMA = DATABASE()\nAND TABLE_NAME LIKE '%recipe%' OR TABLE_NAME LIKE '%recette%' OR TABLE_NAME LIKE '%molecule%'\nORDER BY TABLE_NAME;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES\nWHERE TABLE_SCHEMA = DATABASE()\nAND TABLE_NAME LIKE '%recipe%' OR TABLE_NAME LIKE '%recette%' OR TABLE_NAME LIKE '%molecule%'\nORDER BY TABLE_NAME;\n",
+  "rows": [
+    {
+      "TABLE_NAME": "biotech_molecules"
+    },
+    {
+      "TABLE_NAME": "cigarillo_molecule_links"
+    },
+    {
+      "TABLE_NAME": "cigarillo_recipe_ingredients"
+    },
+    {
+      "TABLE_NAME": "cigarillo_recipes"
+    },
+    {
+      "TABLE_NAME": "field_archive_molecule_links"
+    },
+    {
+      "TABLE_NAME": "final_recipe_terp_profiles"
+    },
+    {
+      "TABLE_NAME": "final_recipes"
+    },
+    {
+      "TABLE_NAME": "genomic_molecule_links"
+    },
+    {
+      "TABLE_NAME": "ghost_variety_molecule_links"
+    },
+    {
+      "TABLE_NAME": "installation_recettes"
+    },
+    {
+      "TABLE_NAME": "laboratoire_molecules"
+    },
+    {
+      "TABLE_NAME": "laboratoire_recettes"
+    },
+    {
+      "TABLE_NAME": "leaf_economy_molecules"
+    },
+    {
+      "TABLE_NAME": "lost_molecules"
+    },
+    {
+      "TABLE_NAME": "molecule_accords"
+    },
+    {
+      "TABLE_NAME": "molecule_analytical_methods"
+    },
+    {
+      "TABLE_NAME": "molecule_chemical_families"
+    },
+    {
+      "TABLE_NAME": "molecule_contributions"
+    },
+    {
+      "TABLE_NAME": "molecule_evidence"
+    },
+    {
+      "TABLE_NAME": "molecule_families"
+    },
+    {
+      "TABLE_NAME": "molecule_links_unified"
+    },
+    {
+      "TABLE_NAME": "molecule_notes"
+    },
+    {
+      "TABLE_NAME": "molecule_notes_view"
+    },
+    {
+      "TABLE_NAME": "molecule_origins"
+    },
+    {
+      "TABLE_NAME": "molecule_perfumes"
+    },
+    {
+      "TABLE_NAME": "molecule_plant_sources"
+    },
+    {
+      "TABLE_NAME": "molecule_recettes"
+    },
+    {
+      "TABLE_NAME": "molecule_synergies"
+    },
+    {
+      "TABLE_NAME": "molecule_synergies_view"
+    },
+    {
+      "TABLE_NAME": "molecules"
+    },
+    {
+      "TABLE_NAME": "molecules_recettes"
+    },
+    {
+      "TABLE_NAME": "perfumum_molecules"
+    },
+    {
+      "TABLE_NAME": "perfumum_plant_molecules"
+    },
+    {
+      "TABLE_NAME": "perique_molecule_links"
+    },
+    {
+      "TABLE_NAME": "petrichor_molecules"
+    },
+    {
+      "TABLE_NAME": "petrichor_recettes"
+    },
+    {
+      "TABLE_NAME": "plant_molecules"
+    },
+    {
+      "TABLE_NAME": "prototype_molecules"
+    },
+    {
+      "TABLE_NAME": "publication_molecule_links"
+    },
+    {
+      "TABLE_NAME": "publication_molecules"
+    },
+    {
+      "TABLE_NAME": "raw_material_molecules"
+    },
+    {
+      "TABLE_NAME": "recette_molecules"
+    },
+    {
+      "TABLE_NAME": "recette_raw_materials"
+    },
+    {
+      "TABLE_NAME": "recette_tabac_associations"
+    },
+    {
+      "TABLE_NAME": "recettes"
+    },
+    {
+      "TABLE_NAME": "recettes_formules_reference"
+    },
+    {
+      "TABLE_NAME": "recipe_contributions"
+    },
+    {
+      "TABLE_NAME": "recipe_versions"
+    },
+    {
+      "TABLE_NAME": "tabac_molecule_links"
+    },
+    {
+      "TABLE_NAME": "tabac_molecules"
+    },
+    {
+      "TABLE_NAME": "terp_profile_molecules"
+    },
+    {
+      "TABLE_NAME": "tobacco_cannabis_accord_recettes"
+    },
+    {
+      "TABLE_NAME": "tps_gene_molecules"
+    },
+    {
+      "TABLE_NAME": "tps_molecule_links"
+    },
+    {
+      "TABLE_NAME": "transformation_recipe_impacts"
+    },
+    {
+      "TABLE_NAME": "variety_molecules"
+    },
+    {
+      "TABLE_NAME": "volcanique_molecules"
+    },
+    {
+      "TABLE_NAME": "volcanique_recettes"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\nbiotech_molecules\ncigarillo_molecule_links\ncigarillo_recipe_ingredients\ncigarillo_recipes\nfield_archive_molecule_links\nfinal_recipe_terp_profiles\nfinal_recipes\ngenomic_molecule_links\nghost_variety_molecule_links\ninstallation_recettes\nlaboratoire_molecules\nlaboratoire_recettes\nleaf_economy_molecules\nlost_molecules\nmolecule_accords\nmolecule_analytical_methods\nmolecule_chemical_families\nmolecule_contributions\nmolecule_evidence\nmolecule_families\nmolecule_links_unified\nmolecule_notes\nmolecule_notes_view\nmolecule_origins\nmolecule_perfumes\nmolecule_plant_sources\nmolecule_recettes\nmolecule_synergies\nmolecule_synergies_view\nmolecules\nmolecules_recettes\nperfumum_molecules\nperfumum_plant_molecules\nperique_molecule_links\npetrichor_molecules\npetrichor_recettes\nplant_molecules\nprototype_molecules\npublication_molecule_links\npublication_molecules\nraw_material_molecules\nrecette_molecules\nrecette_raw_materials\nrecette_tabac_associations\nrecettes\nrecettes_formules_reference\nrecipe_contributions\nrecipe_versions\ntabac_molecule_links\ntabac_molecules\nterp_profile_molecules\ntobacco_cannabis_accord_recettes\ntps_gene_molecules\ntps_molecule_links\ntransformation_recipe_impacts\nvariety_molecules\nvolcanique_molecules\nvolcanique_recettes\n",
+  "stderr": "",
+  "execution_time_ms": 159
+}

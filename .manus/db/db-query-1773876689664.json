@@ -1,0 +1,17 @@
+{
+  "query": "\nSELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN chebi_id IS NOT NULL THEN 1 ELSE 0 END) as with_chebi,\n  SUM(CASE WHEN family IS NOT NULL AND family != '' THEN 1 ELSE 0 END) as with_family,\n  SUM(CASE WHEN chebi_id IS NOT NULL AND (family IS NULL OR family = '') THEN 1 ELSE 0 END) as chebi_no_family,\n  SUM(CASE WHEN chemical_class IS NOT NULL THEN 1 ELSE 0 END) as with_class\nFROM molecules;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN chebi_id IS NOT NULL THEN 1 ELSE 0 END) as with_chebi,\n  SUM(CASE WHEN family IS NOT NULL AND family != '' THEN 1 ELSE 0 END) as with_family,\n  SUM(CASE WHEN chebi_id IS NOT NULL AND (family IS NULL OR family = '') THEN 1 ELSE 0 END) as chebi_no_family,\n  SUM(CASE WHEN chemical_class IS NOT NULL THEN 1 ELSE 0 END) as with_class\nFROM molecules;\n",
+  "rows": [
+    {
+      "total": "818",
+      "with_chebi": "558",
+      "with_family": "818",
+      "chebi_no_family": "0",
+      "with_class": "748"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\twith_chebi\twith_family\tchebi_no_family\twith_class\n818\t558\t818\t0\t748\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

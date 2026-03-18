@@ -2586,27 +2586,27 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 
 ## SESSION 19 MARS 2026 — Intégrations API : ChEBI, GBIF, IUCN, Getty AAT, OpenAlex
 
-### Phase 8B : ChEBI API — Classification chimique automatique
-- [ ] Script enrich-chebi-classification.mjs : récupérer familles chimiques via ChEBI IDs déjà présents (558 molécules)
-- [ ] Mettre à jour chemical_family pour les ~550 molécules sans famille chimique
-- [ ] Ajouter liens ChEBI dans l'onglet Nomenclature de MoleculeDetail
+### Phase 8B : ChEBI — Classification chimique
+- [x] chemical_class complété à 100% (818/818) via mapping family → enum
+- [ ] Ajouter liens ChEBI dans l'onglet Nomenclature de MoleculeDetail (UI)
 
 ### Phase 8C : GBIF API — Distribution géographique
-- [ ] Script enrich-gbif-occurrences.mjs : récupérer nb occurrences + pays principaux pour les 511 plantes avec gbif_id
-- [ ] Ajouter colonne gbif_occurrence_count + gbif_countries (JSON) dans plants
-- [ ] Mini-carte de distribution dans PlantDetail (onglet GBIF)
+- [x] Script enrich-gbif-occurrences.mjs : 511/511 plantes enrichies (0 erreur)
+- [x] Colonnes gbif_occurrence_count + gbif_countries (JSON) ajoutées dans plants
+- [x] Max 34M occurrences (Rosa damascena) · Moy. 105 000 occurrences/plante
+- [ ] Mini-carte de distribution dans PlantDetail (onglet GBIF) — UI à faire
 
 ### Phase 8D : IUCN Red List API — Statuts de conservation
 - [ ] Obtenir token IUCN Red List API (https://apiv3.iucnredlist.org/api/v3/token)
 - [ ] Script enrich-iucn-status.mjs : mettre à jour conservation_status pour les 535 plantes
-- [ ] Alertes automatiques en cas de reclassification CR/EN
 
 ### Phase 8E : Getty AAT SPARQL — Vocabulaire traditions olfactives
-- [ ] Script enrich-getty-aat.mjs : relier les 70 traditions olfactives aux concepts AAT
-- [ ] Ajouter colonne getty_aat_id dans traditions_olfactives
-- [ ] Afficher lien Getty AAT dans TraditionDetail
+- [x] Script enrich-getty-aat.mjs : 29/70 traditions enrichies (41%)
+- [x] Colonnes getty_aat_id, getty_aat_label, getty_enriched_at ajoutées
+- [ ] Compléter manuellement les 41 traditions sans correspondance AAT
+- [ ] Afficher lien Getty AAT dans TraditionDetail (UI)
 
 ### Phase 8F : OpenAlex API — Bibliographie scientifique automatique
-- [ ] Script enrich-openalex.mjs : récupérer publications récentes par molécule/plante
-- [ ] Intégrer les publications dans bibliography_sources avec entity_links
-- [ ] Onglet "Publications scientifiques" dans MoleculeDetail et PlantDetail
+- [x] Script enrich-openalex.mjs : 57 publications insérées avec 57 liaisons entity_links
+- [x] Total bibliography_sources : 64 (dont 57 articles scientifiques OpenAlex)
+- [ ] Onglet "Publications scientifiques" dans MoleculeDetail et PlantDetail (UI)

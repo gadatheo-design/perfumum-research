@@ -1,0 +1,13 @@
+{
+  "query": "\nSELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'molecules' AND COLUMN_NAME = 'chemical_class';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT COLUMN_TYPE FROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'molecules' AND COLUMN_NAME = 'chemical_class';\n",
+  "rows": [
+    {
+      "COLUMN_TYPE": "enum('terpene','sesquiterpene','diterpene','monoterpene','aldehyde','ketone','alcohol','ester','ether','phenol','lactone','coumarin','musk','nitrile','sulfur_compound','heterocyclic','aromatic','aliphatic','other')"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_TYPE\nenum('terpene','sesquiterpene','diterpene','monoterpene','aldehyde','ketone','alcohol','ester','ether','phenol','lactone','coumarin','musk','nitrile','sulfur_compound','heterocyclic','aromatic','aliphatic','other')\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

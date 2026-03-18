@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN chebi_id IS NOT NULL THEN 1 ELSE 0 END) as with_chebi,\n  SUM(CASE WHEN chemical_family IS NOT NULL AND chemical_family != '' THEN 1 ELSE 0 END) as with_family,\n  SUM(CASE WHEN chebi_id IS NOT NULL AND (chemical_family IS NULL OR chemical_family = '') THEN 1 ELSE 0 END) as chebi_no_family\nFROM molecules;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN chebi_id IS NOT NULL THEN 1 ELSE 0 END) as with_chebi,\n  SUM(CASE WHEN chemical_family IS NOT NULL AND chemical_family != '' THEN 1 ELSE 0 END) as with_family,\n  SUM(CASE WHEN chebi_id IS NOT NULL AND (chemical_family IS NULL OR chemical_family = '') THEN 1 ELSE 0 END) as chebi_no_family\nFROM molecules;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'chemical_family' in ''"
+  ]
+}
