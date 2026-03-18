@@ -1,0 +1,9 @@
+{
+  "query": "\n-- Boswellia sacra spécifiquement\nSELECT id, name FROM plants WHERE name LIKE '%sacra%' OR name LIKE '%encens%' OR name LIKE '%frankincense%' LIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Boswellia sacra spécifiquement\nSELECT id, name FROM plants WHERE name LIKE '%sacra%' OR name LIKE '%encens%' OR name LIKE '%frankincense%' LIMIT 10;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 58
+}

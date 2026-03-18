@@ -1,0 +1,28 @@
+{
+  "query": "\nSELECT id, title, source_type, url, publication_year, publication_month, authors\nFROM bibliography_sources\nORDER BY id DESC\nLIMIT 5;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, title, source_type, url, publication_year, publication_month, authors\nFROM bibliography_sources\nORDER BY id DESC\nLIMIT 5;\n",
+  "rows": [
+    {
+      "id": "30002",
+      "title": "Au Wadi Dawkah, le Grasse du sultanat",
+      "source_type": "article",
+      "url": "https://mag.bynez.com/wadi-dawkah/au-wadi-dawkah-le-grasse-du-sultanat/",
+      "publication_year": "2026",
+      "publication_month": "1",
+      "authors": "Béatrice Boisserie"
+    },
+    {
+      "id": "30001",
+      "title": "L'héliotropine : une molécule qui met le feu aux poudres",
+      "source_type": "article",
+      "url": "https://mag.bynez.com/actualites/lheliotropine-une-molecule-qui-met-le-feu-aux-poudres/",
+      "publication_year": "2026",
+      "publication_month": "1",
+      "authors": "Jessica Mignot"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tsource_type\turl\tpublication_year\tpublication_month\tauthors\n30002\tAu Wadi Dawkah, le Grasse du sultanat\tarticle\thttps://mag.bynez.com/wadi-dawkah/au-wadi-dawkah-le-grasse-du-sultanat/\t2026\t1\tBéatrice Boisserie\n30001\tL'héliotropine : une molécule qui met le feu aux poudres\tarticle\thttps://mag.bynez.com/actualites/lheliotropine-une-molecule-qui-met-le-feu-aux-poudres/\t2026\t1\tJessica Mignot\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

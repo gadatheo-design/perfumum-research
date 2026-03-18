@@ -1,0 +1,14 @@
+{
+  "query": "\n-- Traditions olfactives arabes/Oman\nSELECT id, name FROM traditions_olfactives WHERE name LIKE '%Oman%' OR name LIKE '%Arab%' OR name LIKE '%Golfe%' OR name LIKE '%Dhofar%' LIMIT 5;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Traditions olfactives arabes/Oman\nSELECT id, name FROM traditions_olfactives WHERE name LIKE '%Oman%' OR name LIKE '%Arab%' OR name LIKE '%Golfe%' OR name LIKE '%Dhofar%' LIMIT 5;\n",
+  "rows": [
+    {
+      "id": "90011",
+      "name": "Arabique / Attars"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n90011\tArabique / Attars\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

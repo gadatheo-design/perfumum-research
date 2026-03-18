@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT id, title, source_type, url, publication_date, authors, abstract\nFROM bibliography_sources\nORDER BY id DESC\nLIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, title, source_type, url, publication_date, authors, abstract\nFROM bibliography_sources\nORDER BY id DESC\nLIMIT 10;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'publication_date' in 'field list'"
+  ]
+}

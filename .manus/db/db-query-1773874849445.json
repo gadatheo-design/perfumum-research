@@ -1,0 +1,30 @@
+{
+  "query": "\n-- Alpha-pinène\nSELECT id, name FROM molecules WHERE name LIKE '%pinene%' OR name LIKE '%pinène%' OR name LIKE '%alpha-pin%' LIMIT 5;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Alpha-pinène\nSELECT id, name FROM molecules WHERE name LIKE '%pinene%' OR name LIKE '%pinène%' OR name LIKE '%alpha-pin%' LIMIT 5;\n",
+  "rows": [
+    {
+      "id": "1933313",
+      "name": "alpha-pinene"
+    },
+    {
+      "id": "810002",
+      "name": "beta-pinene"
+    },
+    {
+      "id": "720006",
+      "name": "α-Terpinène"
+    },
+    {
+      "id": "1410069",
+      "name": "γ-Terpinene"
+    },
+    {
+      "id": "720007",
+      "name": "γ-Terpinène"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n1933313\talpha-pinene\n810002\tbeta-pinene\n720006\tα-Terpinène\n1410069\tγ-Terpinene\n720007\tγ-Terpinène\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

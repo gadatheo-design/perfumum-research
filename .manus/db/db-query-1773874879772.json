@@ -1,0 +1,14 @@
+{
+  "query": "\n-- Bergamote et bergaptène\nSELECT id, name FROM plants WHERE name LIKE '%ergam%' LIMIT 5;\nSELECT id, name FROM molecules WHERE name LIKE '%ergapten%' OR name LIKE '%ergaptene%' OR name LIKE '%bergaptene%' OR name LIKE '%furocoumarin%' LIMIT 5;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Bergamote et bergaptène\nSELECT id, name FROM plants WHERE name LIKE '%ergam%' LIMIT 5;\nSELECT id, name FROM molecules WHERE name LIKE '%ergapten%' OR name LIKE '%ergaptene%' OR name LIKE '%bergaptene%' OR name LIKE '%furocoumarin%' LIMIT 5;\n",
+  "rows": [
+    {
+      "id": "30004",
+      "name": "Bergamote"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n30004\tBergamote\n",
+  "stderr": "",
+  "execution_time_ms": 76
+}

@@ -1,0 +1,50 @@
+{
+  "query": "\n-- Molécules lactées\nSELECT id, name FROM molecules WHERE name LIKE '%lacton%' OR name LIKE '%lact%' OR name LIKE '%milk%' LIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Molécules lactées\nSELECT id, name FROM molecules WHERE name LIKE '%lacton%' OR name LIKE '%lact%' OR name LIKE '%milk%' LIMIT 10;\n",
+  "rows": [
+    {
+      "id": "1350117",
+      "name": "Acide lactique"
+    },
+    {
+      "id": "1320206",
+      "name": "Alantolactone"
+    },
+    {
+      "id": "570025",
+      "name": "Aldéhyde C-14 (Gamma-Undécalactone)"
+    },
+    {
+      "id": "570029",
+      "name": "Aldéhyde C-18 (Gamma-Nonalactone)"
+    },
+    {
+      "id": "1350036",
+      "name": "Arabinogalactane"
+    },
+    {
+      "id": "90061",
+      "name": "C14 lactone (γ-Tetradecalactone)"
+    },
+    {
+      "id": "90062",
+      "name": "C18 lactone (γ-Octadecalactone)"
+    },
+    {
+      "id": "1320208",
+      "name": "Dehydrocostus lactone"
+    },
+    {
+      "id": "210012",
+      "name": "Ethyl lactate"
+    },
+    {
+      "id": "210021",
+      "name": "Gamma-decalactone"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n1350117\tAcide lactique\n1320206\tAlantolactone\n570025\tAldéhyde C-14 (Gamma-Undécalactone)\n570029\tAldéhyde C-18 (Gamma-Nonalactone)\n1350036\tArabinogalactane\n90061\tC14 lactone (γ-Tetradecalactone)\n90062\tC18 lactone (γ-Octadecalactone)\n1320208\tDehydrocostus lactone\n210012\tEthyl lactate\n210021\tGamma-decalactone\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

@@ -2556,3 +2556,23 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Notes enrichies sur Boswellia sacra (Wadi Dawkah, Amouage, UNESCO, 5000 arbres)
 - [x] ifra_status héliotropine mis à jour : restricted (CMR 1B)
 - [x] Documentation sauvegardée dans docs/nez-articles-extracted.md
+
+## SESSION 18 MARS 2026 — Scraping NEZ + Analyse APIs
+
+- [x] Scraper les articles NEZ accessibles sans abonnement (Héliotropine, Wadi Dawkah, Notes lactées, Fruits, Durabilité, Neurosciences, Chine)
+- [x] Intégrer 7 articles dans bibliography_sources (id 30001-30007) avec 20 liaisons entity_links
+- [x] Analyser les APIs disponibles (PubChem, ChEBI, GBIF, IUCN, Wikidata SPARQL, ECHA, OpenAlex, Getty AAT)
+- [x] Proposer 10 pistes d'enrichissement ciblées dans docs/api-enrichment-strategies.md
+
+## SESSION 19 MARS 2026 — Prochaines étapes recommandées
+
+- [ ] Phase 8A : Enrichissement Wikidata SPARQL étendu (P662 PubChem, P683 ChEBI, P3117 GBIF) pour 509 plantes + 745 molécules
+- [ ] Phase 8A : Enrichissement batch PubChem (noms IUPAC, synonymes, SMILES, XLogP) pour ~600 molécules
+- [ ] Phase 8B : Intégration IUCN Red List API (statuts conservation automatiques pour 535 plantes)
+- [ ] Phase 8B : Intégration GBIF API (cartes de distribution pour plantes CR/EN/VU)
+- [ ] Phase 8C : Intégration ChEBI (familles chimiques automatiques pour ~550 molécules)
+- [ ] Phase 8C : Script surveillance réglementaire ECHA CHEM (alertes CMR/SVHC mensuelles)
+- [ ] Phase 8D : Intégration OpenAlex (bibliographie scientifique automatique par molécule/plante)
+- [ ] Phase 8D : Getty AAT SPARQL (vocabulaire contrôlé pour les 70 traditions olfactives)
+- [ ] Compléter les 31 traditions sans QID Wikidata
+- [ ] Documenter Zizanol, α-Vétivène, β-Vétispirène avec PubChem + notes scientifiques

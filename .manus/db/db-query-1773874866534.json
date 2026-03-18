@@ -1,0 +1,18 @@
+{
+  "query": "\n-- Tradition chinoise\nSELECT id, name FROM traditions_olfactives WHERE name LIKE '%Chin%' OR name LIKE '%Asie%' OR name LIKE '%Orient%' LIMIT 5;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Tradition chinoise\nSELECT id, name FROM traditions_olfactives WHERE name LIKE '%Chin%' OR name LIKE '%Asie%' OR name LIKE '%Orient%' LIMIT 5;\n",
+  "rows": [
+    {
+      "id": "90014",
+      "name": "Chine / Encens lettré"
+    },
+    {
+      "id": "90016",
+      "name": "Asie du Sud-Est / Tropical sacré"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n90014\tChine / Encens lettré\n90016\tAsie du Sud-Est / Tropical sacré\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

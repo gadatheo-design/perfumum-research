@@ -1,0 +1,14 @@
+{
+  "query": "\n-- Boswellia sacra (encens)\nSELECT id, name FROM plants WHERE name LIKE '%Boswellia%' LIMIT 5;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Boswellia sacra (encens)\nSELECT id, name FROM plants WHERE name LIKE '%Boswellia%' LIMIT 5;\n",
+  "rows": [
+    {
+      "id": "690259",
+      "name": "Oliban (Boswellia serrata)"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n690259\tOliban (Boswellia serrata)\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}

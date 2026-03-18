@@ -1,0 +1,9 @@
+{
+  "query": "\n-- Enrichir article 30001 (Héliotropine) : ajouter bergamote (furocoumarines mentionnées)\nINSERT INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, relevance_score, notes)\nVALUES\n(30001, 'plant', 30004, 'supporting', 75, 'Article NEZ 2026 : bergamote mentionnée comme exemple de restrictions IFRA antérieures (furocoumarines/bergaptène photosensibilisant)');\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Enrichir article 30001 (Héliotropine) : ajouter bergamote (furocoumarines mentionnées)\nINSERT INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, relevance_score, notes)\nVALUES\n(30001, 'plant', 30004, 'supporting', 75, 'Article NEZ 2026 : bergamote mentionnée comme exemple de restrictions IFRA antérieures (furocoumarines/bergaptène photosensibilisant)');\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 66
+}

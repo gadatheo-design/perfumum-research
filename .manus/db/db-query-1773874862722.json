@@ -1,0 +1,70 @@
+{
+  "query": "\n-- Lactones et molécules fruitées\nSELECT id, name FROM molecules WHERE name LIKE '%lactone%' LIMIT 15;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Lactones et molécules fruitées\nSELECT id, name FROM molecules WHERE name LIKE '%lactone%' LIMIT 15;\n",
+  "rows": [
+    {
+      "id": "1320206",
+      "name": "Alantolactone"
+    },
+    {
+      "id": "570025",
+      "name": "Aldéhyde C-14 (Gamma-Undécalactone)"
+    },
+    {
+      "id": "570029",
+      "name": "Aldéhyde C-18 (Gamma-Nonalactone)"
+    },
+    {
+      "id": "90061",
+      "name": "C14 lactone (γ-Tetradecalactone)"
+    },
+    {
+      "id": "90062",
+      "name": "C18 lactone (γ-Octadecalactone)"
+    },
+    {
+      "id": "1320208",
+      "name": "Dehydrocostus lactone"
+    },
+    {
+      "id": "210021",
+      "name": "Gamma-decalactone"
+    },
+    {
+      "id": "1320207",
+      "name": "Isoalantolactone"
+    },
+    {
+      "id": "570070",
+      "name": "Jasmine lactone"
+    },
+    {
+      "id": "1320204",
+      "name": "Saussurea lactone"
+    },
+    {
+      "id": "1110023",
+      "name": "Whiskey lactone"
+    },
+    {
+      "id": "1410065",
+      "name": "Yuzu lactone"
+    },
+    {
+      "id": "1110020",
+      "name": "γ-Decalactone"
+    },
+    {
+      "id": "1110022",
+      "name": "γ-Undecalactone"
+    },
+    {
+      "id": "90063",
+      "name": "γ-dodecalactone"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n1320206\tAlantolactone\n570025\tAldéhyde C-14 (Gamma-Undécalactone)\n570029\tAldéhyde C-18 (Gamma-Nonalactone)\n90061\tC14 lactone (γ-Tetradecalactone)\n90062\tC18 lactone (γ-Octadecalactone)\n1320208\tDehydrocostus lactone\n210021\tGamma-decalactone\n1320207\tIsoalantolactone\n570070\tJasmine lactone\n1320204\tSaussurea lactone\n1110023\tWhiskey lactone\n1410065\tYuzu lactone\n1110020\tγ-Decalactone\n1110022\tγ-Undecalactone\n90063\tγ-dodecalactone\n",
+  "stderr": "",
+  "execution_time_ms": 64
+}

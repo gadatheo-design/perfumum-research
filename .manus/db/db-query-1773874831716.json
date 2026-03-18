@@ -1,0 +1,82 @@
+{
+  "query": "\nDESCRIBE bibliography_entity_links;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nDESCRIBE bibliography_entity_links;\n",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "bigint",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "bibliography_id",
+      "Type": "bigint",
+      "Null": "NO",
+      "Key": "MUL",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "entity_type",
+      "Type": "enum('molecule','plant','variety','terroir','recette','region','accord','civilization')",
+      "Null": "NO",
+      "Key": "MUL",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "entity_id",
+      "Type": "bigint",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "link_type",
+      "Type": "enum('primary_source','supporting','methodology','historical','genomic','chemical','ethnobotanical','conservation')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "supporting",
+      "Extra": ""
+    },
+    {
+      "Field": "relevance_score",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "50",
+      "Extra": ""
+    },
+    {
+      "Field": "notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "created_by",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "created_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tbigint\tNO\tPRI\tNULL\tauto_increment\nbibliography_id\tbigint\tNO\tMUL\tNULL\t\nentity_type\tenum('molecule','plant','variety','terroir','recette','region','accord','civilization')\tNO\tMUL\tNULL\t\nentity_id\tbigint\tNO\t\tNULL\t\nlink_type\tenum('primary_source','supporting','methodology','historical','genomic','chemical','ethnobotanical','conservation')\tYES\t\tsupporting\t\nrelevance_score\tint\tYES\t\t50\t\nnotes\ttext\tYES\t\tNULL\t\ncreated_by\tint\tYES\t\tNULL\t\ncreated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\n",
+  "stderr": "",
+  "execution_time_ms": 49
+}

@@ -1,0 +1,59 @@
+{
+  "query": "\nSELECT id, title, source_type, publication_year, publication_month\nFROM bibliography_sources\nORDER BY id DESC\nLIMIT 7;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, title, source_type, publication_year, publication_month\nFROM bibliography_sources\nORDER BY id DESC\nLIMIT 7;\n",
+  "rows": [
+    {
+      "id": "30007",
+      "title": "Smell Talks : Chine, les nouveaux visages de la parfumerie fine",
+      "source_type": "podcast",
+      "publication_year": "2026",
+      "publication_month": "2"
+    },
+    {
+      "id": "30006",
+      "title": "Smell Talks : Parfum et neurosciences, la face cachée de l'émotion",
+      "source_type": "podcast",
+      "publication_year": "2026",
+      "publication_month": "1"
+    },
+    {
+      "id": "30005",
+      "title": "Smell Talks : Durabilité et naturalité",
+      "source_type": "podcast",
+      "publication_year": "2026",
+      "publication_month": "3"
+    },
+    {
+      "id": "30004",
+      "title": "Smell Talks : Les fruits en parfumerie",
+      "source_type": "podcast",
+      "publication_year": "2026",
+      "publication_month": "2"
+    },
+    {
+      "id": "30003",
+      "title": "La grande montée de lait en parfumerie",
+      "source_type": "article",
+      "publication_year": "2026",
+      "publication_month": "1"
+    },
+    {
+      "id": "30002",
+      "title": "Au Wadi Dawkah, le Grasse du sultanat",
+      "source_type": "article",
+      "publication_year": "2026",
+      "publication_month": "1"
+    },
+    {
+      "id": "30001",
+      "title": "L'héliotropine : une molécule qui met le feu aux poudres",
+      "source_type": "article",
+      "publication_year": "2026",
+      "publication_month": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tsource_type\tpublication_year\tpublication_month\n30007\tSmell Talks : Chine, les nouveaux visages de la parfumerie fine\tpodcast\t2026\t2\n30006\tSmell Talks : Parfum et neurosciences, la face cachée de l'émotion\tpodcast\t2026\t1\n30005\tSmell Talks : Durabilité et naturalité\tpodcast\t2026\t3\n30004\tSmell Talks : Les fruits en parfumerie\tpodcast\t2026\t2\n30003\tLa grande montée de lait en parfumerie\tarticle\t2026\t1\n30002\tAu Wadi Dawkah, le Grasse du sultanat\tarticle\t2026\t1\n30001\tL'héliotropine : une molécule qui met le feu aux poudres\tarticle\t2026\t1\n",
+  "stderr": "",
+  "execution_time_ms": 64
+}

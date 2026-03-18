@@ -1,0 +1,22 @@
+{
+  "query": "\n-- Esters fruitées\nSELECT id, name FROM molecules WHERE name LIKE '%ester%' OR name LIKE '%fruité%' OR name LIKE '%peach%' OR name LIKE '%pêche%' LIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Esters fruitées\nSELECT id, name FROM molecules WHERE name LIKE '%ester%' OR name LIKE '%fruité%' OR name LIKE '%peach%' OR name LIKE '%pêche%' LIMIT 10;\n",
+  "rows": [
+    {
+      "id": "1320050",
+      "name": "Campesterol"
+    },
+    {
+      "id": "1320144",
+      "name": "Chlorogenic acid methyl ester"
+    },
+    {
+      "id": "420002",
+      "name": "Western Red Cedar"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n1320050\tCampesterol\n1320144\tChlorogenic acid methyl ester\n420002\tWestern Red Cedar\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}
