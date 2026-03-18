@@ -1,17 +1,32 @@
 /**
  * PERFUMUM — Router tRPC Europeana
  * ==================================
- * Procédures pour interroger l'API REST Europeana et croiser
+ * Procédures pour interroger l'API REST Europeana + IIIF APIs et croiser
  * les collections muséales européennes avec les données PERFUMUM.
+ *
+ * Nouveautés v2 :
+ * - Support IIIF Manifest v3 (sans clé API)
+ * - Thumbnail API v3 (sans clé API, meilleure résolution)
+ * - Pagination curseur (deep pagination)
+ * - getRecord : détail complet d'un item via Record API
+ * - searchByPlant / searchByMolecule : utilise latin_name + cas_number
+ * - Nouveaux thèmes : nard, myrrhe
+ * - Stats enrichies avec couverture IIIF
  */
 
 import { z } from "zod";
-import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
+import { router, publicProcedure } from "../_core/trpc";
 import {
   searchEuropeanaThematic,
   searchEuropeanaFree,
   searchEuropeanaByWikidataQid,
+  searchEuropeanaByPlant,
+  searchEuropeanaByMolecule,
+  getEuropeanaRecord,
   getThematicConfig,
+  buildIiifManifestUrl,
+  buildThumbnailUrl,
+  THEMATIC_QUERIES,
 } from "../europeana";
 import mysql from "mysql2/promise";
 
@@ -19,37 +34,47 @@ async function getDb() {
   return mysql.createConnection(process.env.DATABASE_URL!);
 }
 
+// Tous les thèmes disponibles
+const ALL_THEMES = Object.keys(THEMATIC_QUERIES) as [string, ...string[]];
+
 export const europeanaRouter = router({
   /**
-   * Configuration des thèmes disponibles
+   * Configuration des thèmes disponibles (avec couleurs, plantes, molécules liées)
    */
   thematicConfig: publicProcedure.query(() => {
     return getThematicConfig();
   }),
 
   /**
-   * Recherche thématique PERFUMUM (Rose de Damas, Encens, Tabac ottoman, Houblon)
+   * Recherche thématique PERFUMUM avec pagination curseur et IIIF
    */
   thematicSearch: publicProcedure
     .input(
       z.object({
-        theme: z.enum(["rose_damas", "encens", "tabac_ottoman", "houblon"]),
+        theme: z.enum(ALL_THEMES as [string, ...string[]]),
         limit: z.number().int().min(1).max(100).default(24),
         start: z.number().int().min(1).default(1),
+        cursor: z.string().optional(),
       })
     )
     .query(async ({ input }) => {
-      const result = await searchEuropeanaThematic(input.theme, input.limit, input.start);
+      const result = await searchEuropeanaThematic(
+        input.theme,
+        input.limit,
+        input.start,
+        input.cursor
+      );
 
       // Enrichir avec les liens PERFUMUM depuis la base de données
       const conn = await getDb();
       try {
-        // Récupérer les plantes liées au thème
         const themeToPlants: Record<string, string[]> = {
           rose_damas: ["Rosa damascena", "Rosa centifolia", "Rosa gallica"],
           encens: ["Boswellia sacra", "Boswellia carterii", "Boswellia serrata", "Boswellia papyrifera"],
           tabac_ottoman: ["Nicotiana tabacum", "Nicotiana rustica"],
           houblon: ["Humulus lupulus"],
+          nard: ["Nardostachys jatamansi", "Valeriana officinalis"],
+          myrrhe: ["Commiphora myrrha", "Commiphora gileadensis"],
         };
 
         const plantNames = themeToPlants[input.theme] || [];
@@ -60,12 +85,13 @@ export const europeanaRouter = router({
             [...plantNames, ...plantNames]
           );
 
-          // Attacher les IDs des plantes PERFUMUM aux items
-          result.items = result.items.map((item) => ({
-            ...item,
-            relatedPlantId: plants[0]?.id,
-            relatedPlantName: plants[0]?.name || plants[0]?.latin_name,
-          }));
+          if (plants.length > 0) {
+            result.items = result.items.map((item) => ({
+              ...item,
+              relatedPlantId: item.relatedPlantId || plants[0]?.id,
+              relatedPlantName: item.relatedPlantName || plants[0]?.name || plants[0]?.latin_name,
+            }));
+          }
         }
       } catch (e) {
         // Non-bloquant
@@ -77,7 +103,7 @@ export const europeanaRouter = router({
     }),
 
   /**
-   * Recherche libre par mot-clé
+   * Recherche libre par mot-clé avec filtres IIIF
    */
   freeSearch: publicProcedure
     .input(
@@ -85,10 +111,43 @@ export const europeanaRouter = router({
         query: z.string().min(2).max(200),
         limit: z.number().int().min(1).max(100).default(24),
         typeFilter: z.enum(["IMAGE", "TEXT", "VIDEO", "SOUND", "3D"]).optional(),
+        reusability: z.enum(["open", "restricted", "permission"]).optional(),
+        cursor: z.string().optional(),
       })
     )
     .query(async ({ input }) => {
-      return searchEuropeanaFree(input.query, input.limit, input.typeFilter);
+      return searchEuropeanaFree(
+        input.query,
+        input.limit,
+        input.typeFilter,
+        input.reusability,
+        input.cursor
+      );
+    }),
+
+  /**
+   * Détail complet d'un item Europeana via Record API + IIIF Manifest
+   */
+  getRecord: publicProcedure
+    .input(
+      z.object({
+        recordId: z.string().min(3), // ex: "/9200365/BibliographicResource_3000126284840"
+      })
+    )
+    .query(async ({ input }) => {
+      const record = await getEuropeanaRecord(input.recordId);
+      if (!record) {
+        // Retourner au moins les URLs IIIF (sans clé)
+        return {
+          id: input.recordId,
+          title: "Détail non disponible",
+          iiifManifestUrl: buildIiifManifestUrl(input.recordId),
+          thumbnailUrlLarge: buildThumbnailUrl(input.recordId, 400),
+          europeanaUrl: `https://www.europeana.eu/item${input.recordId}`,
+          apiAvailable: false,
+        };
+      }
+      return record;
     }),
 
   /**
@@ -105,7 +164,7 @@ export const europeanaRouter = router({
       const conn = await getDb();
       try {
         const [rows] = await conn.execute<any[]>(
-          "SELECT id, name, wikidata_qid FROM molecules WHERE id = ?",
+          "SELECT id, name, wikidata_qid, cas_number FROM molecules WHERE id = ?",
           [input.moleculeId]
         );
         if (!rows.length) {
@@ -119,11 +178,15 @@ export const europeanaRouter = router({
           };
         }
         const mol = rows[0];
-        const result = await searchEuropeanaByWikidataQid(
-          mol.wikidata_qid || "",
-          mol.name,
-          input.limit
-        );
+
+        // Essayer d'abord par QID Wikidata, sinon par nom
+        let result;
+        if (mol.wikidata_qid) {
+          result = await searchEuropeanaByWikidataQid(mol.wikidata_qid, mol.name, input.limit);
+        } else {
+          result = await searchEuropeanaByMolecule(mol.name, mol.cas_number, input.limit);
+        }
+
         return {
           ...result,
           moleculeName: mol.name,
@@ -162,12 +225,19 @@ export const europeanaRouter = router({
           };
         }
         const plant = rows[0];
-        const searchName = plant.latin_name || plant.name;
-        const result = await searchEuropeanaByWikidataQid(
-          plant.wikidata_qid || "",
-          searchName,
-          input.limit
-        );
+
+        // Essayer d'abord par QID Wikidata, sinon par nom latin
+        let result;
+        if (plant.wikidata_qid) {
+          result = await searchEuropeanaByWikidataQid(
+            plant.wikidata_qid,
+            plant.latin_name || plant.name,
+            input.limit
+          );
+        } else {
+          result = await searchEuropeanaByPlant(plant.name, plant.latin_name, input.limit);
+        }
+
         return {
           ...result,
           plantName: plant.name,
@@ -180,7 +250,7 @@ export const europeanaRouter = router({
     }),
 
   /**
-   * Statistiques Europeana — état de l'intégration
+   * Statistiques Europeana — état de l'intégration PERFUMUM
    */
   stats: publicProcedure.query(async () => {
     const apiKey = process.env.EUROPEANA_API_KEY;
@@ -193,24 +263,23 @@ export const europeanaRouter = router({
         "SELECT COUNT(*) as totalPlants FROM plants"
       );
       const [[{ plantsWithQid }]] = await conn.execute<any[]>(
-        "SELECT COUNT(*) as plantsWithQid FROM plants WHERE wikidata_qid IS NOT NULL"
+        "SELECT COUNT(*) as plantsWithQid FROM plants WHERE wikidata_qid IS NOT NULL AND wikidata_qid != ''"
       );
       const [[{ moleculesWithQid }]] = await conn.execute<any[]>(
-        "SELECT COUNT(*) as moleculesWithQid FROM molecules WHERE wikidata_qid IS NOT NULL"
+        "SELECT COUNT(*) as moleculesWithQid FROM molecules WHERE wikidata_qid IS NOT NULL AND wikidata_qid != ''"
       );
 
       return {
         apiConfigured: !!apiKey,
+        iiifAvailable: true, // IIIF Manifest + Thumbnail sans clé
         totalMolecules: Number(totalMolecules),
         totalPlants: Number(totalPlants),
         plantsWithQid: Number(plantsWithQid),
         moleculesWithQid: Number(moleculesWithQid),
-        themes: Object.keys({
-          rose_damas: true,
-          encens: true,
-          tabac_ottoman: true,
-          houblon: true,
-        }),
+        themes: getThematicConfig(),
+        // Couverture QID
+        plantQidCoverage: Math.round((Number(plantsWithQid) / Number(totalPlants)) * 100),
+        moleculeQidCoverage: Math.round((Number(moleculesWithQid) / Number(totalMolecules)) * 100),
       };
     } finally {
       await conn.end();
