@@ -73,6 +73,7 @@ import { cigarilloMoleculeLinksRouter } from "./routers/cigarilloMoleculeLinks";
 import { wikimediaImagesRouter } from "./routers/wikimedia-images";
 import { extractionMethodsAdminRouter } from './routers/extraction-methods-admin';
 import { olfactiveEmissionsRouter } from './routers/olfactive-emissions';
+import { olfactiveExperiencesRouter } from './routers/olfactive-experiences';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -12157,6 +12158,8 @@ Familles olfactives disponibles:
 
   // NOSE Phase 1 — Olfactive Emissions (od:L12 Smell Emission)
   olfactiveEmissions: olfactiveEmissionsRouter,
+  // NOSE Phase 2 — Olfactive Experiences (od:L13 Smell Experience)
+  olfactiveExperiences: olfactiveExperiencesRouter,
 });
 export type AppRouter = typeof appRouter;
 

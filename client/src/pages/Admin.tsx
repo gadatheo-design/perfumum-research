@@ -361,6 +361,14 @@ export default function Admin() {
       color: "text-orange-600",
       bgColor: "bg-orange-50",
     },
+    {
+      title: "NOSE — Ontologie Olfactive",
+      description: "Dashboard NOSE/Odeuropa : 1967 émissions GC-MS (od:L12), expériences subjectives (od:L13), import CSV/TSV avec dry-run.",
+      icon: Database,
+      href: "/admin/nose",
+      color: "text-blue-600",
+      bgColor: "bg-blue-50",
+    },
   ];
 
   return (

@@ -2275,3 +2275,14 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] NOSE Phase 4 : identifiants Wikidata + export JSON-LD
 - [ ] Page admin NOSE : visualisation globale des émissions, stats par méthode/rôle
 - [ ] Import GC-MS avec dry-run preview (anti-doublons)
+
+## SESSION 18/03/2026 — NOSE Phase 2 + Admin NOSE + Import GC-MS
+
+- [x] NOSE Phase 2 : créer table `olfactive_experiences` (od:L13 Smell Experience)
+- [x] NOSE Phase 2 : router tRPC olfactiveExperiences (CRUD + getByPlant/Molecule)
+- [x] Page admin NOSE : dashboard stats (méthodes, rôles, top molécules, couverture)
+- [x] Page admin NOSE : formulaire d'ajout manuel d'émission
+- [x] Import GC-MS : interface CSV/TSV avec dry-run preview (onglet Import dans AdminNOSE)
+- [x] Import GC-MS : détection des doublons avant confirmation (option overwrite)
+- [x] Procédure olfactiveEmissions.importFromCsv avec détection doublons et option overwrite
+- [x] Template CSV téléchargeable (nose_emissions_template.csv)

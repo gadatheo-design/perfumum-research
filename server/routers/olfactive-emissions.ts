@@ -273,7 +273,76 @@ export const olfactiveEmissionsRouter = router({
       const conn = await getDb();
       try {
         await conn.execute("DELETE FROM olfactive_emissions WHERE id = ?", [input.id]);
-        return { success: true };
+      } finally {
+        await conn.end();
+      }
+      return { success: true };
+    }),
+
+  importFromCsv: protectedProcedure
+    .input(z.object({
+      rows: z.array(z.object({
+        plant_id: z.string().optional(),
+        molecule_id: z.string().optional(),
+        plant_part: z.string().optional(),
+        extraction_method: z.string().optional(),
+        percentage: z.string().optional(),
+        role: z.string().optional(),
+        analysis_method: z.string().optional(),
+        analysis_source: z.string().optional(),
+        geographic_origin: z.string().optional(),
+        notes: z.string().optional(),
+        is_signature: z.string().optional(),
+      })),
+      overwrite: z.boolean().default(false),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      if (ctx.user.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
+      const conn = await getDb();
+      let created = 0, skipped = 0, errors = 0;
+      try {
+        for (const row of input.rows) {
+          try {
+            const plantId = row.plant_id ? parseInt(row.plant_id) : null;
+            const moleculeId = row.molecule_id ? parseInt(row.molecule_id) : null;
+            if (!plantId && !moleculeId) { skipped++; continue; }
+
+            // Check doublon
+            const [existing] = await conn.execute(
+              "SELECT id FROM olfactive_emissions WHERE plant_id <=> ? AND molecule_id <=> ? AND extraction_method <=> ? AND plant_part <=> ? LIMIT 1",
+              [plantId, moleculeId, row.extraction_method || null, row.plant_part || null]
+            ) as any[];
+            if (existing.length > 0 && !input.overwrite) { skipped++; continue; }
+            if (existing.length > 0 && input.overwrite) {
+              await conn.execute(
+                `UPDATE olfactive_emissions SET percentage = ?, role = ?, analysis_method = ?, analysis_source = ?, geographic_origin = ?, notes = ?, is_signature = ? WHERE id = ?`,
+                [
+                  row.percentage ? parseFloat(row.percentage) : null,
+                  row.role || null, row.analysis_method || null, row.analysis_source || null,
+                  row.geographic_origin || null, row.notes || null,
+                  row.is_signature === "true" ? 1 : 0,
+                  existing[0].id
+                ]
+              );
+              created++;
+            } else {
+              await conn.execute(
+                `INSERT INTO olfactive_emissions (plant_id, molecule_id, plant_part, extraction_method, percentage, role, analysis_method, analysis_source, geographic_origin, notes, is_signature, source_table) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'csv_import')`,
+                [
+                  plantId, moleculeId, row.plant_part || null, row.extraction_method || null,
+                  row.percentage ? parseFloat(row.percentage) : null,
+                  row.role || null, row.analysis_method || null, row.analysis_source || null,
+                  row.geographic_origin || null, row.notes || null,
+                  row.is_signature === "true" ? 1 : 0
+                ]
+              );
+              created++;
+            }
+          } catch (e) {
+            errors++;
+          }
+        }
+        return { created, skipped, errors };
       } finally {
         await conn.end();
       }
