@@ -1,0 +1,60 @@
+{
+  "query": "\n-- Molécules liées à Tagetes lucida (ID 630012)\nSELECT pm.molecule_id, m.name, m.cas_number \nFROM plant_molecules pm \nJOIN molecules m ON pm.molecule_id = m.id \nWHERE pm.plant_id = 630012 \nLIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Molécules liées à Tagetes lucida (ID 630012)\nSELECT pm.molecule_id, m.name, m.cas_number \nFROM plant_molecules pm \nJOIN molecules m ON pm.molecule_id = m.id \nWHERE pm.plant_id = 630012 \nLIMIT 10;\n",
+  "rows": [
+    {
+      "molecule_id": "1410073",
+      "name": "Humulène",
+      "cas_number": "6753-98-6"
+    },
+    {
+      "molecule_id": "1650007",
+      "name": "δ-Cadinène",
+      "cas_number": "483-76-1"
+    },
+    {
+      "molecule_id": "1710070",
+      "name": "α-Copaene",
+      "cas_number": "NULL"
+    },
+    {
+      "molecule_id": "1720003",
+      "name": "Dihydroactinidiolide",
+      "cas_number": "17092-92-1"
+    },
+    {
+      "molecule_id": "1902982",
+      "name": "Bicyclogermacrene",
+      "cas_number": "24703-35-3"
+    },
+    {
+      "molecule_id": "30002",
+      "name": "Linalol",
+      "cas_number": "78-70-6"
+    },
+    {
+      "molecule_id": "30005",
+      "name": "β-Caryophyllène",
+      "cas_number": "87-44-5"
+    },
+    {
+      "molecule_id": "30006",
+      "name": "Myrcène",
+      "cas_number": "123-35-3"
+    },
+    {
+      "molecule_id": "30007",
+      "name": "Limonène",
+      "cas_number": "138-86-3"
+    },
+    {
+      "molecule_id": "60008",
+      "name": "Acide Caféique",
+      "cas_number": "331-39-5"
+    }
+  ],
+  "messages": [],
+  "stdout": "molecule_id\tname\tcas_number\n1410073\tHumulène\t6753-98-6\n1650007\tδ-Cadinène\t483-76-1\n1710070\tα-Copaene\tNULL\n1720003\tDihydroactinidiolide\t17092-92-1\n1902982\tBicyclogermacrene\t24703-35-3\n30002\tLinalol\t78-70-6\n30005\tβ-Caryophyllène\t87-44-5\n30006\tMyrcène\t123-35-3\n30007\tLimonène\t138-86-3\n60008\tAcide Caféique\t331-39-5\n",
+  "stderr": "",
+  "execution_time_ms": 66
+}

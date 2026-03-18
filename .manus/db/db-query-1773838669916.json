@@ -1,0 +1,21 @@
+{
+  "query": "\n-- Vérifier les liaisons Estragole et Anéthole avec Tagetes lucida (630012)\nSELECT pm.molecule_id, m.name FROM plant_molecules pm \nJOIN molecules m ON pm.molecule_id = m.id \nWHERE pm.plant_id = 630012 AND pm.molecule_id IN (630002, 870001);\n\n-- Compter toutes les liaisons\nSELECT COUNT(*) as total FROM plant_molecules WHERE plant_id = 630012;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Vérifier les liaisons Estragole et Anéthole avec Tagetes lucida (630012)\nSELECT pm.molecule_id, m.name FROM plant_molecules pm \nJOIN molecules m ON pm.molecule_id = m.id \nWHERE pm.plant_id = 630012 AND pm.molecule_id IN (630002, 870001);\n\n-- Compter toutes les liaisons\nSELECT COUNT(*) as total FROM plant_molecules WHERE plant_id = 630012;\n",
+  "rows": [
+    {
+      "molecule_id": "630002",
+      "name": "Estragole"
+    },
+    {
+      "molecule_id": "870001",
+      "name": "Anéthole"
+    }
+  ],
+  "messages": [
+    "total",
+    "37"
+  ],
+  "stdout": "molecule_id\tname\n630002\tEstragole\n870001\tAnéthole\ntotal\n37\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

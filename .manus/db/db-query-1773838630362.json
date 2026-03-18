@@ -1,0 +1,20 @@
+{
+  "query": "\n-- Trouver Tagetes lucida (Pericón)\nSELECT id, name, latin_name FROM plants WHERE latin_name LIKE '%Tagetes lucida%' LIMIT 3;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Trouver Tagetes lucida (Pericón)\nSELECT id, name, latin_name FROM plants WHERE latin_name LIKE '%Tagetes lucida%' LIMIT 3;\n",
+  "rows": [
+    {
+      "id": "540019",
+      "name": "Tagetes lucida",
+      "latin_name": "Tagetes lucida Cav."
+    },
+    {
+      "id": "630012",
+      "name": "Pericón (Tagetes lucida)",
+      "latin_name": "Tagetes lucida"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\n540019\tTagetes lucida\tTagetes lucida Cav.\n630012\tPericón (Tagetes lucida)\tTagetes lucida\n",
+  "stderr": "",
+  "execution_time_ms": 107
+}

@@ -1,0 +1,20 @@
+{
+  "query": "\nSELECT id, name, cas_number FROM molecules \nWHERE name IN ('Anéthole', 'Anethole', 'Méthyl-eugénol', 'Methyl eugenol', 'Estragole', 'Méthylchavicol')\n   OR name LIKE '%néthole%' OR name LIKE '%Methyl%eugén%' OR name LIKE '%stragole%'\nLIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, cas_number FROM molecules \nWHERE name IN ('Anéthole', 'Anethole', 'Méthyl-eugénol', 'Methyl eugenol', 'Estragole', 'Méthylchavicol')\n   OR name LIKE '%néthole%' OR name LIKE '%Methyl%eugén%' OR name LIKE '%stragole%'\nLIMIT 10;\n",
+  "rows": [
+    {
+      "id": "630002",
+      "name": "Estragole",
+      "cas_number": "140-67-0"
+    },
+    {
+      "id": "870001",
+      "name": "Anéthole",
+      "cas_number": "4180-23-8"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcas_number\n630002\tEstragole\t140-67-0\n870001\tAnéthole\t4180-23-8\n",
+  "stderr": "",
+  "execution_time_ms": 61
+}
