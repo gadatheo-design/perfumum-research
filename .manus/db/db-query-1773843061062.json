@@ -1,0 +1,58 @@
+{
+  "query": "\nSELECT id, name FROM plants WHERE name LIKE '%Nardostachys%' OR name LIKE '%Spikenard%' OR name LIKE '%Nard%' LIMIT 5;\nSELECT id, name FROM molecules WHERE name LIKE '%Jatamansi%' OR name LIKE '%Nard%' OR name LIKE '%Valeranol%' OR name LIKE '%Patchoulol%' LIMIT 5;\nSELECT id, name FROM plants WHERE name LIKE '%Nicotiana%' OR name LIKE '%Tabac%' OR name LIKE '%tobacco%' LIMIT 5;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name FROM plants WHERE name LIKE '%Nardostachys%' OR name LIKE '%Spikenard%' OR name LIKE '%Nard%' LIMIT 5;\nSELECT id, name FROM molecules WHERE name LIKE '%Jatamansi%' OR name LIKE '%Nard%' OR name LIKE '%Valeranol%' OR name LIKE '%Patchoulol%' LIMIT 5;\nSELECT id, name FROM plants WHERE name LIKE '%Nicotiana%' OR name LIKE '%Tabac%' OR name LIKE '%tobacco%' LIMIT 5;\n",
+  "rows": [
+    {
+      "id": "180003",
+      "name": "Nard (Spikenard)"
+    },
+    {
+      "id": "id",
+      "name": "name"
+    },
+    {
+      "id": "1380027",
+      "name": "Nardol"
+    },
+    {
+      "id": "780010",
+      "name": "Nardosinone"
+    },
+    {
+      "id": "780018",
+      "name": "Nardosinonediol"
+    },
+    {
+      "id": "90054",
+      "name": "Patchoulol"
+    },
+    {
+      "id": "id",
+      "name": "name"
+    },
+    {
+      "id": "330002",
+      "name": "Tabac cultivé"
+    },
+    {
+      "id": "330003",
+      "name": "Nicotiana benthamiana"
+    },
+    {
+      "id": "330004",
+      "name": "Wild tobacco"
+    },
+    {
+      "id": "330005",
+      "name": "Nicotiana sylvestris"
+    },
+    {
+      "id": "330006",
+      "name": "Nicotiana tomentosiformis"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n180003\tNard (Spikenard)\nid\tname\n1380027\tNardol\n780010\tNardosinone\n780018\tNardosinonediol\n90054\tPatchoulol\nid\tname\n330002\tTabac cultivé\n330003\tNicotiana benthamiana\n330004\tWild tobacco\n330005\tNicotiana sylvestris\n330006\tNicotiana tomentosiformis\n",
+  "stderr": "",
+  "execution_time_ms": 69
+}

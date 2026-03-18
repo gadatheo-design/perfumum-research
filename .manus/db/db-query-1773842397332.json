@@ -1,0 +1,43 @@
+{
+  "query": "\nSELECT COUNT(*) as total_traditions FROM olfactory_traditions;\nSELECT COUNT(*) as total_trad_olf FROM traditions_olfactives;\nSELECT id, title, slug FROM storylines LIMIT 10;\nSELECT COUNT(*) as total_experiences FROM olfactive_experiences;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT COUNT(*) as total_traditions FROM olfactory_traditions;\nSELECT COUNT(*) as total_trad_olf FROM traditions_olfactives;\nSELECT id, title, slug FROM storylines LIMIT 10;\nSELECT COUNT(*) as total_experiences FROM olfactive_experiences;\n",
+  "rows": [
+    {
+      "total_traditions": "0"
+    },
+    {
+      "total_traditions": "total_trad_olf"
+    },
+    {
+      "total_traditions": "70"
+    },
+    {
+      "total_traditions": "id\ttitle\tslug"
+    },
+    {
+      "total_traditions": "1\tLa Route de l'Encens\troute-encens"
+    },
+    {
+      "total_traditions": "2\tTabac et Rituel Amérindien\ttabac-rituel-amerindien"
+    },
+    {
+      "total_traditions": "3\tNardostachys — Le Nard Perdu\tnardostachys-nard-perdu"
+    },
+    {
+      "total_traditions": "4\tBurkina Faso — Combustion Lente\tburkina-faso-combustion-lente"
+    },
+    {
+      "total_traditions": "5\tAtlas Mnémosyne — Mémoire Olfactive\tatlas-mnemosyne"
+    },
+    {
+      "total_traditions": "total_experiences"
+    },
+    {
+      "total_traditions": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_traditions\n0\ntotal_trad_olf\n70\nid\ttitle\tslug\n1\tLa Route de l'Encens\troute-encens\n2\tTabac et Rituel Amérindien\ttabac-rituel-amerindien\n3\tNardostachys — Le Nard Perdu\tnardostachys-nard-perdu\n4\tBurkina Faso — Combustion Lente\tburkina-faso-combustion-lente\n5\tAtlas Mnémosyne — Mémoire Olfactive\tatlas-mnemosyne\ntotal_experiences\n0\n",
+  "stderr": "",
+  "execution_time_ms": 70
+}

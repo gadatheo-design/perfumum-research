@@ -1,0 +1,24 @@
+{
+  "query": "\nSELECT \n  (SELECT COUNT(*) FROM molecules) as total_molecules,\n  (SELECT COUNT(*) FROM molecules WHERE wikidata_qid IS NOT NULL) as molecules_wikidata,\n  (SELECT COUNT(*) FROM molecules WHERE pubchem_cid IS NOT NULL) as molecules_pubchem,\n  (SELECT COUNT(*) FROM plants) as total_plants,\n  (SELECT COUNT(*) FROM plants WHERE wikidata_qid IS NOT NULL) as plants_wikidata,\n  (SELECT COUNT(*) FROM olfactive_emissions) as total_olfactive_emissions,\n  (SELECT COUNT(*) FROM olfactive_experiences) as total_olfactive_experiences,\n  (SELECT COUNT(*) FROM storylines) as total_storylines,\n  (SELECT COUNT(*) FROM story_elements) as total_story_elements,\n  (SELECT COUNT(*) FROM recettes) as total_recettes,\n  (SELECT COUNT(*) FROM raw_materials) as total_raw_materials,\n  (SELECT COUNT(*) FROM tabacs) as total_tabacs;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  (SELECT COUNT(*) FROM molecules) as total_molecules,\n  (SELECT COUNT(*) FROM molecules WHERE wikidata_qid IS NOT NULL) as molecules_wikidata,\n  (SELECT COUNT(*) FROM molecules WHERE pubchem_cid IS NOT NULL) as molecules_pubchem,\n  (SELECT COUNT(*) FROM plants) as total_plants,\n  (SELECT COUNT(*) FROM plants WHERE wikidata_qid IS NOT NULL) as plants_wikidata,\n  (SELECT COUNT(*) FROM olfactive_emissions) as total_olfactive_emissions,\n  (SELECT COUNT(*) FROM olfactive_experiences) as total_olfactive_experiences,\n  (SELECT COUNT(*) FROM storylines) as total_storylines,\n  (SELECT COUNT(*) FROM story_elements) as total_story_elements,\n  (SELECT COUNT(*) FROM recettes) as total_recettes,\n  (SELECT COUNT(*) FROM raw_materials) as total_raw_materials,\n  (SELECT COUNT(*) FROM tabacs) as total_tabacs;\n",
+  "rows": [
+    {
+      "total_molecules": "827",
+      "molecules_wikidata": "509",
+      "molecules_pubchem": "743",
+      "total_plants": "524",
+      "plants_wikidata": "371",
+      "total_olfactive_emissions": "1967",
+      "total_olfactive_experiences": "0",
+      "total_storylines": "5",
+      "total_story_elements": "0",
+      "total_recettes": "476",
+      "total_raw_materials": "627",
+      "total_tabacs": "38"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_molecules\tmolecules_wikidata\tmolecules_pubchem\ttotal_plants\tplants_wikidata\ttotal_olfactive_emissions\ttotal_olfactive_experiences\ttotal_storylines\ttotal_story_elements\ttotal_recettes\ttotal_raw_materials\ttotal_tabacs\n827\t509\t743\t524\t371\t1967\t0\t5\t0\t476\t627\t38\n",
+  "stderr": "",
+  "execution_time_ms": 148
+}

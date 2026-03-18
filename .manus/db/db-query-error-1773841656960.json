@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT title, is_published FROM storylines LIMIT 10;\nSELECT COUNT(*) as ghost_varieties FROM ghost_varieties;\nSELECT COUNT(*) as tps_genes FROM tps_genes;\nSELECT COUNT(*) as molecule_origins FROM molecule_origins;\nSELECT COUNT(*) as traditions FROM traditions_olfactives;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT title, is_published FROM storylines LIMIT 10;\nSELECT COUNT(*) as ghost_varieties FROM ghost_varieties;\nSELECT COUNT(*) as tps_genes FROM tps_genes;\nSELECT COUNT(*) as molecule_origins FROM molecule_origins;\nSELECT COUNT(*) as traditions FROM traditions_olfactives;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'is_published' in 'field list'"
+  ]
+}

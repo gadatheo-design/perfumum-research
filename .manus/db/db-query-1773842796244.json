@@ -1,0 +1,18 @@
+{
+  "query": "SHOW COLUMNS FROM olfactive_experiences WHERE Field = 'experiencer_type';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW COLUMNS FROM olfactive_experiences WHERE Field = 'experiencer_type';",
+  "rows": [
+    {
+      "Field": "experiencer_type",
+      "Type": "enum('individual','collective','historical','fictional','scientific')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "individual",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nexperiencer_type\tenum('individual','collective','historical','fictional','scientific')\tNO\t\tindividual\t\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

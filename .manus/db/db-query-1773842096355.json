@@ -1,0 +1,430 @@
+{
+  "query": "\nSELECT id, name, region, temporality FROM traditions_olfactives;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, region, temporality FROM traditions_olfactives;\n",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Égypte — Akhet",
+      "region": "Égypte antique",
+      "temporality": "antique"
+    },
+    {
+      "id": "2",
+      "name": "Mésopotamie — Shuruppak",
+      "region": "Mésopotamie antique",
+      "temporality": "antique"
+    },
+    {
+      "id": "3",
+      "name": "Mycène",
+      "region": "Grèce mycénienne",
+      "temporality": "antique"
+    },
+    {
+      "id": "4",
+      "name": "Tell Halaf",
+      "region": "Syrie du Nord",
+      "temporality": "archaic"
+    },
+    {
+      "id": "5",
+      "name": "Meroe",
+      "region": "Nubie / Soudan",
+      "temporality": "antique"
+    },
+    {
+      "id": "6",
+      "name": "Lyonesse",
+      "region": "Atlantide celtique (légendaire)",
+      "temporality": "abyssal"
+    },
+    {
+      "id": "7",
+      "name": "Atlantide Lumineuse",
+      "region": "Océan Atlantique (mythologique)",
+      "temporality": "abyssal"
+    },
+    {
+      "id": "8",
+      "name": "Atlantide Abyssale",
+      "region": "Océan Atlantique profond (mythologique)",
+      "temporality": "abyssal"
+    },
+    {
+      "id": "9",
+      "name": "Akkad",
+      "region": "Mésopotamie (Empire akkadien)",
+      "temporality": "antique"
+    },
+    {
+      "id": "10",
+      "name": "Nubie",
+      "region": "Nubie / Haute-Égypte",
+      "temporality": "antique"
+    },
+    {
+      "id": "11",
+      "name": "Dilmun",
+      "region": "Golfe Persique (Bahreïn)",
+      "temporality": "antique"
+    },
+    {
+      "id": "12",
+      "name": "Umbria Arcana",
+      "region": "Dimension ombrale (conceptuelle)",
+      "temporality": "abyssal"
+    },
+    {
+      "id": "13",
+      "name": "Cryo-Atlas",
+      "region": "Régions glaciaires (conceptuelle)",
+      "temporality": "futuristic"
+    },
+    {
+      "id": "14",
+      "name": "November Humid",
+      "region": "Climat novembre humide (conceptuelle)",
+      "temporality": "futuristic"
+    },
+    {
+      "id": "15",
+      "name": "Sogdiane",
+      "region": "Asie Centrale (Route de la Soie)",
+      "temporality": "medieval"
+    },
+    {
+      "id": "16",
+      "name": "Grèce Sombre",
+      "region": "Grèce antique (aspect chthonien)",
+      "temporality": "antique"
+    },
+    {
+      "id": "17",
+      "name": "Lemuria",
+      "region": "Océan Indien / Pacifique (légendaire)",
+      "temporality": "abyssal"
+    },
+    {
+      "id": "18",
+      "name": "Mu",
+      "region": "Océan Pacifique (légendaire)",
+      "temporality": "abyssal"
+    },
+    {
+      "id": "19",
+      "name": "Thulé",
+      "region": "Extrême Nord (légendaire)",
+      "temporality": "archaic"
+    },
+    {
+      "id": "20",
+      "name": "Ophir",
+      "region": "Localisation incertaine (biblique)",
+      "temporality": "antique"
+    },
+    {
+      "id": "21",
+      "name": "Malabar",
+      "region": "Côte sud-ouest de l'Inde",
+      "temporality": "medieval"
+    },
+    {
+      "id": "22",
+      "name": "Nag Hammadi",
+      "region": "Haute-Égypte",
+      "temporality": "antique"
+    },
+    {
+      "id": "23",
+      "name": "Akrotiri",
+      "region": "Santorin / Théra (Grèce)",
+      "temporality": "antique"
+    },
+    {
+      "id": "24",
+      "name": "Sahara Antique",
+      "region": "Sahara (période humide)",
+      "temporality": "archaic"
+    },
+    {
+      "id": "25",
+      "name": "Himalaya Rituel",
+      "region": "Chaîne himalayenne",
+      "temporality": "medieval"
+    },
+    {
+      "id": "26",
+      "name": "Anthropocène",
+      "region": "Ère géologique actuelle",
+      "temporality": "futuristic"
+    },
+    {
+      "id": "30001",
+      "name": "Colombie",
+      "region": "Amérique du Sud - Colombie",
+      "temporality": "antique"
+    },
+    {
+      "id": "60001",
+      "name": "Perse Sassanide",
+      "region": "Iran / Mésopotamie",
+      "temporality": "antique"
+    },
+    {
+      "id": "60002",
+      "name": "Empire Ottoman",
+      "region": "Turquie / Balkans / Moyen-Orient",
+      "temporality": "medieval"
+    },
+    {
+      "id": "60003",
+      "name": "Royaume d'Ayutthaya",
+      "region": "Thaïlande / Asie du Sud-Est",
+      "temporality": "medieval"
+    },
+    {
+      "id": "60004",
+      "name": "Empire Majapahit",
+      "region": "Indonésie / Archipel malais",
+      "temporality": "medieval"
+    },
+    {
+      "id": "60005",
+      "name": "Empire Songhaï",
+      "region": "Afrique de l'Ouest / Sahel",
+      "temporality": "medieval"
+    },
+    {
+      "id": "60006",
+      "name": "Empire Aztèque",
+      "region": "Mésoamérique / Mexique central",
+      "temporality": "medieval"
+    },
+    {
+      "id": "60007",
+      "name": "Empire Inca",
+      "region": "Andes / Amérique du Sud",
+      "temporality": "medieval"
+    },
+    {
+      "id": "60008",
+      "name": "Polynésie Traditionnelle",
+      "region": "Pacifique / Océanie",
+      "temporality": "archaic"
+    },
+    {
+      "id": "60009",
+      "name": "Vikings et Scandinaves",
+      "region": "Scandinavie / Europe du Nord",
+      "temporality": "medieval"
+    },
+    {
+      "id": "60010",
+      "name": "Celtes Insulaires",
+      "region": "Îles Britanniques / Irlande",
+      "temporality": "archaic"
+    },
+    {
+      "id": "60011",
+      "name": "Royaume de Saba",
+      "region": "Yémen / Arabie du Sud",
+      "temporality": "antique"
+    },
+    {
+      "id": "60012",
+      "name": "Phénicie",
+      "region": "Liban / Méditerranée orientale",
+      "temporality": "antique"
+    },
+    {
+      "id": "60013",
+      "name": "Éthiopie Axoumite",
+      "region": "Corne de l'Afrique",
+      "temporality": "antique"
+    },
+    {
+      "id": "60014",
+      "name": "Japon Heian",
+      "region": "Japon",
+      "temporality": "medieval"
+    },
+    {
+      "id": "60015",
+      "name": "Inde Moghole",
+      "region": "Sous-continent indien",
+      "temporality": "medieval"
+    },
+    {
+      "id": "90001",
+      "name": "Égypte / Nil",
+      "region": "Afrique du Nord",
+      "temporality": "antique"
+    },
+    {
+      "id": "90002",
+      "name": "Nubie / Sahel",
+      "region": "Afrique subsaharienne",
+      "temporality": "antique"
+    },
+    {
+      "id": "90003",
+      "name": "Mésopotamie / Tigre-Euphrate",
+      "region": "Moyen-Orient",
+      "temporality": "archaic"
+    },
+    {
+      "id": "90004",
+      "name": "Levant / Canaanéen",
+      "region": "Moyen-Orient",
+      "temporality": "antique"
+    },
+    {
+      "id": "90005",
+      "name": "Anatolie / Tell",
+      "region": "Turquie",
+      "temporality": "antique"
+    },
+    {
+      "id": "90006",
+      "name": "Perse / Achéménide",
+      "region": "Iran",
+      "temporality": "antique"
+    },
+    {
+      "id": "90007",
+      "name": "Grèce mycénienne / Égéen",
+      "region": "Grèce",
+      "temporality": "antique"
+    },
+    {
+      "id": "90008",
+      "name": "Méditerranée résineuse",
+      "region": "Méditerranée",
+      "temporality": "antique"
+    },
+    {
+      "id": "90009",
+      "name": "Rome / Thermes",
+      "region": "Europe méridionale",
+      "temporality": "antique"
+    },
+    {
+      "id": "90010",
+      "name": "Byzance / Encens liturgique",
+      "region": "Europe orientale",
+      "temporality": "medieval"
+    },
+    {
+      "id": "90011",
+      "name": "Arabique / Attars",
+      "region": "Péninsule arabique",
+      "temporality": "medieval"
+    },
+    {
+      "id": "90012",
+      "name": "Inde / Temple",
+      "region": "Asie du Sud",
+      "temporality": "antique"
+    },
+    {
+      "id": "90013",
+      "name": "Himalaya / Monastique",
+      "region": "Himalaya",
+      "temporality": "medieval"
+    },
+    {
+      "id": "90014",
+      "name": "Chine / Encens lettré",
+      "region": "Asie orientale",
+      "temporality": "medieval"
+    },
+    {
+      "id": "90015",
+      "name": "Japon / Kōdō",
+      "region": "Asie orientale",
+      "temporality": "medieval"
+    },
+    {
+      "id": "90016",
+      "name": "Asie du Sud-Est / Tropical sacré",
+      "region": "Asie du Sud-Est",
+      "temporality": "medieval"
+    },
+    {
+      "id": "90017",
+      "name": "Océanique / Monoï-Tiaré",
+      "region": "Pacifique",
+      "temporality": "antique"
+    },
+    {
+      "id": "90018",
+      "name": "Celtique / Brumes",
+      "region": "Europe occidentale",
+      "temporality": "antique"
+    },
+    {
+      "id": "90019",
+      "name": "Nordique / Boréal",
+      "region": "Europe du Nord",
+      "temporality": "medieval"
+    },
+    {
+      "id": "90020",
+      "name": "Steppe / Routes",
+      "region": "Eurasie centrale",
+      "temporality": "medieval"
+    },
+    {
+      "id": "90021",
+      "name": "Désert / Ocre",
+      "region": "Afrique / Arabie",
+      "temporality": "antique"
+    },
+    {
+      "id": "90022",
+      "name": "Atlantique / Submergé",
+      "region": "Atlantique",
+      "temporality": "abyssal"
+    },
+    {
+      "id": "90023",
+      "name": "Abyssal / Hadal",
+      "region": "Océans profonds",
+      "temporality": "abyssal"
+    },
+    {
+      "id": "90024",
+      "name": "Volcanique / Basalte",
+      "region": "Zones volcaniques",
+      "temporality": "archaic"
+    },
+    {
+      "id": "90025",
+      "name": "Glaciaire / Cryo",
+      "region": "Zones polaires",
+      "temporality": "archaic"
+    },
+    {
+      "id": "90026",
+      "name": "Urbain / Industriel",
+      "region": "Global",
+      "temporality": "futuristic"
+    },
+    {
+      "id": "90027",
+      "name": "Archive / Bibliothèque",
+      "region": "Global",
+      "temporality": "medieval"
+    },
+    {
+      "id": "90028",
+      "name": "Sépulcral / Ossuaire",
+      "region": "Global",
+      "temporality": "archaic"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\ttemporality\n1\tÉgypte — Akhet\tÉgypte antique\tantique\n2\tMésopotamie — Shuruppak\tMésopotamie antique\tantique\n3\tMycène\tGrèce mycénienne\tantique\n4\tTell Halaf\tSyrie du Nord\tarchaic\n5\tMeroe\tNubie / Soudan\tantique\n6\tLyonesse\tAtlantide celtique (légendaire)\tabyssal\n7\tAtlantide Lumineuse\tOcéan Atlantique (mythologique)\tabyssal\n8\tAtlantide Abyssale\tOcéan Atlantique profond (mythologique)\tabyssal\n9\tAkkad\tMésopotamie (Empire akkadien)\tantique\n10\tNubie\tNubie / Haute-Égypte\tantique\n11\tDilmun\tGolfe Persique (Bahreïn)\tantique\n12\tUmbria Arcana\tDimension ombrale (conceptuelle)\tabyssal\n13\tCryo-Atlas\tRégions glaciaires (conceptuelle)\tfuturistic\n14\tNovember Humid\tClimat novembre humide (conceptuelle)\tfuturistic\n15\tSogdiane\tAsie Centrale (Route de la Soie)\tmedieval\n16\tGrèce Sombre\tGrèce antique (aspect chthonien)\tantique\n17\tLemuria\tOcéan Indien / Pacifique (légendaire)\tabyssal\n18\tMu\tOcéan Pacifique (légendaire)\tabyssal\n19\tThulé\tExtrême Nord (légendaire)\tarchaic\n20\tOphir\tLocalisation incertaine (biblique)\tantique\n21\tMalabar\tCôte sud-ouest de l'Inde\tmedieval\n22\tNag Hammadi\tHaute-Égypte\tantique\n23\tAkrotiri\tSantorin / Théra (Grèce)\tantique\n24\tSahara Antique\tSahara (période humide)\tarchaic\n25\tHimalaya Rituel\tChaîne himalayenne\tmedieval\n26\tAnthropocène\tÈre géologique actuelle\tfuturistic\n30001\tColombie\tAmérique du Sud - Colombie\tantique\n60001\tPerse Sassanide\tIran / Mésopotamie\tantique\n60002\tEmpire Ottoman\tTurquie / Balkans / Moyen-Orient\tmedieval\n60003\tRoyaume d'Ayutthaya\tThaïlande / Asie du Sud-Est\tmedieval\n60004\tEmpire Majapahit\tIndonésie / Archipel malais\tmedieval\n60005\tEmpire Songhaï\tAfrique de l'Ouest / Sahel\tmedieval\n60006\tEmpire Aztèque\tMésoamérique / Mexique central\tmedieval\n60007\tEmpire Inca\tAndes / Amérique du Sud\tmedieval\n60008\tPolynésie Traditionnelle\tPacifique / Océanie\tarchaic\n60009\tVikings et Scandinaves\tScandinavie / Europe du Nord\tmedieval\n60010\tCeltes Insulaires\tÎles Britanniques / Irlande\tarchaic\n60011\tRoyaume de Saba\tYémen / Arabie du Sud\tantique\n60012\tPhénicie\tLiban / Méditerranée orientale\tantique\n60013\tÉthiopie Axoumite\tCorne de l'Afrique\tantique\n60014\tJapon Heian\tJapon\tmedieval\n60015\tInde Moghole\tSous-continent indien\tmedieval\n90001\tÉgypte / Nil\tAfrique du Nord\tantique\n90002\tNubie / Sahel\tAfrique subsaharienne\tantique\n90003\tMésopotamie / Tigre-Euphrate\tMoyen-Orient\tarchaic\n90004\tLevant / Canaanéen\tMoyen-Orient\tantique\n90005\tAnatolie / Tell\tTurquie\tantique\n90006\tPerse / Achéménide\tIran\tantique\n90007\tGrèce mycénienne / Égéen\tGrèce\tantique\n90008\tMéditerranée résineuse\tMéditerranée\tantique\n90009\tRome / Thermes\tEurope méridionale\tantique\n90010\tByzance / Encens liturgique\tEurope orientale\tmedieval\n90011\tArabique / Attars\tPéninsule arabique\tmedieval\n90012\tInde / Temple\tAsie du Sud\tantique\n90013\tHimalaya / Monastique\tHimalaya\tmedieval\n90014\tChine / Encens lettré\tAsie orientale\tmedieval\n90015\tJapon / Kōdō\tAsie orientale\tmedieval\n90016\tAsie du Sud-Est / Tropical sacré\tAsie du Sud-Est\tmedieval\n90017\tOcéanique / Monoï-Tiaré\tPacifique\tantique\n90018\tCeltique / Brumes\tEurope occidentale\tantique\n90019\tNordique / Boréal\tEurope du Nord\tmedieval\n90020\tSteppe / Routes\tEurasie centrale\tmedieval\n90021\tDésert / Ocre\tAfrique / Arabie\tantique\n90022\tAtlantique / Submergé\tAtlantique\tabyssal\n90023\tAbyssal / Hadal\tOcéans profonds\tabyssal\n90024\tVolcanique / Basalte\tZones volcaniques\tarchaic\n90025\tGlaciaire / Cryo\tZones polaires\tarchaic\n90026\tUrbain / Industriel\tGlobal\tfuturistic\n90027\tArchive / Bibliothèque\tGlobal\tmedieval\n90028\tSépulcral / Ossuaire\tGlobal\tarchaic\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

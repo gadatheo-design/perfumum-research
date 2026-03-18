@@ -1,0 +1,90 @@
+{
+  "query": "\nSELECT id, name, chemicalFamily FROM molecules WHERE chemicalFamily = 'Norisoprénoïde' OR name LIKE '%Damasc%' OR name LIKE '%Solanone%' OR name LIKE '%Ionone%' LIMIT 15;\nSELECT COUNT(*) as total_molecules FROM molecules;\nSELECT COUNT(*) as total_plant_molecules FROM plant_molecules;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, chemicalFamily FROM molecules WHERE chemicalFamily = 'Norisoprénoïde' OR name LIKE '%Damasc%' OR name LIKE '%Solanone%' OR name LIKE '%Ionone%' LIMIT 15;\nSELECT COUNT(*) as total_molecules FROM molecules;\nSELECT COUNT(*) as total_plant_molecules FROM plant_molecules;\n",
+  "rows": [
+    {
+      "id": "90019",
+      "name": "Ionone β",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "90020",
+      "name": "Ionone γ",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "480007",
+      "name": "Ionone blanche",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "570021",
+      "name": "Alpha-Ionone",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "570022",
+      "name": "Méthyl Ionone Gamma",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "570032",
+      "name": "Damascone Beta",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "570044",
+      "name": "β-Damascénone",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "720021",
+      "name": "β-Ionone",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "720024",
+      "name": "β-Damascone",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "720025",
+      "name": "α-Damascone",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "720027",
+      "name": "Solanone",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "750002",
+      "name": "Damascenone",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "1380031",
+      "name": "Méthyl Ionone",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "1380032",
+      "name": "α-Méthyl Ionone",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "1710011",
+      "name": "Mégastigmatriénone (isomère 1)",
+      "chemicalFamily": "Norisoprénoïde"
+    }
+  ],
+  "messages": [
+    "total_molecules",
+    "827",
+    "total_plant_molecules",
+    "9878"
+  ],
+  "stdout": "id\tname\tchemicalFamily\n90019\tIonone β\tNULL\n90020\tIonone γ\tNULL\n480007\tIonone blanche\tNULL\n570021\tAlpha-Ionone\tNULL\n570022\tMéthyl Ionone Gamma\tNULL\n570032\tDamascone Beta\tNULL\n570044\tβ-Damascénone\tNULL\n720021\tβ-Ionone\tNULL\n720024\tβ-Damascone\tNULL\n720025\tα-Damascone\tNULL\n720027\tSolanone\tNULL\n750002\tDamascenone\tNULL\n1380031\tMéthyl Ionone\tNULL\n1380032\tα-Méthyl Ionone\tNULL\n1710011\tMégastigmatriénone (isomère 1)\tNorisoprénoïde\ntotal_molecules\n827\ntotal_plant_molecules\n9878\n",
+  "stderr": "",
+  "execution_time_ms": 97
+}

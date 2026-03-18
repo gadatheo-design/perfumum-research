@@ -1,0 +1,63 @@
+{
+  "query": "\nSELECT id, name, chemicalFamily FROM molecules WHERE chemicalFamily LIKE '%soufr%' OR chemicalFamily LIKE '%Soufr%' OR name LIKE '%thiol%' OR name LIKE '%sulfur%' OR name LIKE '%sulfide%' LIMIT 10;\nSELECT id, name FROM plants WHERE name LIKE '%Paeonia%' OR name LIKE '%Pivoine%' LIMIT 5;\nSELECT id, name, chemicalFamily FROM molecules WHERE name LIKE '%Paeonol%' OR name LIKE '%Paeoniflorin%' LIMIT 5;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, chemicalFamily FROM molecules WHERE chemicalFamily LIKE '%soufr%' OR chemicalFamily LIKE '%Soufr%' OR name LIKE '%thiol%' OR name LIKE '%sulfur%' OR name LIKE '%sulfide%' LIMIT 10;\nSELECT id, name FROM plants WHERE name LIKE '%Paeonia%' OR name LIKE '%Pivoine%' LIMIT 5;\nSELECT id, name, chemicalFamily FROM molecules WHERE name LIKE '%Paeonol%' OR name LIKE '%Paeoniflorin%' LIMIT 5;\n",
+  "rows": [
+    {
+      "id": "1320061",
+      "name": "Diallyl disulfide",
+      "chemicalFamily": "composé organosulfuré"
+    },
+    {
+      "id": "1320062",
+      "name": "Diallyl trisulfide",
+      "chemicalFamily": "composé organosulfuré"
+    },
+    {
+      "id": "1320209",
+      "name": "Dimethyl sulfide",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "1410035",
+      "name": "Ethanethiol",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "1410038",
+      "name": "1-(Ethylsulfanyl)ethane-1-thiol",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "1410042",
+      "name": "Hydrogen sulfide",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "1710020",
+      "name": "3-Méthylbutane-1-thiol",
+      "chemicalFamily": "Thiol aliphatique"
+    },
+    {
+      "id": "1710031",
+      "name": "Prénylthiol",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "1710032",
+      "name": "3,3-Diméthylhex-5-ène-1-thiol (DMHF-thiol)",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "1710035",
+      "name": "Diméthyl trisulfure (DMTS)",
+      "chemicalFamily": "NULL"
+    }
+  ],
+  "messages": [
+    "id\tname",
+    "1080002\tPivoine (Paeonia)"
+  ],
+  "stdout": "id\tname\tchemicalFamily\n1320061\tDiallyl disulfide\tcomposé organosulfuré\n1320062\tDiallyl trisulfide\tcomposé organosulfuré\n1320209\tDimethyl sulfide\tNULL\n1410035\tEthanethiol\tNULL\n1410038\t1-(Ethylsulfanyl)ethane-1-thiol\tNULL\n1410042\tHydrogen sulfide\tNULL\n1710020\t3-Méthylbutane-1-thiol\tThiol aliphatique\n1710031\tPrénylthiol\tNULL\n1710032\t3,3-Diméthylhex-5-ène-1-thiol (DMHF-thiol)\tNULL\n1710035\tDiméthyl trisulfure (DMTS)\tNULL\nid\tname\n1080002\tPivoine (Paeonia)\n",
+  "stderr": "",
+  "execution_time_ms": 90
+}

@@ -1,0 +1,67 @@
+{
+  "query": "\nSHOW TABLES LIKE '%tradition%';\nSHOW TABLES LIKE '%story%';\nSHOW TABLES LIKE '%recette%';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSHOW TABLES LIKE '%tradition%';\nSHOW TABLES LIKE '%story%';\nSHOW TABLES LIKE '%recette%';\n",
+  "rows": [
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "olfactory_traditions"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "traditions_olfactives"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%story%)"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "modification_history"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "story_elements"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "storylines"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%recette%)"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "installation_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "laboratoire_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "molecule_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "molecules_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "petrichor_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "recette_molecules"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "recette_raw_materials"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "recette_tabac_associations"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "recettes_formules_reference"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "tobacco_cannabis_accord_recettes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)": "volcanique_recettes"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%tradition%)\nolfactory_traditions\ntraditions_olfactives\nTables_in_H2pjHHJbH276XmnbNcJhCp (%story%)\nmodification_history\nstory_elements\nstorylines\nTables_in_H2pjHHJbH276XmnbNcJhCp (%recette%)\ninstallation_recettes\nlaboratoire_recettes\nmolecule_recettes\nmolecules_recettes\npetrichor_recettes\nrecette_molecules\nrecette_raw_materials\nrecette_tabac_associations\nrecettes\nrecettes_formules_reference\ntobacco_cannabis_accord_recettes\nvolcanique_recettes\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

@@ -1,0 +1,55 @@
+{
+  "query": "\nSELECT id, title, slug, status, narrative_axis FROM storylines ORDER BY id;\nSHOW COLUMNS FROM story_elements;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, title, slug, status, narrative_axis FROM storylines ORDER BY id;\nSHOW COLUMNS FROM story_elements;\n",
+  "rows": [
+    {
+      "id": "1",
+      "title": "La Route de l'Encens",
+      "slug": "route-encens",
+      "status": "active",
+      "narrative_axis": "route_encens"
+    },
+    {
+      "id": "2",
+      "title": "Tabac et Rituel Amérindien",
+      "slug": "tabac-rituel-amerindien",
+      "status": "active",
+      "narrative_axis": "tabac_rituel"
+    },
+    {
+      "id": "3",
+      "title": "Nardostachys — Le Nard Perdu",
+      "slug": "nardostachys-nard-perdu",
+      "status": "active",
+      "narrative_axis": "plantes_menacees"
+    },
+    {
+      "id": "4",
+      "title": "Burkina Faso — Combustion Lente",
+      "slug": "burkina-faso-combustion-lente",
+      "status": "active",
+      "narrative_axis": "corpus_regional"
+    },
+    {
+      "id": "5",
+      "title": "Atlas Mnémosyne — Mémoire Olfactive",
+      "slug": "atlas-mnemosyne",
+      "status": "draft",
+      "narrative_axis": "atlas_mnemosyne"
+    }
+  ],
+  "messages": [
+    "Field\tType\tNull\tKey\tDefault\tExtra",
+    "id\tint\tNO\tPRI\tNULL\tauto_increment",
+    "storyline_id\tint\tNO\t\tNULL\t",
+    "entity_type\tvarchar(30)\tNO\t\tNULL\t",
+    "entity_id\tint\tNO\t\tNULL\t",
+    "role_in_story\tvarchar(30)\tYES\t\tcontext\t",
+    "narrative_note\ttext\tYES\t\tNULL\t",
+    "sequence_order\tint\tYES\t\t0\t",
+    "created_at\tbigint\tNO\t\t0\t"
+  ],
+  "stdout": "id\ttitle\tslug\tstatus\tnarrative_axis\n1\tLa Route de l'Encens\troute-encens\tactive\troute_encens\n2\tTabac et Rituel Amérindien\ttabac-rituel-amerindien\tactive\ttabac_rituel\n3\tNardostachys — Le Nard Perdu\tnardostachys-nard-perdu\tactive\tplantes_menacees\n4\tBurkina Faso — Combustion Lente\tburkina-faso-combustion-lente\tactive\tcorpus_regional\n5\tAtlas Mnémosyne — Mémoire Olfactive\tatlas-mnemosyne\tdraft\tatlas_mnemosyne\nField\tType\tNull\tKey\tDefault\tExtra\nid\tint\tNO\tPRI\tNULL\tauto_increment\nstoryline_id\tint\tNO\t\tNULL\t\nentity_type\tvarchar(30)\tNO\t\tNULL\t\nentity_id\tint\tNO\t\tNULL\t\nrole_in_story\tvarchar(30)\tYES\t\tcontext\t\nnarrative_note\ttext\tYES\t\tNULL\t\nsequence_order\tint\tYES\t\t0\t\ncreated_at\tbigint\tNO\t\t0\t\n",
+  "stderr": "",
+  "execution_time_ms": 64
+}

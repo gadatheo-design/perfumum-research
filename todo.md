@@ -2382,3 +2382,39 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] BUG: PubChem ne trouve toujours pas les molécules malgré les corrections
 - [ ] BUG: Migration raw_materials — même erreur FK delete sur 22 entrées
 - [ ] BUG: Wikidata batch — pas de résultats retournés
+
+
+## SESSION 18 MARS 2026 — NOSE Phase A+B+C : od:L13, StoryLines, batch3
+
+### Phase A : Expériences olfactives od:L13 (26 entrées)
+- [x] Insérer 26 expériences olfactives (od:L13 Smell Experience)
+- [x] Couvrir 5 contextes : rituel, médical, artistique, quotidien, scientifique
+- [x] Couvrir 5 périodes : Antiquité, Moyen Âge, Renaissance, XIXe, Contemporain
+- [x] Lier aux plantes (encens, rose, jasmin, nard, tabac) et molécules
+- [x] Router tRPC olfactiveExperiences déjà existant et fonctionnel
+- [x] Page AdminNOSE avec onglet Expériences déjà existante
+
+### Phase B : StoryLines — 5 fils narratifs peuplés
+- [x] Mettre à jour les descriptions des 5 StoryLines
+- [x] Insérer 38 story_elements (8+8+7+7+8 par StoryLine)
+- [x] StoryLine 1 : La Route de l'Encens (8 éléments : plantes + molécules)
+- [x] StoryLine 2 : Tabac et Rituel Amérindien (8 éléments)
+- [x] StoryLine 3 : Nardostachys — Le Nard Perdu (7 éléments)
+- [x] StoryLine 4 : Burkina Faso — Combustion Lente (7 éléments)
+- [x] StoryLine 5 : Atlas Mnémosyne — Mémoire Olfactive (8 éléments)
+
+### Phase C : Enrichissement moléculaire batch3
+- [x] Mise à jour familles chimiques : 9 composés soufrés (Thiol terpénique, Polysulfure, etc.)
+- [x] Mise à jour familles chimiques : 14 norisoprénoïdes (Ionones, Damascones, Solanone)
+- [x] Terpènes Paeonia : 13 molécules + 8 liaisons (Paeonol, Paeoniflorin, Benzoate de benzyle...)
+- [x] Composés soufrés prénylés : 5 molécules + 20 liaisons cannabis (3MBT, 4MPT, DMDS, FFT...)
+- [x] Descriptions notes pour 5 thiols clés (3MBT, DMHF-thiol, 4MSP, DMTS, 3MH)
+
+### Statistiques finales
+- Molécules totales : 834 (+7 nouvelles)
+- Liaisons plante-molécule : 9906 (+28 nouvelles)
+- Molécules avec famille chimique : 283
+- Norisoprénoïdes classifiés : 15
+- Story elements : 38 (5 StoryLines actives)
+- Expériences olfactives od:L13 : 26
+

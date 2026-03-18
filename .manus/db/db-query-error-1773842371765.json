@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT id, code, name, period, region, civilization, start_year, end_year FROM olfactory_traditions ORDER BY start_year;\nSELECT id, title, slug, summary FROM storylines ORDER BY order_index;\nSELECT COUNT(*) as total FROM olfactive_experiences;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, code, name, period, region, civilization, start_year, end_year FROM olfactory_traditions ORDER BY start_year;\nSELECT id, title, slug, summary FROM storylines ORDER BY order_index;\nSELECT COUNT(*) as total FROM olfactive_experiences;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 3: Unknown column 'order_index' in 'order clause'"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "query": "\nSELECT id, name FROM plants WHERE name IN ('Rosa damascena','Boswellia sacra','Commiphora myrrha','Cannabis sativa','Nicotiana tabacum','Nardostachys jatamansi','Cinnamomum verum','Syzygium aromaticum') LIMIT 10;\nSELECT id, name FROM molecules WHERE name IN ('Cinnamaldéhyde','Muscone','Ambroxan','Linalol','Myrcène','α-Pinène','β-Caryophyllène','Géraniol','Eugénol') LIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name FROM plants WHERE name IN ('Rosa damascena','Boswellia sacra','Commiphora myrrha','Cannabis sativa','Nicotiana tabacum','Nardostachys jatamansi','Cinnamomum verum','Syzygium aromaticum') LIMIT 10;\nSELECT id, name FROM molecules WHERE name IN ('Cinnamaldéhyde','Muscone','Ambroxan','Linalol','Myrcène','α-Pinène','β-Caryophyllène','Géraniol','Eugénol') LIMIT 10;\n",
+  "rows": [
+    {
+      "id": "3",
+      "name": "Ambroxan"
+    },
+    {
+      "id": "570043",
+      "name": "Cinnamaldéhyde"
+    },
+    {
+      "id": "570039",
+      "name": "Eugénol"
+    },
+    {
+      "id": "1710039",
+      "name": "Géraniol"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol"
+    },
+    {
+      "id": "330001",
+      "name": "Muscone"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène"
+    },
+    {
+      "id": "30008",
+      "name": "α-Pinène"
+    },
+    {
+      "id": "30005",
+      "name": "β-Caryophyllène"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n3\tAmbroxan\n570043\tCinnamaldéhyde\n570039\tEugénol\n1710039\tGéraniol\n30002\tLinalol\n330001\tMuscone\n30006\tMyrcène\n30008\tα-Pinène\n30005\tβ-Caryophyllène\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

@@ -1,0 +1,126 @@
+{
+  "query": "\nSELECT id, name FROM plants WHERE id IN (30014, 150011, 150008, 270002, 270010, 690259, 330002, 330003, 330004, 330005, 180003, 30012, 210016, 270004, 480024, 30011);\nSELECT id, name FROM molecules WHERE id IN (30008, 30005, 750002, 90019, 30006, 1380027, 780010, 780018, 90054, 30002, 3, 1710039);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name FROM plants WHERE id IN (30014, 150011, 150008, 270002, 270010, 690259, 330002, 330003, 330004, 330005, 180003, 30012, 210016, 270004, 480024, 30011);\nSELECT id, name FROM molecules WHERE id IN (30008, 30005, 750002, 90019, 30006, 1380027, 780010, 780018, 90054, 30002, 3, 1710039);\n",
+  "rows": [
+    {
+      "id": "30014",
+      "name": "Encens / Oliban"
+    },
+    {
+      "id": "150011",
+      "name": "Myrrhe"
+    },
+    {
+      "id": "150008",
+      "name": "Oliban (Encens)"
+    },
+    {
+      "id": "270002",
+      "name": "Encens d'Éthiopie"
+    },
+    {
+      "id": "270010",
+      "name": "Opoponax (Myrrhe douce)"
+    },
+    {
+      "id": "690259",
+      "name": "Oliban (Boswellia serrata)"
+    },
+    {
+      "id": "330002",
+      "name": "Tabac cultivé"
+    },
+    {
+      "id": "330003",
+      "name": "Nicotiana benthamiana"
+    },
+    {
+      "id": "330004",
+      "name": "Wild tobacco"
+    },
+    {
+      "id": "330005",
+      "name": "Nicotiana sylvestris"
+    },
+    {
+      "id": "180003",
+      "name": "Nard (Spikenard)"
+    },
+    {
+      "id": "30012",
+      "name": "Patchouli"
+    },
+    {
+      "id": "210016",
+      "name": "Encens ouest-africain"
+    },
+    {
+      "id": "270004",
+      "name": "Encens négligé"
+    },
+    {
+      "id": "480024",
+      "name": "Rosa × damascena (rose de Damas)"
+    },
+    {
+      "id": "30011",
+      "name": "Jasmin grandiflorum"
+    },
+    {
+      "id": "id",
+      "name": "name"
+    },
+    {
+      "id": "30008",
+      "name": "α-Pinène"
+    },
+    {
+      "id": "30005",
+      "name": "β-Caryophyllène"
+    },
+    {
+      "id": "750002",
+      "name": "Damascenone"
+    },
+    {
+      "id": "90019",
+      "name": "Ionone β"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène"
+    },
+    {
+      "id": "1380027",
+      "name": "Nardol"
+    },
+    {
+      "id": "780010",
+      "name": "Nardosinone"
+    },
+    {
+      "id": "780018",
+      "name": "Nardosinonediol"
+    },
+    {
+      "id": "90054",
+      "name": "Patchoulol"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol"
+    },
+    {
+      "id": "3",
+      "name": "Ambroxan"
+    },
+    {
+      "id": "1710039",
+      "name": "Géraniol"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n30014\tEncens / Oliban\n150011\tMyrrhe\n150008\tOliban (Encens)\n270002\tEncens d'Éthiopie\n270010\tOpoponax (Myrrhe douce)\n690259\tOliban (Boswellia serrata)\n330002\tTabac cultivé\n330003\tNicotiana benthamiana\n330004\tWild tobacco\n330005\tNicotiana sylvestris\n180003\tNard (Spikenard)\n30012\tPatchouli\n210016\tEncens ouest-africain\n270004\tEncens négligé\n480024\tRosa × damascena (rose de Damas)\n30011\tJasmin grandiflorum\nid\tname\n30008\tα-Pinène\n30005\tβ-Caryophyllène\n750002\tDamascenone\n90019\tIonone β\n30006\tMyrcène\n1380027\tNardol\n780010\tNardosinone\n780018\tNardosinonediol\n90054\tPatchoulol\n30002\tLinalol\n3\tAmbroxan\n1710039\tGéraniol\n",
+  "stderr": "",
+  "execution_time_ms": 67
+}

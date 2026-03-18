@@ -1,0 +1,38 @@
+{
+  "query": "\nSELECT id, name FROM plants WHERE name LIKE '%Rosa%' OR name LIKE '%Boswellia%' OR name LIKE '%Commiphora%' OR name LIKE '%Cannabis%' OR name LIKE '%Nardostachys%' OR name LIKE '%Cinnamomum%' OR name LIKE '%Syzygium%' OR name LIKE '%Vetiver%' OR name LIKE '%Santalum%' OR name LIKE '%Lavandula%' LIMIT 15;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name FROM plants WHERE name LIKE '%Rosa%' OR name LIKE '%Boswellia%' OR name LIKE '%Commiphora%' OR name LIKE '%Cannabis%' OR name LIKE '%Nardostachys%' OR name LIKE '%Cinnamomum%' OR name LIKE '%Syzygium%' OR name LIKE '%Vetiver%' OR name LIKE '%Santalum%' OR name LIKE '%Lavandula%' LIMIT 15;\n",
+  "rows": [
+    {
+      "id": "210030",
+      "name": "Cannabis feuille sèche #3"
+    },
+    {
+      "id": "210039",
+      "name": "Commiphora"
+    },
+    {
+      "id": "330001",
+      "name": "Cannabis"
+    },
+    {
+      "id": "480024",
+      "name": "Rosa × damascena (rose de Damas)"
+    },
+    {
+      "id": "630016",
+      "name": "Commiphora africain"
+    },
+    {
+      "id": "690259",
+      "name": "Oliban (Boswellia serrata)"
+    },
+    {
+      "id": "1020005",
+      "name": "Cedro Rosado"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n210030\tCannabis feuille sèche #3\n210039\tCommiphora\n330001\tCannabis\n480024\tRosa × damascena (rose de Damas)\n630016\tCommiphora africain\n690259\tOliban (Boswellia serrata)\n1020005\tCedro Rosado\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

@@ -1,0 +1,210 @@
+{
+  "query": "\nSHOW COLUMNS FROM olfactive_experiences;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSHOW COLUMNS FROM olfactive_experiences;\n",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "plant_id",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "molecule_id",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "emission_id",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "experiencer_type",
+      "Type": "enum('individual','collective','historical','fictional','scientific')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "individual",
+      "Extra": ""
+    },
+    {
+      "Field": "experiencer_name",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "period_label",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "year_approx",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "date_exact",
+      "Type": "date",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "place_name",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "place_country",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "geographic_context",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "perception_label",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "perception_valence",
+      "Type": "enum('positive','negative','neutral','ambivalent')",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "perception_intensity",
+      "Type": "enum('faible','modéré','fort','très_fort')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "context_type",
+      "Type": "enum('rituel','médical','culinaire','cosmétique','industriel','artistique','quotidien','funéraire','autre')",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "context_description",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "source_text",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "source_reference",
+      "Type": "varchar(500)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "source_language",
+      "Type": "varchar(50)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "source_type",
+      "Type": "enum('litteraire','scientifique','ethnographique','oral','iconographique','archéologique','personnel')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "confidence_level",
+      "Type": "enum('haute','moyenne','basse','hypothétique')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "moyenne",
+      "Extra": ""
+    },
+    {
+      "Field": "created_at",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updated_at",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint\tNO\tPRI\tNULL\tauto_increment\nplant_id\tint\tYES\tMUL\tNULL\t\nmolecule_id\tint\tYES\tMUL\tNULL\t\nemission_id\tint\tYES\t\tNULL\t\nexperiencer_type\tenum('individual','collective','historical','fictional','scientific')\tNO\t\tindividual\t\nexperiencer_name\tvarchar(255)\tYES\t\tNULL\t\nperiod_label\tvarchar(255)\tYES\t\tNULL\t\nyear_approx\tint\tYES\tMUL\tNULL\t\ndate_exact\tdate\tYES\t\tNULL\t\nplace_name\tvarchar(255)\tYES\t\tNULL\t\nplace_country\tvarchar(100)\tYES\t\tNULL\t\ngeographic_context\ttext\tYES\t\tNULL\t\nperception_label\tvarchar(255)\tYES\t\tNULL\t\nperception_valence\tenum('positive','negative','neutral','ambivalent')\tYES\tMUL\tNULL\t\nperception_intensity\tenum('faible','modéré','fort','très_fort')\tYES\t\tNULL\t\ncontext_type\tenum('rituel','médical','culinaire','cosmétique','industriel','artistique','quotidien','funéraire','autre')\tYES\tMUL\tNULL\t\ncontext_description\ttext\tYES\t\tNULL\t\nsource_text\ttext\tYES\t\tNULL\t\nsource_reference\tvarchar(500)\tYES\t\tNULL\t\nsource_language\tvarchar(50)\tYES\t\tNULL\t\nsource_type\tenum('litteraire','scientifique','ethnographique','oral','iconographique','archéologique','personnel')\tYES\t\tNULL\t\nnotes\ttext\tYES\t\tNULL\t\nconfidence_level\tenum('haute','moyenne','basse','hypothétique')\tYES\t\tmoyenne\t\ncreated_at\ttimestamp\tYES\t\tCURRENT_TIMESTAMP\t\nupdated_at\ttimestamp\tYES\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

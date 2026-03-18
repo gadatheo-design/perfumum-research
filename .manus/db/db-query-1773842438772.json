@@ -1,0 +1,150 @@
+{
+  "query": "\nSELECT id, name, region, temporality, longDescription FROM traditions_olfactives ORDER BY id LIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, region, temporality, longDescription FROM traditions_olfactives ORDER BY id LIMIT 20;\n",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Égypte — Akhet",
+      "region": "Égypte antique",
+      "temporality": "antique",
+      "longDescription": "Climat solaire sec. Sol de pierre blanche et kaolin. Molécules dominantes: myrrhe claire, résine dorée. Tabacs compatibles: Virginia Gold, Bright. Atmosphère lumineuse et minérale, évoquant les temples de pierre blanche sous le soleil égyptien."
+    },
+    {
+      "id": "2",
+      "name": "Mésopotamie — Shuruppak",
+      "region": "Mésopotamie antique",
+      "temporality": "antique",
+      "longDescription": "Climat de poussière chaude. Sol d'argile rouge et terre ocre. Molécules: bitume, argile brûlée, poterie brûlée. Tabacs: Burley, Krumovgrad. Atmosphère tellurique et sombre, évoquant les ziggourats et les tablettes d'argile de Sumer."
+    },
+    {
+      "id": "3",
+      "name": "Mycène",
+      "region": "Grèce mycénienne",
+      "temporality": "antique",
+      "longDescription": "Climat méditerranéen sec. Molécules: ionone, lactones. Tabacs: Italia, Samsoun. Atmosphère de figue sèche et d'ambre, évoquant les palais mycéniens et les tablettes linéaires B."
+    },
+    {
+      "id": "4",
+      "name": "Tell Halaf",
+      "region": "Syrie du Nord",
+      "temporality": "archaic",
+      "longDescription": "Sol d'argile humide. Tabacs: Krumovgrad, Italia. Atmosphère de terre archéologique et humus profond. Site néolithique de Syrie du Nord."
+    },
+    {
+      "id": "5",
+      "name": "Meroe",
+      "region": "Nubie / Soudan",
+      "temporality": "antique",
+      "longDescription": "Climat sec et résineux. Sol de sable ocre. Molécules: myrrhe noire, résine solaire. Tabac: Burley. Royaume nubien au sud de l'Égypte, connu pour ses pyramides et son commerce de résines."
+    },
+    {
+      "id": "6",
+      "name": "Lyonesse",
+      "region": "Atlantide celtique (légendaire)",
+      "temporality": "abyssal",
+      "longDescription": "Climat humide avec aldéhydes. Sol de pierre blanche immergée. Molécules: aldéhydes givrés, minéral blanc. Tabac: Bright. Terre légendaire engloutie au large de la Cornouailles, atmosphère marine et aldéhydique."
+    },
+    {
+      "id": "7",
+      "name": "Atlantide Lumineuse",
+      "region": "Océan Atlantique (mythologique)",
+      "temporality": "abyssal",
+      "longDescription": "Climat froid et océanique profond. Sol de calcite et sel blanc. Molécules: ambrox, ozone, aldéhydes propres. Tabacs: Bright, Italia. Civilisation immergée lumineuse, atmosphère minérale et aquatique."
+    },
+    {
+      "id": "8",
+      "name": "Atlantide Abyssale",
+      "region": "Océan Atlantique profond (mythologique)",
+      "temporality": "abyssal",
+      "longDescription": "Version sombre et profonde d'Atlantide. Notes marines, kelp, sel, corail, calone naturelle, ambergris. Royaume des civilisations englouties dans les abysses océaniques."
+    },
+    {
+      "id": "9",
+      "name": "Akkad",
+      "region": "Mésopotamie (Empire akkadien)",
+      "temporality": "antique",
+      "longDescription": "Atmosphère de bitume sacré. Tabac: Burley. Empire de Sargon d'Akkad, première entité politique unifiée de Mésopotamie."
+    },
+    {
+      "id": "10",
+      "name": "Nubie",
+      "region": "Nubie / Haute-Égypte",
+      "temporality": "antique",
+      "longDescription": "Climat chaud et résineux. Sol de terre ocre chaude solaire. Molécules: ambre, encens solaire. Tabacs: Gold, Orange. Royaume nubien au sud de l'Égypte."
+    },
+    {
+      "id": "11",
+      "name": "Dilmun",
+      "region": "Golfe Persique (Bahreïn)",
+      "temporality": "antique",
+      "longDescription": "Civilisation du commerce des résines dans le Golfe Persique. Mentionnée dans les textes sumériens comme terre d'immortalité et de commerce."
+    },
+    {
+      "id": "12",
+      "name": "Umbria Arcana",
+      "region": "Dimension ombrale (conceptuelle)",
+      "temporality": "abyssal",
+      "longDescription": "Civilisation conceptuelle de l'ombre et de l'obscurité. Atmosphère de voile et d'obscurité, exploration des matières impossibles."
+    },
+    {
+      "id": "13",
+      "name": "Cryo-Atlas",
+      "region": "Régions glaciaires (conceptuelle)",
+      "temporality": "futuristic",
+      "longDescription": "Civilisation des régions glaciaires. Molécules: minéral froid, aldéhydes. Tabac: Deutscher. Atmosphère de pierre froide et d'aldéhydes givrés."
+    },
+    {
+      "id": "14",
+      "name": "November Humid",
+      "region": "Climat novembre humide (conceptuelle)",
+      "temporality": "futuristic",
+      "longDescription": "Civilisation atmosphérique du mois de novembre. Climat humide, terre mouillée, atmosphère de brume et de décomposition végétale."
+    },
+    {
+      "id": "15",
+      "name": "Sogdiane",
+      "region": "Asie Centrale (Route de la Soie)",
+      "temporality": "medieval",
+      "longDescription": "Civilisation de la Route de la Soie. Commerce des épices, résines et parfums entre Orient et Occident. Atmosphère de caravansérails et de marchés aux épices."
+    },
+    {
+      "id": "16",
+      "name": "Grèce Sombre",
+      "region": "Grèce antique (aspect chthonien)",
+      "temporality": "antique",
+      "longDescription": "Aspect chthonien et mystérique de la Grèce antique. Cultes à mystères, descente aux enfers, atmosphère de cavernes et de rituels nocturnes."
+    },
+    {
+      "id": "17",
+      "name": "Lemuria",
+      "region": "Océan Indien / Pacifique (légendaire)",
+      "temporality": "abyssal",
+      "longDescription": "Continent légendaire englouti dans l'océan Indien ou Pacifique. Hypothèse du XIXe siècle pour expliquer la distribution des lémuriens."
+    },
+    {
+      "id": "18",
+      "name": "Mu",
+      "region": "Océan Pacifique (légendaire)",
+      "temporality": "abyssal",
+      "longDescription": "Continent légendaire du Pacifique. Civilisation avancée engloutie, mentionnée dans les théories ésotériques du XXe siècle."
+    },
+    {
+      "id": "19",
+      "name": "Thulé",
+      "region": "Extrême Nord (légendaire)",
+      "temporality": "archaic",
+      "longDescription": "Terre légendaire de l'extrême nord mentionnée par les Grecs anciens. Ultima Thule, limite du monde connu."
+    },
+    {
+      "id": "20",
+      "name": "Ophir",
+      "region": "Localisation incertaine (biblique)",
+      "temporality": "antique",
+      "longDescription": "Terre biblique riche en or et en matières précieuses. Destination des expéditions du roi Salomon."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\ttemporality\tlongDescription\n1\tÉgypte — Akhet\tÉgypte antique\tantique\tClimat solaire sec. Sol de pierre blanche et kaolin. Molécules dominantes: myrrhe claire, résine dorée. Tabacs compatibles: Virginia Gold, Bright. Atmosphère lumineuse et minérale, évoquant les temples de pierre blanche sous le soleil égyptien.\n2\tMésopotamie — Shuruppak\tMésopotamie antique\tantique\tClimat de poussière chaude. Sol d'argile rouge et terre ocre. Molécules: bitume, argile brûlée, poterie brûlée. Tabacs: Burley, Krumovgrad. Atmosphère tellurique et sombre, évoquant les ziggourats et les tablettes d'argile de Sumer.\n3\tMycène\tGrèce mycénienne\tantique\tClimat méditerranéen sec. Molécules: ionone, lactones. Tabacs: Italia, Samsoun. Atmosphère de figue sèche et d'ambre, évoquant les palais mycéniens et les tablettes linéaires B.\n4\tTell Halaf\tSyrie du Nord\tarchaic\tSol d'argile humide. Tabacs: Krumovgrad, Italia. Atmosphère de terre archéologique et humus profond. Site néolithique de Syrie du Nord.\n5\tMeroe\tNubie / Soudan\tantique\tClimat sec et résineux. Sol de sable ocre. Molécules: myrrhe noire, résine solaire. Tabac: Burley. Royaume nubien au sud de l'Égypte, connu pour ses pyramides et son commerce de résines.\n6\tLyonesse\tAtlantide celtique (légendaire)\tabyssal\tClimat humide avec aldéhydes. Sol de pierre blanche immergée. Molécules: aldéhydes givrés, minéral blanc. Tabac: Bright. Terre légendaire engloutie au large de la Cornouailles, atmosphère marine et aldéhydique.\n7\tAtlantide Lumineuse\tOcéan Atlantique (mythologique)\tabyssal\tClimat froid et océanique profond. Sol de calcite et sel blanc. Molécules: ambrox, ozone, aldéhydes propres. Tabacs: Bright, Italia. Civilisation immergée lumineuse, atmosphère minérale et aquatique.\n8\tAtlantide Abyssale\tOcéan Atlantique profond (mythologique)\tabyssal\tVersion sombre et profonde d'Atlantide. Notes marines, kelp, sel, corail, calone naturelle, ambergris. Royaume des civilisations englouties dans les abysses océaniques.\n9\tAkkad\tMésopotamie (Empire akkadien)\tantique\tAtmosphère de bitume sacré. Tabac: Burley. Empire de Sargon d'Akkad, première entité politique unifiée de Mésopotamie.\n10\tNubie\tNubie / Haute-Égypte\tantique\tClimat chaud et résineux. Sol de terre ocre chaude solaire. Molécules: ambre, encens solaire. Tabacs: Gold, Orange. Royaume nubien au sud de l'Égypte.\n11\tDilmun\tGolfe Persique (Bahreïn)\tantique\tCivilisation du commerce des résines dans le Golfe Persique. Mentionnée dans les textes sumériens comme terre d'immortalité et de commerce.\n12\tUmbria Arcana\tDimension ombrale (conceptuelle)\tabyssal\tCivilisation conceptuelle de l'ombre et de l'obscurité. Atmosphère de voile et d'obscurité, exploration des matières impossibles.\n13\tCryo-Atlas\tRégions glaciaires (conceptuelle)\tfuturistic\tCivilisation des régions glaciaires. Molécules: minéral froid, aldéhydes. Tabac: Deutscher. Atmosphère de pierre froide et d'aldéhydes givrés.\n14\tNovember Humid\tClimat novembre humide (conceptuelle)\tfuturistic\tCivilisation atmosphérique du mois de novembre. Climat humide, terre mouillée, atmosphère de brume et de décomposition végétale.\n15\tSogdiane\tAsie Centrale (Route de la Soie)\tmedieval\tCivilisation de la Route de la Soie. Commerce des épices, résines et parfums entre Orient et Occident. Atmosphère de caravansérails et de marchés aux épices.\n16\tGrèce Sombre\tGrèce antique (aspect chthonien)\tantique\tAspect chthonien et mystérique de la Grèce antique. Cultes à mystères, descente aux enfers, atmosphère de cavernes et de rituels nocturnes.\n17\tLemuria\tOcéan Indien / Pacifique (légendaire)\tabyssal\tContinent légendaire englouti dans l'océan Indien ou Pacifique. Hypothèse du XIXe siècle pour expliquer la distribution des lémuriens.\n18\tMu\tOcéan Pacifique (légendaire)\tabyssal\tContinent légendaire du Pacifique. Civilisation avancée engloutie, mentionnée dans les théories ésotériques du XXe siècle.\n19\tThulé\tExtrême Nord (légendaire)\tarchaic\tTerre légendaire de l'extrême nord mentionnée par les Grecs anciens. Ultima Thule, limite du monde connu.\n20\tOphir\tLocalisation incertaine (biblique)\tantique\tTerre biblique riche en or et en matières précieuses. Destination des expéditions du roi Salomon.\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

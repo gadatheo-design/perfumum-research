@@ -1,0 +1,30 @@
+{
+  "query": "\nSELECT id, title FROM storylines LIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, title FROM storylines LIMIT 10;\n",
+  "rows": [
+    {
+      "id": "1",
+      "title": "La Route de l'Encens"
+    },
+    {
+      "id": "2",
+      "title": "Tabac et Rituel Amérindien"
+    },
+    {
+      "id": "3",
+      "title": "Nardostachys — Le Nard Perdu"
+    },
+    {
+      "id": "4",
+      "title": "Burkina Faso — Combustion Lente"
+    },
+    {
+      "id": "5",
+      "title": "Atlas Mnémosyne — Mémoire Olfactive"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\n1\tLa Route de l'Encens\n2\tTabac et Rituel Amérindien\n3\tNardostachys — Le Nard Perdu\n4\tBurkina Faso — Combustion Lente\n5\tAtlas Mnémosyne — Mémoire Olfactive\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}

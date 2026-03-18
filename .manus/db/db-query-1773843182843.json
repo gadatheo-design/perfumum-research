@@ -1,0 +1,58 @@
+{
+  "query": "\nSELECT id, name FROM molecules WHERE id IN (90019, 30006, 1380027, 780010, 780018, 90054, 30002, 3, 1710039);\nSELECT id, name FROM plants WHERE id IN (210039, 630016);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name FROM molecules WHERE id IN (90019, 30006, 1380027, 780010, 780018, 90054, 30002, 3, 1710039);\nSELECT id, name FROM plants WHERE id IN (210039, 630016);\n",
+  "rows": [
+    {
+      "id": "90019",
+      "name": "Ionone β"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène"
+    },
+    {
+      "id": "1380027",
+      "name": "Nardol"
+    },
+    {
+      "id": "780010",
+      "name": "Nardosinone"
+    },
+    {
+      "id": "780018",
+      "name": "Nardosinonediol"
+    },
+    {
+      "id": "90054",
+      "name": "Patchoulol"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol"
+    },
+    {
+      "id": "3",
+      "name": "Ambroxan"
+    },
+    {
+      "id": "1710039",
+      "name": "Géraniol"
+    },
+    {
+      "id": "id",
+      "name": "name"
+    },
+    {
+      "id": "210039",
+      "name": "Commiphora"
+    },
+    {
+      "id": "630016",
+      "name": "Commiphora africain"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n90019\tIonone β\n30006\tMyrcène\n1380027\tNardol\n780010\tNardosinone\n780018\tNardosinonediol\n90054\tPatchoulol\n30002\tLinalol\n3\tAmbroxan\n1710039\tGéraniol\nid\tname\n210039\tCommiphora\n630016\tCommiphora africain\n",
+  "stderr": "",
+  "execution_time_ms": 70
+}

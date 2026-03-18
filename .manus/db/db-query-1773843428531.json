@@ -1,0 +1,38 @@
+{
+  "query": "\nSELECT id, name, chemicalFamily FROM molecules WHERE id IN (1710031, 1710032, 1710033, 1710034, 1710035, 1710036, 1710037, 1710038) OR name LIKE '%Prényl%' OR name LIKE '%prenyl%';\nSELECT id, name, chemicalFamily FROM molecules WHERE name LIKE '%Paeonol%' OR name LIKE '%Paeoniflorin%' OR name LIKE '%Paeoni%';\nSELECT COUNT(*) as total FROM plant_molecules WHERE plant_id = 1080002;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, chemicalFamily FROM molecules WHERE id IN (1710031, 1710032, 1710033, 1710034, 1710035, 1710036, 1710037, 1710038) OR name LIKE '%Prényl%' OR name LIKE '%prenyl%';\nSELECT id, name, chemicalFamily FROM molecules WHERE name LIKE '%Paeonol%' OR name LIKE '%Paeoniflorin%' OR name LIKE '%Paeoni%';\nSELECT COUNT(*) as total FROM plant_molecules WHERE plant_id = 1080002;\n",
+  "rows": [
+    {
+      "id": "1710031",
+      "name": "Prénylthiol",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "1710032",
+      "name": "3,3-Diméthylhex-5-ène-1-thiol (DMHF-thiol)",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "1710033",
+      "name": "4-Méthyl-4-sulfanylpentan-2-one (4MSP)",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "1710035",
+      "name": "Diméthyl trisulfure (DMTS)",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "1710036",
+      "name": "Acide 3-mercaptohexanoïque (3MH)",
+      "chemicalFamily": "NULL"
+    }
+  ],
+  "messages": [
+    "total",
+    "20"
+  ],
+  "stdout": "id\tname\tchemicalFamily\n1710031\tPrénylthiol\tNULL\n1710032\t3,3-Diméthylhex-5-ène-1-thiol (DMHF-thiol)\tNULL\n1710033\t4-Méthyl-4-sulfanylpentan-2-one (4MSP)\tNULL\n1710035\tDiméthyl trisulfure (DMTS)\tNULL\n1710036\tAcide 3-mercaptohexanoïque (3MH)\tNULL\ntotal\n20\n",
+  "stderr": "",
+  "execution_time_ms": 68
+}

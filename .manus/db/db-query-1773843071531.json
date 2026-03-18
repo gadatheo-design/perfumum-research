@@ -1,0 +1,98 @@
+{
+  "query": "\nSELECT id, name FROM molecules WHERE name LIKE '%Humulène%' OR name LIKE '%Humulene%' OR name LIKE '%Caryophyllène%' OR name LIKE '%Myrcène%' LIMIT 10;\nSELECT id, name FROM plants WHERE name LIKE '%Boswellia%' OR name LIKE '%Oliban%' OR name LIKE '%Encens%' LIMIT 8;\nSELECT id, name FROM molecules WHERE name LIKE '%Damascénone%' OR name LIKE '%Damascenone%' OR name LIKE '%Ionone%' OR name LIKE '%Norisopréno%' LIMIT 8;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name FROM molecules WHERE name LIKE '%Humulène%' OR name LIKE '%Humulene%' OR name LIKE '%Caryophyllène%' OR name LIKE '%Myrcène%' LIMIT 10;\nSELECT id, name FROM plants WHERE name LIKE '%Boswellia%' OR name LIKE '%Oliban%' OR name LIKE '%Encens%' LIMIT 8;\nSELECT id, name FROM molecules WHERE name LIKE '%Damascénone%' OR name LIKE '%Damascenone%' OR name LIKE '%Ionone%' OR name LIKE '%Norisopréno%' LIMIT 8;\n",
+  "rows": [
+    {
+      "id": "720018",
+      "name": "Caryophyllène oxide"
+    },
+    {
+      "id": "1320193",
+      "name": "Humulene epoxide"
+    },
+    {
+      "id": "1410073",
+      "name": "Humulène"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène"
+    },
+    {
+      "id": "30005",
+      "name": "β-Caryophyllène"
+    },
+    {
+      "id": "id",
+      "name": "name"
+    },
+    {
+      "id": "30014",
+      "name": "Encens / Oliban"
+    },
+    {
+      "id": "150008",
+      "name": "Oliban (Encens)"
+    },
+    {
+      "id": "210016",
+      "name": "Encens ouest-africain"
+    },
+    {
+      "id": "270002",
+      "name": "Encens d'Éthiopie"
+    },
+    {
+      "id": "270003",
+      "name": "Encens de Rivae"
+    },
+    {
+      "id": "270004",
+      "name": "Encens négligé"
+    },
+    {
+      "id": "690259",
+      "name": "Oliban (Boswellia serrata)"
+    },
+    {
+      "id": "id",
+      "name": "name"
+    },
+    {
+      "id": "570021",
+      "name": "Alpha-Ionone"
+    },
+    {
+      "id": "750002",
+      "name": "Damascenone"
+    },
+    {
+      "id": "480007",
+      "name": "Ionone blanche"
+    },
+    {
+      "id": "90019",
+      "name": "Ionone β"
+    },
+    {
+      "id": "90020",
+      "name": "Ionone γ"
+    },
+    {
+      "id": "1380031",
+      "name": "Méthyl Ionone"
+    },
+    {
+      "id": "570022",
+      "name": "Méthyl Ionone Gamma"
+    },
+    {
+      "id": "1380032",
+      "name": "α-Méthyl Ionone"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n720018\tCaryophyllène oxide\n1320193\tHumulene epoxide\n1410073\tHumulène\n30006\tMyrcène\n30005\tβ-Caryophyllène\nid\tname\n30014\tEncens / Oliban\n150008\tOliban (Encens)\n210016\tEncens ouest-africain\n270002\tEncens d'Éthiopie\n270003\tEncens de Rivae\n270004\tEncens négligé\n690259\tOliban (Boswellia serrata)\nid\tname\n570021\tAlpha-Ionone\n750002\tDamascenone\n480007\tIonone blanche\n90019\tIonone β\n90020\tIonone γ\n1380031\tMéthyl Ionone\n570022\tMéthyl Ionone Gamma\n1380032\tα-Méthyl Ionone\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}
