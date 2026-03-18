@@ -1,0 +1,42 @@
+{
+  "query": "SELECT TABLE_NAME, COLUMN_NAME\nFROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE\nWHERE REFERENCED_TABLE_NAME = 'molecules'\n  AND TABLE_SCHEMA = DATABASE()\nORDER BY TABLE_NAME\nLIMIT 28 OFFSET 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT TABLE_NAME, COLUMN_NAME\nFROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE\nWHERE REFERENCED_TABLE_NAME = 'molecules'\n  AND TABLE_SCHEMA = DATABASE()\nORDER BY TABLE_NAME\nLIMIT 28 OFFSET 20;",
+  "rows": [
+    {
+      "TABLE_NAME": "raw_material_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "recette_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "synergies",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "tabac_molecules",
+      "COLUMN_NAME": "moleculeId"
+    },
+    {
+      "TABLE_NAME": "terp_profile_molecules",
+      "COLUMN_NAME": "molecule_id"
+    },
+    {
+      "TABLE_NAME": "terpene_synergies",
+      "COLUMN_NAME": "terpene2_id"
+    },
+    {
+      "TABLE_NAME": "terpene_synergies",
+      "COLUMN_NAME": "terpene1_id"
+    },
+    {
+      "TABLE_NAME": "volcanique_molecules",
+      "COLUMN_NAME": "moleculeId"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\tCOLUMN_NAME\nraw_material_molecules\tmolecule_id\nrecette_molecules\tmolecule_id\nsynergies\tmolecule_id\ntabac_molecules\tmoleculeId\nterp_profile_molecules\tmolecule_id\nterpene_synergies\tterpene2_id\nterpene_synergies\tterpene1_id\nvolcanique_molecules\tmoleculeId\n",
+  "stderr": "",
+  "execution_time_ms": 57
+}

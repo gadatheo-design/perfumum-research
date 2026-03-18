@@ -20,6 +20,42 @@ import { getDb } from "../db";
 import { molecules, rawMaterials } from "../../drizzle/schema";
 import { sql, eq } from "drizzle-orm";
 
+// Fonction utilitaire partagée : supprime toutes les FK d'une molécule avant DELETE
+async function deleteAllMoleculeFKs(db: Awaited<ReturnType<typeof getDb>>, molId: number) {
+  const fkDeleteSqls = [
+    sql`DELETE FROM plant_molecules WHERE molecule_id = ${molId}`,
+    sql`DELETE FROM molecule_plant_sources WHERE molecule_id = ${molId}`,
+    sql`DELETE FROM molecule_synergies WHERE molecule1_id = ${molId} OR molecule2_id = ${molId}`,
+    sql`DELETE FROM terpene_synergies WHERE terpene1_id = ${molId} OR terpene2_id = ${molId}`,
+    sql`DELETE FROM molecular_transformations WHERE source_molecule_id = ${molId} OR product_molecule_id = ${molId}`,
+    sql`DELETE FROM user_favorites WHERE molecule_id = ${molId}`,
+    sql`DELETE FROM recette_molecules WHERE molecule_id = ${molId}`,
+    sql`DELETE FROM prototype_molecules WHERE moleculeId = ${molId}`,
+    sql`DELETE FROM tabac_molecules WHERE moleculeId = ${molId}`,
+    sql`DELETE FROM molecule_accords WHERE moleculeId = ${molId}`,
+    sql`DELETE FROM molecule_families WHERE moleculeId = ${molId}`,
+    sql`DELETE FROM petrichor_molecules WHERE moleculeId = ${molId}`,
+    sql`DELETE FROM volcanique_molecules WHERE moleculeId = ${molId}`,
+    sql`DELETE FROM laboratoire_molecules WHERE moleculeId = ${molId}`,
+    sql`DELETE FROM molecule_chemical_families WHERE moleculeId = ${molId}`,
+    sql`DELETE FROM molecule_notes WHERE molecule_id = ${molId}`,
+    sql`DELETE FROM leaf_economy_molecules WHERE molecule_id = ${molId}`,
+    sql`DELETE FROM molecule_origins WHERE molecule_id = ${molId}`,
+    sql`DELETE FROM ifra_restrictions WHERE molecule_id = ${molId}`,
+    sql`DELETE FROM terp_profile_molecules WHERE molecule_id = ${molId}`,
+    sql`DELETE FROM raw_material_molecules WHERE molecule_id = ${molId}`,
+    sql`DELETE FROM tps_gene_molecules WHERE molecule_id = ${molId}`,
+    sql`DELETE FROM molecule_recettes WHERE moleculeId = ${molId}`,
+    sql`DELETE FROM publication_molecules WHERE molecule_id = ${molId}`,
+    sql`DELETE FROM molecule_perfumes WHERE molecule_id = ${molId}`,
+    sql`DELETE FROM synergies WHERE molecule_id = ${molId}`,
+    sql`DELETE FROM olfactive_experiences WHERE molecule_id = ${molId}`,
+  ];
+  for (const q of fkDeleteSqls) {
+    try { if (db) await db.execute(q); } catch (_) { /* ignore */ }
+  }
+}
+
 export const dataCleanupRouter = router({
   // Analyser les doublons
   analyzeDuplicates: publicProcedure.query(async () => {
@@ -350,40 +386,7 @@ export const dataCleanupRouter = router({
       const processed: string[] = [];
       const errors: string[] = [];
 
-      // Helper pour supprimer toutes les FK d'une molécule avant de la supprimer
-      const deleteAllFKs = async (molId: number) => {
-        const fkDeleteSqls = [
-          sql`DELETE FROM plant_molecules WHERE molecule_id = ${molId}`,
-          sql`DELETE FROM molecule_plant_sources WHERE molecule_id = ${molId}`,
-          sql`DELETE FROM molecule_synergies WHERE molecule1_id = ${molId} OR molecule2_id = ${molId}`,
-          sql`DELETE FROM terpene_synergies WHERE terpene1_id = ${molId} OR terpene2_id = ${molId}`,
-          sql`DELETE FROM molecular_transformations WHERE source_molecule_id = ${molId} OR product_molecule_id = ${molId}`,
-          sql`DELETE FROM user_favorites WHERE molecule_id = ${molId}`,
-          sql`DELETE FROM recette_molecules WHERE molecule_id = ${molId}`,
-          sql`DELETE FROM prototype_molecules WHERE moleculeId = ${molId}`,
-          sql`DELETE FROM tabac_molecules WHERE moleculeId = ${molId}`,
-          sql`DELETE FROM molecule_accords WHERE moleculeId = ${molId}`,
-          sql`DELETE FROM molecule_families WHERE moleculeId = ${molId}`,
-          sql`DELETE FROM petrichor_molecules WHERE moleculeId = ${molId}`,
-          sql`DELETE FROM volcanique_molecules WHERE moleculeId = ${molId}`,
-          sql`DELETE FROM laboratoire_molecules WHERE moleculeId = ${molId}`,
-          sql`DELETE FROM molecule_chemical_families WHERE moleculeId = ${molId}`,
-          sql`DELETE FROM molecule_notes WHERE molecule_id = ${molId}`,
-          sql`DELETE FROM leaf_economy_molecules WHERE molecule_id = ${molId}`,
-          sql`DELETE FROM molecule_origins WHERE molecule_id = ${molId}`,
-          sql`DELETE FROM ifra_restrictions WHERE molecule_id = ${molId}`,
-          sql`DELETE FROM terp_profile_molecules WHERE molecule_id = ${molId}`,
-          sql`DELETE FROM raw_material_molecules WHERE molecule_id = ${molId}`,
-          sql`DELETE FROM tps_gene_molecules WHERE molecule_id = ${molId}`,
-          sql`DELETE FROM molecule_recettes WHERE moleculeId = ${molId}`,
-          sql`DELETE FROM publication_molecules WHERE molecule_id = ${molId}`,
-          sql`DELETE FROM molecule_perfumes WHERE molecule_id = ${molId}`,
-          sql`DELETE FROM synergies WHERE molecule_id = ${molId}`,
-        ];
-        for (const q of fkDeleteSqls) {
-          try { await db.execute(q); } catch (_) { /* ignore */ }
-        }
-      };
+      // Utilise la fonction partagée deleteAllMoleculeFKs (définie au niveau module)
 
       for (const mol of toReclassify) {
         try {
@@ -426,7 +429,7 @@ export const dataCleanupRouter = router({
             }
           }
           // Supprimer toutes les FK avant de supprimer la molécule
-          await deleteAllFKs(mol.id);
+          await deleteAllMoleculeFKs(db, mol.id);
           await db.delete(molecules).where(eq(molecules.id, mol.id));
           processed.push(mol.name || `#${mol.id}`);
         } catch (e) {
@@ -443,6 +446,8 @@ export const dataCleanupRouter = router({
     .mutation(async ({ input }) => {
       const db = await getDb();
       if (!db) return { success: false as const };
+      // Nettoyer toutes les FK avant suppression (via fonction partagée)
+      await deleteAllMoleculeFKs(db, input.id);
       await db.delete(molecules).where(eq(molecules.id, input.id));
       return { success: true as const, deletedId: input.id };
     }),
