@@ -1,0 +1,101 @@
+{
+  "query": "\nSELECT id, name, latin_name, cites_appendix, sustainable_alternatives FROM plants WHERE conservation_status = 'EN' ORDER BY name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, latin_name, cites_appendix, sustainable_alternatives FROM plants WHERE conservation_status = 'EN' ORDER BY name;\n",
+  "rows": [
+    {
+      "id": "870010",
+      "name": "Acapulco Gold",
+      "latin_name": "Cannabis sativa var. indica 'Acapulco Gold'",
+      "cites_appendix": "NULL",
+      "sustainable_alternatives": "NULL"
+    },
+    {
+      "id": "870001",
+      "name": "Afghan Kush",
+      "latin_name": "Cannabis sativa subsp. indica var. afghanica 'Afghan Kush'",
+      "cites_appendix": "NULL",
+      "sustainable_alternatives": "NULL"
+    },
+    {
+      "id": "210040",
+      "name": "Aniba",
+      "latin_name": "Aniba rosaeodora",
+      "cites_appendix": "II",
+      "sustainable_alternatives": "Linalol de synthèse (>90% du marché). Ho wood (Cinnamomum camphora var. linaloolifera) certifié FSC. Coriandre pour les notes florales-boisées."
+    },
+    {
+      "id": "660756",
+      "name": "Black Spruce",
+      "latin_name": "Picea mariana",
+      "cites_appendix": "NULL",
+      "sustainable_alternatives": "NULL"
+    },
+    {
+      "id": "870009",
+      "name": "Colombian Gold",
+      "latin_name": "Cannabis sativa var. indica 'Colombian Gold'",
+      "cites_appendix": "NULL",
+      "sustainable_alternatives": "NULL"
+    },
+    {
+      "id": "30015",
+      "name": "Cèdre de l'Atlas",
+      "latin_name": "Cedrus atlantica",
+      "cites_appendix": "NONE",
+      "sustainable_alternatives": "Cèdre de Virginie (Juniperus virginiana) comme substitut. Cèdre de l'Himalaya (Cedrus deodara). Cèdre de synthèse (Cedryl acetate)."
+    },
+    {
+      "id": "870007",
+      "name": "Lebanese Red",
+      "latin_name": "Cannabis sativa 'Lebanese Red'",
+      "cites_appendix": "NULL",
+      "sustainable_alternatives": "NULL"
+    },
+    {
+      "id": "870005",
+      "name": "Malawi Gold",
+      "latin_name": "Cannabis sativa var. indica 'Malawi Gold'",
+      "cites_appendix": "NULL",
+      "sustainable_alternatives": "NULL"
+    },
+    {
+      "id": "870011",
+      "name": "Oaxacan",
+      "latin_name": "Cannabis sativa var. indica 'Oaxacan'",
+      "cites_appendix": "NULL",
+      "sustainable_alternatives": "NULL"
+    },
+    {
+      "id": "840003",
+      "name": "Perique",
+      "latin_name": "Nicotiana tabacum var. Perique",
+      "cites_appendix": "NULL",
+      "sustainable_alternatives": "NULL"
+    },
+    {
+      "id": "1080001",
+      "name": "Rhodiola (Orpin rose)",
+      "latin_name": "Rhodiola rosea",
+      "cites_appendix": "NULL",
+      "sustainable_alternatives": "Rhodiola cultivee (Scandinavie, Canada), Eleutherococcus senticosus"
+    },
+    {
+      "id": "240005",
+      "name": "Styrax liquide",
+      "latin_name": "Liquidambar orientalis",
+      "cites_appendix": "NONE",
+      "sustainable_alternatives": "Styrax de synthèse (Cinnamyl cinnamate). Benjoin (Styrax benzoin) comme substitut. Baume du Pérou."
+    },
+    {
+      "id": "810025",
+      "name": "Tabac Xanthi",
+      "latin_name": "Nicotiana tabacum var. Xanthi",
+      "cites_appendix": "NULL",
+      "sustainable_alternatives": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tcites_appendix\tsustainable_alternatives\n870010\tAcapulco Gold\tCannabis sativa var. indica 'Acapulco Gold'\tNULL\tNULL\n870001\tAfghan Kush\tCannabis sativa subsp. indica var. afghanica 'Afghan Kush'\tNULL\tNULL\n210040\tAniba\tAniba rosaeodora\tII\tLinalol de synthèse (>90% du marché). Ho wood (Cinnamomum camphora var. linaloolifera) certifié FSC. Coriandre pour les notes florales-boisées.\n660756\tBlack Spruce\tPicea mariana\tNULL\tNULL\n870009\tColombian Gold\tCannabis sativa var. indica 'Colombian Gold'\tNULL\tNULL\n30015\tCèdre de l'Atlas\tCedrus atlantica\tNONE\tCèdre de Virginie (Juniperus virginiana) comme substitut. Cèdre de l'Himalaya (Cedrus deodara). Cèdre de synthèse (Cedryl acetate).\n870007\tLebanese Red\tCannabis sativa 'Lebanese Red'\tNULL\tNULL\n870005\tMalawi Gold\tCannabis sativa var. indica 'Malawi Gold'\tNULL\tNULL\n870011\tOaxacan\tCannabis sativa var. indica 'Oaxacan'\tNULL\tNULL\n840003\tPerique\tNicotiana tabacum var. Perique\tNULL\tNULL\n1080001\tRhodiola (Orpin rose)\tRhodiola rosea\tNULL\tRhodiola cultivee (Scandinavie, Canada), Eleutherococcus senticosus\n240005\tStyrax liquide\tLiquidambar orientalis\tNONE\tStyrax de synthèse (Cinnamyl cinnamate). Benjoin (Styrax benzoin) comme substitut. Baume du Pérou.\n810025\tTabac Xanthi\tNicotiana tabacum var. Xanthi\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

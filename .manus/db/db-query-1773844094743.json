@@ -1,0 +1,13 @@
+{
+  "query": "\nINSERT IGNORE INTO plant_molecules (plant_id, molecule_id, percentage_typical, source, role, created_at, updated_at)\nSELECT p.id, 1710031, 0.002, 'Prenylated sulfur compounds in hops — Lafontaine et al. 2021', 'trace', NOW(), NOW()\nFROM plants p WHERE p.latin_name LIKE 'Humulus%';\nSELECT COUNT(*) as humulus_links FROM plant_molecules WHERE plant_id IN (SELECT id FROM plants WHERE latin_name LIKE 'Humulus%');\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nINSERT IGNORE INTO plant_molecules (plant_id, molecule_id, percentage_typical, source, role, created_at, updated_at)\nSELECT p.id, 1710031, 0.002, 'Prenylated sulfur compounds in hops — Lafontaine et al. 2021', 'trace', NOW(), NOW()\nFROM plants p WHERE p.latin_name LIKE 'Humulus%';\nSELECT COUNT(*) as humulus_links FROM plant_molecules WHERE plant_id IN (SELECT id FROM plants WHERE latin_name LIKE 'Humulus%');\n",
+  "rows": [
+    {
+      "humulus_links": "100"
+    }
+  ],
+  "messages": [],
+  "stdout": "humulus_links\n100\n",
+  "stderr": "",
+  "execution_time_ms": 69
+}

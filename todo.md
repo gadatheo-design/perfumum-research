@@ -2418,3 +2418,22 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - Story elements : 38 (5 StoryLines actives)
 - Expériences olfactives od:L13 : 26
 
+
+## SESSION 18 MARS 2026 (suite) — Humulus, Nomenclature, Patrimoine Olfactif
+
+### Phase 1 : Humulus lupulus + thiols prénylés
+- [x] Insérer Humulus lupulus (houblon) dans la table plants
+- [x] Insérer les variétés principales (Cascade, Saaz, Hallertau, Centennial, Citra, Simcoe, Galaxy)
+- [x] Lier les 5 thiols prénylés au houblon (3MBT/Prénylthiol, 4MPT, DMDS, FFT, prényl acétate)
+- [x] Lier les terpènes houblon majeurs (myrcène, linalol, géraniol, humulone, lupulone, farnésène)
+
+### Phase 2 : Onglet Nomenclature dans MoleculeDetail
+- [x] Onglet "Nomenclature" déjà implémenté dans MoleculeDetail.tsx (IUPAC, CAS, formule, poids, PubChem CID, synonymes, liens ChEBI/ChemSpider/Wikidata)
+
+### Phase 3 : Page Patrimoine Olfactif
+- [x] Page /patrimoine-menace déjà implémentée (carte Google Maps, filtres IUCN/CITES, généalogie biologique)
+- [x] Données réglementaires (CITES, IUCN) présentes pour toutes les plantes CR/EN
+- [x] Alternatives durables enrichies pour 22 plantes CR/EN
+- [x] Lien ajouté dans le MegaMenu (Botanique & Patrimoine)
+- [x] Responsivité mobile améliorée (titre, filtres, grilles)
+

@@ -118,10 +118,10 @@ export default function PatrimoineMenace() {
       {/* En-tête */}
       <div className="space-y-4">
         <div className="flex items-center gap-3">
-          <Shield className="h-10 w-10 text-orange-600" />
+          <Shield className="h-8 w-8 md:h-10 md:w-10 text-orange-600 shrink-0" />
           <div>
-            <h1 className="text-4xl font-bold">Patrimoine Olfactif Menacé</h1>
-            <p className="text-muted-foreground text-lg">
+            <h1 className="text-2xl md:text-4xl font-bold">Patrimoine Olfactif Menacé</h1>
+            <p className="text-muted-foreground text-sm md:text-lg">
               Espèces aromatiques en danger et alternatives durables
             </p>
           </div>
@@ -178,7 +178,7 @@ export default function PatrimoineMenace() {
             Filtrez les plantes par statut IUCN (Union Internationale pour la Conservation de la Nature) et CITES (Convention sur le commerce international)
           </CardDescription>
         </CardHeader>
-        <CardContent className="flex gap-4">
+        <CardContent className="flex flex-col sm:flex-row gap-4">
           <div className="flex-1">
             <label className="text-sm font-medium mb-2 block">Statut IUCN</label>
             <Select value={iucnFilter} onValueChange={(v) => setIucnFilter(v === 'all' ? undefined : v)}>
@@ -227,7 +227,7 @@ export default function PatrimoineMenace() {
       </Card>
 
       {/* Bouton pour afficher/masquer la carte */}
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <div className="flex gap-2">
           {showMap && (
             <>
@@ -466,7 +466,7 @@ export default function PatrimoineMenace() {
           </div>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-3">
           {/* Rhodiola rosea */}
           <Card className="border-l-4 border-l-orange-500 hover:shadow-lg transition-shadow">
             <CardHeader className="pb-3">
@@ -672,7 +672,7 @@ export default function PatrimoineMenace() {
           <p className="text-muted-foreground">Chargement des espèces menacées...</p>
         </div>
       ) : threatenedPlants && threatenedPlants.length > 0 ? (
-        <div className="grid gap-6 md:grid-cols-2">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
           {threatenedPlants.map((plant) => {
             const iucnInfo = plant.conservationStatus ? iucnLabels[plant.conservationStatus] : null;
             const citesInfo = plant.citesAppendix ? citesLabels[plant.citesAppendix] : null;

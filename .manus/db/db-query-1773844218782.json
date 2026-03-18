@@ -1,0 +1,90 @@
+{
+  "query": "\nSELECT id, name, latin_name, conservation_status, cites_appendix, sustainable_alternatives FROM plants WHERE conservation_status IN ('CR', 'EX', 'EW') ORDER BY conservation_status, name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, latin_name, conservation_status, cites_appendix, sustainable_alternatives FROM plants WHERE conservation_status IN ('CR', 'EX', 'EW') ORDER BY conservation_status, name;\n",
+  "rows": [
+    {
+      "id": "270008",
+      "name": "Silphium",
+      "latin_name": "Ferula drudeana (probable)",
+      "conservation_status": "EX",
+      "cites_appendix": "NONE",
+      "sustainable_alternatives": "Asa-foetida (Ferula assa-foetida) comme substitut partiel. Galbanum (Ferula gummosa) pour les notes résineuses."
+    },
+    {
+      "id": "870004",
+      "name": "Angola Red",
+      "latin_name": "Cannabis sativa var. indica 'Angola Red'",
+      "conservation_status": "CR",
+      "cites_appendix": "NULL",
+      "sustainable_alternatives": "NULL"
+    },
+    {
+      "id": "210038",
+      "name": "Aquilaria",
+      "latin_name": "Aquilaria malaccensis",
+      "conservation_status": "CR",
+      "cites_appendix": "II",
+      "sustainable_alternatives": "Oud de synthèse (Iso E Super, Ambrox). Plantations certifiées CITES en Malaisie et Cambodge. Oud de culture par inoculation fongique."
+    },
+    {
+      "id": "240002",
+      "name": "Bois d'agar",
+      "latin_name": "Aquilaria crassna",
+      "conservation_status": "CR",
+      "cites_appendix": "II",
+      "sustainable_alternatives": "Plantations certifiées au Cambodge et Vietnam. Oud de synthèse. Autres espèces Aquilaria moins menacées."
+    },
+    {
+      "id": "210039",
+      "name": "Commiphora",
+      "latin_name": "Commiphora wightii",
+      "conservation_status": "CR",
+      "cites_appendix": "II",
+      "sustainable_alternatives": "Myrrhe (Commiphora myrrha) pour les notes résineuses. Synthèse chimique des guggulstérones pour usage médical."
+    },
+    {
+      "id": "270005",
+      "name": "Costus",
+      "latin_name": "Saussurea costus",
+      "conservation_status": "CR",
+      "cites_appendix": "I",
+      "sustainable_alternatives": "Costus de synthèse (Cyclopentadecanolide). Huile d'iris pour les notes terreuses. Vétiver pour les notes racinaires."
+    },
+    {
+      "id": "180003",
+      "name": "Nard (Spikenard)",
+      "latin_name": "Nardostachys jatamansi",
+      "conservation_status": "CR",
+      "cites_appendix": "II",
+      "sustainable_alternatives": "Vétiver pour les notes terreuses/racinaires. Nard de synthèse. Valériane pour les notes musquées."
+    },
+    {
+      "id": "870008",
+      "name": "Panama Red",
+      "latin_name": "Cannabis sativa var. indica 'Panama Red'",
+      "conservation_status": "CR",
+      "cites_appendix": "NULL",
+      "sustainable_alternatives": "NULL"
+    },
+    {
+      "id": "810024",
+      "name": "Tabac Yenidje",
+      "latin_name": "Nicotiana tabacum var. Yenidje",
+      "conservation_status": "CR",
+      "cites_appendix": "NULL",
+      "sustainable_alternatives": "NULL"
+    },
+    {
+      "id": "870003",
+      "name": "Thai / Thai Stick",
+      "latin_name": "Cannabis sativa var. indica 'Thai'",
+      "conservation_status": "CR",
+      "cites_appendix": "NULL",
+      "sustainable_alternatives": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tconservation_status\tcites_appendix\tsustainable_alternatives\n270008\tSilphium\tFerula drudeana (probable)\tEX\tNONE\tAsa-foetida (Ferula assa-foetida) comme substitut partiel. Galbanum (Ferula gummosa) pour les notes résineuses.\n870004\tAngola Red\tCannabis sativa var. indica 'Angola Red'\tCR\tNULL\tNULL\n210038\tAquilaria\tAquilaria malaccensis\tCR\tII\tOud de synthèse (Iso E Super, Ambrox). Plantations certifiées CITES en Malaisie et Cambodge. Oud de culture par inoculation fongique.\n240002\tBois d'agar\tAquilaria crassna\tCR\tII\tPlantations certifiées au Cambodge et Vietnam. Oud de synthèse. Autres espèces Aquilaria moins menacées.\n210039\tCommiphora\tCommiphora wightii\tCR\tII\tMyrrhe (Commiphora myrrha) pour les notes résineuses. Synthèse chimique des guggulstérones pour usage médical.\n270005\tCostus\tSaussurea costus\tCR\tI\tCostus de synthèse (Cyclopentadecanolide). Huile d'iris pour les notes terreuses. Vétiver pour les notes racinaires.\n180003\tNard (Spikenard)\tNardostachys jatamansi\tCR\tII\tVétiver pour les notes terreuses/racinaires. Nard de synthèse. Valériane pour les notes musquées.\n870008\tPanama Red\tCannabis sativa var. indica 'Panama Red'\tCR\tNULL\tNULL\n810024\tTabac Yenidje\tNicotiana tabacum var. Yenidje\tCR\tNULL\tNULL\n870003\tThai / Thai Stick\tCannabis sativa var. indica 'Thai'\tCR\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

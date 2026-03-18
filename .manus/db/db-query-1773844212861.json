@@ -1,0 +1,46 @@
+{
+  "query": "\nSELECT COUNT(*) as total FROM plants WHERE conservation_status IS NOT NULL AND conservation_status != '';\nSELECT conservation_status, COUNT(*) as n FROM plants WHERE conservation_status IS NOT NULL GROUP BY conservation_status ORDER BY n DESC;\nSELECT COUNT(*) as zones FROM geographic_zones;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT COUNT(*) as total FROM plants WHERE conservation_status IS NOT NULL AND conservation_status != '';\nSELECT conservation_status, COUNT(*) as n FROM plants WHERE conservation_status IS NOT NULL GROUP BY conservation_status ORDER BY n DESC;\nSELECT COUNT(*) as zones FROM geographic_zones;\n",
+  "rows": [
+    {
+      "total": "532"
+    },
+    {
+      "total": "conservation_status\tn"
+    },
+    {
+      "total": "NE\t445"
+    },
+    {
+      "total": "LC\t40"
+    },
+    {
+      "total": "VU\t15"
+    },
+    {
+      "total": "EN\t13"
+    },
+    {
+      "total": "CR\t9"
+    },
+    {
+      "total": "NT\t7"
+    },
+    {
+      "total": "DD\t2"
+    },
+    {
+      "total": "EX\t1"
+    },
+    {
+      "total": "zones"
+    },
+    {
+      "total": "15"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\n532\nconservation_status\tn\nNE\t445\nLC\t40\nVU\t15\nEN\t13\nCR\t9\nNT\t7\nDD\t2\nEX\t1\nzones\n15\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

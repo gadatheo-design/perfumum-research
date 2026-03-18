@@ -458,6 +458,13 @@ export function MegaMenu() {
           badge: "NEW",
         },
         {
+          label: "Patrimoine Menacé",
+          path: "/patrimoine-menace",
+          icon: <ShieldAlert className="h-4 w-4" />,
+          description: "Espèces en danger & alternatives",
+          badge: "NEW",
+        },
+        {
           label: "Structures SMILES",
           path: "/smiles",
           icon: <ScanLine className="h-4 w-4" />,

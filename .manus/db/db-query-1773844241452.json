@@ -1,0 +1,142 @@
+{
+  "query": "\nUPDATE plants SET sustainable_alternatives = 'Variétés landrace modernes certifiées. Conservation ex situ dans des banques de graines (Vavilov Institute, USDA).' WHERE id IN (870010, 870001, 870009, 870007, 870005, 870011) AND (sustainable_alternatives IS NULL OR sustainable_alternatives = 'NULL');\n\nUPDATE plants SET sustainable_alternatives = 'Tabac Perique de Saint-James Parish (Louisiane). Fermentation anaérobie d\\'autres variétés de tabac burley.' WHERE id = 840003 AND (sustainable_alternatives IS NULL OR sustainable_alternatives = 'NULL');\n\nUPDATE plants SET sustainable_alternatives = 'Tabac oriental de Grèce et Turquie (Basma, Izmir). Tabac Latakia pour les notes fumées.' WHERE id = 810025 AND (sustainable_alternatives IS NULL OR sustainable_alternatives = 'NULL');\n\nUPDATE plants SET sustainable_alternatives = 'Épicéa noir de culture certifiée FSC. Épicéa de Sibérie (Picea obovata). Sapin baumier (Abies balsamea).' WHERE id = 660756 AND (sustainable_alternatives IS NULL OR sustainable_alternatives = 'NULL');\n\nUPDATE plants SET sustainable_alternatives = 'Tabac oriental Yaka et Basma. Tabac Latakia fumé pour les notes similaires.' WHERE id = 810024 AND (sustainable_alternatives IS NULL OR sustainable_alternatives = 'NULL');\n\nUPDATE plants SET sustainable_alternatives = 'Variétés landrace afghanes modernes. Conservation ex situ (banques de graines). Kush himalayens apparentés.' WHERE id IN (870004, 870008, 870003) AND (sustainable_alternatives IS NULL OR sustainable_alternatives = 'NULL');\n\nSELECT id, name, conservation_status, sustainable_alternatives FROM plants WHERE conservation_status IN ('CR', 'EN') AND sustainable_alternatives IS NOT NULL ORDER BY conservation_status, name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nUPDATE plants SET sustainable_alternatives = 'Variétés landrace modernes certifiées. Conservation ex situ dans des banques de graines (Vavilov Institute, USDA).' WHERE id IN (870010, 870001, 870009, 870007, 870005, 870011) AND (sustainable_alternatives IS NULL OR sustainable_alternatives = 'NULL');\n\nUPDATE plants SET sustainable_alternatives = 'Tabac Perique de Saint-James Parish (Louisiane). Fermentation anaérobie d\\'autres variétés de tabac burley.' WHERE id = 840003 AND (sustainable_alternatives IS NULL OR sustainable_alternatives = 'NULL');\n\nUPDATE plants SET sustainable_alternatives = 'Tabac oriental de Grèce et Turquie (Basma, Izmir). Tabac Latakia pour les notes fumées.' WHERE id = 810025 AND (sustainable_alternatives IS NULL OR sustainable_alternatives = 'NULL');\n\nUPDATE plants SET sustainable_alternatives = 'Épicéa noir de culture certifiée FSC. Épicéa de Sibérie (Picea obovata). Sapin baumier (Abies balsamea).' WHERE id = 660756 AND (sustainable_alternatives IS NULL OR sustainable_alternatives = 'NULL');\n\nUPDATE plants SET sustainable_alternatives = 'Tabac oriental Yaka et Basma. Tabac Latakia fumé pour les notes similaires.' WHERE id = 810024 AND (sustainable_alternatives IS NULL OR sustainable_alternatives = 'NULL');\n\nUPDATE plants SET sustainable_alternatives = 'Variétés landrace afghanes modernes. Conservation ex situ (banques de graines). Kush himalayens apparentés.' WHERE id IN (870004, 870008, 870003) AND (sustainable_alternatives IS NULL OR sustainable_alternatives = 'NULL');\n\nSELECT id, name, conservation_status, sustainable_alternatives FROM plants WHERE conservation_status IN ('CR', 'EN') AND sustainable_alternatives IS NOT NULL ORDER BY conservation_status, name;\n",
+  "rows": [
+    {
+      "id": "870004",
+      "name": "Angola Red",
+      "conservation_status": "CR",
+      "sustainable_alternatives": "Variétés landrace afghanes modernes. Conservation ex situ (banques de graines). Kush himalayens apparentés."
+    },
+    {
+      "id": "210038",
+      "name": "Aquilaria",
+      "conservation_status": "CR",
+      "sustainable_alternatives": "Oud de synthèse (Iso E Super, Ambrox). Plantations certifiées CITES en Malaisie et Cambodge. Oud de culture par inoculation fongique."
+    },
+    {
+      "id": "240002",
+      "name": "Bois d'agar",
+      "conservation_status": "CR",
+      "sustainable_alternatives": "Plantations certifiées au Cambodge et Vietnam. Oud de synthèse. Autres espèces Aquilaria moins menacées."
+    },
+    {
+      "id": "210039",
+      "name": "Commiphora",
+      "conservation_status": "CR",
+      "sustainable_alternatives": "Myrrhe (Commiphora myrrha) pour les notes résineuses. Synthèse chimique des guggulstérones pour usage médical."
+    },
+    {
+      "id": "270005",
+      "name": "Costus",
+      "conservation_status": "CR",
+      "sustainable_alternatives": "Costus de synthèse (Cyclopentadecanolide). Huile d'iris pour les notes terreuses. Vétiver pour les notes racinaires."
+    },
+    {
+      "id": "180003",
+      "name": "Nard (Spikenard)",
+      "conservation_status": "CR",
+      "sustainable_alternatives": "Vétiver pour les notes terreuses/racinaires. Nard de synthèse. Valériane pour les notes musquées."
+    },
+    {
+      "id": "870008",
+      "name": "Panama Red",
+      "conservation_status": "CR",
+      "sustainable_alternatives": "Variétés landrace afghanes modernes. Conservation ex situ (banques de graines). Kush himalayens apparentés."
+    },
+    {
+      "id": "810024",
+      "name": "Tabac Yenidje",
+      "conservation_status": "CR",
+      "sustainable_alternatives": "Tabac oriental Yaka et Basma. Tabac Latakia fumé pour les notes similaires."
+    },
+    {
+      "id": "870003",
+      "name": "Thai / Thai Stick",
+      "conservation_status": "CR",
+      "sustainable_alternatives": "Variétés landrace afghanes modernes. Conservation ex situ (banques de graines). Kush himalayens apparentés."
+    },
+    {
+      "id": "870010",
+      "name": "Acapulco Gold",
+      "conservation_status": "EN",
+      "sustainable_alternatives": "Variétés landrace modernes certifiées. Conservation ex situ dans des banques de graines (Vavilov Institute, USDA)."
+    },
+    {
+      "id": "870001",
+      "name": "Afghan Kush",
+      "conservation_status": "EN",
+      "sustainable_alternatives": "Variétés landrace modernes certifiées. Conservation ex situ dans des banques de graines (Vavilov Institute, USDA)."
+    },
+    {
+      "id": "210040",
+      "name": "Aniba",
+      "conservation_status": "EN",
+      "sustainable_alternatives": "Linalol de synthèse (>90% du marché). Ho wood (Cinnamomum camphora var. linaloolifera) certifié FSC. Coriandre pour les notes florales-boisées."
+    },
+    {
+      "id": "660756",
+      "name": "Black Spruce",
+      "conservation_status": "EN",
+      "sustainable_alternatives": "Épicéa noir de culture certifiée FSC. Épicéa de Sibérie (Picea obovata). Sapin baumier (Abies balsamea)."
+    },
+    {
+      "id": "870009",
+      "name": "Colombian Gold",
+      "conservation_status": "EN",
+      "sustainable_alternatives": "Variétés landrace modernes certifiées. Conservation ex situ dans des banques de graines (Vavilov Institute, USDA)."
+    },
+    {
+      "id": "30015",
+      "name": "Cèdre de l'Atlas",
+      "conservation_status": "EN",
+      "sustainable_alternatives": "Cèdre de Virginie (Juniperus virginiana) comme substitut. Cèdre de l'Himalaya (Cedrus deodara). Cèdre de synthèse (Cedryl acetate)."
+    },
+    {
+      "id": "870007",
+      "name": "Lebanese Red",
+      "conservation_status": "EN",
+      "sustainable_alternatives": "Variétés landrace modernes certifiées. Conservation ex situ dans des banques de graines (Vavilov Institute, USDA)."
+    },
+    {
+      "id": "870005",
+      "name": "Malawi Gold",
+      "conservation_status": "EN",
+      "sustainable_alternatives": "Variétés landrace modernes certifiées. Conservation ex situ dans des banques de graines (Vavilov Institute, USDA)."
+    },
+    {
+      "id": "870011",
+      "name": "Oaxacan",
+      "conservation_status": "EN",
+      "sustainable_alternatives": "Variétés landrace modernes certifiées. Conservation ex situ dans des banques de graines (Vavilov Institute, USDA)."
+    },
+    {
+      "id": "840003",
+      "name": "Perique",
+      "conservation_status": "EN",
+      "sustainable_alternatives": "Tabac Perique de Saint-James Parish (Louisiane). Fermentation anaérobie d'autres variétés de tabac burley."
+    },
+    {
+      "id": "1080001",
+      "name": "Rhodiola (Orpin rose)",
+      "conservation_status": "EN",
+      "sustainable_alternatives": "Rhodiola cultivee (Scandinavie, Canada), Eleutherococcus senticosus"
+    },
+    {
+      "id": "240005",
+      "name": "Styrax liquide",
+      "conservation_status": "EN",
+      "sustainable_alternatives": "Styrax de synthèse (Cinnamyl cinnamate). Benjoin (Styrax benzoin) comme substitut. Baume du Pérou."
+    },
+    {
+      "id": "810025",
+      "name": "Tabac Xanthi",
+      "conservation_status": "EN",
+      "sustainable_alternatives": "Tabac oriental de Grèce et Turquie (Basma, Izmir). Tabac Latakia pour les notes fumées."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tconservation_status\tsustainable_alternatives\n870004\tAngola Red\tCR\tVariétés landrace afghanes modernes. Conservation ex situ (banques de graines). Kush himalayens apparentés.\n210038\tAquilaria\tCR\tOud de synthèse (Iso E Super, Ambrox). Plantations certifiées CITES en Malaisie et Cambodge. Oud de culture par inoculation fongique.\n240002\tBois d'agar\tCR\tPlantations certifiées au Cambodge et Vietnam. Oud de synthèse. Autres espèces Aquilaria moins menacées.\n210039\tCommiphora\tCR\tMyrrhe (Commiphora myrrha) pour les notes résineuses. Synthèse chimique des guggulstérones pour usage médical.\n270005\tCostus\tCR\tCostus de synthèse (Cyclopentadecanolide). Huile d'iris pour les notes terreuses. Vétiver pour les notes racinaires.\n180003\tNard (Spikenard)\tCR\tVétiver pour les notes terreuses/racinaires. Nard de synthèse. Valériane pour les notes musquées.\n870008\tPanama Red\tCR\tVariétés landrace afghanes modernes. Conservation ex situ (banques de graines). Kush himalayens apparentés.\n810024\tTabac Yenidje\tCR\tTabac oriental Yaka et Basma. Tabac Latakia fumé pour les notes similaires.\n870003\tThai / Thai Stick\tCR\tVariétés landrace afghanes modernes. Conservation ex situ (banques de graines). Kush himalayens apparentés.\n870010\tAcapulco Gold\tEN\tVariétés landrace modernes certifiées. Conservation ex situ dans des banques de graines (Vavilov Institute, USDA).\n870001\tAfghan Kush\tEN\tVariétés landrace modernes certifiées. Conservation ex situ dans des banques de graines (Vavilov Institute, USDA).\n210040\tAniba\tEN\tLinalol de synthèse (>90% du marché). Ho wood (Cinnamomum camphora var. linaloolifera) certifié FSC. Coriandre pour les notes florales-boisées.\n660756\tBlack Spruce\tEN\tÉpicéa noir de culture certifiée FSC. Épicéa de Sibérie (Picea obovata). Sapin baumier (Abies balsamea).\n870009\tColombian Gold\tEN\tVariétés landrace modernes certifiées. Conservation ex situ dans des banques de graines (Vavilov Institute, USDA).\n30015\tCèdre de l'Atlas\tEN\tCèdre de Virginie (Juniperus virginiana) comme substitut. Cèdre de l'Himalaya (Cedrus deodara). Cèdre de synthèse (Cedryl acetate).\n870007\tLebanese Red\tEN\tVariétés landrace modernes certifiées. Conservation ex situ dans des banques de graines (Vavilov Institute, USDA).\n870005\tMalawi Gold\tEN\tVariétés landrace modernes certifiées. Conservation ex situ dans des banques de graines (Vavilov Institute, USDA).\n870011\tOaxacan\tEN\tVariétés landrace modernes certifiées. Conservation ex situ dans des banques de graines (Vavilov Institute, USDA).\n840003\tPerique\tEN\tTabac Perique de Saint-James Parish (Louisiane). Fermentation anaérobie d'autres variétés de tabac burley.\n1080001\tRhodiola (Orpin rose)\tEN\tRhodiola cultivee (Scandinavie, Canada), Eleutherococcus senticosus\n240005\tStyrax liquide\tEN\tStyrax de synthèse (Cinnamyl cinnamate). Benjoin (Styrax benzoin) comme substitut. Baume du Pérou.\n810025\tTabac Xanthi\tEN\tTabac oriental de Grèce et Turquie (Basma, Izmir). Tabac Latakia pour les notes fumées.\n",
+  "stderr": "",
+  "execution_time_ms": 116
+}
