@@ -457,7 +457,129 @@ const FR_TO_EN_MOLECULES: Record<string, string> = {
   "absolue d'iris (orris butter)": 'orris butter',
   'absolue de jasmin (indole)': 'jasmine absolute',
   'absolue de rose (citronellol)': 'rose absolute',
-  'acacia brülé': 'acacia',
+  'acacia brûlé': 'acacia',
+
+  // === AJOUTS ISSUS DE L'ANALYSE PUBCHEM (mars 2026) ===
+  // Préfixes grecs normalisés (FR)
+  'alpha-vetivene': 'alpha-vetivene',
+  'alpha-vetivone': 'alpha-vetivone',
+  'alpha-thujene': 'alpha-thujene',
+  'alpha-terpinene': 'alpha-terpinene',
+  'alpha-phellandrene': 'alpha-phellandrene',
+  'alpha-patchoulene': 'alpha-patchoulene',
+  'alpha-methyl ionone': 'alpha-isomethyl ionone',
+  'alpha-gurjunene': 'alpha-gurjunene',
+  'alpha-damascone': 'alpha-damascone',
+  'alpha-cedrene': 'alpha-cedrene',
+  'alpha-copaene': 'alpha-copaene',
+  'alpha-cadinol': 'alpha-cadinol',
+  'alpha-bergamotene': 'alpha-bergamotene',
+  'beta-elemene': 'beta-elemene',
+  'beta-sitosterol': 'beta-sitosterol',
+  'beta-guaiene': 'beta-guaiene',
+  'beta-vetivene': 'beta-vetivene',
+  'beta-vetispirene': 'beta-vetispirene',
+  'beta-selinene': 'beta-selinene',
+  'beta-santalol': 'beta-santalol',
+  'beta-phellandrene': 'beta-phellandrene',
+  'beta-patchoulene': 'beta-patchoulene',
+  'beta-ocimene': 'beta-ocimene',
+  'beta-ionone': 'beta-ionone',
+  'beta-glucan': 'beta-glucan',
+  'beta-glucane': 'beta-glucan',
+  'beta-eudesmol': 'beta-eudesmol',
+  'beta-cedrene': 'beta-cedrene',
+  'beta-cyclocitral': 'beta-cyclocitral',
+  'beta-asarone': 'beta-asarone',
+  'beta-caryophyllene': 'beta-caryophyllene',
+  'gamma-terpinene': 'gamma-terpinene',
+  'gamma-curcumene': 'gamma-curcumene',
+  'gamma-decalactone': 'gamma-decalactone',
+  'gamma-undecalactone': 'gamma-undecalactone',
+  'gamma-dodecalactone': 'gamma-dodecalactone',
+  'delta-cadinene': 'delta-cadinene',
+  'delta-elemene': 'delta-elemene',
+  'delta-decalactone': 'delta-decalactone',
+  'delta-dodecalactone': 'delta-dodecalactone',
+  'delta-3-carene': 'delta-3-carene',
+  'delta-2-carene': 'delta-2-carene',
+  '(z)-beta-santalol': '(Z)-beta-santalol',
+  '(z)-alpha-santalol': '(Z)-alpha-santalol',
+  '(z)-nuciferol': '(Z)-nuciferol',
+  '(e,e)-alpha-farnesene': '(E,E)-alpha-farnesene',
+  'epi-beta-santalol': 'epi-beta-santalol',
+  'cis-beta-farnesene': '(Z)-beta-farnesene',
+
+  // Molécules FR avec équivalents EN connus
+  'diacetyle': 'diacetyl',
+  'diacetyl': 'diacetyl',
+  'cresol': 'cresol',
+  'geosmine': 'geosmin',
+  'oxyde de rose': 'rose oxide',
+  'acide boswellique': 'boswellic acid',
+  'acide hexadecanoique': 'hexadecanoic acid',
+  'acide hyaluronique': 'hyaluronic acid',
+  'acide fulvique': 'fulvic acid',
+  'acides humiques': 'humic acids',
+  'glycyrrhizine': 'glycyrrhizin',
+  'glucoraphanine': 'glucoraphanin',
+  'glucoerucine': 'glucoerucin',
+  'isothiocyanate de benzyle': 'benzyl isothiocyanate',
+  'acetate de thymyle': 'thymyl acetate',
+  'linalyl glucoside': 'linalyl glucoside',
+  'secologanine': 'secologanin',
+  'rosavine': 'rosavin',
+  'morine': 'morin',
+  'fucoïdane': 'fucoidan',
+  'arabinogalactane': 'arabinogalactan',
+  'alginat de sodium': 'sodium alginate',
+  'chitosane': 'chitosan',
+  'methyl syringol': 'methyl syringol',
+  'dimethyl trisulfide': 'dimethyl trisulfide',
+  'dimethyl trisulfure': 'dimethyl trisulfide',
+  'diméthyl trisulfure (dmts)': 'dimethyl trisulfide',
+  'jinkoh-eudesmol': 'jinkoh-eudesmol',
+  'jasmonal': 'jasmonal',
+  'cedarol': 'cedarol',
+  'bisabolone': 'bisabolone',
+  'betulinine': 'betulin',
+  'damianine': 'damianin',
+  'duvatrienol': 'duvatrienol',
+  'eudesmol beta': 'beta-eudesmol',
+  'eudesmol alpha': 'alpha-eudesmol',
+  'methoxyfuranoguaia-9-ene': 'methoxyfuranoguaia-9-ene',
+  'aristolen-9beta-ol': 'aristolen-9beta-ol',
+  'vetiseleninene': 'vetiseleninene',
+  'vetivone': 'vetivone',
+  'ionone gamma': 'gamma-ionone',
+  'ionone beta': 'beta-ionone',
+  'ionone blanche': 'alpha-isomethyl ionone',
+  'acide 3-mercaptohexanoique': '3-mercaptohexanoic acid',
+  'tanin (acide tannique)': 'tannic acid',
+  'acide tannique': 'tannic acid',
+  'e-2-dodecenal': '(E)-2-dodecenal',
+  'rosaridin': 'rosiridin',
+  'brachytylanolide a': 'brachytylanolide A',
+  'brachytylanolide b': 'brachytylanolide B',
+  '3,3-dimethylhex-5-ene-1-thiol': '3,3-dimethylhex-5-ene-1-thiol',
+  'akba': 'AKBA',
+  'gamma-octadecalactone': 'gamma-octadecalactone',
+  'gamma-tetradecalactone': 'gamma-tetradecalactone',
+  '2-ethyl-3-methylpyrazine': '2-ethyl-3-methylpyrazine',
+  'methyl ethylpyrazine 2,3': '2-ethyl-3-methylpyrazine',
+  'nnk': 'NNK',
+  'hydroxyproline pyrolysee': 'trans-4-hydroxy-l-proline',
+  'glycine pyrolysee': 'glycine',
+  'lignine pyrolysee': 'lignin',
+  'olibanol': 'olibanol',
+  'furanosesquiterpenes': 'furanosesquiterpene',
+  'italidione i': 'italidione I',
+  'italidione ii': 'italidione II',
+  'italidione iii': 'italidione III',
+  'aldehyde c-11 moa': 'undecylenic aldehyde',
+  'aldehyde feuille': 'leaf aldehyde',
+  'aldehyde metallique': 'metallic aldehyde',
+  'ttmp': '2,3,5-trimethyl-2-cyclopentenone',
 };
 
 const FR_TO_EN_TERMS: Record<string, string> = {
@@ -485,19 +607,48 @@ const FR_TO_EN_TERMS: Record<string, string> = {
 };
 
 /**
+ * Normalise les préfixes grecs Unicode en préfixes textuels anglais
+ * α → alpha, β → beta, γ → gamma, δ → delta, Δ → delta
+ */
+export function normalizeGreekPrefixes(name: string): string {
+  return name
+    .replace(/^α-/u, 'alpha-')
+    .replace(/^β-/u, 'beta-')
+    .replace(/^γ-/u, 'gamma-')
+    .replace(/^δ-/u, 'delta-')
+    .replace(/^Δ-?/u, 'delta-')
+    .replace(/\(α-/gu, '(alpha-')
+    .replace(/\(β-/gu, '(beta-')
+    .replace(/\(γ-/gu, '(gamma-')
+    .replace(/\(δ-/gu, '(delta-')
+    .replace(/\(Z\)-β-/gu, '(Z)-beta-')
+    .replace(/\(E\)-β-/gu, '(E)-beta-')
+    .replace(/\(Z\)-α-/gu, '(Z)-alpha-')
+    .replace(/\(E\)-α-/gu, '(E)-alpha-')
+    .replace(/epi-β-/gu, 'epi-beta-')
+    .replace(/cis-β-/gu, 'cis-beta-')
+    .replace(/trans-β-/gu, 'trans-beta-');
+}
+
+/**
  * Traduit un nom de molécule du français vers l'anglais
+ * Gère : préfixes grecs Unicode, accents FR, noms complets FR
  */
 export function translateMoleculeName(frenchName: string): string {
   if (!frenchName) return frenchName;
   
-  let name = frenchName.toLowerCase().trim();
+  // Étape 1 : normaliser les préfixes grecs AVANT la mise en minuscules
+  let name = normalizeGreekPrefixes(frenchName);
   
-  // Vérifier d'abord les traductions directes
+  // Étape 2 : mise en minuscules
+  name = name.toLowerCase().trim();
+  
+  // Étape 3 : vérifier les traductions directes (avec nom original normalisé)
   if (FR_TO_EN_MOLECULES[name]) {
     return FR_TO_EN_MOLECULES[name];
   }
   
-  // Normaliser les accents
+  // Étape 4 : normaliser les accents français
   name = name
     .replace(/[éèêë]/g, 'e')
     .replace(/[àâä]/g, 'a')
@@ -506,9 +657,15 @@ export function translateMoleculeName(frenchName: string): string {
     .replace(/[ôö]/g, 'o')
     .replace(/ç/g, 'c')
     .replace(/œ/g, 'oe')
-    .replace(/æ/g, 'ae');
+    .replace(/æ/g, 'ae')
+    .replace(/ï/g, 'i');
   
-  // Appliquer les traductions terme par terme
+  // Étape 5 : vérifier à nouveau après normalisation des accents
+  if (FR_TO_EN_MOLECULES[name]) {
+    return FR_TO_EN_MOLECULES[name];
+  }
+  
+  // Étape 6 : appliquer les traductions terme par terme
   for (const [fr, en] of Object.entries(FR_TO_EN_TERMS)) {
     const frNormalized = fr
       .replace(/[éèêë]/g, 'e')
@@ -527,55 +684,79 @@ export function translateMoleculeName(frenchName: string): string {
 
 /**
  * Enrichit une molécule avec traduction automatique FR→EN
+ * Stratégie multi-pass :
+ * 1. Nom original
+ * 2. Préfixes grecs normalisés (α→alpha, β→beta, etc.)
+ * 3. Traduction complète FR→EN
+ * 4. Nom nettoyé (sans parenthèses)
+ * 5. Traduction du nom nettoyé
+ * 6. Nom en minuscules normalisé (sans accents)
  */
 export async function enrichMoleculeWithTranslation(moleculeName: string): Promise<EnrichmentResult> {
-  // Essayer d'abord avec le nom original
+  const tryEnrich = async (name: string): Promise<EnrichmentResult | null> => {
+    if (!name || name.length < 2) return null;
+    const r = await enrichMolecule(name);
+    if (r.success) {
+      r.moleculeName = moleculeName;
+      return r;
+    }
+    return null;
+  };
+
+  // Pass 1 : nom original
   let result = await enrichMolecule(moleculeName);
-  
-  if (result.success) {
-    return result;
+  if (result.success) return result;
+
+  // Pass 2 : normalisation des préfixes grecs uniquement
+  const greekNormalized = normalizeGreekPrefixes(moleculeName);
+  if (greekNormalized !== moleculeName) {
+    const r = await tryEnrich(greekNormalized);
+    if (r) return r;
   }
-  
-  // Essayer avec la traduction
+
+  // Pass 3 : traduction complète FR→EN
   const translatedName = translateMoleculeName(moleculeName);
-  
-  if (translatedName !== moleculeName.toLowerCase()) {
-    result = await enrichMolecule(translatedName);
-    
-    if (result.success) {
-      // Garder le nom original dans le résultat
-      result.moleculeName = moleculeName;
-      return result;
-    }
+  if (translatedName !== moleculeName.toLowerCase() && translatedName !== greekNormalized.toLowerCase()) {
+    const r = await tryEnrich(translatedName);
+    if (r) return r;
   }
-  
-  // Essayer avec le nom nettoyé (sans parenthèses, etc.)
+
+  // Pass 4 : nom nettoyé (sans parenthèses, tirets longs, annotations)
   const cleanedName = moleculeName
-    .replace(/\s*\([^)]*\)\s*/g, '')
-    .replace(/\s*\[[^\]]*\]\s*/g, '')
+    .replace(/\s*—[^)]*$/g, '')       // supprimer — annotations
+    .replace(/\s*\([^)]*\)\s*/g, ' ')  // supprimer (parenthèses)
+    .replace(/\s*\[[^\]]*\]\s*/g, ' ') // supprimer [crochets]
+    .replace(/\s+/g, ' ')
     .trim();
-  
-  if (cleanedName !== moleculeName) {
-    result = await enrichMolecule(cleanedName);
-    
-    if (result.success) {
-      result.moleculeName = moleculeName;
-      return result;
-    }
-    
-    // Essayer la traduction du nom nettoyé
+  if (cleanedName !== moleculeName && cleanedName.length > 1) {
+    const r = await tryEnrich(cleanedName);
+    if (r) return r;
+
+    // Pass 5 : traduction du nom nettoyé
     const translatedClean = translateMoleculeName(cleanedName);
     if (translatedClean !== cleanedName.toLowerCase()) {
-      result = await enrichMolecule(translatedClean);
-      
-      if (result.success) {
-        result.moleculeName = moleculeName;
-        return result;
-      }
+      const r2 = await tryEnrich(translatedClean);
+      if (r2) return r2;
     }
   }
-  
-  // Retourner le résultat d'échec
+
+  // Pass 6 : normalisation complète (accents + grecs) sans traduction
+  const fullyNormalized = greekNormalized
+    .toLowerCase()
+    .replace(/[éèêë]/g, 'e')
+    .replace(/[àâä]/g, 'a')
+    .replace(/[ùûü]/g, 'u')
+    .replace(/[îï]/g, 'i')
+    .replace(/[ôö]/g, 'o')
+    .replace(/ç/g, 'c')
+    .replace(/œ/g, 'oe')
+    .trim();
+  if (fullyNormalized !== translatedName && fullyNormalized !== moleculeName.toLowerCase()) {
+    const r = await tryEnrich(fullyNormalized);
+    if (r) return r;
+  }
+
+  // Échec : retourner le dernier résultat d'échec
   result.moleculeName = moleculeName;
   return result;
 }
