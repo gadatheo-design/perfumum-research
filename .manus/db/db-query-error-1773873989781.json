@@ -1,0 +1,8 @@
+{
+  "query": "\n-- Vérifier si la source NEZ existe déjà dans bibliography_sources\nSELECT id, name FROM bibliography_sources WHERE name LIKE '%NEZ%' OR name LIKE '%Nez%' OR url LIKE '%bynez%';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Vérifier si la source NEZ existe déjà dans bibliography_sources\nSELECT id, name FROM bibliography_sources WHERE name LIKE '%NEZ%' OR name LIKE '%Nez%' OR url LIKE '%bynez%';\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 3: Unknown column 'name' in 'where clause'"
+  ]
+}

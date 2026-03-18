@@ -1,0 +1,65 @@
+{
+  "query": "SELECT id, name, region FROM traditions_olfactives WHERE wikidata_qid IS NULL ORDER BY id LIMIT 31 OFFSET 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, region FROM traditions_olfactives WHERE wikidata_qid IS NULL ORDER BY id LIMIT 31 OFFSET 20;",
+  "rows": [
+    {
+      "id": "90018",
+      "name": "Celtique / Brumes",
+      "region": "Europe occidentale"
+    },
+    {
+      "id": "90019",
+      "name": "Nordique / Boréal",
+      "region": "Europe du Nord"
+    },
+    {
+      "id": "90020",
+      "name": "Steppe / Routes",
+      "region": "Eurasie centrale"
+    },
+    {
+      "id": "90021",
+      "name": "Désert / Ocre",
+      "region": "Afrique / Arabie"
+    },
+    {
+      "id": "90022",
+      "name": "Atlantique / Submergé",
+      "region": "Atlantique"
+    },
+    {
+      "id": "90023",
+      "name": "Abyssal / Hadal",
+      "region": "Océans profonds"
+    },
+    {
+      "id": "90024",
+      "name": "Volcanique / Basalte",
+      "region": "Zones volcaniques"
+    },
+    {
+      "id": "90025",
+      "name": "Glaciaire / Cryo",
+      "region": "Zones polaires"
+    },
+    {
+      "id": "90026",
+      "name": "Urbain / Industriel",
+      "region": "Global"
+    },
+    {
+      "id": "90027",
+      "name": "Archive / Bibliothèque",
+      "region": "Global"
+    },
+    {
+      "id": "90028",
+      "name": "Sépulcral / Ossuaire",
+      "region": "Global"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\n90018\tCeltique / Brumes\tEurope occidentale\n90019\tNordique / Boréal\tEurope du Nord\n90020\tSteppe / Routes\tEurasie centrale\n90021\tDésert / Ocre\tAfrique / Arabie\n90022\tAtlantique / Submergé\tAtlantique\n90023\tAbyssal / Hadal\tOcéans profonds\n90024\tVolcanique / Basalte\tZones volcaniques\n90025\tGlaciaire / Cryo\tZones polaires\n90026\tUrbain / Industriel\tGlobal\n90027\tArchive / Bibliothèque\tGlobal\n90028\tSépulcral / Ossuaire\tGlobal\n",
+  "stderr": "",
+  "execution_time_ms": 119
+}

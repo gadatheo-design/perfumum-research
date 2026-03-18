@@ -1,0 +1,85 @@
+{
+  "query": "SHOW TABLES LIKE '%ref%'; SHOW TABLES LIKE '%biblio%'; SHOW TABLES LIKE '%source%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW TABLES LIKE '%ref%'; SHOW TABLES LIKE '%biblio%'; SHOW TABLES LIKE '%source%';",
+  "rows": [
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "axis_reference_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "recettes_formules_reference"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "reference_citations"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "reference_entity_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "reference_notes"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "reference_tags"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "v3_reference_tag_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "v3_references"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%biblio%)"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "bibliographie"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "bibliography_axis_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "bibliography_entity_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "bibliography_entries"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "bibliography_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "evidence_bibliography_links"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%source%)"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "axis_source_nez"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "bibliography_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "material_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "molecule_plant_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "olfaction_memory_article_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "olfaction_memory_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "research_entry_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "research_sources"
+    },
+    {
+      "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)": "source_article_nez"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_H2pjHHJbH276XmnbNcJhCp (%ref%)\naxis_reference_links\nrecettes_formules_reference\nreference_citations\nreference_entity_links\nreference_notes\nreference_tags\nv3_reference_tag_links\nv3_references\nTables_in_H2pjHHJbH276XmnbNcJhCp (%biblio%)\nbibliographie\nbibliography_axis_links\nbibliography_entity_links\nbibliography_entries\nbibliography_sources\nevidence_bibliography_links\nTables_in_H2pjHHJbH276XmnbNcJhCp (%source%)\naxis_source_nez\nbibliography_sources\nmaterial_sources\nmolecule_plant_sources\nolfaction_memory_article_sources\nolfaction_memory_sources\nresearch_entry_sources\nresearch_sources\nsource_article_nez\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

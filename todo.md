@@ -2538,3 +2538,21 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] 12 molécules TYPE A enrichies avec QIDs manuels/SPARQL (Calone, Guaiacol, Glycine, Hydroxyproline, Ionone blanche, Lignine, Linalol oxyde, Méthyl Ionone, Santalol, Tanin, Incensole acetate, Yuzu lactone)
 - [x] 3 sesquiterpènes vétiver (Zizanol, α-Vétivène, β-Vétispirène) documentés comme absents de Wikidata
 - [x] Page /inventaire couvre déjà les 82 entrées laboratoire (existant confirmé)
+
+## SESSION 18 MARS 2026 — Traditions QID + Vétiver + Mag.bynez.com
+
+- [ ] Compléter les 31 traditions sans QID avec QIDs géographiques Wikidata
+- [ ] Documenter Zizanol, α-Vétivène, β-Vétispirène avec PubChem + notes scientifiques
+- [ ] Analyser mag.bynez.com et intégrer les articles pertinents en bibliographie
+- [ ] Lier les références mag.bynez.com aux plantes et molécules concernées
+
+## SESSION 18 MARS 2026 — Bilan final (suite)
+
+- [x] Traditions olfactives : 67/70 enrichies avec QIDs Wikidata (95,7%)
+- [x] 3 sesquiterpènes vétiver (Zizanol, α-Vétivène, β-Vétispirène) documentés avec PubChem CID, famille chimique, notes GC-MS
+- [x] 2 articles NEZ intégrés dans bibliography_sources (id 30001-30002)
+- [x] Liaisons bibliography_entity_links créées : Héliotropine (molecule 90071) + Boswellia sacra (plant 690259)
+- [x] Notes enrichies sur Héliotropine (ECHA CMR 1B, IFRA, facteur sécurité >33000)
+- [x] Notes enrichies sur Boswellia sacra (Wadi Dawkah, Amouage, UNESCO, 5000 arbres)
+- [x] ifra_status héliotropine mis à jour : restricted (CMR 1B)
+- [x] Documentation sauvegardée dans docs/nez-articles-extracted.md

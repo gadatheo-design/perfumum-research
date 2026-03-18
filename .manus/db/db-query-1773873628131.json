@@ -1,0 +1,16 @@
+{
+  "query": "SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN wikidata_qid IS NOT NULL THEN 1 ELSE 0 END) as avec_qid,\n  SUM(CASE WHEN wikidata_qid IS NULL THEN 1 ELSE 0 END) as sans_qid,\n  ROUND(SUM(CASE WHEN wikidata_qid IS NOT NULL THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 1) as pct_couverture\nFROM traditions_olfactives;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(*) as total,\n  SUM(CASE WHEN wikidata_qid IS NOT NULL THEN 1 ELSE 0 END) as avec_qid,\n  SUM(CASE WHEN wikidata_qid IS NULL THEN 1 ELSE 0 END) as sans_qid,\n  ROUND(SUM(CASE WHEN wikidata_qid IS NOT NULL THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 1) as pct_couverture\nFROM traditions_olfactives;",
+  "rows": [
+    {
+      "total": "70",
+      "avec_qid": "67",
+      "sans_qid": "3",
+      "pct_couverture": "95.7"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\tavec_qid\tsans_qid\tpct_couverture\n70\t67\t3\t95.7\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

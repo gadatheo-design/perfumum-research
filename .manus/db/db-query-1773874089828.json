@@ -1,0 +1,15 @@
+{
+  "query": "\n-- Les colonnes s'appellent ifra_status et ifra_data d'après la réponse brute précédente\nUPDATE molecules \nSET \n  ifra_status = 'restricted',\n  ifra_data = '{\"status\": \"restricted\", \"classification\": \"CMR 1B (reprotoxique)\", \"authority\": \"ECHA CER\", \"year\": 2024, \"derogation_filed\": true, \"derogation_date\": \"2025-06\", \"safety_factor\": 33000, \"ifra_position\": \"safe_at_use_levels\", \"source\": \"NEZ mag.bynez.com, J. Mignot, jan. 2026\"}'\nWHERE id = 90071;\n\nSELECT id, name, ifra_status FROM molecules WHERE id = 90071;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Les colonnes s'appellent ifra_status et ifra_data d'après la réponse brute précédente\nUPDATE molecules \nSET \n  ifra_status = 'restricted',\n  ifra_data = '{\"status\": \"restricted\", \"classification\": \"CMR 1B (reprotoxique)\", \"authority\": \"ECHA CER\", \"year\": 2024, \"derogation_filed\": true, \"derogation_date\": \"2025-06\", \"safety_factor\": 33000, \"ifra_position\": \"safe_at_use_levels\", \"source\": \"NEZ mag.bynez.com, J. Mignot, jan. 2026\"}'\nWHERE id = 90071;\n\nSELECT id, name, ifra_status FROM molecules WHERE id = 90071;\n",
+  "rows": [
+    {
+      "id": "90071",
+      "name": "Heliotropine (Piperonal)",
+      "ifra_status": "restricted"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tifra_status\n90071\tHeliotropine (Piperonal)\trestricted\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}

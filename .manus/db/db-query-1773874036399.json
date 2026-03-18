@@ -1,0 +1,26 @@
+{
+  "query": "\n-- Article 1 (id=30001) : Héliotropine → molécule id=90071\nINSERT INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, relevance_score, notes)\nVALUES \n  (30001, 'molecule', 90071, 'primary_source', 90, \n   'Article NEZ 2026 : réglementation ECHA CMR 1B, dossier de dérogation IFRA/RIFM, facteur de sécurité >33000, historique synthèse 1869-1879');\n\n-- Article 2 (id=30002) : Boswellia sacra → plante id=690259\nINSERT INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, relevance_score, notes)\nVALUES \n  (30002, 'plant', 690259, 'conservation', 95, \n   'Article NEZ 2026 : Wadi Dawkah UNESCO, relance filière Amouage 2022, 5000 arbres géolocalisés, forêt intelligente QR code, menace dromadaires');\n\n-- Vérifier les liaisons créées\nSELECT bel.id, bel.entity_type, bel.entity_id, bel.link_type, bel.relevance_score, bs.title\nFROM bibliography_entity_links bel\nJOIN bibliography_sources bs ON bel.bibliography_id = bs.id\nWHERE bs.url LIKE '%bynez%';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Article 1 (id=30001) : Héliotropine → molécule id=90071\nINSERT INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, relevance_score, notes)\nVALUES \n  (30001, 'molecule', 90071, 'primary_source', 90, \n   'Article NEZ 2026 : réglementation ECHA CMR 1B, dossier de dérogation IFRA/RIFM, facteur de sécurité >33000, historique synthèse 1869-1879');\n\n-- Article 2 (id=30002) : Boswellia sacra → plante id=690259\nINSERT INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, relevance_score, notes)\nVALUES \n  (30002, 'plant', 690259, 'conservation', 95, \n   'Article NEZ 2026 : Wadi Dawkah UNESCO, relance filière Amouage 2022, 5000 arbres géolocalisés, forêt intelligente QR code, menace dromadaires');\n\n-- Vérifier les liaisons créées\nSELECT bel.id, bel.entity_type, bel.entity_id, bel.link_type, bel.relevance_score, bs.title\nFROM bibliography_entity_links bel\nJOIN bibliography_sources bs ON bel.bibliography_id = bs.id\nWHERE bs.url LIKE '%bynez%';\n",
+  "rows": [
+    {
+      "id": "2147573648",
+      "entity_type": "molecule",
+      "entity_id": "90071",
+      "link_type": "primary_source",
+      "relevance_score": "90",
+      "title": "L'héliotropine : une molécule qui met le feu aux poudres"
+    },
+    {
+      "id": "2147573649",
+      "entity_type": "plant",
+      "entity_id": "690259",
+      "link_type": "conservation",
+      "relevance_score": "95",
+      "title": "Au Wadi Dawkah, le Grasse du sultanat"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tentity_type\tentity_id\tlink_type\trelevance_score\ttitle\n2147573648\tmolecule\t90071\tprimary_source\t90\tL'héliotropine : une molécule qui met le feu aux poudres\n2147573649\tplant\t690259\tconservation\t95\tAu Wadi Dawkah, le Grasse du sultanat\n",
+  "stderr": "",
+  "execution_time_ms": 106
+}

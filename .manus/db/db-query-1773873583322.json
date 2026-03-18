@@ -1,0 +1,165 @@
+{
+  "query": "SELECT id, name, region FROM traditions_olfactives WHERE wikidata_qid IS NULL ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, region FROM traditions_olfactives WHERE wikidata_qid IS NULL ORDER BY id;",
+  "rows": [
+    {
+      "id": "12",
+      "name": "Umbria Arcana",
+      "region": "Dimension ombrale (conceptuelle)"
+    },
+    {
+      "id": "13",
+      "name": "Cryo-Atlas",
+      "region": "Régions glaciaires (conceptuelle)"
+    },
+    {
+      "id": "14",
+      "name": "November Humid",
+      "region": "Climat novembre humide (conceptuelle)"
+    },
+    {
+      "id": "90001",
+      "name": "Égypte / Nil",
+      "region": "Afrique du Nord"
+    },
+    {
+      "id": "90002",
+      "name": "Nubie / Sahel",
+      "region": "Afrique subsaharienne"
+    },
+    {
+      "id": "90003",
+      "name": "Mésopotamie / Tigre-Euphrate",
+      "region": "Moyen-Orient"
+    },
+    {
+      "id": "90004",
+      "name": "Levant / Canaanéen",
+      "region": "Moyen-Orient"
+    },
+    {
+      "id": "90005",
+      "name": "Anatolie / Tell",
+      "region": "Turquie"
+    },
+    {
+      "id": "90006",
+      "name": "Perse / Achéménide",
+      "region": "Iran"
+    },
+    {
+      "id": "90007",
+      "name": "Grèce mycénienne / Égéen",
+      "region": "Grèce"
+    },
+    {
+      "id": "90008",
+      "name": "Méditerranée résineuse",
+      "region": "Méditerranée"
+    },
+    {
+      "id": "90009",
+      "name": "Rome / Thermes",
+      "region": "Europe méridionale"
+    },
+    {
+      "id": "90010",
+      "name": "Byzance / Encens liturgique",
+      "region": "Europe orientale"
+    },
+    {
+      "id": "90011",
+      "name": "Arabique / Attars",
+      "region": "Péninsule arabique"
+    },
+    {
+      "id": "90012",
+      "name": "Inde / Temple",
+      "region": "Asie du Sud"
+    },
+    {
+      "id": "90013",
+      "name": "Himalaya / Monastique",
+      "region": "Himalaya"
+    },
+    {
+      "id": "90014",
+      "name": "Chine / Encens lettré",
+      "region": "Asie orientale"
+    },
+    {
+      "id": "90015",
+      "name": "Japon / Kōdō",
+      "region": "Asie orientale"
+    },
+    {
+      "id": "90016",
+      "name": "Asie du Sud-Est / Tropical sacré",
+      "region": "Asie du Sud-Est"
+    },
+    {
+      "id": "90017",
+      "name": "Océanique / Monoï-Tiaré",
+      "region": "Pacifique"
+    },
+    {
+      "id": "90018",
+      "name": "Celtique / Brumes",
+      "region": "Europe occidentale"
+    },
+    {
+      "id": "90019",
+      "name": "Nordique / Boréal",
+      "region": "Europe du Nord"
+    },
+    {
+      "id": "90020",
+      "name": "Steppe / Routes",
+      "region": "Eurasie centrale"
+    },
+    {
+      "id": "90021",
+      "name": "Désert / Ocre",
+      "region": "Afrique / Arabie"
+    },
+    {
+      "id": "90022",
+      "name": "Atlantique / Submergé",
+      "region": "Atlantique"
+    },
+    {
+      "id": "90023",
+      "name": "Abyssal / Hadal",
+      "region": "Océans profonds"
+    },
+    {
+      "id": "90024",
+      "name": "Volcanique / Basalte",
+      "region": "Zones volcaniques"
+    },
+    {
+      "id": "90025",
+      "name": "Glaciaire / Cryo",
+      "region": "Zones polaires"
+    },
+    {
+      "id": "90026",
+      "name": "Urbain / Industriel",
+      "region": "Global"
+    },
+    {
+      "id": "90027",
+      "name": "Archive / Bibliothèque",
+      "region": "Global"
+    },
+    {
+      "id": "90028",
+      "name": "Sépulcral / Ossuaire",
+      "region": "Global"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\n12\tUmbria Arcana\tDimension ombrale (conceptuelle)\n13\tCryo-Atlas\tRégions glaciaires (conceptuelle)\n14\tNovember Humid\tClimat novembre humide (conceptuelle)\n90001\tÉgypte / Nil\tAfrique du Nord\n90002\tNubie / Sahel\tAfrique subsaharienne\n90003\tMésopotamie / Tigre-Euphrate\tMoyen-Orient\n90004\tLevant / Canaanéen\tMoyen-Orient\n90005\tAnatolie / Tell\tTurquie\n90006\tPerse / Achéménide\tIran\n90007\tGrèce mycénienne / Égéen\tGrèce\n90008\tMéditerranée résineuse\tMéditerranée\n90009\tRome / Thermes\tEurope méridionale\n90010\tByzance / Encens liturgique\tEurope orientale\n90011\tArabique / Attars\tPéninsule arabique\n90012\tInde / Temple\tAsie du Sud\n90013\tHimalaya / Monastique\tHimalaya\n90014\tChine / Encens lettré\tAsie orientale\n90015\tJapon / Kōdō\tAsie orientale\n90016\tAsie du Sud-Est / Tropical sacré\tAsie du Sud-Est\n90017\tOcéanique / Monoï-Tiaré\tPacifique\n90018\tCeltique / Brumes\tEurope occidentale\n90019\tNordique / Boréal\tEurope du Nord\n90020\tSteppe / Routes\tEurasie centrale\n90021\tDésert / Ocre\tAfrique / Arabie\n90022\tAtlantique / Submergé\tAtlantique\n90023\tAbyssal / Hadal\tOcéans profonds\n90024\tVolcanique / Basalte\tZones volcaniques\n90025\tGlaciaire / Cryo\tZones polaires\n90026\tUrbain / Industriel\tGlobal\n90027\tArchive / Bibliothèque\tGlobal\n90028\tSépulcral / Ossuaire\tGlobal\n",
+  "stderr": "",
+  "execution_time_ms": 93
+}

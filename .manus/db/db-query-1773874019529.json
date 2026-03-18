@@ -1,0 +1,18 @@
+{
+  "query": "\n-- Récupérer les IDs des articles NEZ\nSELECT id, title FROM bibliography_sources WHERE url LIKE '%bynez%' ORDER BY id;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Récupérer les IDs des articles NEZ\nSELECT id, title FROM bibliography_sources WHERE url LIKE '%bynez%' ORDER BY id;\n",
+  "rows": [
+    {
+      "id": "30001",
+      "title": "L'héliotropine : une molécule qui met le feu aux poudres"
+    },
+    {
+      "id": "30002",
+      "title": "Au Wadi Dawkah, le Grasse du sultanat"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\n30001\tL'héliotropine : une molécule qui met le feu aux poudres\n30002\tAu Wadi Dawkah, le Grasse du sultanat\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

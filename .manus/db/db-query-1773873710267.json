@@ -1,0 +1,49 @@
+{
+  "query": "SELECT id, name, cas_number, pubchem_cid, formula, chemicalFormula, molecularWeight, notes, family, chemicalFamily, olfactiveProfile\nFROM molecules \nWHERE cas_number IN ('41060-17-1', '5765-27-5', '27840-40-0');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, cas_number, pubchem_cid, formula, chemicalFormula, molecularWeight, notes, family, chemicalFamily, olfactiveProfile\nFROM molecules \nWHERE cas_number IN ('41060-17-1', '5765-27-5', '27840-40-0');",
+  "rows": [
+    {
+      "id": "690009",
+      "name": "α-Vétivène",
+      "cas_number": "5765-27-5",
+      "pubchem_cid": "NULL",
+      "formula": "NULL",
+      "chemicalFormula": "C15H24",
+      "molecularWeight": "204",
+      "notes": "NULL",
+      "family": "Sesquiterpène",
+      "chemicalFamily": "NULL",
+      "olfactiveProfile": "[\"Boisé\",\"terreux\",\"fumé\",\"caractère vétiver\"]"
+    },
+    {
+      "id": "690012",
+      "name": "Zizanol",
+      "cas_number": "41060-17-1",
+      "pubchem_cid": "527246",
+      "formula": "NULL",
+      "chemicalFormula": "C15H24O",
+      "molecularWeight": "220",
+      "notes": "NULL",
+      "family": "Sesquiterpène",
+      "chemicalFamily": "NULL",
+      "olfactiveProfile": "[\"Boisé\",\"terreux\",\"humide\",\"racine\"]"
+    },
+    {
+      "id": "1050015",
+      "name": "β-Vétispirène",
+      "cas_number": "27840-40-0",
+      "pubchem_cid": "14475467",
+      "formula": "C18H20O4",
+      "chemicalFormula": "C15H22",
+      "molecularWeight": "202",
+      "notes": "NULL",
+      "family": "Sesquiterpène",
+      "chemicalFamily": "NULL",
+      "olfactiveProfile": "[\"Boisé\",\"vétiver\"]"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcas_number\tpubchem_cid\tformula\tchemicalFormula\tmolecularWeight\tnotes\tfamily\tchemicalFamily\tolfactiveProfile\n690009\tα-Vétivène\t5765-27-5\tNULL\tNULL\tC15H24\t204\tNULL\tSesquiterpène\tNULL\t[\"Boisé\",\"terreux\",\"fumé\",\"caractère vétiver\"]\n690012\tZizanol\t41060-17-1\t527246\tNULL\tC15H24O\t220\tNULL\tSesquiterpène\tNULL\t[\"Boisé\",\"terreux\",\"humide\",\"racine\"]\n1050015\tβ-Vétispirène\t27840-40-0\t14475467\tC18H20O4\tC15H22\t202\tNULL\tSesquiterpène\tNULL\t[\"Boisé\",\"vétiver\"]\n",
+  "stderr": "",
+  "execution_time_ms": 54
+}

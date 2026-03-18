@@ -1,0 +1,27 @@
+{
+  "query": "\n-- Enrichir les notes de l'héliotropine avec les données réglementaires de l'article NEZ\nUPDATE molecules \nSET notes = CONCAT(COALESCE(notes, ''), \n  '\\n\\n**Statut réglementaire (2024-2026)** : En 2024, le CER de l\\'ECHA a demandé le classement comme substance reprotoxique CMR 1B. Un dossier de dérogation a été déposé par un consortium cosmétique/parfumerie en juin 2025 (IFRA, RIFM). Le facteur de sécurité calculé par le RIFM est >33 000 pour l\\'exposition réelle en parfumerie. Synthèse industrielle depuis 1879 (Schimmel & Co). Source : NEZ, J. Mignot, jan. 2026.')\nWHERE id = 90071;\n\n-- Enrichir les notes de Boswellia sacra avec les données du Wadi Dawkah\nUPDATE plants\nSET notes = CONCAT(COALESCE(notes, ''),\n  '\\n\\n**Wadi Dawkah (2022-2026)** : 1400 ha classés UNESCO depuis 2000 (Dhofar, Oman). Relance de la filière encens par Amouage + ministère omanais du Tourisme en 2022. Objectif : HE traçable \"de l\\'arbre jusqu\\'à la larme\". 5000 arbres géolocalisés avec QR code individuel. Menace principale : dromadaires (consomment les feuilles). Depuis avril 2023 : irrigation réduite pour régulation naturelle. Source : NEZ, B. Boisserie, jan. 2026.')\nWHERE id = 690259;\n\nSELECT id, name, LEFT(notes, 200) as notes_preview FROM molecules WHERE id = 90071;\nSELECT id, name, LEFT(notes, 200) as notes_preview FROM plants WHERE id = 690259;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Enrichir les notes de l'héliotropine avec les données réglementaires de l'article NEZ\nUPDATE molecules \nSET notes = CONCAT(COALESCE(notes, ''), \n  '\\n\\n**Statut réglementaire (2024-2026)** : En 2024, le CER de l\\'ECHA a demandé le classement comme substance reprotoxique CMR 1B. Un dossier de dérogation a été déposé par un consortium cosmétique/parfumerie en juin 2025 (IFRA, RIFM). Le facteur de sécurité calculé par le RIFM est >33 000 pour l\\'exposition réelle en parfumerie. Synthèse industrielle depuis 1879 (Schimmel & Co). Source : NEZ, J. Mignot, jan. 2026.')\nWHERE id = 90071;\n\n-- Enrichir les notes de Boswellia sacra avec les données du Wadi Dawkah\nUPDATE plants\nSET notes = CONCAT(COALESCE(notes, ''),\n  '\\n\\n**Wadi Dawkah (2022-2026)** : 1400 ha classés UNESCO depuis 2000 (Dhofar, Oman). Relance de la filière encens par Amouage + ministère omanais du Tourisme en 2022. Objectif : HE traçable \"de l\\'arbre jusqu\\'à la larme\". 5000 arbres géolocalisés avec QR code individuel. Menace principale : dromadaires (consomment les feuilles). Depuis avril 2023 : irrigation réduite pour régulation naturelle. Source : NEZ, B. Boisserie, jan. 2026.')\nWHERE id = 690259;\n\nSELECT id, name, LEFT(notes, 200) as notes_preview FROM molecules WHERE id = 90071;\nSELECT id, name, LEFT(notes, 200) as notes_preview FROM plants WHERE id = 690259;\n",
+  "rows": [
+    {
+      "id": "90071",
+      "name": "Heliotropine (Piperonal)",
+      "notes_preview": ""
+    },
+    {
+      "id": "id",
+      "name": "name",
+      "notes_preview": "notes_preview"
+    },
+    {
+      "id": "690259",
+      "name": "Oliban (Boswellia serrata)",
+      "notes_preview": "Règne: Résine | Division: Plantae | Classe: Boswellia serrata | Ordre: Arbre (vivace) | Genre: Source: ajout (référence générale) | Espèce: Résineuse, citronnée, balsamique | Cycle: Sapindales | Récol"
+    }
+  ],
+  "messages": [
+    "**Statut réglementaire (2024-2026)** : En 2024, le CER de l'ECHA a demandé le classement comme substance reprotoxique CMR 1B. Un dossier de dérogation a été déposé par un consortium cosmétique/parfu"
+  ],
+  "stdout": "id\tname\tnotes_preview\n90071\tHeliotropine (Piperonal)\t\n\n**Statut réglementaire (2024-2026)** : En 2024, le CER de l'ECHA a demandé le classement comme substance reprotoxique CMR 1B. Un dossier de dérogation a été déposé par un consortium cosmétique/parfu\nid\tname\tnotes_preview\n690259\tOliban (Boswellia serrata)\tRègne: Résine | Division: Plantae | Classe: Boswellia serrata | Ordre: Arbre (vivace) | Genre: Source: ajout (référence générale) | Espèce: Résineuse, citronnée, balsamique | Cycle: Sapindales | Récol\n",
+  "stderr": "",
+  "execution_time_ms": 79
+}

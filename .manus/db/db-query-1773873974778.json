@@ -1,0 +1,354 @@
+{
+  "query": "DESCRIBE bibliography_entries; DESCRIBE axis_source_nez;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute DESCRIBE bibliography_entries; DESCRIBE axis_source_nez;",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "entry_key",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "UNI",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "entry_type",
+      "Type": "enum('article','book','inbook','incollection','inproceedings','conference','thesis','mastersthesis','phdthesis','techreport','manual','unpublished','misc','online','patent','standard','dataset','software')",
+      "Null": "NO",
+      "Key": "MUL",
+      "Default": "article",
+      "Extra": ""
+    },
+    {
+      "Field": "title",
+      "Type": "varchar(500)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "authors",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "year",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "journal",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "booktitle",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "publisher",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "volume",
+      "Type": "varchar(50)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "number",
+      "Type": "varchar(50)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "pages",
+      "Type": "varchar(50)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "edition",
+      "Type": "varchar(50)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "chapter",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "doi",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "isbn",
+      "Type": "varchar(20)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "issn",
+      "Type": "varchar(20)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "pmid",
+      "Type": "varchar(20)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "arxiv_id",
+      "Type": "varchar(50)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "url",
+      "Type": "varchar(500)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "abstract",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "keywords",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "language",
+      "Type": "varchar(50)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "en",
+      "Extra": ""
+    },
+    {
+      "Field": "research_domain",
+      "Type": "enum('chimie_olfactive','botanique','ethnobotanique','histoire_parfumerie','neurologie_olfactive','extraction','formulation','reglementation','durabilite','tabac_cannabis','methodologie','autre')",
+      "Null": "YES",
+      "Key": "MUL",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "relevance_score",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "50",
+      "Extra": ""
+    },
+    {
+      "Field": "tags",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "notes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "annotation",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "pdf_url",
+      "Type": "varchar(500)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "read_status",
+      "Type": "enum('unread','reading','read','to_review')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "unread",
+      "Extra": ""
+    },
+    {
+      "Field": "linked_molecule_ids",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "linked_plant_ids",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "linked_recette_ids",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "added_by",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "created_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updated_at",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    },
+    {
+      "Field": "Field",
+      "Type": "Type",
+      "Null": "Null",
+      "Key": "Key",
+      "Default": "Default",
+      "Extra": "Extra"
+    },
+    {
+      "Field": "id",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "axis_id",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "MUL",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "source_id",
+      "Type": "varchar(100)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "confidence",
+      "Type": "decimal(3,2)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "0.5",
+      "Extra": ""
+    },
+    {
+      "Field": "evidence",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "created_at",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint\tNO\tPRI\tNULL\tauto_increment\nentry_key\tvarchar(100)\tNO\tUNI\tNULL\t\nentry_type\tenum('article','book','inbook','incollection','inproceedings','conference','thesis','mastersthesis','phdthesis','techreport','manual','unpublished','misc','online','patent','standard','dataset','software')\tNO\tMUL\tarticle\t\ntitle\tvarchar(500)\tNO\t\tNULL\t\nauthors\ttext\tYES\t\tNULL\t\nyear\tint\tYES\tMUL\tNULL\t\njournal\tvarchar(255)\tYES\t\tNULL\t\nbooktitle\tvarchar(255)\tYES\t\tNULL\t\npublisher\tvarchar(255)\tYES\t\tNULL\t\nvolume\tvarchar(50)\tYES\t\tNULL\t\nnumber\tvarchar(50)\tYES\t\tNULL\t\npages\tvarchar(50)\tYES\t\tNULL\t\nedition\tvarchar(50)\tYES\t\tNULL\t\nchapter\tvarchar(100)\tYES\t\tNULL\t\ndoi\tvarchar(100)\tYES\t\tNULL\t\nisbn\tvarchar(20)\tYES\t\tNULL\t\nissn\tvarchar(20)\tYES\t\tNULL\t\npmid\tvarchar(20)\tYES\t\tNULL\t\narxiv_id\tvarchar(50)\tYES\t\tNULL\t\nurl\tvarchar(500)\tYES\t\tNULL\t\nabstract\ttext\tYES\t\tNULL\t\nkeywords\tjson\tYES\t\tNULL\t\nlanguage\tvarchar(50)\tYES\t\ten\t\nresearch_domain\tenum('chimie_olfactive','botanique','ethnobotanique','histoire_parfumerie','neurologie_olfactive','extraction','formulation','reglementation','durabilite','tabac_cannabis','methodologie','autre')\tYES\tMUL\tNULL\t\nrelevance_score\tint\tYES\t\t50\t\ntags\tjson\tYES\t\tNULL\t\nnotes\ttext\tYES\t\tNULL\t\nannotation\ttext\tYES\t\tNULL\t\npdf_url\tvarchar(500)\tYES\t\tNULL\t\nread_status\tenum('unread','reading','read','to_review')\tYES\t\tunread\t\nlinked_molecule_ids\tjson\tYES\t\tNULL\t\nlinked_plant_ids\tjson\tYES\t\tNULL\t\nlinked_recette_ids\tjson\tYES\t\tNULL\t\nadded_by\tint\tYES\t\tNULL\t\ncreated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nupdated_at\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\nField\tType\tNull\tKey\tDefault\tExtra\nid\tint\tNO\tPRI\tNULL\tauto_increment\naxis_id\tvarchar(100)\tNO\tMUL\tNULL\t\nsource_id\tvarchar(100)\tNO\t\tNULL\t\nconfidence\tdecimal(3,2)\tNO\t\t0.5\t\nevidence\ttext\tYES\t\tNULL\t\ncreated_at\ttimestamp\tYES\t\tCURRENT_TIMESTAMP\t\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}
