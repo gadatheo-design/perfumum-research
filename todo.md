@@ -2467,3 +2467,10 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Ajouter lien PERFUMUM ↔ Europeana dans MegaMenu (Archives & Traditions)
 - [x] Mode démonstration si clé API absente (données d'exemple affichées)
 - [x] Liens croisés plantes/molécules PERFUMUM sur chaque carte d'œuvre
+
+## SESSION 18 MARS 2026 — Widget Europeana + SPARQL Explorer étendu
+
+- [x] Créer composant EuropeanaWidget réutilisable (mini-galerie 4-8 vignettes, mode démo)
+- [x] Intégrer EuropeanaWidget dans PlantDetail (onglet Europeana avec Globe icon)
+- [x] Intégrer EuropeanaWidget dans MoleculeDetail (onglet Europeana avec Globe icon)
+- [x] Étendre SPARQL Explorer avec 6e onglet Europeana (vue unifiée Wikidata + Europeana, 4 thèmes, SPARQL libre)

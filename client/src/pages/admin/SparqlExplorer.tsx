@@ -15,8 +15,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import {
   Search, Globe, BookOpen, Palette, FlaskConical, Leaf,
-  ExternalLink, Image, AlertCircle, Loader2, Sparkles, Code
+  ExternalLink, Image, AlertCircle, Loader2, Sparkles, Code,
+  Building2, Calendar, Layers
 } from "lucide-react";
+import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 
 // ─── Composant carte œuvre d'art ─────────────────────────────────────────────
 function ArtworkCard({ artwork }: { artwork: any }) {
@@ -569,7 +571,7 @@ export default function SparqlExplorer() {
 
       {/* Onglets */}
       <Tabs defaultValue="stats">
-        <TabsList className="grid grid-cols-5 w-full">
+        <TabsList className="grid grid-cols-6 w-full">
           <TabsTrigger value="stats" className="text-xs">
             <Sparkles className="h-3.5 w-3.5 mr-1" />
             Statistiques
@@ -589,6 +591,10 @@ export default function SparqlExplorer() {
           <TabsTrigger value="templates" className="text-xs">
             <BookOpen className="h-3.5 w-3.5 mr-1" />
             Templates
+          </TabsTrigger>
+          <TabsTrigger value="europeana" className="text-xs">
+            <Layers className="h-3.5 w-3.5 mr-1 text-cyan-600" />
+            <span className="text-cyan-600 font-medium">Europeana</span>
           </TabsTrigger>
         </TabsList>
 
@@ -611,7 +617,276 @@ export default function SparqlExplorer() {
         <TabsContent value="templates" className="mt-4">
           <TemplatesTab />
         </TabsContent>
+
+        <TabsContent value="europeana" className="mt-4">
+          <EuropeanaUnifiedTab />
+        </TabsContent>
       </Tabs>
+    </div>
+  );
+}
+
+// ─── Onglet Europeana Unifié ──────────────────────────────────────────────────
+/**
+ * Vue unifiée Wikidata + Europeana dans le SPARQL Explorer.
+ * Permet de croiser les QIDs Wikidata avec les collections muséales européennes
+ * pour les 4 thèmes thématiques de PERFUMUM.
+ */
+function EuropeanaUnifiedTab() {
+  const [activeTheme, setActiveTheme] = useState<string>("rose_damas");
+  const [sparqlQuery, setSparqlQuery] = useState<string>("");
+  const [sparqlResults, setSparqlResults] = useState<any[] | null>(null);
+  const [sparqlLoading, setSparqlLoading] = useState(false);
+
+  // Requêtes thématiques Europeana
+  const { data: thematicData, isLoading: thematicLoading } = trpc.europeana.thematicSearch.useQuery(
+    { theme: activeTheme as "rose_damas" | "encens" | "tabac_ottoman" | "houblon", limit: 12 },
+    { enabled: true }
+  );
+
+  // Stats Europeana
+  const { data: europeanaStats } = trpc.europeana.stats.useQuery();
+
+  // Requête SPARQL Wikidata libre
+  const freeSparqlMutation = trpc.sparql.freeQuery.useMutation();
+
+  const themes = [
+    { id: "rose_damas", label: "Rose de Damas", icon: "🌹", color: "text-rose-600" },
+    { id: "encens", label: "Encens & Oliban", icon: "🔥", color: "text-amber-600" },
+    { id: "tabac_ottoman", label: "Tabac ottoman", icon: "🌿", color: "text-emerald-600" },
+    { id: "houblon", label: "Houblon & Bière", icon: "🌾", color: "text-yellow-600" },
+  ];
+
+  const sparqlTemplates = [
+    {
+      label: "Rose de Damas — Wikidata",
+      query: `SELECT ?item ?itemLabel ?image ?date WHERE {
+  ?item wdt:P31 wd:Q3305213.
+  ?item wdt:P180 wd:Q102231.
+  OPTIONAL { ?item wdt:P18 ?image. }
+  OPTIONAL { ?item wdt:P571 ?date. }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en". }
+} LIMIT 20`,
+    },
+    {
+      label: "Encens dans les collections",
+      query: `SELECT ?item ?itemLabel ?image ?collection ?collectionLabel WHERE {
+  ?item wdt:P31 wd:Q3305213.
+  ?item wdt:P180 wd:Q131395.
+  OPTIONAL { ?item wdt:P18 ?image. }
+  OPTIONAL { ?item wdt:P195 ?collection. }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en". }
+} LIMIT 20`,
+    },
+    {
+      label: "Iconographie tabac ottoman",
+      query: `SELECT ?item ?itemLabel ?image ?creator ?creatorLabel WHERE {
+  ?item wdt:P31 wd:Q3305213.
+  ?item wdt:P180 wd:Q42308.
+  ?item wdt:P276 ?place.
+  ?place wdt:P17 wd:Q43.
+  OPTIONAL { ?item wdt:P18 ?image. }
+  OPTIONAL { ?item wdt:P170 ?creator. }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en". }
+} LIMIT 20`,
+    },
+  ];
+
+  const handleSparqlRun = async () => {
+    if (!sparqlQuery.trim()) return;
+    setSparqlLoading(true);
+    try {
+      const result = await freeSparqlMutation.mutateAsync({ query: sparqlQuery });
+      setSparqlResults(result.results || []);
+    } catch (e) {
+      setSparqlResults([]);
+    } finally {
+      setSparqlLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* En-tête */}
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h3 className="text-base font-semibold flex items-center gap-2">
+            <Layers className="h-4 w-4 text-cyan-600" />
+            Vue unifiée PERFUMUM ↔ Europeana
+          </h3>
+          <p className="text-sm text-muted-foreground mt-1">
+            Croisez les QIDs Wikidata avec les 50 millions d'objets des collections muséales européennes.
+          </p>
+        </div>
+        {europeanaStats && (
+          <div className="flex gap-2 shrink-0">
+            <div className="text-center px-3 py-1.5 bg-cyan-50 dark:bg-cyan-950/20 rounded-lg border border-cyan-200 dark:border-cyan-800">
+              <p className="text-lg font-bold text-cyan-700 dark:text-cyan-400">
+                {europeanaStats.apiAvailable ? "✓" : "○"}
+              </p>
+              <p className="text-xs text-muted-foreground">API</p>
+            </div>
+            <div className="text-center px-3 py-1.5 bg-muted rounded-lg border">
+              <p className="text-lg font-bold">{europeanaStats.themesCount}</p>
+              <p className="text-xs text-muted-foreground">Thèmes</p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Sélecteur de thème */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+        {themes.map((theme) => (
+          <button
+            key={theme.id}
+            onClick={() => setActiveTheme(theme.id)}
+            className={`p-3 rounded-lg border text-left transition-all ${
+              activeTheme === theme.id
+                ? "border-primary bg-primary/5 shadow-sm"
+                : "border-border hover:border-primary/50 hover:bg-muted/50"
+            }`}
+          >
+            <div className="text-xl mb-1">{theme.icon}</div>
+            <p className={`text-xs font-medium ${activeTheme === theme.id ? "text-primary" : ""}`}>
+              {theme.label}
+            </p>
+          </button>
+        ))}
+      </div>
+
+      {/* Résultats Europeana pour le thème sélectionné */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <h4 className="text-sm font-medium flex items-center gap-2">
+            <Building2 className="h-3.5 w-3.5 text-cyan-600" />
+            Collections Europeana — {themes.find(t => t.id === activeTheme)?.label}
+          </h4>
+          {thematicData && (
+            <Badge variant="outline" className="text-xs">
+              {thematicData.apiAvailable
+                ? `${thematicData.total.toLocaleString()} œuvres`
+                : "Démo"}
+            </Badge>
+          )}
+        </div>
+
+        {thematicLoading && (
+          <div className="flex items-center justify-center py-8">
+            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+            <span className="ml-2 text-sm text-muted-foreground">Interrogation des collections…</span>
+          </div>
+        )}
+
+        {thematicData && !thematicLoading && (
+          <>
+            {!thematicData.apiAvailable && (
+              <div className="flex items-center gap-2 text-xs text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 rounded p-2">
+                <AlertCircle className="h-3.5 w-3.5 shrink-0" />
+                Mode démonstration — configurez EUROPEANA_API_KEY pour accéder aux vraies collections.
+              </div>
+            )}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              {thematicData.items.map((item: any, i: number) => (
+                <a
+                  key={`${item.id}-${i}`}
+                  href={item.europeanaUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block rounded-lg overflow-hidden border hover:border-primary/50 transition-all hover:shadow-md"
+                >
+                  <div className="aspect-square bg-muted relative overflow-hidden">
+                    {item.thumbnailUrl ? (
+                      <img
+                        src={item.thumbnailUrl}
+                        alt={item.title}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Palette className="h-8 w-8 text-muted-foreground/20" />
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end">
+                      <div className="p-2 w-full translate-y-full group-hover:translate-y-0 transition-transform">
+                        <p className="text-white text-xs font-medium line-clamp-2">{item.title}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="p-2">
+                    <p className="text-xs font-medium line-clamp-1">{item.title}</p>
+                    {item.creator && <p className="text-xs text-muted-foreground line-clamp-1">{item.creator}</p>}
+                    {item.institution && (
+                      <p className="text-xs text-muted-foreground/60 line-clamp-1 flex items-center gap-0.5 mt-0.5">
+                        <Building2 className="h-2.5 w-2.5 shrink-0" />
+                        {item.institution}
+                      </p>
+                    )}
+                  </div>
+                </a>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Séparateur */}
+      <div className="border-t pt-4">
+        <h4 className="text-sm font-medium flex items-center gap-2 mb-3">
+          <Code className="h-3.5 w-3.5" />
+          Requêtes SPARQL Wikidata croisées
+        </h4>
+
+        {/* Templates SPARQL */}
+        <div className="flex flex-wrap gap-2 mb-3">
+          {sparqlTemplates.map((tpl) => (
+            <Button
+              key={tpl.label}
+              variant="outline"
+              size="sm"
+              className="text-xs h-7"
+              onClick={() => setSparqlQuery(tpl.query)}
+            >
+              {tpl.label}
+            </Button>
+          ))}
+        </div>
+
+        <Textarea
+          value={sparqlQuery}
+          onChange={(e) => setSparqlQuery(e.target.value)}
+          placeholder="Saisissez une requête SPARQL Wikidata ou utilisez un template ci-dessus…"
+          className="font-mono text-xs min-h-[120px]"
+        />
+
+        <div className="flex justify-end mt-2">
+          <Button
+            size="sm"
+            onClick={handleSparqlRun}
+            disabled={sparqlLoading || !sparqlQuery.trim()}
+            className="gap-2"
+          >
+            {sparqlLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Search className="h-3.5 w-3.5" />}
+            Exécuter
+          </Button>
+        </div>
+
+        {/* Résultats SPARQL */}
+        {sparqlResults !== null && (
+          <div className="mt-4">
+            <p className="text-xs text-muted-foreground mb-2">{sparqlResults.length} résultat(s)</p>
+            {sparqlResults.length > 0 ? (
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                {sparqlResults.map((r: any, i: number) => (
+                  <ArtworkCard key={i} artwork={r} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground text-center py-4">Aucun résultat</p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

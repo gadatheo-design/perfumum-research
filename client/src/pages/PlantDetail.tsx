@@ -47,6 +47,7 @@ import { DominantMoleculeBadgeList } from "@/components/DominantMoleculeBadge";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { EntityConnectionBar } from "@/components/EntityConnectionBar";
 import { TabErrorBoundary } from "@/components/TabErrorBoundary";
+import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 
 // Mapping des axes climatiques vers des couleurs
 const axisColors: Record<string, string> = {
@@ -329,6 +330,10 @@ export default function PlantDetail() {
           {plantPerfumes && plantPerfumes.length > 0 && (
             <TabsTrigger value="perfumes">Parfums ({plantPerfumes.length})</TabsTrigger>
           )}
+          <TabsTrigger value="europeana" className="flex items-center gap-1">
+            <Globe className="h-3 w-3 text-cyan-600" />
+            <span className="hidden sm:inline">Europeana</span>
+          </TabsTrigger>
         </TabsList>
         
         {/* Nomenclature */}
@@ -1354,6 +1359,19 @@ export default function PlantDetail() {
                 )}
               </CardContent>
             </Card>
+          </TabErrorBoundary>
+        </TabsContent>
+        {/* Europeana — Collections muséales européennes */}
+        <TabsContent value="europeana" className="space-y-4">
+          <TabErrorBoundary tabLabel="Europeana">
+            <div className="max-w-2xl">
+              <EuropeanaWidget
+                type="plant"
+                entityId={plantId}
+                entityName={plant.latin_name || plant.name}
+                limit={8}
+              />
+            </div>
           </TabErrorBoundary>
         </TabsContent>
       </Tabs>

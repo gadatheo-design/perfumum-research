@@ -26,6 +26,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { TabErrorBoundary } from "@/components/TabErrorBoundary";
+import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 
 // Composant indicateur de statut PubChem
 function PubChemStatusBadge({ hasPubChem, pubchemCid }: { hasPubChem: boolean; pubchemCid?: number }) {
@@ -1163,6 +1164,10 @@ export default function MoleculeDetail() {
               <TabsTrigger value="synergies" className="flex items-center gap-1">
                 <Zap className="h-3 w-3" />
                 <span className="hidden sm:inline">Synergies</span>
+              </TabsTrigger>
+              <TabsTrigger value="europeana" className="flex items-center gap-1">
+                <Globe className="h-3 w-3 text-cyan-600" />
+                <span className="hidden sm:inline">Europeana</span>
               </TabsTrigger>
             </TabsList>
 
@@ -2377,6 +2382,20 @@ export default function MoleculeDetail() {
             <TabsContent value="synergies" className="space-y-6 mt-6">
               <TabErrorBoundary tabLabel="Synergies">
               <SynergiesTab moleculeName={molecule.name} moleculeId={molecule.id} />
+              </TabErrorBoundary>
+            </TabsContent>
+
+            {/* Europeana — Collections muséales européennes */}
+            <TabsContent value="europeana" className="space-y-4 mt-6">
+              <TabErrorBoundary tabLabel="Europeana">
+                <div className="max-w-2xl">
+                  <EuropeanaWidget
+                    type="molecule"
+                    entityId={molecule.id}
+                    entityName={molecule.name}
+                    limit={8}
+                  />
+                </div>
               </TabErrorBoundary>
             </TabsContent>
 
