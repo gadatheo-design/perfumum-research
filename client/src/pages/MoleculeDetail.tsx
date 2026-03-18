@@ -698,6 +698,12 @@ export default function MoleculeDetail() {
     enabled: !!molecule,
   });
 
+  // NOSE Phase 1 — Émissions olfactives GC-MS pour cette molécule
+  const { data: olfactiveEmissions } = trpc.olfactiveEmissions.getByMolecule.useQuery(
+    { moleculeId: id, limit: 100 },
+    { enabled: !!molecule }
+  );
+
   // Export PDF function
   const exportPDF = useCallback(async () => {
     if (!molecule) return;
@@ -1127,9 +1133,19 @@ export default function MoleculeDetail() {
           <Tabs defaultValue="overview" className="w-full">
             <TabsList className="grid w-full grid-cols-2 md:grid-cols-10">
               <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
+              <TabsTrigger value="synergies" className="flex items-center gap-1">
+                <Zap className="h-3 w-3" />
+              </TabsTrigger>
+              <TabsTrigger value="gcms" className="flex items-center gap-1">
+                <Beaker className="h-3 w-3" />
+                <span className="hidden sm:inline">GC-MS</span>
+                {olfactiveEmissions && olfactiveEmissions.total > 0 && (
+                  <Badge variant="secondary" className="ml-1 text-xs px-1">{olfactiveEmissions.total}</Badge>
+                )}
+              </TabsTrigger>
               <TabsTrigger value="nomenclature" className="flex items-center gap-1">
-                <BookOpen className="h-3.5 w-3.5" />
-                Nomenclature
+                <BookOpen className="h-3 w-3" />
+                <span className="hidden sm:inline">Nomenclature</span>
               </TabsTrigger>
               <TabsTrigger value="scientific">Données scientifiques</TabsTrigger>
               <TabsTrigger value="structure3d" className="flex items-center gap-1">
@@ -1145,7 +1161,8 @@ export default function MoleculeDetail() {
               <TabsTrigger value="ifra">Réglementation IFRA</TabsTrigger>
               <TabsTrigger value="perfumes">Parfums emblématiques</TabsTrigger>
               <TabsTrigger value="synergies" className="flex items-center gap-1">
-                ⚗️ Synergies
+                <Zap className="h-3 w-3" />
+                <span className="hidden sm:inline">Synergies</span>
               </TabsTrigger>
             </TabsList>
 
@@ -2277,6 +2294,75 @@ export default function MoleculeDetail() {
             </TabsContent>
 
             {/* Onglet Synergies moléculaires */}
+            <TabsContent value="gcms" className="space-y-6 mt-6">
+              <TabErrorBoundary tabLabel="GC-MS">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <Beaker className="h-5 w-5 text-emerald-500" />
+                    <h3 className="text-lg font-semibold">Présence dans les profils GC-MS</h3>
+                    <span className="text-sm text-muted-foreground">(NOSE Phase 1 — od:L12 Smell Emission)</span>
+                  </div>
+                  {!olfactiveEmissions || olfactiveEmissions.total === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <Beaker className="h-10 w-10 mx-auto mb-3 opacity-30" />
+                      <p>Aucune donnée GC-MS disponible pour cette molécule.</p>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <Badge variant="outline">{olfactiveEmissions.total} source{olfactiveEmissions.total > 1 ? 's' : ''} identifiée{olfactiveEmissions.total > 1 ? 's' : ''}</Badge>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="border-b">
+                              <th className="text-left py-2 pr-4 font-medium">Source</th>
+                              <th className="text-left py-2 pr-4 font-medium">Partie</th>
+                              <th className="text-right py-2 pr-4 font-medium">%</th>
+                              <th className="text-left py-2 pr-4 font-medium">Rôle</th>
+                              <th className="text-left py-2 pr-4 font-medium">Méthode</th>
+                              <th className="text-left py-2 font-medium">Origine</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {olfactiveEmissions.emissions.map((e: any) => (
+                              <tr key={e.id} className="border-b hover:bg-muted/30 transition-colors">
+                                <td className="py-2 pr-4">
+                                  {e.plant_id ? (
+                                    <Link href={`/plantes/${e.plant_id}`} className="text-primary hover:underline font-medium">
+                                      {e.plant_name || e.latin_name || '—'}
+                                    </Link>
+                                  ) : e.tabac_id ? (
+                                    <Link href={`/tabacs/${e.tabac_id}`} className="text-amber-600 hover:underline font-medium">
+                                      {e.tabac_name || '—'}
+                                    </Link>
+                                  ) : <span className="text-muted-foreground">—</span>}
+                                  {e.is_signature ? <Badge className="ml-1 text-xs bg-amber-500/10 text-amber-700 border-amber-300">★</Badge> : null}
+                                </td>
+                                <td className="py-2 pr-4 text-xs text-muted-foreground capitalize">{e.plant_part?.replace('_', ' ') || '—'}</td>
+                                <td className="py-2 pr-4 text-right font-mono">
+                                  {e.percentage != null ? (
+                                    <span className={Number(e.percentage) >= 10 ? 'text-emerald-600 font-semibold' : Number(e.percentage) >= 1 ? 'text-blue-600' : 'text-muted-foreground'}>
+                                      {Number(e.percentage).toFixed(2)}%
+                                    </span>
+                                  ) : e.concentration_ppm != null ? (
+                                    <span className="text-blue-600">{Number(e.concentration_ppm).toFixed(1)} ppm</span>
+                                  ) : '—'}
+                                </td>
+                                <td className="py-2 pr-4">
+                                  {e.role && <Badge variant="outline" className="text-xs capitalize">{e.role}</Badge>}
+                                </td>
+                                <td className="py-2 pr-4 text-xs text-muted-foreground uppercase">{e.analysis_method?.replace('_', '-') || '—'}</td>
+                                <td className="py-2 text-xs text-muted-foreground">{e.geographic_origin || '—'}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </TabErrorBoundary>
+            </TabsContent>
+
             <TabsContent value="synergies" className="space-y-6 mt-6">
               <TabErrorBoundary tabLabel="Synergies">
               <SynergiesTab moleculeName={molecule.name} moleculeId={molecule.id} />

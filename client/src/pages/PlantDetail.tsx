@@ -136,6 +136,12 @@ export default function PlantDetail() {
     plantId,
     { enabled: plantId > 0 }
   );
+
+  // NOSE Phase 1 — Émissions olfactives GC-MS
+  const { data: olfactiveEmissions } = trpc.olfactiveEmissions.getByPlant.useQuery(
+    { plantId, limit: 100 },
+    { enabled: plantId > 0 }
+  );
   
   if (isLoading) {
     return (
@@ -312,6 +318,13 @@ export default function PlantDetail() {
           <TabsTrigger value="usage">Usage Absorbe</TabsTrigger>
           <TabsTrigger value="genealogy">Généalogie</TabsTrigger>
           <TabsTrigger value="seasonal">Variations</TabsTrigger>
+          <TabsTrigger value="gcms" className="flex items-center gap-1">
+            <FlaskConical className="h-3 w-3" />
+            <span className="hidden sm:inline">GC-MS</span>
+            {olfactiveEmissions && olfactiveEmissions.total > 0 && (
+              <Badge variant="secondary" className="ml-1 text-xs px-1">{olfactiveEmissions.total}</Badge>
+            )}
+          </TabsTrigger>
           {plantPerfumes && plantPerfumes.length > 0 && (
             <TabsTrigger value="perfumes">Parfums ({plantPerfumes.length})</TabsTrigger>
           )}
@@ -1257,6 +1270,91 @@ export default function PlantDetail() {
           </TabErrorBoundary>
           </TabsContent>
         )}
+        {/* NOSE Phase 1 — Onglet GC-MS / Émissions Olfactives */}
+        <TabsContent value="gcms" className="space-y-6">
+          <TabErrorBoundary tabLabel="GC-MS">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <FlaskConical className="h-5 w-5 text-emerald-500" />
+                  Émissions Olfactives — Profil GC-MS
+                </CardTitle>
+                <CardDescription>
+                  Données de chromatographie gazeuse (NOSE Phase 1 — od:L12 Smell Emission)
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {!olfactiveEmissions || olfactiveEmissions.total === 0 ? (
+                  <div className="text-center py-8 text-muted-foreground">
+                    <FlaskConical className="h-10 w-10 mx-auto mb-3 opacity-30" />
+                    <p>Aucune donnée GC-MS disponible pour cette plante.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <Badge variant="outline">{olfactiveEmissions.total} composés identifiés</Badge>
+                      {olfactiveEmissions.emissions.some((e: any) => e.role === 'signature') && (
+                        <Badge className="bg-amber-500/10 text-amber-700 border-amber-300">Molécules signature présentes</Badge>
+                      )}
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="border-b">
+                            <th className="text-left py-2 pr-4 font-medium">Molécule</th>
+                            <th className="text-left py-2 pr-4 font-medium">Famille</th>
+                            <th className="text-right py-2 pr-4 font-medium">%</th>
+                            <th className="text-left py-2 pr-4 font-medium">Rôle</th>
+                            <th className="text-left py-2 pr-4 font-medium">Partie</th>
+                            <th className="text-left py-2 font-medium">Méthode</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {olfactiveEmissions.emissions.map((e: any) => (
+                            <tr key={e.id} className="border-b hover:bg-muted/30 transition-colors">
+                              <td className="py-2 pr-4">
+                                {e.molecule_id ? (
+                                  <Link href={`/molecules/${e.molecule_id}`} className="text-primary hover:underline font-medium">
+                                    {e.molecule_name || '—'}
+                                  </Link>
+                                ) : (
+                                  <span className="text-muted-foreground">{e.molecule_name || '—'}</span>
+                                )}
+                                {e.is_signature ? <Badge className="ml-1 text-xs bg-amber-500/10 text-amber-700 border-amber-300">★</Badge> : null}
+                              </td>
+                              <td className="py-2 pr-4 text-muted-foreground text-xs">{e.chemical_family || '—'}</td>
+                              <td className="py-2 pr-4 text-right font-mono">
+                                {e.percentage != null ? (
+                                  <span className={e.percentage >= 10 ? 'text-emerald-600 font-semibold' : e.percentage >= 1 ? 'text-blue-600' : 'text-muted-foreground'}>
+                                    {Number(e.percentage).toFixed(2)}%
+                                  </span>
+                                ) : e.concentration_ppm != null ? (
+                                  <span className="text-blue-600">{Number(e.concentration_ppm).toFixed(1)} ppm</span>
+                                ) : '—'}
+                              </td>
+                              <td className="py-2 pr-4">
+                                {e.role && (
+                                  <Badge variant="outline" className="text-xs capitalize">{e.role}</Badge>
+                                )}
+                              </td>
+                              <td className="py-2 pr-4 text-xs text-muted-foreground capitalize">{e.plant_part?.replace('_', ' ') || '—'}</td>
+                              <td className="py-2 text-xs text-muted-foreground uppercase">{e.analysis_method?.replace('_', '-') || '—'}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                    {olfactiveEmissions.emissions[0]?.analysis_source && (
+                      <p className="text-xs text-muted-foreground mt-2">
+                        Source : {olfactiveEmissions.emissions[0].analysis_source}
+                      </p>
+                    )}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabErrorBoundary>
+        </TabsContent>
       </Tabs>
 
       {/* Références Bibliographiques Liées (V3) */}

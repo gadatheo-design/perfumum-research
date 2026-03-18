@@ -2261,3 +2261,17 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Lier les nouvelles références aux plantes et molécules correspondantes (bibliography_entity_links)
 - [ ] Second batch LOTUS sur les ~593 molécules non enrichies restantes
 - [ ] Améliorer les IDs des liens dans la section généalogie (vérifier les IDs des plantes Rhodiola, Nardostachys, Picea)
+
+## SESSION 18/03/2026 — NOSE Phase 1
+
+- [x] Créer la table `olfactive_emissions` (od:L12 Smell Emission, NOSE/Odeuropa)
+- [x] Migrer 1967 émissions GC-MS (plant_molecules, tabac_molecule_links, gcms_peaks, landrace_terpene_profiles)
+- [x] Créer le router tRPC `olfactiveEmissions` (getByPlant, getByMolecule, getStats, create, delete)
+- [x] Ajouter l'onglet GC-MS dans PlantDetail.tsx (tableau molécules, %, rôle, méthode)
+- [x] Ajouter l'onglet GC-MS dans MoleculeDetail.tsx (tableau sources, %, rôle, origine)
+- [x] Corriger les onglets TabsTrigger dans MoleculeDetail (fusion parasite corrigée)
+- [ ] NOSE Phase 2 : table olfactive_experiences (expériences subjectives, témoignages)
+- [ ] NOSE Phase 3 : tables storylines / story_elements (fils narratifs Atlas Mnémosyne)
+- [ ] NOSE Phase 4 : identifiants Wikidata + export JSON-LD
+- [ ] Page admin NOSE : visualisation globale des émissions, stats par méthode/rôle
+- [ ] Import GC-MS avec dry-run preview (anti-doublons)

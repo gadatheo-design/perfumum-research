@@ -7037,3 +7037,72 @@ export const aromaticRarities = mysqlTable("aromatic_rarities", {
 
 export type AromaticRarity = typeof aromaticRarities.$inferSelect;
 export type InsertAromaticRarity = typeof aromaticRarities.$inferInsert;
+
+
+// ============================================================================
+// NOSE PHASE 1 — OLFACTIVE EMISSIONS (od:L12 Smell Emission)
+// Formalise les conditions d'émission d'une odeur (données GC-MS structurées)
+// Ontologie NOSE / Odeuropa — https://odeuropa.eu
+// ============================================================================
+
+export const olfactiveEmissions = mysqlTable("olfactive_emissions", {
+  id: int("id").autoincrement().primaryKey(),
+
+  // Source de l'émission (od:L12 Smell Emission)
+  plantId: int("plant_id"),          // Plante source (FK → plants.id)
+  moleculeId: int("molecule_id"),    // Molécule émise (FK → molecules.id)
+  tabacId: int("tabac_id"),          // Tabac source si applicable (FK → tabacs.id)
+
+  // Conditions d'émission
+  plantPart: mysqlEnum("plant_part", [
+    "fleur", "feuille", "fruit", "zeste", "graine", "ecorce",
+    "bois", "racine", "rhizome", "resine", "plante_entiere", "autre"
+  ]),
+  extractionMethod: mysqlEnum("extraction_method", [
+    "hydrodistillation", "entrainement_vapeur", "expression_a_froid",
+    "extraction_co2", "enfleurage", "maceration", "teinture",
+    "solvant_organique", "pyrolyse", "headspace", "spme", "autre"
+  ]),
+
+  // Quantification
+  percentage: decimal("percentage", { precision: 8, scale: 4 }),
+  percentageMin: decimal("percentage_min", { precision: 8, scale: 4 }),
+  percentageMax: decimal("percentage_max", { precision: 8, scale: 4 }),
+  concentrationPpm: decimal("concentration_ppm", { precision: 12, scale: 4 }),
+  concentrationUnit: varchar("concentration_unit", { length: 20 }).default("%"),
+
+  // Contexte analytique (od:L2 Stimulus Generation)
+  analysisMethod: mysqlEnum("analysis_method", [
+    "gc_ms", "gc_fid", "hplc", "rnm", "headspace_gcms", "spme_gcms", "autre"
+  ]),
+  analysisSource: varchar("analysis_source", { length: 500 }),  // DOI ou référence
+  geographicOrigin: varchar("geographic_origin", { length: 255 }),
+  retentionTime: decimal("retention_time", { precision: 8, scale: 4 }),
+  matchQuality: int("match_quality"),  // % de correspondance spectrale (0-100)
+
+  // Contexte temporel (sources historiques)
+  periodStart: int("period_start"),   // Peut être négatif (Antiquité)
+  periodEnd: int("period_end"),
+
+  // Rôle dans le profil olfactif
+  role: mysqlEnum("role", ["majeur", "secondaire", "trace", "variable", "signature"]),
+  isSignature: boolean("is_signature").default(false),
+
+  // Source de données (traçabilité)
+  sourceTable: varchar("source_table", { length: 100 }),  // table d'origine pour migration
+  sourceId: int("source_id"),                              // id dans la table d'origine
+
+  // Métadonnées
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
+}, (table) => ({
+  plantIdx: index("oe_plant_idx").on(table.plantId),
+  moleculeIdx: index("oe_molecule_idx").on(table.moleculeId),
+  tabacIdx: index("oe_tabac_idx").on(table.tabacId),
+  methodIdx: index("oe_method_idx").on(table.analysisMethod),
+  roleIdx: index("oe_role_idx").on(table.role),
+}));
+
+export type OlfactiveEmission = typeof olfactiveEmissions.$inferSelect;
+export type InsertOlfactiveEmission = typeof olfactiveEmissions.$inferInsert;

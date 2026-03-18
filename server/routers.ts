@@ -71,7 +71,8 @@ import { moleculeManagerRouter } from "./routers/moleculeManager";
 import { correlationsRouter } from "./routers/correlations";
 import { cigarilloMoleculeLinksRouter } from "./routers/cigarilloMoleculeLinks";
 import { wikimediaImagesRouter } from "./routers/wikimedia-images";
-import { extractionMethodsAdminRouter } from "./routers/extraction-methods-admin";
+import { extractionMethodsAdminRouter } from './routers/extraction-methods-admin';
+import { olfactiveEmissionsRouter } from './routers/olfactive-emissions';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -11516,6 +11517,7 @@ Familles olfactives disponibles:
   ifra: ifraRouter,
   // COCONUT Natural Products Database
   coconut: coconutRouter,
+  // GBIF Biodiversity Data
   gbif: gbifRouter,
   lotus: lotusRouter,
   knapsack: knapsackRouter,
@@ -12152,6 +12154,9 @@ Familles olfactives disponibles:
         return db.getNetworkData(input);
       }),
   }),
+
+  // NOSE Phase 1 — Olfactive Emissions (od:L12 Smell Emission)
+  olfactiveEmissions: olfactiveEmissionsRouter,
 });
 export type AppRouter = typeof appRouter;
 
