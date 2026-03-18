@@ -1,0 +1,1664 @@
+{
+  "query": "\nSELECT id, name, cas_number, iupac_name, notes\nFROM molecules \nWHERE (wikidata_qid IS NULL OR wikidata_qid = '')\nORDER BY name\nLIMIT 250;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, cas_number, iupac_name, notes\nFROM molecules \nWHERE (wikidata_qid IS NULL OR wikidata_qid = '')\nORDER BY name\nLIMIT 250;\n",
+  "rows": [
+    {
+      "id": "1410085",
+      "name": "2,3-Diethylpyrazine",
+      "cas_number": "15707-24-1",
+      "iupac_name": "2,3-diethylpyrazine",
+      "notes": "NULL"
+    },
+    {
+      "id": "1410027",
+      "name": "2,4-Decadienal",
+      "cas_number": "2363-88-4",
+      "iupac_name": "(2E,4E)-deca-2,4-dienal",
+      "notes": "NULL"
+    },
+    {
+      "id": "1410040",
+      "name": "2-ethyl-3,5-dimethylpyrazine",
+      "cas_number": "13925-07-0",
+      "iupac_name": "2-ethyl-3,5-dimethylpyrazine",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710032",
+      "name": "3,3-Diméthylhex-5-ène-1-thiol (DMHF-thiol)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Composé soufrés prénylé (PVSC) identifié dans Cannabis sativa par Oswald et al. (2021). Contribue aux notes \"skunk\" et \"tropical-soufré\" des variétés à forte odeur. Analogue structurel du 4-méthyl-4-sulfanylpentan-2-one (4MSP) du cassis."
+    },
+    {
+      "id": "1410015",
+      "name": "3-Methyl-2,4-nonanedione",
+      "cas_number": "113486-29-6",
+      "iupac_name": "3-methylnonane-2,4-dione",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710033",
+      "name": "4-Méthyl-4-sulfanylpentan-2-one (4MSP)",
+      "cas_number": "19872-52-7",
+      "iupac_name": "4-methyl-4-sulfanylpentan-2-one",
+      "notes": "Composé soufrés cétone identifié dans Cannabis sativa et dans le cassis (Ribes nigrum). Responsable des notes \"cassis-tropical\" dans certaines variétés cannabis. Marqueur de la famille PVSC (Prenylated Volatile Sulfur Compounds)."
+    },
+    {
+      "id": "1993316",
+      "name": "4-Méthylpent-3-ène-1-thiol (4MPT)",
+      "cas_number": "NULL",
+      "iupac_name": "4-methylpent-3-ene-1-thiol",
+      "notes": "Thiol prénylé du cannabis. Note de soufre-terpénique caractéristique des variétés \"skunk\"."
+    },
+    {
+      "id": "840012",
+      "name": "AKBA (Acide 3-O-acétyl-11-céto-β-boswellique)",
+      "cas_number": "67416-61-9",
+      "iupac_name": "(3α)-3-acetoxy-11-oxours-12-en-24-oic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "330007",
+      "name": "Absolue de Rose (Citronellol)",
+      "cas_number": "106-22-9",
+      "iupac_name": "3,7-dimethyloct-6-en-1-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "840011",
+      "name": "Acide 11-céto-β-boswellique (KBA)",
+      "cas_number": "17019-92-0",
+      "iupac_name": "(3R,4R,4aR,6aR,6bS,8aR,11R,12S,12aR,14aR,14bS)-3-hydroxy-4,6a,6b,8a,11,12,14b-heptamethyl-14-oxo-1,2,3,4a,5,6,7,8,9,10,11,12,12a,14a-tetradecahydropicene-4-carboxylic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "1350120",
+      "name": "Acide 2-méthylbutyrique",
+      "cas_number": "116-53-0",
+      "iupac_name": "2-methylbutanoic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710059",
+      "name": "Acide 3-O-acétyl-11-céto-β-boswellique (AKBA)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710036",
+      "name": "Acide 3-mercaptohexanoïque (3MH)",
+      "cas_number": "71500-37-3",
+      "iupac_name": "3-sulfanylhexanoic acid",
+      "notes": "Acide thiol volatile identifié dans Cannabis sativa et dans les vins blancs (Sauvignon Blanc). Responsable de notes \"pamplemousse-passion-soufré\". Précurseur du 3-mercaptohexanol (3MHol) par réduction enzymatique."
+    },
+    {
+      "id": "1710018",
+      "name": "Acide 3-méthylvalérique",
+      "cas_number": "105-43-1",
+      "iupac_name": "3-methylpentanoic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "60003",
+      "name": "Acide Décanoïque (C10)",
+      "cas_number": "334-48-5",
+      "iupac_name": "decanoic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710023",
+      "name": "Acide Olivétolique",
+      "cas_number": "491-72-5",
+      "iupac_name": "2,4-dihydroxy-6-pentylbenzoic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710058",
+      "name": "Acide boswellique",
+      "cas_number": "631-69-6",
+      "iupac_name": "(3R,4R,4aR,6aR,6bS,8aR,11R,12S,12aR,14aR,14bR)-3-hydroxy-4,6a,6b,8a,11,12,14b-heptamethyl-2,3,4a,5,6,7,8,9,10,11,12,12a,14,14a-tetradecahydro-1H-picene-4-carboxylic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "1300025",
+      "name": "Acide bétulinique",
+      "cas_number": "472-15-1",
+      "iupac_name": "(1R,3aS,5aR,5bR,7aR,9S,11aR,11bR,13aR,13bR)-9-hydroxy-5a,5b,8,8,11a-pentamethyl-1-prop-1-en-2-yl-1,2,3,4,5,6,7,7a,9,10,11,11b,12,13,13a,13b-hexadecahydrocyclopenta[a]chrysene-3a-carboxylic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "1300002",
+      "name": "Acide carnosolique",
+      "cas_number": "3650-09-7",
+      "iupac_name": "(4aR,10aS)-5,6-dihydroxy-1,1-dimethyl-7-propan-2-yl-2,3,4,9,10,10a-hexahydrophenanthrene-4a-carboxylic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "1410089",
+      "name": "Acide fulvique (fulvic acid)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "NULL"
+    },
+    {
+      "id": "1900048",
+      "name": "Acide hexadécanoïque",
+      "cas_number": "57-10-3",
+      "iupac_name": "hexadecanoic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "1350091",
+      "name": "Acide linoléique conjugué (CLA)",
+      "cas_number": "2420-56-6",
+      "iupac_name": "2-methyl-6-phenylimidazo[1,2-a]pyrazin-3-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1350058",
+      "name": "Acide pantothénique (Vitamine B5)",
+      "cas_number": "79-83-4",
+      "iupac_name": "(R)-3-[(3-hydroxy-2,2-dimethyl-1-oxopropyl)amino]propanoic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "1320079",
+      "name": "Acide protocatechuique",
+      "cas_number": "99-50-3",
+      "iupac_name": "3,4-dihydroxybenzoic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710017",
+      "name": "Acide sclareolique",
+      "cas_number": "564-20-5",
+      "iupac_name": "sclareolide",
+      "notes": "NULL"
+    },
+    {
+      "id": "840010",
+      "name": "Acide β-boswellique",
+      "cas_number": "631-69-6",
+      "iupac_name": "(3α,4β)-3-hydroxyurs-12-en-24-oic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "1410094",
+      "name": "Acides humiques (humic acids)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "NULL"
+    },
+    {
+      "id": "1410075",
+      "name": "Acrolein",
+      "cas_number": "107-02-8",
+      "iupac_name": "prop-2-enal",
+      "notes": "NULL"
+    },
+    {
+      "id": "1050019",
+      "name": "Acétate d'eugényle",
+      "cas_number": "93-28-7",
+      "iupac_name": "(2-methoxy-4-prop-2-enylphenyl) acetate",
+      "notes": "NULL"
+    },
+    {
+      "id": "840013",
+      "name": "Acétate d'incensole",
+      "cas_number": "68480-89-7",
+      "iupac_name": "Incensole acetate",
+      "notes": "NULL"
+    },
+    {
+      "id": "1290005",
+      "name": "Acétate de rose",
+      "cas_number": "16409-44-2",
+      "iupac_name": "3,7-dimethylocta-2,6-dienyl acetate",
+      "notes": "Composé métallique-floral utilisé en parfumerie pour créer des accords roses métalliques."
+    },
+    {
+      "id": "1650009",
+      "name": "Acétate de thymyle",
+      "cas_number": "528-79-0",
+      "iupac_name": "(5-methyl-2-propan-2-ylphenyl) acetate",
+      "notes": "L'acétate de thymyle est un dérivé du thymol, un monoterpénoïde. Bien qu'il dérive d'un composé terpénique, sa fonction principale est un ester. Il est souvent utilisé pour apporter une note fraîche, herbacée et aromatique dans les compositions, notamment en accord avec les notes de lavande, de romarin ou d'autres herbes aromatiques."
+    },
+    {
+      "id": "1110013",
+      "name": "Acétylpyrazine",
+      "cas_number": "22047-25-2",
+      "iupac_name": "1-pyrazin-2-ylethanone",
+      "notes": "NULL"
+    },
+    {
+      "id": "1080002",
+      "name": "Agarwood / Oud — Aquilaria malaccensis (CITES)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Axe climatique: Asie du Sud-Est (référence mondiale)"
+    },
+    {
+      "id": "570055",
+      "name": "Alcool cinnamique",
+      "cas_number": "140-10-3",
+      "iupac_name": "(E)-3-phenylprop-2-enoic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "1410010",
+      "name": "Aldehyde C-11 MOA",
+      "cas_number": "112-45-8",
+      "iupac_name": "undec-10-enal",
+      "notes": ""
+    },
+    {
+      "id": "120008",
+      "name": "Aldéhyde C-10",
+      "cas_number": "112-31-2",
+      "iupac_name": "decanal",
+      "notes": "Molécule-clé Royal Mossi - Famille 3: Aldéhydes secs"
+    },
+    {
+      "id": "570028",
+      "name": "Aldéhyde C-11 Undécylénique",
+      "cas_number": "112-45-8",
+      "iupac_name": "undec-10-enal",
+      "notes": "Aldéhyde utilisé dans les accords hespéridés et verts modernes"
+    },
+    {
+      "id": "570024",
+      "name": "Aldéhyde C-12 MNA",
+      "cas_number": "110-41-8",
+      "iupac_name": "2-methylundecanal",
+      "notes": "Aldéhyde emblématique des parfums aldéhydés type Chanel N°5, apporte brillance et lift"
+    },
+    {
+      "id": "570025",
+      "name": "Aldéhyde C-14 (Gamma-Undécalactone)",
+      "cas_number": "124-25-4",
+      "iupac_name": "tetradecanal",
+      "notes": "Lactone très utilisée dans les accords fruités et gourmands modernes"
+    },
+    {
+      "id": "570029",
+      "name": "Aldéhyde C-18 (Gamma-Nonalactone)",
+      "cas_number": "104-61-0",
+      "iupac_name": "5-pentyloxolan-2-one",
+      "notes": "Lactone emblématique des accords tropicaux et gourmands, très utilisée en cosmétique"
+    },
+    {
+      "id": "480032",
+      "name": "Aldéhyde feuille",
+      "cas_number": "6728-26-3",
+      "iupac_name": "(E)-hex-2-enal",
+      "notes": ""
+    },
+    {
+      "id": "1350042",
+      "name": "Alginat de sodium",
+      "cas_number": "9005-38-3",
+      "iupac_name": "sodium alginate",
+      "notes": "NULL"
+    },
+    {
+      "id": "960013",
+      "name": "Alpha-curcumene",
+      "cas_number": "644-30-4",
+      "iupac_name": "(E)-1-méthyl-4-(6-méthylhept-5-én-2-yl)benzène",
+      "notes": "NULL"
+    },
+    {
+      "id": "1350097",
+      "name": "Alpha-lipoïque (acide)",
+      "cas_number": "1077-28-7",
+      "iupac_name": "5-(dithiolan-3-yl)pentanoic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "90008",
+      "name": "Aluminium aldehyde",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "1350022",
+      "name": "Anthocyanine (cyanidine-3-glucoside)",
+      "cas_number": "7084-24-4",
+      "iupac_name": "(2S,3R,4S,5S,6R)-2-[2-(3,4-dihydroxyphenyl)-5,7-dihydroxychromenylium-3-yl]oxy-6-(hydroxymethyl)oxane-3,4,5-triol chloride",
+      "notes": "NULL"
+    },
+    {
+      "id": "780016",
+      "name": "Aristolen-9β-ol",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Sesquiterpénol caractéristique du nard"
+    },
+    {
+      "id": "1710003",
+      "name": "Aristolène",
+      "cas_number": "6831-16-9",
+      "iupac_name": "1,1,7,7a-tetramethyl-2,4,5,6,7,7b-hexahydro-1aH-cyclopropa[a]naphthalene",
+      "notes": "NULL"
+    },
+    {
+      "id": "1320169",
+      "name": "Asarone alpha",
+      "cas_number": "2883-98-9",
+      "iupac_name": "1,2,4-trimethoxy-5-[(E)-prop-1-enyl]benzene",
+      "notes": "NULL"
+    },
+    {
+      "id": "1050016",
+      "name": "Benzyl alcool",
+      "cas_number": "100-51-6",
+      "iupac_name": "phenylmethanol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1720022",
+      "name": "Benzyl glucoside",
+      "cas_number": "124492-59-7",
+      "iupac_name": "(2R,3S,4S,5R,6R)-2-(hydroxymethyl)-6-phenylmethoxyoxane-3,4,5-triol",
+      "notes": "Précurseur glycosidique de l alcool benzylique. Libère l alcool benzylique lors de la fermentation. Présent dans jasmin, ylang-ylang, tubéreuse."
+    },
+    {
+      "id": "1470003",
+      "name": "Benzène (pyrolyse terpènes)",
+      "cas_number": "71-43-2",
+      "iupac_name": "benzene",
+      "notes": "Produit de pyrolyse des terpènes à haute température (>400°C). Cancérigène avéré (IARC Groupe 1). Formé lors de la combustion du cannabis et du tabac. Source: Meehan-Atrash et al. 2017 / PF-13 PERFUMUM"
+    },
+    {
+      "id": "1320112",
+      "name": "Betulinine",
+      "cas_number": "473-98-3",
+      "iupac_name": "(1R,3aS,5aR,5bR,7aR,9S,11aR,11bR,13aR,13bR)-3a-(hydroxymethyl)-5a,5b,8,8,11a-pentamethyl-1-prop-1-en-2-yl-1,2,3,4,5,6,7,7a,9,10,11,11b,12,13,13a,13b-hexadecahydrocyclopenta[a]chrysen-9-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1902982",
+      "name": "Bicyclogermacrene",
+      "cas_number": "24703-35-3",
+      "iupac_name": "(1S,2E,6E,10R)-3,7,11,11-tetramethylbicyclo[8.1.0]undeca-2,6-diene",
+      "notes": "NULL"
+    },
+    {
+      "id": "1350056",
+      "name": "Biotine (Vitamine B7)",
+      "cas_number": "58-85-5",
+      "iupac_name": "5-[(3aS,4S,6aR)-2-oxo-1,3,3a,4,6,6a-hexahydrothieno[3,4-d]imidazol-4-yl]pentanoic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "1650011",
+      "name": "Bisabolone",
+      "cas_number": "532-91-2",
+      "iupac_name": "6-methoxy-3H-1,3-benzoxazol-2-one",
+      "notes": "Boisé, balsamique, épicé"
+    },
+    {
+      "id": "1710005",
+      "name": "Brachytylanolide A",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710006",
+      "name": "Brachytylanolide B",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "NULL"
+    },
+    {
+      "id": "90061",
+      "name": "C14 lactone (γ-Tetradecalactone)",
+      "cas_number": "2721-23-5",
+      "iupac_name": "5-decyloxolan-2-one",
+      "notes": "NULL"
+    },
+    {
+      "id": "90062",
+      "name": "C18 lactone (γ-Octadecalactone)",
+      "cas_number": "502-26-1",
+      "iupac_name": "5-tetradecyloxolan-2-one",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710027",
+      "name": "CBCA",
+      "cas_number": "20408-52-0",
+      "iupac_name": "5-hydroxy-2-methyl-2-(4-methylpent-3-enyl)-7-pentylchromene-6-carboxylic acid",
+      "notes": "Acide cannabichromenique — précurseur du CBC. Moins étudié que THCA/CBDA. Propriétés anti-inflammatoires potentielles. CAS : 25687-47-2."
+    },
+    {
+      "id": "1710025",
+      "name": "CBGA",
+      "cas_number": "25555-57-1",
+      "iupac_name": "cannabigerolic acid",
+      "notes": "Acide cannabigérolique — précurseur universel de tous les cannabinoïdes (THCA, CBDA, CBCA). Synthétisé par CBGAS (olivetol + GPP). Voie biosynthétique centrale du cannabis. Référence : Taura et al. (2007), FEBS Letters."
+    },
+    {
+      "id": "1710049",
+      "name": "Calarene",
+      "cas_number": "NULL",
+      "iupac_name": "1,1,7,7a-tetramethyl-2,3,5,6,7,7b-hexahydro-1aH-cyclopropa[a]naphthalene",
+      "notes": "NULL"
+    },
+    {
+      "id": "300006",
+      "name": "Calone 1951",
+      "cas_number": "28940-11-6",
+      "iupac_name": "7-methyl-1,5-benzodioxepin-3-one",
+      "notes": "Molécule synthétique emblématique des parfums marins. Inventée en 1966."
+    },
+    {
+      "id": "570015",
+      "name": "Carvone L",
+      "cas_number": "6485-40-1",
+      "iupac_name": "(5R)-2-methyl-5-prop-1-en-2-ylcyclohex-2-en-1-one",
+      "notes": "NULL"
+    },
+    {
+      "id": "90047",
+      "name": "Cedarol",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "NULL"
+    },
+    {
+      "id": "1380036",
+      "name": "Cedryl Methyl Ether",
+      "cas_number": "19870-74-7",
+      "iupac_name": "(1S,2R,5S,7R,8R)-8-methoxy-2,6,6,8-tetramethyltricyclo[5.3.1.01,5]undecane",
+      "notes": "CAS: 19870-74-7. Synthèse à partir de Cédrol. Utilisé dans les accords boisés modernes. Source: Bauer et al. 2008"
+    },
+    {
+      "id": "1710016",
+      "name": "Cembratrienediol (α-CBT-diol)",
+      "cas_number": "57605-80-8",
+      "iupac_name": "cembratrien-4,6-diol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710061",
+      "name": "Cembrène A",
+      "cas_number": "31570-39-5",
+      "iupac_name": "(1E,5E,9E,12R)-1,5,9-trimethyl-12-prop-1-en-2-ylcyclotetradeca-1,5,9-triene",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710062",
+      "name": "Cembrène C",
+      "cas_number": "NULL",
+      "iupac_name": "(1E,5E,9E)-1,5,9-trimethyl-12-propan-2-ylidenecyclotetradeca-1,5,9-triene",
+      "notes": "NULL"
+    },
+    {
+      "id": "1650001",
+      "name": "Cyperène",
+      "cas_number": "2387-78-2",
+      "iupac_name": "(1R,7R,10R)-4,10,11,11-tetramethyltricyclo[5.3.1.01,5]undec-4-ene",
+      "notes": "Sesquiterpène majeur du cypriol (Cyperus scariosus). Profil terreux-fumé oriental."
+    },
+    {
+      "id": "330005",
+      "name": "Cèdre Atlas (Cedrene)",
+      "cas_number": "11028-42-5",
+      "iupac_name": "2,6,6,8-tetramethyltricyclo[5.3.1.01,5]undec-8-ene",
+      "notes": "NULL"
+    },
+    {
+      "id": "1470002",
+      "name": "Cétène",
+      "cas_number": "629-73-2",
+      "iupac_name": "hexadec-1-ene",
+      "notes": "Produit de pyrolyse des acétates de cannabinoïdes (acétate de vitamine E). Associé aux lésions pulmonaires EVALI. Source: Munger et al. 2022 / PF-13 PERFUMUM"
+    },
+    {
+      "id": "570032",
+      "name": "Damascone Beta",
+      "cas_number": "23726-91-2",
+      "iupac_name": "(E)-1-(2,6,6-trimethylcyclohexen-1-yl)but-2-en-1-one",
+      "notes": "Isomère du Damascone Alpha, encore plus riche et complexe, signature des roses naturelles"
+    },
+    {
+      "id": "750010",
+      "name": "Damianine",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Composé actif principal de la damiana. Responsable des effets relaxants et aphrodisiaques."
+    },
+    {
+      "id": "1410005",
+      "name": "Davanone",
+      "cas_number": "30810-99-2",
+      "iupac_name": "2-(5-ethenyl-5-methyloxolan-2-yl)-6-methylhept-5-en-3-one",
+      "notes": "NULL"
+    },
+    {
+      "id": "1380035",
+      "name": "Dihydrojasmone",
+      "cas_number": "1128-08-1",
+      "iupac_name": "3-methyl-2-pentylcyclopent-2-en-1-one",
+      "notes": "CAS: 1128-08-1. Dérivé hydrogéné de Cis-Jasmone. IFRA unrestricted. Source: Arctander 1969"
+    },
+    {
+      "id": "1320191",
+      "name": "Dihydrolinalool",
+      "cas_number": "2270-57-7",
+      "iupac_name": "3,7-dimethyloct-6-en-3-ol",
+      "notes": "CAS: 2270-57-7. Dérivé hydrogéné du Linalol. IFRA unrestricted. Source: Bauer et al. 2008"
+    },
+    {
+      "id": "1380034",
+      "name": "Dihydromyrcenol",
+      "cas_number": "18479-58-8",
+      "iupac_name": "2,6-dimethyloct-7-en-2-ol",
+      "notes": "CAS: 18479-58-8. Synthèse à partir de Myrcène. Utilisé dans Cool Water (Davidoff 1988), Drakkar Noir. Source: Bauer et al. 2008 p.98"
+    },
+    {
+      "id": "1710064",
+      "name": "Duvatrienol",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "NULL"
+    },
+    {
+      "id": "810029",
+      "name": "E-2-dodecenal",
+      "cas_number": "4826-62-4",
+      "iupac_name": "(E)-dodec-2-enal",
+      "notes": "Axe climatique: vent"
+    },
+    {
+      "id": "1380038",
+      "name": "Ebanol",
+      "cas_number": "28219-61-6",
+      "iupac_name": "(Z)-3-methyl-5-(2,2,3-trimethylcyclopent-3-en-1-yl)pent-4-en-2-ol",
+      "notes": "INCI: EBANOL. Givaudan trademark. Synthèse. IFRA unrestricted. Source: Givaudan patent"
+    },
+    {
+      "id": "990025",
+      "name": "Epi-alpha-cadinol",
+      "cas_number": "5937-11-1",
+      "iupac_name": "(1S,4S,4aR,8aR)-1,6-dimethyl-4-propan-2-yl-3,4,4a,7,8,8a-hexahydro-2H-naphthalen-1-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1320082",
+      "name": "Epigallocatechin",
+      "cas_number": "970-74-1",
+      "iupac_name": "(2R,3R)-2-(3,4,5-trihydroxyphenyl)-3,4-dihydro-2H-chromene-3,5,7-triol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1410035",
+      "name": "Ethanethiol",
+      "cas_number": "75-08-1",
+      "iupac_name": "ethanethiol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1410036",
+      "name": "Ethyl 2-methylbutanoate",
+      "cas_number": "7452-79-1",
+      "iupac_name": "ethyl 2-methylbutanoate",
+      "notes": "NULL"
+    },
+    {
+      "id": "210020",
+      "name": "Ethyl furan-2-carboxylate",
+      "cas_number": "614-99-3",
+      "iupac_name": "ethyl furan-2-carboxylate",
+      "notes": "NULL"
+    },
+    {
+      "id": "1320201",
+      "name": "Eudesmol alpha",
+      "cas_number": "473-16-5",
+      "iupac_name": "2-[(2R,4aR,8aR)-4a,8-dimethyl-2,3,4,5,6,8a-hexahydro-1H-naphthalen-2-yl]propan-2-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1320202",
+      "name": "Eudesmol beta",
+      "cas_number": "473-15-4",
+      "iupac_name": "2-[(2R,4aR,8aS)-4a-methyl-8-methylidene-1,2,3,4,5,6,7,8a-octahydronaphthalen-2-yl]propan-2-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "480003",
+      "name": "Feuille d'oranger sèche",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "1906339",
+      "name": "Friedelan-3-one",
+      "cas_number": "NULL",
+      "iupac_name": "4,4a,6a,6b,8a,11,11,14a-octamethyl-2,4,5,6,6a,7,8,9,10,12,12a,13,14,14b-tetradecahydro-1H-picen-3-one",
+      "notes": "NULL"
+    },
+    {
+      "id": "1350041",
+      "name": "Fucoïdane",
+      "cas_number": "9072-19-9",
+      "iupac_name": "fucoidan",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710024",
+      "name": "GPP (Géranyl Pyrophosphate)",
+      "cas_number": "763-10-0",
+      "iupac_name": "geranyl diphosphate",
+      "notes": "NULL"
+    },
+    {
+      "id": "1410002",
+      "name": "Galbanolene",
+      "cas_number": "19883-27-3",
+      "iupac_name": "(3E,5Z)-undeca-1,3,5-triene",
+      "notes": "NULL"
+    },
+    {
+      "id": "330006",
+      "name": "Gaïac (Guaiol)",
+      "cas_number": "489-86-1",
+      "iupac_name": "2-[(3S,5R,8S)-3,8-dimethyl-1,2,3,4,5,6,7,8-octahydroazulen-5-yl]propan-2-ol",
+      "notes": ""
+    },
+    {
+      "id": "1080009",
+      "name": "Gaïac — Guaiacum officinale",
+      "cas_number": "90-05-1",
+      "iupac_name": "2-methoxyphenol",
+      "notes": "Axe climatique: Caraïbes"
+    },
+    {
+      "id": "1080010",
+      "name": "Gaïac — Guaiacum sanctum (proxy)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Axe climatique: Caraïbes / Amériques"
+    },
+    {
+      "id": "570036",
+      "name": "Georgywood",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Molécule boisée moderne très diffusive, alternative au Iso E Super"
+    },
+    {
+      "id": "1410080",
+      "name": "Geranyl acetone",
+      "cas_number": "3796-70-1",
+      "iupac_name": "(5E)-6,10-dimethylundeca-5,9-dien-2-one",
+      "notes": "NULL"
+    },
+    {
+      "id": "840006",
+      "name": "Germacrène B",
+      "cas_number": "15423-57-1",
+      "iupac_name": "(1E,5E)-1,5-dimethyl-8-propan-2-ylidenecyclodeca-1,5-diene",
+      "notes": "NULL"
+    },
+    {
+      "id": "1320094",
+      "name": "Glucoerucine",
+      "cas_number": "21973-56-8",
+      "iupac_name": "[(2S,3R,4S,5S,6R)-3,4,5-trihydroxy-6-(hydroxymethyl)oxan-2-yl] 5-methylsulfanyl-N-sulfooxypentanimidothioate",
+      "notes": "NULL"
+    },
+    {
+      "id": "90025",
+      "name": "Glycine pyrolysée",
+      "cas_number": "56-40-6",
+      "iupac_name": "2-aminoacetic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "1080018",
+      "name": "Gomme arabique — Senegalia senegal (filière fragile)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Axe climatique: Sahel (incl. Burkina)"
+    },
+    {
+      "id": "570009",
+      "name": "Guaiacol Fumé",
+      "cas_number": "90-05-1",
+      "iupac_name": "2-methoxyphenol",
+      "notes": ""
+    },
+    {
+      "id": "510005",
+      "name": "Guanábana (Annona muricata)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Fruit à la pulpe blanche crémeuse, très apprécié en jus et desserts. Propriétés médicinales étudiées."
+    },
+    {
+      "id": "1710039",
+      "name": "Géraniol",
+      "cas_number": "106-24-1",
+      "iupac_name": "(2E)-3,7-dimethylocta-2,6-dien-1-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1720020",
+      "name": "Géranyl glucoside",
+      "cas_number": "22850-13-1",
+      "iupac_name": "(2R,3R,4S,5S,6R)-2-[(2E)-3,7-dimethylocta-2,6-dienoxy]-6-(hydroxymethyl)oxane-3,4,5-triol",
+      "notes": "Précurseur glycosidique du géraniol. Hydrolyse enzymatique (β-glucosidase) libère le géraniol lors du séchage et de la fermentation. Présent dans rose, lavande, géranium. Référence : Winterhalter & Skouroumounis (1997)."
+    },
+    {
+      "id": "750001",
+      "name": "Hashishene",
+      "cas_number": "16626-39-4",
+      "iupac_name": "1-ethenyl-5,5-dimethylbicyclo[2.1.1]hexane",
+      "notes": "Découvert en 2014 par Marchini et al. Jusqu à 14.9% des terpènes du hash marocain. Formé par exposition UV + oxygène."
+    },
+    {
+      "id": "1380030",
+      "name": "Hedione HC",
+      "cas_number": "2630-39-9",
+      "iupac_name": "methyl 2-[(1R,2R)-3-oxo-2-pentylcyclopentyl]acetate",
+      "notes": "INCI: METHYL (2R)-2-[(3R)-3-HEXYLOXIRAN-2-YL]ACETATE. Isomère optiquement pur. Utilisé dans J'adore (Dior 2014). Source: Kraft P. Angew.Chem.Int.Ed. 2005:44:4608"
+    },
+    {
+      "id": "90071",
+      "name": "Heliotropine (Piperonal)",
+      "cas_number": "120-57-0",
+      "iupac_name": "1,3-benzodioxole-5-carbaldehyde",
+      "notes": "NULL"
+    },
+    {
+      "id": "1410001",
+      "name": "Hexanoic acid",
+      "cas_number": "142-62-1",
+      "iupac_name": "hexanoic acid",
+      "notes": "Émotion : “matérialité du vivant”"
+    },
+    {
+      "id": "1410066",
+      "name": "Hexyl acetate",
+      "cas_number": "142-92-7",
+      "iupac_name": "hexyl acetate",
+      "notes": "NULL"
+    },
+    {
+      "id": "90052",
+      "name": "Hinoki oil",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "1410042",
+      "name": "Hydrogen sulfide",
+      "cas_number": "7783-06-4",
+      "iupac_name": "sulfane",
+      "notes": "NULL"
+    },
+    {
+      "id": "90026",
+      "name": "Hydroxyproline pyrolysée",
+      "cas_number": "51-35-4",
+      "iupac_name": "(2S,4R)-4-hydroxypyrrolidine-2-carboxylic acid",
+      "notes": "La pyrolyse des acides aminés comme l'hydroxyproline est connue pour générer une grande variété de composés volatils, incluant des pyrazines, des pyrroles, des oxazoles, et d'autres hétérocycles azotés, qui contribuent fortement aux arômes de grillé, fumé et rôti. La nature exacte du composé C5H9NO3 après pyrolyse de l'hydroxyproline nécessiterait une analyse structurelle plus poussée (ex: spectrométrie de masse, RMN) pour identifier la structure spécifique et confirmer la classe hétérocyclique exacte (ex: pyrrolidine, oxazolidinone, etc.)."
+    },
+    {
+      "id": "1110011",
+      "name": "IBMP (2-Isobutyl-3-méthoxypyrazine)",
+      "cas_number": "24683-00-9",
+      "iupac_name": "2-methoxy-3-(2-methylpropyl)pyrazine",
+      "notes": "NULL"
+    },
+    {
+      "id": "120015",
+      "name": "Incensol acetate",
+      "cas_number": "NULL",
+      "iupac_name": "(1,5,9-trimethyl-12-propan-2-yl-15-oxabicyclo[10.2.1]pentadeca-5,9-dien-2-yl) acetate",
+      "notes": "Molécule-clé Royal Mossi - Famille 4: Résines orientales"
+    },
+    {
+      "id": "750003",
+      "name": "Incensole",
+      "cas_number": "22419-74-5",
+      "iupac_name": "(1R,2S,5E,9E,12S)-1,5,9-trimethyl-12-propan-2-yl-15-oxabicyclo[10.2.1]pentadeca-5,9-dien-2-ol",
+      "notes": "Propriétés anxiolytiques prouvées (activation TRPV3). Composant majeur de encens. Effets psychoactifs légers."
+    },
+    {
+      "id": "480007",
+      "name": "Ionone blanche",
+      "cas_number": "127-51-5",
+      "iupac_name": "(E)-3-methyl-4-(2,6,6-trimethylcyclohex-2-en-1-yl)but-3-en-2-one",
+      "notes": "NULL"
+    },
+    {
+      "id": "90019",
+      "name": "Ionone β",
+      "cas_number": "79-77-6",
+      "iupac_name": "(E)-4-(2,6,6-trimethylcyclohexen-1-yl)but-3-en-2-one",
+      "notes": "NULL"
+    },
+    {
+      "id": "90020",
+      "name": "Ionone γ",
+      "cas_number": "79-76-5",
+      "iupac_name": "(E)-4-(2,2-dimethyl-6-methylidenecyclohexyl)but-3-en-2-one",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710063",
+      "name": "Isocembrène",
+      "cas_number": "25269-16-3",
+      "iupac_name": "(1E,5E,10E)-1,5-dimethyl-9-methylidene-12-propan-2-ylcyclotetradeca-1,5,10-triene",
+      "notes": "NULL"
+    },
+    {
+      "id": "840008",
+      "name": "Isocericenine",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "NULL"
+    },
+    {
+      "id": "1320199",
+      "name": "Isopinocarveol",
+      "cas_number": "6712-79-4",
+      "iupac_name": "(1R,3R,5R)-6,6-dimethyl-2-methylidenebicyclo[3.1.1]heptan-3-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1500001",
+      "name": "Isoprène",
+      "cas_number": "78-79-5",
+      "iupac_name": "2-methylbuta-1,3-diene",
+      "notes": "Produit de combustion des monoterpènes. Précurseur de nombreux terpènes."
+    },
+    {
+      "id": "1903429",
+      "name": "Isothiocyanate de benzyle",
+      "cas_number": "622-78-6",
+      "iupac_name": "isothiocyanatomethylbenzene",
+      "notes": "NULL"
+    },
+    {
+      "id": "1020002",
+      "name": "Italidione II",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Isomère de l'italidione I, contribue au profil curry de l'Immortelle"
+    },
+    {
+      "id": "1020003",
+      "name": "Italidione III",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Troisième isomère des italidiones"
+    },
+    {
+      "id": "1080013",
+      "name": "Jasmin de Grasse (forme patrimoniale)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Axe climatique: France (Grasse) — cultivar patrimonial"
+    },
+    {
+      "id": "90058",
+      "name": "Jasmonal",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710030",
+      "name": "Javanole",
+      "cas_number": "4883-60-7",
+      "iupac_name": "2-hydroxy-3,5,5-trimethylcyclohex-2-en-1-one",
+      "notes": "Cétone sesquiterpénique caractéristique du tabac Latakia et des feuilles de tabac fermentées. Marqueur chimique important du profil aromatique des tabacs orientaux."
+    },
+    {
+      "id": "1650003",
+      "name": "Jinkoh-Eudesmol",
+      "cas_number": "NULL",
+      "iupac_name": "Jinkoh-Eudesmol",
+      "notes": "Sesquiterpène alcool de l'oud. Composé caractéristique du bois d'agar."
+    },
+    {
+      "id": "360003",
+      "name": "Juniper (Genièvre)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "480009",
+      "name": "Karité clair",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "480018",
+      "name": "Karité fumé sombre",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "480035",
+      "name": "Karité vert",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "120020",
+      "name": "Labdanum diterpenes",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Molécule-clé Royal Mossi - Famille 6: Molécules de cuir"
+    },
+    {
+      "id": "420008",
+      "name": "Labrador Tea Essential Oil",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Récolte sauvage en tourbières. Plante des Premières Nations."
+    },
+    {
+      "id": "90037",
+      "name": "Lignine pyrolysée",
+      "cas_number": "9005-53-2",
+      "iupac_name": "disodium;4-acetamido-5-hydroxy-6-phenyldiazenylnaphthalene-1,7-disulfonate",
+      "notes": "NULL"
+    },
+    {
+      "id": "1350099",
+      "name": "Linalol oxyde",
+      "cas_number": "15249-35-1",
+      "iupac_name": "5-(3,3-dimethyloxiran-2-yl)-3-methylpent-1-en-3-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1720021",
+      "name": "Linalyl glucoside",
+      "cas_number": "82928-12-9",
+      "iupac_name": "(2S,3R,4S,5S,6R)-2-(3,7-dimethylocta-1,6-dien-3-yloxy)-6-(hydroxymethyl)oxane-3,4,5-triol",
+      "notes": "Précurseur glycosidique du linalol. Libère le linalol par hydrolyse acide ou enzymatique. Présent dans lavande, coriandre, basilic. Important pour la compréhension des arômes latents."
+    },
+    {
+      "id": "390001",
+      "name": "Lippia Origanoides (Origan Sauvage)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "510004",
+      "name": "Lulo (Solanum quitoense)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Fruit emblématique de Colombie, appelé 'naranjilla' en Équateur. Saveur unique inimitable."
+    },
+    {
+      "id": "1993321",
+      "name": "Lupulone",
+      "cas_number": "468-28-0",
+      "iupac_name": "3,5-bis(3-methylbut-2-en-1-yl)-4-(2-methylpropanoyl)-2-(3-methylbut-2-en-1-yl)cyclopentane-1,3-dione",
+      "notes": "NULL"
+    },
+    {
+      "id": "1410024",
+      "name": "Melonal",
+      "cas_number": "106-72-9",
+      "iupac_name": "2,6-dimethylhept-5-enal",
+      "notes": "NULL"
+    },
+    {
+      "id": "1650002",
+      "name": "Menthofurane",
+      "cas_number": "494-90-6",
+      "iupac_name": "3,6-dimethyl-4,5,6,7-tetrahydro-1-benzofuran",
+      "notes": "Composé du Palo Santo (Bursera graveolens). Contribue au profil boisé-résineux."
+    },
+    {
+      "id": "1410059",
+      "name": "Mesifurane",
+      "cas_number": "4077-47-8",
+      "iupac_name": "4-methoxy-2,5-dimethylfuran-3-one",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710069",
+      "name": "Methoxyfuranoguaia-9-ene",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "NULL"
+    },
+    {
+      "id": "1200001",
+      "name": "Methyl Ethylpyrazine 2,3 ",
+      "cas_number": "15707-23-0",
+      "iupac_name": "2-ethyl-3-methylpyrazine",
+      "notes": "NULL"
+    },
+    {
+      "id": "1410037",
+      "name": "Methyl butanoate",
+      "cas_number": "623-42-7",
+      "iupac_name": "methyl butanoate",
+      "notes": "NULL"
+    },
+    {
+      "id": "1410041",
+      "name": "Methyl hexanoate",
+      "cas_number": "106-70-7",
+      "iupac_name": "methyl hexanoate",
+      "notes": "NULL"
+    },
+    {
+      "id": "1080019",
+      "name": "Musk deer (musc naturel) — Moschus moschiferus (CITES)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Axe climatique: Asie (taïga/montagnes)"
+    },
+    {
+      "id": "1080023",
+      "name": "Musk mallow (Malva moschata) — note patrimoniale",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Axe climatique: Europe (réf.; herbiers)"
+    },
+    {
+      "id": "1560001",
+      "name": "Myristicine",
+      "cas_number": "607-91-0",
+      "iupac_name": "4-methoxy-6-prop-2-enyl-1,3-benzodioxole",
+      "notes": "NULL"
+    },
+    {
+      "id": "1650008",
+      "name": "Myrtenyl acetate",
+      "cas_number": "1079-01-2",
+      "iupac_name": "[(1S,5R)-6,6-dimethyl-2-bicyclo[3.1.1]hept-2-enyl]methyl acetate",
+      "notes": "Floral, fruité, frais"
+    },
+    {
+      "id": "1710011",
+      "name": "Mégastigmatriénone (isomère 1)",
+      "cas_number": "38142-22-2",
+      "iupac_name": "megastigmatrienone",
+      "notes": "NULL"
+    },
+    {
+      "id": "1350105",
+      "name": "Ménaquinone (Vitamine K2)",
+      "cas_number": "1182-68-9",
+      "iupac_name": "2-methyl-3-[(2E,6E,10E,14E)-3,7,11,15,19-pentamethylicosa-2,6,10,14,18-pentaenyl]naphthalene-1,4-dione",
+      "notes": "NULL"
+    },
+    {
+      "id": "1470001",
+      "name": "Méthacroléine",
+      "cas_number": "78-85-3",
+      "iupac_name": "2-methylprop-2-enal",
+      "notes": "Produit de pyrolyse des terpènes (myrcène, limonène) à 340-482°C. Toxique pulmonaire. Formé lors de la combustion du cannabis. Source: Meehan-Atrash et al. 2017 (85 citations) / PF-13 PERFUMUM"
+    },
+    {
+      "id": "1380031",
+      "name": "Méthyl Ionone",
+      "cas_number": "1335-46-2",
+      "iupac_name": "(E)-1-(2,6,6-trimethylcyclohex-2-en-1-yl)pent-1-en-3-one",
+      "notes": "Mélange d'isomères α et β. Synthèse à partir de Méthyl Heptenone + Méthyl Vinyl Ketone. IFRA cat.4: 3.6%. Source: Bauer et al. 2008 p.142"
+    },
+    {
+      "id": "570022",
+      "name": "Méthyl Ionone Gamma",
+      "cas_number": "79-68-5",
+      "iupac_name": "4-(2,2,3-trimethyl-6-methylidenecyclohexyl)but-3-en-2-one",
+      "notes": "NULL"
+    },
+    {
+      "id": "1500004",
+      "name": "Méthyl anthranilate",
+      "cas_number": "134-20-3",
+      "iupac_name": "methyl 2-aminobenzoate",
+      "notes": "Présent dans le raisin Concord, la fleur d'oranger, le jasmin. Utilisé en parfumerie pour les accords floraux-fruités."
+    },
+    {
+      "id": "1350028",
+      "name": "Méthyl syringol",
+      "cas_number": "6638-05-7",
+      "iupac_name": "2,6-dimethoxy-4-methylphenol",
+      "notes": "4-Méthylsyringol, produit de pyrolyse de la lignine de bois dur. Odeur fumée, épicée. Présent dans fumée de chêne, hêtre, tabac Latakia."
+    },
+    {
+      "id": "900014",
+      "name": "NNK (4-(Methylnitrosamino)-1-(3-pyridyl)-1-butanone)",
+      "cas_number": "64091-91-4",
+      "iupac_name": "N-methyl-N-(4-oxo-4-pyridin-3-ylbutyl)nitrous amide",
+      "notes": "Tobacco-specific nitrosamine"
+    },
+    {
+      "id": "900013",
+      "name": "NNN (N'-Nitrosonornicotine)",
+      "cas_number": "80508-23-2",
+      "iupac_name": "3-(1-nitrosopyrrolidin-2-yl)pyridine",
+      "notes": "Tobacco-specific nitrosamine"
+    },
+    {
+      "id": "780018",
+      "name": "Nardosinonediol",
+      "cas_number": "20489-11-6",
+      "iupac_name": "(3R,4aR,5R)-3-hydroxy-4-(2-hydroxypropan-2-yl)-4a,5-dimethyl-2,3,4,5,6,7-hexahydronaphthalen-1-one",
+      "notes": "Le Nardosinonediol est un composé naturel que l'on trouve dans certaines plantes comme le nard indien (Nardostachys jatamansi), connu pour son odeur terreuse et musquée. Sa structure complexe avec plusieurs centres chiraux et fonctions oxygénées contribue à son profil olfactif distinctif."
+    },
+    {
+      "id": "1350057",
+      "name": "Niacine (Vitamine B3)",
+      "cas_number": "59-67-6",
+      "iupac_name": "pyridine-3-carboxylic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "510018",
+      "name": "Nogal Colombien",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "330018",
+      "name": "Norlimbanol",
+      "cas_number": "70788-30-6",
+      "iupac_name": "1-(2,2,6-trimethylcyclohexyl)hexan-3-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "480015",
+      "name": "Oliban brûlé",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "480005",
+      "name": "Oliban clair",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "840014",
+      "name": "Olibanol",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "NULL"
+    },
+    {
+      "id": "1080015",
+      "name": "Orris ‘Florentina’ (filière fragile)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Axe climatique: Italie (Toscane) — filière patrimoniale"
+    },
+    {
+      "id": "300001",
+      "name": "Oud (Agarwood)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "690003",
+      "name": "Oxyde de rose",
+      "cas_number": "16409-43-1",
+      "iupac_name": "4-methyl-2-(2-methylprop-1-enyl)oxane",
+      "notes": "NULL"
+    },
+    {
+      "id": "1993314",
+      "name": "Paeoniflorin",
+      "cas_number": "23180-57-6",
+      "iupac_name": "paeoniflorin",
+      "notes": "Glucoside monoterpénique majeur de Paeonia lactiflora. Activité anti-nociceptive et neuroprotectrice documentée."
+    },
+    {
+      "id": "1993313",
+      "name": "Paeonol",
+      "cas_number": "552-41-0",
+      "iupac_name": "1-(4-hydroxy-3-methoxyphenyl)ethan-1-one",
+      "notes": "Composé phénolique caractéristique de la pivoine. Responsable de la note épicée-vanillée. Propriétés anti-inflammatoires documentées."
+    },
+    {
+      "id": "330020",
+      "name": "Paradisone",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "NULL"
+    },
+    {
+      "id": "1350104",
+      "name": "Phylloquinone (Vitamine K1)",
+      "cas_number": "84-80-0",
+      "iupac_name": "2-methyl-3-[(E,7R,11R)-3,7,11,15-tetramethylhexadec-2-enyl]naphthalene-1,4-dione",
+      "notes": "NULL"
+    },
+    {
+      "id": "390004",
+      "name": "Piper Aduncum (Poivre Sauvage)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "1380037",
+      "name": "Polysantol",
+      "cas_number": "65113-99-7",
+      "iupac_name": "3-methyl-5-(2,2,3-trimethylcyclopent-3-en-1-yl)pentan-2-ol",
+      "notes": "INCI: POLYSANTOL. Firmenich trademark. Synthèse à partir de Camphre. Source: Bauer et al. 2008 p.178"
+    },
+    {
+      "id": "1710031",
+      "name": "Prénylthiol",
+      "cas_number": "5287-45-6",
+      "iupac_name": "3-methylbut-2-ene-1-thiol",
+      "notes": "Thiol prénylé volatile identifié dans Cannabis sativa. Composé soufrés prénylé (VSC) responsable de notes \"skunk\" caractéristiques. Découvert par Oswald et al. (2021) dans les variétés à forte odeur soufrée."
+    },
+    {
+      "id": "1620005",
+      "name": "Pyridine",
+      "cas_number": "110-86-1",
+      "iupac_name": "pyridine",
+      "notes": "Produit de pyrolyse de la nicotine (>400°C). Marqueur de combustion élevée. Présent dans fumée de cigarette. Synergies: picolines, lutidines."
+    },
+    {
+      "id": "1710042",
+      "name": "Rosaridin",
+      "cas_number": "100462-37-1",
+      "iupac_name": "(2R,3R,4S,5S,6R)-2-[(2E,4S)-4-hydroxy-3,7-dimethylocta-2,6-dienoxy]-6-(hydroxymethyl)oxane-3,4,5-triol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710043",
+      "name": "Rosavine",
+      "cas_number": "84954-92-7",
+      "iupac_name": "(2R,3R,4S,5S,6R)-2-[(E)-3-phenylprop-2-enoxy]-6-[[(2S,3R,4S,5S)-3,4,5-trihydroxyoxan-2-yl]oxymethyl]oxane-3,4,5-triol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1080014",
+      "name": "Rose de Kazanlık (Trigintipetala) — cultivar patrimonial",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Axe climatique: Bulgarie (Kazanlak) — cultivar historique"
+    },
+    {
+      "id": "1320190",
+      "name": "Sabinene hydrate",
+      "cas_number": "546-79-2",
+      "iupac_name": "2-methyl-5-propan-2-ylbicyclo[3.1.0]hexan-2-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "90036",
+      "name": "Sandalore pyrolysé",
+      "cas_number": "65113-99-7",
+      "iupac_name": "3-methyl-5-(2,2,3-trimethylcyclopent-3-en-1-yl)pentan-2-ol",
+      "notes": ""
+    },
+    {
+      "id": "330004",
+      "name": "Santal Mysore (α-Santalol)",
+      "cas_number": "115-71-9",
+      "iupac_name": "(Z)-5-[(1S,3R,6R)-2,3-dimethyl-3-tricyclo[2.2.1.02,6]heptanyl]-2-methylpent-2-en-1-ol",
+      "notes": ""
+    },
+    {
+      "id": "1080007",
+      "name": "Santal — Santalum album",
+      "cas_number": "529-60-2",
+      "iupac_name": "3-(3,4-dihydroxyphenyl)-5-hydroxy-7-methoxychromen-4-one",
+      "notes": "Axe climatique: Inde (réf.)"
+    },
+    {
+      "id": "90076",
+      "name": "Santalol (α+β)",
+      "cas_number": "73890-74-1",
+      "iupac_name": "(E)-2-methyl-5-[(1S,2S,4R)-2-methyl-3-methylidene-2-bicyclo[2.2.1]heptanyl]pent-2-en-1-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "90003",
+      "name": "Sclerene",
+      "cas_number": "511-02-4",
+      "iupac_name": "(4aS,8S,8aS)-4,4,8a-trimethyl-7-methylidene-8-(3-methylidenepent-4-enyl)-2,3,4a,5,6,8-hexahydro-1H-naphthalene",
+      "notes": "NULL"
+    },
+    {
+      "id": "990035",
+      "name": "Selina-3,11-dien-9-one",
+      "cas_number": "NULL",
+      "iupac_name": "(3S,8aS)-5,8a-dimethyl-3-prop-1-en-2-yl-2,3,4,4a,7,8-hexahydronaphthalen-1-one",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710004",
+      "name": "Spirojatamol",
+      "cas_number": "NULL",
+      "iupac_name": "(4S,5S,7R)-4-methyl-10-methylidene-7-propan-2-ylspiro[4.5]decan-4-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "390005",
+      "name": "Steiractinia Aspera (Endémique Rare)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "1320147",
+      "name": "Syringic acid",
+      "cas_number": "530-57-4",
+      "iupac_name": "4-hydroxy-3,5-dimethoxybenzoic acid",
+      "notes": "NULL"
+    },
+    {
+      "id": "1620002",
+      "name": "TTMP (2,3,5-Triméthyl-2-cyclopentènone)",
+      "cas_number": "54562-24-2",
+      "iupac_name": "2,3,5-trimethylcyclopent-2-en-1-one",
+      "notes": "Lactone de fermentation anaérobie, signature chimique du tabac Malawi Cob fire-cured. Transposition parfumerie : Base \"Fermentation Tropicale\"."
+    },
+    {
+      "id": "90055",
+      "name": "Tangerinol",
+      "cas_number": "91482-37-0",
+      "iupac_name": "6,10-dimethylundeca-5,9-dien-2-yl acetate",
+      "notes": "NULL"
+    },
+    {
+      "id": "1350070",
+      "name": "Tanin (acide tannique)",
+      "cas_number": "5424-20-4",
+      "iupac_name": "[2,3-dihydroxy-5-[[(2R,3R,4S,5R,6S)-3,4,5,6-tetrakis[[3,4-dihydroxy-5-(3,4,5-trihydroxybenzoyl)oxybenzoyl]oxy]oxan-2-yl]methoxycarbonyl]phenyl] 3,4,5-trihydroxybenzoate",
+      "notes": "NULL"
+    },
+    {
+      "id": "1963313",
+      "name": "Test Molecule 1",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Axe climatique: vent"
+    },
+    {
+      "id": "1963314",
+      "name": "Test Molecule 2",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Axe climatique: bois"
+    },
+    {
+      "id": "1320089",
+      "name": "Theobromine methyl",
+      "cas_number": "1076-22-8",
+      "iupac_name": "3-methyl-7H-purine-2,6-dione",
+      "notes": "NULL"
+    },
+    {
+      "id": "1320163",
+      "name": "Tocopherol alpha",
+      "cas_number": "1406-18-4",
+      "iupac_name": "(2R)-2,5,7,8-tetramethyl-2-[(4R,8R)-4,8,12-trimethyltridecyl]-3,4-dihydrochromen-6-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1350103",
+      "name": "Tocophérol (Vitamine E)",
+      "cas_number": "1406-66-2",
+      "iupac_name": "2,7,8-trimethyl-2-(4,8,12-trimethyltridecyl)-3,4-dihydrochromen-6-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1907427",
+      "name": "Tricyclene",
+      "cas_number": "508-32-7",
+      "iupac_name": "1,7,7-trimethyltricyclo[2.2.1.02,6]heptane",
+      "notes": "NULL"
+    },
+    {
+      "id": "1410030",
+      "name": "Trimethylamine",
+      "cas_number": "75-50-3",
+      "iupac_name": "N,N-dimethylmethanamine",
+      "notes": "NULL"
+    },
+    {
+      "id": "390002",
+      "name": "Turnera Diffusa (Damiana)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "510006",
+      "name": "Uchuva (Physalis peruviana)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Baie dorée protégée par une capsule papyracée. Export majeur de Colombie vers l'Europe."
+    },
+    {
+      "id": "1710060",
+      "name": "Verticillol",
+      "cas_number": "NULL",
+      "iupac_name": "(3E,7Z)-4,8,12,15,15-pentamethylbicyclo[9.3.1]pentadeca-3,7-dien-12-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "480019",
+      "name": "Vetiver Assam",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "480030",
+      "name": "Vetiver fumé",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": ""
+    },
+    {
+      "id": "990020",
+      "name": "Vetivone",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "NULL"
+    },
+    {
+      "id": "1050014",
+      "name": "Vétisélénène",
+      "cas_number": "28624-23-9",
+      "iupac_name": "(8aS)-4,8a-dimethyl-6-propan-2-yl-2,3,7,8-tetrahydro-1H-naphthalene",
+      "notes": "NULL"
+    },
+    {
+      "id": "120001",
+      "name": "Vétivénol",
+      "cas_number": "89-88-3",
+      "iupac_name": "(5R,6R)-6,10-dimethyl-3-propan-2-ylidenespiro[4.5]dec-9-en-8-ol",
+      "notes": "Molécule-clé Royal Mossi - Famille 1: Sesquiterpènes racinaires"
+    },
+    {
+      "id": "510002",
+      "name": "Yagé (Banisteriopsis caapi)",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "Plante sacrée des peuples indigènes. Usage cérémoniel uniquement. Molécule d'étude ethnobotanique."
+    },
+    {
+      "id": "1410065",
+      "name": "Yuzu lactone",
+      "cas_number": "79894-06-7",
+      "iupac_name": "(10E)-1-oxacyclotridec-10-en-2-one",
+      "notes": "NULL"
+    },
+    {
+      "id": "690012",
+      "name": "Zizanol",
+      "cas_number": "41060-17-1",
+      "iupac_name": "2,7,7-trimethyl-6-methylidenetricyclo[6.2.1.01,5]undecan-3-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "810046",
+      "name": "alpha-terpinyl acetate",
+      "cas_number": "80-26-2",
+      "iupac_name": "2-(4-methylcyclohex-3-en-1-yl)propan-2-yl acetate",
+      "notes": "Axe climatique: vent"
+    },
+    {
+      "id": "1710055",
+      "name": "cis-β-Farnésène",
+      "cas_number": "28973-97-9",
+      "iupac_name": "(6Z)-7,11-dimethyl-3-methylidenedodeca-1,6,10-triene",
+      "notes": "NULL"
+    },
+    {
+      "id": "810045",
+      "name": "curlone",
+      "cas_number": "82508-14-3",
+      "iupac_name": "2-methyl-6-(4-methylidenecyclohex-2-en-1-yl)hept-2-en-4-one",
+      "notes": "Axe climatique: bois"
+    },
+    {
+      "id": "810036",
+      "name": "dihydrotagetone",
+      "cas_number": "1879-00-1",
+      "iupac_name": "2,6-dimethyloct-7-en-4-one",
+      "notes": "Axe climatique: vent"
+    },
+    {
+      "id": "1410051",
+      "name": "epi-β-Santalol",
+      "cas_number": "NULL",
+      "iupac_name": "NULL",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710044",
+      "name": "n-Décanol",
+      "cas_number": "112-30-1",
+      "iupac_name": "decan-1-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "810056",
+      "name": "p-menthadienol",
+      "cas_number": "NULL",
+      "iupac_name": "5-methyl-2-propan-2-ylcyclohexa-1,5-dien-1-ol",
+      "notes": "NULL"
+    },
+    {
+      "id": "810048",
+      "name": "sesquiterpenes (resin mix)",
+      "cas_number": "NULL",
+      "iupac_name": "1-[(1R,3aS,6R,7R,7aS)-6-hydroxy-4-methylidene-7-propan-2-yl-1,2,3,3a,5,6,7,7a-octahydroinden-1-yl]ethanone",
+      "notes": "Axe climatique: bois"
+    },
+    {
+      "id": "1710070",
+      "name": "α-Copaene",
+      "cas_number": "NULL",
+      "iupac_name": "(1S,6S,7S,8S)-1,3-dimethyl-8-propan-2-yltricyclo[4.4.0.02,7]dec-3-ene",
+      "notes": "NULL"
+    },
+    {
+      "id": "1380032",
+      "name": "α-Méthyl Ionone",
+      "cas_number": "127-51-5",
+      "iupac_name": "(E)-3-methyl-4-(2,6,6-trimethylcyclohex-2-en-1-yl)but-3-en-2-one",
+      "notes": "INCI: ALPHA-ISOMETHYL IONONE. Isomère α pur. IFRA cat.4: 3.6%. Allergène INCI déclaré. Source: IFRA Standard #47"
+    },
+    {
+      "id": "690009",
+      "name": "α-Vétivène",
+      "cas_number": "5765-27-5",
+      "iupac_name": "(1S,7R,8aS)-1,8a-dimethyl-7-(prop-1-en-2-yl)-1,2,3,5,6,7,8,8a-octahydronaphthalene",
+      "notes": "NULL"
+    },
+    {
+      "id": "1993322",
+      "name": "β-Farnésène",
+      "cas_number": "18794-84-8",
+      "iupac_name": "(E)-7,11-dimethyl-3-methylenedodeca-1,6,10-triene",
+      "notes": "NULL"
+    },
+    {
+      "id": "1350035",
+      "name": "β-Glucane",
+      "cas_number": "9041-22-9",
+      "iupac_name": "(2S,3R,4S,5S,6R)-2-[(2R,4R,5R,6S)-4,5-dihydroxy-2-(hydroxymethyl)-6-[(2R,4R,5R,6S)-4,5,6-trihydroxy-2-(hydroxymethyl)oxan-3-yl]oxyoxan-3-yl]oxy-6-(hydroxymethyl)oxane-3,4,5-triol",
+      "notes": "NULL"
+    },
+    {
+      "id": "1050015",
+      "name": "β-Vétispirène",
+      "cas_number": "27840-40-0",
+      "iupac_name": "(1R,8aS)-1,8a-dimethyl-7-propan-2-ylidene-1,2,6,8-tetrahydronaphthalene",
+      "notes": "NULL"
+    },
+    {
+      "id": "1410068",
+      "name": "γ-Curcumene",
+      "cas_number": "28976-68-3",
+      "iupac_name": "1-methyl-4-[(2R)-6-methylhept-5-en-2-yl]cyclohexa-1,3-diene",
+      "notes": "NULL"
+    },
+    {
+      "id": "1650004",
+      "name": "δ-2-Carène",
+      "cas_number": "554-61-0",
+      "iupac_name": "3,7,7-trimethylbicyclo[4.1.0]hept-2-ene",
+      "notes": "Citrus, terpénique"
+    },
+    {
+      "id": "1410057",
+      "name": "δ-3-Carene",
+      "cas_number": "13466-78-9",
+      "iupac_name": "3,7,7-trimethylbicyclo[4.1.0]hept-3-ene",
+      "notes": "NULL"
+    },
+    {
+      "id": "1710071",
+      "name": "δ-Elemene",
+      "cas_number": "11029-06-4",
+      "iupac_name": "(3R,4R)-4-ethenyl-4-methyl-1-propan-2-yl-3-prop-1-en-2-ylcyclohexene",
+      "notes": "NULL"
+    }
+  ],
+  "messages": [
+    "Famille PVSC. Présent dans Bacio Gelato (0.8 ppb), Tropicana Cookies (0.6 ppb). Analogie structurelle avec les thiols du cassis (Ribes nigrum). Source : Oswald et al. (2021).",
+    "Présent dans Ribes nigrum (cassis) et Cannabis sativa var. Tropicana Cookies. Seuil olfactif ~0.001 ppb. Source : Oswald et al. (2021) ACS Omega ; Tominaga et al. (1998) pour cassis.",
+    "Présent dans Cannabis sativa (variétés tropicales) et Vitis vinifera Sauvignon Blanc. Précurseur de 3MHol. Source : Oswald et al. (2021) ; Tominaga et al. (1998) pour vin.",
+    "--- Notes IA ---",
+    "La pyrolyse des acides aminés comme l'hydroxyproline est connue pour générer une grande variété de composés volatils, incluant des pyrazines, des pyrroles, des oxazoles, et d'autres hétérocycles azotés, qui contribuent fortement aux arômes de grillé, fumé et rôti. La nature exacte du composé C5H9NO3 après pyrolyse de l'hydroxyproline nécessiterait une analyse structurelle plus poussée (ex: spectrométrie de masse, RMN) pour identifier la structure spécifique et confirmer la classe hétérocyclique exacte (ex: pyrrolidine, oxazolidinone, etc.).",
+    "--- Notes IA ---",
+    "La pyrolyse des acides aminés comme l'hydroxyproline est connue pour générer une grande variété de composés volatils, incluant des pyrazines, des pyrroles, des oxazoles, et d'autres hétérocycles azotés, qui contribuent fortement aux arômes de grillé, fumé et rôti. La nature exacte du composé C5H9NO3 après pyrolyse de l'hydroxyproline nécessiterait une analyse structurelle plus poussée (ex: spectrométrie de masse, RMN) pour identifier la structure spécifique et confirmer la classe hétérocyclique exacte (ex: pyrrolidine, oxazolidinone, etc.).",
+    "Famille : Composés Soufrés Volatils Prénylés (PVSC). Présent à l'état de traces dans les variétés Tropicana Cookies, Bacio Gelato. Seuil olfactif extrêmement bas (~ppb). Source : Oswald et al. (2021) ACS Omega."
+  ],
+  "stdout": "id\tname\tcas_number\tiupac_name\tnotes\n1410085\t2,3-Diethylpyrazine\t15707-24-1\t2,3-diethylpyrazine\tNULL\n1410027\t2,4-Decadienal\t2363-88-4\t(2E,4E)-deca-2,4-dienal\tNULL\n1410040\t2-ethyl-3,5-dimethylpyrazine\t13925-07-0\t2-ethyl-3,5-dimethylpyrazine\tNULL\n1710032\t3,3-Diméthylhex-5-ène-1-thiol (DMHF-thiol)\tNULL\tNULL\tComposé soufrés prénylé (PVSC) identifié dans Cannabis sativa par Oswald et al. (2021). Contribue aux notes \"skunk\" et \"tropical-soufré\" des variétés à forte odeur. Analogue structurel du 4-méthyl-4-sulfanylpentan-2-one (4MSP) du cassis.\n\nFamille PVSC. Présent dans Bacio Gelato (0.8 ppb), Tropicana Cookies (0.6 ppb). Analogie structurelle avec les thiols du cassis (Ribes nigrum). Source : Oswald et al. (2021).\n1410015\t3-Methyl-2,4-nonanedione\t113486-29-6\t3-methylnonane-2,4-dione\tNULL\n1710033\t4-Méthyl-4-sulfanylpentan-2-one (4MSP)\t19872-52-7\t4-methyl-4-sulfanylpentan-2-one\tComposé soufrés cétone identifié dans Cannabis sativa et dans le cassis (Ribes nigrum). Responsable des notes \"cassis-tropical\" dans certaines variétés cannabis. Marqueur de la famille PVSC (Prenylated Volatile Sulfur Compounds).\n\nPrésent dans Ribes nigrum (cassis) et Cannabis sativa var. Tropicana Cookies. Seuil olfactif ~0.001 ppb. Source : Oswald et al. (2021) ACS Omega ; Tominaga et al. (1998) pour cassis.\n1993316\t4-Méthylpent-3-ène-1-thiol (4MPT)\tNULL\t4-methylpent-3-ene-1-thiol\tThiol prénylé du cannabis. Note de soufre-terpénique caractéristique des variétés \"skunk\".\n840012\tAKBA (Acide 3-O-acétyl-11-céto-β-boswellique)\t67416-61-9\t(3α)-3-acetoxy-11-oxours-12-en-24-oic acid\tNULL\n330007\tAbsolue de Rose (Citronellol)\t106-22-9\t3,7-dimethyloct-6-en-1-ol\tNULL\n840011\tAcide 11-céto-β-boswellique (KBA)\t17019-92-0\t(3R,4R,4aR,6aR,6bS,8aR,11R,12S,12aR,14aR,14bS)-3-hydroxy-4,6a,6b,8a,11,12,14b-heptamethyl-14-oxo-1,2,3,4a,5,6,7,8,9,10,11,12,12a,14a-tetradecahydropicene-4-carboxylic acid\tNULL\n1350120\tAcide 2-méthylbutyrique\t116-53-0\t2-methylbutanoic acid\tNULL\n1710059\tAcide 3-O-acétyl-11-céto-β-boswellique (AKBA)\tNULL\tNULL\tNULL\n1710036\tAcide 3-mercaptohexanoïque (3MH)\t71500-37-3\t3-sulfanylhexanoic acid\tAcide thiol volatile identifié dans Cannabis sativa et dans les vins blancs (Sauvignon Blanc). Responsable de notes \"pamplemousse-passion-soufré\". Précurseur du 3-mercaptohexanol (3MHol) par réduction enzymatique.\n\nPrésent dans Cannabis sativa (variétés tropicales) et Vitis vinifera Sauvignon Blanc. Précurseur de 3MHol. Source : Oswald et al. (2021) ; Tominaga et al. (1998) pour vin.\n1710018\tAcide 3-méthylvalérique\t105-43-1\t3-methylpentanoic acid\tNULL\n60003\tAcide Décanoïque (C10)\t334-48-5\tdecanoic acid\tNULL\n1710023\tAcide Olivétolique\t491-72-5\t2,4-dihydroxy-6-pentylbenzoic acid\tNULL\n1710058\tAcide boswellique\t631-69-6\t(3R,4R,4aR,6aR,6bS,8aR,11R,12S,12aR,14aR,14bR)-3-hydroxy-4,6a,6b,8a,11,12,14b-heptamethyl-2,3,4a,5,6,7,8,9,10,11,12,12a,14,14a-tetradecahydro-1H-picene-4-carboxylic acid\tNULL\n1300025\tAcide bétulinique\t472-15-1\t(1R,3aS,5aR,5bR,7aR,9S,11aR,11bR,13aR,13bR)-9-hydroxy-5a,5b,8,8,11a-pentamethyl-1-prop-1-en-2-yl-1,2,3,4,5,6,7,7a,9,10,11,11b,12,13,13a,13b-hexadecahydrocyclopenta[a]chrysene-3a-carboxylic acid\tNULL\n1300002\tAcide carnosolique\t3650-09-7\t(4aR,10aS)-5,6-dihydroxy-1,1-dimethyl-7-propan-2-yl-2,3,4,9,10,10a-hexahydrophenanthrene-4a-carboxylic acid\tNULL\n1410089\tAcide fulvique (fulvic acid)\tNULL\tNULL\tNULL\n1900048\tAcide hexadécanoïque\t57-10-3\thexadecanoic acid\tNULL\n1350091\tAcide linoléique conjugué (CLA)\t2420-56-6\t2-methyl-6-phenylimidazo[1,2-a]pyrazin-3-ol\tNULL\n1350058\tAcide pantothénique (Vitamine B5)\t79-83-4\t(R)-3-[(3-hydroxy-2,2-dimethyl-1-oxopropyl)amino]propanoic acid\tNULL\n1320079\tAcide protocatechuique\t99-50-3\t3,4-dihydroxybenzoic acid\tNULL\n1710017\tAcide sclareolique\t564-20-5\tsclareolide\tNULL\n840010\tAcide β-boswellique\t631-69-6\t(3α,4β)-3-hydroxyurs-12-en-24-oic acid\tNULL\n1410094\tAcides humiques (humic acids)\tNULL\tNULL\tNULL\n1410075\tAcrolein\t107-02-8\tprop-2-enal\tNULL\n1050019\tAcétate d'eugényle\t93-28-7\t(2-methoxy-4-prop-2-enylphenyl) acetate\tNULL\n840013\tAcétate d'incensole\t68480-89-7\tIncensole acetate\tNULL\n1290005\tAcétate de rose\t16409-44-2\t3,7-dimethylocta-2,6-dienyl acetate\tComposé métallique-floral utilisé en parfumerie pour créer des accords roses métalliques.\n1650009\tAcétate de thymyle\t528-79-0\t(5-methyl-2-propan-2-ylphenyl) acetate\tL'acétate de thymyle est un dérivé du thymol, un monoterpénoïde. Bien qu'il dérive d'un composé terpénique, sa fonction principale est un ester. Il est souvent utilisé pour apporter une note fraîche, herbacée et aromatique dans les compositions, notamment en accord avec les notes de lavande, de romarin ou d'autres herbes aromatiques.\n1110013\tAcétylpyrazine\t22047-25-2\t1-pyrazin-2-ylethanone\tNULL\n1080002\tAgarwood / Oud — Aquilaria malaccensis (CITES)\tNULL\tNULL\tAxe climatique: Asie du Sud-Est (référence mondiale)\n570055\tAlcool cinnamique\t140-10-3\t(E)-3-phenylprop-2-enoic acid\tNULL\n1410010\tAldehyde C-11 MOA\t112-45-8\tundec-10-enal\t\n120008\tAldéhyde C-10\t112-31-2\tdecanal\tMolécule-clé Royal Mossi - Famille 3: Aldéhydes secs\n570028\tAldéhyde C-11 Undécylénique\t112-45-8\tundec-10-enal\tAldéhyde utilisé dans les accords hespéridés et verts modernes\n570024\tAldéhyde C-12 MNA\t110-41-8\t2-methylundecanal\tAldéhyde emblématique des parfums aldéhydés type Chanel N°5, apporte brillance et lift\n570025\tAldéhyde C-14 (Gamma-Undécalactone)\t124-25-4\ttetradecanal\tLactone très utilisée dans les accords fruités et gourmands modernes\n570029\tAldéhyde C-18 (Gamma-Nonalactone)\t104-61-0\t5-pentyloxolan-2-one\tLactone emblématique des accords tropicaux et gourmands, très utilisée en cosmétique\n480032\tAldéhyde feuille\t6728-26-3\t(E)-hex-2-enal\t\n1350042\tAlginat de sodium\t9005-38-3\tsodium alginate\tNULL\n960013\tAlpha-curcumene\t644-30-4\t(E)-1-méthyl-4-(6-méthylhept-5-én-2-yl)benzène\tNULL\n1350097\tAlpha-lipoïque (acide)\t1077-28-7\t5-(dithiolan-3-yl)pentanoic acid\tNULL\n90008\tAluminium aldehyde\tNULL\tNULL\t\n1350022\tAnthocyanine (cyanidine-3-glucoside)\t7084-24-4\t(2S,3R,4S,5S,6R)-2-[2-(3,4-dihydroxyphenyl)-5,7-dihydroxychromenylium-3-yl]oxy-6-(hydroxymethyl)oxane-3,4,5-triol chloride\tNULL\n780016\tAristolen-9β-ol\tNULL\tNULL\tSesquiterpénol caractéristique du nard\n1710003\tAristolène\t6831-16-9\t1,1,7,7a-tetramethyl-2,4,5,6,7,7b-hexahydro-1aH-cyclopropa[a]naphthalene\tNULL\n1320169\tAsarone alpha\t2883-98-9\t1,2,4-trimethoxy-5-[(E)-prop-1-enyl]benzene\tNULL\n1050016\tBenzyl alcool\t100-51-6\tphenylmethanol\tNULL\n1720022\tBenzyl glucoside\t124492-59-7\t(2R,3S,4S,5R,6R)-2-(hydroxymethyl)-6-phenylmethoxyoxane-3,4,5-triol\tPrécurseur glycosidique de l alcool benzylique. Libère l alcool benzylique lors de la fermentation. Présent dans jasmin, ylang-ylang, tubéreuse.\n1470003\tBenzène (pyrolyse terpènes)\t71-43-2\tbenzene\tProduit de pyrolyse des terpènes à haute température (>400°C). Cancérigène avéré (IARC Groupe 1). Formé lors de la combustion du cannabis et du tabac. Source: Meehan-Atrash et al. 2017 / PF-13 PERFUMUM\n1320112\tBetulinine\t473-98-3\t(1R,3aS,5aR,5bR,7aR,9S,11aR,11bR,13aR,13bR)-3a-(hydroxymethyl)-5a,5b,8,8,11a-pentamethyl-1-prop-1-en-2-yl-1,2,3,4,5,6,7,7a,9,10,11,11b,12,13,13a,13b-hexadecahydrocyclopenta[a]chrysen-9-ol\tNULL\n1902982\tBicyclogermacrene\t24703-35-3\t(1S,2E,6E,10R)-3,7,11,11-tetramethylbicyclo[8.1.0]undeca-2,6-diene\tNULL\n1350056\tBiotine (Vitamine B7)\t58-85-5\t5-[(3aS,4S,6aR)-2-oxo-1,3,3a,4,6,6a-hexahydrothieno[3,4-d]imidazol-4-yl]pentanoic acid\tNULL\n1650011\tBisabolone\t532-91-2\t6-methoxy-3H-1,3-benzoxazol-2-one\tBoisé, balsamique, épicé\n1710005\tBrachytylanolide A\tNULL\tNULL\tNULL\n1710006\tBrachytylanolide B\tNULL\tNULL\tNULL\n90061\tC14 lactone (γ-Tetradecalactone)\t2721-23-5\t5-decyloxolan-2-one\tNULL\n90062\tC18 lactone (γ-Octadecalactone)\t502-26-1\t5-tetradecyloxolan-2-one\tNULL\n1710027\tCBCA\t20408-52-0\t5-hydroxy-2-methyl-2-(4-methylpent-3-enyl)-7-pentylchromene-6-carboxylic acid\tAcide cannabichromenique — précurseur du CBC. Moins étudié que THCA/CBDA. Propriétés anti-inflammatoires potentielles. CAS : 25687-47-2.\n1710025\tCBGA\t25555-57-1\tcannabigerolic acid\tAcide cannabigérolique — précurseur universel de tous les cannabinoïdes (THCA, CBDA, CBCA). Synthétisé par CBGAS (olivetol + GPP). Voie biosynthétique centrale du cannabis. Référence : Taura et al. (2007), FEBS Letters.\n1710049\tCalarene\tNULL\t1,1,7,7a-tetramethyl-2,3,5,6,7,7b-hexahydro-1aH-cyclopropa[a]naphthalene\tNULL\n300006\tCalone 1951\t28940-11-6\t7-methyl-1,5-benzodioxepin-3-one\tMolécule synthétique emblématique des parfums marins. Inventée en 1966.\n570015\tCarvone L\t6485-40-1\t(5R)-2-methyl-5-prop-1-en-2-ylcyclohex-2-en-1-one\tNULL\n90047\tCedarol\tNULL\tNULL\tNULL\n1380036\tCedryl Methyl Ether\t19870-74-7\t(1S,2R,5S,7R,8R)-8-methoxy-2,6,6,8-tetramethyltricyclo[5.3.1.01,5]undecane\tCAS: 19870-74-7. Synthèse à partir de Cédrol. Utilisé dans les accords boisés modernes. Source: Bauer et al. 2008\n1710016\tCembratrienediol (α-CBT-diol)\t57605-80-8\tcembratrien-4,6-diol\tNULL\n1710061\tCembrène A\t31570-39-5\t(1E,5E,9E,12R)-1,5,9-trimethyl-12-prop-1-en-2-ylcyclotetradeca-1,5,9-triene\tNULL\n1710062\tCembrène C\tNULL\t(1E,5E,9E)-1,5,9-trimethyl-12-propan-2-ylidenecyclotetradeca-1,5,9-triene\tNULL\n1650001\tCyperène\t2387-78-2\t(1R,7R,10R)-4,10,11,11-tetramethyltricyclo[5.3.1.01,5]undec-4-ene\tSesquiterpène majeur du cypriol (Cyperus scariosus). Profil terreux-fumé oriental.\n330005\tCèdre Atlas (Cedrene)\t11028-42-5\t2,6,6,8-tetramethyltricyclo[5.3.1.01,5]undec-8-ene\tNULL\n1470002\tCétène\t629-73-2\thexadec-1-ene\tProduit de pyrolyse des acétates de cannabinoïdes (acétate de vitamine E). Associé aux lésions pulmonaires EVALI. Source: Munger et al. 2022 / PF-13 PERFUMUM\n570032\tDamascone Beta\t23726-91-2\t(E)-1-(2,6,6-trimethylcyclohexen-1-yl)but-2-en-1-one\tIsomère du Damascone Alpha, encore plus riche et complexe, signature des roses naturelles\n750010\tDamianine\tNULL\tNULL\tComposé actif principal de la damiana. Responsable des effets relaxants et aphrodisiaques.\n1410005\tDavanone\t30810-99-2\t2-(5-ethenyl-5-methyloxolan-2-yl)-6-methylhept-5-en-3-one\tNULL\n1380035\tDihydrojasmone\t1128-08-1\t3-methyl-2-pentylcyclopent-2-en-1-one\tCAS: 1128-08-1. Dérivé hydrogéné de Cis-Jasmone. IFRA unrestricted. Source: Arctander 1969\n1320191\tDihydrolinalool\t2270-57-7\t3,7-dimethyloct-6-en-3-ol\tCAS: 2270-57-7. Dérivé hydrogéné du Linalol. IFRA unrestricted. Source: Bauer et al. 2008\n1380034\tDihydromyrcenol\t18479-58-8\t2,6-dimethyloct-7-en-2-ol\tCAS: 18479-58-8. Synthèse à partir de Myrcène. Utilisé dans Cool Water (Davidoff 1988), Drakkar Noir. Source: Bauer et al. 2008 p.98\n1710064\tDuvatrienol\tNULL\tNULL\tNULL\n810029\tE-2-dodecenal\t4826-62-4\t(E)-dodec-2-enal\tAxe climatique: vent\n1380038\tEbanol\t28219-61-6\t(Z)-3-methyl-5-(2,2,3-trimethylcyclopent-3-en-1-yl)pent-4-en-2-ol\tINCI: EBANOL. Givaudan trademark. Synthèse. IFRA unrestricted. Source: Givaudan patent\n990025\tEpi-alpha-cadinol\t5937-11-1\t(1S,4S,4aR,8aR)-1,6-dimethyl-4-propan-2-yl-3,4,4a,7,8,8a-hexahydro-2H-naphthalen-1-ol\tNULL\n1320082\tEpigallocatechin\t970-74-1\t(2R,3R)-2-(3,4,5-trihydroxyphenyl)-3,4-dihydro-2H-chromene-3,5,7-triol\tNULL\n1410035\tEthanethiol\t75-08-1\tethanethiol\tNULL\n1410036\tEthyl 2-methylbutanoate\t7452-79-1\tethyl 2-methylbutanoate\tNULL\n210020\tEthyl furan-2-carboxylate\t614-99-3\tethyl furan-2-carboxylate\tNULL\n1320201\tEudesmol alpha\t473-16-5\t2-[(2R,4aR,8aR)-4a,8-dimethyl-2,3,4,5,6,8a-hexahydro-1H-naphthalen-2-yl]propan-2-ol\tNULL\n1320202\tEudesmol beta\t473-15-4\t2-[(2R,4aR,8aS)-4a-methyl-8-methylidene-1,2,3,4,5,6,7,8a-octahydronaphthalen-2-yl]propan-2-ol\tNULL\n480003\tFeuille d'oranger sèche\tNULL\tNULL\t\n1906339\tFriedelan-3-one\tNULL\t4,4a,6a,6b,8a,11,11,14a-octamethyl-2,4,5,6,6a,7,8,9,10,12,12a,13,14,14b-tetradecahydro-1H-picen-3-one\tNULL\n1350041\tFucoïdane\t9072-19-9\tfucoidan\tNULL\n1710024\tGPP (Géranyl Pyrophosphate)\t763-10-0\tgeranyl diphosphate\tNULL\n1410002\tGalbanolene\t19883-27-3\t(3E,5Z)-undeca-1,3,5-triene\tNULL\n330006\tGaïac (Guaiol)\t489-86-1\t2-[(3S,5R,8S)-3,8-dimethyl-1,2,3,4,5,6,7,8-octahydroazulen-5-yl]propan-2-ol\t\n1080009\tGaïac — Guaiacum officinale\t90-05-1\t2-methoxyphenol\tAxe climatique: Caraïbes\n1080010\tGaïac — Guaiacum sanctum (proxy)\tNULL\tNULL\tAxe climatique: Caraïbes / Amériques\n570036\tGeorgywood\tNULL\tNULL\tMolécule boisée moderne très diffusive, alternative au Iso E Super\n1410080\tGeranyl acetone\t3796-70-1\t(5E)-6,10-dimethylundeca-5,9-dien-2-one\tNULL\n840006\tGermacrène B\t15423-57-1\t(1E,5E)-1,5-dimethyl-8-propan-2-ylidenecyclodeca-1,5-diene\tNULL\n1320094\tGlucoerucine\t21973-56-8\t[(2S,3R,4S,5S,6R)-3,4,5-trihydroxy-6-(hydroxymethyl)oxan-2-yl] 5-methylsulfanyl-N-sulfooxypentanimidothioate\tNULL\n90025\tGlycine pyrolysée\t56-40-6\t2-aminoacetic acid\tNULL\n1080018\tGomme arabique — Senegalia senegal (filière fragile)\tNULL\tNULL\tAxe climatique: Sahel (incl. Burkina)\n570009\tGuaiacol Fumé\t90-05-1\t2-methoxyphenol\t\n510005\tGuanábana (Annona muricata)\tNULL\tNULL\tFruit à la pulpe blanche crémeuse, très apprécié en jus et desserts. Propriétés médicinales étudiées.\n1710039\tGéraniol\t106-24-1\t(2E)-3,7-dimethylocta-2,6-dien-1-ol\tNULL\n1720020\tGéranyl glucoside\t22850-13-1\t(2R,3R,4S,5S,6R)-2-[(2E)-3,7-dimethylocta-2,6-dienoxy]-6-(hydroxymethyl)oxane-3,4,5-triol\tPrécurseur glycosidique du géraniol. Hydrolyse enzymatique (β-glucosidase) libère le géraniol lors du séchage et de la fermentation. Présent dans rose, lavande, géranium. Référence : Winterhalter & Skouroumounis (1997).\n750001\tHashishene\t16626-39-4\t1-ethenyl-5,5-dimethylbicyclo[2.1.1]hexane\tDécouvert en 2014 par Marchini et al. Jusqu à 14.9% des terpènes du hash marocain. Formé par exposition UV + oxygène.\n1380030\tHedione HC\t2630-39-9\tmethyl 2-[(1R,2R)-3-oxo-2-pentylcyclopentyl]acetate\tINCI: METHYL (2R)-2-[(3R)-3-HEXYLOXIRAN-2-YL]ACETATE. Isomère optiquement pur. Utilisé dans J'adore (Dior 2014). Source: Kraft P. Angew.Chem.Int.Ed. 2005:44:4608\n90071\tHeliotropine (Piperonal)\t120-57-0\t1,3-benzodioxole-5-carbaldehyde\tNULL\n1410001\tHexanoic acid\t142-62-1\thexanoic acid\tÉmotion : “matérialité du vivant”\n1410066\tHexyl acetate\t142-92-7\thexyl acetate\tNULL\n90052\tHinoki oil\tNULL\tNULL\t\n1410042\tHydrogen sulfide\t7783-06-4\tsulfane\tNULL\n90026\tHydroxyproline pyrolysée\t51-35-4\t(2S,4R)-4-hydroxypyrrolidine-2-carboxylic acid\tLa pyrolyse des acides aminés comme l'hydroxyproline est connue pour générer une grande variété de composés volatils, incluant des pyrazines, des pyrroles, des oxazoles, et d'autres hétérocycles azotés, qui contribuent fortement aux arômes de grillé, fumé et rôti. La nature exacte du composé C5H9NO3 après pyrolyse de l'hydroxyproline nécessiterait une analyse structurelle plus poussée (ex: spectrométrie de masse, RMN) pour identifier la structure spécifique et confirmer la classe hétérocyclique exacte (ex: pyrrolidine, oxazolidinone, etc.).\n\n--- Notes IA ---\nLa pyrolyse des acides aminés comme l'hydroxyproline est connue pour générer une grande variété de composés volatils, incluant des pyrazines, des pyrroles, des oxazoles, et d'autres hétérocycles azotés, qui contribuent fortement aux arômes de grillé, fumé et rôti. La nature exacte du composé C5H9NO3 après pyrolyse de l'hydroxyproline nécessiterait une analyse structurelle plus poussée (ex: spectrométrie de masse, RMN) pour identifier la structure spécifique et confirmer la classe hétérocyclique exacte (ex: pyrrolidine, oxazolidinone, etc.).\n\n--- Notes IA ---\nLa pyrolyse des acides aminés comme l'hydroxyproline est connue pour générer une grande variété de composés volatils, incluant des pyrazines, des pyrroles, des oxazoles, et d'autres hétérocycles azotés, qui contribuent fortement aux arômes de grillé, fumé et rôti. La nature exacte du composé C5H9NO3 après pyrolyse de l'hydroxyproline nécessiterait une analyse structurelle plus poussée (ex: spectrométrie de masse, RMN) pour identifier la structure spécifique et confirmer la classe hétérocyclique exacte (ex: pyrrolidine, oxazolidinone, etc.).\n1110011\tIBMP (2-Isobutyl-3-méthoxypyrazine)\t24683-00-9\t2-methoxy-3-(2-methylpropyl)pyrazine\tNULL\n120015\tIncensol acetate\tNULL\t(1,5,9-trimethyl-12-propan-2-yl-15-oxabicyclo[10.2.1]pentadeca-5,9-dien-2-yl) acetate\tMolécule-clé Royal Mossi - Famille 4: Résines orientales\n750003\tIncensole\t22419-74-5\t(1R,2S,5E,9E,12S)-1,5,9-trimethyl-12-propan-2-yl-15-oxabicyclo[10.2.1]pentadeca-5,9-dien-2-ol\tPropriétés anxiolytiques prouvées (activation TRPV3). Composant majeur de encens. Effets psychoactifs légers.\n480007\tIonone blanche\t127-51-5\t(E)-3-methyl-4-(2,6,6-trimethylcyclohex-2-en-1-yl)but-3-en-2-one\tNULL\n90019\tIonone β\t79-77-6\t(E)-4-(2,6,6-trimethylcyclohexen-1-yl)but-3-en-2-one\tNULL\n90020\tIonone γ\t79-76-5\t(E)-4-(2,2-dimethyl-6-methylidenecyclohexyl)but-3-en-2-one\tNULL\n1710063\tIsocembrène\t25269-16-3\t(1E,5E,10E)-1,5-dimethyl-9-methylidene-12-propan-2-ylcyclotetradeca-1,5,10-triene\tNULL\n840008\tIsocericenine\tNULL\tNULL\tNULL\n1320199\tIsopinocarveol\t6712-79-4\t(1R,3R,5R)-6,6-dimethyl-2-methylidenebicyclo[3.1.1]heptan-3-ol\tNULL\n1500001\tIsoprène\t78-79-5\t2-methylbuta-1,3-diene\tProduit de combustion des monoterpènes. Précurseur de nombreux terpènes.\n1903429\tIsothiocyanate de benzyle\t622-78-6\tisothiocyanatomethylbenzene\tNULL\n1020002\tItalidione II\tNULL\tNULL\tIsomère de l'italidione I, contribue au profil curry de l'Immortelle\n1020003\tItalidione III\tNULL\tNULL\tTroisième isomère des italidiones\n1080013\tJasmin de Grasse (forme patrimoniale)\tNULL\tNULL\tAxe climatique: France (Grasse) — cultivar patrimonial\n90058\tJasmonal\tNULL\tNULL\tNULL\n1710030\tJavanole\t4883-60-7\t2-hydroxy-3,5,5-trimethylcyclohex-2-en-1-one\tCétone sesquiterpénique caractéristique du tabac Latakia et des feuilles de tabac fermentées. Marqueur chimique important du profil aromatique des tabacs orientaux.\n1650003\tJinkoh-Eudesmol\tNULL\tJinkoh-Eudesmol\tSesquiterpène alcool de l'oud. Composé caractéristique du bois d'agar.\n360003\tJuniper (Genièvre)\tNULL\tNULL\t\n480009\tKarité clair\tNULL\tNULL\t\n480018\tKarité fumé sombre\tNULL\tNULL\t\n480035\tKarité vert\tNULL\tNULL\t\n120020\tLabdanum diterpenes\tNULL\tNULL\tMolécule-clé Royal Mossi - Famille 6: Molécules de cuir\n420008\tLabrador Tea Essential Oil\tNULL\tNULL\tRécolte sauvage en tourbières. Plante des Premières Nations.\n90037\tLignine pyrolysée\t9005-53-2\tdisodium;4-acetamido-5-hydroxy-6-phenyldiazenylnaphthalene-1,7-disulfonate\tNULL\n1350099\tLinalol oxyde\t15249-35-1\t5-(3,3-dimethyloxiran-2-yl)-3-methylpent-1-en-3-ol\tNULL\n1720021\tLinalyl glucoside\t82928-12-9\t(2S,3R,4S,5S,6R)-2-(3,7-dimethylocta-1,6-dien-3-yloxy)-6-(hydroxymethyl)oxane-3,4,5-triol\tPrécurseur glycosidique du linalol. Libère le linalol par hydrolyse acide ou enzymatique. Présent dans lavande, coriandre, basilic. Important pour la compréhension des arômes latents.\n390001\tLippia Origanoides (Origan Sauvage)\tNULL\tNULL\t\n510004\tLulo (Solanum quitoense)\tNULL\tNULL\tFruit emblématique de Colombie, appelé 'naranjilla' en Équateur. Saveur unique inimitable.\n1993321\tLupulone\t468-28-0\t3,5-bis(3-methylbut-2-en-1-yl)-4-(2-methylpropanoyl)-2-(3-methylbut-2-en-1-yl)cyclopentane-1,3-dione\tNULL\n1410024\tMelonal\t106-72-9\t2,6-dimethylhept-5-enal\tNULL\n1650002\tMenthofurane\t494-90-6\t3,6-dimethyl-4,5,6,7-tetrahydro-1-benzofuran\tComposé du Palo Santo (Bursera graveolens). Contribue au profil boisé-résineux.\n1410059\tMesifurane\t4077-47-8\t4-methoxy-2,5-dimethylfuran-3-one\tNULL\n1710069\tMethoxyfuranoguaia-9-ene\tNULL\tNULL\tNULL\n1200001\tMethyl Ethylpyrazine 2,3 \t15707-23-0\t2-ethyl-3-methylpyrazine\tNULL\n1410037\tMethyl butanoate\t623-42-7\tmethyl butanoate\tNULL\n1410041\tMethyl hexanoate\t106-70-7\tmethyl hexanoate\tNULL\n1080019\tMusk deer (musc naturel) — Moschus moschiferus (CITES)\tNULL\tNULL\tAxe climatique: Asie (taïga/montagnes)\n1080023\tMusk mallow (Malva moschata) — note patrimoniale\tNULL\tNULL\tAxe climatique: Europe (réf.; herbiers)\n1560001\tMyristicine\t607-91-0\t4-methoxy-6-prop-2-enyl-1,3-benzodioxole\tNULL\n1650008\tMyrtenyl acetate\t1079-01-2\t[(1S,5R)-6,6-dimethyl-2-bicyclo[3.1.1]hept-2-enyl]methyl acetate\tFloral, fruité, frais\n1710011\tMégastigmatriénone (isomère 1)\t38142-22-2\tmegastigmatrienone\tNULL\n1350105\tMénaquinone (Vitamine K2)\t1182-68-9\t2-methyl-3-[(2E,6E,10E,14E)-3,7,11,15,19-pentamethylicosa-2,6,10,14,18-pentaenyl]naphthalene-1,4-dione\tNULL\n1470001\tMéthacroléine\t78-85-3\t2-methylprop-2-enal\tProduit de pyrolyse des terpènes (myrcène, limonène) à 340-482°C. Toxique pulmonaire. Formé lors de la combustion du cannabis. Source: Meehan-Atrash et al. 2017 (85 citations) / PF-13 PERFUMUM\n1380031\tMéthyl Ionone\t1335-46-2\t(E)-1-(2,6,6-trimethylcyclohex-2-en-1-yl)pent-1-en-3-one\tMélange d'isomères α et β. Synthèse à partir de Méthyl Heptenone + Méthyl Vinyl Ketone. IFRA cat.4: 3.6%. Source: Bauer et al. 2008 p.142\n570022\tMéthyl Ionone Gamma\t79-68-5\t4-(2,2,3-trimethyl-6-methylidenecyclohexyl)but-3-en-2-one\tNULL\n1500004\tMéthyl anthranilate\t134-20-3\tmethyl 2-aminobenzoate\tPrésent dans le raisin Concord, la fleur d'oranger, le jasmin. Utilisé en parfumerie pour les accords floraux-fruités.\n1350028\tMéthyl syringol\t6638-05-7\t2,6-dimethoxy-4-methylphenol\t4-Méthylsyringol, produit de pyrolyse de la lignine de bois dur. Odeur fumée, épicée. Présent dans fumée de chêne, hêtre, tabac Latakia.\n900014\tNNK (4-(Methylnitrosamino)-1-(3-pyridyl)-1-butanone)\t64091-91-4\tN-methyl-N-(4-oxo-4-pyridin-3-ylbutyl)nitrous amide\tTobacco-specific nitrosamine\n900013\tNNN (N'-Nitrosonornicotine)\t80508-23-2\t3-(1-nitrosopyrrolidin-2-yl)pyridine\tTobacco-specific nitrosamine\n780018\tNardosinonediol\t20489-11-6\t(3R,4aR,5R)-3-hydroxy-4-(2-hydroxypropan-2-yl)-4a,5-dimethyl-2,3,4,5,6,7-hexahydronaphthalen-1-one\tLe Nardosinonediol est un composé naturel que l'on trouve dans certaines plantes comme le nard indien (Nardostachys jatamansi), connu pour son odeur terreuse et musquée. Sa structure complexe avec plusieurs centres chiraux et fonctions oxygénées contribue à son profil olfactif distinctif.\n1350057\tNiacine (Vitamine B3)\t59-67-6\tpyridine-3-carboxylic acid\tNULL\n510018\tNogal Colombien\tNULL\tNULL\t\n330018\tNorlimbanol\t70788-30-6\t1-(2,2,6-trimethylcyclohexyl)hexan-3-ol\tNULL\n480015\tOliban brûlé\tNULL\tNULL\t\n480005\tOliban clair\tNULL\tNULL\t\n840014\tOlibanol\tNULL\tNULL\tNULL\n1080015\tOrris ‘Florentina’ (filière fragile)\tNULL\tNULL\tAxe climatique: Italie (Toscane) — filière patrimoniale\n300001\tOud (Agarwood)\tNULL\tNULL\t\n690003\tOxyde de rose\t16409-43-1\t4-methyl-2-(2-methylprop-1-enyl)oxane\tNULL\n1993314\tPaeoniflorin\t23180-57-6\tpaeoniflorin\tGlucoside monoterpénique majeur de Paeonia lactiflora. Activité anti-nociceptive et neuroprotectrice documentée.\n1993313\tPaeonol\t552-41-0\t1-(4-hydroxy-3-methoxyphenyl)ethan-1-one\tComposé phénolique caractéristique de la pivoine. Responsable de la note épicée-vanillée. Propriétés anti-inflammatoires documentées.\n330020\tParadisone\tNULL\tNULL\tNULL\n1350104\tPhylloquinone (Vitamine K1)\t84-80-0\t2-methyl-3-[(E,7R,11R)-3,7,11,15-tetramethylhexadec-2-enyl]naphthalene-1,4-dione\tNULL\n390004\tPiper Aduncum (Poivre Sauvage)\tNULL\tNULL\t\n1380037\tPolysantol\t65113-99-7\t3-methyl-5-(2,2,3-trimethylcyclopent-3-en-1-yl)pentan-2-ol\tINCI: POLYSANTOL. Firmenich trademark. Synthèse à partir de Camphre. Source: Bauer et al. 2008 p.178\n1710031\tPrénylthiol\t5287-45-6\t3-methylbut-2-ene-1-thiol\tThiol prénylé volatile identifié dans Cannabis sativa. Composé soufrés prénylé (VSC) responsable de notes \"skunk\" caractéristiques. Découvert par Oswald et al. (2021) dans les variétés à forte odeur soufrée.\n\nFamille : Composés Soufrés Volatils Prénylés (PVSC). Présent à l'état de traces dans les variétés Tropicana Cookies, Bacio Gelato. Seuil olfactif extrêmement bas (~ppb). Source : Oswald et al. (2021) ACS Omega.\n1620005\tPyridine\t110-86-1\tpyridine\tProduit de pyrolyse de la nicotine (>400°C). Marqueur de combustion élevée. Présent dans fumée de cigarette. Synergies: picolines, lutidines.\n1710042\tRosaridin\t100462-37-1\t(2R,3R,4S,5S,6R)-2-[(2E,4S)-4-hydroxy-3,7-dimethylocta-2,6-dienoxy]-6-(hydroxymethyl)oxane-3,4,5-triol\tNULL\n1710043\tRosavine\t84954-92-7\t(2R,3R,4S,5S,6R)-2-[(E)-3-phenylprop-2-enoxy]-6-[[(2S,3R,4S,5S)-3,4,5-trihydroxyoxan-2-yl]oxymethyl]oxane-3,4,5-triol\tNULL\n1080014\tRose de Kazanlık (Trigintipetala) — cultivar patrimonial\tNULL\tNULL\tAxe climatique: Bulgarie (Kazanlak) — cultivar historique\n1320190\tSabinene hydrate\t546-79-2\t2-methyl-5-propan-2-ylbicyclo[3.1.0]hexan-2-ol\tNULL\n90036\tSandalore pyrolysé\t65113-99-7\t3-methyl-5-(2,2,3-trimethylcyclopent-3-en-1-yl)pentan-2-ol\t\n330004\tSantal Mysore (α-Santalol)\t115-71-9\t(Z)-5-[(1S,3R,6R)-2,3-dimethyl-3-tricyclo[2.2.1.02,6]heptanyl]-2-methylpent-2-en-1-ol\t\n1080007\tSantal — Santalum album\t529-60-2\t3-(3,4-dihydroxyphenyl)-5-hydroxy-7-methoxychromen-4-one\tAxe climatique: Inde (réf.)\n90076\tSantalol (α+β)\t73890-74-1\t(E)-2-methyl-5-[(1S,2S,4R)-2-methyl-3-methylidene-2-bicyclo[2.2.1]heptanyl]pent-2-en-1-ol\tNULL\n90003\tSclerene\t511-02-4\t(4aS,8S,8aS)-4,4,8a-trimethyl-7-methylidene-8-(3-methylidenepent-4-enyl)-2,3,4a,5,6,8-hexahydro-1H-naphthalene\tNULL\n990035\tSelina-3,11-dien-9-one\tNULL\t(3S,8aS)-5,8a-dimethyl-3-prop-1-en-2-yl-2,3,4,4a,7,8-hexahydronaphthalen-1-one\tNULL\n1710004\tSpirojatamol\tNULL\t(4S,5S,7R)-4-methyl-10-methylidene-7-propan-2-ylspiro[4.5]decan-4-ol\tNULL\n390005\tSteiractinia Aspera (Endémique Rare)\tNULL\tNULL\t\n1320147\tSyringic acid\t530-57-4\t4-hydroxy-3,5-dimethoxybenzoic acid\tNULL\n1620002\tTTMP (2,3,5-Triméthyl-2-cyclopentènone)\t54562-24-2\t2,3,5-trimethylcyclopent-2-en-1-one\tLactone de fermentation anaérobie, signature chimique du tabac Malawi Cob fire-cured. Transposition parfumerie : Base \"Fermentation Tropicale\".\n90055\tTangerinol\t91482-37-0\t6,10-dimethylundeca-5,9-dien-2-yl acetate\tNULL\n1350070\tTanin (acide tannique)\t5424-20-4\t[2,3-dihydroxy-5-[[(2R,3R,4S,5R,6S)-3,4,5,6-tetrakis[[3,4-dihydroxy-5-(3,4,5-trihydroxybenzoyl)oxybenzoyl]oxy]oxan-2-yl]methoxycarbonyl]phenyl] 3,4,5-trihydroxybenzoate\tNULL\n1963313\tTest Molecule 1\tNULL\tNULL\tAxe climatique: vent\n1963314\tTest Molecule 2\tNULL\tNULL\tAxe climatique: bois\n1320089\tTheobromine methyl\t1076-22-8\t3-methyl-7H-purine-2,6-dione\tNULL\n1320163\tTocopherol alpha\t1406-18-4\t(2R)-2,5,7,8-tetramethyl-2-[(4R,8R)-4,8,12-trimethyltridecyl]-3,4-dihydrochromen-6-ol\tNULL\n1350103\tTocophérol (Vitamine E)\t1406-66-2\t2,7,8-trimethyl-2-(4,8,12-trimethyltridecyl)-3,4-dihydrochromen-6-ol\tNULL\n1907427\tTricyclene\t508-32-7\t1,7,7-trimethyltricyclo[2.2.1.02,6]heptane\tNULL\n1410030\tTrimethylamine\t75-50-3\tN,N-dimethylmethanamine\tNULL\n390002\tTurnera Diffusa (Damiana)\tNULL\tNULL\t\n510006\tUchuva (Physalis peruviana)\tNULL\tNULL\tBaie dorée protégée par une capsule papyracée. Export majeur de Colombie vers l'Europe.\n1710060\tVerticillol\tNULL\t(3E,7Z)-4,8,12,15,15-pentamethylbicyclo[9.3.1]pentadeca-3,7-dien-12-ol\tNULL\n480019\tVetiver Assam\tNULL\tNULL\t\n480030\tVetiver fumé\tNULL\tNULL\t\n990020\tVetivone\tNULL\tNULL\tNULL\n1050014\tVétisélénène\t28624-23-9\t(8aS)-4,8a-dimethyl-6-propan-2-yl-2,3,7,8-tetrahydro-1H-naphthalene\tNULL\n120001\tVétivénol\t89-88-3\t(5R,6R)-6,10-dimethyl-3-propan-2-ylidenespiro[4.5]dec-9-en-8-ol\tMolécule-clé Royal Mossi - Famille 1: Sesquiterpènes racinaires\n510002\tYagé (Banisteriopsis caapi)\tNULL\tNULL\tPlante sacrée des peuples indigènes. Usage cérémoniel uniquement. Molécule d'étude ethnobotanique.\n1410065\tYuzu lactone\t79894-06-7\t(10E)-1-oxacyclotridec-10-en-2-one\tNULL\n690012\tZizanol\t41060-17-1\t2,7,7-trimethyl-6-methylidenetricyclo[6.2.1.01,5]undecan-3-ol\tNULL\n810046\talpha-terpinyl acetate\t80-26-2\t2-(4-methylcyclohex-3-en-1-yl)propan-2-yl acetate\tAxe climatique: vent\n1710055\tcis-β-Farnésène\t28973-97-9\t(6Z)-7,11-dimethyl-3-methylidenedodeca-1,6,10-triene\tNULL\n810045\tcurlone\t82508-14-3\t2-methyl-6-(4-methylidenecyclohex-2-en-1-yl)hept-2-en-4-one\tAxe climatique: bois\n810036\tdihydrotagetone\t1879-00-1\t2,6-dimethyloct-7-en-4-one\tAxe climatique: vent\n1410051\tepi-β-Santalol\tNULL\tNULL\tNULL\n1710044\tn-Décanol\t112-30-1\tdecan-1-ol\tNULL\n810056\tp-menthadienol\tNULL\t5-methyl-2-propan-2-ylcyclohexa-1,5-dien-1-ol\tNULL\n810048\tsesquiterpenes (resin mix)\tNULL\t1-[(1R,3aS,6R,7R,7aS)-6-hydroxy-4-methylidene-7-propan-2-yl-1,2,3,3a,5,6,7,7a-octahydroinden-1-yl]ethanone\tAxe climatique: bois\n1710070\tα-Copaene\tNULL\t(1S,6S,7S,8S)-1,3-dimethyl-8-propan-2-yltricyclo[4.4.0.02,7]dec-3-ene\tNULL\n1380032\tα-Méthyl Ionone\t127-51-5\t(E)-3-methyl-4-(2,6,6-trimethylcyclohex-2-en-1-yl)but-3-en-2-one\tINCI: ALPHA-ISOMETHYL IONONE. Isomère α pur. IFRA cat.4: 3.6%. Allergène INCI déclaré. Source: IFRA Standard #47\n690009\tα-Vétivène\t5765-27-5\t(1S,7R,8aS)-1,8a-dimethyl-7-(prop-1-en-2-yl)-1,2,3,5,6,7,8,8a-octahydronaphthalene\tNULL\n1993322\tβ-Farnésène\t18794-84-8\t(E)-7,11-dimethyl-3-methylenedodeca-1,6,10-triene\tNULL\n1350035\tβ-Glucane\t9041-22-9\t(2S,3R,4S,5S,6R)-2-[(2R,4R,5R,6S)-4,5-dihydroxy-2-(hydroxymethyl)-6-[(2R,4R,5R,6S)-4,5,6-trihydroxy-2-(hydroxymethyl)oxan-3-yl]oxyoxan-3-yl]oxy-6-(hydroxymethyl)oxane-3,4,5-triol\tNULL\n1050015\tβ-Vétispirène\t27840-40-0\t(1R,8aS)-1,8a-dimethyl-7-propan-2-ylidene-1,2,6,8-tetrahydronaphthalene\tNULL\n1410068\tγ-Curcumene\t28976-68-3\t1-methyl-4-[(2R)-6-methylhept-5-en-2-yl]cyclohexa-1,3-diene\tNULL\n1650004\tδ-2-Carène\t554-61-0\t3,7,7-trimethylbicyclo[4.1.0]hept-2-ene\tCitrus, terpénique\n1410057\tδ-3-Carene\t13466-78-9\t3,7,7-trimethylbicyclo[4.1.0]hept-3-ene\tNULL\n1710071\tδ-Elemene\t11029-06-4\t(3R,4R)-4-ethenyl-4-methyl-1-propan-2-yl-3-prop-1-en-2-ylcyclohexene\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 69
+}

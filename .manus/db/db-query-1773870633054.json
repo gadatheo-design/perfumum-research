@@ -1,0 +1,130 @@
+{
+  "query": "\n-- Plantes sans QID avec nom latin disponible (priorité haute)\nSELECT id, name, latin_name, category \nFROM plants \nWHERE (wikidata_qid IS NULL OR wikidata_qid = '')\n  AND latin_name IS NOT NULL AND latin_name != ''\nORDER BY name\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Plantes sans QID avec nom latin disponible (priorité haute)\nSELECT id, name, latin_name, category \nFROM plants \nWHERE (wikidata_qid IS NULL OR wikidata_qid = '')\n  AND latin_name IS NOT NULL AND latin_name != ''\nORDER BY name\nLIMIT 20;\n",
+  "rows": [
+    {
+      "id": "120017",
+      "name": "Acapulco Gold",
+      "latin_name": "Cannabis sativa subsp. sativa 'Acapulco Gold'",
+      "category": "cannabis"
+    },
+    {
+      "id": "870010",
+      "name": "Acapulco Gold",
+      "latin_name": "Cannabis sativa var. indica 'Acapulco Gold'",
+      "category": "cannabis"
+    },
+    {
+      "id": "120007",
+      "name": "Afghan Kush",
+      "latin_name": "Cannabis sativa subsp. indica 'Afghan Kush'",
+      "category": "cannabis"
+    },
+    {
+      "id": "870001",
+      "name": "Afghan Kush",
+      "latin_name": "Cannabis sativa subsp. indica var. afghanica 'Afghan Kush'",
+      "category": "cannabis"
+    },
+    {
+      "id": "990011",
+      "name": "Agonya",
+      "latin_name": "Nicotiana tabacum var. Agonya",
+      "category": "tabac"
+    },
+    {
+      "id": "480025",
+      "name": "Ambergris (matière patrimoniale)",
+      "latin_name": "Physeter macrocephalus (source indirecte)",
+      "category": "autre"
+    },
+    {
+      "id": "360003",
+      "name": "Ambil",
+      "latin_name": "Nicotiana tabacum var. ambil",
+      "category": "tabac"
+    },
+    {
+      "id": "1020001",
+      "name": "Ambrette seed",
+      "latin_name": "Abelmoschus moschatus",
+      "category": "aromatique"
+    },
+    {
+      "id": "540003",
+      "name": "Anadenanthera peregrina",
+      "latin_name": "Anadenanthera peregrina (L.) Speg.",
+      "category": "autre"
+    },
+    {
+      "id": "870004",
+      "name": "Angola Red",
+      "latin_name": "Cannabis sativa var. indica 'Angola Red'",
+      "category": "cannabis"
+    },
+    {
+      "id": "870022",
+      "name": "Arapiraca",
+      "latin_name": "Nicotiana tabacum var. arapiraca",
+      "category": "tabac"
+    },
+    {
+      "id": "540025",
+      "name": "Attalea speciosa",
+      "latin_name": "Attalea speciosa Mart. ex Spreng.",
+      "category": "autre"
+    },
+    {
+      "id": "900006",
+      "name": "Badan Wild Tobacco",
+      "latin_name": "Nicotiana tabacum var. badan-wild",
+      "category": "tabac"
+    },
+    {
+      "id": "540007",
+      "name": "Banisteriopsis caapi",
+      "latin_name": "Banisteriopsis caapi (Spruce ex Griseb.) C.V.Morton",
+      "category": "autre"
+    },
+    {
+      "id": "990007",
+      "name": "Bashi Bagli",
+      "latin_name": "Nicotiana tabacum var. Bashi Bagli",
+      "category": "tabac"
+    },
+    {
+      "id": "840002",
+      "name": "Basma",
+      "latin_name": "Nicotiana tabacum var. Basma",
+      "category": "tabac"
+    },
+    {
+      "id": "840006",
+      "name": "Bidi",
+      "latin_name": "Nicotiana tabacum var. Bidi",
+      "category": "tabac"
+    },
+    {
+      "id": "900005",
+      "name": "Bishan Wild Tobacco",
+      "latin_name": "Nicotiana tabacum var. bishan-wild",
+      "category": "tabac"
+    },
+    {
+      "id": "1020006",
+      "name": "Bois de rose",
+      "latin_name": "Aniba rosaeodora",
+      "category": "aromatique"
+    },
+    {
+      "id": "8",
+      "name": "Burley (air-cured)",
+      "latin_name": "Nicotiana tabacum var. burley",
+      "category": "tabac"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tcategory\n120017\tAcapulco Gold\tCannabis sativa subsp. sativa 'Acapulco Gold'\tcannabis\n870010\tAcapulco Gold\tCannabis sativa var. indica 'Acapulco Gold'\tcannabis\n120007\tAfghan Kush\tCannabis sativa subsp. indica 'Afghan Kush'\tcannabis\n870001\tAfghan Kush\tCannabis sativa subsp. indica var. afghanica 'Afghan Kush'\tcannabis\n990011\tAgonya\tNicotiana tabacum var. Agonya\ttabac\n480025\tAmbergris (matière patrimoniale)\tPhyseter macrocephalus (source indirecte)\tautre\n360003\tAmbil\tNicotiana tabacum var. ambil\ttabac\n1020001\tAmbrette seed\tAbelmoschus moschatus\taromatique\n540003\tAnadenanthera peregrina\tAnadenanthera peregrina (L.) Speg.\tautre\n870004\tAngola Red\tCannabis sativa var. indica 'Angola Red'\tcannabis\n870022\tArapiraca\tNicotiana tabacum var. arapiraca\ttabac\n540025\tAttalea speciosa\tAttalea speciosa Mart. ex Spreng.\tautre\n900006\tBadan Wild Tobacco\tNicotiana tabacum var. badan-wild\ttabac\n540007\tBanisteriopsis caapi\tBanisteriopsis caapi (Spruce ex Griseb.) C.V.Morton\tautre\n990007\tBashi Bagli\tNicotiana tabacum var. Bashi Bagli\ttabac\n840002\tBasma\tNicotiana tabacum var. Basma\ttabac\n840006\tBidi\tNicotiana tabacum var. Bidi\ttabac\n900005\tBishan Wild Tobacco\tNicotiana tabacum var. bishan-wild\ttabac\n1020006\tBois de rose\tAniba rosaeodora\taromatique\n8\tBurley (air-cured)\tNicotiana tabacum var. burley\ttabac\n",
+  "stderr": "",
+  "execution_time_ms": 61
+}

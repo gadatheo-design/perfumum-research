@@ -2485,3 +2485,18 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Documentation API Suite complète dans docs/europeana-api-research.md
 - [x] Service europeana.ts v2 : 6 thèmes, IIIF Manifest v3, Thumbnail API v3, pagination curseur
 - [x] Mode démonstration désactivé automatiquement dès que la clé est présente
+
+## SESSION 18 MARS 2026 — Enrichissement QIDs Wikidata
+
+- [ ] Auditer l'état actuel des QIDs manquants (plantes + molécules)
+- [ ] Script enrichissement QIDs plantes via SPARQL (nom latin P225)
+- [ ] Script enrichissement QIDs molécules via SPARQL (nom IUPAC P2017 + CAS P231)
+- [ ] Rapport final : nombre de QIDs résolus / total
+
+## SESSION 18 MARS 2026 — Enrichissement QIDs Wikidata (résultats)
+
+- [x] Audit initial : 532 plantes (69,7% avec QID), 837 molécules (71,9% avec QID)
+- [x] Script enrich-plant-qids.mjs : 138/161 plantes résolues (85,7%) — 23 cultivars non indexés sur Wikidata
+- [x] Script enrich-molecule-qids.mjs : 143 molécules TYPE A résolues par CAS/IUPAC
+- [x] Classification 28 entrées TYPE F (patrimoniales/CITES/accords) — documentées, pas de QID molécule
+- [x] État DB final : 509/532 plantes (95,7%) + 745/837 molécules (89,0%) avec QID

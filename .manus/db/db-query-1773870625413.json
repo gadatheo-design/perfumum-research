@@ -1,0 +1,28 @@
+{
+  "query": "\n-- Plantes : état des QIDs\nSELECT \n  COUNT(*) as total_plants,\n  SUM(wikidata_qid IS NOT NULL AND wikidata_qid != '') as with_qid,\n  SUM(wikidata_qid IS NULL OR wikidata_qid = '') as without_qid,\n  ROUND(SUM(wikidata_qid IS NOT NULL AND wikidata_qid != '') * 100.0 / COUNT(*), 1) as pct_with_qid\nFROM plants;\n\n-- Molécules : état des QIDs\nSELECT \n  COUNT(*) as total_molecules,\n  SUM(wikidata_qid IS NOT NULL AND wikidata_qid != '') as with_qid,\n  SUM(wikidata_qid IS NULL OR wikidata_qid = '') as without_qid,\n  ROUND(SUM(wikidata_qid IS NOT NULL AND wikidata_qid != '') * 100.0 / COUNT(*), 1) as pct_with_qid\nFROM molecules;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Plantes : état des QIDs\nSELECT \n  COUNT(*) as total_plants,\n  SUM(wikidata_qid IS NOT NULL AND wikidata_qid != '') as with_qid,\n  SUM(wikidata_qid IS NULL OR wikidata_qid = '') as without_qid,\n  ROUND(SUM(wikidata_qid IS NOT NULL AND wikidata_qid != '') * 100.0 / COUNT(*), 1) as pct_with_qid\nFROM plants;\n\n-- Molécules : état des QIDs\nSELECT \n  COUNT(*) as total_molecules,\n  SUM(wikidata_qid IS NOT NULL AND wikidata_qid != '') as with_qid,\n  SUM(wikidata_qid IS NULL OR wikidata_qid = '') as without_qid,\n  ROUND(SUM(wikidata_qid IS NOT NULL AND wikidata_qid != '') * 100.0 / COUNT(*), 1) as pct_with_qid\nFROM molecules;\n",
+  "rows": [
+    {
+      "total_plants": "532",
+      "with_qid": "371",
+      "without_qid": "161",
+      "pct_with_qid": "69.7"
+    },
+    {
+      "total_plants": "total_molecules",
+      "with_qid": "with_qid",
+      "without_qid": "without_qid",
+      "pct_with_qid": "pct_with_qid"
+    },
+    {
+      "total_plants": "837",
+      "with_qid": "602",
+      "without_qid": "235",
+      "pct_with_qid": "71.9"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_plants\twith_qid\twithout_qid\tpct_with_qid\n532\t371\t161\t69.7\ntotal_molecules\twith_qid\twithout_qid\tpct_with_qid\n837\t602\t235\t71.9\n",
+  "stderr": "",
+  "execution_time_ms": 112
+}
