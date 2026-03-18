@@ -1,0 +1,16 @@
+{
+  "query": "SELECT \n  COUNT(*) as total,\n  SUM(wikidata_qid IS NOT NULL) as with_qid,\n  SUM(wikidata_qid IS NULL) as without_qid,\n  ROUND(SUM(wikidata_qid IS NOT NULL) * 100.0 / COUNT(*), 1) as pct\nFROM traditions_olfactives;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT \n  COUNT(*) as total,\n  SUM(wikidata_qid IS NOT NULL) as with_qid,\n  SUM(wikidata_qid IS NULL) as without_qid,\n  ROUND(SUM(wikidata_qid IS NOT NULL) * 100.0 / COUNT(*), 1) as pct\nFROM traditions_olfactives;",
+  "rows": [
+    {
+      "total": "70",
+      "with_qid": "39",
+      "without_qid": "31",
+      "pct": "55.7"
+    }
+  ],
+  "messages": [],
+  "stdout": "total\twith_qid\twithout_qid\tpct\n70\t39\t31\t55.7\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

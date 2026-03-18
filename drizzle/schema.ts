@@ -356,6 +356,9 @@ export const traditionsOlfactives = mysqlTable("traditions_olfactives", {
     "futuristic"
   ]),
   bibliographicReferences: text("bibliographicReferences"),
+  wikidataQid: varchar("wikidata_qid", { length: 20 }), // Wikidata QID (e.g., "Q79" for Égypte)
+  wikidataEnrichedAt: timestamp("wikidata_enriched_at"), // When Wikidata data was last fetched
+  europeanaEntityId: varchar("europeana_entity_id", { length: 100 }), // Europeana entity URI
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

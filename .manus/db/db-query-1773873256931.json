@@ -1,0 +1,178 @@
+{
+  "query": "SELECT id, name, cas_number, iupac_name, pubchem_cid\nFROM molecules \nWHERE wikidata_qid IS NULL \n  AND cas_number IS NOT NULL \n  AND cas_number != ''\nORDER BY name\nLIMIT 30;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, cas_number, iupac_name, pubchem_cid\nFROM molecules \nWHERE wikidata_qid IS NULL \n  AND cas_number IS NOT NULL \n  AND cas_number != ''\nORDER BY name\nLIMIT 30;",
+  "rows": [
+    {
+      "id": "1710036",
+      "name": "Acide 3-mercaptohexanoïque (3MH)",
+      "cas_number": "71500-37-3",
+      "iupac_name": "3-sulfanylhexanoic acid",
+      "pubchem_cid": "21954246"
+    },
+    {
+      "id": "840013",
+      "name": "Acétate d'incensole",
+      "cas_number": "68480-89-7",
+      "iupac_name": "Incensole acetate",
+      "pubchem_cid": "53386731"
+    },
+    {
+      "id": "1720022",
+      "name": "Benzyl glucoside",
+      "cas_number": "124492-59-7",
+      "iupac_name": "(2R,3S,4S,5R,6R)-2-(hydroxymethyl)-6-phenylmethoxyoxane-3,4,5-triol",
+      "pubchem_cid": "188977"
+    },
+    {
+      "id": "300006",
+      "name": "Calone 1951",
+      "cas_number": "28940-11-6",
+      "iupac_name": "7-methyl-1,5-benzodioxepin-3-one",
+      "pubchem_cid": "120101"
+    },
+    {
+      "id": "1710016",
+      "name": "Cembratrienediol (α-CBT-diol)",
+      "cas_number": "57605-80-8",
+      "iupac_name": "cembratrien-4,6-diol",
+      "pubchem_cid": "5281531"
+    },
+    {
+      "id": "90025",
+      "name": "Glycine pyrolysée",
+      "cas_number": "56-40-6",
+      "iupac_name": "2-aminoacetic acid",
+      "pubchem_cid": "750"
+    },
+    {
+      "id": "570009",
+      "name": "Guaiacol Fumé",
+      "cas_number": "90-05-1",
+      "iupac_name": "2-methoxyphenol",
+      "pubchem_cid": "460"
+    },
+    {
+      "id": "750001",
+      "name": "Hashishene",
+      "cas_number": "16626-39-4",
+      "iupac_name": "1-ethenyl-5,5-dimethylbicyclo[2.1.1]hexane",
+      "pubchem_cid": "86182191"
+    },
+    {
+      "id": "90026",
+      "name": "Hydroxyproline pyrolysée",
+      "cas_number": "51-35-4",
+      "iupac_name": "(2S,4R)-4-hydroxypyrrolidine-2-carboxylic acid",
+      "pubchem_cid": "5810"
+    },
+    {
+      "id": "480007",
+      "name": "Ionone blanche",
+      "cas_number": "127-51-5",
+      "iupac_name": "(E)-3-methyl-4-(2,6,6-trimethylcyclohex-2-en-1-yl)but-3-en-2-one",
+      "pubchem_cid": "5372174"
+    },
+    {
+      "id": "1710063",
+      "name": "Isocembrène",
+      "cas_number": "25269-16-3",
+      "iupac_name": "(1E,5E,10E)-1,5-dimethyl-9-methylidene-12-propan-2-ylcyclotetradeca-1,5,10-triene",
+      "pubchem_cid": "11149974"
+    },
+    {
+      "id": "90037",
+      "name": "Lignine pyrolysée",
+      "cas_number": "9005-53-2",
+      "iupac_name": "disodium;4-acetamido-5-hydroxy-6-phenyldiazenylnaphthalene-1,7-disulfonate",
+      "pubchem_cid": "175586"
+    },
+    {
+      "id": "1350099",
+      "name": "Linalol oxyde",
+      "cas_number": "15249-35-1",
+      "iupac_name": "5-(3,3-dimethyloxiran-2-yl)-3-methylpent-1-en-3-ol",
+      "pubchem_cid": "529304"
+    },
+    {
+      "id": "1720021",
+      "name": "Linalyl glucoside",
+      "cas_number": "82928-12-9",
+      "iupac_name": "(2S,3R,4S,5S,6R)-2-(3,7-dimethylocta-1,6-dien-3-yloxy)-6-(hydroxymethyl)oxane-3,4,5-triol",
+      "pubchem_cid": "45782927"
+    },
+    {
+      "id": "1710011",
+      "name": "Mégastigmatriénone (isomère 1)",
+      "cas_number": "38142-22-2",
+      "iupac_name": "megastigmatrienone",
+      "pubchem_cid": "5281529"
+    },
+    {
+      "id": "1380031",
+      "name": "Méthyl Ionone",
+      "cas_number": "1335-46-2",
+      "iupac_name": "(E)-1-(2,6,6-trimethylcyclohex-2-en-1-yl)pent-1-en-3-one",
+      "pubchem_cid": "5371084"
+    },
+    {
+      "id": "780018",
+      "name": "Nardosinonediol",
+      "cas_number": "20489-11-6",
+      "iupac_name": "(3R,4aR,5R)-3-hydroxy-4-(2-hydroxypropan-2-yl)-4a,5-dimethyl-2,3,4,5,6,7-hexahydronaphthalen-1-one",
+      "pubchem_cid": "134715257"
+    },
+    {
+      "id": "90036",
+      "name": "Sandalore pyrolysé",
+      "cas_number": "65113-99-7",
+      "iupac_name": "3-methyl-5-(2,2,3-trimethylcyclopent-3-en-1-yl)pentan-2-ol",
+      "pubchem_cid": "103212"
+    },
+    {
+      "id": "90076",
+      "name": "Santalol (α+β)",
+      "cas_number": "73890-74-1",
+      "iupac_name": "(E)-2-methyl-5-[(1S,2S,4R)-2-methyl-3-methylidene-2-bicyclo[2.2.1]heptanyl]pent-2-en-1-ol",
+      "pubchem_cid": "12315259"
+    },
+    {
+      "id": "1350070",
+      "name": "Tanin (acide tannique)",
+      "cas_number": "5424-20-4",
+      "iupac_name": "[2,3-dihydroxy-5-[[(2R,3R,4S,5R,6S)-3,4,5,6-tetrakis[[3,4-dihydroxy-5-(3,4,5-trihydroxybenzoyl)oxybenzoyl]oxy]oxan-2-yl]methoxycarbonyl]phenyl] 3,4,5-trihydroxybenzoate",
+      "pubchem_cid": "16129778"
+    },
+    {
+      "id": "1410065",
+      "name": "Yuzu lactone",
+      "cas_number": "79894-06-7",
+      "iupac_name": "(10E)-1-oxacyclotridec-10-en-2-one",
+      "pubchem_cid": "14539994"
+    },
+    {
+      "id": "690012",
+      "name": "Zizanol",
+      "cas_number": "41060-17-1",
+      "iupac_name": "2,7,7-trimethyl-6-methylidenetricyclo[6.2.1.01,5]undecan-3-ol",
+      "pubchem_cid": "527246"
+    },
+    {
+      "id": "690009",
+      "name": "α-Vétivène",
+      "cas_number": "5765-27-5",
+      "iupac_name": "(1S,7R,8aS)-1,8a-dimethyl-7-(prop-1-en-2-yl)-1,2,3,5,6,7,8,8a-octahydronaphthalene",
+      "pubchem_cid": "NULL"
+    },
+    {
+      "id": "1050015",
+      "name": "β-Vétispirène",
+      "cas_number": "27840-40-0",
+      "iupac_name": "(1R,8aS)-1,8a-dimethyl-7-propan-2-ylidene-1,2,6,8-tetrahydronaphthalene",
+      "pubchem_cid": "14475467"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcas_number\tiupac_name\tpubchem_cid\n1710036\tAcide 3-mercaptohexanoïque (3MH)\t71500-37-3\t3-sulfanylhexanoic acid\t21954246\n840013\tAcétate d'incensole\t68480-89-7\tIncensole acetate\t53386731\n1720022\tBenzyl glucoside\t124492-59-7\t(2R,3S,4S,5R,6R)-2-(hydroxymethyl)-6-phenylmethoxyoxane-3,4,5-triol\t188977\n300006\tCalone 1951\t28940-11-6\t7-methyl-1,5-benzodioxepin-3-one\t120101\n1710016\tCembratrienediol (α-CBT-diol)\t57605-80-8\tcembratrien-4,6-diol\t5281531\n90025\tGlycine pyrolysée\t56-40-6\t2-aminoacetic acid\t750\n570009\tGuaiacol Fumé\t90-05-1\t2-methoxyphenol\t460\n750001\tHashishene\t16626-39-4\t1-ethenyl-5,5-dimethylbicyclo[2.1.1]hexane\t86182191\n90026\tHydroxyproline pyrolysée\t51-35-4\t(2S,4R)-4-hydroxypyrrolidine-2-carboxylic acid\t5810\n480007\tIonone blanche\t127-51-5\t(E)-3-methyl-4-(2,6,6-trimethylcyclohex-2-en-1-yl)but-3-en-2-one\t5372174\n1710063\tIsocembrène\t25269-16-3\t(1E,5E,10E)-1,5-dimethyl-9-methylidene-12-propan-2-ylcyclotetradeca-1,5,10-triene\t11149974\n90037\tLignine pyrolysée\t9005-53-2\tdisodium;4-acetamido-5-hydroxy-6-phenyldiazenylnaphthalene-1,7-disulfonate\t175586\n1350099\tLinalol oxyde\t15249-35-1\t5-(3,3-dimethyloxiran-2-yl)-3-methylpent-1-en-3-ol\t529304\n1720021\tLinalyl glucoside\t82928-12-9\t(2S,3R,4S,5S,6R)-2-(3,7-dimethylocta-1,6-dien-3-yloxy)-6-(hydroxymethyl)oxane-3,4,5-triol\t45782927\n1710011\tMégastigmatriénone (isomère 1)\t38142-22-2\tmegastigmatrienone\t5281529\n1380031\tMéthyl Ionone\t1335-46-2\t(E)-1-(2,6,6-trimethylcyclohex-2-en-1-yl)pent-1-en-3-one\t5371084\n780018\tNardosinonediol\t20489-11-6\t(3R,4aR,5R)-3-hydroxy-4-(2-hydroxypropan-2-yl)-4a,5-dimethyl-2,3,4,5,6,7-hexahydronaphthalen-1-one\t134715257\n90036\tSandalore pyrolysé\t65113-99-7\t3-methyl-5-(2,2,3-trimethylcyclopent-3-en-1-yl)pentan-2-ol\t103212\n90076\tSantalol (α+β)\t73890-74-1\t(E)-2-methyl-5-[(1S,2S,4R)-2-methyl-3-methylidene-2-bicyclo[2.2.1]heptanyl]pent-2-en-1-ol\t12315259\n1350070\tTanin (acide tannique)\t5424-20-4\t[2,3-dihydroxy-5-[[(2R,3R,4S,5R,6S)-3,4,5,6-tetrakis[[3,4-dihydroxy-5-(3,4,5-trihydroxybenzoyl)oxybenzoyl]oxy]oxan-2-yl]methoxycarbonyl]phenyl] 3,4,5-trihydroxybenzoate\t16129778\n1410065\tYuzu lactone\t79894-06-7\t(10E)-1-oxacyclotridec-10-en-2-one\t14539994\n690012\tZizanol\t41060-17-1\t2,7,7-trimethyl-6-methylidenetricyclo[6.2.1.01,5]undecan-3-ol\t527246\n690009\tα-Vétivène\t5765-27-5\t(1S,7R,8aS)-1,8a-dimethyl-7-(prop-1-en-2-yl)-1,2,3,5,6,7,8,8a-octahydronaphthalene\tNULL\n1050015\tβ-Vétispirène\t27840-40-0\t(1R,8aS)-1,8a-dimethyl-7-propan-2-ylidene-1,2,6,8-tetrahydronaphthalene\t14475467\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

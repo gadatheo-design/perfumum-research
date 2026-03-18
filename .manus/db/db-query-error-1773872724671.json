@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT \n  l.id, l.name, l.type, l.origin, l.notes,\n  COUNT(DISTINCT lpm.plant_id) AS plant_count,\n  COUNT(DISTINCT lmm.molecule_id) AS molecule_count\nFROM laboratoire l\nLEFT JOIN laboratoire_plant_molecules lpm ON lpm.laboratoire_id = l.id\nLEFT JOIN laboratoire_molecule_molecules lmm ON lmm.laboratoire_id = l.id\nGROUP BY l.id, l.name, l.type, l.origin, l.notes\nORDER BY l.type, l.name\nLIMIT 30;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  l.id, l.name, l.type, l.origin, l.notes,\n  COUNT(DISTINCT lpm.plant_id) AS plant_count,\n  COUNT(DISTINCT lmm.molecule_id) AS molecule_count\nFROM laboratoire l\nLEFT JOIN laboratoire_plant_molecules lpm ON lpm.laboratoire_id = l.id\nLEFT JOIN laboratoire_molecule_molecules lmm ON lmm.laboratoire_id = l.id\nGROUP BY l.id, l.name, l.type, l.origin, l.notes\nORDER BY l.type, l.name\nLIMIT 30;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1146 (42S02) at line 2: Table 'h2pjhhjbh276xmnbncjhcp.laboratoire_plant_molecules' doesn't exist"
+  ]
+}

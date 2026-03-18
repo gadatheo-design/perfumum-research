@@ -1,0 +1,170 @@
+{
+  "query": "SHOW COLUMNS FROM laboratoire;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW COLUMNS FROM laboratoire;",
+  "rows": [
+    {
+      "Field": "id",
+      "Type": "int",
+      "Null": "NO",
+      "Key": "PRI",
+      "Default": "NULL",
+      "Extra": "auto_increment"
+    },
+    {
+      "Field": "name",
+      "Type": "varchar(255)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "botanicalName",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "type",
+      "Type": "enum('huile_essentielle','absolu','resinoid','concrete','co2','teinture','poudre','alcoolat','autre')",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "olfactiveFamily",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "note",
+      "Type": "enum('tete','coeur','fond','tete_coeur','coeur_fond')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "origin",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "extractionMethod",
+      "Type": "enum('distillation','extraction_solvant','co2_supercritique','expression','teinture','autre')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "olfactiveProfile",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "character",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "supplier",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "pricePerMl",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "stock",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "purchaseDate",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "status",
+      "Type": "enum('en_stock','a_commander','epuise')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "en_stock",
+      "Extra": ""
+    },
+    {
+      "Field": "technicalNotes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "manipulationNotes",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "maxTemperature",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "createdAt",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": ""
+    },
+    {
+      "Field": "updatedAt",
+      "Type": "timestamp",
+      "Null": "NO",
+      "Key": "",
+      "Default": "CURRENT_TIMESTAMP",
+      "Extra": "DEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nid\tint\tNO\tPRI\tNULL\tauto_increment\nname\tvarchar(255)\tNO\t\tNULL\t\nbotanicalName\tvarchar(255)\tYES\t\tNULL\t\ntype\tenum('huile_essentielle','absolu','resinoid','concrete','co2','teinture','poudre','alcoolat','autre')\tNO\t\tNULL\t\nolfactiveFamily\ttext\tYES\t\tNULL\t\nnote\tenum('tete','coeur','fond','tete_coeur','coeur_fond')\tYES\t\tNULL\t\norigin\tvarchar(255)\tYES\t\tNULL\t\nextractionMethod\tenum('distillation','extraction_solvant','co2_supercritique','expression','teinture','autre')\tYES\t\tNULL\t\nolfactiveProfile\ttext\tYES\t\tNULL\t\ncharacter\ttext\tYES\t\tNULL\t\nsupplier\tvarchar(255)\tYES\t\tNULL\t\npricePerMl\tint\tYES\t\tNULL\t\nstock\tint\tYES\t\tNULL\t\npurchaseDate\ttimestamp\tYES\t\tNULL\t\nstatus\tenum('en_stock','a_commander','epuise')\tYES\t\ten_stock\t\ntechnicalNotes\ttext\tYES\t\tNULL\t\nmanipulationNotes\ttext\tYES\t\tNULL\t\nmaxTemperature\tint\tYES\t\tNULL\t\ncreatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nupdatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\n",
+  "stderr": "",
+  "execution_time_ms": 50
+}

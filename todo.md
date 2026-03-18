@@ -2519,3 +2519,22 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Étendre EuropeanaWidget pour supporter type="civilisation" (recherche libre par nom)
 - [x] Intégrer EuropeanaWidget dans CivilisationDetail (8 vignettes, titre personnalisé)
 - [x] Corriger props EuropeanaWidget (wikidataQid supprimé, entityType→type)
+
+## SESSION 18 MARS 2026 — Laboratoire + wikidataQid Traditions + PubChem CID
+
+- [ ] Créer la page /laboratoire avec filtres par type (HE, absolue, résinoïde, CO2, teinture, poudre)
+- [ ] Ajouter liens croisés plantes et molécules dans les fiches laboratoire
+- [ ] Intégrer la page dans le MegaMenu (section Données ou Botanique)
+- [ ] Adapter la page pour mobile
+- [ ] Ajouter colonne wikidataQid dans la table traditionsOlfactives (schema + migration)
+- [ ] Script d'enrichissement wikidataQid pour les traditions olfactives via SPARQL
+- [ ] Enrichir les 17 molécules TYPE A manquantes avec PubChem CID (identifiant alternatif)
+
+
+## SESSION 18 MARS 2026 — Fin de session (suite)
+
+- [x] Colonne wikidata_qid + wikidata_enriched_at + europeana_entity_id ajoutées dans traditions_olfactives (ALTER TABLE)
+- [x] 39/70 traditions olfactives enrichies avec QIDs Wikidata (55,7%)
+- [x] 12 molécules TYPE A enrichies avec QIDs manuels/SPARQL (Calone, Guaiacol, Glycine, Hydroxyproline, Ionone blanche, Lignine, Linalol oxyde, Méthyl Ionone, Santalol, Tanin, Incensole acetate, Yuzu lactone)
+- [x] 3 sesquiterpènes vétiver (Zizanol, α-Vétivène, β-Vétispirène) documentés comme absents de Wikidata
+- [x] Page /inventaire couvre déjà les 82 entrées laboratoire (existant confirmé)

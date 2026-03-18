@@ -230,6 +230,57 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         return await db.deleteMatiere(input);
       }),
+
+    getStats: publicProcedure.query(async () => {
+      const dbConn = await (await import('./db')).getDb();
+      if (!dbConn) return { total: 0, byType: [], byStatus: [], byNote: [], byOrigin: [] };
+      const { laboratoire: labTable } = await import('../drizzle/schema');
+      const { sql: sqlFn, desc: descFn, asc: ascFn, isNotNull: isNotNullFn } = await import('drizzle-orm');
+      const [totalRow] = await dbConn.select({ count: sqlFn<number>`COUNT(*)` }).from(labTable);
+      const byType = await dbConn.select({ type: labTable.type, count: sqlFn<number>`COUNT(*)` }).from(labTable).groupBy(labTable.type).orderBy(descFn(sqlFn`COUNT(*)`));
+      const byStatus = await dbConn.select({ status: labTable.status, count: sqlFn<number>`COUNT(*)` }).from(labTable).groupBy(labTable.status);
+      const byNote = await dbConn.select({ note: labTable.note, count: sqlFn<number>`COUNT(*)` }).from(labTable).groupBy(labTable.note).orderBy(ascFn(labTable.note));
+      const byOrigin = await dbConn.select({ origin: labTable.origin, count: sqlFn<number>`COUNT(*)` }).from(labTable).where(isNotNullFn(labTable.origin)).groupBy(labTable.origin).orderBy(descFn(sqlFn`COUNT(*)`)).limit(10);
+      return {
+        total: Number(totalRow.count),
+        byType: byType.map(r => ({ type: r.type, count: Number(r.count) })),
+        byStatus: byStatus.map(r => ({ status: r.status, count: Number(r.count) })),
+        byNote: byNote.map(r => ({ note: r.note, count: Number(r.count) })),
+        byOrigin: byOrigin.map(r => ({ origin: r.origin, count: Number(r.count) })),
+      };
+    }),
+
+    getFiltered: publicProcedure
+      .input(z.object({
+        type: z.string().optional(),
+        search: z.string().optional(),
+        status: z.string().optional(),
+        note: z.string().optional(),
+        limit: z.number().optional().default(100),
+        offset: z.number().optional().default(0),
+      }).optional())
+      .query(async ({ input }) => {
+        const dbConn = await (await import('./db')).getDb();
+        if (!dbConn) return [];
+        const { laboratoire: labTable } = await import('../drizzle/schema');
+        const { eq, like, and, or, asc } = await import('drizzle-orm');
+        const conditions: any[] = [];
+        if (input?.type) conditions.push(eq(labTable.type, input.type as any));
+        if (input?.status) conditions.push(eq(labTable.status, input.status as any));
+        if (input?.note) conditions.push(eq(labTable.note, input.note as any));
+        if (input?.search) {
+          conditions.push(or(
+            like(labTable.name, `%${input.search}%`),
+            like(labTable.botanicalName, `%${input.search}%`),
+            like(labTable.origin, `%${input.search}%`)
+          ));
+        }
+        return dbConn.select().from(labTable)
+          .where(conditions.length > 0 ? and(...conditions) : undefined)
+          .orderBy(asc(labTable.type), asc(labTable.name))
+          .limit(input?.limit || 100)
+          .offset(input?.offset || 0);
+      }),
   }),
 
   // Molecules (avec cache pour optimisation)

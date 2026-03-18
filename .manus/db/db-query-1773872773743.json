@@ -1,0 +1,40 @@
+{
+  "query": "\nSELECT type, COUNT(*) as count, COUNT(CASE WHEN status='en_stock' THEN 1 END) as en_stock\nFROM laboratoire\nGROUP BY type\nORDER BY count DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT type, COUNT(*) as count, COUNT(CASE WHEN status='en_stock' THEN 1 END) as en_stock\nFROM laboratoire\nGROUP BY type\nORDER BY count DESC;\n",
+  "rows": [
+    {
+      "type": "huile_essentielle",
+      "count": "29",
+      "en_stock": "13"
+    },
+    {
+      "type": "autre",
+      "count": "25",
+      "en_stock": "5"
+    },
+    {
+      "type": "absolu",
+      "count": "16",
+      "en_stock": "4"
+    },
+    {
+      "type": "resinoid",
+      "count": "10",
+      "en_stock": "9"
+    },
+    {
+      "type": "poudre",
+      "count": "1",
+      "en_stock": "1"
+    },
+    {
+      "type": "concrete",
+      "count": "1",
+      "en_stock": "0"
+    }
+  ],
+  "messages": [],
+  "stdout": "type\tcount\ten_stock\nhuile_essentielle\t29\t13\nautre\t25\t5\nabsolu\t16\t4\nresinoid\t10\t9\npoudre\t1\t1\nconcrete\t1\t0\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

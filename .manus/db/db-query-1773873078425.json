@@ -1,0 +1,260 @@
+{
+  "query": "SELECT id, name, region FROM traditions_olfactives ORDER BY id LIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, region FROM traditions_olfactives ORDER BY id LIMIT 50;",
+  "rows": [
+    {
+      "id": "1",
+      "name": "Égypte — Akhet",
+      "region": "Égypte antique"
+    },
+    {
+      "id": "2",
+      "name": "Mésopotamie — Shuruppak",
+      "region": "Mésopotamie antique"
+    },
+    {
+      "id": "3",
+      "name": "Mycène",
+      "region": "Grèce mycénienne"
+    },
+    {
+      "id": "4",
+      "name": "Tell Halaf",
+      "region": "Syrie du Nord"
+    },
+    {
+      "id": "5",
+      "name": "Meroe",
+      "region": "Nubie / Soudan"
+    },
+    {
+      "id": "6",
+      "name": "Lyonesse",
+      "region": "Atlantide celtique (légendaire)"
+    },
+    {
+      "id": "7",
+      "name": "Atlantide Lumineuse",
+      "region": "Océan Atlantique (mythologique)"
+    },
+    {
+      "id": "8",
+      "name": "Atlantide Abyssale",
+      "region": "Océan Atlantique profond (mythologique)"
+    },
+    {
+      "id": "9",
+      "name": "Akkad",
+      "region": "Mésopotamie (Empire akkadien)"
+    },
+    {
+      "id": "10",
+      "name": "Nubie",
+      "region": "Nubie / Haute-Égypte"
+    },
+    {
+      "id": "11",
+      "name": "Dilmun",
+      "region": "Golfe Persique (Bahreïn)"
+    },
+    {
+      "id": "12",
+      "name": "Umbria Arcana",
+      "region": "Dimension ombrale (conceptuelle)"
+    },
+    {
+      "id": "13",
+      "name": "Cryo-Atlas",
+      "region": "Régions glaciaires (conceptuelle)"
+    },
+    {
+      "id": "14",
+      "name": "November Humid",
+      "region": "Climat novembre humide (conceptuelle)"
+    },
+    {
+      "id": "15",
+      "name": "Sogdiane",
+      "region": "Asie Centrale (Route de la Soie)"
+    },
+    {
+      "id": "16",
+      "name": "Grèce Sombre",
+      "region": "Grèce antique (aspect chthonien)"
+    },
+    {
+      "id": "17",
+      "name": "Lemuria",
+      "region": "Océan Indien / Pacifique (légendaire)"
+    },
+    {
+      "id": "18",
+      "name": "Mu",
+      "region": "Océan Pacifique (légendaire)"
+    },
+    {
+      "id": "19",
+      "name": "Thulé",
+      "region": "Extrême Nord (légendaire)"
+    },
+    {
+      "id": "20",
+      "name": "Ophir",
+      "region": "Localisation incertaine (biblique)"
+    },
+    {
+      "id": "21",
+      "name": "Malabar",
+      "region": "Côte sud-ouest de l'Inde"
+    },
+    {
+      "id": "22",
+      "name": "Nag Hammadi",
+      "region": "Haute-Égypte"
+    },
+    {
+      "id": "23",
+      "name": "Akrotiri",
+      "region": "Santorin / Théra (Grèce)"
+    },
+    {
+      "id": "24",
+      "name": "Sahara Antique",
+      "region": "Sahara (période humide)"
+    },
+    {
+      "id": "25",
+      "name": "Himalaya Rituel",
+      "region": "Chaîne himalayenne"
+    },
+    {
+      "id": "26",
+      "name": "Anthropocène",
+      "region": "Ère géologique actuelle"
+    },
+    {
+      "id": "30001",
+      "name": "Colombie",
+      "region": "Amérique du Sud - Colombie"
+    },
+    {
+      "id": "60001",
+      "name": "Perse Sassanide",
+      "region": "Iran / Mésopotamie"
+    },
+    {
+      "id": "60002",
+      "name": "Empire Ottoman",
+      "region": "Turquie / Balkans / Moyen-Orient"
+    },
+    {
+      "id": "60003",
+      "name": "Royaume d'Ayutthaya",
+      "region": "Thaïlande / Asie du Sud-Est"
+    },
+    {
+      "id": "60004",
+      "name": "Empire Majapahit",
+      "region": "Indonésie / Archipel malais"
+    },
+    {
+      "id": "60005",
+      "name": "Empire Songhaï",
+      "region": "Afrique de l'Ouest / Sahel"
+    },
+    {
+      "id": "60006",
+      "name": "Empire Aztèque",
+      "region": "Mésoamérique / Mexique central"
+    },
+    {
+      "id": "60007",
+      "name": "Empire Inca",
+      "region": "Andes / Amérique du Sud"
+    },
+    {
+      "id": "60008",
+      "name": "Polynésie Traditionnelle",
+      "region": "Pacifique / Océanie"
+    },
+    {
+      "id": "60009",
+      "name": "Vikings et Scandinaves",
+      "region": "Scandinavie / Europe du Nord"
+    },
+    {
+      "id": "60010",
+      "name": "Celtes Insulaires",
+      "region": "Îles Britanniques / Irlande"
+    },
+    {
+      "id": "60011",
+      "name": "Royaume de Saba",
+      "region": "Yémen / Arabie du Sud"
+    },
+    {
+      "id": "60012",
+      "name": "Phénicie",
+      "region": "Liban / Méditerranée orientale"
+    },
+    {
+      "id": "60013",
+      "name": "Éthiopie Axoumite",
+      "region": "Corne de l'Afrique"
+    },
+    {
+      "id": "60014",
+      "name": "Japon Heian",
+      "region": "Japon"
+    },
+    {
+      "id": "60015",
+      "name": "Inde Moghole",
+      "region": "Sous-continent indien"
+    },
+    {
+      "id": "90001",
+      "name": "Égypte / Nil",
+      "region": "Afrique du Nord"
+    },
+    {
+      "id": "90002",
+      "name": "Nubie / Sahel",
+      "region": "Afrique subsaharienne"
+    },
+    {
+      "id": "90003",
+      "name": "Mésopotamie / Tigre-Euphrate",
+      "region": "Moyen-Orient"
+    },
+    {
+      "id": "90004",
+      "name": "Levant / Canaanéen",
+      "region": "Moyen-Orient"
+    },
+    {
+      "id": "90005",
+      "name": "Anatolie / Tell",
+      "region": "Turquie"
+    },
+    {
+      "id": "90006",
+      "name": "Perse / Achéménide",
+      "region": "Iran"
+    },
+    {
+      "id": "90007",
+      "name": "Grèce mycénienne / Égéen",
+      "region": "Grèce"
+    },
+    {
+      "id": "90008",
+      "name": "Méditerranée résineuse",
+      "region": "Méditerranée"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\n1\tÉgypte — Akhet\tÉgypte antique\n2\tMésopotamie — Shuruppak\tMésopotamie antique\n3\tMycène\tGrèce mycénienne\n4\tTell Halaf\tSyrie du Nord\n5\tMeroe\tNubie / Soudan\n6\tLyonesse\tAtlantide celtique (légendaire)\n7\tAtlantide Lumineuse\tOcéan Atlantique (mythologique)\n8\tAtlantide Abyssale\tOcéan Atlantique profond (mythologique)\n9\tAkkad\tMésopotamie (Empire akkadien)\n10\tNubie\tNubie / Haute-Égypte\n11\tDilmun\tGolfe Persique (Bahreïn)\n12\tUmbria Arcana\tDimension ombrale (conceptuelle)\n13\tCryo-Atlas\tRégions glaciaires (conceptuelle)\n14\tNovember Humid\tClimat novembre humide (conceptuelle)\n15\tSogdiane\tAsie Centrale (Route de la Soie)\n16\tGrèce Sombre\tGrèce antique (aspect chthonien)\n17\tLemuria\tOcéan Indien / Pacifique (légendaire)\n18\tMu\tOcéan Pacifique (légendaire)\n19\tThulé\tExtrême Nord (légendaire)\n20\tOphir\tLocalisation incertaine (biblique)\n21\tMalabar\tCôte sud-ouest de l'Inde\n22\tNag Hammadi\tHaute-Égypte\n23\tAkrotiri\tSantorin / Théra (Grèce)\n24\tSahara Antique\tSahara (période humide)\n25\tHimalaya Rituel\tChaîne himalayenne\n26\tAnthropocène\tÈre géologique actuelle\n30001\tColombie\tAmérique du Sud - Colombie\n60001\tPerse Sassanide\tIran / Mésopotamie\n60002\tEmpire Ottoman\tTurquie / Balkans / Moyen-Orient\n60003\tRoyaume d'Ayutthaya\tThaïlande / Asie du Sud-Est\n60004\tEmpire Majapahit\tIndonésie / Archipel malais\n60005\tEmpire Songhaï\tAfrique de l'Ouest / Sahel\n60006\tEmpire Aztèque\tMésoamérique / Mexique central\n60007\tEmpire Inca\tAndes / Amérique du Sud\n60008\tPolynésie Traditionnelle\tPacifique / Océanie\n60009\tVikings et Scandinaves\tScandinavie / Europe du Nord\n60010\tCeltes Insulaires\tÎles Britanniques / Irlande\n60011\tRoyaume de Saba\tYémen / Arabie du Sud\n60012\tPhénicie\tLiban / Méditerranée orientale\n60013\tÉthiopie Axoumite\tCorne de l'Afrique\n60014\tJapon Heian\tJapon\n60015\tInde Moghole\tSous-continent indien\n90001\tÉgypte / Nil\tAfrique du Nord\n90002\tNubie / Sahel\tAfrique subsaharienne\n90003\tMésopotamie / Tigre-Euphrate\tMoyen-Orient\n90004\tLevant / Canaanéen\tMoyen-Orient\n90005\tAnatolie / Tell\tTurquie\n90006\tPerse / Achéménide\tIran\n90007\tGrèce mycénienne / Égéen\tGrèce\n90008\tMéditerranée résineuse\tMéditerranée\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}
