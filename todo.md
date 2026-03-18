@@ -2437,3 +2437,33 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Lien ajouté dans le MegaMenu (Botanique & Patrimoine)
 - [x] Responsivité mobile améliorée (titre, filtres, grilles)
 
+
+## SESSION 18 MARS 2026 — Intégration Europeana + SPARQL Explorer étendu
+
+### Phase 1 : Clé API Europeana
+- [ ] Obtenir et configurer la clé API Europeana (secret EUROPEANA_API_KEY)
+
+### Phase 2 : Router tRPC europeana (serveur)
+- [ ] Créer server/routers/europeana.ts avec procédures : thematicSearch, searchByQid, searchByKeyword
+- [ ] Implémenter les 3 requêtes thématiques : Rose de Damas, encens collections européennes, tabac ottoman
+- [ ] Croiser les QIDs Wikidata PERFUMUM avec les résultats Europeana
+- [ ] Enregistrer le router dans server/routers.ts
+
+### Phase 3 : Onglet Europeana dans SPARQL Explorer
+- [ ] Ajouter onglet "Europeana" dans SparqlExplorer.tsx
+- [ ] Galerie d'œuvres avec images, institution, date, lien direct
+- [ ] Filtres thématiques (Rose de Damas / Encens / Tabac ottoman / Libre)
+- [ ] Liens croisés vers fiches plantes/molécules PERFUMUM
+- [ ] Responsivité mobile
+
+
+## SESSION 18 MARS 2026 — Intégration Europeana
+
+- [x] Créer server/europeana.ts — service API REST Europeana (4 thèmes + mode démo)
+- [x] Créer server/routers/europeana.ts — router tRPC avec 5 procédures (thematicConfig, thematicSearch, freeSearch, searchByMolecule, searchByPlant, stats)
+- [x] Enregistrer europeanaRouter dans server/routers.ts
+- [x] Créer EuropeanaExplorer.tsx — page admin avec 6 onglets (stats, Rose de Damas, Encens, Tabac ottoman, Houblon, Recherche libre)
+- [x] Ajouter route /admin/europeana dans App.tsx
+- [x] Ajouter lien PERFUMUM ↔ Europeana dans MegaMenu (Archives & Traditions)
+- [x] Mode démonstration si clé API absente (données d'exemple affichées)
+- [x] Liens croisés plantes/molécules PERFUMUM sur chaque carte d'œuvre

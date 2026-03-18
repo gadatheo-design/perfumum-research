@@ -858,6 +858,13 @@ export function MegaMenu() {
           icon: <Clock className="h-4 w-4" />,
           description: "Chronologie de la recherche",
         },
+        {
+          label: "PERFUMUM ↔ Europeana",
+          path: "/admin/europeana",
+          icon: <Globe className="h-4 w-4" />,
+          description: "Collections muséales européennes",
+          badge: "NEW",
+        },
       ],
     },
   ];
