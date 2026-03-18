@@ -1,0 +1,67 @@
+{
+  "query": "\n-- Total raw_materials et distribution par catégorie\nSELECT category, COUNT(*) as cnt FROM raw_materials GROUP BY category ORDER BY cnt DESC;\n\n-- Vérifier si molecule_id 810043 existe (test ghost-variety-links)\nSELECT id, name FROM molecules WHERE id = 810043;\n\n-- Vérifier le premier ghost_variety_molecule_link (test should have valid molecule references)\nSELECT gvml.id, gvml.ghost_variety_id, gvml.molecule_id, m.name \nFROM ghost_variety_molecule_links gvml \nLEFT JOIN molecules m ON gvml.molecule_id = m.id \nLIMIT 3;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Total raw_materials et distribution par catégorie\nSELECT category, COUNT(*) as cnt FROM raw_materials GROUP BY category ORDER BY cnt DESC;\n\n-- Vérifier si molecule_id 810043 existe (test ghost-variety-links)\nSELECT id, name FROM molecules WHERE id = 810043;\n\n-- Vérifier le premier ghost_variety_molecule_link (test should have valid molecule references)\nSELECT gvml.id, gvml.ghost_variety_id, gvml.molecule_id, m.name \nFROM ghost_variety_molecule_links gvml \nLEFT JOIN molecules m ON gvml.molecule_id = m.id \nLIMIT 3;\n",
+  "rows": [
+    {
+      "category": "autre",
+      "cnt": "141"
+    },
+    {
+      "category": "molecule_isolee",
+      "cnt": "103"
+    },
+    {
+      "category": "huile_essentielle",
+      "cnt": "101"
+    },
+    {
+      "category": "resinoid",
+      "cnt": "96"
+    },
+    {
+      "category": "absolue",
+      "cnt": "64"
+    },
+    {
+      "category": "accord_olfactif",
+      "cnt": "50"
+    },
+    {
+      "category": "infusion",
+      "cnt": "27"
+    },
+    {
+      "category": "co2_extract",
+      "cnt": "21"
+    },
+    {
+      "category": "matiere_animale",
+      "cnt": "13"
+    },
+    {
+      "category": "teinture",
+      "cnt": "5"
+    },
+    {
+      "category": "oleoresine",
+      "cnt": "3"
+    },
+    {
+      "category": "concrete",
+      "cnt": "2"
+    },
+    {
+      "category": "distillat",
+      "cnt": "1"
+    }
+  ],
+  "messages": [
+    "id\tghost_variety_id\tmolecule_id\tname",
+    "30001\t1\t30002\tLinalol",
+    "30003\t1\t30005\tβ-Caryophyllène",
+    "41\t1\t570014\tNérol"
+  ],
+  "stdout": "category\tcnt\nautre\t141\nmolecule_isolee\t103\nhuile_essentielle\t101\nresinoid\t96\nabsolue\t64\naccord_olfactif\t50\ninfusion\t27\nco2_extract\t21\nmatiere_animale\t13\nteinture\t5\noleoresine\t3\nconcrete\t2\ndistillat\t1\nid\tghost_variety_id\tmolecule_id\tname\n30001\t1\t30002\tLinalol\n30003\t1\t30005\tβ-Caryophyllène\n41\t1\t570014\tNérol\n",
+  "stderr": "",
+  "execution_time_ms": 71
+}

@@ -1,0 +1,28 @@
+{
+  "query": "\n-- Vérifier la molécule 810043\nSELECT id, name FROM molecules WHERE id = 810043;\n\n-- Toutes les liaisons dominantes de Rose de Damas (ghost_variety_id = 1)\nSELECT gvml.molecule_id, gvml.link_type, gvml.percentage, m.name \nFROM ghost_variety_molecule_links gvml \nLEFT JOIN molecules m ON gvml.molecule_id = m.id \nWHERE gvml.ghost_variety_id = 1 AND gvml.link_type = 'dominant'\nORDER BY CAST(gvml.percentage AS DECIMAL) DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Vérifier la molécule 810043\nSELECT id, name FROM molecules WHERE id = 810043;\n\n-- Toutes les liaisons dominantes de Rose de Damas (ghost_variety_id = 1)\nSELECT gvml.molecule_id, gvml.link_type, gvml.percentage, m.name \nFROM ghost_variety_molecule_links gvml \nLEFT JOIN molecules m ON gvml.molecule_id = m.id \nWHERE gvml.ghost_variety_id = 1 AND gvml.link_type = 'dominant'\nORDER BY CAST(gvml.percentage AS DECIMAL) DESC;\n",
+  "rows": [
+    {
+      "molecule_id": "810043",
+      "link_type": "dominant",
+      "percentage": "25.00",
+      "name": "NULL"
+    },
+    {
+      "molecule_id": "660002",
+      "link_type": "dominant",
+      "percentage": "18.00",
+      "name": "NULL"
+    },
+    {
+      "molecule_id": "750002",
+      "link_type": "dominant",
+      "percentage": "14.20",
+      "name": "Damascenone"
+    }
+  ],
+  "messages": [],
+  "stdout": "molecule_id\tlink_type\tpercentage\tname\n810043\tdominant\t25.00\tNULL\n660002\tdominant\t18.00\tNULL\n750002\tdominant\t14.20\tDamascenone\n",
+  "stderr": "",
+  "execution_time_ms": 61
+}

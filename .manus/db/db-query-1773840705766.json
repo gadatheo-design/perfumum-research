@@ -1,0 +1,14 @@
+{
+  "query": "SELECT id, name FROM molecules WHERE id = 750002;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM molecules WHERE id = 750002;",
+  "rows": [
+    {
+      "id": "750002",
+      "name": "Damascenone"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n750002\tDamascenone\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

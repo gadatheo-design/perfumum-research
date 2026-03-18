@@ -1,0 +1,13 @@
+{
+  "query": "\n-- Compter les liaisons orphelines\nSELECT COUNT(*) as orphans FROM ghost_variety_molecule_links gvml \nLEFT JOIN molecules m ON gvml.molecule_id = m.id \nWHERE m.id IS NULL;\n\n-- Supprimer les liaisons orphelines\nDELETE gvml FROM ghost_variety_molecule_links gvml \nLEFT JOIN molecules m ON gvml.molecule_id = m.id \nWHERE m.id IS NULL;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Compter les liaisons orphelines\nSELECT COUNT(*) as orphans FROM ghost_variety_molecule_links gvml \nLEFT JOIN molecules m ON gvml.molecule_id = m.id \nWHERE m.id IS NULL;\n\n-- Supprimer les liaisons orphelines\nDELETE gvml FROM ghost_variety_molecule_links gvml \nLEFT JOIN molecules m ON gvml.molecule_id = m.id \nWHERE m.id IS NULL;\n",
+  "rows": [
+    {
+      "orphans": "23"
+    }
+  ],
+  "messages": [],
+  "stdout": "orphans\n23\n",
+  "stderr": "",
+  "execution_time_ms": 85
+}

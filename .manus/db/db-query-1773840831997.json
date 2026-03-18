@@ -1,0 +1,19 @@
+{
+  "query": "\nSELECT COUNT(*) as mol_links FROM ghost_variety_molecule_links;\nSELECT COUNT(*) as plant_links FROM ghost_variety_plant_links;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT COUNT(*) as mol_links FROM ghost_variety_molecule_links;\nSELECT COUNT(*) as plant_links FROM ghost_variety_plant_links;\n",
+  "rows": [
+    {
+      "mol_links": "33"
+    },
+    {
+      "mol_links": "plant_links"
+    },
+    {
+      "mol_links": "4"
+    }
+  ],
+  "messages": [],
+  "stdout": "mol_links\n33\nplant_links\n4\n",
+  "stderr": "",
+  "execution_time_ms": 66
+}

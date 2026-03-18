@@ -1,0 +1,156 @@
+{
+  "query": "\n-- Toutes les molécules avec restrictions IFRA\nSELECT ir.molecule_id, m.name, ir.restriction_type, ir.reason_for_restriction, ir.category_4\nFROM ifra_restrictions ir\nJOIN molecules m ON ir.molecule_id = m.id\nLIMIT 20;\n\n-- Chercher Bergaptène et Citronellol\nSELECT id, name FROM molecules WHERE name LIKE '%ergapt%' OR name LIKE '%itronell%' LIMIT 5;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Toutes les molécules avec restrictions IFRA\nSELECT ir.molecule_id, m.name, ir.restriction_type, ir.reason_for_restriction, ir.category_4\nFROM ifra_restrictions ir\nJOIN molecules m ON ir.molecule_id = m.id\nLIMIT 20;\n\n-- Chercher Bergaptène et Citronellol\nSELECT id, name FROM molecules WHERE name LIKE '%ergapt%' OR name LIKE '%itronell%' LIMIT 5;\n",
+  "rows": [
+    {
+      "molecule_id": "630002",
+      "name": "Estragole",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Potentiellement cancérigène (génotoxique). Classé CMR catégorie 2 par l'UE.",
+      "category_4": "0.2000"
+    },
+    {
+      "molecule_id": "570015",
+      "name": "Carvone L",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Sensibilisation cutanée potentielle à haute concentration.",
+      "category_4": "4.0000"
+    },
+    {
+      "molecule_id": "570039",
+      "name": "Eugénol",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Allergène cutané connu. Déclaration obligatoire au-dessus de 0.001% (leave-on) ou 0.01% (rinse-off).",
+      "category_4": "0.5000"
+    },
+    {
+      "molecule_id": "570043",
+      "name": "Cinnamaldéhyde",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Allergène cutané puissant. Sensibilisant de contact établi.",
+      "category_4": "0.2000"
+    },
+    {
+      "molecule_id": "570045",
+      "name": "Citral",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Allergène cutané. Sensibilisant de contact modéré.",
+      "category_4": "1.4000"
+    },
+    {
+      "molecule_id": "90068",
+      "name": "Coumarin",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Hépatotoxicité potentielle. Sensibilisant cutané modéré.",
+      "category_4": "1.6000"
+    },
+    {
+      "molecule_id": "30007",
+      "name": "Limonène",
+      "restriction_type": "no_restriction",
+      "reason_for_restriction": "Allergène de contact potentiel uniquement sous forme oxydée. Déclaration obligatoire.",
+      "category_4": "NULL"
+    },
+    {
+      "molecule_id": "570042",
+      "name": "Thymol",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Irritant cutané et muqueux. Dermocaustique à haute concentration.",
+      "category_4": "4.0000"
+    },
+    {
+      "molecule_id": "570041",
+      "name": "Carvacrol",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Irritant cutané et muqueux. Dermocaustique à haute concentration.",
+      "category_4": "4.0000"
+    },
+    {
+      "molecule_id": "570047",
+      "name": "Camphre",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Neurotoxicité potentielle. Convulsivant à haute dose.",
+      "category_4": "5.0000"
+    },
+    {
+      "molecule_id": "1410045",
+      "name": "Methyleugenol",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Potentiel cancérogène - génotoxicité",
+      "category_4": "0.0002"
+    },
+    {
+      "molecule_id": "660004",
+      "name": "Bergaptène",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Phototoxicité - furocoumarine",
+      "category_4": "0.0015"
+    },
+    {
+      "molecule_id": "690001",
+      "name": "Farnesol",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Sensibilisant cutané potentiel - allergène de contact identifié par le SCCS",
+      "category_4": "8.4000"
+    },
+    {
+      "molecule_id": "690004",
+      "name": "Nerolidol",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Sensibilisant cutané potentiel",
+      "category_4": "11.5000"
+    },
+    {
+      "molecule_id": "1710040",
+      "name": "Phényléthanol",
+      "restriction_type": "specification",
+      "reason_for_restriction": "Sensibilisant cutané faible, largement utilisé en parfumerie",
+      "category_4": "NULL"
+    },
+    {
+      "molecule_id": "690005",
+      "name": "Citronellal",
+      "restriction_type": "restricted",
+      "reason_for_restriction": "Sensibilisant cutané, allergène de contact",
+      "category_4": "2.5000"
+    },
+    {
+      "molecule_id": "690006",
+      "name": "cis-Jasmone",
+      "restriction_type": "specification",
+      "reason_for_restriction": "Sensibilisant potentiel à haute concentration",
+      "category_4": "NULL"
+    },
+    {
+      "molecule_id": "690008",
+      "name": "Phytol",
+      "restriction_type": "no_restriction",
+      "reason_for_restriction": "Aucune restriction connue",
+      "category_4": "NULL"
+    },
+    {
+      "molecule_id": "690009",
+      "name": "α-Vétivène",
+      "restriction_type": "no_restriction",
+      "reason_for_restriction": "Aucune restriction connue",
+      "category_4": "NULL"
+    },
+    {
+      "molecule_id": "690010",
+      "name": "β-Vétivène",
+      "restriction_type": "no_restriction",
+      "reason_for_restriction": "Aucune restriction connue",
+      "category_4": "NULL"
+    }
+  ],
+  "messages": [
+    "id\tname",
+    "330007\tAbsolue de Rose (Citronellol)",
+    "1290014\tAcétate de citronellyle",
+    "660004\tBergaptène",
+    "690005\tCitronellal"
+  ],
+  "stdout": "molecule_id\tname\trestriction_type\treason_for_restriction\tcategory_4\n630002\tEstragole\trestricted\tPotentiellement cancérigène (génotoxique). Classé CMR catégorie 2 par l'UE.\t0.2000\n570015\tCarvone L\trestricted\tSensibilisation cutanée potentielle à haute concentration.\t4.0000\n570039\tEugénol\trestricted\tAllergène cutané connu. Déclaration obligatoire au-dessus de 0.001% (leave-on) ou 0.01% (rinse-off).\t0.5000\n570043\tCinnamaldéhyde\trestricted\tAllergène cutané puissant. Sensibilisant de contact établi.\t0.2000\n570045\tCitral\trestricted\tAllergène cutané. Sensibilisant de contact modéré.\t1.4000\n90068\tCoumarin\trestricted\tHépatotoxicité potentielle. Sensibilisant cutané modéré.\t1.6000\n30007\tLimonène\tno_restriction\tAllergène de contact potentiel uniquement sous forme oxydée. Déclaration obligatoire.\tNULL\n570042\tThymol\trestricted\tIrritant cutané et muqueux. Dermocaustique à haute concentration.\t4.0000\n570041\tCarvacrol\trestricted\tIrritant cutané et muqueux. Dermocaustique à haute concentration.\t4.0000\n570047\tCamphre\trestricted\tNeurotoxicité potentielle. Convulsivant à haute dose.\t5.0000\n1410045\tMethyleugenol\trestricted\tPotentiel cancérogène - génotoxicité\t0.0002\n660004\tBergaptène\trestricted\tPhototoxicité - furocoumarine\t0.0015\n690001\tFarnesol\trestricted\tSensibilisant cutané potentiel - allergène de contact identifié par le SCCS\t8.4000\n690004\tNerolidol\trestricted\tSensibilisant cutané potentiel\t11.5000\n1710040\tPhényléthanol\tspecification\tSensibilisant cutané faible, largement utilisé en parfumerie\tNULL\n690005\tCitronellal\trestricted\tSensibilisant cutané, allergène de contact\t2.5000\n690006\tcis-Jasmone\tspecification\tSensibilisant potentiel à haute concentration\tNULL\n690008\tPhytol\tno_restriction\tAucune restriction connue\tNULL\n690009\tα-Vétivène\tno_restriction\tAucune restriction connue\tNULL\n690010\tβ-Vétivène\tno_restriction\tAucune restriction connue\tNULL\nid\tname\n330007\tAbsolue de Rose (Citronellol)\n1290014\tAcétate de citronellyle\n660004\tBergaptène\n690005\tCitronellal\n",
+  "stderr": "",
+  "execution_time_ms": 69
+}

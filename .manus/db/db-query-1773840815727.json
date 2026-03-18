@@ -1,0 +1,9 @@
+{
+  "query": "\n-- Nettoyer plant_molecules orphelines\nDELETE pm FROM plant_molecules pm \nLEFT JOIN molecules m ON pm.molecule_id = m.id \nWHERE m.id IS NULL;\n\n-- Nettoyer molecule_origins orphelines\nDELETE mo FROM molecule_origins mo \nLEFT JOIN molecules m ON mo.molecule_id = m.id \nWHERE m.id IS NULL;\n\n-- Nettoyer ghost_variety_plant_links orphelines (plantes supprimées)\nDELETE gvpl FROM ghost_variety_plant_links gvpl \nLEFT JOIN plants p ON gvpl.plant_id = p.id \nWHERE p.id IS NULL;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Nettoyer plant_molecules orphelines\nDELETE pm FROM plant_molecules pm \nLEFT JOIN molecules m ON pm.molecule_id = m.id \nWHERE m.id IS NULL;\n\n-- Nettoyer molecule_origins orphelines\nDELETE mo FROM molecule_origins mo \nLEFT JOIN molecules m ON mo.molecule_id = m.id \nWHERE m.id IS NULL;\n\n-- Nettoyer ghost_variety_plant_links orphelines (plantes supprimées)\nDELETE gvpl FROM ghost_variety_plant_links gvpl \nLEFT JOIN plants p ON gvpl.plant_id = p.id \nWHERE p.id IS NULL;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 138
+}

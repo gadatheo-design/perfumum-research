@@ -1,0 +1,21 @@
+{
+  "query": "\n-- Cannabis Indica (ghost_variety_id = 4) avec Myrcène\nSELECT gvml.molecule_id, gvml.link_type, gvml.percentage, m.name \nFROM ghost_variety_molecule_links gvml \nJOIN molecules m ON gvml.molecule_id = m.id \nWHERE gvml.ghost_variety_id = 4 \nORDER BY CAST(gvml.percentage AS DECIMAL) DESC LIMIT 5;\n\n-- Vérifier molecule_origins\nSELECT COUNT(*) as total FROM molecule_origins LIMIT 1;\n\n-- Vérifier IFRA restrictions pour Géraniol (ID 1710039) et Citronellol\nSELECT COUNT(*) as ifra_count FROM ifra_restrictions WHERE molecule_id IN (1710039);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Cannabis Indica (ghost_variety_id = 4) avec Myrcène\nSELECT gvml.molecule_id, gvml.link_type, gvml.percentage, m.name \nFROM ghost_variety_molecule_links gvml \nJOIN molecules m ON gvml.molecule_id = m.id \nWHERE gvml.ghost_variety_id = 4 \nORDER BY CAST(gvml.percentage AS DECIMAL) DESC LIMIT 5;\n\n-- Vérifier molecule_origins\nSELECT COUNT(*) as total FROM molecule_origins LIMIT 1;\n\n-- Vérifier IFRA restrictions pour Géraniol (ID 1710039) et Citronellol\nSELECT COUNT(*) as ifra_count FROM ifra_restrictions WHERE molecule_id IN (1710039);\n",
+  "rows": [
+    {
+      "molecule_id": "30002",
+      "link_type": "characteristic",
+      "percentage": "0.80",
+      "name": "Linalol"
+    }
+  ],
+  "messages": [
+    "total",
+    "48",
+    "ifra_count",
+    "0"
+  ],
+  "stdout": "molecule_id\tlink_type\tpercentage\tname\n30002\tcharacteristic\t0.80\tLinalol\ntotal\n48\nifra_count\n0\n",
+  "stderr": "",
+  "execution_time_ms": 66
+}

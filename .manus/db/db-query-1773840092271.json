@@ -1,0 +1,22 @@
+{
+  "query": "\n-- Trouver Géraniol et Myrcène\nSELECT id, name FROM molecules WHERE name LIKE '%éraniol%' OR name LIKE '%yrcène%' OR name LIKE '%yrcene%' LIMIT 5;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Trouver Géraniol et Myrcène\nSELECT id, name FROM molecules WHERE name LIKE '%éraniol%' OR name LIKE '%yrcène%' OR name LIKE '%yrcene%' LIMIT 5;\n",
+  "rows": [
+    {
+      "id": "1710039",
+      "name": "Géraniol"
+    },
+    {
+      "id": "1300026",
+      "name": "Géranylgéraniol"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n1710039\tGéraniol\n1300026\tGéranylgéraniol\n30006\tMyrcène\n",
+  "stderr": "",
+  "execution_time_ms": 105
+}

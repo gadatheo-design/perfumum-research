@@ -1,0 +1,45 @@
+{
+  "query": "\n-- Liaisons Rose de Damas (ghost_variety_id = 1) avec Géraniol\nSELECT gvml.ghost_variety_id, gvml.molecule_id, gvml.link_type, gvml.percentage, m.name \nFROM ghost_variety_molecule_links gvml \nJOIN molecules m ON gvml.molecule_id = m.id \nWHERE gvml.ghost_variety_id = 1 \nORDER BY CAST(gvml.percentage AS DECIMAL) DESC\nLIMIT 5;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Liaisons Rose de Damas (ghost_variety_id = 1) avec Géraniol\nSELECT gvml.ghost_variety_id, gvml.molecule_id, gvml.link_type, gvml.percentage, m.name \nFROM ghost_variety_molecule_links gvml \nJOIN molecules m ON gvml.molecule_id = m.id \nWHERE gvml.ghost_variety_id = 1 \nORDER BY CAST(gvml.percentage AS DECIMAL) DESC\nLIMIT 5;\n",
+  "rows": [
+    {
+      "ghost_variety_id": "1",
+      "molecule_id": "750002",
+      "link_type": "dominant",
+      "percentage": "14.20",
+      "name": "Damascenone"
+    },
+    {
+      "ghost_variety_id": "1",
+      "molecule_id": "570014",
+      "link_type": "characteristic",
+      "percentage": "8.00",
+      "name": "Nérol"
+    },
+    {
+      "ghost_variety_id": "1",
+      "molecule_id": "570061",
+      "link_type": "characteristic",
+      "percentage": "3.00",
+      "name": "Acétate d'isoeugenol"
+    },
+    {
+      "ghost_variety_id": "1",
+      "molecule_id": "30002",
+      "link_type": "characteristic",
+      "percentage": "2.80",
+      "name": "Linalol"
+    },
+    {
+      "ghost_variety_id": "1",
+      "molecule_id": "690003",
+      "link_type": "trace",
+      "percentage": "2.00",
+      "name": "Oxyde de rose"
+    }
+  ],
+  "messages": [],
+  "stdout": "ghost_variety_id\tmolecule_id\tlink_type\tpercentage\tname\n1\t750002\tdominant\t14.20\tDamascenone\n1\t570014\tcharacteristic\t8.00\tNérol\n1\t570061\tcharacteristic\t3.00\tAcétate d'isoeugenol\n1\t30002\tcharacteristic\t2.80\tLinalol\n1\t690003\ttrace\t2.00\tOxyde de rose\n",
+  "stderr": "",
+  "execution_time_ms": 64
+}
