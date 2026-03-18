@@ -1,0 +1,130 @@
+{
+  "query": "SHOW COLUMNS FROM molecules WHERE Field LIKE '%lotus%' OR Field LIKE '%coconut%' OR Field LIKE '%pubchem%' OR Field LIKE '%chebi%' OR Field LIKE '%inchi%' OR Field LIKE '%smiles%' OR Field LIKE '%cas%' OR Field LIKE '%wikidata%' OR Field LIKE '%name_en%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW COLUMNS FROM molecules WHERE Field LIKE '%lotus%' OR Field LIKE '%coconut%' OR Field LIKE '%pubchem%' OR Field LIKE '%chebi%' OR Field LIKE '%inchi%' OR Field LIKE '%smiles%' OR Field LIKE '%cas%' OR Field LIKE '%wikidata%' OR Field LIKE '%name_en%';",
+  "rows": [
+    {
+      "Field": "cas_number",
+      "Type": "varchar(20)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "pubchem_cid",
+      "Type": "int",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "smiles",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "inchi",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "inchi_key",
+      "Type": "varchar(27)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "pubchem_synonyms",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "pubchem_enriched_at",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "chebi_id",
+      "Type": "varchar(50)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "chebi_enriched_at",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "coconut_id",
+      "Type": "varchar(100)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "coconut_organisms",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "coconut_citations",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "coconut_enriched_at",
+      "Type": "datetime",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "wikidata_qid",
+      "Type": "varchar(20)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "wikidata_enriched_at",
+      "Type": "timestamp",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\ncas_number\tvarchar(20)\tYES\t\tNULL\t\npubchem_cid\tint\tYES\t\tNULL\t\nsmiles\ttext\tYES\t\tNULL\t\ninchi\ttext\tYES\t\tNULL\t\ninchi_key\tvarchar(27)\tYES\t\tNULL\t\npubchem_synonyms\tjson\tYES\t\tNULL\t\npubchem_enriched_at\ttimestamp\tYES\t\tNULL\t\nchebi_id\tvarchar(50)\tYES\t\tNULL\t\nchebi_enriched_at\ttimestamp\tYES\t\tNULL\t\ncoconut_id\tvarchar(100)\tYES\t\tNULL\t\ncoconut_organisms\tjson\tYES\t\tNULL\t\ncoconut_citations\tjson\tYES\t\tNULL\t\ncoconut_enriched_at\tdatetime\tYES\t\tNULL\t\nwikidata_qid\tvarchar(20)\tYES\t\tNULL\t\nwikidata_enriched_at\ttimestamp\tYES\t\tNULL\t\n",
+  "stderr": "",
+  "execution_time_ms": 49
+}

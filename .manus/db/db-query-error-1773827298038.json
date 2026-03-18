@@ -1,0 +1,8 @@
+{
+  "query": "SELECT Field, Type FROM information_schema.COLUMNS WHERE TABLE_NAME = 'molecules' AND (Field LIKE '%lotus%' OR Field LIKE '%coconut%' OR Field LIKE '%pubchem%' OR Field LIKE '%chebi%' OR Field LIKE '%inchi%' OR Field LIKE '%smiles%' OR Field LIKE '%cas%' OR Field LIKE '%wikidata%' OR Field LIKE '%name_en%' OR Field LIKE '%name_fr%') ORDER BY Field;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT Field, Type FROM information_schema.COLUMNS WHERE TABLE_NAME = 'molecules' AND (Field LIKE '%lotus%' OR Field LIKE '%coconut%' OR Field LIKE '%pubchem%' OR Field LIKE '%chebi%' OR Field LIKE '%inchi%' OR Field LIKE '%smiles%' OR Field LIKE '%cas%' OR Field LIKE '%wikidata%' OR Field LIKE '%name_en%' OR Field LIKE '%name_fr%') ORDER BY Field;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'field' in 'where clause'"
+  ]
+}

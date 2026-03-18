@@ -1,0 +1,289 @@
+{
+  "query": "\n-- Molécules sans formule chimique, sans CAS, sans pubchem_cid (probablement descriptifs ou noms de plantes)\nSELECT id, name, family, chemicalFamily, cas_number, pubchem_cid, smiles\nFROM molecules\nWHERE cas_number IS NULL AND pubchem_cid IS NULL AND smiles IS NULL\nAND (\n  name LIKE '%fumée%' OR name LIKE '%terre%' OR name LIKE '%bois%' OR name LIKE '%fleur%' OR\n  name LIKE '%herbe%' OR name LIKE '%mousse%' OR name LIKE '%foin%' OR name LIKE '%cuir%' OR\n  name LIKE '%miel%' OR name LIKE '%café%' OR name LIKE '%tabac%' OR name LIKE '%encens%' OR\n  name LIKE '%résine%' OR name LIKE '%ambre%' OR name LIKE '%musc%' OR name LIKE '%vert%' OR\n  name LIKE '%doux%' OR name LIKE '%frais%' OR name LIKE '%sec%' OR name LIKE '%chaud%' OR\n  name LIKE '%Vetiver%' OR name LIKE '%Gaïac%' OR name LIKE '%Gaiac%' OR name LIKE '%Santal%' OR\n  name LIKE '%Patchouli%' OR name LIKE '%Oud%' OR name LIKE '%Cèdre%' OR name LIKE '%Ciste%' OR\n  name LIKE '%Benjoin%' OR name LIKE '%Labdanum%' OR name LIKE '%Myrrhe%' OR name LIKE '%Oliban%'\n)\nORDER BY name\nLIMIT 50;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Molécules sans formule chimique, sans CAS, sans pubchem_cid (probablement descriptifs ou noms de plantes)\nSELECT id, name, family, chemicalFamily, cas_number, pubchem_cid, smiles\nFROM molecules\nWHERE cas_number IS NULL AND pubchem_cid IS NULL AND smiles IS NULL\nAND (\n  name LIKE '%fumée%' OR name LIKE '%terre%' OR name LIKE '%bois%' OR name LIKE '%fleur%' OR\n  name LIKE '%herbe%' OR name LIKE '%mousse%' OR name LIKE '%foin%' OR name LIKE '%cuir%' OR\n  name LIKE '%miel%' OR name LIKE '%café%' OR name LIKE '%tabac%' OR name LIKE '%encens%' OR\n  name LIKE '%résine%' OR name LIKE '%ambre%' OR name LIKE '%musc%' OR name LIKE '%vert%' OR\n  name LIKE '%doux%' OR name LIKE '%frais%' OR name LIKE '%sec%' OR name LIKE '%chaud%' OR\n  name LIKE '%Vetiver%' OR name LIKE '%Gaïac%' OR name LIKE '%Gaiac%' OR name LIKE '%Santal%' OR\n  name LIKE '%Patchouli%' OR name LIKE '%Oud%' OR name LIKE '%Cèdre%' OR name LIKE '%Ciste%' OR\n  name LIKE '%Benjoin%' OR name LIKE '%Labdanum%' OR name LIKE '%Myrrhe%' OR name LIKE '%Oliban%'\n)\nORDER BY name\nLIMIT 50;\n",
+  "rows": [
+    {
+      "id": "1410052",
+      "name": "(Z)-α-Santalol",
+      "family": "boise",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "1410046",
+      "name": "(Z)-β-Santalol",
+      "family": "boise",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "1080002",
+      "name": "Agarwood / Oud — Aquilaria malaccensis (CITES)",
+      "family": "Sesquiterpène",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "1410008",
+      "name": "Aldambre",
+      "family": "boise",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "480002",
+      "name": "Aldéhydes chauds",
+      "family": "Aldéhyde",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "480021",
+      "name": "Fer chaud",
+      "family": "Non classé",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "480031",
+      "name": "Feuille verte",
+      "family": "Aldéhyde",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "480037",
+      "name": "Foin chaud",
+      "family": "Phénylpropanoïde",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "1080009",
+      "name": "Gaïac — Guaiacum officinale",
+      "family": "Sesquiterpène",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "1080010",
+      "name": "Gaïac — Guaiacum sanctum (proxy)",
+      "family": "Sesquiterpène",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "1080004",
+      "name": "Guggul — Commiphora wightii (résine menacée)",
+      "family": "Résinoïde",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "180016",
+      "name": "Haitian Vetiver",
+      "family": "Sesquiterpène",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "480035",
+      "name": "Karité vert",
+      "family": "Aldéhyde",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "90044",
+      "name": "Labdanum",
+      "family": "Résinoïde",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "120020",
+      "name": "Labdanum diterpenes",
+      "family": "Résinoïde",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "480042",
+      "name": "Millet chaud",
+      "family": "Ester",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "1080019",
+      "name": "Musk deer (musc naturel) — Moschus moschiferus (CITES)",
+      "family": "Musc",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "480015",
+      "name": "Oliban brûlé",
+      "family": "Phénol",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "480005",
+      "name": "Oliban clair",
+      "family": "Résinoïde",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "840014",
+      "name": "Olibanol",
+      "family": "Monoterpène",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "90041",
+      "name": "Olibanum",
+      "family": "Résinoïde",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "300001",
+      "name": "Oud (Agarwood)",
+      "family": "Sesquiterpène",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "180008",
+      "name": "Oud Tea",
+      "family": "Sesquiterpène",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "120007",
+      "name": "Phénol boisé",
+      "family": "Phénol",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "1080007",
+      "name": "Santal — Santalum album",
+      "family": "Sesquiterpène",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "480019",
+      "name": "Vetiver Assam",
+      "family": "Sesquiterpène",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "480030",
+      "name": "Vetiver fumé",
+      "family": "Sesquiterpène",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "1410051",
+      "name": "epi-β-Santalol",
+      "family": "boise",
+      "chemicalFamily": "NULL",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "810057",
+      "name": "profil résineux supposé",
+      "family": "Résinoïde",
+      "chemicalFamily": "mélange",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "810058",
+      "name": "résines",
+      "family": "Résinoïde",
+      "chemicalFamily": "mélange",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    },
+    {
+      "id": "810059",
+      "name": "résines aromatiques",
+      "family": "Résinoïde",
+      "chemicalFamily": "mélange",
+      "cas_number": "NULL",
+      "pubchem_cid": "NULL",
+      "smiles": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tfamily\tchemicalFamily\tcas_number\tpubchem_cid\tsmiles\n1410052\t(Z)-α-Santalol\tboise\tNULL\tNULL\tNULL\tNULL\n1410046\t(Z)-β-Santalol\tboise\tNULL\tNULL\tNULL\tNULL\n1080002\tAgarwood / Oud — Aquilaria malaccensis (CITES)\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n1410008\tAldambre\tboise\tNULL\tNULL\tNULL\tNULL\n480002\tAldéhydes chauds\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n480021\tFer chaud\tNon classé\tNULL\tNULL\tNULL\tNULL\n480031\tFeuille verte\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n480037\tFoin chaud\tPhénylpropanoïde\tNULL\tNULL\tNULL\tNULL\n1080009\tGaïac — Guaiacum officinale\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n1080010\tGaïac — Guaiacum sanctum (proxy)\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n1080004\tGuggul — Commiphora wightii (résine menacée)\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n180016\tHaitian Vetiver\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n480035\tKarité vert\tAldéhyde\tNULL\tNULL\tNULL\tNULL\n90044\tLabdanum\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n120020\tLabdanum diterpenes\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n480042\tMillet chaud\tEster\tNULL\tNULL\tNULL\tNULL\n1080019\tMusk deer (musc naturel) — Moschus moschiferus (CITES)\tMusc\tNULL\tNULL\tNULL\tNULL\n480015\tOliban brûlé\tPhénol\tNULL\tNULL\tNULL\tNULL\n480005\tOliban clair\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n840014\tOlibanol\tMonoterpène\tNULL\tNULL\tNULL\tNULL\n90041\tOlibanum\tRésinoïde\tNULL\tNULL\tNULL\tNULL\n300001\tOud (Agarwood)\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n180008\tOud Tea\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n120007\tPhénol boisé\tPhénol\tNULL\tNULL\tNULL\tNULL\n1080007\tSantal — Santalum album\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n480019\tVetiver Assam\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n480030\tVetiver fumé\tSesquiterpène\tNULL\tNULL\tNULL\tNULL\n1410051\tepi-β-Santalol\tboise\tNULL\tNULL\tNULL\tNULL\n810057\tprofil résineux supposé\tRésinoïde\tmélange\tNULL\tNULL\tNULL\n810058\trésines\tRésinoïde\tmélange\tNULL\tNULL\tNULL\n810059\trésines aromatiques\tRésinoïde\tmélange\tNULL\tNULL\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 69
+}

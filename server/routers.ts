@@ -76,6 +76,7 @@ import { olfactiveEmissionsRouter } from './routers/olfactive-emissions';
 import { olfactiveExperiencesRouter } from './routers/olfactive-experiences';
 import { storylinesRouter } from './routers/storylines';
 import { wikidataRouter } from './routers/wikidata';
+import { sparqlRouter } from './routers/sparql';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -12166,6 +12167,8 @@ Familles olfactives disponibles:
   storylines: storylinesRouter,
   // NOSE Phase 4 — Wikidata QIDs (interopérabilité Odeuropa/Europeana)
   wikidata: wikidataRouter,
+  // NOSE Phase 5 — SPARQL Wikidata/Europeana (requêtes croisées)
+  sparql: sparqlRouter,
 });
 export type AppRouter = typeof appRouter;
 

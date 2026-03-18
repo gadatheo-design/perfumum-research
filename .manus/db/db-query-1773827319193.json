@@ -1,0 +1,88 @@
+{
+  "query": "\n-- Doublons par pubchem_cid\nSELECT pubchem_cid, COUNT(*) as nb, GROUP_CONCAT(id ORDER BY id SEPARATOR ',') as ids, GROUP_CONCAT(name ORDER BY id SEPARATOR ' | ') as noms\nFROM molecules\nWHERE pubchem_cid IS NOT NULL\nGROUP BY pubchem_cid\nHAVING nb > 1\nORDER BY nb DESC\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Doublons par pubchem_cid\nSELECT pubchem_cid, COUNT(*) as nb, GROUP_CONCAT(id ORDER BY id SEPARATOR ',') as ids, GROUP_CONCAT(name ORDER BY id SEPARATOR ' | ') as noms\nFROM molecules\nWHERE pubchem_cid IS NOT NULL\nGROUP BY pubchem_cid\nHAVING nb > 1\nORDER BY nb DESC\nLIMIT 20;\n",
+  "rows": [
+    {
+      "pubchem_cid": "460",
+      "nb": "2",
+      "ids": "90021,570071",
+      "noms": "Guaiacol | Cade"
+    },
+    {
+      "pubchem_cid": "61031",
+      "nb": "2",
+      "ids": "120010,570024",
+      "noms": "Aldéhyde C-12 | Aldéhyde C-12 MNA"
+    },
+    {
+      "pubchem_cid": "444539",
+      "nb": "2",
+      "ids": "570055,1620004",
+      "noms": "Alcool cinnamique | Acide Cinnamique"
+    },
+    {
+      "pubchem_cid": "5352472",
+      "nb": "2",
+      "ids": "690011,990018",
+      "noms": "Isovalencénol | Isovalencenol"
+    },
+    {
+      "pubchem_cid": "26049",
+      "nb": "2",
+      "ids": "720005,960010",
+      "noms": "3-Carène | Delta-3-carene"
+    },
+    {
+      "pubchem_cid": "5281516",
+      "nb": "2",
+      "ids": "720013,1710027",
+      "noms": "Farnésène | CBCA"
+    },
+    {
+      "pubchem_cid": "1742210",
+      "nb": "2",
+      "ids": "720018,1320002",
+      "noms": "Caryophyllène oxide | Caryophyllene oxide"
+    },
+    {
+      "pubchem_cid": "53386731",
+      "nb": "2",
+      "ids": "840013,1410054",
+      "noms": "Acétate d'incensole | Incensole acetate"
+    },
+    {
+      "pubchem_cid": "637563",
+      "nb": "2",
+      "ids": "870001,990037",
+      "noms": "Anéthole | Trans-anethole"
+    },
+    {
+      "pubchem_cid": "92139",
+      "nb": "2",
+      "ids": "960013,1320036",
+      "noms": "Alpha-curcumene | Curcumene"
+    },
+    {
+      "pubchem_cid": "1068",
+      "nb": "2",
+      "ids": "1320209,1350030",
+      "noms": "Dimethyl sulfide | Diméthylsulfure"
+    },
+    {
+      "pubchem_cid": "530421",
+      "nb": "2",
+      "ids": "1710003,1710050",
+      "noms": "Aristolène | Aristolene"
+    },
+    {
+      "pubchem_cid": "16078",
+      "nb": "2",
+      "ids": "1710028,1710029",
+      "noms": "CBDV | THCV"
+    }
+  ],
+  "messages": [],
+  "stdout": "pubchem_cid\tnb\tids\tnoms\n460\t2\t90021,570071\tGuaiacol | Cade\n61031\t2\t120010,570024\tAldéhyde C-12 | Aldéhyde C-12 MNA\n444539\t2\t570055,1620004\tAlcool cinnamique | Acide Cinnamique\n5352472\t2\t690011,990018\tIsovalencénol | Isovalencenol\n26049\t2\t720005,960010\t3-Carène | Delta-3-carene\n5281516\t2\t720013,1710027\tFarnésène | CBCA\n1742210\t2\t720018,1320002\tCaryophyllène oxide | Caryophyllene oxide\n53386731\t2\t840013,1410054\tAcétate d'incensole | Incensole acetate\n637563\t2\t870001,990037\tAnéthole | Trans-anethole\n92139\t2\t960013,1320036\tAlpha-curcumene | Curcumene\n1068\t2\t1320209,1350030\tDimethyl sulfide | Diméthylsulfure\n530421\t2\t1710003,1710050\tAristolène | Aristolene\n16078\t2\t1710028,1710029\tCBDV | THCV\n",
+  "stderr": "",
+  "execution_time_ms": 67
+}

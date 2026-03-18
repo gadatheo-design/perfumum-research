@@ -1,0 +1,8 @@
+{
+  "query": "\n-- Doublons par lotus_id (même identifiant LOTUS assigné à plusieurs molécules)\nSELECT lotus_id, COUNT(*) as nb, GROUP_CONCAT(id ORDER BY id SEPARATOR ',') as ids, GROUP_CONCAT(name ORDER BY id SEPARATOR ' | ') as names\nFROM molecules\nWHERE lotus_id IS NOT NULL AND lotus_id != ''\nGROUP BY lotus_id\nHAVING nb > 1\nORDER BY nb DESC\nLIMIT 30;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Doublons par lotus_id (même identifiant LOTUS assigné à plusieurs molécules)\nSELECT lotus_id, COUNT(*) as nb, GROUP_CONCAT(id ORDER BY id SEPARATOR ',') as ids, GROUP_CONCAT(name ORDER BY id SEPARATOR ' | ') as names\nFROM molecules\nWHERE lotus_id IS NOT NULL AND lotus_id != ''\nGROUP BY lotus_id\nHAVING nb > 1\nORDER BY nb DESC\nLIMIT 30;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 3: Unknown column 'lotus_id' in 'group statement'"
+  ]
+}

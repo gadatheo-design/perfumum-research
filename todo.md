@@ -2322,3 +2322,58 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Export JSON-LD compatible NOSE/Odeuropa/Europeana (generateJsonLd)
 - [ ] NOSE Phase 5 : intégration SPARQL endpoint pour requêtes croisées
 - [ ] Enrichissement batch automatique Wikidata (lancer le premier batch de 50 molécules)
+
+## SESSION 18/03/2026 — Traitement LOTUS + NOSE Phase 5
+
+### Phase A : Nettoyage doublons LOTUS (~11 doublons FR/EN)
+- [ ] Identifier les doublons (même molécule en FR et EN avec même LTS ID)
+- [ ] Fusionner les doublons (garder la version la plus complète, transférer les liaisons)
+- [ ] Vérifier l'intégrité référentielle après fusion
+
+### Phase B : Descriptifs olfactifs et noms de plantes mal classés
+- [ ] Identifier les ~28 descriptifs olfactifs dans la table molecules (ex: "fumée douce", "terre noire")
+- [ ] Supprimer ou déplacer vers une table de descripteurs olfactifs
+- [ ] Identifier les ~7 noms de plantes dans molecules (Vetiver Assam, Gaïac, etc.)
+- [ ] Déplacer vers la table plants si absents, sinon supprimer
+
+### Phase C : Vitamines/acides hors scope + 293 molécules récupérables
+- [ ] Identifier les ~7 vitamines/acides hors scope LOTUS (Vitamine E, acide ascorbique, etc.)
+- [ ] Marquer avec tag "hors_scope_lotus" ou supprimer selon pertinence
+- [ ] Créer mapping FR→EN pour les 293 molécules naturelles non trouvées
+- [ ] Ajouter colonne name_en dans molecules pour les noms anglais
+- [ ] Relancer enrichissement LOTUS avec noms EN pour les 293 récupérables
+
+### Phase D : NOSE Phase 5 — Endpoint SPARQL Wikidata/Europeana
+- [ ] Créer service sparql.ts (requêtes SPARQL vers Wikidata endpoint)
+- [ ] Implémenter requête "molécules PERFUMUM présentes dans Europeana"
+- [ ] Implémenter requête "plantes PERFUMUM dans collections muséales"
+- [ ] Créer router tRPC sparqlRouter (executeQuery, getMoleculesInArt, getPlantsInMuseums)
+- [ ] Créer page /admin/sparql-explorer avec interface de requêtes SPARQL
+- [ ] Tests vitest sparql.test.ts
+
+
+## SESSION 18/03/2026 — Nettoyage LOTUS + NOSE Phase 5
+
+### ✅ Nettoyage LOTUS — 4 catégories traitées
+- [x] Fusion des vrais doublons FR/EN (Caryophyllène oxide, Anéthole, 3-Carène, etc.)
+- [x] Correction des faux doublons (mauvais pubchem_cid : Cade, CBDV, THCV, Acide Cinnamique...)
+- [x] Ajout colonne `tags` dans molecules
+- [x] Marquage descriptifs olfactifs (tag 'descripteur_olfactif')
+- [x] Marquage matières premières mal classées (tag 'matiere_premiere')
+- [x] Ajout colonne `name_en` dans molecules
+- [x] Mapping FR→EN : noms manuels + translittérations automatiques (~30% couverture)
+
+### ✅ NOSE Phase 4 — Wikidata QIDs
+- [x] Colonnes wikidata_qid + wikidata_enriched_at dans molecules et plants
+- [x] Service wikidata.ts (recherche QID, normalisation, export JSON-LD)
+- [x] Router tRPC wikidata.ts (13 procédures)
+- [x] Page admin WikidataBatch (5 onglets)
+- [x] Badges Wikidata dans MoleculeDetail et PlantDetail
+- [x] 19 tests vitest (100% pass)
+
+### ✅ NOSE Phase 5 — SPARQL Explorer
+- [x] Service sparql.ts (6 fonctions : artworks, papers, collections, batch, free, stats)
+- [x] Router tRPC sparql.ts (7 procédures)
+- [x] Page admin SparqlExplorer (5 onglets : stats, molécule, batch, SPARQL libre, templates)
+- [x] 6 templates de requêtes SPARQL prédéfinis (art, science, botanique, usage, parfumerie, europeana)
+- [x] 24 tests vitest (100% pass)

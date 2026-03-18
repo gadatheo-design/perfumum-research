@@ -111,6 +111,7 @@ const WikimediaBatch = React.lazy(() => import('./pages/admin/WikimediaBatch'));
 const SmilesBatch = React.lazy(() => import('./pages/admin/SmilesBatch'));
 const LOTUSBatch = React.lazy(() => import('./pages/admin/LOTUSBatch'));
 const WikidataBatch = React.lazy(() => import('./pages/admin/WikidataBatch'));
+const SparqlExplorer = React.lazy(() => import('./pages/admin/SparqlExplorer'));
 const COCONUTBatch = React.lazy(() => import('./pages/admin/COCONUTBatch'));
 const ExtractionMethodsAdmin = React.lazy(() => import('./pages/admin/ExtractionMethodsAdmin'));
 const AdminThermalMatrix = React.lazy(() => import('./pages/AdminThermalMatrix'));
@@ -516,6 +517,7 @@ function Router() {
       <Route path="/admin/smiles-batch" component={SmilesBatch} />
       <Route path="/admin/lotus-batch" component={LOTUSBatch} />
       <Route path="/admin/wikidata-batch" component={WikidataBatch} />
+      <Route path="/admin/sparql-explorer" component={SparqlExplorer} />
       <Route path="/admin/coconut-batch" component={COCONUTBatch} />
       <Route path="/admin/knapsack-batch" component={KNApSAcKBatch} />
       <Route path="/admin/bundle-visualizer" component={AdminBundleVisualizer} />

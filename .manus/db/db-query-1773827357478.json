@@ -1,0 +1,13 @@
+{
+  "query": "\n-- Compter les molécules sans aucun identifiant chimique\nSELECT COUNT(*) as total_sans_identifiant FROM molecules\nWHERE cas_number IS NULL AND pubchem_cid IS NULL AND smiles IS NULL AND inchi IS NULL AND inchi_key IS NULL AND coconut_id IS NULL;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Compter les molécules sans aucun identifiant chimique\nSELECT COUNT(*) as total_sans_identifiant FROM molecules\nWHERE cas_number IS NULL AND pubchem_cid IS NULL AND smiles IS NULL AND inchi IS NULL AND inchi_key IS NULL AND coconut_id IS NULL;\n",
+  "rows": [
+    {
+      "total_sans_identifiant": "163"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_sans_identifiant\n163\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}

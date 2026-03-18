@@ -1,0 +1,130 @@
+{
+  "query": "\n-- Vérifier les liaisons pour les 13 paires de doublons\nSELECT pm.molecule_id, m.name, COUNT(*) as nb_liaisons\nFROM plant_molecules pm\nJOIN molecules m ON m.id = pm.molecule_id\nWHERE pm.molecule_id IN (90021,570071, 120010,570024, 570055,1620004, 690011,990018, 720005,960010, 720013,1710027, 720018,1320002, 840013,1410054, 870001,990037, 960013,1320036, 1320209,1350030, 1710003,1710050, 1710028,1710029)\nGROUP BY pm.molecule_id, m.name\nORDER BY pm.molecule_id;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Vérifier les liaisons pour les 13 paires de doublons\nSELECT pm.molecule_id, m.name, COUNT(*) as nb_liaisons\nFROM plant_molecules pm\nJOIN molecules m ON m.id = pm.molecule_id\nWHERE pm.molecule_id IN (90021,570071, 120010,570024, 570055,1620004, 690011,990018, 720005,960010, 720013,1710027, 720018,1320002, 840013,1410054, 870001,990037, 960013,1320036, 1320209,1350030, 1710003,1710050, 1710028,1710029)\nGROUP BY pm.molecule_id, m.name\nORDER BY pm.molecule_id;\n",
+  "rows": [
+    {
+      "molecule_id": "90021",
+      "name": "Guaiacol",
+      "nb_liaisons": "67"
+    },
+    {
+      "molecule_id": "120010",
+      "name": "Aldéhyde C-12",
+      "nb_liaisons": "5"
+    },
+    {
+      "molecule_id": "570024",
+      "name": "Aldéhyde C-12 MNA",
+      "nb_liaisons": "1"
+    },
+    {
+      "molecule_id": "570055",
+      "name": "Alcool cinnamique",
+      "nb_liaisons": "18"
+    },
+    {
+      "molecule_id": "690011",
+      "name": "Isovalencénol",
+      "nb_liaisons": "1"
+    },
+    {
+      "molecule_id": "720005",
+      "name": "3-Carène",
+      "nb_liaisons": "9"
+    },
+    {
+      "molecule_id": "720013",
+      "name": "Farnésène",
+      "nb_liaisons": "18"
+    },
+    {
+      "molecule_id": "720018",
+      "name": "Caryophyllène oxide",
+      "nb_liaisons": "64"
+    },
+    {
+      "molecule_id": "840013",
+      "name": "Acétate d'incensole",
+      "nb_liaisons": "1"
+    },
+    {
+      "molecule_id": "870001",
+      "name": "Anéthole",
+      "nb_liaisons": "28"
+    },
+    {
+      "molecule_id": "960010",
+      "name": "Delta-3-carene",
+      "nb_liaisons": "43"
+    },
+    {
+      "molecule_id": "960013",
+      "name": "Alpha-curcumene",
+      "nb_liaisons": "8"
+    },
+    {
+      "molecule_id": "990018",
+      "name": "Isovalencenol",
+      "nb_liaisons": "1"
+    },
+    {
+      "molecule_id": "990037",
+      "name": "Trans-anethole",
+      "nb_liaisons": "16"
+    },
+    {
+      "molecule_id": "1320002",
+      "name": "Caryophyllene oxide",
+      "nb_liaisons": "2"
+    },
+    {
+      "molecule_id": "1320036",
+      "name": "Curcumene",
+      "nb_liaisons": "2"
+    },
+    {
+      "molecule_id": "1350030",
+      "name": "Diméthylsulfure",
+      "nb_liaisons": "6"
+    },
+    {
+      "molecule_id": "1410054",
+      "name": "Incensole acetate",
+      "nb_liaisons": "1"
+    },
+    {
+      "molecule_id": "1620004",
+      "name": "Acide Cinnamique",
+      "nb_liaisons": "12"
+    },
+    {
+      "molecule_id": "1710003",
+      "name": "Aristolène",
+      "nb_liaisons": "1"
+    },
+    {
+      "molecule_id": "1710027",
+      "name": "CBCA",
+      "nb_liaisons": "43"
+    },
+    {
+      "molecule_id": "1710028",
+      "name": "CBDV",
+      "nb_liaisons": "43"
+    },
+    {
+      "molecule_id": "1710029",
+      "name": "THCV",
+      "nb_liaisons": "43"
+    },
+    {
+      "molecule_id": "1710050",
+      "name": "Aristolene",
+      "nb_liaisons": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "molecule_id\tname\tnb_liaisons\n90021\tGuaiacol\t67\n120010\tAldéhyde C-12\t5\n570024\tAldéhyde C-12 MNA\t1\n570055\tAlcool cinnamique\t18\n690011\tIsovalencénol\t1\n720005\t3-Carène\t9\n720013\tFarnésène\t18\n720018\tCaryophyllène oxide\t64\n840013\tAcétate d'incensole\t1\n870001\tAnéthole\t28\n960010\tDelta-3-carene\t43\n960013\tAlpha-curcumene\t8\n990018\tIsovalencenol\t1\n990037\tTrans-anethole\t16\n1320002\tCaryophyllene oxide\t2\n1320036\tCurcumene\t2\n1350030\tDiméthylsulfure\t6\n1410054\tIncensole acetate\t1\n1620004\tAcide Cinnamique\t12\n1710003\tAristolène\t1\n1710027\tCBCA\t43\n1710028\tCBDV\t43\n1710029\tTHCV\t43\n1710050\tAristolene\t1\n",
+  "stderr": "",
+  "execution_time_ms": 78
+}

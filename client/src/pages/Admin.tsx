@@ -385,6 +385,14 @@ export default function Admin() {
       color: "text-indigo-600",
       bgColor: "bg-indigo-50",
     },
+    {
+      title: "SPARQL Explorer — NOSE Phase 5",
+      description: "Requêtes croisées PERFUMUM ↔ Wikidata ↔ Europeana : œuvres d'art, publications scientifiques, collections muséales liées aux molécules et plantes.",
+      icon: Globe,
+      href: "/admin/sparql-explorer",
+      color: "text-cyan-600",
+      bgColor: "bg-cyan-50",
+    },
   ];
 
   return (

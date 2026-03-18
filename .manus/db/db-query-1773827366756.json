@@ -1,0 +1,130 @@
+{
+  "query": "\nSELECT id, name, family, chemicalFamily\nFROM molecules\nWHERE cas_number IS NULL AND pubchem_cid IS NULL AND smiles IS NULL AND inchi IS NULL AND inchi_key IS NULL AND coconut_id IS NULL\nORDER BY family, name\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, family, chemicalFamily\nFROM molecules\nWHERE cas_number IS NULL AND pubchem_cid IS NULL AND smiles IS NULL AND inchi IS NULL AND inchi_key IS NULL AND coconut_id IS NULL\nORDER BY family, name\nLIMIT 20;\n",
+  "rows": [
+    {
+      "id": "480032",
+      "name": "Aldéhyde feuille",
+      "family": "Aldéhyde",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "120011",
+      "name": "Aldéhyde métallique",
+      "family": "Aldéhyde",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "480002",
+      "name": "Aldéhydes chauds",
+      "family": "Aldéhyde",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "480022",
+      "name": "Aldéhydes métalliques",
+      "family": "Aldéhyde",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "480013",
+      "name": "Aldéhydes sombres",
+      "family": "Aldéhyde",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "90008",
+      "name": "Aluminium aldehyde",
+      "family": "Aldéhyde",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "810029",
+      "name": "E-2-dodecenal",
+      "family": "Aldéhyde",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "480031",
+      "name": "Feuille verte",
+      "family": "Aldéhyde",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "90058",
+      "name": "Jasmonal",
+      "family": "Aldéhyde",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "480035",
+      "name": "Karité vert",
+      "family": "Aldéhyde",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "480033",
+      "name": "Ozone clair",
+      "family": "Aldéhyde",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "480004",
+      "name": "Ozone minéral clair",
+      "family": "Aldéhyde",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "900002",
+      "name": "THCA",
+      "family": "Cannabinoïde",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "900001",
+      "name": "Δ9-THC",
+      "family": "Cannabinoïde",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "1080020",
+      "name": "Ambergris (patrimoine) — Physeter macrocephalus (échouages)",
+      "family": "Composé animal",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "90007",
+      "name": "Fer volatil",
+      "family": "Composé marin",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "120017",
+      "name": "Oxydes de fer volatils",
+      "family": "Composé minéral",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "90003",
+      "name": "Sclerene",
+      "family": "Composé minéral",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "90009",
+      "name": "Sulfur base",
+      "family": "Composé minéral",
+      "chemicalFamily": "NULL"
+    },
+    {
+      "id": "570032",
+      "name": "Damascone Beta",
+      "family": "Cétone",
+      "chemicalFamily": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tfamily\tchemicalFamily\n480032\tAldéhyde feuille\tAldéhyde\tNULL\n120011\tAldéhyde métallique\tAldéhyde\tNULL\n480002\tAldéhydes chauds\tAldéhyde\tNULL\n480022\tAldéhydes métalliques\tAldéhyde\tNULL\n480013\tAldéhydes sombres\tAldéhyde\tNULL\n90008\tAluminium aldehyde\tAldéhyde\tNULL\n810029\tE-2-dodecenal\tAldéhyde\tNULL\n480031\tFeuille verte\tAldéhyde\tNULL\n90058\tJasmonal\tAldéhyde\tNULL\n480035\tKarité vert\tAldéhyde\tNULL\n480033\tOzone clair\tAldéhyde\tNULL\n480004\tOzone minéral clair\tAldéhyde\tNULL\n900002\tTHCA\tCannabinoïde\tNULL\n900001\tΔ9-THC\tCannabinoïde\tNULL\n1080020\tAmbergris (patrimoine) — Physeter macrocephalus (échouages)\tComposé animal\tNULL\n90007\tFer volatil\tComposé marin\tNULL\n120017\tOxydes de fer volatils\tComposé minéral\tNULL\n90003\tSclerene\tComposé minéral\tNULL\n90009\tSulfur base\tComposé minéral\tNULL\n570032\tDamascone Beta\tCétone\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 51
+}
