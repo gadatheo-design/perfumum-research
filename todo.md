@@ -2474,3 +2474,14 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Intégrer EuropeanaWidget dans PlantDetail (onglet Europeana avec Globe icon)
 - [x] Intégrer EuropeanaWidget dans MoleculeDetail (onglet Europeana avec Globe icon)
 - [x] Étendre SPARQL Explorer avec 6e onglet Europeana (vue unifiée Wikidata + Europeana, 4 thèmes, SPARQL libre)
+
+## SESSION 18 MARS 2026 — Activation clé API Europeana
+
+- [x] Configurer EUROPEANA_API_KEY dans les secrets du projet
+- [x] Valider la clé avec 3 tests vitest (Search API + Entity API) — 3/3 passés
+- [x] Confirmer : 54 résultats pour "rose damascena", 1625 pour "encens/frankincense"
+- [x] Diagnostic P7704 : propriété peu répandue pour les plantes botaniques (1/8 testées)
+- [x] Colonne europeana_id ajoutée dans la table plants pour future résolution
+- [x] Documentation API Suite complète dans docs/europeana-api-research.md
+- [x] Service europeana.ts v2 : 6 thèmes, IIIF Manifest v3, Thumbnail API v3, pagination curseur
+- [x] Mode démonstration désactivé automatiquement dès que la clé est présente
