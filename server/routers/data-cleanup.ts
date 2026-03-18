@@ -273,7 +273,15 @@ export const dataCleanupRouter = router({
         };
       }
 
-      const materialId = `RM_${(mol.name || '').replace(/[^a-zA-Z0-9]/g, '_').toUpperCase().slice(0, 20)}_${Date.now().toString(36).toUpperCase()}`;
+      const suffix = Date.now().toString(36).toUpperCase().slice(-5); // 5 chars
+      const prefix = (mol.name || '').replace(/[^a-zA-Z0-9]/g, '_').toUpperCase().slice(0, 20); // max 20 chars
+      const materialId = `RM_${prefix}_${suffix}`.slice(0, 30); // total max 30 chars
+
+      // Nettoyer les annotations de script dans les notes
+      const cleanNotes = (mol.notes || '')
+        .replace(/ ?\[PUBCHEM:[^\]]*\]/g, '')
+        .replace(/ ?\[LOTUS:[^\]]*\]/g, '')
+        .trim() || null;
 
       await db.insert(rawMaterials).values({
         materialId,
@@ -292,7 +300,7 @@ export const dataCleanupRouter = router({
           if (Array.isArray(op)) return (op as string[]).join(', ');
           return String(op);
         })(),
-        notes: mol.notes || null,
+        notes: cleanNotes,
       });
 
       await db.delete(molecules).where(eq(molecules.id, input.moleculeId));
@@ -385,7 +393,7 @@ export const dataCleanupRouter = router({
             if (nameLower.includes(kw)) { category = cat; break; }
           }
           const suffix = Date.now().toString(36).toUpperCase().slice(-5); // 5 chars
-          const prefix = (mol.name || '').replace(/[^a-zA-Z0-9]/g, '_').toUpperCase().slice(0, 21); // max 21 chars
+          const prefix = (mol.name || '').replace(/[^a-zA-Z0-9]/g, '_').toUpperCase().slice(0, 20); // max 20 chars
           const materialId = `RM_${prefix}_${suffix}`.slice(0, 30); // total max 30 chars
           const olfactiveProfileStr = (() => {
             const op = mol.olfactiveProfile;
@@ -403,9 +411,13 @@ export const dataCleanupRouter = router({
             .limit(1);
           if (existing.length === 0) {
             try {
-              await db.insert(rawMaterials).values({
+              const cleanNotesB = (mol.notes || '')
+                .replace(/ ?\[PUBCHEM:[^\]]*\]/g, '')
+                .replace(/ ?\[LOTUS:[^\]]*\]/g, '')
+                .trim() || null;
+          await db.insert(rawMaterials).values({
                 materialId, name: mol.name || 'Sans nom', category: category as any,
-                olfactiveProfile: olfactiveProfileStr, notes: mol.notes || null,
+                olfactiveProfile: olfactiveProfileStr, notes: cleanNotesB,
               });
             } catch (insertErr: any) {
               // Log détaillé pour déboguer

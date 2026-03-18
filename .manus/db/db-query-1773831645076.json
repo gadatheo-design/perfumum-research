@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE molecules \nSET notes = TRIM(REGEXP_REPLACE(\n  notes, \n  ' \\\\[PUBCHEM: (matière première / plante, déplacer vers plants|descriptif olfactif, pas une molécule chimique)\\\\]',\n  ''\n))\nWHERE notes LIKE '%[PUBCHEM:%]%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute UPDATE molecules \nSET notes = TRIM(REGEXP_REPLACE(\n  notes, \n  ' \\\\[PUBCHEM: (matière première / plante, déplacer vers plants|descriptif olfactif, pas une molécule chimique)\\\\]',\n  ''\n))\nWHERE notes LIKE '%[PUBCHEM:%]%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 85
+}

@@ -1,0 +1,18 @@
+{
+  "query": "SHOW COLUMNS FROM raw_materials WHERE Field = 'material_id';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW COLUMNS FROM raw_materials WHERE Field = 'material_id';",
+  "rows": [
+    {
+      "Field": "material_id",
+      "Type": "varchar(30)",
+      "Null": "NO",
+      "Key": "UNI",
+      "Default": "NULL",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nmaterial_id\tvarchar(30)\tNO\tUNI\tNULL\t\n",
+  "stderr": "",
+  "execution_time_ms": 93
+}
