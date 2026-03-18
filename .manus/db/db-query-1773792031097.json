@@ -1,0 +1,16 @@
+{
+  "query": "\n-- Vérifier si les liaisons cibles existent déjà pour éviter les doublons\nSELECT plant_id FROM plant_molecules WHERE molecule_id = 1902976;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Vérifier si les liaisons cibles existent déjà pour éviter les doublons\nSELECT plant_id FROM plant_molecules WHERE molecule_id = 1902976;\n",
+  "rows": [
+    {
+      "plant_id": "1800019"
+    },
+    {
+      "plant_id": "1800021"
+    }
+  ],
+  "messages": [],
+  "stdout": "plant_id\n1800019\n1800021\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

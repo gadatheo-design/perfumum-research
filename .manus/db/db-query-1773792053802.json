@@ -1,0 +1,9 @@
+{
+  "query": "\n-- Migrer les liaisons vers l'entrée principale p-Cymène (id=570072)\nUPDATE plant_molecules SET molecule_id = 570072 WHERE molecule_id = 1902976;\n\n-- Supprimer le doublon\nDELETE FROM molecules WHERE id = 1902976;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Migrer les liaisons vers l'entrée principale p-Cymène (id=570072)\nUPDATE plant_molecules SET molecule_id = 570072 WHERE molecule_id = 1902976;\n\n-- Supprimer le doublon\nDELETE FROM molecules WHERE id = 1902976;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 94
+}

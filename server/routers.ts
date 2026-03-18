@@ -3389,6 +3389,16 @@ export const appRouter = router({
     getByFamily: publicProcedure.input(z.string()).query(async ({ input }) => {
       const allPlants = await (db as any).getAllPlants(); return allPlants.filter((p: any) => p.family === input);
     }),
+    getByOrigin: publicProcedure
+      .input(z.object({ origin: z.string() }))
+      .query(async ({ input }) => {
+        const allPlants = await (db as any).getAllPlants();
+        const originLower = input.origin.toLowerCase();
+        return allPlants.filter((p: any) =>
+          (p.origin && p.origin.toLowerCase().includes(originLower)) ||
+          (p.notes && p.notes.toLowerCase().includes(originLower))
+        );
+      }),
     getFamilyStats: publicProcedure.query(async () => {
       const fwc = await db.getPlantFamiliesWithCategories();
       return fwc.map(f => ({ family: f.family, count: f.count }));
@@ -4839,6 +4849,23 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           total: Number(((countRows as any[])[0] as any).total),
         };
       }),
+    getThermalMatrix: publicProcedure.query(async () => {
+      const { createConnection: _ccThermal } = await import('mysql2/promise');
+      const _connThermal = await _ccThermal(process.env.DATABASE_URL!);
+      const [rows] = await _connThermal.query(
+        `SELECT id, name, material_id,
+          thermal_tri, thermal_sai, thermal_hpi,
+          thermal_volatility, thermal_survival, thermal_transformation,
+          thermal_smoke_harmony, thermal_irritant_risk,
+          thermal_fate, thermal_best_mode, thermal_constellation,
+          absorbe_behavior_water, absorbe_behavior_fat, absorbe_key_metrics
+        FROM raw_materials
+        WHERE thermal_tri IS NOT NULL
+        ORDER BY thermal_tri DESC, thermal_sai DESC`
+      );
+      await _connThermal.end();
+      return rows as any[];
+    }),
   }),
   recetteRawMaterials: router({
     getByRecette: publicProcedure

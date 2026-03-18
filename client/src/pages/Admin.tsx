@@ -353,6 +353,14 @@ export default function Admin() {
       color: "text-emerald-600",
       bgColor: "bg-emerald-50",
     },
+    {
+      title: "Matrice Thermique ABSORBE",
+      description: "Visualiser les propriétés thermiques des matières premières : TRI, SAI, HPI, constellations, comportement eau/graisse.",
+      icon: FlaskConical,
+      href: "/admin/thermal-matrix",
+      color: "text-orange-600",
+      bgColor: "bg-orange-50",
+    },
   ];
 
   return (

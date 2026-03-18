@@ -1,0 +1,30 @@
+{
+  "query": "\n-- Analyser les formats de coconut_id\nSELECT \n  CASE \n    WHEN coconut_id IS NULL THEN 'NULL'\n    WHEN coconut_id LIKE 'LTS%' THEN 'LOTUS (LTS...)'\n    WHEN coconut_id LIKE 'CNP%' THEN 'COCONUT (CNP...)'\n    WHEN LENGTH(coconut_id) > 0 THEN 'Autre format'\n    ELSE 'Vide'\n  END as format,\n  COUNT(*) as nb\nFROM molecules\nGROUP BY 1\nORDER BY nb DESC;\n\n-- Quelques exemples de coconut_id enrichis\nSELECT id, name, coconut_id, coconut_organisms IS NOT NULL as has_organisms\nFROM molecules \nWHERE coconut_id IS NOT NULL \nLIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Analyser les formats de coconut_id\nSELECT \n  CASE \n    WHEN coconut_id IS NULL THEN 'NULL'\n    WHEN coconut_id LIKE 'LTS%' THEN 'LOTUS (LTS...)'\n    WHEN coconut_id LIKE 'CNP%' THEN 'COCONUT (CNP...)'\n    WHEN LENGTH(coconut_id) > 0 THEN 'Autre format'\n    ELSE 'Vide'\n  END as format,\n  COUNT(*) as nb\nFROM molecules\nGROUP BY 1\nORDER BY nb DESC;\n\n-- Quelques exemples de coconut_id enrichis\nSELECT id, name, coconut_id, coconut_organisms IS NOT NULL as has_organisms\nFROM molecules \nWHERE coconut_id IS NOT NULL \nLIMIT 10;\n",
+  "rows": [
+    {
+      "format": "NULL",
+      "nb": "696"
+    },
+    {
+      "format": "LOTUS (LTS...)",
+      "nb": "280"
+    }
+  ],
+  "messages": [
+    "id\tname\tcoconut_id\thas_organisms",
+    "3\tAmbroxan\tLTS0264157\t1",
+    "30002\tLinalol\tLTS0127932\t1",
+    "30006\tMyrcène\tLTS0115731\t1",
+    "30007\tLimonène\tLTS0205325\t1",
+    "30009\tLinalool\tLTS0127932\t1",
+    "60019\tIndoline\tLTS0126402\t1",
+    "90021\tGuaiacol\tLTS0179228\t1",
+    "90029\tIsoButyrate\tLTS0132473\t1",
+    "90033\t2-heptanone\tLTS0087207\t1",
+    "90054\tPatchoulol\tLTS0270368\t1"
+  ],
+  "stdout": "format\tnb\nNULL\t696\nLOTUS (LTS...)\t280\nid\tname\tcoconut_id\thas_organisms\n3\tAmbroxan\tLTS0264157\t1\n30002\tLinalol\tLTS0127932\t1\n30006\tMyrcène\tLTS0115731\t1\n30007\tLimonène\tLTS0205325\t1\n30009\tLinalool\tLTS0127932\t1\n60019\tIndoline\tLTS0126402\t1\n90021\tGuaiacol\tLTS0179228\t1\n90029\tIsoButyrate\tLTS0132473\t1\n90033\t2-heptanone\tLTS0087207\t1\n90054\tPatchoulol\tLTS0270368\t1\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

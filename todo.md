@@ -2223,3 +2223,21 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Batch LOTUS étendu à 1000 molécules par passe
 
 - [x] Liaisons plant_molecules créées pour les 26 nouvelles plantes Burkina Faso : 61 liaisons + 11 molécules créées (alpha-elemene, Longifolene, Bicyclogermacrene, Tricyclene, Acétate de bornyle, Isothiocyanate de benzyle, Acide hexadécanoïque, Friedelan-3-one, 1-dodecanol, p-cymène, 4-hydroxy-4-méthylpentan-2-one). Base: 524 plantes · 977 molécules · 9059 liaisons
+
+- [ ] Diagnostiquer et corriger enrichissement LOTUS (molécules déjà enrichies / introuvables)
+- [ ] Corriger doublon p-cymène (id=1902976 vs existant)
+
+## SESSION 18/03/2026 — Correction LOTUS, Doublons, Burkina Faso, Matrice Thermique
+
+- [x] Diagnostiquer et corriger enrichissement LOTUS : service coconut.ts réécrit avec traduction FR→EN complète, variantes sans préfixe numérique (1-nonanal → nonanal), fallback CAS
+- [x] Corriger doublon p-cymène : fusion de 67 doublons (976 → 909 molécules), toutes FK mises à jour (plant_molecules, recette_molecules, etc.)
+- [x] Batch LOTUS lancé en arrière-plan : 316/909 molécules enrichies (35%), +25 nouvelles depuis le batch
+- [x] Endpoint plants.getByOrigin créé (filtre par origin/notes, retourne 112 plantes Burkina Faso)
+- [x] Page /corpus-burkina créée : 112 plantes, 4 axes moléculaires, 10 recettes typologiques, tension Colombie↔Burkina, lien Conservation
+- [x] Endpoint rawMaterials.getThermalMatrix créé (25 matériaux avec TRI/SAI/HPI/constellations)
+- [x] Page /admin/thermal-matrix créée : visualisation matrice ABSORBE, filtres par constellation, tri TRI/SAI/HPI, barres de score, comportement eau/graisse
+- [x] Lien "Matrice Thermique ABSORBE" ajouté dans Admin.tsx
+- [x] Breadcrumbs ajoutés pour /corpus-burkina et /admin/thermal-matrix
+- [ ] Priorité 5 — Nouvelles sections thématiques : Section "Plantes menacées et patrimoine olfactif" (Rhodiola, Nard, Picea brachytyla)
+- [ ] Priorité 5 — Nouvelles sections thématiques : Section "Chimie de la combustion et pyrolyse"
+- [ ] Priorité 6 — Intégrer ~50 références bibliographiques avec DOI, auteurs, année, résumé, tags

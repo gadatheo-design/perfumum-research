@@ -1,0 +1,9 @@
+{
+  "query": "\n-- Vérifier si les liaisons existent déjà pour l'entrée principale\nSELECT plant_id FROM plant_molecules WHERE molecule_id = 570072 AND plant_id IN (1800019, 1800021);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Vérifier si les liaisons existent déjà pour l'entrée principale\nSELECT plant_id FROM plant_molecules WHERE molecule_id = 570072 AND plant_id IN (1800019, 1800021);\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 57
+}

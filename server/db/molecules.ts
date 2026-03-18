@@ -2552,6 +2552,7 @@ export async function enrichMoleculeFromCOCONUTWithTranslation(moleculeId: numbe
 export async function getUnenrichedMoleculesForCOCONUT(limit: number = 50): Promise<{
   id: number;
   name: string;
+  casNumber?: string;
   hasPubChem: boolean;
   hasChEBI: boolean;
 }[]> {
@@ -2560,13 +2561,14 @@ export async function getUnenrichedMoleculesForCOCONUT(limit: number = 50): Prom
   
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows] = await (db as any).execute(
-    'SELECT id, name, pubchem_cid IS NOT NULL as hasPubChem, chebi_id IS NOT NULL as hasChEBI FROM molecules WHERE coconut_id IS NULL ORDER BY name ASC LIMIT ' + limit
+    'SELECT id, name, cas_number as casNumber, pubchem_cid IS NOT NULL as hasPubChem, chebi_id IS NOT NULL as hasChEBI FROM molecules WHERE coconut_id IS NULL ORDER BY name ASC LIMIT ' + limit
   );
   
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (rows as any[]).map((r: any) => ({
     id: r.id,
     name: r.name,
+    casNumber: r.casNumber || undefined,
     hasPubChem: Boolean(r.hasPubChem),
     hasChEBI: Boolean(r.hasChEBI),
   }));

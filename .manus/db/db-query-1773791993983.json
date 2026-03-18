@@ -1,0 +1,29 @@
+{
+  "query": "\n-- Doublon p-cymène\nSELECT id, name, cas_number, smiles, family, coconut_id FROM molecules WHERE name LIKE '%cym%' OR name LIKE '%Cym%' ORDER BY name;\n\n-- État enrichissement LOTUS\nSELECT \n  SUM(CASE WHEN coconut_id IS NOT NULL THEN 1 ELSE 0 END) as enrichies,\n  SUM(CASE WHEN coconut_id IS NULL THEN 1 ELSE 0 END) as non_enrichies,\n  COUNT(*) as total\nFROM molecules;\n\n-- Molécules marquées \"introuvable\" dans LOTUS\nSELECT id, name, coconut_id FROM molecules WHERE coconut_id = 'NOT_FOUND' OR coconut_id = 'not_found' LIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Doublon p-cymène\nSELECT id, name, cas_number, smiles, family, coconut_id FROM molecules WHERE name LIKE '%cym%' OR name LIKE '%Cym%' ORDER BY name;\n\n-- État enrichissement LOTUS\nSELECT \n  SUM(CASE WHEN coconut_id IS NOT NULL THEN 1 ELSE 0 END) as enrichies,\n  SUM(CASE WHEN coconut_id IS NULL THEN 1 ELSE 0 END) as non_enrichies,\n  COUNT(*) as total\nFROM molecules;\n\n-- Molécules marquées \"introuvable\" dans LOTUS\nSELECT id, name, coconut_id FROM molecules WHERE coconut_id = 'NOT_FOUND' OR coconut_id = 'not_found' LIMIT 20;\n",
+  "rows": [
+    {
+      "id": "570072",
+      "name": "p-Cymène",
+      "cas_number": "99-87-6",
+      "smiles": "CC1=CC=C(C(C)C)C=C1",
+      "family": "Monoterpène",
+      "coconut_id": "NULL"
+    },
+    {
+      "id": "1902976",
+      "name": "p-cymène",
+      "cas_number": "NULL",
+      "smiles": "NULL",
+      "family": "terpene",
+      "coconut_id": "NULL"
+    }
+  ],
+  "messages": [
+    "enrichies\tnon_enrichies\ttotal",
+    "280\t697\t977"
+  ],
+  "stdout": "id\tname\tcas_number\tsmiles\tfamily\tcoconut_id\n570072\tp-Cymène\t99-87-6\tCC1=CC=C(C(C)C)C=C1\tMonoterpène\tNULL\n1902976\tp-cymène\tNULL\tNULL\tterpene\tNULL\nenrichies\tnon_enrichies\ttotal\n280\t697\t977\n",
+  "stderr": "",
+  "execution_time_ms": 127
+}

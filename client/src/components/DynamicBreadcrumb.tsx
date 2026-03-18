@@ -45,6 +45,7 @@ const routeConfig: Record<string, { label: string; parent?: string }> = {
   // Gammes
   "/gammes": { label: "Gammes" },
   "/colombie": { label: "Ligne Colombie", parent: "/gammes" },
+  "/corpus-burkina": { label: "Corpus Burkina Faso", parent: "/axes-recherche" },
   "/sourcing": { label: "Sourcing" },
   "/sourcing/colombie": { label: "Colombie", parent: "/sourcing" },
   "/sourcing/france": { label: "France", parent: "/sourcing" },
@@ -238,6 +239,8 @@ const routeConfig: Record<string, { label: string; parent?: string }> = {
   "/admin/chemical-family-linking": { label: "Liaison Familles Chimiques", parent: "/admin" },
   "/admin/import-csv": { label: "Import CSV", parent: "/admin" },
   "/admin/import-csv-preview": { label: "Prévisualisation CSV", parent: "/admin" },
+  "/admin/thermal-matrix": { label: "Matrice Thermique ABSORBE", parent: "/admin" },
+  "/admin/extraction-methods": { label: "Méthodes d'Extraction", parent: "/admin" },
 };
 
 // Patterns dynamiques pour les pages de détail

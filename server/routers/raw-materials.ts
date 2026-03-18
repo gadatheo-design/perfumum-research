@@ -253,6 +253,60 @@ export const rawMaterialsRouter = router({
     return { totalEntries: totalEntries?.count || 0, totalValue: totalValue?.total || 0, recentEntries };
   }),
 
+  getThermalMatrix: publicProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) return [];
+    const result = await db.execute(sql`
+      SELECT id, name, material_id,
+        thermal_tri, thermal_sai, thermal_hpi,
+        thermal_volatility, thermal_survival, thermal_transformation,
+        thermal_smoke_harmony, thermal_irritant_risk,
+        thermal_fate, thermal_best_mode, thermal_constellation,
+        absorbe_behavior_water, absorbe_behavior_fat, absorbe_key_metrics
+      FROM raw_materials
+      WHERE thermal_tri IS NOT NULL
+      ORDER BY thermal_tri DESC, thermal_sai DESC
+    `);
+    return (result[0] as unknown) as any[];
+  }),
+
+  updateThermalData: protectedProcedure
+    .input(z.object({
+      id: z.number(),
+      thermalTri: z.number().optional(),
+      thermalSai: z.number().optional(),
+      thermalHpi: z.number().optional(),
+      thermalVolatility: z.number().optional(),
+      thermalSurvival: z.number().optional(),
+      thermalTransformation: z.number().optional(),
+      thermalSmokeHarmony: z.number().optional(),
+      thermalIrritantRisk: z.number().optional(),
+      thermalFate: z.string().optional(),
+      thermalBestMode: z.string().optional(),
+      thermalConstellation: z.string().optional(),
+    }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error('DB unavailable');
+      const { id, thermalTri, thermalSai, thermalHpi, thermalVolatility, thermalSurvival, thermalTransformation, thermalSmokeHarmony, thermalIrritantRisk, thermalFate, thermalBestMode, thermalConstellation } = input;
+      await db.execute(sql`
+        UPDATE raw_materials SET
+          thermal_tri = ${thermalTri ?? null},
+          thermal_sai = ${thermalSai ?? null},
+          thermal_hpi = ${thermalHpi ?? null},
+          thermal_volatility = ${thermalVolatility ?? null},
+          thermal_survival = ${thermalSurvival ?? null},
+          thermal_transformation = ${thermalTransformation ?? null},
+          thermal_smoke_harmony = ${thermalSmokeHarmony ?? null},
+          thermal_irritant_risk = ${thermalIrritantRisk ?? null},
+          thermal_fate = ${thermalFate ?? null},
+          thermal_best_mode = ${thermalBestMode ?? null},
+          thermal_constellation = ${thermalConstellation ?? null}
+        WHERE id = ${id}
+      `);
+      return { success: true };
+    }),
+
   getMsSpectra: publicProcedure
     .input(z.object({ rawMaterialId: z.number() }))
     .query(async ({ input }) => {

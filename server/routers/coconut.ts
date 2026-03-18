@@ -151,8 +151,8 @@ export const coconutRouter = router({
         };
       }
 
-      // Enrich via COCONUT
-      const result = await enrichMoleculeWithTranslationCOCONUT(molecule.name);
+      // Enrich via COCONUT (avec fallback par CAS si disponible)
+      const result = await enrichMoleculeWithTranslationCOCONUT(molecule.name, molecule.casNumber || undefined);
       
       if (!result.success || !result.coconut_id) {
         return { 
@@ -207,7 +207,7 @@ export const coconutRouter = router({
 
       for (const molecule of molecules) {
         try {
-          const result = await enrichMoleculeWithTranslationCOCONUT(molecule.name);
+          const result = await enrichMoleculeWithTranslationCOCONUT(molecule.name, molecule.casNumber || undefined);
           
           if (result.success && result.coconut_id) {
             await db.updateMoleculeCOCONUTData(molecule.id, {
