@@ -127,14 +127,14 @@ export const wikidataRouter = router({
       const conn = await getDb();
       try {
         // Récupérer les molécules à enrichir
+        const safeLimit = Math.max(1, Math.min(200, Math.floor(Number(input.limit))));
         const [rows] = await conn.execute<import('mysql2').RowDataPacket[]>(
           `SELECT id, name FROM molecules 
            WHERE wikidata_qid IS NULL 
            AND name IS NOT NULL
            AND name NOT REGEXP '^(Test|Terre|Fumée|Résine|traces|profil|aldéhyde)'
            ORDER BY id
-           LIMIT ?`,
-          [input.limit]
+           LIMIT ${safeLimit}`
         );
 
         if (input.dryRun) {
@@ -196,13 +196,13 @@ export const wikidataRouter = router({
     .mutation(async ({ input }) => {
       const conn = await getDb();
       try {
+        const safeLimit = Math.max(1, Math.min(200, Math.floor(Number(input.limit))));
         const [rows] = await conn.execute<import('mysql2').RowDataPacket[]>(
           `SELECT id, latin_name FROM plants 
            WHERE wikidata_qid IS NULL 
            AND latin_name IS NOT NULL
            ORDER BY id
-           LIMIT ?`,
-          [input.limit]
+           LIMIT ${safeLimit}`
         );
 
         if (input.dryRun) {
@@ -263,7 +263,9 @@ export const wikidataRouter = router({
     .query(async ({ input }) => {
       const conn = await getDb();
       try {
-        const offset = (input.page - 1) * input.limit;
+        const safePageLimit = Math.max(1, Math.min(100, Math.floor(Number(input.limit))));
+        const safePage = Math.max(1, Math.floor(Number(input.page)));
+        const offset = (safePage - 1) * safePageLimit;
         let whereClause = '';
         if (input.filter === 'enriched') whereClause = 'WHERE wikidata_qid IS NOT NULL';
         if (input.filter === 'pending') whereClause = 'WHERE wikidata_qid IS NULL';
@@ -272,8 +274,7 @@ export const wikidataRouter = router({
           `SELECT id, name, wikidata_qid, wikidata_enriched_at, chemical_class, coconut_id
            FROM molecules ${whereClause}
            ORDER BY name
-           LIMIT ? OFFSET ?`,
-          [input.limit, offset]
+           LIMIT ${safePageLimit} OFFSET ${offset}`
         );
 
         const [countResult] = await conn.execute<import('mysql2').RowDataPacket[]>(
@@ -310,7 +311,9 @@ export const wikidataRouter = router({
     .query(async ({ input }) => {
       const conn = await getDb();
       try {
-        const offset = (input.page - 1) * input.limit;
+        const safePageLimit = Math.max(1, Math.min(100, Math.floor(Number(input.limit))));
+        const safePage = Math.max(1, Math.floor(Number(input.page)));
+        const offset = (safePage - 1) * safePageLimit;
         let whereClause = '';
         if (input.filter === 'enriched') whereClause = 'WHERE wikidata_qid IS NOT NULL';
         if (input.filter === 'pending') whereClause = 'WHERE wikidata_qid IS NULL';
@@ -319,8 +322,7 @@ export const wikidataRouter = router({
           `SELECT id, latin_name, common_name, wikidata_qid, wikidata_enriched_at, gbif_id
            FROM plants ${whereClause}
            ORDER BY latin_name
-           LIMIT ? OFFSET ?`,
-          [input.limit, offset]
+           LIMIT ${safePageLimit} OFFSET ${offset}`
         );
 
         const [countResult] = await conn.execute<import('mysql2').RowDataPacket[]>(

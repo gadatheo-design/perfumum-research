@@ -1,0 +1,250 @@
+{
+  "query": "SELECT id, name, wikidata_qid, wikidata_enriched_at, chemical_class, coconut_id\nFROM molecules\nORDER BY name\nLIMIT 30 OFFSET 0;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, wikidata_qid, wikidata_enriched_at, chemical_class, coconut_id\nFROM molecules\nORDER BY name\nLIMIT 30 OFFSET 0;",
+  "rows": [
+    {
+      "id": "1410056",
+      "name": "(E)-2-Hexenal",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "aldehyde",
+      "coconut_id": "LTS0207868"
+    },
+    {
+      "id": "1410062",
+      "name": "(E,E)-α-Farnesene",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "sesquiterpene",
+      "coconut_id": "NULL"
+    },
+    {
+      "id": "1410047",
+      "name": "(Z)-Nuciferol",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "sesquiterpene",
+      "coconut_id": "NULL"
+    },
+    {
+      "id": "1410052",
+      "name": "(Z)-α-Santalol",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "sesquiterpene",
+      "coconut_id": "LTS0153502"
+    },
+    {
+      "id": "1410046",
+      "name": "(Z)-β-Santalol",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "sesquiterpene",
+      "coconut_id": "LTS0153502"
+    },
+    {
+      "id": "1410038",
+      "name": "1-(Ethylsulfanyl)ethane-1-thiol",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "sulfur_compound",
+      "coconut_id": "LTS0086996"
+    },
+    {
+      "id": "1710007",
+      "name": "1-Octanol",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "NULL",
+      "coconut_id": "LTS0250216"
+    },
+    {
+      "id": "1410016",
+      "name": "1-Octen-3-ol",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "alcohol",
+      "coconut_id": "LTS0057101"
+    },
+    {
+      "id": "1410020",
+      "name": "1-Octen-3-one",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "ketone",
+      "coconut_id": "LTS0098886"
+    },
+    {
+      "id": "1909596",
+      "name": "1-dodecanol",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "NULL",
+      "coconut_id": "LTS0116183"
+    },
+    {
+      "id": "1110008",
+      "name": "2,3,5-Triméthylpyrazine",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "heterocyclic",
+      "coconut_id": "LTS0218795"
+    },
+    {
+      "id": "1410085",
+      "name": "2,3-Diethylpyrazine",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "heterocyclic",
+      "coconut_id": "NULL"
+    },
+    {
+      "id": "1410088",
+      "name": "2,3-Dimethylpyrazine",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "heterocyclic",
+      "coconut_id": "LTS0099511"
+    },
+    {
+      "id": "1110009",
+      "name": "2,3-Diéthyl-5-méthylpyrazine",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "heterocyclic",
+      "coconut_id": "NULL"
+    },
+    {
+      "id": "1410027",
+      "name": "2,4-Decadienal",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "aldehyde",
+      "coconut_id": "NULL"
+    },
+    {
+      "id": "930005",
+      "name": "2,5-Diméthylpyrazine",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "heterocyclic",
+      "coconut_id": "LTS0198805"
+    },
+    {
+      "id": "1410087",
+      "name": "2,6-Dimethylpyrazine",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "heterocyclic",
+      "coconut_id": "NULL"
+    },
+    {
+      "id": "1410025",
+      "name": "2,6-Nonadienal",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "aldehyde",
+      "coconut_id": "LTS0001161"
+    },
+    {
+      "id": "1410018",
+      "name": "2,6-Nonadienol",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "alcohol",
+      "coconut_id": "NULL"
+    },
+    {
+      "id": "1350116",
+      "name": "2-Acétyl-5-méthylfurane",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "other",
+      "coconut_id": "NULL"
+    },
+    {
+      "id": "1410063",
+      "name": "2-Isobutylthiazole",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "heterocyclic",
+      "coconut_id": "LTS0060632"
+    },
+    {
+      "id": "90002",
+      "name": "2-MIB (2-Methylisoborneol)",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "alcohol",
+      "coconut_id": "LTS0231043"
+    },
+    {
+      "id": "1290009",
+      "name": "2-Méthoxypyrazine",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "heterocyclic",
+      "coconut_id": "LTS0115201"
+    },
+    {
+      "id": "930004",
+      "name": "2-Méthylpyrazine",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "heterocyclic",
+      "coconut_id": "LTS0117714"
+    },
+    {
+      "id": "1410040",
+      "name": "2-ethyl-3,5-dimethylpyrazine",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "heterocyclic",
+      "coconut_id": "LTS0196394"
+    },
+    {
+      "id": "90033",
+      "name": "2-heptanone",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "ketone",
+      "coconut_id": "LTS0087207"
+    },
+    {
+      "id": "1710032",
+      "name": "3,3-Diméthylhex-5-ène-1-thiol (DMHF-thiol)",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "sulfur_compound",
+      "coconut_id": "NULL"
+    },
+    {
+      "id": "720005",
+      "name": "3-Carène",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "monoterpene",
+      "coconut_id": "LTS0063902"
+    },
+    {
+      "id": "1710022",
+      "name": "3-Mercaptohexan-1-ol (3MH)",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "NULL",
+      "coconut_id": "NULL"
+    },
+    {
+      "id": "1410015",
+      "name": "3-Methyl-2,4-nonanedione",
+      "wikidata_qid": "NULL",
+      "wikidata_enriched_at": "NULL",
+      "chemical_class": "ketone",
+      "coconut_id": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\twikidata_qid\twikidata_enriched_at\tchemical_class\tcoconut_id\n1410056\t(E)-2-Hexenal\tNULL\tNULL\taldehyde\tLTS0207868\n1410062\t(E,E)-α-Farnesene\tNULL\tNULL\tsesquiterpene\tNULL\n1410047\t(Z)-Nuciferol\tNULL\tNULL\tsesquiterpene\tNULL\n1410052\t(Z)-α-Santalol\tNULL\tNULL\tsesquiterpene\tLTS0153502\n1410046\t(Z)-β-Santalol\tNULL\tNULL\tsesquiterpene\tLTS0153502\n1410038\t1-(Ethylsulfanyl)ethane-1-thiol\tNULL\tNULL\tsulfur_compound\tLTS0086996\n1710007\t1-Octanol\tNULL\tNULL\tNULL\tLTS0250216\n1410016\t1-Octen-3-ol\tNULL\tNULL\talcohol\tLTS0057101\n1410020\t1-Octen-3-one\tNULL\tNULL\tketone\tLTS0098886\n1909596\t1-dodecanol\tNULL\tNULL\tNULL\tLTS0116183\n1110008\t2,3,5-Triméthylpyrazine\tNULL\tNULL\theterocyclic\tLTS0218795\n1410085\t2,3-Diethylpyrazine\tNULL\tNULL\theterocyclic\tNULL\n1410088\t2,3-Dimethylpyrazine\tNULL\tNULL\theterocyclic\tLTS0099511\n1110009\t2,3-Diéthyl-5-méthylpyrazine\tNULL\tNULL\theterocyclic\tNULL\n1410027\t2,4-Decadienal\tNULL\tNULL\taldehyde\tNULL\n930005\t2,5-Diméthylpyrazine\tNULL\tNULL\theterocyclic\tLTS0198805\n1410087\t2,6-Dimethylpyrazine\tNULL\tNULL\theterocyclic\tNULL\n1410025\t2,6-Nonadienal\tNULL\tNULL\taldehyde\tLTS0001161\n1410018\t2,6-Nonadienol\tNULL\tNULL\talcohol\tNULL\n1350116\t2-Acétyl-5-méthylfurane\tNULL\tNULL\tother\tNULL\n1410063\t2-Isobutylthiazole\tNULL\tNULL\theterocyclic\tLTS0060632\n90002\t2-MIB (2-Methylisoborneol)\tNULL\tNULL\talcohol\tLTS0231043\n1290009\t2-Méthoxypyrazine\tNULL\tNULL\theterocyclic\tLTS0115201\n930004\t2-Méthylpyrazine\tNULL\tNULL\theterocyclic\tLTS0117714\n1410040\t2-ethyl-3,5-dimethylpyrazine\tNULL\tNULL\theterocyclic\tLTS0196394\n90033\t2-heptanone\tNULL\tNULL\tketone\tLTS0087207\n1710032\t3,3-Diméthylhex-5-ène-1-thiol (DMHF-thiol)\tNULL\tNULL\tsulfur_compound\tNULL\n720005\t3-Carène\tNULL\tNULL\tmonoterpene\tLTS0063902\n1710022\t3-Mercaptohexan-1-ol (3MH)\tNULL\tNULL\tNULL\tNULL\n1410015\t3-Methyl-2,4-nonanedione\tNULL\tNULL\tketone\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 58
+}

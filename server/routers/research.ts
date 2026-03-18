@@ -2179,9 +2179,11 @@ export const researchRouter = router({
           params.push(input.rarityRegime);
         }
 
+        const safeLimit = Math.max(1, Math.min(500, Math.floor(Number(input.limit))));
+        const safeOffset = Math.max(0, Math.floor(Number(input.offset)));
         const [rows] = await (db as any).$client.execute(
-          `SELECT * FROM aromatic_rarities ${whereClause} ORDER BY rarity_id LIMIT ? OFFSET ?`,
-          [...params, input.limit, input.offset]
+          `SELECT * FROM aromatic_rarities ${whereClause} ORDER BY rarity_id LIMIT ${safeLimit} OFFSET ${safeOffset}`,
+          params
         );
         const [countRows] = await (db as any).$client.execute(
           `SELECT COUNT(*) as total FROM aromatic_rarities ${whereClause}`,
