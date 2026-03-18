@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { AlertTriangle, Leaf, Shield, MapPin, Map as MapIcon, BarChart3, Clock, BookOpen, ExternalLink, Skull, TrendingDown } from 'lucide-react';
+import { AlertTriangle, Leaf, Shield, MapPin, Map as MapIcon, BarChart3, Clock, BookOpen, ExternalLink, Skull, TrendingDown, TreePine, Dna, FlaskConical, Globe } from 'lucide-react';
 import { Link } from 'wouter';
 import { MapView } from '@/components/Map';
 import { ZoneSpeciesPanel } from '@/components/ZoneSpeciesPanel';
@@ -453,6 +453,218 @@ export default function PatrimoineMenace() {
           </CardContent>
         </Card>
       )}
+
+      {/* Section Généalogie biologique — 3 espèces prioritaires */}
+      <div className="space-y-4">
+        <div className="flex items-center gap-3 mb-2">
+          <Dna className="h-7 w-7 text-emerald-600" />
+          <div>
+            <h2 className="text-2xl font-bold">Généalogie biologique — Espèces prioritaires</h2>
+            <p className="text-muted-foreground text-sm">
+              Trois espèces dont l'odeur est littéralement en voie de disparition. Chaque fiche retrace la lignée phylogénétique, les molécules signature et les menaces documentées.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-3">
+          {/* Rhodiola rosea */}
+          <Card className="border-l-4 border-l-orange-500 hover:shadow-lg transition-shadow">
+            <CardHeader className="pb-3">
+              <div className="flex items-start justify-between">
+                <div>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <TreePine className="h-5 w-5 text-orange-500" />
+                    Rhodiola rosea
+                  </CardTitle>
+                  <CardDescription className="italic">Orpin rose · Crassulaceae</CardDescription>
+                </div>
+                <Badge className="bg-orange-600 text-white text-xs">EN</Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="text-xs text-muted-foreground space-y-1">
+                <div className="font-semibold text-foreground text-sm">Phylogénie</div>
+                <div className="pl-2 border-l-2 border-orange-200 space-y-0.5">
+                  <div>Angiospermes → Eudicots → Saxifragales</div>
+                  <div>Famille : <span className="font-medium">Crassulaceae</span></div>
+                  <div>Genre : <span className="font-medium">Rhodiola</span> (90 espèces)</div>
+                  <div>Espèce : <span className="font-medium italic">R. rosea</span> L. (1753)</div>
+                </div>
+              </div>
+              <div className="space-y-1">
+                <div className="font-semibold text-sm flex items-center gap-1">
+                  <FlaskConical className="h-3.5 w-3.5 text-orange-500" />
+                  Molécules signature
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {['Géraniol (12.4%)', '1-Octanol (18.6%)', 'Rosaridin', 'Salidroside', 'Rosavine'].map(m => (
+                    <Badge key={m} variant="outline" className="text-xs">{m}</Badge>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-1">
+                <div className="font-semibold text-sm flex items-center gap-1">
+                  <Globe className="h-3.5 w-3.5 text-orange-500" />
+                  Aire de distribution
+                </div>
+                <p className="text-xs text-muted-foreground">Sibérie, Himalaya, Scandinavie, Alpes — zones alpines et arctiques 1500–5000 m</p>
+              </div>
+              <div className="bg-orange-50 dark:bg-orange-950 p-2 rounded text-xs">
+                <span className="font-semibold text-orange-800 dark:text-orange-200">Menace principale :</span>
+                <span className="text-orange-700 dark:text-orange-300"> Surexploitation pour la médecine adaptogène. Récolte des rhizomes = mort de la plante. Population en déclin sévère en Sibérie et Himalaya.</span>
+              </div>
+              <Link href="/plants/1080001">
+                <Button variant="outline" size="sm" className="w-full text-xs">
+                  <BookOpen className="h-3.5 w-3.5 mr-1" />
+                  Voir la fiche complète
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Nardostachys jatamansi */}
+          <Card className="border-l-4 border-l-red-600 hover:shadow-lg transition-shadow">
+            <CardHeader className="pb-3">
+              <div className="flex items-start justify-between">
+                <div>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <TreePine className="h-5 w-5 text-red-600" />
+                    Nardostachys jatamansi
+                  </CardTitle>
+                  <CardDescription className="italic">Nard de l'Himalaya · Valerianaceae</CardDescription>
+                </div>
+                <Badge className="bg-red-600 text-white text-xs">CR</Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="text-xs text-muted-foreground space-y-1">
+                <div className="font-semibold text-foreground text-sm">Phylogénie</div>
+                <div className="pl-2 border-l-2 border-red-200 space-y-0.5">
+                  <div>Angiospermes → Eudicots → Dipsacales</div>
+                  <div>Famille : <span className="font-medium">Caprifoliaceae</span> (anciennement Valerianaceae)</div>
+                  <div>Genre : <span className="font-medium">Nardostachys</span> (2 espèces)</div>
+                  <div>Espèce : <span className="font-medium italic">N. jatamansi</span> (D.Don) DC.</div>
+                </div>
+              </div>
+              <div className="space-y-1">
+                <div className="font-semibold text-sm flex items-center gap-1">
+                  <FlaskConical className="h-3.5 w-3.5 text-red-600" />
+                  Molécules signature
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {['Jatamansone (18.6%)', 'β-Vétivène (18.2%)', 'Nardol (12.4%)', 'β-Eudesmol', 'Patchoulol'].map(m => (
+                    <Badge key={m} variant="outline" className="text-xs">{m}</Badge>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-1">
+                <div className="font-semibold text-sm flex items-center gap-1">
+                  <Globe className="h-3.5 w-3.5 text-red-600" />
+                  Aire de distribution
+                </div>
+                <p className="text-xs text-muted-foreground">Himalaya (Kumaon, Népal, Sikkim, Bhoutan, Myanmar, Chine) — 3000–5000 m d'altitude</p>
+              </div>
+              <div className="bg-red-50 dark:bg-red-950 p-2 rounded text-xs">
+                <span className="font-semibold text-red-800 dark:text-red-200">Menace principale :</span>
+                <span className="text-red-700 dark:text-red-300"> CITES Annexe II. Récolte illégale des rhizomes pour la parfumerie et l'Ayurveda. Mentionné dans la Bible (onction de Jésus). Quasi-éteint dans certaines zones.</span>
+              </div>
+              <Link href="/plants/180003">
+                <Button variant="outline" size="sm" className="w-full text-xs">
+                  <BookOpen className="h-3.5 w-3.5 mr-1" />
+                  Voir la fiche complète
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+
+          {/* Picea mariana / brachytyla */}
+          <Card className="border-l-4 border-l-blue-600 hover:shadow-lg transition-shadow">
+            <CardHeader className="pb-3">
+              <div className="flex items-start justify-between">
+                <div>
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <TreePine className="h-5 w-5 text-blue-600" />
+                    Picea mariana
+                  </CardTitle>
+                  <CardDescription className="italic">Black Spruce · Pinaceae</CardDescription>
+                </div>
+                <Badge className="bg-orange-600 text-white text-xs">EN</Badge>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="text-xs text-muted-foreground space-y-1">
+                <div className="font-semibold text-foreground text-sm">Phylogénie</div>
+                <div className="pl-2 border-l-2 border-blue-200 space-y-0.5">
+                  <div>Gymnospermes → Pinales → Pinaceae</div>
+                  <div>Famille : <span className="font-medium">Pinaceae</span></div>
+                  <div>Genre : <span className="font-medium">Picea</span> (35 espèces)</div>
+                  <div>Espèce : <span className="font-medium italic">P. mariana</span> (Mill.) BSP</div>
+                  <div className="text-orange-600">Proche : <span className="italic">P. brachytyla</span> (CR, Chine)</div>
+                </div>
+              </div>
+              <div className="space-y-1">
+                <div className="font-semibold text-sm flex items-center gap-1">
+                  <FlaskConical className="h-3.5 w-3.5 text-blue-600" />
+                  Molécules signature
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  {['Myrcène (18%)', 'β-Caryophyllène (15.3%)', 'Humulène (12.1%)', 'Bornéol', 'α-Pinène'].map(m => (
+                    <Badge key={m} variant="outline" className="text-xs">{m}</Badge>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-1">
+                <div className="font-semibold text-sm flex items-center gap-1">
+                  <Globe className="h-3.5 w-3.5 text-blue-600" />
+                  Aire de distribution
+                </div>
+                <p className="text-xs text-muted-foreground">Amérique du Nord (Canada, Alaska) — tourbières boréales. <em>P. brachytyla</em> : Sichuan, Yunnan, Tibet</p>
+              </div>
+              <div className="bg-blue-50 dark:bg-blue-950 p-2 rounded text-xs">
+                <span className="font-semibold text-blue-800 dark:text-blue-200">Menace principale :</span>
+                <span className="text-blue-700 dark:text-blue-300"> Dégradation des tourbières boréales par le changement climatique. <em>P. brachytyla</em> (Chine) : 7 nouveaux sesquiterpènes isolés (brachytylols A–C) — source unique de molécules inédites.</span>
+              </div>
+              <Link href="/plants/660756">
+                <Button variant="outline" size="sm" className="w-full text-xs">
+                  <BookOpen className="h-3.5 w-3.5 mr-1" />
+                  Voir la fiche complète
+                </Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Fil narratif — connexion avec l'Atlas */}
+        <Card className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950 dark:to-teal-950 border-emerald-200 dark:border-emerald-800">
+          <CardContent className="p-4">
+            <div className="flex items-start gap-3">
+              <BookOpen className="h-5 w-5 text-emerald-600 mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-100 mb-1">
+                  Fil narratif — Patrimoine olfactif et disparition
+                </p>
+                <p className="text-xs text-emerald-700 dark:text-emerald-300">
+                  Ces trois espèces partagent une caractéristique commune : leur odeur est produite par des rhizomes ou des résines récoltés en tuant la plante. 
+                  Le nard de l'Himalaya a parfumé les rituels religieux depuis l'Antiquité ; la rhodiole a traversé les steppes sibériennes dans les caravanes médicinales ; 
+                  l'épicéa noir parfume encore les forêts boréales canadiennes. Documenter leur chimie, c'est préserver une mémoire olfactive que le marché mondial est en train d'effacer.
+                </p>
+                <div className="flex gap-2 mt-2">
+                  <Link href="/bibliography">
+                    <Button variant="ghost" size="sm" className="text-xs text-emerald-700 hover:text-emerald-900 p-0 h-auto">
+                      Sources scientifiques →
+                    </Button>
+                  </Link>
+                  <Link href="/conservation">
+                    <Button variant="ghost" size="sm" className="text-xs text-emerald-700 hover:text-emerald-900 p-0 h-auto">
+                      Alternatives durables →
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
       {/* Liste des plantes menacées */}
       {isLoading ? (

@@ -2241,3 +2241,23 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Priorité 5 — Nouvelles sections thématiques : Section "Plantes menacées et patrimoine olfactif" (Rhodiola, Nard, Picea brachytyla)
 - [ ] Priorité 5 — Nouvelles sections thématiques : Section "Chimie de la combustion et pyrolyse"
 - [ ] Priorité 6 — Intégrer ~50 références bibliographiques avec DOI, auteurs, année, résumé, tags
+
+## SESSION 18/03/2026 — Patrimoine olfactif + Bibliographie (suite)
+
+### ✅ Généalogie biologique — Espèces prioritaires
+- [x] Section "Généalogie biologique" ajoutée dans PatrimoineMenace.tsx
+- [x] 3 fiches espèces prioritaires : Rhodiola rosea (EN), Nardostachys jatamansi (CR), Picea mariana (EN)
+- [x] Phylogénie, molécules signature, aire de distribution, menace principale pour chaque espèce
+- [x] Fil narratif "Patrimoine olfactif et disparition" avec liens Conservation et Bibliographie
+
+### ✅ Bibliographie — 34 nouvelles références (3 batches)
+- [x] 34 nouvelles références insérées dans v3_references (batch1/batch2/batch3)
+- [x] 34 références migrées vers bibliography_entries (total : 1304 entrées)
+- [x] Distribution : 13 histoire_parfumerie, 8 tabac_cannabis, 5 botanique, 3 ethnobotanique, 3 formulation, 2 méthodologie
+- [x] Références clés : Turin 2002 (SOR), Verbeek 2021 (muséologie), Russo 2021 (cannabis sulfur), Jiang 2020 (Picea brachytyla), Ajaiyeoba 1999 (Aframomum), Ehrich 2023 (Odeuropa toolkit)
+
+### 🔲 Prochaines étapes
+- [ ] Ajouter filtre "pack_version" dans la page bibliographie pour filtrer par batch
+- [ ] Lier les nouvelles références aux plantes et molécules correspondantes (bibliography_entity_links)
+- [ ] Second batch LOTUS sur les ~593 molécules non enrichies restantes
+- [ ] Améliorer les IDs des liens dans la section généalogie (vérifier les IDs des plantes Rhodiola, Nardostachys, Picea)
