@@ -20,7 +20,7 @@ export const wikimediaImagesRouter = router({
         SUM(CASE WHEN latin_name IS NOT NULL AND latin_name != '' AND (image_url IS NULL OR image_url = '') THEN 1 ELSE 0 END) as latin_no_image
       FROM plants
     `) as unknown as [any[]];
-    const row = ((result[0] as unknown) as unknown[])[0] as Record<string, unknown>;
+    const row = (result as unknown[])[0] as Record<string, unknown>;
     return {
       total: Number(row?.total || 0),
       withImage: Number(row?.with_image || 0),
@@ -48,7 +48,7 @@ export const wikimediaImagesRouter = router({
         SELECT COUNT(*) as cnt FROM plants
         WHERE (image_url IS NULL OR image_url = '') AND latin_name IS NOT NULL AND latin_name != ''
       `) as unknown as [any[]];
-      const countRow = ((countResult[0] as unknown) as unknown[])[0] as Record<string, unknown>;
+      const countRow = (countResult as unknown[])[0] as Record<string, unknown>;
       const total = Number(countRow?.cnt || 0);
       return { plants: rows, total };
     }),

@@ -267,7 +267,7 @@ export const rawMaterialsRouter = router({
       WHERE thermal_tri IS NOT NULL
       ORDER BY thermal_tri DESC, thermal_sai DESC
     `) as unknown as [any[]];
-    return (result[0] as unknown) as any[];
+    return result as any[];
   }),
 
   updateThermalData: protectedProcedure

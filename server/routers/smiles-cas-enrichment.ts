@@ -56,7 +56,7 @@ export const smilesEnrichmentRouter = router({
         SUM(CASE WHEN (smiles IS NULL OR smiles = '') AND pubchem_cid IS NULL AND cas_number IS NOT NULL AND cas_number != '' THEN 1 ELSE 0 END) as recoverable_cas
       FROM molecules
     `) as unknown as [any[]];
-    const row = ((result[0] as unknown) as unknown[])[0] as Record<string, unknown>;
+    const row = (result as unknown[])[0] as Record<string, unknown>;
     return {
       total: Number(row?.total || 0),
       withSmiles: Number(row?.with_smiles || 0),

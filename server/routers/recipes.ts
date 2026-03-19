@@ -33,9 +33,9 @@ export const recipesRouter = router({
         FROM cigarillo_recipes WHERE ${whereClause}
         ORDER BY name ASC LIMIT ${limit} OFFSET ${offset}
       `) as unknown as [any[]];
-      const rows = (result[0] as unknown) as any[];
+      const rows = result as any[];
       const [countResult] = await db.execute(sql`SELECT COUNT(*) as total FROM cigarillo_recipes WHERE ${whereClause}`) as unknown as [any[]];
-      const countRows = (countResult[0] as unknown) as any[];
+      const countRows = countResult as any[];
       const total = countRows[0]?.total || 0;
       return { recipes: rows, total, limit, offset };
     }),
@@ -48,11 +48,11 @@ export const recipesRouter = router({
       const { id, slug } = input;
       if (id) {
         const [result] = await db.execute(sql`SELECT * FROM cigarillo_recipes WHERE id = ${id}`) as unknown as [any[]];
-        const rows = (result[0] as unknown) as any[];
+        const rows = result as any[];
         return rows[0] || null;
       } else if (slug) {
         const [result] = await db.execute(sql`SELECT * FROM cigarillo_recipes WHERE slug = ${slug}`) as unknown as [any[]];
-        const rows = (result[0] as unknown) as any[];
+        const rows = result as any[];
         return rows[0] || null;
       }
       return null;
@@ -65,7 +65,7 @@ export const recipesRouter = router({
       SELECT collection, COUNT(*) as count FROM cigarillo_recipes
       WHERE collection IS NOT NULL GROUP BY collection ORDER BY count DESC
     `) as unknown as [any[]];
-    const rows = (result[0] as unknown) as { collection: string; count: number }[];
+    const rows = result as { collection: string; count: number }[];
     return rows;
   }),
 
@@ -80,7 +80,7 @@ export const recipesRouter = router({
         FROM cigarillo_recipe_ingredients WHERE recipe_id = ${input.recipeId}
         ORDER BY percentage DESC
       `) as unknown as [any[]];
-      const rows = (result[0] as unknown) as any[];
+      const rows = result as any[];
       return rows;
     }),
 

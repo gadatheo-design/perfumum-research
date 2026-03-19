@@ -30,9 +30,9 @@ export const protocolsRouter = router({
         FROM technical_protocols WHERE ${whereClause}
         ORDER BY name ASC LIMIT ${limit} OFFSET ${offset}
       `) as unknown as [any[]];
-      const rows = (result[0] as unknown) as any[];
+      const rows = result as any[];
       const [countResult] = await db.execute(sql`SELECT COUNT(*) as total FROM technical_protocols WHERE ${whereClause}`) as unknown as [any[]];
-      const countRows = (countResult[0] as unknown) as any[];
+      const countRows = countResult as any[];
       const total = countRows[0]?.total || 0;
       return { protocols: rows, total, limit, offset };
     }),
@@ -45,11 +45,11 @@ export const protocolsRouter = router({
       const { id, slug } = input;
       if (id) {
         const [result] = await db.execute(sql`SELECT * FROM technical_protocols WHERE id = ${id}`) as unknown as [any[]];
-        const rows = (result[0] as unknown) as any[];
+        const rows = result as any[];
         return rows[0] || null;
       } else if (slug) {
         const [result] = await db.execute(sql`SELECT * FROM technical_protocols WHERE slug = ${slug}`) as unknown as [any[]];
-        const rows = (result[0] as unknown) as any[];
+        const rows = result as any[];
         return rows[0] || null;
       }
       return null;
@@ -62,7 +62,7 @@ export const protocolsRouter = router({
       SELECT category, COUNT(*) as count FROM technical_protocols
       WHERE category IS NOT NULL GROUP BY category ORDER BY count DESC
     `) as unknown as [any[]];
-    const rows = (result[0] as unknown) as { category: string; count: number }[];
+    const rows = result as { category: string; count: number }[];
     return rows;
   }),
 

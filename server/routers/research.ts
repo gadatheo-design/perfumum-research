@@ -938,7 +938,7 @@ export const researchRouter = router({
         query += ` ORDER BY mt.source_molecule_name LIMIT ${input.limit} OFFSET ${input.offset}`;
 
         const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
-        let data = (result[0] as unknown) as any[];
+        let data = result as any[];
         // Flatten if nested array (some DB drivers return [[...]])
         if (Array.isArray(data) && data.length > 0 && Array.isArray(data[0])) {
           data = data.flat();
@@ -973,7 +973,7 @@ export const researchRouter = router({
         FROM molecular_transformations
       `)) as unknown as [any[]];
 
-      const stats = ((result[0] as unknown) as any[])[0] || null;
+      const stats = (result as any[])[0] || null;
       return { success: true, stats };
     } catch (error: any) {
       console.error("Error getting transformation stats:", error);
@@ -1074,7 +1074,7 @@ export const researchRouter = router({
         ORDER BY count DESC
       `)) as unknown as [any[]];
 
-      const data = (result[0] as unknown) as any[];
+      const data = result as any[];
       return { success: true, data };
     } catch (error: any) {
       console.error("Error getting transformation types:", error);
@@ -1153,7 +1153,7 @@ export const researchRouter = router({
             mt.source_molecule_name
         `)) as unknown as [any[]];
 
-        const impacts = (result[0] as unknown) as any[];
+        const impacts = result as any[];
         return { success: true, impacts };
       } catch (error: any) {
         console.error("Error getting transformation recipe impacts:", error);
@@ -1194,7 +1194,7 @@ export const researchRouter = router({
             END
         `)) as unknown as [any[]];
 
-        const recipes = (result[0] as unknown) as any[];
+        const recipes = result as any[];
         return { success: true, recipes };
       } catch (error: any) {
         console.error("Error getting recipes affected by transformation:", error);
@@ -1237,7 +1237,7 @@ export const researchRouter = router({
             END
         `)) as unknown as [any[]];
 
-        const transformations = (result[0] as unknown) as any[];
+        const transformations = result as any[];
         return { success: true, transformations };
       } catch (error: any) {
         console.error("Error getting transformations affecting recipe:", error);
@@ -1419,7 +1419,7 @@ export const researchRouter = router({
         query += ` ORDER BY mt.source_molecule_name`;
 
         const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
-        const transformations = (result[0] as unknown) as any[];
+        const transformations = result as any[];
 
         // Build nodes and links for D3.js force-directed graph
         const nodesMap = new Map<string, { id: string; name: string; type: 'source' | 'product' | 'both'; moleculeId?: number; transformationCount: number }>();

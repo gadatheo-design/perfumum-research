@@ -1,0 +1,37 @@
+{
+  "query": "\nSELECT TABLE_NAME \nFROM INFORMATION_SCHEMA.TABLES \nWHERE TABLE_SCHEMA = DATABASE()\nAND TABLE_NAME IN (\n  'storylines', 'story_elements', 'technical_protocols',\n  'tabac_molecule_links', 'tabac_terroir_links', 'tobacco_cigarettes', \n  'tobacco_compounds', 'tobacco_landraces', 'transformation_recipe_impacts', 'recipes'\n)\nORDER BY TABLE_NAME;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT TABLE_NAME \nFROM INFORMATION_SCHEMA.TABLES \nWHERE TABLE_SCHEMA = DATABASE()\nAND TABLE_NAME IN (\n  'storylines', 'story_elements', 'technical_protocols',\n  'tabac_molecule_links', 'tabac_terroir_links', 'tobacco_cigarettes', \n  'tobacco_compounds', 'tobacco_landraces', 'transformation_recipe_impacts', 'recipes'\n)\nORDER BY TABLE_NAME;\n",
+  "rows": [
+    {
+      "TABLE_NAME": "story_elements"
+    },
+    {
+      "TABLE_NAME": "storylines"
+    },
+    {
+      "TABLE_NAME": "tabac_molecule_links"
+    },
+    {
+      "TABLE_NAME": "tabac_terroir_links"
+    },
+    {
+      "TABLE_NAME": "technical_protocols"
+    },
+    {
+      "TABLE_NAME": "tobacco_cigarettes"
+    },
+    {
+      "TABLE_NAME": "tobacco_compounds"
+    },
+    {
+      "TABLE_NAME": "tobacco_landraces"
+    },
+    {
+      "TABLE_NAME": "transformation_recipe_impacts"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\nstory_elements\nstorylines\ntabac_molecule_links\ntabac_terroir_links\ntechnical_protocols\ntobacco_cigarettes\ntobacco_compounds\ntobacco_landraces\ntransformation_recipe_impacts\n",
+  "stderr": "",
+  "execution_time_ms": 349
+}

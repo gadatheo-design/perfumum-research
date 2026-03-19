@@ -34,9 +34,9 @@ export const landracesRouter = router({
         FROM cannabis_landraces WHERE ${whereClause}
         ORDER BY name ASC LIMIT ${limit} OFFSET ${offset}
       `) as unknown as [any[]];
-      const rows = (result[0] as unknown) as any[];
+      const rows = result as any[];
       const [countResult] = await db.execute(sql`SELECT COUNT(*) as total FROM cannabis_landraces WHERE ${whereClause}`) as unknown as [any[]];
-      const countRows = (countResult[0] as unknown) as any[];
+      const countRows = countResult as any[];
       const total = countRows[0]?.total || 0;
       return { landraces: rows, total, limit, offset };
     }),
@@ -49,11 +49,11 @@ export const landracesRouter = router({
       const { id, slug } = input;
       if (id) {
         const [result] = await db.execute(sql`SELECT * FROM cannabis_landraces WHERE id = ${id}`) as unknown as [any[]];
-        const rows = (result[0] as unknown) as any[];
+        const rows = result as any[];
         return rows[0] || null;
       } else if (slug) {
         const [result] = await db.execute(sql`SELECT * FROM cannabis_landraces WHERE slug = ${slug}`) as unknown as [any[]];
-        const rows = (result[0] as unknown) as any[];
+        const rows = result as any[];
         return rows[0] || null;
       }
       return null;
@@ -69,7 +69,7 @@ export const landracesRouter = router({
         FROM landrace_terpenes WHERE landrace_id = ${input.landraceId}
         ORDER BY percentage DESC
       `) as unknown as [any[]];
-      const rows = (result[0] as unknown) as any[];
+      const rows = result as any[];
       return rows;
     }),
 

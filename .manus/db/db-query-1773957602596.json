@@ -1,0 +1,97 @@
+{
+  "query": "\nSELECT TABLE_NAME \nFROM INFORMATION_SCHEMA.TABLES \nWHERE TABLE_SCHEMA = DATABASE()\nAND TABLE_NAME IN (\n  'storylines', 'story_elements', 'cigarillo_recipes', 'cigarillo_recipe_ingredients',\n  'technical_protocols', 'gcms_chromatograms', 'gcms_peaks', 'olfactive_experiences',\n  'bibliography_entity_links', 'biosynthetic_pathways', 'gene_terpene_links',\n  'soil_analyses', 'landrace_terpene_profiles', 'tobacco_cigarettes', 'tobacco_compounds',\n  'ms_spectra', 'molecule_recettes', 'tabac_molecule_links', 'tabac_terroir_links',\n  'landrace_pyrolysis_profiles', 'cannabis_landraces', 'tobacco_landraces',\n  'perique_compounds', 'perique_fermentation_stages', 'perique_molecule_links',\n  'historic_cigarettes', 'plant_perfumes', 'publication_molecule_links',\n  'transformation_recipe_impacts', 'recipes'\n)\nORDER BY TABLE_NAME;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT TABLE_NAME \nFROM INFORMATION_SCHEMA.TABLES \nWHERE TABLE_SCHEMA = DATABASE()\nAND TABLE_NAME IN (\n  'storylines', 'story_elements', 'cigarillo_recipes', 'cigarillo_recipe_ingredients',\n  'technical_protocols', 'gcms_chromatograms', 'gcms_peaks', 'olfactive_experiences',\n  'bibliography_entity_links', 'biosynthetic_pathways', 'gene_terpene_links',\n  'soil_analyses', 'landrace_terpene_profiles', 'tobacco_cigarettes', 'tobacco_compounds',\n  'ms_spectra', 'molecule_recettes', 'tabac_molecule_links', 'tabac_terroir_links',\n  'landrace_pyrolysis_profiles', 'cannabis_landraces', 'tobacco_landraces',\n  'perique_compounds', 'perique_fermentation_stages', 'perique_molecule_links',\n  'historic_cigarettes', 'plant_perfumes', 'publication_molecule_links',\n  'transformation_recipe_impacts', 'recipes'\n)\nORDER BY TABLE_NAME;\n",
+  "rows": [
+    {
+      "TABLE_NAME": "bibliography_entity_links"
+    },
+    {
+      "TABLE_NAME": "biosynthetic_pathways"
+    },
+    {
+      "TABLE_NAME": "cannabis_landraces"
+    },
+    {
+      "TABLE_NAME": "cigarillo_recipe_ingredients"
+    },
+    {
+      "TABLE_NAME": "cigarillo_recipes"
+    },
+    {
+      "TABLE_NAME": "gcms_chromatograms"
+    },
+    {
+      "TABLE_NAME": "gcms_peaks"
+    },
+    {
+      "TABLE_NAME": "gene_terpene_links"
+    },
+    {
+      "TABLE_NAME": "historic_cigarettes"
+    },
+    {
+      "TABLE_NAME": "landrace_pyrolysis_profiles"
+    },
+    {
+      "TABLE_NAME": "landrace_terpene_profiles"
+    },
+    {
+      "TABLE_NAME": "molecule_recettes"
+    },
+    {
+      "TABLE_NAME": "ms_spectra"
+    },
+    {
+      "TABLE_NAME": "olfactive_experiences"
+    },
+    {
+      "TABLE_NAME": "perique_compounds"
+    },
+    {
+      "TABLE_NAME": "perique_fermentation_stages"
+    },
+    {
+      "TABLE_NAME": "perique_molecule_links"
+    },
+    {
+      "TABLE_NAME": "plant_perfumes"
+    },
+    {
+      "TABLE_NAME": "publication_molecule_links"
+    },
+    {
+      "TABLE_NAME": "soil_analyses"
+    },
+    {
+      "TABLE_NAME": "story_elements"
+    },
+    {
+      "TABLE_NAME": "storylines"
+    },
+    {
+      "TABLE_NAME": "tabac_molecule_links"
+    },
+    {
+      "TABLE_NAME": "tabac_terroir_links"
+    },
+    {
+      "TABLE_NAME": "technical_protocols"
+    },
+    {
+      "TABLE_NAME": "tobacco_cigarettes"
+    },
+    {
+      "TABLE_NAME": "tobacco_compounds"
+    },
+    {
+      "TABLE_NAME": "tobacco_landraces"
+    },
+    {
+      "TABLE_NAME": "transformation_recipe_impacts"
+    }
+  ],
+  "messages": [],
+  "stdout": "TABLE_NAME\nbibliography_entity_links\nbiosynthetic_pathways\ncannabis_landraces\ncigarillo_recipe_ingredients\ncigarillo_recipes\ngcms_chromatograms\ngcms_peaks\ngene_terpene_links\nhistoric_cigarettes\nlandrace_pyrolysis_profiles\nlandrace_terpene_profiles\nmolecule_recettes\nms_spectra\nolfactive_experiences\nperique_compounds\nperique_fermentation_stages\nperique_molecule_links\nplant_perfumes\npublication_molecule_links\nsoil_analyses\nstory_elements\nstorylines\ntabac_molecule_links\ntabac_terroir_links\ntechnical_protocols\ntobacco_cigarettes\ntobacco_compounds\ntobacco_landraces\ntransformation_recipe_impacts\n",
+  "stderr": "",
+  "execution_time_ms": 415
+}
