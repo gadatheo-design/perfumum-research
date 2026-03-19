@@ -1,0 +1,136 @@
+{
+  "query": "SELECT id, name, region, wikidata_qid FROM traditions_olfactives WHERE getty_aat_id IS NULL ORDER BY name LIMIT 21 OFFSET 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, region, wikidata_qid FROM traditions_olfactives WHERE getty_aat_id IS NULL ORDER BY name LIMIT 21 OFFSET 20;",
+  "rows": [
+    {
+      "id": "90003",
+      "name": "Mésopotamie / Tigre-Euphrate",
+      "region": "Moyen-Orient",
+      "wikidata_qid": "Q11768"
+    },
+    {
+      "id": "2",
+      "name": "Mésopotamie — Shuruppak",
+      "region": "Mésopotamie antique",
+      "wikidata_qid": "Q11768"
+    },
+    {
+      "id": "22",
+      "name": "Nag Hammadi",
+      "region": "Haute-Égypte",
+      "wikidata_qid": "Q188573"
+    },
+    {
+      "id": "90019",
+      "name": "Nordique / Boréal",
+      "region": "Europe du Nord",
+      "wikidata_qid": "Q48"
+    },
+    {
+      "id": "10",
+      "name": "Nubie",
+      "region": "Nubie / Haute-Égypte",
+      "wikidata_qid": "Q43478"
+    },
+    {
+      "id": "90002",
+      "name": "Nubie / Sahel",
+      "region": "Afrique subsaharienne",
+      "wikidata_qid": "Q1027"
+    },
+    {
+      "id": "90017",
+      "name": "Océanique / Monoï-Tiaré",
+      "region": "Pacifique",
+      "wikidata_qid": "Q35942"
+    },
+    {
+      "id": "20",
+      "name": "Ophir",
+      "region": "Localisation incertaine (biblique)",
+      "wikidata_qid": "Q1370697"
+    },
+    {
+      "id": "60012",
+      "name": "Phénicie",
+      "region": "Liban / Méditerranée orientale",
+      "wikidata_qid": "Q170214"
+    },
+    {
+      "id": "60008",
+      "name": "Polynésie Traditionnelle",
+      "region": "Pacifique / Océanie",
+      "wikidata_qid": "Q35942"
+    },
+    {
+      "id": "60003",
+      "name": "Royaume d'Ayutthaya",
+      "region": "Thaïlande / Asie du Sud-Est",
+      "wikidata_qid": "Q170214"
+    },
+    {
+      "id": "60011",
+      "name": "Royaume de Saba",
+      "region": "Yémen / Arabie du Sud",
+      "wikidata_qid": "Q170214"
+    },
+    {
+      "id": "15",
+      "name": "Sogdiane",
+      "region": "Asie Centrale (Route de la Soie)",
+      "wikidata_qid": "Q170213"
+    },
+    {
+      "id": "90028",
+      "name": "Sépulcral / Ossuaire",
+      "region": "Global",
+      "wikidata_qid": "Q39614"
+    },
+    {
+      "id": "19",
+      "name": "Thulé",
+      "region": "Extrême Nord (légendaire)",
+      "wikidata_qid": "Q1370697"
+    },
+    {
+      "id": "90026",
+      "name": "Urbain / Industriel",
+      "region": "Global",
+      "wikidata_qid": "Q1549591"
+    },
+    {
+      "id": "60009",
+      "name": "Vikings et Scandinaves",
+      "region": "Scandinavie / Europe du Nord",
+      "wikidata_qid": "Q170214"
+    },
+    {
+      "id": "90024",
+      "name": "Volcanique / Basalte",
+      "region": "Zones volcaniques",
+      "wikidata_qid": "Q8502"
+    },
+    {
+      "id": "90001",
+      "name": "Égypte / Nil",
+      "region": "Afrique du Nord",
+      "wikidata_qid": "Q79"
+    },
+    {
+      "id": "1",
+      "name": "Égypte — Akhet",
+      "region": "Égypte antique",
+      "wikidata_qid": "Q79"
+    },
+    {
+      "id": "60013",
+      "name": "Éthiopie Axoumite",
+      "region": "Corne de l'Afrique",
+      "wikidata_qid": "Q170214"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\twikidata_qid\n90003\tMésopotamie / Tigre-Euphrate\tMoyen-Orient\tQ11768\n2\tMésopotamie — Shuruppak\tMésopotamie antique\tQ11768\n22\tNag Hammadi\tHaute-Égypte\tQ188573\n90019\tNordique / Boréal\tEurope du Nord\tQ48\n10\tNubie\tNubie / Haute-Égypte\tQ43478\n90002\tNubie / Sahel\tAfrique subsaharienne\tQ1027\n90017\tOcéanique / Monoï-Tiaré\tPacifique\tQ35942\n20\tOphir\tLocalisation incertaine (biblique)\tQ1370697\n60012\tPhénicie\tLiban / Méditerranée orientale\tQ170214\n60008\tPolynésie Traditionnelle\tPacifique / Océanie\tQ35942\n60003\tRoyaume d'Ayutthaya\tThaïlande / Asie du Sud-Est\tQ170214\n60011\tRoyaume de Saba\tYémen / Arabie du Sud\tQ170214\n15\tSogdiane\tAsie Centrale (Route de la Soie)\tQ170213\n90028\tSépulcral / Ossuaire\tGlobal\tQ39614\n19\tThulé\tExtrême Nord (légendaire)\tQ1370697\n90026\tUrbain / Industriel\tGlobal\tQ1549591\n60009\tVikings et Scandinaves\tScandinavie / Europe du Nord\tQ170214\n90024\tVolcanique / Basalte\tZones volcaniques\tQ8502\n90001\tÉgypte / Nil\tAfrique du Nord\tQ79\n1\tÉgypte — Akhet\tÉgypte antique\tQ79\n60013\tÉthiopie Axoumite\tCorne de l'Afrique\tQ170214\n",
+  "stderr": "",
+  "execution_time_ms": 62
+}

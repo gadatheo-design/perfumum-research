@@ -1,0 +1,256 @@
+{
+  "query": "SELECT id, name, region, wikidata_qid FROM traditions_olfactives WHERE getty_aat_id IS NULL ORDER BY name;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, region, wikidata_qid FROM traditions_olfactives WHERE getty_aat_id IS NULL ORDER BY name;",
+  "rows": [
+    {
+      "id": "23",
+      "name": "Akrotiri",
+      "region": "Santorin / Théra (Grèce)",
+      "wikidata_qid": "Q202218"
+    },
+    {
+      "id": "90005",
+      "name": "Anatolie / Tell",
+      "region": "Turquie",
+      "wikidata_qid": "Q351"
+    },
+    {
+      "id": "26",
+      "name": "Anthropocène",
+      "region": "Ère géologique actuelle",
+      "wikidata_qid": "Q44559"
+    },
+    {
+      "id": "8",
+      "name": "Atlantide Abyssale",
+      "region": "Océan Atlantique profond (mythologique)",
+      "wikidata_qid": "Q44559"
+    },
+    {
+      "id": "7",
+      "name": "Atlantide Lumineuse",
+      "region": "Océan Atlantique (mythologique)",
+      "wikidata_qid": "Q44559"
+    },
+    {
+      "id": "90022",
+      "name": "Atlantique / Submergé",
+      "region": "Atlantique",
+      "wikidata_qid": "Q4022"
+    },
+    {
+      "id": "60010",
+      "name": "Celtes Insulaires",
+      "region": "Îles Britanniques / Irlande",
+      "wikidata_qid": "Q170214"
+    },
+    {
+      "id": "90018",
+      "name": "Celtique / Brumes",
+      "region": "Europe occidentale",
+      "wikidata_qid": "Q8060"
+    },
+    {
+      "id": "30001",
+      "name": "Colombie",
+      "region": "Amérique du Sud - Colombie",
+      "wikidata_qid": "Q739"
+    },
+    {
+      "id": "13",
+      "name": "Cryo-Atlas",
+      "region": "Régions glaciaires (conceptuelle)",
+      "wikidata_qid": "NULL"
+    },
+    {
+      "id": "90021",
+      "name": "Désert / Ocre",
+      "region": "Afrique / Arabie",
+      "wikidata_qid": "Q7204"
+    },
+    {
+      "id": "90025",
+      "name": "Glaciaire / Cryo",
+      "region": "Zones polaires",
+      "wikidata_qid": "Q14212"
+    },
+    {
+      "id": "16",
+      "name": "Grèce Sombre",
+      "region": "Grèce antique (aspect chthonien)",
+      "wikidata_qid": "Q11772"
+    },
+    {
+      "id": "90007",
+      "name": "Grèce mycénienne / Égéen",
+      "region": "Grèce",
+      "wikidata_qid": "Q11772"
+    },
+    {
+      "id": "17",
+      "name": "Lemuria",
+      "region": "Océan Indien / Pacifique (légendaire)",
+      "wikidata_qid": "Q1370697"
+    },
+    {
+      "id": "6",
+      "name": "Lyonesse",
+      "region": "Atlantide celtique (légendaire)",
+      "wikidata_qid": "Q1370697"
+    },
+    {
+      "id": "21",
+      "name": "Malabar",
+      "region": "Côte sud-ouest de l'Inde",
+      "wikidata_qid": "Q1165"
+    },
+    {
+      "id": "5",
+      "name": "Meroe",
+      "region": "Nubie / Soudan",
+      "wikidata_qid": "Q131221"
+    },
+    {
+      "id": "18",
+      "name": "Mu",
+      "region": "Océan Pacifique (légendaire)",
+      "wikidata_qid": "Q1370697"
+    },
+    {
+      "id": "3",
+      "name": "Mycène",
+      "region": "Grèce mycénienne",
+      "wikidata_qid": "Q170285"
+    },
+    {
+      "id": "90003",
+      "name": "Mésopotamie / Tigre-Euphrate",
+      "region": "Moyen-Orient",
+      "wikidata_qid": "Q11768"
+    },
+    {
+      "id": "2",
+      "name": "Mésopotamie — Shuruppak",
+      "region": "Mésopotamie antique",
+      "wikidata_qid": "Q11768"
+    },
+    {
+      "id": "22",
+      "name": "Nag Hammadi",
+      "region": "Haute-Égypte",
+      "wikidata_qid": "Q188573"
+    },
+    {
+      "id": "90019",
+      "name": "Nordique / Boréal",
+      "region": "Europe du Nord",
+      "wikidata_qid": "Q48"
+    },
+    {
+      "id": "10",
+      "name": "Nubie",
+      "region": "Nubie / Haute-Égypte",
+      "wikidata_qid": "Q43478"
+    },
+    {
+      "id": "90002",
+      "name": "Nubie / Sahel",
+      "region": "Afrique subsaharienne",
+      "wikidata_qid": "Q1027"
+    },
+    {
+      "id": "90017",
+      "name": "Océanique / Monoï-Tiaré",
+      "region": "Pacifique",
+      "wikidata_qid": "Q35942"
+    },
+    {
+      "id": "20",
+      "name": "Ophir",
+      "region": "Localisation incertaine (biblique)",
+      "wikidata_qid": "Q1370697"
+    },
+    {
+      "id": "60012",
+      "name": "Phénicie",
+      "region": "Liban / Méditerranée orientale",
+      "wikidata_qid": "Q170214"
+    },
+    {
+      "id": "60008",
+      "name": "Polynésie Traditionnelle",
+      "region": "Pacifique / Océanie",
+      "wikidata_qid": "Q35942"
+    },
+    {
+      "id": "60003",
+      "name": "Royaume d'Ayutthaya",
+      "region": "Thaïlande / Asie du Sud-Est",
+      "wikidata_qid": "Q170214"
+    },
+    {
+      "id": "60011",
+      "name": "Royaume de Saba",
+      "region": "Yémen / Arabie du Sud",
+      "wikidata_qid": "Q170214"
+    },
+    {
+      "id": "15",
+      "name": "Sogdiane",
+      "region": "Asie Centrale (Route de la Soie)",
+      "wikidata_qid": "Q170213"
+    },
+    {
+      "id": "90028",
+      "name": "Sépulcral / Ossuaire",
+      "region": "Global",
+      "wikidata_qid": "Q39614"
+    },
+    {
+      "id": "19",
+      "name": "Thulé",
+      "region": "Extrême Nord (légendaire)",
+      "wikidata_qid": "Q1370697"
+    },
+    {
+      "id": "90026",
+      "name": "Urbain / Industriel",
+      "region": "Global",
+      "wikidata_qid": "Q1549591"
+    },
+    {
+      "id": "60009",
+      "name": "Vikings et Scandinaves",
+      "region": "Scandinavie / Europe du Nord",
+      "wikidata_qid": "Q170214"
+    },
+    {
+      "id": "90024",
+      "name": "Volcanique / Basalte",
+      "region": "Zones volcaniques",
+      "wikidata_qid": "Q8502"
+    },
+    {
+      "id": "90001",
+      "name": "Égypte / Nil",
+      "region": "Afrique du Nord",
+      "wikidata_qid": "Q79"
+    },
+    {
+      "id": "1",
+      "name": "Égypte — Akhet",
+      "region": "Égypte antique",
+      "wikidata_qid": "Q79"
+    },
+    {
+      "id": "60013",
+      "name": "Éthiopie Axoumite",
+      "region": "Corne de l'Afrique",
+      "wikidata_qid": "Q170214"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tregion\twikidata_qid\n23\tAkrotiri\tSantorin / Théra (Grèce)\tQ202218\n90005\tAnatolie / Tell\tTurquie\tQ351\n26\tAnthropocène\tÈre géologique actuelle\tQ44559\n8\tAtlantide Abyssale\tOcéan Atlantique profond (mythologique)\tQ44559\n7\tAtlantide Lumineuse\tOcéan Atlantique (mythologique)\tQ44559\n90022\tAtlantique / Submergé\tAtlantique\tQ4022\n60010\tCeltes Insulaires\tÎles Britanniques / Irlande\tQ170214\n90018\tCeltique / Brumes\tEurope occidentale\tQ8060\n30001\tColombie\tAmérique du Sud - Colombie\tQ739\n13\tCryo-Atlas\tRégions glaciaires (conceptuelle)\tNULL\n90021\tDésert / Ocre\tAfrique / Arabie\tQ7204\n90025\tGlaciaire / Cryo\tZones polaires\tQ14212\n16\tGrèce Sombre\tGrèce antique (aspect chthonien)\tQ11772\n90007\tGrèce mycénienne / Égéen\tGrèce\tQ11772\n17\tLemuria\tOcéan Indien / Pacifique (légendaire)\tQ1370697\n6\tLyonesse\tAtlantide celtique (légendaire)\tQ1370697\n21\tMalabar\tCôte sud-ouest de l'Inde\tQ1165\n5\tMeroe\tNubie / Soudan\tQ131221\n18\tMu\tOcéan Pacifique (légendaire)\tQ1370697\n3\tMycène\tGrèce mycénienne\tQ170285\n90003\tMésopotamie / Tigre-Euphrate\tMoyen-Orient\tQ11768\n2\tMésopotamie — Shuruppak\tMésopotamie antique\tQ11768\n22\tNag Hammadi\tHaute-Égypte\tQ188573\n90019\tNordique / Boréal\tEurope du Nord\tQ48\n10\tNubie\tNubie / Haute-Égypte\tQ43478\n90002\tNubie / Sahel\tAfrique subsaharienne\tQ1027\n90017\tOcéanique / Monoï-Tiaré\tPacifique\tQ35942\n20\tOphir\tLocalisation incertaine (biblique)\tQ1370697\n60012\tPhénicie\tLiban / Méditerranée orientale\tQ170214\n60008\tPolynésie Traditionnelle\tPacifique / Océanie\tQ35942\n60003\tRoyaume d'Ayutthaya\tThaïlande / Asie du Sud-Est\tQ170214\n60011\tRoyaume de Saba\tYémen / Arabie du Sud\tQ170214\n15\tSogdiane\tAsie Centrale (Route de la Soie)\tQ170213\n90028\tSépulcral / Ossuaire\tGlobal\tQ39614\n19\tThulé\tExtrême Nord (légendaire)\tQ1370697\n90026\tUrbain / Industriel\tGlobal\tQ1549591\n60009\tVikings et Scandinaves\tScandinavie / Europe du Nord\tQ170214\n90024\tVolcanique / Basalte\tZones volcaniques\tQ8502\n90001\tÉgypte / Nil\tAfrique du Nord\tQ79\n1\tÉgypte — Akhet\tÉgypte antique\tQ79\n60013\tÉthiopie Axoumite\tCorne de l'Afrique\tQ170214\n",
+  "stderr": "",
+  "execution_time_ms": 78
+}

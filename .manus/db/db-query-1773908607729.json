@@ -1,0 +1,19 @@
+{
+  "query": "\nSELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plants'\nAND (COLUMN_NAME LIKE '%scientific%' OR COLUMN_NAME LIKE '%latin%' OR COLUMN_NAME LIKE '%botanic%')\nORDER BY ORDINAL_POSITION;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plants'\nAND (COLUMN_NAME LIKE '%scientific%' OR COLUMN_NAME LIKE '%latin%' OR COLUMN_NAME LIKE '%botanic%')\nORDER BY ORDINAL_POSITION;\n",
+  "rows": [
+    {
+      "COLUMN_NAME": "latin_name"
+    },
+    {
+      "COLUMN_NAME": "botanical_states"
+    },
+    {
+      "COLUMN_NAME": "ethnobotanical_uses"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nlatin_name\nbotanical_states\nethnobotanical_uses\n",
+  "stderr": "",
+  "execution_time_ms": 52
+}

@@ -1,0 +1,17 @@
+{
+  "query": "\nSELECT id, name, \n  JSON_LENGTH(certifications) as cert_count,\n  LEFT(certifications, 200) as cert_preview,\n  LEFT(sustainable_alternatives, 100) as sustain_preview\nFROM plants \nWHERE id = 30010;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, \n  JSON_LENGTH(certifications) as cert_count,\n  LEFT(certifications, 200) as cert_preview,\n  LEFT(sustainable_alternatives, 100) as sustain_preview\nFROM plants \nWHERE id = 30010;\n",
+  "rows": [
+    {
+      "id": "30010",
+      "name": "Rose de Damas",
+      "cert_count": "2",
+      "cert_preview": "[{\"certifier\": \"Union for Ethical BioTrade\", \"notes\": \"Plusieurs membres UEBT sourcent la Rose de Damas bulgare. Traçabilité de la filière garantie.\", \"scope\": \"Vallée des Roses, Bulgarie (Kazanlak)\",",
+      "sustain_preview": "La Rose de Damas bulgare est cultivée depuis le XVIIe siècle dans la Vallée des Roses. Plusieurs coo"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tcert_count\tcert_preview\tsustain_preview\n30010\tRose de Damas\t2\t[{\"certifier\": \"Union for Ethical BioTrade\", \"notes\": \"Plusieurs membres UEBT sourcent la Rose de Damas bulgare. Traçabilité de la filière garantie.\", \"scope\": \"Vallée des Roses, Bulgarie (Kazanlak)\",\tLa Rose de Damas bulgare est cultivée depuis le XVIIe siècle dans la Vallée des Roses. Plusieurs coo\n",
+  "stderr": "",
+  "execution_time_ms": 198
+}

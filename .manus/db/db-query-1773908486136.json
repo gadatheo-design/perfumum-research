@@ -1,0 +1,25 @@
+{
+  "query": "\nSELECT COLUMN_NAME, COLUMN_TYPE, COLUMN_COMMENT\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plants'\nAND COLUMN_NAME IN ('certifications', 'sustainability_notes', 'sustainabilityNotes', 'conservation_status', 'iucn_id')\nORDER BY ORDINAL_POSITION;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT COLUMN_NAME, COLUMN_TYPE, COLUMN_COMMENT\nFROM INFORMATION_SCHEMA.COLUMNS\nWHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plants'\nAND COLUMN_NAME IN ('certifications', 'sustainability_notes', 'sustainabilityNotes', 'conservation_status', 'iucn_id')\nORDER BY ORDINAL_POSITION;\n",
+  "rows": [
+    {
+      "COLUMN_NAME": "certifications",
+      "COLUMN_TYPE": "json",
+      "COLUMN_COMMENT": ""
+    },
+    {
+      "COLUMN_NAME": "conservation_status",
+      "COLUMN_TYPE": "enum('EX','EW','CR','EN','VU','NT','LC','DD','NE')",
+      "COLUMN_COMMENT": ""
+    },
+    {
+      "COLUMN_NAME": "iucn_id",
+      "COLUMN_TYPE": "varchar(20)",
+      "COLUMN_COMMENT": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tCOLUMN_TYPE\tCOLUMN_COMMENT\ncertifications\tjson\t\nconservation_status\tenum('EX','EW','CR','EN','VU','NT','LC','DD','NE')\t\niucn_id\tvarchar(20)\t\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

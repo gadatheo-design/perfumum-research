@@ -1060,6 +1060,67 @@ export default function PlantDetail() {
                 </div>
               )}
               
+              {/* Certifications durables FairWild / UEBT / Rainforest Alliance */}
+              {plant.certifications && Array.isArray(plant.certifications) && plant.certifications.length > 0 && (
+                <div className="p-4 border rounded-lg">
+                  <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
+                    <span>Certifications durables</span>
+                    <Badge variant="outline" className="text-xs">{plant.certifications.length}</Badge>
+                  </h4>
+                  <div className="space-y-3">
+                    {(plant.certifications as any[]).map((cert: any, idx: number) => (
+                      <div key={idx} className="flex items-start gap-3 p-3 rounded-md bg-muted/40">
+                        <div className={`shrink-0 w-2 h-2 mt-2 rounded-full ${
+                          cert.type === 'FairWild' ? 'bg-green-500' :
+                          cert.type === 'UEBT' ? 'bg-blue-500' :
+                          cert.type === 'Rainforest Alliance' ? 'bg-emerald-500' :
+                          cert.type === 'FSC' ? 'bg-teal-500' :
+                          cert.type === 'COSMOS' ? 'bg-purple-500' :
+                          cert.type === 'CITES' ? 'bg-red-500' :
+                          cert.type === 'AOC' || cert.type === 'IGP' ? 'bg-amber-500' :
+                          'bg-gray-400'
+                        }`} />
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <Badge className={`text-xs ${
+                              cert.type === 'FairWild' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+                              cert.type === 'UEBT' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
+                              cert.type === 'Rainforest Alliance' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200' :
+                              cert.type === 'FSC' ? 'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200' :
+                              cert.type === 'COSMOS' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' :
+                              cert.type === 'CITES' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
+                              'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200'
+                            }`}>{cert.type}</Badge>
+                            <span className={`text-xs font-medium ${
+                              cert.status === 'Certifié' ? 'text-green-600 dark:text-green-400' :
+                              cert.status === 'Tracé' ? 'text-blue-600 dark:text-blue-400' :
+                              cert.status === 'Réglementé' ? 'text-red-600 dark:text-red-400' :
+                              'text-yellow-600 dark:text-yellow-400'
+                            }`}>{cert.status} {cert.year}</span>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-1">{cert.scope}</p>
+                          {cert.notes && <p className="text-xs mt-1 text-foreground/70">{cert.notes}</p>}
+                          {cert.sourceUrl && (
+                            <a href={cert.sourceUrl} target="_blank" rel="noopener noreferrer"
+                               className="text-xs text-primary hover:underline mt-1 inline-block">
+                              Source officielle ↗
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Notes durabilité (sustainable_alternatives) */}
+              {plant.sustainableAlternatives && !plant.certifications && (
+                <div className="p-4 border rounded-lg bg-green-50 dark:bg-green-950">
+                  <h4 className="text-sm font-medium mb-2 text-green-700 dark:text-green-300">Notes de durabilité</h4>
+                  <p className="text-sm text-green-600 dark:text-green-400">{plant.sustainableAlternatives}</p>
+                </div>
+              )}
+
               {/* Lien vers la page Patrimoine menacé */}
               <div className="pt-4 border-t">
                 <Link href="/patrimoine-menace">

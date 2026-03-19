@@ -1,0 +1,130 @@
+{
+  "query": "\nSELECT family, COUNT(*) as count \nFROM molecules \nWHERE family IS NOT NULL AND family != '' \nGROUP BY family \nORDER BY count DESC \nLIMIT 30;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT family, COUNT(*) as count \nFROM molecules \nWHERE family IS NOT NULL AND family != '' \nGROUP BY family \nORDER BY count DESC \nLIMIT 30;\n",
+  "rows": [
+    {
+      "family": "autre",
+      "count": "122"
+    },
+    {
+      "family": "Sesquiterpène",
+      "count": "93"
+    },
+    {
+      "family": "Monoterpène",
+      "count": "43"
+    },
+    {
+      "family": "Ester",
+      "count": "30"
+    },
+    {
+      "family": "aromatique",
+      "count": "29"
+    },
+    {
+      "family": "boise",
+      "count": "28"
+    },
+    {
+      "family": "Acide organique",
+      "count": "27"
+    },
+    {
+      "family": "Non classé",
+      "count": "23"
+    },
+    {
+      "family": "Cannabinoïde",
+      "count": "22"
+    },
+    {
+      "family": "epice",
+      "count": "21"
+    },
+    {
+      "family": "Aldéhyde",
+      "count": "21"
+    },
+    {
+      "family": "Alcaloïde",
+      "count": "21"
+    },
+    {
+      "family": "Phénylpropanoïde",
+      "count": "21"
+    },
+    {
+      "family": "Phénol",
+      "count": "20"
+    },
+    {
+      "family": "Lactone",
+      "count": "16"
+    },
+    {
+      "family": "floral",
+      "count": "16"
+    },
+    {
+      "family": "terpene",
+      "count": "15"
+    },
+    {
+      "family": "herbace",
+      "count": "15"
+    },
+    {
+      "family": "fruite",
+      "count": "15"
+    },
+    {
+      "family": "sesquiterpene",
+      "count": "14"
+    },
+    {
+      "family": "Composé du tabac",
+      "count": "13"
+    },
+    {
+      "family": "vert",
+      "count": "12"
+    },
+    {
+      "family": "Cétone",
+      "count": "11"
+    },
+    {
+      "family": "terreux",
+      "count": "11"
+    },
+    {
+      "family": "gourmand",
+      "count": "10"
+    },
+    {
+      "family": "animal",
+      "count": "10"
+    },
+    {
+      "family": "Triterpène",
+      "count": "9"
+    },
+    {
+      "family": "Résinoïde",
+      "count": "9"
+    },
+    {
+      "family": "Polysaccharide",
+      "count": "8"
+    },
+    {
+      "family": "Vitamine",
+      "count": "8"
+    }
+  ],
+  "messages": [],
+  "stdout": "family\tcount\nautre\t122\nSesquiterpène\t93\nMonoterpène\t43\nEster\t30\naromatique\t29\nboise\t28\nAcide organique\t27\nNon classé\t23\nCannabinoïde\t22\nepice\t21\nAldéhyde\t21\nAlcaloïde\t21\nPhénylpropanoïde\t21\nPhénol\t20\nLactone\t16\nfloral\t16\nterpene\t15\nherbace\t15\nfruite\t15\nsesquiterpene\t14\nComposé du tabac\t13\nvert\t12\nCétone\t11\nterreux\t11\ngourmand\t10\nanimal\t10\nTriterpène\t9\nRésinoïde\t9\nPolysaccharide\t8\nVitamine\t8\n",
+  "stderr": "",
+  "execution_time_ms": 67
+}

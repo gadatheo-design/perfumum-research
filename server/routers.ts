@@ -765,6 +765,43 @@ export const appRouter = router({
       return rows as any[];
     }),
 
+    // Synergies moléculaires : co-occurrences dans les recettes PERFUMUM
+    getSynergies: publicProcedure
+      .input(z.object({
+        moleculeId: z.number(),
+        limit: z.number().min(1).max(20).default(10),
+      }))
+      .query(async ({ input }) => {
+        const mysql2 = await import('mysql2/promise');
+        const conn = await mysql2.createConnection(process.env.DATABASE_URL!);
+        const [rows] = await conn.query(`
+          SELECT 
+            m2.id, m2.name, m2.family, m2.chemicalFamily,
+            m2.cas_number, m2.pubchem_cid,
+            COUNT(*) as co_occurrences,
+            GROUP_CONCAT(DISTINCT r.name ORDER BY r.name SEPARATOR ', ') as recettes
+          FROM recette_molecules rm1
+          JOIN recette_molecules rm2 ON rm1.recette_id = rm2.recette_id AND rm2.molecule_id != rm1.molecule_id
+          JOIN molecules m2 ON rm2.molecule_id = m2.id
+          JOIN recettes r ON rm1.recette_id = r.id
+          WHERE rm1.molecule_id = ?
+          GROUP BY m2.id, m2.name, m2.family, m2.chemicalFamily, m2.cas_number, m2.pubchem_cid
+          ORDER BY co_occurrences DESC
+          LIMIT ?
+        `, [input.moleculeId, input.limit]);
+        await conn.end();
+        return (rows as any[]).map(r => ({
+          id: Number(r.id),
+          name: r.name as string,
+          family: r.family as string,
+          chemicalFamily: r.chemicalFamily as string | null,
+          cas_number: r.cas_number as string | null,
+          pubchem_cid: r.pubchem_cid ? Number(r.pubchem_cid) : null,
+          co_occurrences: Number(r.co_occurrences),
+          recettes: r.recettes as string,
+        }));
+      }),
+
   }),
 
   // PubChem IUPAC batch

@@ -1,0 +1,90 @@
+{
+  "query": "\nSELECT olfactiveProfile, COUNT(*) as count \nFROM molecules \nWHERE olfactiveProfile IS NOT NULL AND olfactiveProfile != '' \nGROUP BY olfactiveProfile \nORDER BY count DESC \nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT olfactiveProfile, COUNT(*) as count \nFROM molecules \nWHERE olfactiveProfile IS NOT NULL AND olfactiveProfile != '' \nGROUP BY olfactiveProfile \nORDER BY count DESC \nLIMIT 20;\n",
+  "rows": [
+    {
+      "olfactiveProfile": "[\"inodore\"]",
+      "count": "16"
+    },
+    {
+      "olfactiveProfile": "[\"légèrement amer\"]",
+      "count": "12"
+    },
+    {
+      "olfactiveProfile": "[\"Inodore\"]",
+      "count": "6"
+    },
+    {
+      "olfactiveProfile": "[\"légèrement huileux\"]",
+      "count": "3"
+    },
+    {
+      "olfactiveProfile": "[\"Santal\",\"boisé\"]",
+      "count": "2"
+    },
+    {
+      "olfactiveProfile": "[\"légèrement aminé\"]",
+      "count": "2"
+    },
+    {
+      "olfactiveProfile": "[\"Boisé\",\"santal\"]",
+      "count": "2"
+    },
+    {
+      "olfactiveProfile": "[\"légèrement soufré\"]",
+      "count": "2"
+    },
+    {
+      "olfactiveProfile": "[\"Boisé\",\"terreux\"]",
+      "count": "2"
+    },
+    {
+      "olfactiveProfile": "[\"Boisé\",\"épicé\"]",
+      "count": "2"
+    },
+    {
+      "olfactiveProfile": "[\"légèrement sucré\",\"inodore\"]",
+      "count": "2"
+    },
+    {
+      "olfactiveProfile": "[\"Patchouli\",\"terreux\"]",
+      "count": "2"
+    },
+    {
+      "olfactiveProfile": "[\"légèrement amer\",\"floral\"]",
+      "count": "2"
+    },
+    {
+      "olfactiveProfile": "[\"Patchouli\",\"boisé\"]",
+      "count": "2"
+    },
+    {
+      "olfactiveProfile": "[\"Peu odorant\"]",
+      "count": "2"
+    },
+    {
+      "olfactiveProfile": "[\"acide\",\"légèrement fruité\"]",
+      "count": "2"
+    },
+    {
+      "olfactiveProfile": "Boisé, épicé, terreux",
+      "count": "2"
+    },
+    {
+      "olfactiveProfile": "[\"Iris poudré clair\",\"violette blanche\",\"notes florales poudrées\"]",
+      "count": "1"
+    },
+    {
+      "olfactiveProfile": "[\"neutre\",\"légèrement boisé\"]",
+      "count": "1"
+    },
+    {
+      "olfactiveProfile": "[\"Patchouli\",\"boisé\",\"terreux\"]",
+      "count": "1"
+    }
+  ],
+  "messages": [],
+  "stdout": "olfactiveProfile\tcount\n[\"inodore\"]\t16\n[\"légèrement amer\"]\t12\n[\"Inodore\"]\t6\n[\"légèrement huileux\"]\t3\n[\"Santal\",\"boisé\"]\t2\n[\"légèrement aminé\"]\t2\n[\"Boisé\",\"santal\"]\t2\n[\"légèrement soufré\"]\t2\n[\"Boisé\",\"terreux\"]\t2\n[\"Boisé\",\"épicé\"]\t2\n[\"légèrement sucré\",\"inodore\"]\t2\n[\"Patchouli\",\"terreux\"]\t2\n[\"légèrement amer\",\"floral\"]\t2\n[\"Patchouli\",\"boisé\"]\t2\n[\"Peu odorant\"]\t2\n[\"acide\",\"légèrement fruité\"]\t2\nBoisé, épicé, terreux\t2\n[\"Iris poudré clair\",\"violette blanche\",\"notes florales poudrées\"]\t1\n[\"neutre\",\"légèrement boisé\"]\t1\n[\"Patchouli\",\"boisé\",\"terreux\"]\t1\n",
+  "stderr": "",
+  "execution_time_ms": 71
+}

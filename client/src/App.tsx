@@ -331,6 +331,7 @@ const Archives = React.lazy(() => import('./pages/Archives'));
 const Outils = React.lazy(() => import('./pages/Outils'));
 const OutilsHub = React.lazy(() => import('./pages/OutilsHub'));
 const PatrimoineMenace = React.lazy(() => import('./pages/PatrimoineMenace'));
+const ExplorerParOdeur = React.lazy(() => import('./pages/ExplorerParOdeur'));
 const AlternativesDurables = React.lazy(() => import('./pages/AlternativesDurables'));
 const ArchivesOlfactives = React.lazy(() => import('./pages/ArchivesOlfactives'));
 const Glossaire = React.lazy(() => import('./pages/Glossaire').then(m => ({ default: m.Glossaire })));
@@ -854,6 +855,7 @@ function Router() {
       <Route path="/collaborations" component={Collaborations} />
       <Route path="/archives" component={Archives} />
       <Route path="/patrimoine-menace" component={PatrimoineMenace} />
+      <Route path="/explorer-par-odeur" component={ExplorerParOdeur} />
       <Route path="/alternatives-durables" component={AlternativesDurables} />
       <Route path="/archives-olfactives" component={ArchivesOlfactives} />
 

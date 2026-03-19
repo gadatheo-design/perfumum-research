@@ -2635,3 +2635,27 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Onglet "Traditions olfactives" dans ArchivesOlfactives avec liens Getty AAT + Wikidata
 - [x] Procédures tRPC olfactiveArchives.listTraditions + traditionStats (70 traditions, 29 Getty, 67 Wikidata)
 - [ ] Complétion manuelle des 41 traditions sans correspondance AAT (travail éditorial)
+
+## SESSION 19 MARS 2026 — Traditions Getty AAT + Synergies + Explorer + FairWild/UEBT
+
+### Phase 1 : Complétion des 41 traditions sans Getty AAT
+- [x] Script SPARQL étendu avec termes alternatifs : 60/70 traditions enrichies (29 → 60, +31)
+- [x] 10 traditions légendaires/conceptuelles sans correspondance AAT (Atlantide, Lemuria, Mu, Thulé, Cryo-Atlas…) — normal
+
+### Phase 2 : Onglet Synergies moléculaires dans MoleculeDetail
+- [x] Procédure tRPC molecules.getSynergies(moleculeId) via table recette_molecules
+- [x] Section "Co-occurrences dans les recettes PERFUMUM" ajoutée dans SynergiesTab
+- [x] Top 10 molécules co-présentes avec liens cliquables
+
+### Phase 3 : Page /explorer-par-odeur
+- [x] Page ExplorerParOdeur.tsx créée avec grille de descripteurs olfactifs
+- [x] Route /explorer-par-odeur enregistrée dans App.tsx
+- [x] Navigation narrative par famille olfactive (boisé, floral, fumé, lacté, etc.)
+
+### Phase 4 : Intégration FairWild/UEBT — Traçabilité
+- [x] Diagnostic : aucune API publique disponible (FairWild=Squarespace, UEBT=pas de JSON endpoint)
+- [x] Stratégie alternative : enrichissement manuel curaté depuis rapports publics PDF/HTML 2023-2025
+- [x] Script enrich-certifications.mjs : 16/16 plantes enrichies, 25 certifications ajoutées
+- [x] Certifications couvertes : FairWild, UEBT, Rainforest Alliance, FSC, COSMOS, CITES, AOC, IGP
+- [x] UI Certifications dans PlantDetail (onglet Conservation) avec badges colorés par type
+- [x] Boswellia sacra : FairWild 2025 (Wadi Dawkah, Oman) documenté avec source officielle

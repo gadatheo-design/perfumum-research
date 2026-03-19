@@ -3137,6 +3137,9 @@ function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: string; mole
         </div>
       )}
 
+      {/* Co-occurrences dans les recettes PERFUMUM */}
+      <RecetteSynergiesSection moleculeId={moleculeId} moleculeName={moleculeName} />
+
       {/* Lien vers la page des synergies */}
       <div className="bg-card rounded-lg border p-4 flex items-center justify-between">
         <div>
@@ -3148,6 +3151,72 @@ function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: string; mole
             Voir la carte des synergies →
           </Button>
         </Link>
+      </div>
+    </div>
+  );
+}
+
+function RecetteSynergiesSection({ moleculeId, moleculeName }: { moleculeId: number; moleculeName: string }) {
+  const { data: synergies, isLoading } = trpc.molecules.getSynergies.useQuery(
+    { moleculeId, limit: 10 },
+    { enabled: !!moleculeId }
+  );
+
+  if (isLoading) {
+    return (
+      <div className="bg-card rounded-lg border p-6">
+        <div className="flex items-center gap-2 mb-3">
+          <span className="text-lg">🧪</span>
+          <h3 className="font-semibold text-sm">Co-occurrences dans les recettes PERFUMUM</h3>
+        </div>
+        <div className="flex items-center justify-center py-8">
+          <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!synergies || synergies.length === 0) return null;
+
+  return (
+    <div className="bg-card rounded-lg border overflow-hidden">
+      <div className="px-5 py-3 border-b bg-muted/30 flex items-center gap-2">
+        <span className="text-base">🧪</span>
+        <h3 className="font-semibold text-sm">Co-occurrences dans les recettes PERFUMUM</h3>
+        <Badge variant="secondary" className="ml-auto text-xs">
+          {synergies.length} molécule{synergies.length > 1 ? 's' : ''} associée{synergies.length > 1 ? 's' : ''}
+        </Badge>
+      </div>
+      <p className="px-5 py-2 text-xs text-muted-foreground border-b">
+        Molécules fréquemment utilisées dans les mêmes recettes que <strong>{moleculeName}</strong> — basé sur les {synergies[0]?.recettes ? synergies[0].recettes.split(',').length : ''} recettes PERFUMUM.
+      </p>
+      <div className="divide-y divide-border/50">
+        {synergies.map((syn, idx) => (
+          <div key={syn.id} className="px-5 py-3 flex items-center gap-4 hover:bg-muted/20 transition-colors">
+            <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary shrink-0">
+              {idx + 1}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <Link href={`/molecules/${syn.id}`}>
+                  <span className="font-medium text-sm hover:underline cursor-pointer text-primary">{syn.name}</span>
+                </Link>
+                {syn.family && (
+                  <Badge variant="outline" className="text-xs">{syn.family}</Badge>
+                )}
+              </div>
+              {syn.recettes && (
+                <p className="text-xs text-muted-foreground mt-0.5 truncate" title={syn.recettes}>
+                  Recettes : {syn.recettes}
+                </p>
+              )}
+            </div>
+            <div className="shrink-0 text-right">
+              <div className="text-lg font-bold text-primary">{syn.co_occurrences}</div>
+              <div className="text-xs text-muted-foreground">recette{syn.co_occurrences > 1 ? 's' : ''}</div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
