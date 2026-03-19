@@ -2766,3 +2766,58 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Lien vers /sparql-explorer avec le template europeana_federated_plant pré-rempli
 - [ ] Affichage conditionnel (visible seulement si QID présent)
 - [ ] Tests et checkpoint
+
+---
+
+## 🔍 SESSION AUDIT NAVIGATION — 19 mars 2026
+
+### Phase 1 — Visualisations D3.js (test + corrections)
+- [ ] Tester les graphes de force (Réseau Molécules-Recettes, Plante-Molécule, Terroir-Plante-Molécule, Relations Globales, Synergies, Familles Chimiques, Molécules-Familles, Axes Thématiques, Références-Axes, Réseau Recettes)
+- [ ] Tester les diagrammes & heatmaps (Sankey Flow, Heatmap Synergies, Heatmap Corrélations, Visualisations Corrélation)
+- [ ] Tester les radars & profils (Radar Enrichi, Comparaison Radar, Glossaire Visuel, Comparaison Terpènes)
+- [ ] Tester les timelines (Timeline PERFUMUM, Timeline Interactive, Timeline Botanique, Timeline Recettes)
+- [ ] Tester les comparaisons (Comparaison Molécules, Comparaison Avancée, Comparaison Terpènes, Comparaison Recettes, Comparaison Plantes)
+- [ ] Corriger les bugs détectés dans les visualisations
+
+### Phase 2 — Profil DB Tabacs Niche
+- [ ] Restructurer l'affichage du profil DB en badges séparés par champ (catégorie, intensité, notes, description)
+
+### Phase 3 — Pages de détail individuelles
+- [ ] Tester /molecule/:id (fiche molécule individuelle)
+- [ ] Tester /recette/:id (fiche recette individuelle)
+- [ ] Tester /tabac/:id (fiche tabac individuelle)
+- [ ] Corriger les bugs détectés sur les fiches détail
+
+
+---
+
+## 🔍 SESSION AUDIT NAVIGATION — 20 Mars 2026
+
+### ✅ Phase 1 : Corrections de bugs critiques
+- [x] FavoriteButton — props incompatibles sur la page Molécules
+- [x] GammesOverviewContent — `.toLowerCase()` appelé sur un tableau JSON
+- [x] MegaMenu — lien Tabacothèque pointant vers `/tabacs-niche` au lieu de `/programmes-recherche/tabacs-niche`
+- [x] ReactFlow (Réseau de Liaisons) — exclusion incorrecte dans `vite.config.ts`
+- [x] TabacsNiche — `allTabacs.forEach is not a function` (mauvais cast SQL dans `tabacs.ts`)
+- [x] TabacsNiche — `[object Object]` dans le profil DB (objet JSON non sérialisé)
+- [x] Skeleton — couleur rose vif (`bg-accent`) remplacée par gris neutre (`bg-muted`)
+
+### ✅ Phase 2 : Visualisations D3.js
+- [x] Graphe Terroir-Plante-Molécule — payload réduite de 5,5 Mo à 244 Ko (3 requêtes séparées)
+- [x] Graphe Terroir-Plante-Molécule — Header/Footer manquant ajouté
+- [x] Graphe Plante-Molécule — Header/Footer manquant ajouté
+- [x] Réseau Molécule-Plante — Header/Footer manquant ajouté
+- [x] VisualisationsCorrelation — Header/Footer manquant ajouté
+- [x] Reseau.tsx — Header/Footer manquant ajouté
+- [x] GrapheMoleculesFamillesChimiques — Header/Footer manquant ajouté
+
+### ✅ Phase 3 : Pages de détail
+- [x] MoleculeDetail — Header/Footer manquant ajouté via WithLayout dans App.tsx
+- [x] TabacDetail — Header/Footer manquant ajouté via WithLayout dans App.tsx
+- [x] PlantDetail — Header/Footer manquant ajouté via WithLayout dans App.tsx
+- [x] TabacDetail — Profil aromatique affiché en badges au lieu du JSON brut
+
+### 🔲 Prochaines étapes suggérées
+- [ ] Tester les 10 graphes D3.js restants (heatmaps, corrélations, etc.)
+- [ ] Ajouter le Header/Footer aux pages RecetteDetail et FinalRecipeDetail
+- [ ] Corriger le breadcrumb "Tabac > 1" → "Tabac > Krumovgrad" dans TabacDetail

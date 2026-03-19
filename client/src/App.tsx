@@ -1,6 +1,17 @@
 import { Toaster } from "@/components/ui/sonner";
 import React, { lazy, Suspense } from "react";
 import { Loader2 } from "lucide-react";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+
+// Wrapper qui ajoute Header/Footer aux pages de détail qui n'en ont pas
+const WithLayout = ({ children }: { children: React.ReactNode }) => (
+  <div className="min-h-screen flex flex-col">
+    <Header />
+    <main className="flex-1">{children}</main>
+    <Footer />
+  </div>
+);
 
 // Loading component for lazy-loaded pages
 const PageLoader = () => (
@@ -564,7 +575,13 @@ function Router() {
       <Route path="/historic-cigarettes" component={HistoricCigarettes} />
       <Route path="/tobacco-landraces" component={TobaccoLandraces} />
       <Route path="/tobacco-landrace/:name" component={TobaccoLandraceDetail} />
-      <Route path="/tabac/:id" component={TabacDetail} />
+      <Route path="/tabac/:id">
+        {(params) => (
+          <Suspense fallback={<PageLoader />}>
+            <WithLayout><TabacDetail /></WithLayout>
+          </Suspense>
+        )}
+      </Route>
       <Route path="/soil-analysis" component={SoilAnalysis} />
       <Route path="/analyses-pedologiques" component={SoilAnalysis} />
       <Route path="/biosynthetic-pathways" component={BiosyntheticPathways} />
@@ -690,7 +707,7 @@ function Router() {
       <Route path="/molecule/:id">
         {(params) => (
           <Suspense fallback={<PageLoader />}>
-            <MoleculeDetail />
+            <WithLayout><MoleculeDetail /></WithLayout>
           </Suspense>
         )}
       </Route>
@@ -698,7 +715,7 @@ function Router() {
       <Route path="/molecules/:id">
         {(params) => (
           <Suspense fallback={<PageLoader />}>
-            <MoleculeDetail />
+            <WithLayout><MoleculeDetail /></WithLayout>
           </Suspense>
         )}
       </Route>
@@ -962,14 +979,14 @@ function Router() {
       <Route path="/plants/:id">
         {(params) => (
           <Suspense fallback={<PageLoader />}>
-            <PlantDetail />
+            <WithLayout><PlantDetail /></WithLayout>
           </Suspense>
         )}
       </Route>
       <Route path="/plantes/:id">
         {(params) => (
           <Suspense fallback={<PageLoader />}>
-            <PlantDetail />
+            <WithLayout><PlantDetail /></WithLayout>
           </Suspense>
         )}
       </Route>

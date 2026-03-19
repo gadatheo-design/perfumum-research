@@ -92,19 +92,49 @@ export default function TabacDetail() {
           {/* Colonne principale */}
           <div className="md:col-span-2 space-y-6">
             {/* Profil aromatique */}
-            {tabac.aromaticProfile && (
-              <Card>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base flex items-center gap-2">
-                    <Leaf className="h-4 w-4 text-emerald-500" />
-                    Profil aromatique
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground leading-relaxed">{tabac.aromaticProfile}</p>
-                </CardContent>
-              </Card>
-            )}
+            {tabac.aromaticProfile && (() => {
+              // Convertir le profil aromatique en tableau de notes
+              const raw = tabac.aromaticProfile;
+              let notes: string[] = [];
+              if (typeof raw === 'string') {
+                try {
+                  const parsed = JSON.parse(raw);
+                  if (Array.isArray(parsed)) notes = parsed.map(String);
+                  else if (typeof parsed === 'object') notes = Object.values(parsed).map(String);
+                  else notes = [String(parsed)];
+                } catch {
+                  // Pas du JSON — c'est une string normale
+                  notes = [raw];
+                }
+              } else if (Array.isArray(raw)) {
+                notes = raw.map(String);
+              } else if (typeof raw === 'object' && raw !== null) {
+                notes = Object.values(raw as Record<string, unknown>).map(String);
+              } else {
+                notes = [String(raw)];
+              }
+              return (
+                <Card>
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Leaf className="h-4 w-4 text-emerald-500" />
+                      Profil aromatique
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    {notes.length === 1 && !notes[0].startsWith('[') ? (
+                      <p className="text-muted-foreground leading-relaxed">{notes[0]}</p>
+                    ) : (
+                      <div className="flex flex-wrap gap-2">
+                        {notes.map((note, i) => (
+                          <Badge key={i} variant="secondary" className="capitalize">{note}</Badge>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              );
+            })()}
 
             {/* Notes internes */}
             {tabac.internalNotes && (

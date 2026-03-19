@@ -20,6 +20,8 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { Search, Network, Loader2 } from "lucide-react";
 import { useLocation } from "wouter";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 type EntityType = "molecule" | "recette" | "civilisation" | "accord" | "prototype";
 
@@ -307,7 +309,9 @@ export default function Reseau() {
     : null;
 
   return (
-    <div className="container mx-auto py-8 space-y-6">
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 container mx-auto py-8 space-y-6">
       <Breadcrumbs />
       {/* Header */}
       <div className="space-y-4">
@@ -436,6 +440,8 @@ export default function Reseau() {
           </div>
         </CardContent>
       </Card>
+      </main>
+      <Footer />
     </div>
   );
 }

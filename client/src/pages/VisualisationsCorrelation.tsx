@@ -18,6 +18,8 @@ import {
   Bar,
   Cell
 } from "recharts";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { 
   TrendingUp, 
   BarChart3, 
@@ -88,7 +90,9 @@ export default function VisualisationsCorrelation() {
     : [];
 
   return (
-    <div className="container py-8 max-w-7xl">
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 container py-8 max-w-7xl">
       <div className="flex items-center gap-4 mb-8">
         <TrendingUp className="h-8 w-8 text-primary" />
         <div>
@@ -469,6 +473,8 @@ export default function VisualisationsCorrelation() {
           </Card>
         </TabsContent>
       </Tabs>
+      </main>
+      <Footer />
     </div>
   );
 }

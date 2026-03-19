@@ -1,12 +1,14 @@
 import { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
-import DashboardLayout from "@/components/DashboardLayout";
+// DashboardLayout removed — public page, no auth required
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ChemicalFamilyHierarchyGraph } from "@/components/ChemicalFamilyHierarchyGraph";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { 
   Network, 
   FlaskConical, 
@@ -105,7 +107,9 @@ export default function GrapheMoleculesFamillesChimiques() {
   };
 
   return (
-    <DashboardLayout>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 container py-6">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
@@ -471,6 +475,8 @@ export default function GrapheMoleculesFamillesChimiques() {
           </TabsContent>
         </Tabs>
       </div>
-    </DashboardLayout>
+      </main>
+      <Footer />
+    </div>
   );
 }

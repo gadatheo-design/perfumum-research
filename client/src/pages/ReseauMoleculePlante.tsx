@@ -43,6 +43,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import {
   Collapsible,
   CollapsibleContent,
@@ -374,8 +376,9 @@ export default function ReseauMoleculePlante() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container py-6">
+    <div className="min-h-screen flex flex-col bg-background">
+      <Header />
+      <main className="flex-1 container py-6">
         <Breadcrumbs
           customItems={[
             { label: "Accueil", path: "/" },
@@ -655,7 +658,8 @@ export default function ReseauMoleculePlante() {
             </div>
           </CardContent>
         </Card>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 }

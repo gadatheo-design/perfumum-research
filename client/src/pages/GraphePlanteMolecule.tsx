@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
-import DashboardLayout from "@/components/DashboardLayout";
+// DashboardLayout removed — public page, no auth required
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PlantMoleculeGraph } from "@/components/PlantMoleculeGraph";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { 
   Network, 
   Leaf, 
@@ -65,7 +67,9 @@ export default function GraphePlanteMolecule() {
     : [];
 
   return (
-    <DashboardLayout>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 container py-6">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -389,6 +393,8 @@ export default function GraphePlanteMolecule() {
           </TabsContent>
         </Tabs>
       </div>
-    </DashboardLayout>
+      </main>
+      <Footer />
+    </div>
   );
 }

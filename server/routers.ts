@@ -1675,9 +1675,25 @@ export const appRouter = router({
       return await db.getNetworkRelationships();
     }),
     
-    // Nouveau: Réseau molécule-plante-terroir
+    // Nouveau: Réseau molécule-plante-terroir (procédure complète - peut être volumineuse)
     getMoleculePlantTerroirNetwork: publicProcedure.query(async () => {
       return await db.getMoleculePlantTerroirNetwork();
+    }),
+    
+    // Procédures séparées pour réduire la taille des payloads
+    getNetworkEntities: publicProcedure.query(async () => {
+      const data = await db.getMoleculePlantTerroirNetwork();
+      return data.entities;
+    }),
+    
+    getNetworkPlantMoleculeRelations: publicProcedure.query(async () => {
+      const data = await db.getMoleculePlantTerroirNetwork();
+      return data.relationships.plantMolecules;
+    }),
+    
+    getNetworkTerroirPlantRelations: publicProcedure.query(async () => {
+      const data = await db.getMoleculePlantTerroirNetwork();
+      return data.relationships.terroirPlants;
     }),
     
     // Molécules d'une plante avec pourcentages

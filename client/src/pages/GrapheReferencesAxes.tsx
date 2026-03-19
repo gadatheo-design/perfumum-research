@@ -5,13 +5,15 @@
  * avec un graphe de force D3.js interactif
  */
 
-import DashboardLayout from "@/components/DashboardLayout";
+// DashboardLayout removed — public page, no auth required
 import { ForceGraphAxes } from "@/components/ForceGraphAxes";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { trpc } from "@/lib/trpc";
 import { Network, BookOpen, Layers, TrendingUp, Info } from "lucide-react";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 export default function GrapheReferencesAxes() {
   const { data: graphData } = trpc.forceGraph.getReferencesAxesData.useQuery({});
@@ -21,7 +23,9 @@ export default function GrapheReferencesAxes() {
   const stats = graphData?.stats;
 
   return (
-    <DashboardLayout>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 container py-6">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col gap-4">
@@ -296,6 +300,8 @@ export default function GrapheReferencesAxes() {
           </TabsContent>
         </Tabs>
       </div>
-    </DashboardLayout>
+      </main>
+      <Footer />
+    </div>
   );
 }

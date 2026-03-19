@@ -849,31 +849,48 @@ export async function getFullTerroirProfile(terroirId: number) {
 
 export async function getMoleculePlantTerroirNetwork() {
   const db = await getDb();
-  if (!db) return { nodes: [], edges: [] };
+  if (!db) return { entities: { plants: [], molecules: [], terroirs: [], rawMaterials: [] }, relationships: { plantMolecules: [], terroirPlants: [] } };
   
-  // Récupérer toutes les plantes avec leurs molécules
-  const allPlants = await db.select().from(plants);
+  // Champs minimaux pour le graphe (optimisé pour éviter une payload > 500KB)
+  const allPlants = await db.select({
+    id: plants.id,
+    name: plants.name,
+    latinName: plants.latinName,
+    family: plants.family,
+    category: plants.category,
+    origin: plants.origin,
+  }).from(plants);
   
-  // Récupérer toutes les molécules
-  const allMolecules = await db.select().from(molecules);
+  const allMolecules = await db.select({
+    id: molecules.id,
+    name: molecules.name,
+    chemicalClass: molecules.chemicalClass,
+    casNumber: molecules.casNumber,
+  }).from(molecules);
   
-  // Récupérer tous les terroirs
-  const allTerroirs = await db.select().from(terroirs);
+  const allTerroirs = await db.select({
+    id: terroirs.id,
+    name: terroirs.name,
+    country: terroirs.country,
+    region: terroirs.region,
+    climateType: terroirs.climateType,
+    altitude: terroirs.altitude,
+  }).from(terroirs);
   
-  // Récupérer les relations plante-molécule avec pourcentages
+  // Relations plante-molécule — signatures et molécules majeures uniquement (limite payload)
   const plantMoleculeRelations = await db
     .select({
       plantId: plantMolecules.plantId,
       moleculeId: plantMolecules.moleculeId,
-      percentageMin: plantMolecules.percentageMin,
-      percentageMax: plantMolecules.percentageMax,
       percentageTypical: plantMolecules.percentageTypical,
       isSignature: plantMolecules.isSignature,
       role: plantMolecules.role,
     })
-    .from(plantMolecules);
+    .from(plantMolecules)
+    .where(sql`${plantMolecules.isSignature} = 1 OR ${plantMolecules.role} IN ('signature', 'majeur', 'major')`)
+    .limit(3000);
   
-  // Récupérer les relations terroir-plante via terroirSpecialties
+  // Relations terroir-plante
   const terroirPlantRelations = await db
     .select({
       terroirId: terroirSpecialties.terroirId,
@@ -884,15 +901,12 @@ export async function getMoleculePlantTerroirNetwork() {
     .from(terroirSpecialties)
     .where(sql`${terroirSpecialties.plantId} IS NOT NULL`);
   
-  // Récupérer les matières premières
-  const allRawMaterials = await db.select().from(rawMaterials);
-  
   return {
     entities: {
       plants: allPlants,
       molecules: allMolecules,
       terroirs: allTerroirs,
-      rawMaterials: allRawMaterials,
+      rawMaterials: [],
     },
     relationships: {
       plantMolecules: plantMoleculeRelations,

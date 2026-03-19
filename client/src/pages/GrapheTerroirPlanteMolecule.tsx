@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
-import DashboardLayout from "@/components/DashboardLayout";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { TerrainPlantMoleculeGraph, TerrainNode, TerrainLink } from "@/components/charts/TerrainPlantMoleculeGraph";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -26,8 +27,27 @@ import { Link } from "wouter";
 export default function GrapheTerroirPlanteMolecule() {
   const [activeTab, setActiveTab] = useState("graph");
   
-  // Récupérer les données du réseau
-  const { data: networkData, isLoading: isLoadingNetwork, refetch, isFetching } = trpc.network.getMoleculePlantTerroirNetwork.useQuery();
+  // Récupérer les données du réseau en 3 requêtes séparées pour éviter les payloads volumineuses
+  const { data: entitiesData, isLoading: isLoadingEntities, error: entitiesError } = trpc.network.getNetworkEntities.useQuery(undefined, { retry: 1 });
+  const { data: plantMoleculeRels, isLoading: isLoadingPMRels, error: pmRelsError } = trpc.network.getNetworkPlantMoleculeRelations.useQuery(undefined, { retry: 1 });
+  const { data: terroirPlantRels, isLoading: isLoadingTPRels, error: tpRelsError } = trpc.network.getNetworkTerroirPlantRelations.useQuery(undefined, { retry: 1 });
+  
+  const isLoadingNetwork = isLoadingEntities || isLoadingPMRels || isLoadingTPRels;
+  const networkError = entitiesError || pmRelsError || tpRelsError;
+  const isFetching = false;
+  const refetch = () => {};
+  
+  // Assembler les données du réseau à partir des 3 requêtes
+  const networkData = useMemo(() => {
+    if (!entitiesData || !plantMoleculeRels || !terroirPlantRels) return null;
+    return {
+      entities: entitiesData,
+      relationships: {
+        plantMolecules: plantMoleculeRels,
+        terroirPlants: terroirPlantRels,
+      },
+    };
+  }, [entitiesData, plantMoleculeRels, terroirPlantRels]);
   
   // Récupérer les statistiques des liaisons
   const { data: plantTerroirStats } = trpc.plantTerroirs.getNetworkStats.useQuery();
@@ -187,24 +207,48 @@ export default function GrapheTerroirPlanteMolecule() {
     };
   }, [graphData]);
 
+  if (networkError) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 container py-6">
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Erreur de chargement</AlertTitle>
+            <AlertDescription>
+              Impossible de charger le réseau Terroir-Plante-Molécule. {networkError.message}
+            </AlertDescription>
+          </Alert>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   if (isLoadingNetwork) {
     return (
-      <DashboardLayout>
-        <div className="space-y-6">
-          <Skeleton className="h-10 w-96" />
-          <div className="grid grid-cols-5 gap-4">
-            {[...Array(5)].map((_, i) => (
-              <Skeleton key={i} className="h-24" />
-            ))}
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 container py-6">
+          <div className="space-y-6">
+            <Skeleton className="h-10 w-96" />
+            <div className="grid grid-cols-5 gap-4">
+              {[...Array(5)].map((_, i) => (
+                <Skeleton key={i} className="h-24" />
+              ))}
+            </div>
+            <Skeleton className="h-[700px]" />
           </div>
-          <Skeleton className="h-[700px]" />
-        </div>
-      </DashboardLayout>
+        </main>
+        <Footer />
+      </div>
     );
   }
 
   return (
-    <DashboardLayout>
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <main className="flex-1 container py-6">
       <div className="space-y-6">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -509,6 +553,8 @@ export default function GrapheTerroirPlanteMolecule() {
           </TabsContent>
         </Tabs>
       </div>
-    </DashboardLayout>
+      </main>
+      <Footer />
+    </div>
   );
 }
