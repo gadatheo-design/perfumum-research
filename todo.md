@@ -2751,3 +2751,18 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Filtre par type d'annotation (tags, transcriptions, descriptions)
 - [x] 15 tests unitaires Sprint 3 bis (1789 tests passés au total)
 - [x] Checkpoint
+
+## 🔧 SESSION 19 MARS 2026 — Corrections TS + SPARQL P727 dans fiches plantes
+
+### Tâche 1 : Corriger les erreurs TypeScript dans storylines.ts
+- [ ] Analyser les 132 erreurs TS dans server/routers/storylines.ts
+- [ ] Corriger les cast ResultSetHeader → any[] (utiliser `unknown` comme intermédiaire)
+- [ ] Vérifier qu'il n'y a plus d'erreurs TS dans storylines.ts
+- [ ] Tests de non-régression
+
+### Tâche 2 : Bouton SPARQL P727 dans les fiches plantes
+- [ ] Lire PlantDetail.tsx pour comprendre la structure
+- [ ] Ajouter un bouton "Voir dans Europeana" sur les plantes avec QID Wikidata
+- [ ] Lien vers /sparql-explorer avec le template europeana_federated_plant pré-rempli
+- [ ] Affichage conditionnel (visible seulement si QID présent)
+- [ ] Tests et checkpoint

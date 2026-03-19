@@ -551,8 +551,15 @@ function TemplatesTab() {
   );
 }
 
-// ─── Page principale ──────────────────────────────────────────────────────────
+// ─── Page principale ────────────────────────────────────────────────
 export default function SparqlExplorer() {
+  // Lecture des paramètres d'URL pour pré-remplir l'onglet et le QID
+  // Exemple : /admin/sparql-explorer?tab=europeana-sparql&qid=Q12321
+  const urlParams = new URLSearchParams(window.location.search);
+  const defaultTab = urlParams.get('tab') || 'stats';
+  const initialQid = urlParams.get('qid') || '';
+  const initialPlantName = urlParams.get('plant') || '';
+
   return (
     <div className="container py-6 space-y-6">
       {/* En-tête */}
@@ -570,7 +577,7 @@ export default function SparqlExplorer() {
       </div>
 
       {/* Onglets */}
-      <Tabs defaultValue="stats">
+      <Tabs defaultValue={defaultTab}>
         <TabsList className="grid grid-cols-7 w-full">
           <TabsTrigger value="stats" className="text-xs">
             <Sparkles className="h-3.5 w-3.5 mr-1" />
@@ -626,7 +633,7 @@ export default function SparqlExplorer() {
           <EuropeanaUnifiedTab />
         </TabsContent>
         <TabsContent value="europeana-sparql" className="mt-4">
-          <EuropeanaSparqlTab />
+          <EuropeanaSparqlTab initialQid={initialQid} initialPlantName={initialPlantName} />
         </TabsContent>
       </Tabs>
     </div>
@@ -898,9 +905,13 @@ function EuropeanaUnifiedTab() {
   );
 }
 
-// ─── Onglet SPARQL Europeana natif (Sprint 3.1) ───────────────────────────────
-function EuropeanaSparqlTab() {
-  const [query, setQuery] = useState<string>("");
+// ─── Onglet SPARQL Europeana natif (Sprint 3.1) ────────────────────────────────────────────────
+function EuropeanaSparqlTab({ initialQid = '', initialPlantName = '' }: { initialQid?: string; initialPlantName?: string }) {
+  // Si un QID est passé en paramètre d'URL, pré-remplir la requête avec le template fédéré plante
+  const initialQuery = initialQid
+    ? `SELECT DISTINCT ?plant ?plantLabel ?europeanaId ?image WHERE {\n  VALUES ?plant { wd:${initialQid} }\n  ?plant wdt:P727 ?europeanaId .\n  OPTIONAL { ?plant wdt:P18 ?image . }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }\n}\nLIMIT 20`
+    : '';
+  const [query, setQuery] = useState<string>(initialQuery);
   const [results, setResults] = useState<any[] | null>(null);
   const [vars, setVars] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);

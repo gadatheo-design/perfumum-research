@@ -1455,13 +1455,38 @@ export default function PlantDetail() {
         {/* Europeana — Collections muséales européennes */}
         <TabsContent value="europeana" className="space-y-4">
           <TabErrorBoundary tabLabel="Europeana">
-            <div className="max-w-2xl">
-              <EuropeanaWidget
-                type="plant"
-                entityId={plantId}
-                entityName={plant.latin_name || plant.name}
-                limit={8}
-              />
+            <div className="space-y-4">
+              {/* Bouton SPARQL P727 si QID Wikidata disponible */}
+              {(plant as any).wikidata_qid && (
+                <div className="flex items-start gap-3 p-4 rounded-lg border border-violet-200 dark:border-violet-800 bg-violet-50 dark:bg-violet-950/20">
+                  <div className="w-8 h-8 rounded-full bg-violet-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <Globe className="h-4 w-4 text-violet-600" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-violet-800 dark:text-violet-200">
+                      Requête SPARQL fédérée Wikidata × Europeana
+                    </p>
+                    <p className="text-xs text-violet-600 dark:text-violet-400 mt-0.5">
+                      Croise le QID Wikidata <span className="font-mono">{(plant as any).wikidata_qid}</span> avec les collections muséales Europeana via la propriété P727.
+                    </p>
+                  </div>
+                  <a
+                    href={`/admin/sparql-explorer?tab=europeana-sparql&qid=${(plant as any).wikidata_qid}&plant=${encodeURIComponent(plant.latin_name || plant.name)}`}
+                    className="inline-flex items-center gap-1.5 text-xs font-medium text-violet-700 dark:text-violet-300 hover:text-violet-900 dark:hover:text-violet-100 border border-violet-300 dark:border-violet-700 rounded-md px-3 py-1.5 hover:bg-violet-100 dark:hover:bg-violet-900/40 transition-colors flex-shrink-0"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    Voir dans SPARQL Explorer
+                  </a>
+                </div>
+              )}
+              <div className="max-w-2xl">
+                <EuropeanaWidget
+                  type="plant"
+                  entityId={plantId}
+                  entityName={plant.latin_name || plant.name}
+                  limit={8}
+                />
+              </div>
             </div>
           </TabErrorBoundary>
         </TabsContent>
