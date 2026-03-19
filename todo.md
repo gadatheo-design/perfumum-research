@@ -2737,3 +2737,17 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Écrire les tests unitaires Sprint 2 (12 tests, 1750 passés au total)
 - [x] Valider les deux fonctionnalités
 - [x] Sauvegarder le checkpoint
+
+## 🌐 SESSION 19 MARS 2026 — Sprint 3 bis : Annotation API dans le détail des items
+
+- [x] Composant AnnotationSheet (panneau Sheet latéral) sur chaque carte Europeana
+- [x] Bouton "Annotations" sur chaque EuropeanaCard (tag violet, discret)
+- [x] Affichage par type : tagging (violet), transcribing (amber), describing (bleu), linking (vert)
+- [x] Corps de l'annotation : valeur textuelle + langue, prefLabel + lien entité, URI brut
+- [x] Mode dégradé si clé API absente (message d'information avec instructions)
+- [x] Onglet "Annotations" dédié dans EuropeanaExplorer (badge S3 violet)
+- [x] Composant AnnotationsSearchTab : recherche par terme dans les annotations
+- [x] 15 suggestions pré-remplies (Rosa damascena, olibanum, myrrha, nardus...)
+- [x] Filtre par type d'annotation (tags, transcriptions, descriptions)
+- [x] 15 tests unitaires Sprint 3 bis (1789 tests passés au total)
+- [x] Checkpoint

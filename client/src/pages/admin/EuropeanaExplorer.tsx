@@ -10,7 +10,7 @@
  * - Recherche libre avec facettes optionnelles
  */
 
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
 import {
@@ -31,7 +31,11 @@ import {
   FlaskConical, Leaf, AlertCircle, Info, Palette, BookOpen,
   Building2, MapPin, Calendar, BarChart2, Filter, Layers,
   Sparkles, Map, FlaskRound, TreePine, Flame, Scroll,
+  Tag, MessageSquare, FileText, Link2, X, ChevronRight,
 } from "lucide-react";
+import {
+  Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
+} from "@/components/ui/sheet";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -81,10 +85,206 @@ const THEME_META: Record<string, {
   qid:                   { color: "text-cyan-600",    bgLight: "bg-cyan-50",    bgDark: "dark:bg-cyan-950/30",    icon: "🔗", borderColor: "border-t-cyan-500" },
 };
 
+// ─── Panneau Annotations d'un item Europeana (Sprint 3 bis) ─────────────────
+
+const ANNOTATION_TYPE_CONFIG: Record<string, { label: string; icon: React.ReactNode; color: string; bg: string }> = {
+  tagging:      { label: "Tag sémantique",  icon: <Tag className="h-3 w-3" />,           color: "text-violet-700",  bg: "bg-violet-50 dark:bg-violet-950/30 border-violet-200" },
+  transcribing: { label: "Transcription",   icon: <FileText className="h-3 w-3" />,       color: "text-amber-700",   bg: "bg-amber-50 dark:bg-amber-950/30 border-amber-200" },
+  describing:   { label: "Description",     icon: <MessageSquare className="h-3 w-3" />,  color: "text-blue-700",    bg: "bg-blue-50 dark:bg-blue-950/30 border-blue-200" },
+  linking:      { label: "Entité liée",      icon: <Link2 className="h-3 w-3" />,          color: "text-emerald-700", bg: "bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200" },
+  unknown:      { label: "Annotation",       icon: <Info className="h-3 w-3" />,           color: "text-gray-600",    bg: "bg-gray-50 dark:bg-gray-900/30 border-gray-200" },
+};
+
+function AnnotationSheet({
+  item,
+  open,
+  onClose,
+}: {
+  item: EuropeanaItem | null;
+  open: boolean;
+  onClose: () => void;
+}) {
+  // Extraire le recordId depuis l'URL Europeana (ex: /9200338/BibliographicResource_xxx)
+  const recordId = item?.id
+    ? item.id.startsWith("/") ? item.id : `/${item.id.split("/").slice(-2).join("/")}`
+    : "";
+
+  const { data, isLoading } = trpc.europeana.getAnnotations.useQuery(
+    { recordId, limit: 30 },
+    { enabled: open && !!recordId }
+  );
+
+  if (!item) return null;
+
+  return (
+    <Sheet open={open} onOpenChange={(v) => !v && onClose()}>
+      <SheetContent side="right" className="w-full sm:max-w-lg overflow-y-auto">
+        <SheetHeader className="pb-4 border-b">
+          <SheetTitle className="text-base leading-tight pr-6">{item.title}</SheetTitle>
+          <SheetDescription className="text-xs">
+            {item.institution && (
+              <span className="flex items-center gap-1">
+                <Building2 className="h-3 w-3" />
+                {item.institution}
+                {item.country && <span className="ml-1 text-muted-foreground">· {item.country}</span>}
+              </span>
+            )}
+          </SheetDescription>
+        </SheetHeader>
+
+        <div className="py-4 space-y-4">
+          {/* Lien Europeana */}
+          <a
+            href={item.europeanaUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-xs text-cyan-600 hover:underline"
+          >
+            <Globe className="h-3.5 w-3.5" />
+            Voir sur Europeana
+            <ExternalLink className="h-3 w-3" />
+          </a>
+
+          {/* Annotations */}
+          <div>
+            <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+              <Tag className="h-4 w-4 text-violet-600" />
+              Annotations sémantiques
+            </h3>
+
+            {isLoading && (
+              <div className="flex items-center gap-2 text-sm text-muted-foreground py-4">
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Chargement des annotations...
+              </div>
+            )}
+
+            {data && !isLoading && (
+              <>
+                {!data.apiAvailable && (
+                  <div className="rounded-md border border-amber-200 bg-amber-50 dark:bg-amber-950/20 p-3 text-xs text-amber-700 dark:text-amber-400">
+                    <AlertCircle className="h-3.5 w-3.5 inline mr-1" />
+                    {data.error || "Clé API Europeana non configurée."}
+                    <p className="mt-1 text-muted-foreground">Ajoutez EUROPEANA_API_KEY dans les secrets du projet pour activer les annotations.</p>
+                  </div>
+                )}
+
+                {data.apiAvailable && data.annotations.length === 0 && (
+                  <div className="text-center py-6 text-muted-foreground">
+                    <Tag className="h-6 w-6 mx-auto mb-2 opacity-30" />
+                    <p className="text-sm">Aucune annotation pour cet item</p>
+                    <p className="text-xs mt-1">Les annotations sont créées par les contributeurs Europeana</p>
+                  </div>
+                )}
+
+                {data.apiAvailable && data.annotations.length > 0 && (
+                  <div className="space-y-2">
+                    <p className="text-xs text-muted-foreground mb-3">
+                      {data.total} annotation(s) trouvée(s)
+                    </p>
+                    {data.annotations.map((ann, i) => {
+                      const cfg = ANNOTATION_TYPE_CONFIG[ann.type] || ANNOTATION_TYPE_CONFIG.unknown;
+                      return (
+                        <div key={i} className={`rounded-md border p-3 text-xs space-y-1.5 ${cfg.bg}`}>
+                          <div className={`flex items-center gap-1.5 font-medium ${cfg.color}`}>
+                            {cfg.icon}
+                            {cfg.label}
+                            {ann.created && (
+                              <span className="ml-auto font-normal text-muted-foreground">
+                                {new Date(ann.created).toLocaleDateString("fr-FR")}
+                              </span>
+                            )}
+                          </div>
+
+                          {/* Corps de l'annotation */}
+                          {ann.body.value && (
+                            <p className="text-foreground font-medium">
+                              "{ann.body.value}"
+                              {ann.body.language && (
+                                <Badge variant="outline" className="ml-2 text-[10px] h-4">
+                                  {ann.body.language}
+                                </Badge>
+                              )}
+                            </p>
+                          )}
+                          {ann.body.prefLabel && (
+                            <p className="text-foreground">
+                              <span className="font-medium">{ann.body.prefLabel}</span>
+                              {ann.body.source && (
+                                <a
+                                  href={ann.body.source}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="ml-2 text-cyan-600 hover:underline inline-flex items-center gap-0.5"
+                                >
+                                  <ExternalLink className="h-2.5 w-2.5" />
+                                  Entité
+                                </a>
+                              )}
+                            </p>
+                          )}
+                          {!ann.body.value && !ann.body.prefLabel && ann.body.source && (
+                            <a
+                              href={ann.body.source}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-cyan-600 hover:underline flex items-center gap-1"
+                            >
+                              <Link2 className="h-3 w-3" />
+                              {ann.body.source}
+                            </a>
+                          )}
+
+                          {/* Sélecteur de cible */}
+                          {ann.target.selector && (
+                            <p className="text-muted-foreground text-[10px] font-mono truncate">
+                              Sélecteur : {ann.target.selector}
+                            </p>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+
+          {/* Liens croisés PERFUMUM */}
+          {(item.relatedPlantName || item.relatedMoleculeName) && (
+            <div className="border-t pt-4">
+              <h3 className="text-sm font-semibold mb-2">Liens PERFUMUM</h3>
+              <div className="flex flex-wrap gap-2">
+                {item.relatedPlantName && item.relatedPlantId && (
+                  <a href={`/plants/${item.relatedPlantId}`}>
+                    <Badge variant="outline" className="gap-1 cursor-pointer hover:bg-green-50">
+                      <Leaf className="h-3 w-3 text-green-600" />
+                      {item.relatedPlantName}
+                    </Badge>
+                  </a>
+                )}
+                {item.relatedMoleculeName && item.relatedMoleculeId && (
+                  <a href={`/molecules/${item.relatedMoleculeId}`}>
+                    <Badge variant="outline" className="gap-1 cursor-pointer hover:bg-blue-50">
+                      <FlaskConical className="h-3 w-3 text-blue-600" />
+                      {item.relatedMoleculeName}
+                    </Badge>
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </SheetContent>
+    </Sheet>
+  );
+}
+
 // ─── Carte d'œuvre Europeana ──────────────────────────────────────────────────
 
 function EuropeanaCard({ item }: { item: EuropeanaItem }) {
   const [imgError, setImgError] = useState(false);
+  const [annotationOpen, setAnnotationOpen] = useState(false);
   const meta = THEME_META[item.theme || "libre"] || THEME_META.libre;
 
   return (
@@ -188,8 +388,25 @@ function EuropeanaCard({ item }: { item: EuropeanaItem }) {
               <ExternalLink className="h-2 w-2 ml-1" />
             </Badge>
           </a>
+
+          {/* Bouton Annotations (Sprint 3 bis) */}
+          <button
+            onClick={() => setAnnotationOpen(true)}
+            className="inline-flex items-center gap-0.5 text-[10px] rounded-full border px-1.5 py-0.5 hover:bg-violet-50 dark:hover:bg-violet-950 hover:border-violet-400 text-muted-foreground hover:text-violet-700 transition-colors"
+            title="Voir les annotations sémantiques"
+          >
+            <Tag className="h-2.5 w-2.5" />
+            Annotations
+          </button>
         </div>
       </CardContent>
+
+      {/* Sheet Annotations */}
+      <AnnotationSheet
+        item={annotationOpen ? item : null}
+        open={annotationOpen}
+        onClose={() => setAnnotationOpen(false)}
+      />
     </Card>
   );
 }
@@ -982,7 +1199,201 @@ function StatsTab() {
   );
 }
 
-// ─── Page principale ──────────────────────────────────────────────────────────
+// ─── Onglet Annotations (recherche par terme) ───────────────────────────────
+
+const ANNOTATION_SUGGESTIONS = [
+  "Rosa damascena", "olibanum", "myrrha", "nardus", "lavandula",
+  "jasmine", "frankincense", "amber", "oud", "sandalwood",
+  "vetiver", "patchouli", "bergamot", "ylang", "rose",
+];
+
+function AnnotationsSearchTab() {
+  const [query, setQuery] = useState("");
+  const [typeFilter, setTypeFilter] = useState<"" | "tagging" | "transcribing" | "describing">("");
+  const [submitted, setSubmitted] = useState(false);
+  const [currentQuery, setCurrentQuery] = useState("");
+
+  const { data, isLoading } = trpc.europeana.searchAnnotations.useQuery(
+    { query: currentQuery, type: typeFilter || undefined, limit: 30 },
+    { enabled: submitted && currentQuery.length > 1 }
+  );
+
+  const handleSearch = () => {
+    if (query.trim().length > 1) {
+      setCurrentQuery(query.trim());
+      setSubmitted(true);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      {/* En-tête */}
+      <Card className="border-violet-200 bg-violet-50/50 dark:bg-violet-950/20">
+        <CardContent className="p-4">
+          <p className="text-sm font-medium flex items-center gap-2 mb-1">
+            <Tag className="h-4 w-4 text-violet-600" />
+            Recherche dans les Annotations Europeana
+          </p>
+          <p className="text-xs text-muted-foreground">
+            Interrogez les annotations sémantiques déposées par les contributeurs Europeana sur les collections.
+            Les annotations incluent des tags, transcriptions de manuscrits et descriptions d'entités.
+          </p>
+        </CardContent>
+      </Card>
+
+      {/* Formulaire de recherche */}
+      <div className="flex flex-col sm:flex-row gap-3 items-end flex-wrap">
+        <div className="flex-1 min-w-[200px]">
+          <Label>Terme à rechercher dans les annotations</Label>
+          <Input
+            placeholder="ex: Rosa damascena, olibanum, frankincense..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          />
+        </div>
+        <div>
+          <Label>Type d'annotation</Label>
+          <Select value={typeFilter} onValueChange={(v) => setTypeFilter(v as any)}>
+            <SelectTrigger className="w-40">
+              <SelectValue placeholder="Tous les types" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">Tous les types</SelectItem>
+              <SelectItem value="tagging">Tags sémantiques</SelectItem>
+              <SelectItem value="transcribing">Transcriptions</SelectItem>
+              <SelectItem value="describing">Descriptions</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <Button onClick={handleSearch} disabled={!query.trim() || isLoading}>
+          {isLoading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Search className="h-4 w-4 mr-2" />}
+          Rechercher
+        </Button>
+      </div>
+
+      {/* Suggestions */}
+      <div className="flex flex-wrap gap-1.5">
+        {ANNOTATION_SUGGESTIONS.map((s) => (
+          <button
+            key={s}
+            onClick={() => { setQuery(s); setCurrentQuery(s); setSubmitted(true); }}
+            className="text-xs px-2 py-0.5 rounded-full border hover:bg-violet-50 dark:hover:bg-violet-950 hover:border-violet-400 text-muted-foreground hover:text-violet-700 transition-colors"
+          >
+            {s}
+          </button>
+        ))}
+      </div>
+
+      {/* Chargement */}
+      {isLoading && (
+        <div className="flex items-center justify-center py-8">
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          <span className="ml-2 text-sm text-muted-foreground">Recherche dans les annotations Europeana...</span>
+        </div>
+      )}
+
+      {/* Résultats */}
+      {data && !isLoading && (
+        <>
+          {!data.apiAvailable && (
+            <Card className="border-amber-200 bg-amber-50 dark:bg-amber-950/20">
+              <CardContent className="p-4 flex items-start gap-3 text-amber-700 dark:text-amber-400">
+                <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-sm font-medium">Annotation API non disponible</p>
+                  <p className="text-xs mt-1">{data.error || "Clé API Europeana non configurée."}</p>
+                  <p className="text-xs mt-1 text-muted-foreground">
+                    Ajoutez <code className="bg-amber-100 px-1 rounded">EUROPEANA_API_KEY</code> dans les secrets du projet pour activer cette fonctionnalité.
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {data.apiAvailable && data.annotations.length === 0 && submitted && (
+            <Card className="border-dashed">
+              <CardContent className="p-8 text-center text-muted-foreground">
+                <Tag className="h-8 w-8 mx-auto mb-2 opacity-30" />
+                <p className="text-sm">Aucune annotation trouvée pour "{currentQuery}"</p>
+                <p className="text-xs mt-1">Essayez un autre terme ou un type différent</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {data.apiAvailable && data.annotations.length > 0 && (
+            <div className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                {data.total.toLocaleString()} annotation(s) trouvée(s) pour « {currentQuery} »
+              </p>
+              {data.annotations.map((ann, i) => {
+                const cfg = ANNOTATION_TYPE_CONFIG[ann.type] || ANNOTATION_TYPE_CONFIG.unknown;
+                return (
+                  <Card key={i} className={`border ${cfg.bg}`}>
+                    <CardContent className="p-4 space-y-2">
+                      {/* Type + date */}
+                      <div className={`flex items-center gap-2 text-xs font-medium ${cfg.color}`}>
+                        {cfg.icon}
+                        {cfg.label}
+                        {ann.created && (
+                          <span className="ml-auto font-normal text-muted-foreground">
+                            {new Date(ann.created).toLocaleDateString("fr-FR")}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Corps */}
+                      {ann.body.value && (
+                        <p className="text-sm text-foreground">
+                          « {ann.body.value} »
+                          {ann.body.language && (
+                            <Badge variant="outline" className="ml-2 text-[10px]">{ann.body.language}</Badge>
+                          )}
+                        </p>
+                      )}
+                      {ann.body.prefLabel && (
+                        <p className="text-sm text-foreground font-medium">{ann.body.prefLabel}</p>
+                      )}
+                      {ann.body.source && (
+                        <a
+                          href={ann.body.source}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-cyan-600 hover:underline flex items-center gap-1"
+                        >
+                          <ExternalLink className="h-3 w-3" />
+                          {ann.body.source}
+                        </a>
+                      )}
+
+                      {/* Cible */}
+                      {ann.target.recordId && (
+                        <div className="flex items-center gap-2 pt-1 border-t">
+                          <ChevronRight className="h-3 w-3 text-muted-foreground" />
+                          <span className="text-xs text-muted-foreground">Item : </span>
+                          <a
+                            href={`https://www.europeana.eu/item${ann.target.recordId}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-cyan-600 hover:underline font-mono"
+                          >
+                            {ann.target.recordId}
+                          </a>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
+// ─── Page principale ──────────────────────────────────────────────────
 
 export default function EuropeanaExplorer() {
   return (
@@ -1058,6 +1469,11 @@ export default function EuropeanaExplorer() {
             Citations
             <Badge className="ml-1 text-[10px] bg-cyan-600 text-white h-3.5 px-1">S2</Badge>
           </TabsTrigger>
+          <TabsTrigger value="annotations" className="text-xs">
+            <Tag className="h-3.5 w-3.5 mr-1" />
+            Annotations
+            <Badge className="ml-1 text-[10px] bg-violet-600 text-white h-3.5 px-1">S3</Badge>
+          </TabsTrigger>
         </TabsList>
 
         {/* Contenu des onglets */}
@@ -1076,6 +1492,7 @@ export default function EuropeanaExplorer() {
         <TabsContent value="rituels_olfactifs" className="mt-4"><ThematicTab theme="rituels_olfactifs" /></TabsContent>
         <TabsContent value="libre" className="mt-4"><FreeSearchTab /></TabsContent>
         <TabsContent value="iiif_fulltext" className="mt-4"><IiifFullTextTab /></TabsContent>
+        <TabsContent value="annotations" className="mt-4"><AnnotationsSearchTab /></TabsContent>
       </Tabs>
     </div>
   );
