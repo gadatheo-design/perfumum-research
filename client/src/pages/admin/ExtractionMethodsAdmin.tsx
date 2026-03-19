@@ -63,15 +63,15 @@ const CATEGORY_LABELS: Record<Category, string> = {
 };
 
 const CATEGORY_COLORS: Record<Category, string> = {
-  distillation: "bg-blue-100 text-blue-800",
-  expression: "bg-yellow-100 text-yellow-800",
-  extraction_solvant: "bg-purple-100 text-purple-800",
-  co2_supercritique: "bg-green-100 text-green-800",
-  enfleurage: "bg-pink-100 text-pink-800",
-  maceration: "bg-orange-100 text-orange-800",
-  hydrodistillation: "bg-cyan-100 text-cyan-800",
-  percolation: "bg-teal-100 text-teal-800",
-  other: "bg-gray-100 text-gray-800",
+  distillation: "bg-blue-600 text-white",
+  expression: "bg-yellow-600 text-white",
+  extraction_solvant: "bg-purple-600 text-white",
+  co2_supercritique: "bg-emerald-600 text-white",
+  enfleurage: "bg-pink-600 text-white",
+  maceration: "bg-orange-600 text-white",
+  hydrodistillation: "bg-cyan-600 text-white",
+  percolation: "bg-teal-600 text-white",
+  other: "bg-gray-600 text-white",
 };
 
 const COST_LABELS: Record<CostLevel, string> = {
@@ -266,10 +266,10 @@ export default function ExtractionMethodsAdmin() {
               <CardHeader className="py-3 px-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3 flex-1 min-w-0">
-                    <code className="text-xs bg-muted px-2 py-0.5 rounded font-mono shrink-0">
+                    <code className="text-xs bg-muted text-foreground px-2 py-0.5 rounded font-mono shrink-0">
                       {m.method_id}
                     </code>
-                    <span className="font-semibold truncate">{m.name}</span>
+                    <span className="font-semibold truncate text-foreground">{m.name}</span>
                     <Badge className={`text-xs shrink-0 ${CATEGORY_COLORS[m.category] || "bg-gray-100 text-gray-800"}`}>
                       {CATEGORY_LABELS[m.category] || m.category}
                     </Badge>
@@ -328,7 +328,7 @@ export default function ExtractionMethodsAdmin() {
                   <div className="grid grid-cols-2 gap-4">
                     {m.advantages && m.advantages.length > 0 && (
                       <div>
-                        <div className="font-medium text-green-700 mb-1">Avantages</div>
+                        <div className="font-medium text-green-500 mb-1">Avantages</div>
                         <ul className="list-disc list-inside space-y-0.5 text-muted-foreground">
                           {m.advantages.map((a, i) => <li key={i}>{a}</li>)}
                         </ul>
@@ -336,7 +336,7 @@ export default function ExtractionMethodsAdmin() {
                     )}
                     {m.disadvantages && m.disadvantages.length > 0 && (
                       <div>
-                        <div className="font-medium text-red-700 mb-1">Inconvénients</div>
+                        <div className="font-medium text-red-400 mb-1">Inconvénients</div>
                         <ul className="list-disc list-inside space-y-0.5 text-muted-foreground">
                           {m.disadvantages.map((d, i) => <li key={i}>{d}</li>)}
                         </ul>
@@ -356,9 +356,9 @@ export default function ExtractionMethodsAdmin() {
                     </div>
                   )}
                   {m.notes && (
-                    <div className="bg-amber-50 border border-amber-200 rounded p-2 flex gap-2">
-                      <Info className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                      <span className="text-amber-800">{m.notes}</span>
+                    <div className="bg-amber-500/10 border border-amber-500/30 rounded p-2 flex gap-2">
+                      <Info className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+                      <span className="text-amber-400">{m.notes}</span>
                     </div>
                   )}
                 </CardContent>
