@@ -3,15 +3,21 @@
  * ==============================
  * Intégration de l'API REST Europeana + IIIF APIs
  *
- * APIs utilisées :
- * - Search API  : https://api.europeana.eu/record/v2/search.json
- * - Record API  : https://api.europeana.eu/record/v2/{RECORD_ID}.json
+ * APIs utilisées (Sprint 1 — v3) :
+ * - Search API v2  : https://api.europeana.eu/record/v2/search.json
+ *   → Facettes COUNTRY, YEAR, DATA_PROVIDER, TYPE (NOUVEAU)
+ *   → Filtre theme=nature / theme=art / theme=manuscript (NOUVEAU)
+ *   → Filtre qf=proxy_dc_type (herbier, manuscrit, peinture) (NOUVEAU)
+ *   → Filtre qf=proxy_dcterms_spatial (géographie) (NOUVEAU)
+ * - Record API v2  : https://api.europeana.eu/record/v2/{RECORD_ID}.json
  * - IIIF Manifest (sans clé) : https://iiif.europeana.eu/presentation/{RECORD_ID}/manifest
  * - Thumbnail API (sans clé) : https://api.europeana.eu/thumbnail/v3/{SIZE}/{RECORD_ID}.jpg
+ * - Entity API v2 (NOUVEAU) : https://api.europeana.eu/entity/resolve
  *
  * Docs :
  * - https://europeana.atlassian.net/wiki/spaces/EF/pages/2385739812 (Search API)
  * - https://europeana.atlassian.net/wiki/spaces/EF/pages/1627914244 (IIIF APIs)
+ * - https://api.europeana.eu/console/index.html?url=docs/v3/entity.json (Entity API)
  *
  * Points clés de l'API Europeana (v2) :
  * - wskey       : clé API (paramètre obligatoire)
@@ -22,6 +28,8 @@
  * - media=true  : filtre les items avec média complet disponible
  * - qf=TYPE:IMAGE : filtre par type (IMAGE, TEXT, VIDEO, SOUND, 3D)
  * - reusability : open | restricted | permission
+ * - facet=COUNTRY&facet=YEAR : agrégations statistiques (NOUVEAU)
+ * - theme=nature : collection thématique Europeana (NOUVEAU)
  *
  * IIIF (sans clé API) :
  * - Manifest v3 : https://iiif.europeana.eu/presentation/{DATASET_ID}/{LOCAL_ID}/manifest
@@ -35,6 +43,7 @@ const EUROPEANA_API_BASE = "https://api.europeana.eu/record/v2";
 const EUROPEANA_SEARCH_URL = `${EUROPEANA_API_BASE}/search.json`;
 const EUROPEANA_IIIF_BASE = "https://iiif.europeana.eu/presentation";
 const EUROPEANA_THUMBNAIL_BASE = "https://api.europeana.eu/thumbnail/v3";
+const EUROPEANA_ENTITY_BASE = "https://api.europeana.eu/entity";
 const TIMEOUT_MS = 15_000;
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -64,6 +73,15 @@ export interface EuropeanaItem {
   relatedMoleculeName?: string;
 }
 
+/** Facette Europeana (agrégation statistique) */
+export interface EuropeanaFacet {
+  name: string;   // ex: "COUNTRY", "YEAR", "DATA_PROVIDER", "TYPE"
+  fields: Array<{
+    label: string;  // ex: "France", "1850", "Rijksmuseum"
+    count: number;
+  }>;
+}
+
 export interface EuropeanaSearchResult {
   items: EuropeanaItem[];
   total: number;
@@ -71,6 +89,7 @@ export interface EuropeanaSearchResult {
   theme: string;
   apiAvailable: boolean;
   nextCursor?: string;       // Pagination curseur pour deep pagination
+  facets?: EuropeanaFacet[]; // Agrégations statistiques (NOUVEAU)
   error?: string;
 }
 
@@ -84,6 +103,18 @@ export interface EuropeanaRecordDetail extends EuropeanaItem {
   iiifManifestV3?: string;   // IIIF Presentation API v3
   edmIsShownAt?: string;     // URL vers la page de l'institution
   edmIsShownBy?: string;     // URL vers le média haute résolution
+}
+
+/** Entité Europeana (Entity API) */
+export interface EuropeanaEntity {
+  id: string;           // ex: "http://data.europeana.eu/concept/1234"
+  type: string;         // Agent | Place | Concept | Organisation | TimeSpan
+  prefLabel?: Record<string, string>;  // Labels multilingues
+  altLabel?: Record<string, string[]>;
+  description?: Record<string, string>;
+  sameAs?: string[];    // URIs externes (Wikidata, DBpedia, GeoNames)
+  depiction?: string;   // URL d'une image représentative
+  isShownBy?: string;
 }
 
 // ─── Helpers IIIF ─────────────────────────────────────────────────────────────
@@ -158,6 +189,22 @@ function mapApiItem(item: any, theme: string): EuropeanaItem {
   };
 }
 
+/**
+ * Mappe les facettes brutes de l'API Europeana vers EuropeanaFacet[].
+ */
+function mapApiFacets(rawFacets: any[]): EuropeanaFacet[] {
+  if (!Array.isArray(rawFacets)) return [];
+  return rawFacets.map((facet: any) => ({
+    name: facet.name || "",
+    fields: Array.isArray(facet.fields)
+      ? facet.fields.map((f: any) => ({
+          label: f.label || "",
+          count: Number(f.count) || 0,
+        }))
+      : [],
+  }));
+}
+
 // ─── Requêtes thématiques PERFUMUM ───────────────────────────────────────────
 
 export const THEMATIC_QUERIES: Record<
@@ -172,8 +219,14 @@ export const THEMATIC_QUERIES: Record<
     // Filtres supplémentaires optionnels
     reusability?: string;
     typeFilter?: string;
+    // Nouveaux filtres Sprint 1
+    europeanaTheme?: string;         // theme=nature | art | manuscript | map | photography
+    objectTypeFilter?: string;       // qf=proxy_dc_type:herbarium | painting | manuscript
+    spatialFilter?: string;          // qf=proxy_dcterms_spatial:France | Turkey
+    facetsEnabled?: boolean;         // Activer les facettes COUNTRY/YEAR/DATA_PROVIDER
   }
 > = {
+  // ── Thèmes existants enrichis ────────────────────────────────────────────────
   rose_damas: {
     label: "Rose de Damas",
     query: "Damascus rose OR Rosa damascena OR rose de Damas OR Damaszener Rose",
@@ -184,6 +237,8 @@ export const THEMATIC_QUERIES: Record<
     color: "#e11d48",
     reusability: "open",
     typeFilter: "IMAGE",
+    europeanaTheme: "art",
+    facetsEnabled: true,
   },
   encens: {
     label: "Encens & Oliban",
@@ -195,6 +250,8 @@ export const THEMATIC_QUERIES: Record<
     color: "#d97706",
     reusability: "open",
     typeFilter: "IMAGE",
+    europeanaTheme: "art",
+    facetsEnabled: true,
   },
   tabac_ottoman: {
     label: "Tabac ottoman",
@@ -206,6 +263,8 @@ export const THEMATIC_QUERIES: Record<
     color: "#7c3aed",
     reusability: "open",
     typeFilter: "IMAGE",
+    europeanaTheme: "art",
+    facetsEnabled: true,
   },
   houblon: {
     label: "Houblon & Brasserie",
@@ -217,6 +276,9 @@ export const THEMATIC_QUERIES: Record<
     color: "#16a34a",
     reusability: "open",
     typeFilter: "IMAGE",
+    europeanaTheme: "nature",
+    objectTypeFilter: "botanical illustration",
+    facetsEnabled: true,
   },
   nard: {
     label: "Nard & Parfums antiques",
@@ -228,6 +290,8 @@ export const THEMATIC_QUERIES: Record<
     color: "#0891b2",
     reusability: "open",
     typeFilter: "IMAGE",
+    europeanaTheme: "art",
+    facetsEnabled: true,
   },
   myrrhe: {
     label: "Myrrhe & Résines",
@@ -239,6 +303,87 @@ export const THEMATIC_QUERIES: Record<
     color: "#b45309",
     reusability: "open",
     typeFilter: "IMAGE",
+    europeanaTheme: "art",
+    facetsEnabled: true,
+  },
+
+  // ── 6 Nouveaux thèmes (Sprint 1) ─────────────────────────────────────────────
+  flacons_parfum: {
+    label: "Flacons de parfum historiques",
+    query: "perfume bottle OR flacon parfum OR unguentarium OR alabastron OR balsamarium OR kohl bottle",
+    description:
+      "Flacons, fioles et récipients à parfum à travers l'histoire — de l'Antiquité aux Arts décoratifs. Unguentaria romains, flacons en verre soufflé, flacons Art Nouveau.",
+    relatedPlants: ["Rosa damascena", "Commiphora myrrha", "Boswellia sacra"],
+    relatedMolecules: ["Géraniol", "Nardol", "Incensole acétate"],
+    color: "#8b5cf6",
+    reusability: "open",
+    typeFilter: "IMAGE",
+    europeanaTheme: "art",
+    facetsEnabled: true,
+  },
+  illustrations_botaniques: {
+    label: "Illustrations botaniques",
+    query: "botanical illustration OR planche botanique OR herbarium plate OR Kräuterbuch OR hortus",
+    description:
+      "Planches botaniques, herbiers illustrés et illustrations scientifiques de plantes aromatiques et médicinales — du Moyen Âge aux Lumières.",
+    relatedPlants: ["Rosa damascena", "Lavandula angustifolia", "Jasminum grandiflorum"],
+    relatedMolecules: ["Linalol", "Géraniol", "Benzyl acétate"],
+    color: "#059669",
+    reusability: "open",
+    typeFilter: "IMAGE",
+    europeanaTheme: "nature",
+    objectTypeFilter: "botanical illustration",
+    facetsEnabled: true,
+  },
+  routes_epices: {
+    label: "Routes des épices",
+    query: "spice trade route OR route épices OR silk road map OR via della seta OR ruta de las especias",
+    description:
+      "Cartographie historique des routes commerciales des épices et des matières aromatiques — de la Route de la Soie aux comptoirs hollandais.",
+    relatedPlants: ["Boswellia sacra", "Commiphora myrrha", "Nardostachys jatamansi"],
+    relatedMolecules: ["α-Pinène", "Eugenol", "Cinnamaldéhyde"],
+    color: "#f59e0b",
+    reusability: "open",
+    europeanaTheme: "map",
+    facetsEnabled: true,
+  },
+  distillation_alchimie: {
+    label: "Distillation & Alchimie",
+    query: "distillation alembic OR alchimie parfum OR alchemy still OR athanor distillation OR aqua vitae",
+    description:
+      "Représentations de la distillation et de l'alchimie dans les manuscrits et gravures — alambics, athanors, recettes de parfums et d'eaux aromatiques.",
+    relatedPlants: ["Lavandula angustifolia", "Rosa damascena", "Boswellia sacra"],
+    relatedMolecules: ["Linalol", "Géraniol", "α-Pinène"],
+    color: "#6366f1",
+    reusability: "open",
+    europeanaTheme: "manuscript",
+    facetsEnabled: true,
+  },
+  jardins_botaniques: {
+    label: "Jardins botaniques historiques",
+    query: "jardin botanique OR hortus botanicus OR botanical garden OR giardino botanico OR Kew Gardens",
+    description:
+      "Photographies et représentations des grands jardins botaniques européens — espaces de conservation et d'étude des plantes aromatiques.",
+    relatedPlants: ["Lavandula angustifolia", "Rosa damascena", "Jasminum grandiflorum"],
+    relatedMolecules: ["Linalol", "Géraniol", "Benzyl acétate"],
+    color: "#10b981",
+    reusability: "open",
+    typeFilter: "IMAGE",
+    europeanaTheme: "photography",
+    facetsEnabled: true,
+  },
+  rituels_olfactifs: {
+    label: "Cérémonies rituelles olfactives",
+    query: "ritual incense ceremony OR cérémonie encens OR fumigation ritual OR thurifère OR censing",
+    description:
+      "Représentations des rituels olfactifs à travers les cultures — fumigations, offrandes d'encens, cérémonies religieuses et profanes.",
+    relatedPlants: ["Boswellia sacra", "Commiphora myrrha", "Styrax benzoin"],
+    relatedMolecules: ["Incensole acétate", "Furanosesquiterpènes", "Benzyl benzoate"],
+    color: "#dc2626",
+    reusability: "open",
+    typeFilter: "IMAGE",
+    europeanaTheme: "art",
+    facetsEnabled: true,
   },
 };
 
@@ -485,12 +630,157 @@ const DEMO_ITEMS: Record<string, EuropeanaItem[]> = {
       relatedPlantName: "Commiphora myrrha",
     },
   ],
+  flacons_parfum: [
+    {
+      id: "/9200365/BibliographicResource_3000126284850",
+      title: "Unguentarium romain — Flacon à parfum en verre",
+      creator: "Atelier romain",
+      date: "100",
+      institution: "Musée du Louvre",
+      country: "France",
+      thumbnailUrl: buildThumbnailUrl("/9200365/BibliographicResource_3000126284850", 200),
+      thumbnailUrlLarge: buildThumbnailUrl("/9200365/BibliographicResource_3000126284850", 400),
+      iiifManifestUrl: buildIiifManifestUrl("/9200365/BibliographicResource_3000126284850"),
+      europeanaUrl: "https://www.europeana.eu/search?query=unguentarium+roman+perfume+bottle",
+      rights: "http://creativecommons.org/publicdomain/mark/1.0/",
+      rightsLabel: "Domaine public",
+      type: "IMAGE",
+      theme: "flacons_parfum",
+      relatedPlantName: "Rosa damascena",
+    },
+    {
+      id: "/9200365/BibliographicResource_3000126284851",
+      title: "Flacon de parfum Art Nouveau — Lalique",
+      creator: "René Lalique",
+      date: "1910",
+      institution: "Musée des Arts Décoratifs, Paris",
+      country: "France",
+      thumbnailUrl: buildThumbnailUrl("/9200365/BibliographicResource_3000126284851", 200),
+      thumbnailUrlLarge: buildThumbnailUrl("/9200365/BibliographicResource_3000126284851", 400),
+      iiifManifestUrl: buildIiifManifestUrl("/9200365/BibliographicResource_3000126284851"),
+      europeanaUrl: "https://www.europeana.eu/search?query=lalique+perfume+bottle+art+nouveau",
+      rights: "http://creativecommons.org/publicdomain/mark/1.0/",
+      rightsLabel: "Domaine public",
+      type: "IMAGE",
+      theme: "flacons_parfum",
+    },
+  ],
+  illustrations_botaniques: [
+    {
+      id: "/9200365/BibliographicResource_3000126284852",
+      title: "Lavandula vera — Planche de l'Encyclopédie Botanique",
+      creator: "Pierre Bulliard",
+      date: "1780",
+      institution: "Muséum National d'Histoire Naturelle",
+      country: "France",
+      thumbnailUrl: buildThumbnailUrl("/9200365/BibliographicResource_3000126284852", 200),
+      thumbnailUrlLarge: buildThumbnailUrl("/9200365/BibliographicResource_3000126284852", 400),
+      iiifManifestUrl: buildIiifManifestUrl("/9200365/BibliographicResource_3000126284852"),
+      europeanaUrl: "https://www.europeana.eu/search?query=lavandula+botanical+illustration",
+      rights: "http://creativecommons.org/publicdomain/mark/1.0/",
+      rightsLabel: "Domaine public",
+      type: "IMAGE",
+      theme: "illustrations_botaniques",
+      relatedPlantName: "Lavandula angustifolia",
+    },
+    {
+      id: "/9200365/BibliographicResource_3000126284853",
+      title: "Jasminum grandiflorum — Hortus Eystettensis",
+      creator: "Basil Besler",
+      date: "1613",
+      institution: "Bibliothèque nationale d'Autriche",
+      country: "Autriche",
+      thumbnailUrl: buildThumbnailUrl("/9200365/BibliographicResource_3000126284853", 200),
+      thumbnailUrlLarge: buildThumbnailUrl("/9200365/BibliographicResource_3000126284853", 400),
+      iiifManifestUrl: buildIiifManifestUrl("/9200365/BibliographicResource_3000126284853"),
+      europeanaUrl: "https://www.europeana.eu/search?query=jasmine+botanical+hortus+eystettensis",
+      rights: "http://creativecommons.org/publicdomain/mark/1.0/",
+      rightsLabel: "Domaine public",
+      type: "IMAGE",
+      theme: "illustrations_botaniques",
+      relatedPlantName: "Jasminum grandiflorum",
+    },
+  ],
+  routes_epices: [
+    {
+      id: "/9200365/BibliographicResource_3000126284854",
+      title: "Carte des routes commerciales de l'Orient",
+      creator: "Jan Jansson",
+      date: "1650",
+      institution: "Bibliothèque nationale des Pays-Bas",
+      country: "Pays-Bas",
+      thumbnailUrl: buildThumbnailUrl("/9200365/BibliographicResource_3000126284854", 200),
+      thumbnailUrlLarge: buildThumbnailUrl("/9200365/BibliographicResource_3000126284854", 400),
+      iiifManifestUrl: buildIiifManifestUrl("/9200365/BibliographicResource_3000126284854"),
+      europeanaUrl: "https://www.europeana.eu/search?query=spice+trade+route+map+orient",
+      rights: "http://creativecommons.org/publicdomain/mark/1.0/",
+      rightsLabel: "Domaine public",
+      type: "IMAGE",
+      theme: "routes_epices",
+    },
+  ],
+  distillation_alchimie: [
+    {
+      id: "/9200365/BibliographicResource_3000126284855",
+      title: "Alambic et distillation — Traité d'alchimie",
+      creator: "Anonyme (manuscrit alchimique)",
+      date: "1450",
+      institution: "Bibliothèque nationale de France",
+      country: "France",
+      thumbnailUrl: buildThumbnailUrl("/9200365/BibliographicResource_3000126284855", 200),
+      thumbnailUrlLarge: buildThumbnailUrl("/9200365/BibliographicResource_3000126284855", 400),
+      iiifManifestUrl: buildIiifManifestUrl("/9200365/BibliographicResource_3000126284855"),
+      europeanaUrl: "https://www.europeana.eu/search?query=alembic+distillation+alchemy+manuscript",
+      rights: "http://creativecommons.org/publicdomain/mark/1.0/",
+      rightsLabel: "Domaine public",
+      type: "TEXT",
+      theme: "distillation_alchimie",
+    },
+  ],
+  jardins_botaniques: [
+    {
+      id: "/9200365/BibliographicResource_3000126284856",
+      title: "Jardin botanique de Leyde — Vue panoramique",
+      creator: "Anonyme",
+      date: "1610",
+      institution: "Rijksmuseum Amsterdam",
+      country: "Pays-Bas",
+      thumbnailUrl: buildThumbnailUrl("/9200365/BibliographicResource_3000126284856", 200),
+      thumbnailUrlLarge: buildThumbnailUrl("/9200365/BibliographicResource_3000126284856", 400),
+      iiifManifestUrl: buildIiifManifestUrl("/9200365/BibliographicResource_3000126284856"),
+      europeanaUrl: "https://www.europeana.eu/search?query=leiden+botanical+garden+hortus",
+      rights: "http://creativecommons.org/publicdomain/mark/1.0/",
+      rightsLabel: "Domaine public",
+      type: "IMAGE",
+      theme: "jardins_botaniques",
+    },
+  ],
+  rituels_olfactifs: [
+    {
+      id: "/9200365/BibliographicResource_3000126284857",
+      title: "Cérémonie d'encensement — Fresque byzantine",
+      creator: "Anonyme (art byzantin)",
+      date: "1200",
+      institution: "Musée byzantin d'Athènes",
+      country: "Grèce",
+      thumbnailUrl: buildThumbnailUrl("/9200365/BibliographicResource_3000126284857", 200),
+      thumbnailUrlLarge: buildThumbnailUrl("/9200365/BibliographicResource_3000126284857", 400),
+      iiifManifestUrl: buildIiifManifestUrl("/9200365/BibliographicResource_3000126284857"),
+      europeanaUrl: "https://www.europeana.eu/search?query=byzantine+incense+ceremony+fresco",
+      rights: "http://creativecommons.org/publicdomain/mark/1.0/",
+      rightsLabel: "Domaine public",
+      type: "IMAGE",
+      theme: "rituels_olfactifs",
+      relatedPlantName: "Boswellia sacra",
+      relatedMoleculeName: "Incensole acétate",
+    },
+  ],
 };
 
 // ─── Fonctions principales ────────────────────────────────────────────────────
 
 /**
- * Recherche thématique Europeana avec support IIIF et pagination curseur.
+ * Recherche thématique Europeana avec support IIIF, pagination curseur et facettes.
  * Si la clé API est disponible, interroge l'API REST.
  * Sinon, retourne des données de démonstration.
  */
@@ -546,6 +836,33 @@ export async function searchEuropeanaThematic(
       url.searchParams.set("reusability", themeConfig.reusability);
     }
 
+    // ── Nouveaux filtres Sprint 1 ──────────────────────────────────────────────
+
+    // Filtre par collection thématique Europeana (nature, art, manuscript, map, photography)
+    if (themeConfig.europeanaTheme) {
+      url.searchParams.set("theme", themeConfig.europeanaTheme);
+    }
+
+    // Filtre par type d'objet (herbier, manuscrit, peinture botanique)
+    if (themeConfig.objectTypeFilter) {
+      url.searchParams.append("qf", `proxy_dc_type:"${themeConfig.objectTypeFilter}"`);
+    }
+
+    // Filtre géographique
+    if (themeConfig.spatialFilter) {
+      url.searchParams.append("qf", `proxy_dcterms_spatial:"${themeConfig.spatialFilter}"`);
+    }
+
+    // Facettes : agrégations statistiques (COUNTRY, YEAR, DATA_PROVIDER, TYPE)
+    if (themeConfig.facetsEnabled) {
+      url.searchParams.append("facet", "COUNTRY");
+      url.searchParams.append("facet", "YEAR");
+      url.searchParams.append("facet", "DATA_PROVIDER");
+      url.searchParams.append("facet", "TYPE");
+      // Activer le profil facets dans la réponse
+      url.searchParams.set("profile", "rich facets");
+    }
+
     // Pagination : curseur (deep pagination) ou start (basic)
     if (cursor) {
       url.searchParams.set("cursor", cursor);
@@ -583,6 +900,7 @@ export async function searchEuropeanaThematic(
       theme,
       apiAvailable: true,
       nextCursor: data.nextCursor,
+      facets: data.facets ? mapApiFacets(data.facets) : undefined,
     };
   } catch (e) {
     console.error(`[Europeana] searchThematic error for ${theme}:`, e);
@@ -599,14 +917,15 @@ export async function searchEuropeanaThematic(
 }
 
 /**
- * Recherche Europeana par mot-clé libre avec support IIIF.
+ * Recherche Europeana par mot-clé libre avec support IIIF et facettes optionnelles.
  */
 export async function searchEuropeanaFree(
   query: string,
   limit = 24,
   typeFilter?: string,
   reusability?: string,
-  cursor?: string
+  cursor?: string,
+  withFacets = false
 ): Promise<EuropeanaSearchResult> {
   const apiKey = process.env.EUROPEANA_API_KEY;
 
@@ -626,7 +945,6 @@ export async function searchEuropeanaFree(
     url.searchParams.set("wskey", apiKey);
     url.searchParams.set("query", query);
     url.searchParams.set("rows", String(Math.min(limit, 100)));
-    url.searchParams.set("profile", "rich");
     url.searchParams.set("thumbnail", "true");
 
     if (typeFilter) {
@@ -637,6 +955,17 @@ export async function searchEuropeanaFree(
     }
     if (cursor) {
       url.searchParams.set("cursor", cursor);
+    }
+
+    // Facettes optionnelles
+    if (withFacets) {
+      url.searchParams.append("facet", "COUNTRY");
+      url.searchParams.append("facet", "YEAR");
+      url.searchParams.append("facet", "DATA_PROVIDER");
+      url.searchParams.append("facet", "TYPE");
+      url.searchParams.set("profile", "rich facets");
+    } else {
+      url.searchParams.set("profile", "rich");
     }
 
     const controller = new AbortController();
@@ -669,6 +998,7 @@ export async function searchEuropeanaFree(
       theme: "libre",
       apiAvailable: true,
       nextCursor: data.nextCursor,
+      facets: data.facets ? mapApiFacets(data.facets) : undefined,
     };
   } catch (e) {
     console.error(`[Europeana] searchFree error:`, e);
@@ -697,7 +1027,7 @@ export async function searchEuropeanaByPlant(
     terms.push(plantLatinName);
   }
   const query = terms.map(t => `"${t}"`).join(" OR ");
-  return searchEuropeanaFree(query, limit, "IMAGE", "open");
+  return searchEuropeanaFree(query, limit, "IMAGE", "open", undefined, true);
 }
 
 /**
@@ -743,9 +1073,13 @@ export async function searchEuropeanaByWikidataQid(
     url.searchParams.set("wskey", apiKey);
     url.searchParams.set("query", query);
     url.searchParams.set("rows", String(Math.min(limit, 50)));
-    url.searchParams.set("profile", "rich");
+    url.searchParams.set("profile", "rich facets");
     url.searchParams.set("thumbnail", "true");
     url.searchParams.append("qf", "TYPE:IMAGE");
+    // Facettes pour les recherches par plante/QID
+    url.searchParams.append("facet", "COUNTRY");
+    url.searchParams.append("facet", "YEAR");
+    url.searchParams.append("facet", "DATA_PROVIDER");
 
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
@@ -772,6 +1106,7 @@ export async function searchEuropeanaByWikidataQid(
       theme: "qid",
       apiAvailable: true,
       nextCursor: data.nextCursor,
+      facets: data.facets ? mapApiFacets(data.facets) : undefined,
     };
   } catch (e) {
     console.error(`[Europeana] searchByQid error for ${qid}:`, e);
@@ -852,6 +1187,108 @@ export async function getEuropeanaRecord(recordId: string): Promise<EuropeanaRec
 }
 
 /**
+ * Résout une entité Europeana depuis un URI externe (ex: Wikidata QID).
+ * Entity API v2 — endpoint /entity/resolve
+ * Retourne l'entité Europeana correspondante (Concept, Agent, Place, etc.)
+ */
+export async function resolveEuropeanaEntity(
+  wikidataQid: string
+): Promise<EuropeanaEntity | null> {
+  const apiKey = process.env.EUROPEANA_API_KEY;
+  if (!apiKey) return null;
+
+  try {
+    const wikidataUri = `http://www.wikidata.org/entity/${wikidataQid}`;
+    const url = new URL(`${EUROPEANA_ENTITY_BASE}/resolve`);
+    url.searchParams.set("uri", wikidataUri);
+    url.searchParams.set("wskey", apiKey);
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+    const response = await fetch(url.toString(), {
+      headers: { "User-Agent": "PERFUMUM-Research/1.0", Accept: "application/json" },
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeout);
+
+    if (!response.ok) return null;
+
+    const data = await response.json() as any;
+
+    // L'API retourne soit un objet direct, soit un tableau
+    const entity = Array.isArray(data) ? data[0] : data;
+    if (!entity || !entity.id) return null;
+
+    return {
+      id: entity.id,
+      type: entity.type || "Concept",
+      prefLabel: entity.prefLabel,
+      altLabel: entity.altLabel,
+      description: entity.note || entity.description,
+      sameAs: entity.sameAs,
+      depiction: entity.depiction?.id || entity.isShownBy?.id,
+      isShownBy: entity.isShownBy?.id,
+    };
+  } catch (e) {
+    console.error(`[Europeana] resolveEntity error for ${wikidataQid}:`, e);
+    return null;
+  }
+}
+
+/**
+ * Recherche d'entités Europeana par mot-clé (Entity API /search).
+ * Utile pour l'autocomplétion et la découverte d'entités.
+ */
+export async function searchEuropeanaEntities(
+  query: string,
+  type?: "Agent" | "Place" | "Concept" | "Organisation",
+  limit = 10
+): Promise<EuropeanaEntity[]> {
+  const apiKey = process.env.EUROPEANA_API_KEY;
+  if (!apiKey) return [];
+
+  try {
+    const url = new URL(`${EUROPEANA_ENTITY_BASE}/search`);
+    url.searchParams.set("query", query);
+    url.searchParams.set("wskey", apiKey);
+    url.searchParams.set("rows", String(limit));
+    if (type) {
+      url.searchParams.set("type", type);
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+    const response = await fetch(url.toString(), {
+      headers: { "User-Agent": "PERFUMUM-Research/1.0", Accept: "application/json" },
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeout);
+
+    if (!response.ok) return [];
+
+    const data = await response.json() as any;
+    const entities = data.items || [];
+
+    return entities.map((entity: any) => ({
+      id: entity.id,
+      type: entity.type || "Concept",
+      prefLabel: entity.prefLabel,
+      altLabel: entity.altLabel,
+      description: entity.note || entity.description,
+      sameAs: entity.sameAs,
+      depiction: entity.depiction?.id || entity.isShownBy?.id,
+    }));
+  } catch (e) {
+    console.error(`[Europeana] searchEntities error:`, e);
+    return [];
+  }
+}
+
+/**
  * Retourne la configuration des thèmes disponibles.
  */
 export function getThematicConfig() {
@@ -862,5 +1299,7 @@ export function getThematicConfig() {
     relatedPlants: config.relatedPlants,
     relatedMolecules: config.relatedMolecules,
     color: config.color,
+    europeanaTheme: config.europeanaTheme,
+    facetsEnabled: config.facetsEnabled ?? false,
   }));
 }

@@ -4,14 +4,15 @@
  * Procédures pour interroger l'API REST Europeana + IIIF APIs et croiser
  * les collections muséales européennes avec les données PERFUMUM.
  *
- * Nouveautés v2 :
- * - Support IIIF Manifest v3 (sans clé API)
- * - Thumbnail API v3 (sans clé API, meilleure résolution)
- * - Pagination curseur (deep pagination)
- * - getRecord : détail complet d'un item via Record API
- * - searchByPlant / searchByMolecule : utilise latin_name + cas_number
- * - Nouveaux thèmes : nard, myrrhe
- * - Stats enrichies avec couverture IIIF
+ * Sprint 1 (v3) — Nouveautés :
+ * - Facettes COUNTRY / YEAR / DATA_PROVIDER / TYPE dans toutes les recherches
+ * - Filtres thématiques Europeana (theme=nature, art, manuscript, map, photography)
+ * - Filtres proxy_dc_type (herbier, manuscrit, peinture botanique)
+ * - 6 nouveaux thèmes : flacons_parfum, illustrations_botaniques, routes_epices,
+ *   distillation_alchimie, jardins_botaniques, rituels_olfactifs
+ * - Entity API : resolveEntity (QID Wikidata → entité Europeana)
+ * - Entity API : searchEntities (autocomplétion entités)
+ * - searchFree avec withFacets optionnel
  */
 
 import { z } from "zod";
@@ -23,6 +24,8 @@ import {
   searchEuropeanaByPlant,
   searchEuropeanaByMolecule,
   getEuropeanaRecord,
+  resolveEuropeanaEntity,
+  searchEuropeanaEntities,
   getThematicConfig,
   buildIiifManifestUrl,
   buildThumbnailUrl,
@@ -34,19 +37,20 @@ async function getDb() {
   return mysql.createConnection(process.env.DATABASE_URL!);
 }
 
-// Tous les thèmes disponibles
+// Tous les thèmes disponibles (existants + nouveaux Sprint 1)
 const ALL_THEMES = Object.keys(THEMATIC_QUERIES) as [string, ...string[]];
 
 export const europeanaRouter = router({
   /**
-   * Configuration des thèmes disponibles (avec couleurs, plantes, molécules liées)
+   * Configuration des thèmes disponibles (avec couleurs, plantes, molécules liées,
+   * thème Europeana et support facettes)
    */
   thematicConfig: publicProcedure.query(() => {
     return getThematicConfig();
   }),
 
   /**
-   * Recherche thématique PERFUMUM avec pagination curseur et IIIF
+   * Recherche thématique PERFUMUM avec pagination curseur, IIIF et facettes
    */
   thematicSearch: publicProcedure
     .input(
@@ -75,6 +79,12 @@ export const europeanaRouter = router({
           houblon: ["Humulus lupulus"],
           nard: ["Nardostachys jatamansi", "Valeriana officinalis"],
           myrrhe: ["Commiphora myrrha", "Commiphora gileadensis"],
+          flacons_parfum: ["Rosa damascena", "Commiphora myrrha", "Boswellia sacra"],
+          illustrations_botaniques: ["Lavandula angustifolia", "Rosa damascena", "Jasminum grandiflorum"],
+          routes_epices: ["Boswellia sacra", "Commiphora myrrha", "Nardostachys jatamansi"],
+          distillation_alchimie: ["Lavandula angustifolia", "Rosa damascena", "Boswellia sacra"],
+          jardins_botaniques: ["Lavandula angustifolia", "Rosa damascena", "Jasminum grandiflorum"],
+          rituels_olfactifs: ["Boswellia sacra", "Commiphora myrrha"],
         };
 
         const plantNames = themeToPlants[input.theme] || [];
@@ -103,7 +113,7 @@ export const europeanaRouter = router({
     }),
 
   /**
-   * Recherche libre par mot-clé avec filtres IIIF
+   * Recherche libre par mot-clé avec filtres IIIF et facettes optionnelles
    */
   freeSearch: publicProcedure
     .input(
@@ -113,6 +123,7 @@ export const europeanaRouter = router({
         typeFilter: z.enum(["IMAGE", "TEXT", "VIDEO", "SOUND", "3D"]).optional(),
         reusability: z.enum(["open", "restricted", "permission"]).optional(),
         cursor: z.string().optional(),
+        withFacets: z.boolean().default(false),
       })
     )
     .query(async ({ input }) => {
@@ -121,7 +132,8 @@ export const europeanaRouter = router({
         input.limit,
         input.typeFilter,
         input.reusability,
-        input.cursor
+        input.cursor,
+        input.withFacets
       );
     }),
 
@@ -250,7 +262,44 @@ export const europeanaRouter = router({
     }),
 
   /**
+   * Entity API — Résoudre une entité Europeana depuis un QID Wikidata
+   * Retourne l'identifiant Europeana Entity, les labels multilingues et les liens sameAs
+   */
+  resolveEntity: publicProcedure
+    .input(
+      z.object({
+        wikidataQid: z.string().min(2), // ex: "Q103129" (Rosa damascena)
+      })
+    )
+    .query(async ({ input }) => {
+      const entity = await resolveEuropeanaEntity(input.wikidataQid);
+      return entity;
+    }),
+
+  /**
+   * Entity API — Recherche d'entités Europeana par mot-clé
+   * Utile pour l'autocomplétion et la découverte d'entités liées aux plantes/molécules
+   */
+  searchEntities: publicProcedure
+    .input(
+      z.object({
+        query: z.string().min(2).max(100),
+        type: z.enum(["Agent", "Place", "Concept", "Organisation"]).optional(),
+        limit: z.number().int().min(1).max(50).default(10),
+      })
+    )
+    .query(async ({ input }) => {
+      const entities = await searchEuropeanaEntities(
+        input.query,
+        input.type,
+        input.limit
+      );
+      return entities;
+    }),
+
+  /**
    * Statistiques Europeana — état de l'intégration PERFUMUM
+   * Inclut la couverture QID, les thèmes disponibles et les capacités Sprint 1
    */
   stats: publicProcedure.query(async () => {
     const apiKey = process.env.EUROPEANA_API_KEY;
@@ -269,6 +318,9 @@ export const europeanaRouter = router({
         "SELECT COUNT(*) as moleculesWithQid FROM molecules WHERE wikidata_qid IS NOT NULL AND wikidata_qid != ''"
       );
 
+      const allThemes = getThematicConfig();
+      const newThemes = ["flacons_parfum", "illustrations_botaniques", "routes_epices", "distillation_alchimie", "jardins_botaniques", "rituels_olfactifs"];
+
       return {
         apiConfigured: !!apiKey,
         iiifAvailable: true, // IIIF Manifest + Thumbnail sans clé
@@ -276,10 +328,19 @@ export const europeanaRouter = router({
         totalPlants: Number(totalPlants),
         plantsWithQid: Number(plantsWithQid),
         moleculesWithQid: Number(moleculesWithQid),
-        themes: getThematicConfig(),
+        themes: allThemes,
+        totalThemes: allThemes.length,
+        newThemesCount: newThemes.length,
         // Couverture QID
         plantQidCoverage: Math.round((Number(plantsWithQid) / Number(totalPlants)) * 100),
         moleculeQidCoverage: Math.round((Number(moleculesWithQid) / Number(totalMolecules)) * 100),
+        // Capacités Sprint 1
+        sprint1: {
+          facetsEnabled: true,
+          entityApiEnabled: !!apiKey,
+          thematicFiltersEnabled: true,
+          newThemes,
+        },
       };
     } finally {
       await conn.end();

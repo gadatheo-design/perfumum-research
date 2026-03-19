@@ -2674,3 +2674,41 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Total certifications : 36/535 plantes certifiées · 65 certifications actives · 14 types
 - [x] Widget CertificationRadarWidget dans MonDashboard : donut chart recharts + légende + badges IUCN
 - [x] Procédure tRPC plants.getCertificationStats (535 plantes, 36 certifiées, 65 certifications)
+
+
+## 🌐 SESSION 19 MARS 2026 — Europeana Sprint 1 (Facettes, Filtres, Nouveaux Thèmes)
+
+### ✅ Phase 1 : Analyse des endpoints Europeana non exploités
+- [x] Analyser la documentation Europeana API v3 (Search, Record, Entity, IIIF, SPARQL, Recommendation, Annotation, User Set)
+- [x] Identifier les 6 APIs non intégrées dans PERFUMUM
+- [x] Rédiger le rapport d'analyse (docs/europeana-unexploited-endpoints.md)
+
+### ✅ Phase 2 : Enrichissement du service Europeana (server/europeana.ts)
+- [x] Ajouter les facettes COUNTRY, YEAR, DATA_PROVIDER, TYPE dans toutes les recherches
+- [x] Ajouter les filtres thématiques Europeana (theme=nature, art, manuscript, map, photography)
+- [x] Ajouter les filtres proxy_dc_type (herbier, manuscrit, peinture botanique)
+- [x] Créer 6 nouveaux thèmes : flacons_parfum, illustrations_botaniques, routes_epices, distillation_alchimie, jardins_botaniques, rituels_olfactifs
+- [x] Implémenter resolveEuropeanaEntity (QID Wikidata → entité Europeana)
+- [x] Implémenter searchEuropeanaEntities (autocomplétion entités)
+- [x] Enrichir getThematicConfig avec europeanaTheme et facetsEnabled
+
+### ✅ Phase 3 : Mise à jour du router tRPC (server/routers/europeana.ts)
+- [x] Ajouter procédure resolveEntity (Entity API)
+- [x] Ajouter procédure searchEntities (Entity API)
+- [x] Mettre à jour freeSearch avec withFacets optionnel
+- [x] Mettre à jour stats avec sprint1 capabilities
+
+### ✅ Phase 4 : Mise à jour du frontend (EuropeanaExplorer.tsx)
+- [x] Ajouter 6 nouveaux onglets thématiques avec badge "Nouveau"
+- [x] Créer le composant FacetsPanel (COUNTRY, YEAR, DATA_PROVIDER, TYPE)
+- [x] Ajouter bouton toggle facettes dans les onglets thématiques
+- [x] Ajouter bouton toggle facettes dans la recherche libre
+- [x] Afficher europeanaTheme et facetsEnabled dans les descriptions de thèmes
+- [x] Ajouter section "Sprint 1 — Nouvelles capacités" dans la vue d'ensemble
+- [x] Adapter mobile (flex-wrap sur les deux lignes de TabsList)
+
+### ✅ Phase 5 : Tests et validation
+- [x] Créer server/europeana.sprint1.test.ts (11 tests)
+- [x] Tous les tests passent (11/11 ✓)
+- [x] Suite complète : 1738 tests passés (117 fichiers)
+- [x] API thematicConfig validée via curl (12 thèmes retournés)
