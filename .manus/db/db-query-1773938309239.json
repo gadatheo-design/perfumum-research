@@ -1,0 +1,64 @@
+{
+  "query": "\nSELECT id, name, latin_name, category \nFROM plants \nWHERE wikidata_qid IS NULL \nORDER BY name;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, latin_name, category \nFROM plants \nWHERE wikidata_qid IS NULL \nORDER BY name;\n",
+  "rows": [
+    {
+      "id": "690104",
+      "name": "Camphre japonais (Okusu)",
+      "latin_name": "Arbre sacré (Japon), énergie ancienne",
+      "category": "autre"
+    },
+    {
+      "id": "690080",
+      "name": "Cassie (Absolue)",
+      "latin_name": "Absolue 50% (DPG)",
+      "category": "autre"
+    },
+    {
+      "id": "690077",
+      "name": "Citronnelle",
+      "latin_name": "Huile essentielle (sample 1.3 ml)",
+      "category": "autre"
+    },
+    {
+      "id": "690109",
+      "name": "Elemi",
+      "latin_name": "Alternative frankincense plus fraîche (dosage 0.3-1.5%)",
+      "category": "autre"
+    },
+    {
+      "id": "690015",
+      "name": "Fève Tonka",
+      "latin_name": "Parfumerie (notes vertes)",
+      "category": "autre"
+    },
+    {
+      "id": "930002",
+      "name": "Quercus funebris",
+      "latin_name": "Poyomatli (usage historique)",
+      "category": "aromatique"
+    },
+    {
+      "id": "210031",
+      "name": "Test Plant 1",
+      "latin_name": "Testus plantus",
+      "category": "aromatique"
+    },
+    {
+      "id": "210032",
+      "name": "Test Resin Plant",
+      "latin_name": "Testus resinus",
+      "category": "resine"
+    },
+    {
+      "id": "210033",
+      "name": "Test Wind Plant",
+      "latin_name": "Testus ventus",
+      "category": "aromatique"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tcategory\n690104\tCamphre japonais (Okusu)\tArbre sacré (Japon), énergie ancienne\tautre\n690080\tCassie (Absolue)\tAbsolue 50% (DPG)\tautre\n690077\tCitronnelle\tHuile essentielle (sample 1.3 ml)\tautre\n690109\tElemi\tAlternative frankincense plus fraîche (dosage 0.3-1.5%)\tautre\n690015\tFève Tonka\tParfumerie (notes vertes)\tautre\n930002\tQuercus funebris\tPoyomatli (usage historique)\taromatique\n210031\tTest Plant 1\tTestus plantus\taromatique\n210032\tTest Resin Plant\tTestus resinus\tresine\n210033\tTest Wind Plant\tTestus ventus\taromatique\n",
+  "stderr": "",
+  "execution_time_ms": 126
+}

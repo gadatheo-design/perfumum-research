@@ -1,0 +1,16 @@
+{
+  "query": "SELECT id, name, latin_name, category FROM plants WHERE wikidata_qid IS NULL;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, latin_name, category FROM plants WHERE wikidata_qid IS NULL;",
+  "rows": [
+    {
+      "id": "930002",
+      "name": "Quercus funebris",
+      "latin_name": "Poyomatli (usage historique)",
+      "category": "aromatique"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tcategory\n930002\tQuercus funebris\tPoyomatli (usage historique)\taromatique\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}
