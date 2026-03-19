@@ -2627,3 +2627,11 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Onglet Publications dans MoleculeDetail (57 publications OpenAlex accessibles)
 - [x] Onglet Publications dans PlantDetail (publications via entity_links)
 - [x] Affichage titre, auteurs, année, journal, lien DOI, badge Open Access
+
+## SESSION 19 MARS 2026 — ChEBI UI + Patrimoine Menacé + Getty AAT UI
+
+- [x] Lien ChEBI direct (URL via chebi_id) dans l'onglet Nomenclature de MoleculeDetail
+- [x] Page /patrimoine-menace : déjà implémentée avec carte Google Maps + filtres IUCN/CITES
+- [x] Onglet "Traditions olfactives" dans ArchivesOlfactives avec liens Getty AAT + Wikidata
+- [x] Procédures tRPC olfactiveArchives.listTraditions + traditionStats (70 traditions, 29 Getty, 67 Wikidata)
+- [ ] Complétion manuelle des 41 traditions sans correspondance AAT (travail éditorial)

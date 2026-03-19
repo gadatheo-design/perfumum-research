@@ -1,0 +1,190 @@
+{
+  "query": "\nSELECT p.id, p.name, p.latin_name, p.conservation_status, p.iucn_id, p.family,\n       COUNT(pm.molecule_id) as molecule_count\nFROM plants p\nLEFT JOIN plant_molecules pm ON pm.plant_id = p.id\nWHERE p.conservation_status IN ('CR', 'EN', 'VU', 'NT')\nGROUP BY p.id, p.name, p.latin_name, p.conservation_status, p.iucn_id, p.family\nORDER BY FIELD(p.conservation_status, 'CR', 'EN', 'VU', 'NT'), p.name\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT p.id, p.name, p.latin_name, p.conservation_status, p.iucn_id, p.family,\n       COUNT(pm.molecule_id) as molecule_count\nFROM plants p\nLEFT JOIN plant_molecules pm ON pm.plant_id = p.id\nWHERE p.conservation_status IN ('CR', 'EN', 'VU', 'NT')\nGROUP BY p.id, p.name, p.latin_name, p.conservation_status, p.iucn_id, p.family\nORDER BY FIELD(p.conservation_status, 'CR', 'EN', 'VU', 'NT'), p.name\nLIMIT 20;\n",
+  "rows": [
+    {
+      "id": "870004",
+      "name": "Angola Red",
+      "latin_name": "Cannabis sativa var. indica 'Angola Red'",
+      "conservation_status": "CR",
+      "iucn_id": "NULL",
+      "family": "Cannabaceae",
+      "molecule_count": "27"
+    },
+    {
+      "id": "210038",
+      "name": "Aquilaria",
+      "latin_name": "Aquilaria malaccensis",
+      "conservation_status": "CR",
+      "iucn_id": "32056",
+      "family": "Aquilariaceae",
+      "molecule_count": "6"
+    },
+    {
+      "id": "240002",
+      "name": "Bois d'agar",
+      "latin_name": "Aquilaria crassna",
+      "conservation_status": "CR",
+      "iucn_id": "32814",
+      "family": "Aquilariaceae",
+      "molecule_count": "1"
+    },
+    {
+      "id": "210039",
+      "name": "Commiphora",
+      "latin_name": "Commiphora wightii",
+      "conservation_status": "CR",
+      "iucn_id": "31231",
+      "family": "Burseraceae",
+      "molecule_count": "8"
+    },
+    {
+      "id": "270005",
+      "name": "Costus",
+      "latin_name": "Saussurea costus",
+      "conservation_status": "CR",
+      "iucn_id": "50126641",
+      "family": "Asteraceae",
+      "molecule_count": "7"
+    },
+    {
+      "id": "1020008",
+      "name": "Costus root",
+      "latin_name": "Saussurea costus",
+      "conservation_status": "CR",
+      "iucn_id": "50126641",
+      "family": "Asteraceae",
+      "molecule_count": "7"
+    },
+    {
+      "id": "180003",
+      "name": "Nard (Spikenard)",
+      "latin_name": "Nardostachys jatamansi",
+      "conservation_status": "CR",
+      "iucn_id": "50126627",
+      "family": "Valerianaceae",
+      "molecule_count": "31"
+    },
+    {
+      "id": "870008",
+      "name": "Panama Red",
+      "latin_name": "Cannabis sativa var. indica 'Panama Red'",
+      "conservation_status": "CR",
+      "iucn_id": "NULL",
+      "family": "Cannabaceae",
+      "molecule_count": "26"
+    },
+    {
+      "id": "810024",
+      "name": "Tabac Yenidje",
+      "latin_name": "Nicotiana tabacum var. Yenidje",
+      "conservation_status": "CR",
+      "iucn_id": "NULL",
+      "family": "Solanaceae",
+      "molecule_count": "26"
+    },
+    {
+      "id": "870003",
+      "name": "Thai / Thai Stick",
+      "latin_name": "Cannabis sativa var. indica 'Thai'",
+      "conservation_status": "CR",
+      "iucn_id": "NULL",
+      "family": "Cannabaceae",
+      "molecule_count": "26"
+    },
+    {
+      "id": "870010",
+      "name": "Acapulco Gold",
+      "latin_name": "Cannabis sativa var. indica 'Acapulco Gold'",
+      "conservation_status": "EN",
+      "iucn_id": "NULL",
+      "family": "Cannabaceae",
+      "molecule_count": "26"
+    },
+    {
+      "id": "870001",
+      "name": "Afghan Kush",
+      "latin_name": "Cannabis sativa subsp. indica var. afghanica 'Afghan Kush'",
+      "conservation_status": "EN",
+      "iucn_id": "NULL",
+      "family": "Cannabaceae",
+      "molecule_count": "26"
+    },
+    {
+      "id": "210040",
+      "name": "Aniba",
+      "latin_name": "Aniba rosaeodora",
+      "conservation_status": "EN",
+      "iucn_id": "33958",
+      "family": "Lauraceae",
+      "molecule_count": "2"
+    },
+    {
+      "id": "870009",
+      "name": "Colombian Gold",
+      "latin_name": "Cannabis sativa var. indica 'Colombian Gold'",
+      "conservation_status": "EN",
+      "iucn_id": "NULL",
+      "family": "Cannabaceae",
+      "molecule_count": "26"
+    },
+    {
+      "id": "30015",
+      "name": "Cèdre de l'Atlas",
+      "latin_name": "Cedrus atlantica",
+      "conservation_status": "EN",
+      "iucn_id": "42303",
+      "family": "Pinaceae",
+      "molecule_count": "13"
+    },
+    {
+      "id": "870007",
+      "name": "Lebanese Red",
+      "latin_name": "Cannabis sativa 'Lebanese Red'",
+      "conservation_status": "EN",
+      "iucn_id": "NULL",
+      "family": "Cannabaceae",
+      "molecule_count": "26"
+    },
+    {
+      "id": "870005",
+      "name": "Malawi Gold",
+      "latin_name": "Cannabis sativa var. indica 'Malawi Gold'",
+      "conservation_status": "EN",
+      "iucn_id": "NULL",
+      "family": "Cannabaceae",
+      "molecule_count": "26"
+    },
+    {
+      "id": "870011",
+      "name": "Oaxacan",
+      "latin_name": "Cannabis sativa var. indica 'Oaxacan'",
+      "conservation_status": "EN",
+      "iucn_id": "NULL",
+      "family": "Cannabaceae",
+      "molecule_count": "26"
+    },
+    {
+      "id": "840003",
+      "name": "Perique",
+      "latin_name": "Nicotiana tabacum var. Perique",
+      "conservation_status": "EN",
+      "iucn_id": "NULL",
+      "family": "Solanaceae",
+      "molecule_count": "26"
+    },
+    {
+      "id": "1080001",
+      "name": "Rhodiola (Orpin rose)",
+      "latin_name": "Rhodiola rosea",
+      "conservation_status": "EN",
+      "iucn_id": "NULL",
+      "family": "Crassulaceae",
+      "molecule_count": "77"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tconservation_status\tiucn_id\tfamily\tmolecule_count\n870004\tAngola Red\tCannabis sativa var. indica 'Angola Red'\tCR\tNULL\tCannabaceae\t27\n210038\tAquilaria\tAquilaria malaccensis\tCR\t32056\tAquilariaceae\t6\n240002\tBois d'agar\tAquilaria crassna\tCR\t32814\tAquilariaceae\t1\n210039\tCommiphora\tCommiphora wightii\tCR\t31231\tBurseraceae\t8\n270005\tCostus\tSaussurea costus\tCR\t50126641\tAsteraceae\t7\n1020008\tCostus root\tSaussurea costus\tCR\t50126641\tAsteraceae\t7\n180003\tNard (Spikenard)\tNardostachys jatamansi\tCR\t50126627\tValerianaceae\t31\n870008\tPanama Red\tCannabis sativa var. indica 'Panama Red'\tCR\tNULL\tCannabaceae\t26\n810024\tTabac Yenidje\tNicotiana tabacum var. Yenidje\tCR\tNULL\tSolanaceae\t26\n870003\tThai / Thai Stick\tCannabis sativa var. indica 'Thai'\tCR\tNULL\tCannabaceae\t26\n870010\tAcapulco Gold\tCannabis sativa var. indica 'Acapulco Gold'\tEN\tNULL\tCannabaceae\t26\n870001\tAfghan Kush\tCannabis sativa subsp. indica var. afghanica 'Afghan Kush'\tEN\tNULL\tCannabaceae\t26\n210040\tAniba\tAniba rosaeodora\tEN\t33958\tLauraceae\t2\n870009\tColombian Gold\tCannabis sativa var. indica 'Colombian Gold'\tEN\tNULL\tCannabaceae\t26\n30015\tCèdre de l'Atlas\tCedrus atlantica\tEN\t42303\tPinaceae\t13\n870007\tLebanese Red\tCannabis sativa 'Lebanese Red'\tEN\tNULL\tCannabaceae\t26\n870005\tMalawi Gold\tCannabis sativa var. indica 'Malawi Gold'\tEN\tNULL\tCannabaceae\t26\n870011\tOaxacan\tCannabis sativa var. indica 'Oaxacan'\tEN\tNULL\tCannabaceae\t26\n840003\tPerique\tNicotiana tabacum var. Perique\tEN\tNULL\tSolanaceae\t26\n1080001\tRhodiola (Orpin rose)\tRhodiola rosea\tEN\tNULL\tCrassulaceae\t77\n",
+  "stderr": "",
+  "execution_time_ms": 121
+}

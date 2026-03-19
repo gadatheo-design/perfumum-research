@@ -1,0 +1,70 @@
+{
+  "query": "\nSELECT id, name, getty_aat_id, getty_aat_label\nFROM traditions_olfactives\nWHERE getty_aat_id IS NOT NULL\nORDER BY name\nLIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, getty_aat_id, getty_aat_label\nFROM traditions_olfactives\nWHERE getty_aat_id IS NOT NULL\nORDER BY name\nLIMIT 10;\n",
+  "rows": [
+    {
+      "id": "90023",
+      "name": "Abyssal / Hadal",
+      "getty_aat_id": "aat:300386923",
+      "getty_aat_label": "abyssal plains"
+    },
+    {
+      "id": "9",
+      "name": "Akkad",
+      "getty_aat_id": "aat:300019604",
+      "getty_aat_label": "Akkadian (culture or style)"
+    },
+    {
+      "id": "90011",
+      "name": "Arabique / Attars",
+      "getty_aat_id": "aat:300264551",
+      "getty_aat_label": "attar"
+    },
+    {
+      "id": "90027",
+      "name": "Archive / Bibliothèque",
+      "getty_aat_id": "aat:300375752",
+      "getty_aat_label": "dark archives"
+    },
+    {
+      "id": "90016",
+      "name": "Asie du Sud-Est / Tropical sacré",
+      "getty_aat_id": "aat:300391033",
+      "getty_aat_label": "invasiekoorden"
+    },
+    {
+      "id": "90010",
+      "name": "Byzance / Encens liturgique",
+      "getty_aat_id": "aat:300386951",
+      "getty_aat_label": "encens"
+    },
+    {
+      "id": "90014",
+      "name": "Chine / Encens lettré",
+      "getty_aat_id": "aat:300386951",
+      "getty_aat_label": "encens"
+    },
+    {
+      "id": "11",
+      "name": "Dilmun",
+      "getty_aat_id": "aat:300107582",
+      "getty_aat_label": "Early Dilmun"
+    },
+    {
+      "id": "60006",
+      "name": "Empire Aztèque",
+      "getty_aat_id": "aat:300019663",
+      "getty_aat_label": "Hittite Empire"
+    },
+    {
+      "id": "60007",
+      "name": "Empire Inca",
+      "getty_aat_id": "aat:300019663",
+      "getty_aat_label": "Hittite Empire"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tgetty_aat_id\tgetty_aat_label\n90023\tAbyssal / Hadal\taat:300386923\tabyssal plains\n9\tAkkad\taat:300019604\tAkkadian (culture or style)\n90011\tArabique / Attars\taat:300264551\tattar\n90027\tArchive / Bibliothèque\taat:300375752\tdark archives\n90016\tAsie du Sud-Est / Tropical sacré\taat:300391033\tinvasiekoorden\n90010\tByzance / Encens liturgique\taat:300386951\tencens\n90014\tChine / Encens lettré\taat:300386951\tencens\n11\tDilmun\taat:300107582\tEarly Dilmun\n60006\tEmpire Aztèque\taat:300019663\tHittite Empire\n60007\tEmpire Inca\taat:300019663\tHittite Empire\n",
+  "stderr": "",
+  "execution_time_ms": 212
+}

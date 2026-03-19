@@ -1,0 +1,30 @@
+{
+  "query": "\nSELECT conservation_status, COUNT(*) as cnt\nFROM plants\nWHERE conservation_status IN ('CR', 'EN', 'VU', 'NT', 'EX')\nGROUP BY conservation_status\nORDER BY FIELD(conservation_status, 'EX', 'CR', 'EN', 'VU', 'NT');\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT conservation_status, COUNT(*) as cnt\nFROM plants\nWHERE conservation_status IN ('CR', 'EN', 'VU', 'NT', 'EX')\nGROUP BY conservation_status\nORDER BY FIELD(conservation_status, 'EX', 'CR', 'EN', 'VU', 'NT');\n",
+  "rows": [
+    {
+      "conservation_status": "EX",
+      "cnt": "1"
+    },
+    {
+      "conservation_status": "CR",
+      "cnt": "10"
+    },
+    {
+      "conservation_status": "EN",
+      "cnt": "12"
+    },
+    {
+      "conservation_status": "VU",
+      "cnt": "19"
+    },
+    {
+      "conservation_status": "NT",
+      "cnt": "19"
+    }
+  ],
+  "messages": [],
+  "stdout": "conservation_status\tcnt\nEX\t1\nCR\t10\nEN\t12\nVU\t19\nNT\t19\n",
+  "stderr": "",
+  "execution_time_ms": 56
+}

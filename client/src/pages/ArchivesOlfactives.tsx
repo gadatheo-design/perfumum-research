@@ -5,13 +5,24 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { ScrollText, Search, Calendar, MapPin, CheckCircle2, HelpCircle, AlertCircle } from 'lucide-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ScrollText, Search, Calendar, MapPin, CheckCircle2, HelpCircle, AlertCircle, Globe, ExternalLink, BookOpen } from 'lucide-react';
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export default function ArchivesOlfactives() {
   const [searchQuery, setSearchQuery] = useState('');
   const [civilizationFilter, setCivilizationFilter] = useState<string | undefined>(undefined);
   const [typeFilter, setTypeFilter] = useState<string | undefined>(undefined);
+  const [tradSearch, setTradSearch] = useState('');
+  const [withGettyOnly, setWithGettyOnly] = useState(false);
+
+  const { data: traditions, isLoading: tradLoading } = trpc.olfactiveArchives.listTraditions.useQuery({
+    search: tradSearch || undefined,
+    withGettyOnly,
+    limit: 100,
+  });
+
+  const { data: tradStats } = trpc.olfactiveArchives.traditionStats.useQuery();
 
   const { data: archives, isLoading } = trpc.archives.list.useQuery({
     civilization: civilizationFilter,
@@ -43,11 +54,141 @@ export default function ArchivesOlfactives() {
           <div>
             <h1 className="text-4xl font-bold">Archives Olfactives</h1>
             <p className="text-muted-foreground text-lg">
-              Manuscrits, formules anciennes et découvertes archéologiques
+              Manuscrits, formules anciennes, découvertes archéologiques et traditions olfactives
             </p>
           </div>
         </div>
       </div>
+
+      <Tabs defaultValue="archives">
+        <TabsList className="mb-4">
+          <TabsTrigger value="archives" className="gap-2">
+            <ScrollText className="h-4 w-4" />
+            Archives historiques
+          </TabsTrigger>
+          <TabsTrigger value="traditions" className="gap-2">
+            <Globe className="h-4 w-4" />
+            Traditions olfactives
+            {tradStats && <span className="ml-1 px-1.5 py-0.5 rounded-full text-xs bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200">{tradStats.total}</span>}
+          </TabsTrigger>
+        </TabsList>
+
+        {/* ===== ONGLET TRADITIONS OLFACTIVES ===== */}
+        <TabsContent value="traditions" className="space-y-6">
+          {/* Stats */}
+          {tradStats && (
+            <div className="grid grid-cols-3 gap-4">
+              <Card className="bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800">
+                <CardContent className="p-4 text-center">
+                  <p className="text-2xl font-bold text-amber-700 dark:text-amber-300">{tradStats.total}</p>
+                  <p className="text-xs text-amber-600 dark:text-amber-400">Traditions totales</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-purple-50 dark:bg-purple-950/30 border-purple-200 dark:border-purple-800">
+                <CardContent className="p-4 text-center">
+                  <p className="text-2xl font-bold text-purple-700 dark:text-purple-300">{tradStats.withGetty}</p>
+                  <p className="text-xs text-purple-600 dark:text-purple-400">Liées au Getty AAT</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800">
+                <CardContent className="p-4 text-center">
+                  <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">{tradStats.withWikidata}</p>
+                  <p className="text-xs text-blue-600 dark:text-blue-400">Liées à Wikidata</p>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
+          {/* Filtres traditions */}
+          <div className="flex gap-3 flex-wrap">
+            <div className="relative flex-1 min-w-[200px]">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Rechercher une tradition..."
+                value={tradSearch}
+                onChange={(e) => setTradSearch(e.target.value)}
+                className="pl-10"
+              />
+            </div>
+            <button
+              onClick={() => setWithGettyOnly(!withGettyOnly)}
+              className={`px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${
+                withGettyOnly
+                  ? 'bg-purple-600 text-white border-purple-600'
+                  : 'bg-background text-foreground border-border hover:bg-muted'
+              }`}
+            >
+              Getty AAT uniquement
+            </button>
+          </div>
+
+          {/* Liste des traditions */}
+          {tradLoading ? (
+            <div className="grid gap-3 md:grid-cols-2">
+              {[...Array(6)].map((_, i) => <div key={i} className="h-28 rounded-lg bg-muted animate-pulse" />)}
+            </div>
+          ) : (
+            <div className="grid gap-3 md:grid-cols-2">
+              {(traditions || []).map((trad: any) => (
+                <Card key={trad.id} className="hover:shadow-md transition-shadow">
+                  <CardContent className="p-4">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-semibold text-base truncate">{trad.name}</h3>
+                        {trad.region && (
+                          <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                            <MapPin className="h-3 w-3" />{trad.region}
+                            {trad.period && <span className="ml-2"><Calendar className="h-3 w-3 inline" /> {trad.period}</span>}
+                          </p>
+                        )}
+                        {trad.description && (
+                          <p className="text-xs text-muted-foreground mt-1.5 line-clamp-2">{trad.description}</p>
+                        )}
+                        <div className="flex flex-wrap gap-1.5 mt-2">
+                          {trad.getty_aat_id && (
+                            <a
+                              href={`https://vocab.getty.edu/${trad.getty_aat_id.replace('aat:', 'page/aat/')}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300 hover:bg-purple-100 transition-colors"
+                            >
+                              <ExternalLink className="h-2.5 w-2.5" />
+                              Getty AAT
+                              {trad.getty_aat_label && <span className="opacity-70">— {trad.getty_aat_label}</span>}
+                            </a>
+                          )}
+                          {trad.wikidata_qid && (
+                            <a
+                              href={`https://www.wikidata.org/wiki/${trad.wikidata_qid}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:bg-blue-100 transition-colors"
+                            >
+                              <ExternalLink className="h-2.5 w-2.5" />
+                              Wikidata
+                            </a>
+                          )}
+                          {!trad.getty_aat_id && !trad.wikidata_id && (
+                            <span className="text-xs text-muted-foreground italic">Aucun identifiant externe</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+              {(traditions || []).length === 0 && (
+                <div className="col-span-2 text-center py-12 text-muted-foreground">
+                  <Globe className="h-10 w-10 mx-auto mb-3 opacity-30" />
+                  <p>Aucune tradition trouvée.</p>
+                </div>
+              )}
+            </div>
+          )}
+        </TabsContent>
+
+        {/* ===== ONGLET ARCHIVES HISTORIQUES ===== */}
+        <TabsContent value="archives">
 
       {/* Recherche et filtres */}
       <Card>
@@ -227,6 +368,8 @@ export default function ArchivesOlfactives() {
           </CardContent>
         </Card>
       )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

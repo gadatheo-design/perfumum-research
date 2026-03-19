@@ -1315,13 +1315,18 @@ export default function MoleculeDetail() {
                     )}
                     {molecule.name && (
                       <a
-                        href={`https://www.ebi.ac.uk/chebi/advancedSearchFT.do?searchString=${encodeURIComponent(molecule.name)}`}
+                        href={
+                          (molecule as any).chebi_id
+                            ? `https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${(molecule as any).chebi_id}`
+                            : `https://www.ebi.ac.uk/chebi/advancedSearchFT.do?searchString=${encodeURIComponent(molecule.name)}`
+                        }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-50 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-800 text-teal-700 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/40 transition-colors text-sm font-medium"
+                        title={(molecule as any).chebi_id ? `ChEBI ID: ${(molecule as any).chebi_id}` : 'Rechercher dans ChEBI'}
                       >
                         <ExternalLink className="h-4 w-4" />
-                        ChEBI
+                        ChEBI{(molecule as any).chebi_id ? ` · ${(molecule as any).chebi_id}` : ''}
                       </a>
                     )}
                     {(molecule as any).wikidata_qid && (

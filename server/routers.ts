@@ -3301,6 +3301,36 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await db.getPlantsByCategory(input);
       }),
+
+    // Plantes menacées (CR, EN, VU, NT, EX) pour la page Patrimoine Menacé
+    getEndangered: publicProcedure
+      .input(z.object({
+        status: z.array(z.enum(['EX', 'CR', 'EN', 'VU', 'NT'])).optional(),
+      }).optional())
+      .query(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) return [];
+        const { sql } = await import('drizzle-orm');
+        const statuses = input?.status || ['EX', 'CR', 'EN', 'VU', 'NT'];
+        const statusList = statuses.map(s => `'${s}'`).join(', ');
+        const result = await (dbConn as any).execute(sql.raw(
+          `SELECT p.id, p.name, p.latin_name, p.family, p.category, p.origin,
+                  p.conservation_status, p.iucn_id, p.gbif_id, p.gbif_occurrence_count,
+                  p.olfactive_signature,
+                  COUNT(DISTINCT pm.molecule_id) as molecule_count,
+                  GROUP_CONCAT(DISTINCT m.name ORDER BY pm.percentage DESC SEPARATOR ', ') as top_molecules
+           FROM plants p
+           LEFT JOIN plant_molecules pm ON pm.plant_id = p.id
+           LEFT JOIN molecules m ON m.id = pm.molecule_id
+           WHERE p.conservation_status IN (${statusList})
+           GROUP BY p.id, p.name, p.latin_name, p.family, p.category, p.origin,
+                    p.conservation_status, p.iucn_id, p.gbif_id, p.gbif_occurrence_count,
+                    p.olfactive_signature
+           ORDER BY FIELD(p.conservation_status, 'EX', 'CR', 'EN', 'VU', 'NT'), p.name`
+        ));
+        return Array.isArray(result) ? result[0] as any[] : [];
+      }),
+
     create: publicProcedure
       .input(z.object({
         name: z.string().min(1),
@@ -8024,6 +8054,47 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         byCivilization,
         byAuthenticity,
       };
+    }),
+    // Lister les traditions olfactives avec données Getty AAT
+    listTraditions: publicProcedure
+      .input(z.object({
+        withGettyOnly: z.boolean().optional(),
+        search: z.string().optional(),
+        limit: z.number().default(100),
+        offset: z.number().default(0),
+      }).optional())
+      .query(async ({ input }) => {
+        const mysql2 = await import('mysql2/promise');
+        const conn = await mysql2.createConnection(process.env.DATABASE_URL!);
+        const { withGettyOnly = false, search = '', limit = 100, offset = 0 } = input || {};
+        let where = '1=1';
+        if (withGettyOnly) where += " AND getty_aat_id IS NOT NULL";
+        if (search) where += ` AND (name LIKE ${conn.escape('%' + search + '%')} OR longDescription LIKE ${conn.escape('%' + search + '%')})`;
+        const [rows] = await conn.query(
+          `SELECT id, name, longDescription as description, region, temporality as period,
+                  getty_aat_id, getty_aat_label, getty_enriched_at,
+                  wikidata_qid, europeana_entity_id
+           FROM traditions_olfactives
+           WHERE ${where}
+           ORDER BY name
+           LIMIT ${limit} OFFSET ${offset}`
+        );
+        await conn.end();
+        return (rows as any[]) || [];
+      }),
+
+    // Statistiques traditions olfactives
+    traditionStats: publicProcedure.query(async () => {
+      const mysql2 = await import('mysql2/promise');
+      const conn = await mysql2.createConnection(process.env.DATABASE_URL!);
+      const [rows] = await conn.query(
+        `SELECT COUNT(*) as total,
+                SUM(CASE WHEN getty_aat_id IS NOT NULL THEN 1 ELSE 0 END) as withGetty,
+                SUM(CASE WHEN wikidata_qid IS NOT NULL THEN 1 ELSE 0 END) as withWikidata
+         FROM traditions_olfactives`
+      );
+      await conn.end();
+      return (rows as any[])[0] || { total: 0, withGetty: 0, withWikidata: 0 };
     }),
   }),
 
