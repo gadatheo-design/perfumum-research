@@ -1,0 +1,80 @@
+{
+  "query": "\nSELECT id, name, latin_name, wikidata_qid, conservation_status\nFROM plants\nWHERE wikidata_qid IS NOT NULL AND conservation_status IN ('CR', 'EN', 'VU')\nORDER BY FIELD(conservation_status, 'CR', 'EN', 'VU')\nLIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, latin_name, wikidata_qid, conservation_status\nFROM plants\nWHERE wikidata_qid IS NOT NULL AND conservation_status IN ('CR', 'EN', 'VU')\nORDER BY FIELD(conservation_status, 'CR', 'EN', 'VU')\nLIMIT 10;\n",
+  "rows": [
+    {
+      "id": "870008",
+      "name": "Panama Red",
+      "latin_name": "Cannabis sativa var. indica 'Panama Red'",
+      "wikidata_qid": "Q26726",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "870004",
+      "name": "Angola Red",
+      "latin_name": "Cannabis sativa var. indica 'Angola Red'",
+      "wikidata_qid": "Q26726",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "870003",
+      "name": "Thai / Thai Stick",
+      "latin_name": "Cannabis sativa var. indica 'Thai'",
+      "wikidata_qid": "Q26726",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "810024",
+      "name": "Tabac Yenidje",
+      "latin_name": "Nicotiana tabacum var. Yenidje",
+      "wikidata_qid": "Q181095",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "270005",
+      "name": "Costus",
+      "latin_name": "Saussurea costus",
+      "wikidata_qid": "Q1661525",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "240002",
+      "name": "Bois d'agar",
+      "latin_name": "Aquilaria crassna",
+      "wikidata_qid": "Q1379627",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "210038",
+      "name": "Aquilaria",
+      "latin_name": "Aquilaria malaccensis",
+      "wikidata_qid": "Q2249742",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "210039",
+      "name": "Commiphora",
+      "latin_name": "Commiphora wightii",
+      "wikidata_qid": "Q901803",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "180003",
+      "name": "Nard (Spikenard)",
+      "latin_name": "Nardostachys jatamansi",
+      "wikidata_qid": "Q24853263",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "240005",
+      "name": "Styrax liquide",
+      "latin_name": "Liquidambar orientalis",
+      "wikidata_qid": "Q2093169",
+      "conservation_status": "EN"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\twikidata_qid\tconservation_status\n870008\tPanama Red\tCannabis sativa var. indica 'Panama Red'\tQ26726\tCR\n870004\tAngola Red\tCannabis sativa var. indica 'Angola Red'\tQ26726\tCR\n870003\tThai / Thai Stick\tCannabis sativa var. indica 'Thai'\tQ26726\tCR\n810024\tTabac Yenidje\tNicotiana tabacum var. Yenidje\tQ181095\tCR\n270005\tCostus\tSaussurea costus\tQ1661525\tCR\n240002\tBois d'agar\tAquilaria crassna\tQ1379627\tCR\n210038\tAquilaria\tAquilaria malaccensis\tQ2249742\tCR\n210039\tCommiphora\tCommiphora wightii\tQ901803\tCR\n180003\tNard (Spikenard)\tNardostachys jatamansi\tQ24853263\tCR\n240005\tStyrax liquide\tLiquidambar orientalis\tQ2093169\tEN\n",
+  "stderr": "",
+  "execution_time_ms": 115
+}

@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT bel.entity_type, bel.entity_id, COUNT(*) as cnt, bs.source_type\nFROM bibliography_entity_links bel\nJOIN bibliography_sources bs ON bs.id = bel.bibliography_id\nWHERE bs.source_type = 'openalex'\nGROUP BY bel.entity_type, bs.source_type\nLIMIT 5;\n\nSELECT bel.entity_type, bel.entity_id, bs.title\nFROM bibliography_entity_links bel\nJOIN bibliography_sources bs ON bs.id = bel.bibliography_id\nWHERE bs.source_type = 'openalex'\nLIMIT 5;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT bel.entity_type, bel.entity_id, COUNT(*) as cnt, bs.source_type\nFROM bibliography_entity_links bel\nJOIN bibliography_sources bs ON bs.id = bel.bibliography_id\nWHERE bs.source_type = 'openalex'\nGROUP BY bel.entity_type, bs.source_type\nLIMIT 5;\n\nSELECT bel.entity_type, bel.entity_id, bs.title\nFROM bibliography_entity_links bel\nJOIN bibliography_sources bs ON bs.id = bel.bibliography_id\nWHERE bs.source_type = 'openalex'\nLIMIT 5;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1055 (42000) at line 2: Expression #2 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'H2pjHHJbH276XmnbNcJhCp.bel.entity_id' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by"
+  ]
+}

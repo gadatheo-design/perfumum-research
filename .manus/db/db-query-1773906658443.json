@@ -1,0 +1,73 @@
+{
+  "query": "\nSELECT bel.bibliography_id, bel.entity_type, bel.entity_id, bs.title\nFROM bibliography_entity_links bel\nJOIN bibliography_sources bs ON bs.id = bel.bibliography_id\nWHERE bs.notes LIKE '%OpenAlex%'\nLIMIT 10;\n\nSELECT COUNT(*) as total_openalex FROM bibliography_sources WHERE notes LIKE '%OpenAlex%';\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT bel.bibliography_id, bel.entity_type, bel.entity_id, bs.title\nFROM bibliography_entity_links bel\nJOIN bibliography_sources bs ON bs.id = bel.bibliography_id\nWHERE bs.notes LIKE '%OpenAlex%'\nLIMIT 10;\n\nSELECT COUNT(*) as total_openalex FROM bibliography_sources WHERE notes LIKE '%OpenAlex%';\n",
+  "rows": [
+    {
+      "bibliography_id": "60001",
+      "entity_type": "molecule",
+      "entity_id": "30007",
+      "title": "Characterization and Analysis of Okoume and Aiele Essential Oils from Gabon by GC-MS, Electronic Nose, and Their Antibacterial Activity Assessment"
+    },
+    {
+      "bibliography_id": "60002",
+      "entity_type": "molecule",
+      "entity_id": "90069",
+      "title": "Vanillin: A food additive with multiple biological activities"
+    },
+    {
+      "bibliography_id": "60003",
+      "entity_type": "molecule",
+      "entity_id": "90069",
+      "title": "Synthesis, spectroscopic properties, crystal structures, antioxidant activities and enzyme inhibition determination of Co(II) and Fe(II) complexes of Schiff base"
+    },
+    {
+      "bibliography_id": "60004",
+      "entity_type": "molecule",
+      "entity_id": "90069",
+      "title": "Vanillin inhibits PqsR-mediated virulence in <i>Pseudomonas aeruginosa</i>"
+    },
+    {
+      "bibliography_id": "60005",
+      "entity_type": "molecule",
+      "entity_id": "60016",
+      "title": "Single‐Junction Polymer Solar Cells with 16.35% Efficiency Enabled by a Platinum(II) Complexation Strategy"
+    },
+    {
+      "bibliography_id": "60006",
+      "entity_type": "molecule",
+      "entity_id": "60016",
+      "title": "Controlling Molecular Mass of Low-Band-Gap Polymer Acceptors for High-Performance All-Polymer Solar Cells"
+    },
+    {
+      "bibliography_id": "60007",
+      "entity_type": "molecule",
+      "entity_id": "60016",
+      "title": "BindingDB Entry 50022503: A novel small molecule met inhibitor induces apoptosis in cells transformed by the oncogenic TPR-MET tyrosine kinase."
+    },
+    {
+      "bibliography_id": "60008",
+      "entity_type": "molecule",
+      "entity_id": "210002",
+      "title": "More than Carbazole Derivatives Activate Room Temperature Ultralong Organic Phosphorescence of Benzoindole Derivatives"
+    },
+    {
+      "bibliography_id": "60009",
+      "entity_type": "molecule",
+      "entity_id": "210002",
+      "title": "Synthesis, antidiabetic activity and molecular docking study of rhodanine-substitued spirooxindole pyrrolidine derivatives as novel α-amylase inhibitors"
+    },
+    {
+      "bibliography_id": "60010",
+      "entity_type": "molecule",
+      "entity_id": "330016",
+      "title": "Trichoderma produces methyl jasmonate-rich metabolites in the presence of Fusarium, showing biostimulant activity and wilt resistance in tomatoes"
+    }
+  ],
+  "messages": [
+    "total_openalex",
+    "57"
+  ],
+  "stdout": "bibliography_id\tentity_type\tentity_id\ttitle\n60001\tmolecule\t30007\tCharacterization and Analysis of Okoume and Aiele Essential Oils from Gabon by GC-MS, Electronic Nose, and Their Antibacterial Activity Assessment\n60002\tmolecule\t90069\tVanillin: A food additive with multiple biological activities\n60003\tmolecule\t90069\tSynthesis, spectroscopic properties, crystal structures, antioxidant activities and enzyme inhibition determination of Co(II) and Fe(II) complexes of Schiff base\n60004\tmolecule\t90069\tVanillin inhibits PqsR-mediated virulence in <i>Pseudomonas aeruginosa</i>\n60005\tmolecule\t60016\tSingle‐Junction Polymer Solar Cells with 16.35% Efficiency Enabled by a Platinum(II) Complexation Strategy\n60006\tmolecule\t60016\tControlling Molecular Mass of Low-Band-Gap Polymer Acceptors for High-Performance All-Polymer Solar Cells\n60007\tmolecule\t60016\tBindingDB Entry 50022503: A novel small molecule met inhibitor induces apoptosis in cells transformed by the oncogenic TPR-MET tyrosine kinase.\n60008\tmolecule\t210002\tMore than Carbazole Derivatives Activate Room Temperature Ultralong Organic Phosphorescence of Benzoindole Derivatives\n60009\tmolecule\t210002\tSynthesis, antidiabetic activity and molecular docking study of rhodanine-substitued spirooxindole pyrrolidine derivatives as novel α-amylase inhibitors\n60010\tmolecule\t330016\tTrichoderma produces methyl jasmonate-rich metabolites in the presence of Fusarium, showing biostimulant activity and wilt resistance in tomatoes\ntotal_openalex\n57\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

@@ -144,6 +144,18 @@ export default function PlantDetail() {
     { plantId, limit: 100 },
     { enabled: plantId > 0 }
   );
+
+  // Phase 8C — Données GBIF (distribution géographique)
+  const { data: gbifData } = trpc.bibliographySources.getGbifData.useQuery(
+    { plantId },
+    { enabled: plantId > 0 }
+  );
+
+  // Phase 8F — Publications scientifiques OpenAlex
+  const { data: scientificPubs } = trpc.bibliographySources.getByPlant.useQuery(
+    { plantId },
+    { enabled: plantId > 0 }
+  );
   
   if (isLoading) {
     return (
@@ -334,6 +346,18 @@ export default function PlantDetail() {
             <Globe className="h-3 w-3 text-cyan-600" />
             <span className="hidden sm:inline">Europeana</span>
           </TabsTrigger>
+          {gbifData?.gbif_occurrence_count && (
+            <TabsTrigger value="gbif" className="flex items-center gap-1">
+              <MapPin className="h-3 w-3 text-emerald-600" />
+              <span className="hidden sm:inline">Distribution</span>
+            </TabsTrigger>
+          )}
+          {scientificPubs && scientificPubs.length > 0 && (
+            <TabsTrigger value="publications" className="flex items-center gap-1">
+              <BookOpen className="h-3 w-3 text-violet-600" />
+              <span className="hidden sm:inline">Publications ({scientificPubs.length})</span>
+            </TabsTrigger>
+          )}
         </TabsList>
         
         {/* Nomenclature */}
@@ -1372,6 +1396,147 @@ export default function PlantDetail() {
                 limit={8}
               />
             </div>
+          </TabErrorBoundary>
+        </TabsContent>
+
+        {/* Distribution GBIF — Données de distribution géographique */}
+        <TabsContent value="gbif" className="space-y-4">
+          <TabErrorBoundary tabLabel="Distribution GBIF">
+            {gbifData ? (
+              <div className="space-y-4">
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2 text-base">
+                      <MapPin className="h-4 w-4 text-emerald-600" />
+                      Distribution mondiale GBIF
+                    </CardTitle>
+                    <CardDescription>
+                      Données issues du Global Biodiversity Information Facility (GBIF)
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center gap-3 p-3 bg-emerald-50 dark:bg-emerald-950/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
+                      <div className="text-2xl font-bold text-emerald-700 dark:text-emerald-400">
+                        {gbifData.gbif_occurrence_count?.toLocaleString('fr-FR') || '—'}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        occurrences répertoriées dans le monde
+                      </div>
+                    </div>
+
+                    {gbifData.gbif_countries && (() => {
+                      const countries = safeJsonParse(gbifData.gbif_countries, []) as Array<{country: string, count: number}>;
+                      if (!countries.length) return null;
+                      const total = countries.reduce((s: number, c: {country: string, count: number}) => s + c.count, 0);
+                      const top5 = countries.slice(0, 5);
+                      return (
+                        <div className="space-y-2">
+                          <p className="text-sm font-medium text-muted-foreground">Top pays d'occurrence</p>
+                          {top5.map((c: {country: string, count: number}) => (
+                            <div key={c.country} className="flex items-center gap-2">
+                              <span className="text-sm font-mono w-8 text-muted-foreground">{c.country}</span>
+                              <div className="flex-1 bg-muted rounded-full h-2 overflow-hidden">
+                                <div
+                                  className="h-full bg-emerald-500 rounded-full"
+                                  style={{ width: `${Math.round((c.count / total) * 100)}%` }}
+                                />
+                              </div>
+                              <span className="text-xs text-muted-foreground w-16 text-right">
+                                {c.count.toLocaleString('fr-FR')}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                      );
+                    })()}
+
+                    {gbifData.gbif_id && (
+                      <a
+                        href={`https://www.gbif.org/species/${gbifData.gbif_id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-sm text-emerald-600 hover:text-emerald-700 hover:underline"
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        Voir la fiche GBIF officielle
+                      </a>
+                    )}
+
+                    {gbifData.iucn_id && (
+                      <div className="pt-2 border-t">
+                        <a
+                          href={`https://www.iucnredlist.org/species/${gbifData.iucn_id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1.5 text-sm text-orange-600 hover:text-orange-700 hover:underline"
+                        >
+                          <ExternalLink className="h-3.5 w-3.5" />
+                          Fiche IUCN Red List (ID {gbifData.iucn_id})
+                        </a>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            ) : (
+              <div className="text-center py-8 text-muted-foreground">
+                <MapPin className="h-8 w-8 mx-auto mb-2 opacity-40" />
+                <p>Aucune donnée GBIF disponible pour cette plante.</p>
+              </div>
+            )}
+          </TabErrorBoundary>
+        </TabsContent>
+
+        {/* Publications scientifiques — OpenAlex */}
+        <TabsContent value="publications" className="space-y-4">
+          <TabErrorBoundary tabLabel="Publications scientifiques">
+            {scientificPubs && scientificPubs.length > 0 ? (
+              <div className="space-y-3">
+                <p className="text-sm text-muted-foreground">
+                  {scientificPubs.length} publication{scientificPubs.length > 1 ? 's' : ''} scientifique{scientificPubs.length > 1 ? 's' : ''} répertoriée{scientificPubs.length > 1 ? 's' : ''} via OpenAlex
+                </p>
+                {scientificPubs.map((pub: any) => (
+                  <Card key={pub.id} className="hover:shadow-sm transition-shadow">
+                    <CardContent className="p-4 space-y-1.5">
+                      <div className="flex items-start justify-between gap-2">
+                        <p className="text-sm font-medium leading-snug line-clamp-2" dangerouslySetInnerHTML={{ __html: pub.title || 'Sans titre' }} />
+                        {pub.notes?.includes('Open Access') && (
+                          <Badge variant="outline" className="shrink-0 text-xs border-green-500 text-green-600">OA</Badge>
+                        )}
+                      </div>
+                      {pub.authors && (
+                        <p className="text-xs text-muted-foreground line-clamp-1">{pub.authors}</p>
+                      )}
+                      <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                        {pub.year && <span>{pub.year}</span>}
+                        {pub.journal && <span className="italic line-clamp-1">{pub.journal}</span>}
+                        {pub.notes && (
+                          <span className="text-muted-foreground/70">
+                            {pub.notes.match(/(\d+) citations/)?.[1] ? `${pub.notes.match(/(\d+) citations/)[1]} cit.` : ''}
+                          </span>
+                        )}
+                      </div>
+                      {(pub.doi || pub.url) && (
+                        <a
+                          href={pub.url || `https://doi.org/${pub.doi}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-xs text-violet-600 hover:text-violet-700 hover:underline mt-1"
+                        >
+                          <ExternalLink className="h-3 w-3" />
+                          {pub.doi ? `DOI: ${pub.doi}` : 'Voir la publication'}
+                        </a>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-muted-foreground">
+                <BookOpen className="h-8 w-8 mx-auto mb-2 opacity-40" />
+                <p>Aucune publication scientifique répertoriée pour cette plante.</p>
+              </div>
+            )}
           </TabErrorBoundary>
         </TabsContent>
       </Tabs>

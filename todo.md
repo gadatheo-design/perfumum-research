@@ -2610,3 +2610,20 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Script enrich-openalex.mjs : 57 publications insérées avec 57 liaisons entity_links
 - [x] Total bibliography_sources : 64 (dont 57 articles scientifiques OpenAlex)
 - [ ] Onglet "Publications scientifiques" dans MoleculeDetail et PlantDetail (UI)
+
+## SESSION 19 MARS 2026 — IUCN + UI GBIF + UI Publications
+
+### Phase 8D (suite) : IUCN Red List API
+- [x] Script enrich-iucn-wikidata.mjs via SPARQL P141+P627 : 194/512 plantes enrichies
+- [x] Distribution : CR:10 · EN:12 · VU:19 · NT:19 · LC:183 · EX:1
+- [x] Colonnes iucn_id + iucn_enriched_at ajoutées dans plants
+
+### Phase UI-GBIF : Onglet distribution dans PlantDetail
+- [x] Onglet GBIF dans PlantDetail : occurrences + top pays + lien GBIF + lien IUCN
+- [x] Procédure tRPC bibliographySources.getGbifData fonctionnelle
+
+### Phase UI-Publications : Onglet publications scientifiques
+- [x] Procédures tRPC bibliographySources.getByMolecule + getByPlant dans routers.ts
+- [x] Onglet Publications dans MoleculeDetail (57 publications OpenAlex accessibles)
+- [x] Onglet Publications dans PlantDetail (publications via entity_links)
+- [x] Affichage titre, auteurs, année, journal, lien DOI, badge Open Access

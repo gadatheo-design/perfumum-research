@@ -1,0 +1,62 @@
+{
+  "query": "\nSELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS\nWHERE TABLE_NAME = 'bibliography_sources' AND ORDINAL_POSITION > 20\nORDER BY ORDINAL_POSITION;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS\nWHERE TABLE_NAME = 'bibliography_sources' AND ORDINAL_POSITION > 20\nORDER BY ORDINAL_POSITION;\n",
+  "rows": [
+    {
+      "COLUMN_NAME": "abstract",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "keywords",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "notes",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "quotes",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "relevance_score",
+      "COLUMN_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "relevant_axes",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "file_url",
+      "COLUMN_TYPE": "varchar(2000)"
+    },
+    {
+      "COLUMN_NAME": "file_name",
+      "COLUMN_TYPE": "varchar(255)"
+    },
+    {
+      "COLUMN_NAME": "citation_apa",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "citation_bibtex",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "is_verified",
+      "COLUMN_TYPE": "tinyint(1)"
+    },
+    {
+      "COLUMN_NAME": "created_at",
+      "COLUMN_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "updated_at",
+      "COLUMN_TYPE": "timestamp"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tCOLUMN_TYPE\nabstract\ttext\nkeywords\ttext\nnotes\ttext\nquotes\ttext\nrelevance_score\tint\nrelevant_axes\ttext\nfile_url\tvarchar(2000)\nfile_name\tvarchar(255)\ncitation_apa\ttext\ncitation_bibtex\ttext\nis_verified\ttinyint(1)\ncreated_at\ttimestamp\nupdated_at\ttimestamp\n",
+  "stderr": "",
+  "execution_time_ms": 55
+}

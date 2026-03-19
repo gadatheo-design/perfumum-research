@@ -1,0 +1,115 @@
+{
+  "query": "\nSELECT bel.bibliography_id, bel.entity_type, bel.entity_id, bs.title, bs.source_type\nFROM bibliography_entity_links bel\nJOIN bibliography_sources bs ON bs.id = bel.bibliography_id\nLIMIT 15;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT bel.bibliography_id, bel.entity_type, bel.entity_id, bs.title, bs.source_type\nFROM bibliography_entity_links bel\nJOIN bibliography_sources bs ON bs.id = bel.bibliography_id\nLIMIT 15;\n",
+  "rows": [
+    {
+      "bibliography_id": "30001",
+      "entity_type": "molecule",
+      "entity_id": "90071",
+      "title": "L'héliotropine : une molécule qui met le feu aux poudres",
+      "source_type": "article"
+    },
+    {
+      "bibliography_id": "30001",
+      "entity_type": "plant",
+      "entity_id": "30004",
+      "title": "L'héliotropine : une molécule qui met le feu aux poudres",
+      "source_type": "article"
+    },
+    {
+      "bibliography_id": "30002",
+      "entity_type": "molecule",
+      "entity_id": "1933313",
+      "title": "Au Wadi Dawkah, le Grasse du sultanat",
+      "source_type": "article"
+    },
+    {
+      "bibliography_id": "30002",
+      "entity_type": "plant",
+      "entity_id": "690259",
+      "title": "Au Wadi Dawkah, le Grasse du sultanat",
+      "source_type": "article"
+    },
+    {
+      "bibliography_id": "30002",
+      "entity_type": "civilization",
+      "entity_id": "90011",
+      "title": "Au Wadi Dawkah, le Grasse du sultanat",
+      "source_type": "article"
+    },
+    {
+      "bibliography_id": "30003",
+      "entity_type": "molecule",
+      "entity_id": "90061",
+      "title": "La grande montée de lait en parfumerie",
+      "source_type": "article"
+    },
+    {
+      "bibliography_id": "30003",
+      "entity_type": "molecule",
+      "entity_id": "90062",
+      "title": "La grande montée de lait en parfumerie",
+      "source_type": "article"
+    },
+    {
+      "bibliography_id": "30003",
+      "entity_type": "molecule",
+      "entity_id": "210021",
+      "title": "La grande montée de lait en parfumerie",
+      "source_type": "article"
+    },
+    {
+      "bibliography_id": "30003",
+      "entity_type": "molecule",
+      "entity_id": "570025",
+      "title": "La grande montée de lait en parfumerie",
+      "source_type": "article"
+    },
+    {
+      "bibliography_id": "30003",
+      "entity_type": "molecule",
+      "entity_id": "570029",
+      "title": "La grande montée de lait en parfumerie",
+      "source_type": "article"
+    },
+    {
+      "bibliography_id": "30003",
+      "entity_type": "molecule",
+      "entity_id": "570070",
+      "title": "La grande montée de lait en parfumerie",
+      "source_type": "article"
+    },
+    {
+      "bibliography_id": "30003",
+      "entity_type": "molecule",
+      "entity_id": "1110020",
+      "title": "La grande montée de lait en parfumerie",
+      "source_type": "article"
+    },
+    {
+      "bibliography_id": "30003",
+      "entity_type": "molecule",
+      "entity_id": "1110022",
+      "title": "La grande montée de lait en parfumerie",
+      "source_type": "article"
+    },
+    {
+      "bibliography_id": "30004",
+      "entity_type": "molecule",
+      "entity_id": "210021",
+      "title": "Smell Talks : Les fruits en parfumerie",
+      "source_type": "podcast"
+    },
+    {
+      "bibliography_id": "30004",
+      "entity_type": "molecule",
+      "entity_id": "570070",
+      "title": "Smell Talks : Les fruits en parfumerie",
+      "source_type": "podcast"
+    }
+  ],
+  "messages": [],
+  "stdout": "bibliography_id\tentity_type\tentity_id\ttitle\tsource_type\n30001\tmolecule\t90071\tL'héliotropine : une molécule qui met le feu aux poudres\tarticle\n30001\tplant\t30004\tL'héliotropine : une molécule qui met le feu aux poudres\tarticle\n30002\tmolecule\t1933313\tAu Wadi Dawkah, le Grasse du sultanat\tarticle\n30002\tplant\t690259\tAu Wadi Dawkah, le Grasse du sultanat\tarticle\n30002\tcivilization\t90011\tAu Wadi Dawkah, le Grasse du sultanat\tarticle\n30003\tmolecule\t90061\tLa grande montée de lait en parfumerie\tarticle\n30003\tmolecule\t90062\tLa grande montée de lait en parfumerie\tarticle\n30003\tmolecule\t210021\tLa grande montée de lait en parfumerie\tarticle\n30003\tmolecule\t570025\tLa grande montée de lait en parfumerie\tarticle\n30003\tmolecule\t570029\tLa grande montée de lait en parfumerie\tarticle\n30003\tmolecule\t570070\tLa grande montée de lait en parfumerie\tarticle\n30003\tmolecule\t1110020\tLa grande montée de lait en parfumerie\tarticle\n30003\tmolecule\t1110022\tLa grande montée de lait en parfumerie\tarticle\n30004\tmolecule\t210021\tSmell Talks : Les fruits en parfumerie\tpodcast\n30004\tmolecule\t570070\tSmell Talks : Les fruits en parfumerie\tpodcast\n",
+  "stderr": "",
+  "execution_time_ms": 63
+}

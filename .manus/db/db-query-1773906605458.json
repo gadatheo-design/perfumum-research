@@ -1,0 +1,9 @@
+{
+  "query": "\nSELECT bel.entity_type, bel.entity_id, bs.title, bs.source_type\nFROM bibliography_entity_links bel\nJOIN bibliography_sources bs ON bs.id = bel.bibliography_id\nWHERE bs.source_type = 'openalex'\nLIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT bel.entity_type, bel.entity_id, bs.title, bs.source_type\nFROM bibliography_entity_links bel\nJOIN bibliography_sources bs ON bs.id = bel.bibliography_id\nWHERE bs.source_type = 'openalex'\nLIMIT 10;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 54
+}

@@ -705,6 +705,12 @@ export default function MoleculeDetail() {
     { enabled: !!molecule }
   );
 
+  // Phase 8F — Publications scientifiques OpenAlex
+  const { data: scientificPubs } = trpc.bibliographySources.getByMolecule.useQuery(
+    { moleculeId: id },
+    { enabled: !!molecule }
+  );
+
   // Export PDF function
   const exportPDF = useCallback(async () => {
     if (!molecule) return;
@@ -1134,9 +1140,6 @@ export default function MoleculeDetail() {
           <Tabs defaultValue="overview" className="w-full">
             <TabsList className="grid w-full grid-cols-2 md:grid-cols-10">
               <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
-              <TabsTrigger value="synergies" className="flex items-center gap-1">
-                <Zap className="h-3 w-3" />
-              </TabsTrigger>
               <TabsTrigger value="gcms" className="flex items-center gap-1">
                 <Beaker className="h-3 w-3" />
                 <span className="hidden sm:inline">GC-MS</span>
@@ -1169,6 +1172,12 @@ export default function MoleculeDetail() {
                 <Globe className="h-3 w-3 text-cyan-600" />
                 <span className="hidden sm:inline">Europeana</span>
               </TabsTrigger>
+              {scientificPubs && scientificPubs.length > 0 && (
+                <TabsTrigger value="publications" className="flex items-center gap-1">
+                  <BookOpen className="h-3 w-3 text-violet-600" />
+                  <span className="hidden sm:inline">Publications ({scientificPubs.length})</span>
+                </TabsTrigger>
+              )}
             </TabsList>
 
             {/* Onglet Nomenclature */}
@@ -2396,6 +2405,54 @@ export default function MoleculeDetail() {
                     limit={8}
                   />
                 </div>
+              </TabErrorBoundary>
+            </TabsContent>
+
+            {/* Publications scientifiques — OpenAlex */}
+            <TabsContent value="publications" className="space-y-4 mt-6">
+              <TabErrorBoundary tabLabel="Publications scientifiques">
+                {scientificPubs && scientificPubs.length > 0 ? (
+                  <div className="space-y-3">
+                    <p className="text-sm text-muted-foreground">
+                      {scientificPubs.length} publication{scientificPubs.length > 1 ? 's' : ''} scientifique{scientificPubs.length > 1 ? 's' : ''} répertoriée{scientificPubs.length > 1 ? 's' : ''} via OpenAlex
+                    </p>
+                    {(scientificPubs as any[]).map((pub: any) => (
+                      <Card key={pub.id} className="hover:shadow-sm transition-shadow">
+                        <CardContent className="p-4 space-y-1.5">
+                          <div className="flex items-start justify-between gap-2">
+                            <p className="text-sm font-medium leading-snug line-clamp-2" dangerouslySetInnerHTML={{ __html: pub.title || 'Sans titre' }} />
+                            {pub.notes?.includes('Open Access') && (
+                              <Badge variant="outline" className="shrink-0 text-xs border-green-500 text-green-600">OA</Badge>
+                            )}
+                          </div>
+                          {pub.authors && (
+                            <p className="text-xs text-muted-foreground line-clamp-1">{pub.authors}</p>
+                          )}
+                          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                            {pub.year && <span>{pub.year}</span>}
+                            {pub.journal && <span className="italic line-clamp-1">{pub.journal}</span>}
+                          </div>
+                          {(pub.doi || pub.url) && (
+                            <a
+                              href={pub.url || `https://doi.org/${pub.doi}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-xs text-violet-600 hover:text-violet-700 hover:underline mt-1"
+                            >
+                              <ExternalLink className="h-3 w-3" />
+                              {pub.doi ? `DOI: ${pub.doi}` : 'Voir la publication'}
+                            </a>
+                          )}
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-8 text-muted-foreground">
+                    <BookOpen className="h-8 w-8 mx-auto mb-2 opacity-40" />
+                    <p>Aucune publication scientifique répertoriée pour cette molécule.</p>
+                  </div>
+                )}
               </TabErrorBoundary>
             </TabsContent>
 

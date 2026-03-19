@@ -8404,6 +8404,65 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
   }),
 
   // ============================================================================
+  // BIBLIOGRAPHY SOURCES (Publications scientifiques OpenAlex)
+  // ============================================================================
+  bibliographySources: router({
+    // Publications liées à une molécule (toutes sources : OpenAlex, NEZ, etc.)
+    getByMolecule: publicProcedure
+      .input(z.object({ moleculeId: z.number() }))
+      .query(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) return [];
+        const { sql } = await import('drizzle-orm');
+        const result = await (dbConn as any).execute(sql.raw(
+          `SELECT bs.id, bs.title, bs.authors, bs.publication_year as year, bs.journal,
+                  bs.doi, bs.url, bs.notes, bs.source_type
+           FROM bibliography_sources bs
+           INNER JOIN bibliography_entity_links bel ON bel.bibliography_id = bs.id
+           WHERE bel.entity_type = 'molecule' AND bel.entity_id = ${input.moleculeId}
+           ORDER BY bs.publication_year DESC, bs.id DESC
+           LIMIT 30`
+        ));
+        return Array.isArray(result) ? result[0] as any[] : [];
+      }),
+
+    // Publications liées à une plante (toutes sources : OpenAlex, NEZ, etc.)
+    getByPlant: publicProcedure
+      .input(z.object({ plantId: z.number() }))
+      .query(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) return [];
+        const { sql } = await import('drizzle-orm');
+        const result = await (dbConn as any).execute(sql.raw(
+          `SELECT bs.id, bs.title, bs.authors, bs.publication_year as year, bs.journal,
+                  bs.doi, bs.url, bs.notes, bs.source_type
+           FROM bibliography_sources bs
+           INNER JOIN bibliography_entity_links bel ON bel.bibliography_id = bs.id
+           WHERE bel.entity_type IN ('plant', 'civilization') AND bel.entity_id = ${input.plantId}
+           ORDER BY bs.publication_year DESC, bs.id DESC
+           LIMIT 30`
+        ));
+        return Array.isArray(result) ? result[0] as any[] : [];
+      }),
+
+    // Données GBIF d'une plante (occurrences + pays)
+    getGbifData: publicProcedure
+      .input(z.object({ plantId: z.number() }))
+      .query(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) return null;
+        const { sql } = await import('drizzle-orm');
+        const result = await (dbConn as any).execute(sql.raw(
+          `SELECT gbif_id, gbif_occurrence_count, gbif_countries, gbif_enriched_at,
+                  iucn_id, conservation_status
+           FROM plants WHERE id = ${input.plantId}`
+        ));
+        const rows = Array.isArray(result) ? result[0] as any[] : [];
+        return rows[0] || null;
+      }),
+  }),
+
+  // ============================================================================
   // RESEARCH AXES (Axes de recherche)
   // ============================================================================
   researchAxes: router({

@@ -1,0 +1,17 @@
+{
+  "query": "\nSELECT id, source_type, title, authors, publication_year, journal, doi, url, notes, keywords\nFROM bibliography_sources\nWHERE source_type = 'scientific_paper'\nLIMIT 3;\n\nSELECT id, source_type, title, notes, keywords\nFROM bibliography_sources\nWHERE notes LIKE '%linalool%' OR keywords LIKE '%linalool%' OR title LIKE '%linalool%'\nLIMIT 3;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, source_type, title, authors, publication_year, journal, doi, url, notes, keywords\nFROM bibliography_sources\nWHERE source_type = 'scientific_paper'\nLIMIT 3;\n\nSELECT id, source_type, title, notes, keywords\nFROM bibliography_sources\nWHERE notes LIKE '%linalool%' OR keywords LIKE '%linalool%' OR title LIKE '%linalool%'\nLIMIT 3;\n",
+  "rows": [
+    {
+      "id": "60049",
+      "source_type": "article",
+      "title": "Anesthesia of tambaqui Colossoma macropomum (Characiformes: Serrasalmidae) with the essential oils of Aniba rosaeodora and Aniba parviflora and their major compound, linalool",
+      "notes": "OpenAlex · EN · 36 citations · Open Access",
+      "keywords": "NULL"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tsource_type\ttitle\tnotes\tkeywords\n60049\tarticle\tAnesthesia of tambaqui Colossoma macropomum (Characiformes: Serrasalmidae) with the essential oils of Aniba rosaeodora and Aniba parviflora and their major compound, linalool\tOpenAlex · EN · 36 citations · Open Access\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 64
+}

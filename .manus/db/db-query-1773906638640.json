@@ -1,0 +1,142 @@
+{
+  "query": "\nSELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS\nWHERE TABLE_NAME = 'bibliography_sources'\nORDER BY ORDINAL_POSITION;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT COLUMN_NAME, COLUMN_TYPE FROM information_schema.COLUMNS\nWHERE TABLE_NAME = 'bibliography_sources'\nORDER BY ORDINAL_POSITION;\n",
+  "rows": [
+    {
+      "COLUMN_NAME": "id",
+      "COLUMN_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "source_type",
+      "COLUMN_TYPE": "enum('scientific_paper','book','book_chapter','thesis','conference','patent','report','article','website','database','podcast','video','interview','archive','dataset','software','other')"
+    },
+    {
+      "COLUMN_NAME": "title",
+      "COLUMN_TYPE": "varchar(1000)"
+    },
+    {
+      "COLUMN_NAME": "authors",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "publication_year",
+      "COLUMN_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "publication_month",
+      "COLUMN_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "access_date",
+      "COLUMN_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "journal",
+      "COLUMN_TYPE": "varchar(500)"
+    },
+    {
+      "COLUMN_NAME": "volume",
+      "COLUMN_TYPE": "varchar(50)"
+    },
+    {
+      "COLUMN_NAME": "issue",
+      "COLUMN_TYPE": "varchar(50)"
+    },
+    {
+      "COLUMN_NAME": "pages",
+      "COLUMN_TYPE": "varchar(100)"
+    },
+    {
+      "COLUMN_NAME": "publisher",
+      "COLUMN_TYPE": "varchar(500)"
+    },
+    {
+      "COLUMN_NAME": "edition",
+      "COLUMN_TYPE": "varchar(50)"
+    },
+    {
+      "COLUMN_NAME": "language",
+      "COLUMN_TYPE": "varchar(50)"
+    },
+    {
+      "COLUMN_NAME": "doi",
+      "COLUMN_TYPE": "varchar(255)"
+    },
+    {
+      "COLUMN_NAME": "isbn",
+      "COLUMN_TYPE": "varchar(20)"
+    },
+    {
+      "COLUMN_NAME": "issn",
+      "COLUMN_TYPE": "varchar(20)"
+    },
+    {
+      "COLUMN_NAME": "pmid",
+      "COLUMN_TYPE": "varchar(20)"
+    },
+    {
+      "COLUMN_NAME": "arxiv_id",
+      "COLUMN_TYPE": "varchar(50)"
+    },
+    {
+      "COLUMN_NAME": "url",
+      "COLUMN_TYPE": "varchar(2000)"
+    },
+    {
+      "COLUMN_NAME": "abstract",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "keywords",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "notes",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "quotes",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "relevance_score",
+      "COLUMN_TYPE": "int"
+    },
+    {
+      "COLUMN_NAME": "relevant_axes",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "file_url",
+      "COLUMN_TYPE": "varchar(2000)"
+    },
+    {
+      "COLUMN_NAME": "file_name",
+      "COLUMN_TYPE": "varchar(255)"
+    },
+    {
+      "COLUMN_NAME": "citation_apa",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "citation_bibtex",
+      "COLUMN_TYPE": "text"
+    },
+    {
+      "COLUMN_NAME": "is_verified",
+      "COLUMN_TYPE": "tinyint(1)"
+    },
+    {
+      "COLUMN_NAME": "created_at",
+      "COLUMN_TYPE": "timestamp"
+    },
+    {
+      "COLUMN_NAME": "updated_at",
+      "COLUMN_TYPE": "timestamp"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\tCOLUMN_TYPE\nid\tint\nsource_type\tenum('scientific_paper','book','book_chapter','thesis','conference','patent','report','article','website','database','podcast','video','interview','archive','dataset','software','other')\ntitle\tvarchar(1000)\nauthors\ttext\npublication_year\tint\npublication_month\tint\naccess_date\ttimestamp\njournal\tvarchar(500)\nvolume\tvarchar(50)\nissue\tvarchar(50)\npages\tvarchar(100)\npublisher\tvarchar(500)\nedition\tvarchar(50)\nlanguage\tvarchar(50)\ndoi\tvarchar(255)\nisbn\tvarchar(20)\nissn\tvarchar(20)\npmid\tvarchar(20)\narxiv_id\tvarchar(50)\nurl\tvarchar(2000)\nabstract\ttext\nkeywords\ttext\nnotes\ttext\nquotes\ttext\nrelevance_score\tint\nrelevant_axes\ttext\nfile_url\tvarchar(2000)\nfile_name\tvarchar(255)\ncitation_apa\ttext\ncitation_bibtex\ttext\nis_verified\ttinyint(1)\ncreated_at\ttimestamp\nupdated_at\ttimestamp\n",
+  "stderr": "",
+  "execution_time_ms": 49
+}
