@@ -1747,3 +1747,249 @@ export function getThematicConfig() {
     facetsEnabled: config.facetsEnabled ?? false,
   }));
 }
+
+// ─── Annotation API (Sprint 3.3) ─────────────────────────────────────────────
+
+/**
+ * Structure d'une annotation Europeana (tag sémantique, transcription, description)
+ */
+export interface EuropeanaAnnotation {
+  annotationId: string;
+  type: "tagging" | "transcribing" | "describing" | "linking" | "unknown";
+  body: {
+    value?: string;
+    language?: string;
+    type?: string;
+    source?: string;
+    prefLabel?: string;
+  };
+  target: {
+    recordId: string;
+    source?: string;
+    selector?: string;
+  };
+  creator?: string;
+  created?: string;
+  motivation: string;
+}
+
+export interface AnnotationResult {
+  annotations: EuropeanaAnnotation[];
+  total: number;
+  recordId: string;
+  apiAvailable: boolean;
+  error?: string;
+}
+
+const EUROPEANA_ANNOTATION_URL = "https://annotation.europeana.eu/annotation/search";
+
+/**
+ * Récupère les annotations sémantiques d'un item Europeana via l'Annotation API.
+ */
+export async function getAnnotations(
+  recordId: string,
+  limit = 20
+): Promise<AnnotationResult> {
+  const apiKey = process.env.EUROPEANA_API_KEY;
+  if (!apiKey) {
+    return {
+      annotations: [],
+      total: 0,
+      recordId,
+      apiAvailable: false,
+      error: "EUROPEANA_API_KEY non configurée. Ajoutez la clé dans les secrets du projet.",
+    };
+  }
+
+  try {
+    const url = new URL(EUROPEANA_ANNOTATION_URL);
+    url.searchParams.set("wskey", apiKey);
+    url.searchParams.set("query", `target_record_id:"${recordId}"`);
+    url.searchParams.set("rows", String(limit));
+    url.searchParams.set("profile", "standard");
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
+    const response = await fetch(url.toString(), {
+      headers: { "User-Agent": "PERFUMUM-Research/1.0", Accept: "application/json" },
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      throw new Error(`Annotation API HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json() as any;
+    const items = data.items || [];
+    const total = data.partOf?.total || items.length;
+
+    const annotations: EuropeanaAnnotation[] = items.map((item: any) => {
+      const body = item.body || {};
+      const target = item.target || {};
+      const motivation = item.motivation || "unknown";
+
+      let type: EuropeanaAnnotation["type"] = "unknown";
+      if (motivation.includes("tagging")) type = "tagging";
+      else if (motivation.includes("transcribing")) type = "transcribing";
+      else if (motivation.includes("describing")) type = "describing";
+      else if (motivation.includes("linking")) type = "linking";
+
+      const parsedBody: EuropeanaAnnotation["body"] = {};
+      if (typeof body === "string") {
+        parsedBody.value = body;
+      } else if (body.value) {
+        parsedBody.value = typeof body.value === "object"
+          ? Object.values(body.value)[0] as string
+          : body.value;
+        parsedBody.language = body["@language"] || body.language;
+      } else if (body["@id"] || body.id) {
+        parsedBody.source = body["@id"] || body.id;
+        parsedBody.type = body.type || body["@type"];
+        if (body.prefLabel) {
+          const labels = body.prefLabel;
+          parsedBody.prefLabel = typeof labels === "object"
+            ? (labels.fr || labels.en || Object.values(labels)[0] as string)
+            : labels;
+        }
+      }
+
+      const parsedTarget: EuropeanaAnnotation["target"] = { recordId };
+      if (typeof target === "string") {
+        parsedTarget.source = target;
+      } else if (target.source) {
+        parsedTarget.source = target.source;
+        if (target.selector) {
+          parsedTarget.selector = JSON.stringify(target.selector);
+        }
+      }
+
+      return {
+        annotationId: item["@id"] || item.id || "",
+        type,
+        body: parsedBody,
+        target: parsedTarget,
+        creator: item.creator?.["@id"] || item.creator?.id || item.creator,
+        created: item.created,
+        motivation,
+      };
+    });
+
+    return { annotations, total, recordId, apiAvailable: true };
+  } catch (e) {
+    console.error(`[Europeana] getAnnotations error for ${recordId}:`, e);
+    return {
+      annotations: [],
+      total: 0,
+      recordId,
+      apiAvailable: false,
+      error: e instanceof Error ? e.message : "Erreur Annotation API",
+    };
+  }
+}
+
+/**
+ * Recherche des annotations par terme (tag sémantique ou transcription).
+ */
+export async function searchAnnotations(
+  query: string,
+  type?: "tagging" | "transcribing" | "describing",
+  limit = 20
+): Promise<{
+  annotations: EuropeanaAnnotation[];
+  total: number;
+  query: string;
+  apiAvailable: boolean;
+  error?: string;
+}> {
+  const apiKey = process.env.EUROPEANA_API_KEY;
+  if (!apiKey) {
+    return {
+      annotations: [],
+      total: 0,
+      query,
+      apiAvailable: false,
+      error: "EUROPEANA_API_KEY non configurée.",
+    };
+  }
+
+  try {
+    const url = new URL(EUROPEANA_ANNOTATION_URL);
+    url.searchParams.set("wskey", apiKey);
+    url.searchParams.set("query", query);
+    url.searchParams.set("rows", String(limit));
+    url.searchParams.set("profile", "standard");
+    if (type) {
+      url.searchParams.set("qf", `motivation:${type}`);
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
+    const response = await fetch(url.toString(), {
+      headers: { "User-Agent": "PERFUMUM-Research/1.0", Accept: "application/json" },
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      throw new Error(`Annotation API HTTP ${response.status}`);
+    }
+
+    const data = await response.json() as any;
+    const items = data.items || [];
+    const total = data.partOf?.total || items.length;
+
+    const annotations: EuropeanaAnnotation[] = items.map((item: any) => {
+      const body = item.body || {};
+      const motivation = item.motivation || "unknown";
+      let annType: EuropeanaAnnotation["type"] = "unknown";
+      if (motivation.includes("tagging")) annType = "tagging";
+      else if (motivation.includes("transcribing")) annType = "transcribing";
+      else if (motivation.includes("describing")) annType = "describing";
+      else if (motivation.includes("linking")) annType = "linking";
+
+      const parsedBody: EuropeanaAnnotation["body"] = {};
+      if (typeof body === "string") {
+        parsedBody.value = body;
+      } else if (body.value) {
+        parsedBody.value = typeof body.value === "object"
+          ? Object.values(body.value)[0] as string
+          : body.value;
+      } else if (body["@id"] || body.id) {
+        parsedBody.source = body["@id"] || body.id;
+        if (body.prefLabel) {
+          const labels = body.prefLabel;
+          parsedBody.prefLabel = typeof labels === "object"
+            ? (labels.fr || labels.en || Object.values(labels)[0] as string)
+            : labels;
+        }
+      }
+
+      const target = item.target || {};
+      const recordIdMatch = (typeof target === "string" ? target : target.source || "")
+        .match(/\/item\/([^/]+\/[^/]+)/);
+      const extractedRecordId = recordIdMatch ? `/${recordIdMatch[1]}` : "";
+
+      return {
+        annotationId: item["@id"] || item.id || "",
+        type: annType,
+        body: parsedBody,
+        target: { recordId: extractedRecordId, source: typeof target === "string" ? target : target.source },
+        creator: item.creator?.["@id"] || item.creator?.id || item.creator,
+        created: item.created,
+        motivation,
+      };
+    });
+
+    return { annotations, total, query, apiAvailable: true };
+  } catch (e) {
+    console.error(`[Europeana] searchAnnotations error:`, e);
+    return {
+      annotations: [],
+      total: 0,
+      query,
+      apiAvailable: false,
+      error: e instanceof Error ? e.message : "Erreur Annotation API",
+    };
+  }
+}

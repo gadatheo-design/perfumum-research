@@ -311,6 +311,205 @@ LIMIT 20`,
 }
 LIMIT 20`,
       },
+      {
+        id: "europeana_federated_plant",
+        name: "[Fédéré] Plante Wikidata × Europeana (P727)",
+        description: "Requête fédérée : croise les QID Wikidata des plantes avec leurs identifiants Europeana (P727) pour trouver les collections muséales correspondantes",
+        category: "europeana-federated",
+        sparql: `SELECT DISTINCT ?plant ?plantLabel ?europeanaId ?image WHERE {
+  VALUES ?plant { wd:Q{{QID}} }
+  ?plant wdt:P727 ?europeanaId .
+  OPTIONAL { ?plant wdt:P18 ?image . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+LIMIT 20`,
+      },
+      {
+        id: "europeana_federated_molecule",
+        name: "[Fédéré] Molécule Wikidata × Europeana (P727)",
+        description: "Requête fédérée : croise les QID Wikidata des molécules aromatiques avec leurs identifiants Europeana pour trouver les collections liées",
+        category: "europeana-federated",
+        sparql: `SELECT DISTINCT ?molecule ?moleculeLabel ?europeanaId ?formula WHERE {
+  VALUES ?molecule { wd:Q{{QID}} }
+  ?molecule wdt:P727 ?europeanaId .
+  OPTIONAL { ?molecule wdt:P274 ?formula . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+LIMIT 20`,
+      },
+      {
+        id: "europeana_federated_manuscripts",
+        name: "[Fédéré] Manuscrits botaniques Wikidata × Europeana",
+        description: "Trouve les manuscrits botaniques médiévaux sur Wikidata qui ont un identifiant Europeana (P727) — herbiers, traités de botanique, pharmacopées",
+        category: "europeana-federated",
+        sparql: `SELECT DISTINCT ?manuscript ?manuscriptLabel ?europeanaId ?date ?libraryLabel WHERE {
+  ?manuscript wdt:P31/wdt:P279* wd:Q87167 .  # manuscrit
+  ?manuscript wdt:P921 ?subject .
+  ?subject wdt:P279*/wdt:P31* wd:Q756 .  # plante
+  ?manuscript wdt:P727 ?europeanaId .
+  OPTIONAL { ?manuscript wdt:P571 ?date . }
+  OPTIONAL { ?manuscript wdt:P485 ?library . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+LIMIT 20`,
+      },
+      {
+        id: "europeana_federated_perfume_bottles",
+        name: "[Fédéré] Flacons de parfum historiques Wikidata × Europeana",
+        description: "Trouve les flacons de parfum historiques sur Wikidata qui ont un identifiant Europeana — objets de collection, flacons anciens, flacons de maisons historiques",
+        category: "europeana-federated",
+        sparql: `SELECT DISTINCT ?bottle ?bottleLabel ?europeanaId ?date ?collectionLabel WHERE {
+  ?bottle wdt:P31/wdt:P279* wd:Q1361551 .  # flacon de parfum
+  ?bottle wdt:P727 ?europeanaId .
+  OPTIONAL { ?bottle wdt:P571 ?date . }
+  OPTIONAL { ?bottle wdt:P195 ?collection . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+LIMIT 20`,
+      },
+    ];
+  }),
+
+  /**
+   * Sprint 3.1 — Requête SPARQL directe sur l'endpoint Europeana natif
+   * Endpoint : https://sparql.europeana.eu/
+   * Modèle de données : EDM (Europeana Data Model)
+   * Préfixes disponibles : edm:, dc:, dcterms:, skos:, ore:, foaf:
+   */
+  europeanaQuery: publicProcedure
+    .input(
+      z.object({
+        sparql: z.string().min(10).max(5000),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const EUROPEANA_SPARQL_ENDPOINT = "https://sparql.europeana.eu/";
+      const TIMEOUT_MS = 20_000;
+
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+        const response = await fetch(EUROPEANA_SPARQL_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Accept: "application/sparql-results+json",
+            "User-Agent": "PERFUMUM-Research/1.0",
+          },
+          body: new URLSearchParams({ query: input.sparql }).toString(),
+          signal: controller.signal,
+        });
+        clearTimeout(timeout);
+
+        if (!response.ok) {
+          const text = await response.text();
+          return {
+            success: false,
+            results: [],
+            vars: [],
+            error: `Europeana SPARQL HTTP ${response.status}: ${text.slice(0, 200)}`,
+          };
+        }
+
+        const data = await response.json() as any;
+        const vars: string[] = data.head?.vars || [];
+        const bindings = data.results?.bindings || [];
+
+        const results = bindings.map((binding: any) => {
+          const row: Record<string, string> = {};
+          for (const v of vars) {
+            if (binding[v]) {
+              row[v] = binding[v].value || "";
+            }
+          }
+          return row;
+        });
+
+        return { success: true, results, vars, total: results.length };
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : "Erreur SPARQL Europeana";
+        return { success: false, results: [], vars: [], error: msg };
+      }
+    }),
+
+  /**
+   * Sprint 3.1 — Templates SPARQL EDM Europeana
+   * Retourne les templates de requêtes SPARQL pour l'endpoint Europeana natif
+   */
+  europeanaTemplates: publicProcedure.query(() => {
+    return [
+      {
+        id: "edm_plant_search",
+        name: "Plantes aromatiques dans les collections EDM",
+        description: "Cherche les objets culturels liés aux plantes aromatiques dans le modèle EDM Europeana",
+        sparql: `PREFIX edm: <http://www.europeana.eu/schemas/edm/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT ?item ?title ?provider ?date WHERE {
+  ?item a edm:ProvidedCHO .
+  ?item dc:subject ?subject .
+  FILTER(REGEX(STR(?subject), "rose|jasmine|lavender|frankincense|myrrh", "i"))
+  OPTIONAL { ?item dc:title ?title . }
+  OPTIONAL { ?item edm:dataProvider ?provider . }
+  OPTIONAL { ?item dc:date ?date . }
+}
+LIMIT 15`,
+      },
+      {
+        id: "edm_manuscripts",
+        name: "Manuscrits botaniques médiévaux (EDM)",
+        description: "Trouve les manuscrits botaniques dans les collections Europeana via le modèle EDM",
+        sparql: `PREFIX edm: <http://www.europeana.eu/schemas/edm/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT ?item ?title ?provider ?type WHERE {
+  ?item a edm:ProvidedCHO .
+  ?item dc:type ?type .
+  FILTER(REGEX(STR(?type), "manuscript|herbarium|herbal", "i"))
+  OPTIONAL { ?item dc:title ?title . }
+  OPTIONAL { ?item edm:dataProvider ?provider . }
+}
+LIMIT 15`,
+      },
+      {
+        id: "edm_perfume_bottles",
+        name: "Flacons de parfum historiques (EDM)",
+        description: "Trouve les flacons et objets liés à la parfumerie dans les collections Europeana",
+        sparql: `PREFIX edm: <http://www.europeana.eu/schemas/edm/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+
+SELECT ?item ?title ?provider ?date WHERE {
+  ?item a edm:ProvidedCHO .
+  { ?item dc:subject ?s . FILTER(REGEX(STR(?s), "perfume|parfum|scent|fragrance", "i")) }
+  UNION
+  { ?item dc:type ?t . FILTER(REGEX(STR(?t), "bottle|flacon|vial", "i")) }
+  OPTIONAL { ?item dc:title ?title . }
+  OPTIONAL { ?item edm:dataProvider ?provider . }
+  OPTIONAL { ?item dc:date ?date . }
+}
+LIMIT 15`,
+      },
+      {
+        id: "edm_spice_routes",
+        name: "Routes des épices et commerce olfactif (EDM)",
+        description: "Trouve les cartes, documents et objets liés aux routes commerciales des épices et aromates",
+        sparql: `PREFIX edm: <http://www.europeana.eu/schemas/edm/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+SELECT ?item ?title ?provider ?spatial WHERE {
+  ?item a edm:ProvidedCHO .
+  ?item dc:subject ?subject .
+  FILTER(REGEX(STR(?subject), "spice|epice|épice|trade|commerce|incense|encens", "i"))
+  OPTIONAL { ?item dc:title ?title . }
+  OPTIONAL { ?item edm:dataProvider ?provider . }
+  OPTIONAL { ?item dcterms:spatial ?spatial . }
+}
+LIMIT 15`,
+      },
     ];
   }),
 });

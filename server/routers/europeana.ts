@@ -379,11 +379,209 @@ export const europeanaRouter = router({
           iiifFullTextSearch: true,
           countryDistributionMap: true,
           iiifFullTextApiAvailable: !!apiKey,
-          mapCountries: 45, // Nombre de pays avec coordonnées
+          mapCountries: 45,
+        },
+        // Capacités Sprint 3
+        sprint3: {
+          sparqlEuropeanaEndpoint: true,
+          sparqlFederated: true,
+          enrichPlantQidBatch: true,
+          annotationApi: !!apiKey,
+          europeanaTemplates: 4,
         },
       };
     } finally {
       await conn.end();
     }
   }),
+
+  /**
+   * Sprint 3.2 — Enrichissement QID Wikidata des plantes via Entity API
+   * Parcourt les plantes sans QID Wikidata et tente de les résoudre
+   * via l'Entity API Europeana (resolveEntity avec URI Wikidata).
+   * Retourne les candidats avec score de confiance (high/medium/low).
+   */
+  enrichPlantQidBatch: publicProcedure
+    .input(
+      z.object({
+        offset: z.number().int().min(0).default(0),
+        limit: z.number().int().min(1).max(50).default(20),
+      })
+    )
+    .query(async ({ input }) => {
+      const apiKey = process.env.EUROPEANA_API_KEY;
+      const conn = await getDb();
+      try {
+        // Compter les plantes sans QID
+        const [[{ totalWithoutQid }]] = await conn.execute<any[]>(
+          "SELECT COUNT(*) as totalWithoutQid FROM plants WHERE wikidata_qid IS NULL OR wikidata_qid = ''"
+        );
+        const [[{ totalPlants }]] = await conn.execute<any[]>(
+          "SELECT COUNT(*) as totalPlants FROM plants"
+        );
+        const [[{ plantsWithQid }]] = await conn.execute<any[]>(
+          "SELECT COUNT(*) as plantsWithQid FROM plants WHERE wikidata_qid IS NOT NULL AND wikidata_qid != ''"
+        );
+
+        // Récupérer les plantes sans QID (paginées)
+        const [plants] = await conn.execute<any[]>(
+          "SELECT id, name, latin_name, family FROM plants WHERE wikidata_qid IS NULL OR wikidata_qid = '' LIMIT ? OFFSET ?",
+          [input.limit, input.offset]
+        );
+
+        const results: Array<{
+          plantId: number;
+          plantName: string;
+          latinName: string | null;
+          family: string | null;
+          candidates: Array<{
+            entityId: string;
+            label: string;
+            confidence: "high" | "medium" | "low";
+            sameAs: string[];
+          }>;
+          status: "resolved" | "candidates" | "not_found" | "no_api";
+        }> = [];
+
+        if (!apiKey) {
+          // Mode sans clé : retourner la liste des plantes à enrichir
+          for (const plant of plants) {
+            results.push({
+              plantId: plant.id,
+              plantName: plant.name,
+              latinName: plant.latin_name,
+              family: plant.family,
+              candidates: [],
+              status: "no_api",
+            });
+          }
+        } else {
+          // Mode avec clé : tenter la résolution via Entity API
+          const ENTITY_BASE = "https://api.europeana.eu/entity";
+          for (const plant of plants) {
+            const searchTerm = plant.latin_name || plant.name;
+            try {
+              const url = new URL(`${ENTITY_BASE}/suggest`);
+              url.searchParams.set("wskey", apiKey);
+              url.searchParams.set("text", searchTerm);
+              url.searchParams.set("type", "concept");
+              url.searchParams.set("rows", "3");
+              url.searchParams.set("lang", "en,fr,la");
+
+              const controller = new AbortController();
+              const timeout = setTimeout(() => controller.abort(), 8_000);
+              const resp = await fetch(url.toString(), {
+                headers: { "User-Agent": "PERFUMUM-Research/1.0", Accept: "application/json" },
+                signal: controller.signal,
+              });
+              clearTimeout(timeout);
+
+              if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+              const data = await resp.json() as any;
+              const items = data.items || [];
+
+              if (items.length === 0) {
+                results.push({ plantId: plant.id, plantName: plant.name, latinName: plant.latin_name, family: plant.family, candidates: [], status: "not_found" });
+                continue;
+              }
+
+              const candidates = items.map((item: any) => {
+                const label = item.prefLabel?.en || item.prefLabel?.fr || item.prefLabel?.la ||
+                  (typeof item.prefLabel === "string" ? item.prefLabel : searchTerm);
+                const sameAs: string[] = Array.isArray(item.sameAs) ? item.sameAs : [];
+                const hasWikidata = sameAs.some((s: string) => s.includes("wikidata.org"));
+                const labelMatch = label.toLowerCase().includes(searchTerm.toLowerCase().split(" ")[0]);
+                const confidence: "high" | "medium" | "low" = hasWikidata && labelMatch ? "high" : hasWikidata || labelMatch ? "medium" : "low";
+                return { entityId: item.id || item["@id"] || "", label, confidence, sameAs };
+              });
+
+              const highConf = candidates.find((c: any) => c.confidence === "high");
+              results.push({
+                plantId: plant.id,
+                plantName: plant.name,
+                latinName: plant.latin_name,
+                family: plant.family,
+                candidates,
+                status: highConf ? "resolved" : candidates.length > 0 ? "candidates" : "not_found",
+              });
+            } catch {
+              results.push({ plantId: plant.id, plantName: plant.name, latinName: plant.latin_name, family: plant.family, candidates: [], status: "not_found" });
+            }
+          }
+        }
+
+        return {
+          results,
+          pagination: {
+            total: Number(totalWithoutQid),
+            offset: input.offset,
+            limit: input.limit,
+            hasMore: input.offset + input.limit < Number(totalWithoutQid),
+          },
+          coverage: {
+            total: Number(totalPlants),
+            withQid: Number(plantsWithQid),
+            withoutQid: Number(totalWithoutQid),
+            percent: Math.round((Number(plantsWithQid) / Number(totalPlants)) * 100),
+          },
+          apiAvailable: !!apiKey,
+        };
+      } finally {
+        await conn.end();
+      }
+    }),
+
+  /**
+   * Sprint 3.3 — Annotation API : annotations d'un item Europeana
+   * Retourne les tags sémantiques, transcriptions et descriptions
+   * déposés par les contributeurs Europeana sur un item spécifique.
+   */
+  getAnnotations: publicProcedure
+    .input(
+      z.object({
+        recordId: z.string().min(5),
+        limit: z.number().int().min(1).max(50).default(20),
+      })
+    )
+    .query(async ({ input }) => {
+      const apiKey = process.env.EUROPEANA_API_KEY;
+      if (!apiKey) {
+        return {
+          annotations: [],
+          total: 0,
+          recordId: input.recordId,
+          apiAvailable: false,
+          error: "EUROPEANA_API_KEY non configurée.",
+        };
+      }
+      const { getAnnotations } = await import("../europeana");
+      return getAnnotations(input.recordId, input.limit);
+    }),
+
+  /**
+   * Sprint 3.3 — Annotation API : recherche d'annotations par terme
+   * Permet de trouver tous les items Europeana taggés avec un terme botanique.
+   */
+  searchAnnotations: publicProcedure
+    .input(
+      z.object({
+        query: z.string().min(2).max(200),
+        type: z.enum(["tagging", "transcribing", "describing"]).optional(),
+        limit: z.number().int().min(1).max(50).default(20),
+      })
+    )
+    .query(async ({ input }) => {
+      const apiKey = process.env.EUROPEANA_API_KEY;
+      if (!apiKey) {
+        return {
+          annotations: [],
+          total: 0,
+          query: input.query,
+          apiAvailable: false,
+          error: "EUROPEANA_API_KEY non configurée.",
+        };
+      }
+      const { searchAnnotations } = await import("../europeana");
+      return searchAnnotations(input.query, input.type, input.limit);
+    }),
 });

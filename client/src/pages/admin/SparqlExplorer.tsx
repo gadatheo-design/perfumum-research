@@ -571,22 +571,22 @@ export default function SparqlExplorer() {
 
       {/* Onglets */}
       <Tabs defaultValue="stats">
-        <TabsList className="grid grid-cols-6 w-full">
+        <TabsList className="grid grid-cols-7 w-full">
           <TabsTrigger value="stats" className="text-xs">
             <Sparkles className="h-3.5 w-3.5 mr-1" />
-            Statistiques
+            Stats
           </TabsTrigger>
           <TabsTrigger value="molecule" className="text-xs">
             <FlaskConical className="h-3.5 w-3.5 mr-1" />
-            Par molécule
+            Molécule
           </TabsTrigger>
           <TabsTrigger value="batch" className="text-xs">
             <Globe className="h-3.5 w-3.5 mr-1" />
-            Vue globale
+            Global
           </TabsTrigger>
           <TabsTrigger value="free" className="text-xs">
             <Code className="h-3.5 w-3.5 mr-1" />
-            SPARQL libre
+            Libre
           </TabsTrigger>
           <TabsTrigger value="templates" className="text-xs">
             <BookOpen className="h-3.5 w-3.5 mr-1" />
@@ -595,6 +595,10 @@ export default function SparqlExplorer() {
           <TabsTrigger value="europeana" className="text-xs">
             <Layers className="h-3.5 w-3.5 mr-1 text-cyan-600" />
             <span className="text-cyan-600 font-medium">Europeana</span>
+          </TabsTrigger>
+          <TabsTrigger value="europeana-sparql" className="text-xs">
+            <Layers className="h-3.5 w-3.5 mr-1 text-violet-600" />
+            <span className="text-violet-600 font-medium">EDM SPARQL</span>
           </TabsTrigger>
         </TabsList>
 
@@ -620,6 +624,9 @@ export default function SparqlExplorer() {
 
         <TabsContent value="europeana" className="mt-4">
           <EuropeanaUnifiedTab />
+        </TabsContent>
+        <TabsContent value="europeana-sparql" className="mt-4">
+          <EuropeanaSparqlTab />
         </TabsContent>
       </Tabs>
     </div>
@@ -887,6 +894,175 @@ function EuropeanaUnifiedTab() {
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+// ─── Onglet SPARQL Europeana natif (Sprint 3.1) ───────────────────────────────
+function EuropeanaSparqlTab() {
+  const [query, setQuery] = useState<string>("");
+  const [results, setResults] = useState<any[] | null>(null);
+  const [vars, setVars] = useState<string[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  const { data: templates } = trpc.sparql.europeanaTemplates.useQuery();
+  const europeanaQueryMutation = trpc.sparql.europeanaQuery.useMutation({
+    onSuccess: (data) => {
+      if (data.success) {
+        setResults(data.results);
+        setVars(data.vars);
+        setError(null);
+      } else {
+        setError(data.error || "Erreur SPARQL Europeana");
+        setResults([]);
+      }
+    },
+    onError: (e) => {
+      setError(e.message);
+      setResults([]);
+    },
+  });
+
+  const handleRun = () => {
+    if (!query.trim()) return;
+    setError(null);
+    europeanaQueryMutation.mutate({ sparql: query });
+  };
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-base font-semibold flex items-center gap-2">
+          <Layers className="h-4 w-4 text-violet-600" />
+          SPARQL Europeana natif — Endpoint EDM
+        </h3>
+        <p className="text-sm text-muted-foreground mt-1">
+          Requêtes directes sur{" "}
+          <a href="https://sparql.europeana.eu/" target="_blank" rel="noopener noreferrer" className="text-violet-600 underline">
+            sparql.europeana.eu
+          </a>{" "}
+          via le modèle EDM. Préfixes :{" "}
+          <code className="font-mono text-xs bg-muted px-1 rounded">edm:</code>,{" "}
+          <code className="font-mono text-xs bg-muted px-1 rounded">dc:</code>,{" "}
+          <code className="font-mono text-xs bg-muted px-1 rounded">dcterms:</code>.
+        </p>
+      </div>
+
+      {templates && templates.length > 0 && (
+        <div className="space-y-2">
+          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Templates EDM</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            {templates.map((tpl) => (
+              <button
+                key={tpl.id}
+                onClick={() => setQuery(tpl.sparql)}
+                className="text-left p-3 rounded-lg border hover:border-violet-400 hover:bg-violet-50 dark:hover:bg-violet-950/20 transition-all"
+              >
+                <p className="text-xs font-medium">{tpl.name}</p>
+                <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{tpl.description}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="space-y-2">
+        <Label className="text-xs font-medium">Requête SPARQL (EDM Europeana)</Label>
+        <Textarea
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder={`PREFIX edm: <http://www.europeana.eu/schemas/edm/>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+
+SELECT ?item ?title ?provider WHERE {
+  ?item a edm:ProvidedCHO .
+  ?item dc:subject ?subject .
+  FILTER(REGEX(STR(?subject), "rose|jasmine", "i"))
+  OPTIONAL { ?item dc:title ?title . }
+  OPTIONAL { ?item edm:dataProvider ?provider . }
+}
+LIMIT 10`}
+          className="font-mono text-xs min-h-[180px]"
+        />
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-muted-foreground">
+            Endpoint : <code className="font-mono">https://sparql.europeana.eu/</code>
+          </p>
+          <Button
+            size="sm"
+            onClick={handleRun}
+            disabled={europeanaQueryMutation.isPending || !query.trim()}
+            className="gap-2 bg-violet-600 hover:bg-violet-700 text-white"
+          >
+            {europeanaQueryMutation.isPending
+              ? <Loader2 className="h-3.5 w-3.5 animate-spin" />
+              : <Search className="h-3.5 w-3.5" />}
+            Exécuter sur Europeana
+          </Button>
+        </div>
+      </div>
+
+      {error && (
+        <div className="flex items-start gap-2 p-3 rounded-lg bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-800">
+          <AlertCircle className="h-4 w-4 text-red-600 mt-0.5 shrink-0" />
+          <div>
+            <p className="text-xs font-medium text-red-800 dark:text-red-200">Erreur SPARQL Europeana</p>
+            <p className="text-xs text-red-700 dark:text-red-300 mt-0.5">{error}</p>
+          </div>
+        </div>
+      )}
+
+      {results !== null && !error && (
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-medium">{results.length} résultat(s)</p>
+            {vars.length > 0 && (
+              <div className="flex gap-1 flex-wrap">
+                {vars.map((v) => (
+                  <Badge key={v} variant="outline" className="text-xs font-mono">?{v}</Badge>
+                ))}
+              </div>
+            )}
+          </div>
+          {results.length > 0 ? (
+            <div className="overflow-x-auto rounded-lg border">
+              <table className="w-full text-xs">
+                <thead className="bg-muted/50">
+                  <tr>
+                    {vars.map((v) => (
+                      <th key={v} className="px-3 py-2 text-left font-medium text-muted-foreground">?{v}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {results.map((row, i) => (
+                    <tr key={i} className="border-t hover:bg-muted/30 transition-colors">
+                      {vars.map((v) => (
+                        <td key={v} className="px-3 py-2 max-w-[200px]">
+                          {row[v] ? (
+                            row[v].startsWith("http") ? (
+                              <a href={row[v]} target="_blank" rel="noopener noreferrer"
+                                className="text-violet-600 hover:underline truncate block" title={row[v]}>
+                                {row[v].length > 40 ? `${row[v].slice(0, 40)}…` : row[v]}
+                              </a>
+                            ) : (
+                              <span className="truncate block" title={row[v]}>{row[v]}</span>
+                            )
+                          ) : (
+                            <span className="text-muted-foreground/40">—</span>
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <p className="text-sm text-muted-foreground text-center py-6">Aucun résultat pour cette requête.</p>
+          )}
+        </div>
+      )}
     </div>
   );
 }
