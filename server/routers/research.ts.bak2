@@ -56,7 +56,7 @@ export const researchRouter = router({
         queryParts.push(` LIMIT ${input.limit} OFFSET ${input.offset}`);
         
         const fullQuery = queryParts.join('');
-        const [results] = await db.execute(sql.raw(fullQuery)) as unknown as [any[]];
+        const results = await db.execute(sql.raw(fullQuery));
         
         return {
           success: true,
@@ -118,7 +118,7 @@ export const researchRouter = router({
         queryParts.push(` LIMIT ${input.limit} OFFSET ${input.offset}`);
         
         const fullQuery = queryParts.join('');
-        const [results] = await db.execute(sql.raw(fullQuery)) as unknown as [any[]];
+        const results = await db.execute(sql.raw(fullQuery));
         
         return {
           success: true,
@@ -152,9 +152,9 @@ export const researchRouter = router({
           };
         }
         
-        const [results] = await db.execute(
+        const results = await db.execute(
           sql.raw(`SELECT * FROM research_claims WHERE id = ${input.id}`)
-        ) as unknown as [any[]];
+        );
         
         if ((results as any[]).length === 0) {
           return {
@@ -194,9 +194,9 @@ export const researchRouter = router({
           };
         }
         
-        const [results] = await db.execute(
+        const results = await db.execute(
           sql.raw(`SELECT * FROM research_sources WHERE id = ${input.id}`)
-        ) as unknown as [any[]];
+        );
         
         if ((results as any[]).length === 0) {
           return {
@@ -233,9 +233,9 @@ export const researchRouter = router({
         return [];
       }
       
-      const [result] = await db.execute(
+      const result = await db.execute(
         sql.raw(`SELECT * FROM perique_compounds ORDER BY category, name`)
-      ) as unknown as [any[]];
+      );
       
       // Flatten the result array (db.execute returns [rows, fields])
       const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
@@ -262,20 +262,20 @@ export const researchRouter = router({
         };
       }
       
-      const [claimsResult] = await db.execute(
+      const claimsResult = await db.execute(
         sql.raw(`SELECT COUNT(*) as total FROM research_claims`)
-      ) as unknown as [any[]];
-      const [sourcesResult] = await db.execute(
+      );
+      const sourcesResult = await db.execute(
         sql.raw(`SELECT COUNT(*) as total FROM research_sources`)
-      ) as unknown as [any[]];
+      );
       
-      const [claimsByType] = await db.execute(
+      const claimsByType = await db.execute(
         sql.raw(`SELECT claimType, COUNT(*) as count FROM research_claims GROUP BY claimType`)
-      ) as unknown as [any[]];
+      );
       
-      const [sourcesByQuality] = await db.execute(
+      const sourcesByQuality = await db.execute(
         sql.raw(`SELECT quality, COUNT(*) as count FROM research_sources GROUP BY quality`)
-      ) as unknown as [any[]];
+      );
       
       return {
         success: true,
@@ -306,9 +306,9 @@ export const researchRouter = router({
         return [];
       }
       
-      const [result] = await db.execute(
+      const result = await db.execute(
         sql.raw(`SELECT * FROM historic_cigarettes ORDER BY country, name`)
-      ) as unknown as [any[]];
+      );
       
       // Flatten the result array (db.execute returns [rows, fields])
       const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
@@ -329,7 +329,7 @@ export const researchRouter = router({
         return [];
       }
       
-      const [result] = await db.execute(
+      const result = await db.execute(
         sql.raw(`
           SELECT pml.*, pc.name as compound_name, m.name as molecule_name
           FROM perique_molecule_links pml
@@ -337,7 +337,7 @@ export const researchRouter = router({
           LEFT JOIN molecules m ON pml.molecule_id = m.id
           ORDER BY pml.match_type, pml.confidence DESC
         `)
-      ) as unknown as [any[]];
+      );
       
       // Flatten the result array (db.execute returns [rows, fields])
       const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
@@ -379,7 +379,7 @@ export const researchRouter = router({
         
         query += ` ORDER BY product_class, name`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const result = await db.execute(sql.raw(query));
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         return Array.isArray(rows) ? rows : [];
       } catch (error: unknown) {
@@ -397,9 +397,9 @@ export const researchRouter = router({
         return [];
       }
       
-      const [result] = await db.execute(
+      const result = await db.execute(
         sql.raw(`SELECT * FROM biosynthetic_pathways ORDER BY name`)
-      ) as unknown as [any[]];
+      );
       
       const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
       return Array.isArray(rows) ? rows : [];
@@ -424,11 +424,11 @@ export const researchRouter = router({
         };
       }
       
-      const [tpsResult] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes`)) as unknown as [any[]];
-      const [monoResult] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes WHERE product_class = 'monoterpene'`)) as unknown as [any[]];
-      const [sesquiResult] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes WHERE product_class = 'sesquiterpene'`)) as unknown as [any[]];
-      const [diResult] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes WHERE product_class = 'diterpene'`)) as unknown as [any[]];
-      const [pathwayResult] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM biosynthetic_pathways`)) as unknown as [any[]];
+      const tpsResult = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes`));
+      const monoResult = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes WHERE product_class = 'monoterpene'`));
+      const sesquiResult = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes WHERE product_class = 'sesquiterpene'`));
+      const diResult = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes WHERE product_class = 'diterpene'`));
+      const pathwayResult = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM biosynthetic_pathways`));
       
       const getCount = (result: any) => {
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
@@ -514,7 +514,7 @@ export const researchRouter = router({
         
         query += ` ORDER BY tg.name, m.name`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const result = await db.execute(sql.raw(query));
         return (result as any)[0] || [];
       } catch (error: unknown) {
         console.error("Error fetching TPS gene-molecule links:", error);
@@ -547,7 +547,7 @@ export const researchRouter = router({
           VALUES (${input.tpsGeneId}, ${input.moleculeId}, '${input.relationshipType}', '${input.confidenceLevel}', ${input.evidenceSource ? `'${input.evidenceSource}'` : 'NULL'}, ${input.notes ? `'${input.notes}'` : 'NULL'})
         `;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const result = await db.execute(sql.raw(query));
         return { success: true, id: (result as any)[0]?.insertId };
       } catch (error: any) {
         if ((error instanceof Error ? (error as NodeJS.ErrnoException).code : undefined) === 'ER_DUP_ENTRY') {
@@ -804,7 +804,7 @@ export const researchRouter = router({
           LIMIT ${input.limit}
         `;
 
-        const [pathsResult] = await db.execute(sql.raw(pathsQuery)) as unknown as [any[]];
+        const pathsResult = await db.execute(sql.raw(pathsQuery));
         const paths = (pathsResult[0] as unknown) as any[];
 
         // Get statistics
@@ -821,7 +821,7 @@ export const researchRouter = router({
           LEFT JOIN recette_molecules rm ON m.id = rm.molecule_id
           LEFT JOIN recettes r ON rm.recette_id = r.id
         `;
-        const [statsResult] = await db.execute(sql.raw(statsQuery)) as unknown as [any[]];
+        const statsResult = await db.execute(sql.raw(statsQuery));
         const statsRows = (statsResult[0] as unknown) as any[];
         const stats = statsRows[0] || null;
 
@@ -937,7 +937,7 @@ export const researchRouter = router({
 
         query += ` ORDER BY mt.source_molecule_name LIMIT ${input.limit} OFFSET ${input.offset}`;
 
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const result = await db.execute(sql.raw(query));
         let data = (result[0] as unknown) as any[];
         // Flatten if nested array (some DB drivers return [[...]])
         if (Array.isArray(data) && data.length > 0 && Array.isArray(data[0])) {
@@ -963,7 +963,7 @@ export const researchRouter = router({
         return { success: false, stats: null, error: "Database connection failed" };
       }
 
-      const [result] = await db.execute(sql.raw(`
+      const result = await db.execute(sql.raw(`
         SELECT 
           COUNT(*) as total_transformations,
           COUNT(DISTINCT source_molecule_name) as unique_sources,
@@ -971,7 +971,7 @@ export const researchRouter = router({
           COUNT(DISTINCT transformation_type) as transformation_types,
           COUNT(DISTINCT relevance_context) as relevance_contexts
         FROM molecular_transformations
-      `)) as unknown as [any[]];
+      `));
 
       const stats = ((result[0] as unknown) as any[])[0] || null;
       return { success: true, stats };
@@ -1021,7 +1021,7 @@ export const researchRouter = router({
 
         const escapeSql = (str: string) => str.replace(/'/g, "''");
 
-        const [result] = await db.execute(sql.raw(`
+        const result = await db.execute(sql.raw(`
           INSERT INTO molecular_transformations (
             source_molecule_name, product_molecule_name, transformation_type,
             source_molecule_id, product_molecule_id,
@@ -1046,7 +1046,7 @@ export const researchRouter = router({
             ${input.sourceReference ? `'${escapeSql(input.sourceReference)}'` : 'NULL'},
             ${input.notes ? `'${escapeSql(input.notes)}'` : 'NULL'}
           )
-        `)) as unknown as [any[]];
+        `));
 
         return { success: true, message: "Transformation created successfully" };
       } catch (error: any) {
@@ -1065,14 +1065,14 @@ export const researchRouter = router({
         return { success: false, data: [], error: "Database connection failed" };
       }
 
-      const [result] = await db.execute(sql.raw(`
+      const result = await db.execute(sql.raw(`
         SELECT 
           transformation_type,
           COUNT(*) as count
         FROM molecular_transformations
         GROUP BY transformation_type
         ORDER BY count DESC
-      `)) as unknown as [any[]];
+      `));
 
       const data = (result[0] as unknown) as any[];
       return { success: true, data };
@@ -1121,7 +1121,7 @@ export const researchRouter = router({
           whereClause = `WHERE ${conditions.join(' AND ')}`;
         }
 
-        const [result] = await db.execute(sql.raw(`
+        const result = await db.execute(sql.raw(`
           SELECT 
             tri.id,
             tri.transformation_id,
@@ -1151,7 +1151,7 @@ export const researchRouter = router({
               WHEN 'trace' THEN 4 
             END,
             mt.source_molecule_name
-        `)) as unknown as [any[]];
+        `));
 
         const impacts = (result[0] as unknown) as any[];
         return { success: true, impacts };
@@ -1173,7 +1173,7 @@ export const researchRouter = router({
           return { success: false, recipes: [], error: "Database connection failed" };
         }
 
-        const [result] = await db.execute(sql.raw(`
+        const result = await db.execute(sql.raw(`
           SELECT 
             r.id,
             r.name,
@@ -1192,7 +1192,7 @@ export const researchRouter = router({
               WHEN 'minor' THEN 3 
               WHEN 'trace' THEN 4 
             END
-        `)) as unknown as [any[]];
+        `));
 
         const recipes = (result[0] as unknown) as any[];
         return { success: true, recipes };
@@ -1214,7 +1214,7 @@ export const researchRouter = router({
           return { success: false, transformations: [], error: "Database connection failed" };
         }
 
-        const [result] = await db.execute(sql.raw(`
+        const result = await db.execute(sql.raw(`
           SELECT 
             mt.id,
             mt.source_molecule_name,
@@ -1235,7 +1235,7 @@ export const researchRouter = router({
               WHEN 'minor' THEN 3 
               WHEN 'trace' THEN 4 
             END
-        `)) as unknown as [any[]];
+        `));
 
         const transformations = (result[0] as unknown) as any[];
         return { success: true, transformations };
@@ -1326,7 +1326,7 @@ export const researchRouter = router({
 
         const escapeSql = (str: string) => str.replace(/'/g, "''");
 
-        const [result] = await db.execute(sql.raw(`
+        const result = await db.execute(sql.raw(`
           INSERT INTO transformation_recipe_impacts (
             transformation_id, recette_id, impact_type,
             impact_description, olfactory_contribution,
@@ -1343,7 +1343,7 @@ export const researchRouter = router({
             ${input.notes ? `'${escapeSql(input.notes)}'` : 'NULL'},
             ${input.sourceReference ? `'${escapeSql(input.sourceReference)}'` : 'NULL'}
           )
-        `)) as unknown as [any[]];
+        `));
 
         return { success: true, message: "Impact link created successfully" };
       } catch (error: any) {
@@ -1418,7 +1418,7 @@ export const researchRouter = router({
 
         query += ` ORDER BY mt.source_molecule_name`;
 
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const result = await db.execute(sql.raw(query));
         const transformations = (result[0] as unknown) as any[];
 
         // Build nodes and links for D3.js force-directed graph
@@ -1574,7 +1574,7 @@ export const researchRouter = router({
         }
 
         // Get transformations where molecule is source
-        const [asSourceResult] = await db.execute(sql.raw(`
+        const asSourceResult = await db.execute(sql.raw(`
           SELECT 
             mt.id,
             mt.source_molecule_name,
@@ -1593,10 +1593,10 @@ export const researchRouter = router({
           LEFT JOIN molecules pm ON mt.product_molecule_id = pm.id
           WHERE ${sourceCondition}
           ORDER BY mt.transformation_type, mt.product_molecule_name
-        `)) as unknown as [any[]];
+        `));
 
         // Get transformations where molecule is product
-        const [asProductResult] = await db.execute(sql.raw(`
+        const asProductResult = await db.execute(sql.raw(`
           SELECT 
             mt.id,
             mt.source_molecule_name,
@@ -1615,7 +1615,7 @@ export const researchRouter = router({
           LEFT JOIN molecules sm ON mt.source_molecule_id = sm.id
           WHERE ${productCondition}
           ORDER BY mt.transformation_type, mt.source_molecule_name
-        `)) as unknown as [any[]];
+        `));
 
         const asSource = (asSourceResult[0] as unknown) as any[];
         const asProduct = (asProductResult[0] as unknown) as any[];
@@ -1675,7 +1675,7 @@ export const researchRouter = router({
         
         query += ` ORDER BY citations DESC LIMIT ${input?.limit || 50} OFFSET ${input?.offset || 0}`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const result = await db.execute(sql.raw(query));
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         
         return {
@@ -1701,9 +1701,9 @@ export const researchRouter = router({
           return { success: false, data: null, error: "Database connection failed" };
         }
 
-        const [result] = await db.execute(
+        const result = await db.execute(
           sql.raw(`SELECT * FROM research_publications WHERE id = ${input.id}`)
-        ) as unknown as [any[]];
+        );
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         const data = Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
         
@@ -1743,7 +1743,7 @@ export const researchRouter = router({
         
         query += ` ORDER BY performance_score DESC`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const result = await db.execute(sql.raw(query));
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         
         return {
@@ -1785,7 +1785,7 @@ export const researchRouter = router({
         
         query += ` ORDER BY total_citations DESC`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const result = await db.execute(sql.raw(query));
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         
         return {
@@ -1831,7 +1831,7 @@ export const researchRouter = router({
         
         query += ` ORDER BY total_citations DESC`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const result = await db.execute(sql.raw(query));
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         
         return {
@@ -1854,30 +1854,30 @@ export const researchRouter = router({
         return { success: false, data: null, error: "Database connection failed" };
       }
 
-      const [pubCount] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM research_publications`)) as unknown as [any[]];
-      const [methodCount] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM analytical_methods`)) as unknown as [any[]];
-      const [researcherCount] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM researchers`)) as unknown as [any[]];
-      const [instCount] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM research_institutions`)) as unknown as [any[]];
-      const [totalCitations] = await db.execute(sql.raw(`SELECT COALESCE(SUM(citations), 0) as total FROM research_publications`)) as unknown as [any[]];
+      const pubCount = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM research_publications`));
+      const methodCount = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM analytical_methods`));
+      const researcherCount = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM researchers`));
+      const instCount = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM research_institutions`));
+      const totalCitations = await db.execute(sql.raw(`SELECT COALESCE(SUM(citations), 0) as total FROM research_publications`));
 
-      const [pubBySubject] = await db.execute(sql.raw(`
+      const pubBySubject = await db.execute(sql.raw(`
         SELECT subject_matter, COUNT(*) as count 
         FROM research_publications 
         GROUP BY subject_matter
-      `)) as unknown as [any[]];
+      `));
       
-      const [pubByYear] = await db.execute(sql.raw(`
+      const pubByYear = await db.execute(sql.raw(`
         SELECT year, COUNT(*) as count, COALESCE(SUM(citations), 0) as citations
         FROM research_publications 
         GROUP BY year 
         ORDER BY year
-      `)) as unknown as [any[]];
+      `));
 
-      const [methodsByCategory] = await db.execute(sql.raw(`
+      const methodsByCategory = await db.execute(sql.raw(`
         SELECT category, COUNT(*) as count 
         FROM analytical_methods 
         GROUP BY category
-      `)) as unknown as [any[]];
+      `));
 
       const extractRows = (result: any) => {
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
@@ -1915,9 +1915,9 @@ export const researchRouter = router({
           return { success: false, data: [], error: "Database connection failed" };
         }
 
-        const [result] = await db.execute(
+        const result = await db.execute(
           sql.raw(`SELECT * FROM research_publications ORDER BY citations DESC LIMIT ${input?.limit || 10}`)
-        ) as unknown as [any[]];
+        );
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         
         return {
@@ -1940,7 +1940,7 @@ export const researchRouter = router({
         return { success: false, data: [], error: "Database connection failed" };
       }
 
-      const [result] = await db.execute(
+      const result = await db.execute(
         sql.raw(`
           SELECT 
             id, method_id as code, name, category,
@@ -1949,7 +1949,7 @@ export const researchRouter = router({
           FROM analytical_methods
           ORDER BY performance_score DESC
         `)
-      ) as unknown as [any[]];
+      );
       const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
       
       return {
@@ -1995,7 +1995,7 @@ export const researchRouter = router({
         query += ` ORDER BY name ASC`;
         query += ` LIMIT ${input?.limit || 50} OFFSET ${input?.offset || 0}`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const result = await db.execute(sql.raw(query));
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         
         return {
@@ -2042,7 +2042,7 @@ export const researchRouter = router({
         query += ` ORDER BY id DESC`;
         query += ` LIMIT ${input?.limit || 100} OFFSET ${input?.offset || 0}`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const result = await db.execute(sql.raw(query));
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         
         return {
@@ -2106,25 +2106,25 @@ export const researchRouter = router({
         
         query += ` ORDER BY rp.year DESC, m.name ASC`;
         
-        const [linksResult] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const linksResult = await db.execute(sql.raw(query));
         const links = Array.isArray(linksResult) && linksResult.length > 0 ? linksResult[0] : linksResult;
         
         // Get unique publications
-        const [pubsResult] = await db.execute(sql.raw(`
+        const pubsResult = await db.execute(sql.raw(`
           SELECT DISTINCT rp.id, rp.title, rp.year, rp.journal, rp.doi
           FROM research_publications rp
           JOIN publication_molecule_links pml ON rp.id = pml.publication_id
           ORDER BY rp.year DESC
-        `)) as unknown as [any[]];
+        `));
         const publications = Array.isArray(pubsResult) && pubsResult.length > 0 ? pubsResult[0] : pubsResult;
         
         // Get unique molecules
-        const [molsResult] = await db.execute(sql.raw(`
+        const molsResult = await db.execute(sql.raw(`
           SELECT DISTINCT m.id, m.name, m.formula, m.chemical_class
           FROM molecules m
           JOIN publication_molecule_links pml ON m.id = pml.molecule_id
           ORDER BY m.name ASC
-        `)) as unknown as [any[]];
+        `));
         const molecules = Array.isArray(molsResult) && molsResult.length > 0 ? molsResult[0] : molsResult;
         
         return {

@@ -20,7 +20,7 @@ export const cigarilloMoleculeLinksRouter = router({
       if (input?.moleculeId) conditions.push(`cml.molecule_id = ${input.moleculeId}`);
       const where = conditions.join(" AND ");
 
-      const [result] = await db.execute(sql.raw(`
+      const result = await db.execute(sql.raw(`
         SELECT
           cml.id,
           cml.cigarillo_recipe_id,
@@ -38,7 +38,7 @@ export const cigarilloMoleculeLinksRouter = router({
         LEFT JOIN molecules m ON m.id = cml.molecule_id
         WHERE ${where}
         ORDER BY cr.name, m.name
-      `)) as unknown as [any[]];
+      `));
 
       return (result as any)[0] || [];
     }),
@@ -91,13 +91,13 @@ export const cigarilloMoleculeLinksRouter = router({
     const db = await getDb();
     if (!db) return { totalLinks: 0, recipesWithLinks: 0, moleculesLinked: 0 };
 
-    const [result] = await db.execute(sql.raw(`
+    const result = await db.execute(sql.raw(`
       SELECT
         COUNT(*) as total_links,
         COUNT(DISTINCT cigarillo_recipe_id) as recipes_with_links,
         COUNT(DISTINCT molecule_id) as molecules_linked
       FROM cigarillo_molecule_links
-    `)) as unknown as [any[]];
+    `));
 
     const row = ((result as any)[0] || [])[0] || {};
     return {

@@ -256,7 +256,7 @@ export const rawMaterialsRouter = router({
   getThermalMatrix: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) return [];
-    const [result] = await db.execute(sql`
+    const result = await db.execute(sql`
       SELECT id, name, material_id,
         thermal_tri, thermal_sai, thermal_hpi,
         thermal_volatility, thermal_survival, thermal_transformation,
@@ -266,7 +266,7 @@ export const rawMaterialsRouter = router({
       FROM raw_materials
       WHERE thermal_tri IS NOT NULL
       ORDER BY thermal_tri DESC, thermal_sai DESC
-    `) as unknown as [any[]];
+    `);
     return (result[0] as unknown) as any[];
   }),
 
@@ -327,11 +327,11 @@ export const rawMaterialsRouter = router({
       for (const mol of materialMolecules) {
         let spectraRows: any[] = [];
         if (mol.casNumber) {
-          const [r] = await db.execute(sql`SELECT * FROM ms_spectra WHERE cas_number = ${mol.casNumber} LIMIT 1`) as unknown as [any[]];
+          const r = await db.execute(sql`SELECT * FROM ms_spectra WHERE cas_number = ${mol.casNumber} LIMIT 1`);
           spectraRows = (r[0] as unknown) as any[];
         }
         if (spectraRows.length === 0 && mol.moleculeName) {
-          const [r] = await db.execute(sql`SELECT * FROM ms_spectra WHERE compound_name LIKE ${`%${mol.moleculeName}%`} LIMIT 1`) as unknown as [any[]];
+          const r = await db.execute(sql`SELECT * FROM ms_spectra WHERE compound_name LIKE ${`%${mol.moleculeName}%`} LIMIT 1`);
           spectraRows = (r[0] as unknown) as any[];
         }
         if (spectraRows.length > 0) {

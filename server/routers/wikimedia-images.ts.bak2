@@ -13,13 +13,13 @@ export const wikimediaImagesRouter = router({
   getStats: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) return { total: 0, withImage: 0, withoutImage: 0, withLatinName: 0 };
-    const [result] = await db.execute(sql`
+    const result = await db.execute(sql`
       SELECT COUNT(*) as total,
         SUM(CASE WHEN image_url IS NOT NULL AND image_url != '' THEN 1 ELSE 0 END) as with_image,
         SUM(CASE WHEN (image_url IS NULL OR image_url = '') THEN 1 ELSE 0 END) as without_image,
         SUM(CASE WHEN latin_name IS NOT NULL AND latin_name != '' AND (image_url IS NULL OR image_url = '') THEN 1 ELSE 0 END) as latin_no_image
       FROM plants
-    `) as unknown as [any[]];
+    `);
     const row = ((result[0] as unknown) as unknown[])[0] as Record<string, unknown>;
     return {
       total: Number(row?.total || 0),
@@ -44,10 +44,10 @@ export const wikimediaImagesRouter = router({
         .where(sql`(image_url IS NULL OR image_url = '') AND latin_name IS NOT NULL AND latin_name != ''`)
         .limit(input.limit)
         .offset(input.offset);
-      const [countResult] = await db.execute(sql`
+      const countResult = await db.execute(sql`
         SELECT COUNT(*) as cnt FROM plants
         WHERE (image_url IS NULL OR image_url = '') AND latin_name IS NOT NULL AND latin_name != ''
-      `) as unknown as [any[]];
+      `);
       const countRow = ((countResult[0] as unknown) as unknown[])[0] as Record<string, unknown>;
       const total = Number(countRow?.cnt || 0);
       return { plants: rows, total };
@@ -71,10 +71,10 @@ export const wikimediaImagesRouter = router({
         .limit(input.batchSize)
         .offset(input.startIndex);
 
-      const [totalResult] = await db.execute(sql`
+      const totalResult = await db.execute(sql`
         SELECT COUNT(*) as cnt FROM plants
         WHERE (image_url IS NULL OR image_url = '') AND latin_name IS NOT NULL AND latin_name != ''
-      `) as unknown as [any[]];
+      `);
       const totalRow = ((totalResult[0] as unknown) as unknown[])[0] as Record<string, unknown>;
       const totalCount = Number(totalRow?.cnt || 0);
 

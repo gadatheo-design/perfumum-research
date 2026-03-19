@@ -21,7 +21,7 @@ export const correlationsRouter = router({
       const db = await getDb();
       if (!db) return { molecules: [], total: 0 };
 
-      const [rows] = await db.execute(sql`
+      const rows = await db.execute(sql`
         SELECT 
           m.id,
           m.name,
@@ -56,7 +56,7 @@ export const correlationsRouter = router({
         ) >= ${input.minDomains}
         ORDER BY plant_count DESC
         LIMIT ${input.limit}
-      `) as unknown as [any[]];
+      `);
 
       const molecules = (rows as any[]).map((r) => ({
         id: r.id,
@@ -146,7 +146,7 @@ export const correlationsRouter = router({
       if (!db) return [];
 
       const idList = input.moleculeIds.join(',');
-      const [rows] = await db.execute(sql`
+      const rows = await db.execute(sql`
         SELECT 
           ms.id,
           ms.molecule1_id,
@@ -166,7 +166,7 @@ export const correlationsRouter = router({
            OR ms.molecule2_id IN (${sql.raw(idList)})
         ORDER BY ms.type, m1.name
         LIMIT 100
-      `) as unknown as [any[]];
+      `);
 
       return rows as any[];
     }),

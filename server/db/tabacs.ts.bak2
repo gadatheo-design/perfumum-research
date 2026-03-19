@@ -302,7 +302,7 @@ export async function getTabacsWithTerroir(): Promise<any[]> {
   const db = await getDb();
   if (!db) return [];
   const { sql } = await import("drizzle-orm");
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT t.id, t.name, t.type, t.origin, t.intensity, t.aromaticProfile, t.internalNotes,
            te.name as terroir_name, te.country as terroir_country, te.region as terroir_region,
            te.climate_type as terroir_climate, te.soil_type as terroir_soil, te.quality_rating as terroir_quality
@@ -310,7 +310,7 @@ export async function getTabacsWithTerroir(): Promise<any[]> {
     LEFT JOIN tabac_terroir_links ttl ON ttl.tabac_id = t.id
     LEFT JOIN terroirs te ON te.id = ttl.terroir_id
     ORDER BY t.type, t.name
-  `) as unknown as [any[]];
+  `);
   return (result as any)[0] as unknown[];
 }
 
@@ -318,7 +318,7 @@ export async function getTabacsByType(type: string): Promise<any[]> {
   const db = await getDb();
   if (!db) return [];
   const { sql } = await import("drizzle-orm");
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT t.id, t.name, t.type, t.origin, t.intensity, t.aromaticProfile, t.internalNotes,
            te.name as terroir_name, te.country as terroir_country, te.region as terroir_region,
            te.climate_type as terroir_climate, te.quality_rating as terroir_quality
@@ -327,7 +327,7 @@ export async function getTabacsByType(type: string): Promise<any[]> {
     LEFT JOIN terroirs te ON te.id = ttl.terroir_id
     WHERE t.type = ${type}
     ORDER BY t.name
-  `) as unknown as [any[]];
+  `);
   return (result as any)[0] as unknown[];
 }
 
@@ -336,31 +336,31 @@ export async function getTabacWithMolecules(tabacId: number): Promise<any> {
   if (!db) return null;
   const { sql } = await import("drizzle-orm");
   // Get tabac info
-  const [tabacResult] = await db.execute(sql`
+  const tabacResult = await db.execute(sql`
     SELECT t.*, te.name as terroir_name, te.country as terroir_country, te.region as terroir_region
     FROM tabacs t
     LEFT JOIN tabac_terroir_links ttl ON ttl.tabac_id = t.id
     LEFT JOIN terroirs te ON te.id = ttl.terroir_id
     WHERE t.id = ${tabacId}
     LIMIT 1
-  `) as unknown as [any[]];
+  `);
   const tabacRows = (tabacResult as any)[0] as unknown[];
   if (!tabacRows.length) return null;
   const tabac = tabacRows[0] as Record<string, unknown>;
   // Get molecules via tabac_molecule_links (direct links, preferred)
-  const [molResult] = await db.execute(sql`
+  const molResult = await db.execute(sql`
     SELECT m.id, m.name, m.family, m.olfactiveProfile as odor_description,
            m.cas_number, tml.notes as link_notes
     FROM tabac_molecule_links tml
     JOIN molecules m ON m.id = tml.molecule_id
     WHERE tml.tabac_id = ${tabacId}
     ORDER BY m.name
-  `) as unknown as [any[]];
+  `);
   let molecules = (molResult as any)[0] as unknown[];
 
   // Fallback: search via plants if no direct links
   if (molecules.length === 0) {
-    const [plantMolResult] = await db.execute(sql`
+    const plantMolResult = await db.execute(sql`
       SELECT m.id, m.name, m.family, m.olfactiveProfile as odor_description,
              pm.percentage_typical, pm.role, pm.source
       FROM plant_molecules pm
@@ -369,7 +369,7 @@ export async function getTabacWithMolecules(tabacId: number): Promise<any> {
       WHERE p.name LIKE ${tabac.name + '%'} AND p.category = 'tabac'
       ORDER BY pm.percentage_typical DESC
       LIMIT 20
-    `) as unknown as [any[]];
+    `);
     molecules = (plantMolResult as any)[0] as unknown[];
   }
 
@@ -861,9 +861,9 @@ export async function getAllTobaccoLandraces() {
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM tobacco_landraces ORDER BY perfumery_potential_score DESC
-  `) as unknown as [any[]];
+  `);
   return (result[0] as unknown) as unknown[];
 }
 
@@ -871,11 +871,11 @@ export async function getTobaccoLandracesByRegion(region: string) {
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM tobacco_landraces 
     WHERE country LIKE ${`%${region}%`} OR region LIKE ${`%${region}%`}
     ORDER BY perfumery_potential_score DESC
-  `) as unknown as [any[]];
+  `);
   return (result[0] as unknown) as unknown[];
 }
 
@@ -883,11 +883,11 @@ export async function getTobaccoLandracesByMolecularProfile(profileType: string)
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM tobacco_landraces 
     WHERE molecular_profile_type = ${profileType}
     ORDER BY perfumery_potential_score DESC
-  `) as unknown as [any[]];
+  `);
   return (result[0] as unknown) as unknown[];
 }
 
@@ -895,9 +895,9 @@ export async function getTobaccoLandraceById(id: number) {
   const db = await getDb();
   if (!db) return null;
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM tobacco_landraces WHERE id = ${id}
-  `) as unknown as [any[]];
+  `);
   const rows = (result[0] as unknown) as unknown[];
   return rows[0] || null;
 }
@@ -906,19 +906,19 @@ export async function getTobaccoLandracesStats() {
   const db = await getDb();
   if (!db) return { total: 0, byCountry: [], byProfile: [], byStatus: [] };
   
-  const [_total] = await db.execute(sql`SELECT COUNT(*) as count FROM tobacco_landraces`) as unknown as [any[]];
+  const _total = await db.execute(sql`SELECT COUNT(*) as count FROM tobacco_landraces`);
   const total = ((_total[0] as unknown) as Record<string,unknown>[]);
-  const [_byCountry] = await db.execute(sql`
+  const _byCountry = await db.execute(sql`
     SELECT country, COUNT(*) as count FROM tobacco_landraces GROUP BY country ORDER BY count DESC
-  `) as unknown as [any[]];
+  `);
   const byCountry = ((_byCountry[0] as unknown) as unknown[]);
-  const [_byProfile] = await db.execute(sql`
+  const _byProfile = await db.execute(sql`
     SELECT molecular_profile_type as profile, COUNT(*) as count FROM tobacco_landraces GROUP BY molecular_profile_type
-  `) as unknown as [any[]];
+  `);
   const byProfile = ((_byProfile[0] as unknown) as unknown[]);
-  const [_byStatus] = await db.execute(sql`
+  const _byStatus = await db.execute(sql`
     SELECT status, COUNT(*) as count FROM tobacco_landraces GROUP BY status
-  `) as unknown as [any[]];
+  `);
   const byStatus = ((_byStatus[0] as unknown) as unknown[]);
   
   return {
@@ -935,9 +935,9 @@ export async function getAllTobaccoCigarettes() {
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM tobacco_cigarettes ORDER BY perfumery_potential_score DESC
-  `) as unknown as [any[]];
+  `);
   return (result[0] as unknown) as unknown[];
 }
 
@@ -945,11 +945,11 @@ export async function getTobaccoCigarettesByCategory(category: string) {
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM tobacco_cigarettes 
     WHERE region_category = ${category}
     ORDER BY perfumery_potential_score DESC
-  `) as unknown as [any[]];
+  `);
   return (result[0] as unknown) as unknown[];
 }
 
@@ -957,9 +957,9 @@ export async function getTobaccoCigaretteById(id: number) {
   const db = await getDb();
   if (!db) return null;
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM tobacco_cigarettes WHERE id = ${id}
-  `) as unknown as [any[]];
+  `);
   const rows = (result[0] as unknown) as unknown[];
   return rows[0] || null;
 }
@@ -968,15 +968,15 @@ export async function getTobaccoCigarettesStats() {
   const db = await getDb();
   if (!db) return { total: 0, byCategory: [], byStatus: [] };
   
-  const [_total] = await db.execute(sql`SELECT COUNT(*) as count FROM tobacco_cigarettes`) as unknown as [any[]];
+  const _total = await db.execute(sql`SELECT COUNT(*) as count FROM tobacco_cigarettes`);
   const total = ((_total[0] as unknown) as Record<string,unknown>[]);
-  const [_byCategory] = await db.execute(sql`
+  const _byCategory = await db.execute(sql`
     SELECT region_category as category, COUNT(*) as count FROM tobacco_cigarettes GROUP BY region_category
-  `) as unknown as [any[]];
+  `);
   const byCategory = ((_byCategory[0] as unknown) as unknown[]);
-  const [_byStatus] = await db.execute(sql`
+  const _byStatus = await db.execute(sql`
     SELECT status, COUNT(*) as count FROM tobacco_cigarettes GROUP BY status
-  `) as unknown as [any[]];
+  `);
   const byStatus = ((_byStatus[0] as unknown) as unknown[]);
   
   return {
@@ -992,9 +992,9 @@ export async function getAllTobaccoCompounds() {
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM tobacco_compounds ORDER BY chemical_class, compound_name
-  `) as unknown as [any[]];
+  `);
   return (result[0] as unknown) as unknown[];
 }
 
@@ -1002,11 +1002,11 @@ export async function getTobaccoCompoundsByCategory(category: string) {
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM tobacco_compounds 
     WHERE category = ${category}
     ORDER BY compound_name
-  `) as unknown as [any[]];
+  `);
   return (result[0] as unknown) as unknown[];
 }
 
@@ -1014,11 +1014,11 @@ export async function getTobaccoCompoundsByLandrace(landrace: string) {
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM tobacco_compounds 
     WHERE landrace_source = ${landrace}
     ORDER BY compound_name
-  `) as unknown as [any[]];
+  `);
   return (result[0] as unknown) as unknown[];
 }
 
@@ -1026,11 +1026,11 @@ export async function getNewTobaccoIsolates() {
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM tobacco_compounds 
     WHERE is_new_tobacco_isolate = TRUE
     ORDER BY compound_name
-  `) as unknown as [any[]];
+  `);
   return (result[0] as unknown) as unknown[];
 }
 
@@ -1038,19 +1038,19 @@ export async function getTobaccoCompoundsStats() {
   const db = await getDb();
   if (!db) return { total: 0, byCategory: [], byClass: [], newIsolates: 0 };
   
-  const [_total] = await db.execute(sql`SELECT COUNT(*) as count FROM tobacco_compounds`) as unknown as [any[]];
+  const _total = await db.execute(sql`SELECT COUNT(*) as count FROM tobacco_compounds`);
   const total = ((_total[0] as unknown) as unknown[]);
-  const [_byCategory] = await db.execute(sql`
+  const _byCategory = await db.execute(sql`
     SELECT category, COUNT(*) as count FROM tobacco_compounds GROUP BY category ORDER BY count DESC
-  `) as unknown as [any[]];
+  `);
   const byCategory = ((_byCategory[0] as unknown) as unknown[]);
-  const [_byClass] = await db.execute(sql`
+  const _byClass = await db.execute(sql`
     SELECT chemical_class as class, COUNT(*) as count FROM tobacco_compounds GROUP BY chemical_class ORDER BY count DESC
-  `) as unknown as [any[]];
+  `);
   const byClass = ((_byClass[0] as unknown) as unknown[]);
-  const [_newIsolates] = await db.execute(sql`
+  const _newIsolates = await db.execute(sql`
     SELECT COUNT(*) as count FROM tobacco_compounds WHERE is_new_tobacco_isolate = TRUE
-  `) as unknown as [any[]];
+  `);
   const newIsolates = ((_newIsolates[0] as unknown) as unknown[]);
   
   return {
@@ -1067,9 +1067,9 @@ export async function getAllSoilAnalyses() {
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM soil_analyses ORDER BY terroir_name
-  `) as unknown as [any[]];
+  `);
   return (result[0] as unknown) as unknown[];
 }
 
@@ -1077,9 +1077,9 @@ export async function getSoilAnalysisByTerroir(terroir: string) {
   const db = await getDb();
   if (!db) return null;
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM soil_analyses WHERE terroir_name = ${terroir}
-  `) as unknown as [any[]];
+  `);
   const rows = (result[0] as unknown) as unknown[];
   return rows[0] || null;
 }
@@ -1088,9 +1088,9 @@ export async function compareSoilAnalyses(terroir1: string, terroir2: string) {
   const db = await getDb();
   if (!db) return { terroir1: null, terroir2: null };
   
-  const [_result1] = await db.execute(sql`SELECT * FROM soil_analyses WHERE terroir_name = ${terroir1}`) as unknown as [any[]];
+  const _result1 = await db.execute(sql`SELECT * FROM soil_analyses WHERE terroir_name = ${terroir1}`);
   const result1 = ((_result1[0] as unknown) as unknown[])[0] as Record<string, unknown> | undefined;
-  const [_result2] = await db.execute(sql`SELECT * FROM soil_analyses WHERE terroir_name = ${terroir2}`) as unknown as [any[]];
+  const _result2 = await db.execute(sql`SELECT * FROM soil_analyses WHERE terroir_name = ${terroir2}`);
   const result2 = ((_result2[0] as unknown) as unknown[])[0] as Record<string, unknown> | undefined;
   
   return {
@@ -1106,31 +1106,31 @@ export async function getPyrolysisTransformationsByMolecule(moleculeName: string
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM pyrolysis_transformations 
     WHERE source_molecule = ${moleculeName}
     ORDER BY temperature_range ASC
-  `) as unknown as [any[]];
+  `);
    return (result[0] as unknown) as unknown[];
 }
 export async function getPyrolysisTransformationsByProduct(productName: string) {
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM pyrolysis_transformations 
     WHERE product_molecule = ${productName}
     ORDER BY temperature_range ASC
-  `) as unknown as [any[]];
+  `);
    return (result[0] as unknown) as unknown[];
 }
 export async function getAllPyrolysisTransformations() {
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM pyrolysis_transformations ORDER BY source_molecule, temperature_range
-  `) as unknown as [any[]];
+  `);
   // mysql2 retourne [rows, fields] — on prend result[0] pour les lignes
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const rows = Array.isArray(result) && Array.isArray((result as any)[0])
@@ -1144,27 +1144,27 @@ export async function getTemperatureZones() {
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM temperature_zones ORDER BY temp_min ASC
-  `) as unknown as [any[]];
+  `);
   return (result[0] as unknown) as unknown[];
 }
 export async function getLandracePyrolysisProfiles() {
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM landrace_pyrolysis_profiles ORDER BY landrace_name
-  `) as unknown as [any[]];
+  `);
    return (result[0] as unknown) as unknown[];
 }
 export async function getLandracePyrolysisProfile(landraceName: string) {
   const db = await getDb();
   if (!db) return null;
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT * FROM landrace_pyrolysis_profiles WHERE landrace_name = ${landraceName}
-  `) as unknown as [any[]];
+  `);
   const rows = (result[0] as unknown) as unknown[];
   return rows[0] || null;
 }
@@ -1173,12 +1173,12 @@ export async function getLandracePyrolysisProfile(landraceName: string) {
 export async function getPlantFamiliesWithCategories(): Promise<{family: string; count: number; categories: { category: string; count: number }[]}[]> {
   const db = await getDb();
   if (!db) return [];
-  const [familyResult] = await db.execute(sql`SELECT family, COUNT(*) as count FROM plants WHERE family IS NOT NULL AND family != '' GROUP BY family ORDER BY count DESC`) as unknown as [any[]];
+  const familyResult = await db.execute(sql`SELECT family, COUNT(*) as count FROM plants WHERE family IS NOT NULL AND family != '' GROUP BY family ORDER BY count DESC`);
   const families = (familyResult[0] as unknown as unknown[]).map((r) => ({family: (r as Record<string,unknown>).family as string, count: Number((r as Record<string,unknown>).count)}));
   const results: {family: string; count: number; categories: { category: string; count: number }[]}[] = [];
   for (const { family, count } of families) {
     const familyVal = family;
-    const [catResult] = await db.execute(sql`SELECT category, COUNT(*) as count FROM plants WHERE family = ${familyVal} GROUP BY category ORDER BY count DESC`) as unknown as [any[]];
+    const catResult = await db.execute(sql`SELECT category, COUNT(*) as count FROM plants WHERE family = ${familyVal} GROUP BY category ORDER BY count DESC`);
     const categories = (catResult[0] as unknown as unknown[]).map((r) => ({category: (r as Record<string,unknown>).category as string, count: Number((r as Record<string,unknown>).count)}));
     results.push({ family, count, categories });
   }
@@ -1240,13 +1240,13 @@ export async function getChemicalClasses(): Promise<{ name: string; count: numbe
   const db = await getDb();
   if (!db) return [];
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT chemical_class as name, COUNT(*) as count 
     FROM molecules 
     WHERE chemical_class IS NOT NULL AND chemical_class != ''
     GROUP BY chemical_class 
     ORDER BY count DESC
-  `) as unknown as [any[]];
+  `);
   
   return ((result[0] as unknown) as unknown[]).map(r => ({
     name: (r as Record<string, unknown>).name as string,
@@ -1264,7 +1264,7 @@ export async function getSmilesStats(): Promise<{
   const db = await getDb();
   if (!db) return { total: 0, withSmiles: 0, withPubChem: 0, withCas: 0, withInchi: 0 };
   
-  const [result] = await db.execute(sql`
+  const result = await db.execute(sql`
     SELECT 
       COUNT(*) as total,
       SUM(CASE WHEN smiles IS NOT NULL AND smiles != '' THEN 1 ELSE 0 END) as withSmiles,
@@ -1272,7 +1272,7 @@ export async function getSmilesStats(): Promise<{
       SUM(CASE WHEN cas_number IS NOT NULL AND cas_number != '' THEN 1 ELSE 0 END) as withCas,
       SUM(CASE WHEN inchi IS NOT NULL AND inchi != '' THEN 1 ELSE 0 END) as withInchi
     FROM molecules
-  `) as unknown as [any[]];
+  `);
   
   const row = ((result[0] as unknown) as unknown[])[0] as Record<string, unknown>;
   return {

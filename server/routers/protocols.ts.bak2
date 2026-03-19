@@ -24,14 +24,14 @@ export const protocolsRouter = router({
         conditions.push(sql`(name LIKE ${p} OR objective LIKE ${p} OR summary LIKE ${p})`);
       }
       const whereClause = sql.join(conditions, sql` AND `);
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT id, name, slug, category, objective, summary,
           estimated_cost, duration, difficulty_level, equipment_required, created_at
         FROM technical_protocols WHERE ${whereClause}
         ORDER BY name ASC LIMIT ${limit} OFFSET ${offset}
-      `) as unknown as [any[]];
+      `);
       const rows = (result[0] as unknown) as any[];
-      const [countResult] = await db.execute(sql`SELECT COUNT(*) as total FROM technical_protocols WHERE ${whereClause}`) as unknown as [any[]];
+      const countResult = await db.execute(sql`SELECT COUNT(*) as total FROM technical_protocols WHERE ${whereClause}`);
       const countRows = (countResult[0] as unknown) as any[];
       const total = countRows[0]?.total || 0;
       return { protocols: rows, total, limit, offset };
@@ -44,11 +44,11 @@ export const protocolsRouter = router({
       if (!db) return null;
       const { id, slug } = input;
       if (id) {
-        const [result] = await db.execute(sql`SELECT * FROM technical_protocols WHERE id = ${id}`) as unknown as [any[]];
+        const result = await db.execute(sql`SELECT * FROM technical_protocols WHERE id = ${id}`);
         const rows = (result[0] as unknown) as any[];
         return rows[0] || null;
       } else if (slug) {
-        const [result] = await db.execute(sql`SELECT * FROM technical_protocols WHERE slug = ${slug}`) as unknown as [any[]];
+        const result = await db.execute(sql`SELECT * FROM technical_protocols WHERE slug = ${slug}`);
         const rows = (result[0] as unknown) as any[];
         return rows[0] || null;
       }
@@ -58,10 +58,10 @@ export const protocolsRouter = router({
   getCategories: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) return [];
-    const [result] = await db.execute(sql`
+    const result = await db.execute(sql`
       SELECT category, COUNT(*) as count FROM technical_protocols
       WHERE category IS NOT NULL GROUP BY category ORDER BY count DESC
-    `) as unknown as [any[]];
+    `);
     const rows = (result[0] as unknown) as { category: string; count: number }[];
     return rows;
   }),
@@ -69,18 +69,18 @@ export const protocolsRouter = router({
   getStats: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) return { total: 0, byDifficulty: [], byCategory: [] };
-    const [totalResult] = await db.execute(sql`SELECT COUNT(*) as total FROM technical_protocols`) as unknown as [any[]];
+    const totalResult = await db.execute(sql`SELECT COUNT(*) as total FROM technical_protocols`);
     const totalRows = (totalResult[0] as unknown) as any[];
     const total = totalRows[0]?.total || 0;
-    const [diffResult] = await db.execute(sql`
+    const diffResult = await db.execute(sql`
       SELECT difficulty_level, COUNT(*) as count FROM technical_protocols
       GROUP BY difficulty_level ORDER BY count DESC
-    `) as unknown as [any[]];
+    `);
     const byDifficulty = (diffResult[0] as unknown) as { difficulty_level: string; count: number }[];
-    const [catResult] = await db.execute(sql`
+    const catResult = await db.execute(sql`
       SELECT category, COUNT(*) as count FROM technical_protocols
       WHERE category IS NOT NULL GROUP BY category ORDER BY count DESC
-    `) as unknown as [any[]];
+    `);
     const byCategory = (catResult[0] as unknown) as { category: string; count: number }[];
     return {
       total,

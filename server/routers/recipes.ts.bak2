@@ -24,7 +24,7 @@ export const recipesRouter = router({
         conditions.push(sql`(name LIKE ${p} OR concept LIKE ${p} OR cannabis_component LIKE ${p} OR tobacco_component LIKE ${p})`);
       }
       const whereClause = sql.join(conditions, sql` AND `);
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT id, name, slug, collection, concept,
           cannabis_component, tobacco_component, perfume_component,
           cannabis_percentage, tobacco_percentage, perfume_percentage,
@@ -32,9 +32,9 @@ export const recipesRouter = router({
           terpene_profile, created_at
         FROM cigarillo_recipes WHERE ${whereClause}
         ORDER BY name ASC LIMIT ${limit} OFFSET ${offset}
-      `) as unknown as [any[]];
+      `);
       const rows = (result[0] as unknown) as any[];
-      const [countResult] = await db.execute(sql`SELECT COUNT(*) as total FROM cigarillo_recipes WHERE ${whereClause}`) as unknown as [any[]];
+      const countResult = await db.execute(sql`SELECT COUNT(*) as total FROM cigarillo_recipes WHERE ${whereClause}`);
       const countRows = (countResult[0] as unknown) as any[];
       const total = countRows[0]?.total || 0;
       return { recipes: rows, total, limit, offset };
@@ -47,11 +47,11 @@ export const recipesRouter = router({
       if (!db) return null;
       const { id, slug } = input;
       if (id) {
-        const [result] = await db.execute(sql`SELECT * FROM cigarillo_recipes WHERE id = ${id}`) as unknown as [any[]];
+        const result = await db.execute(sql`SELECT * FROM cigarillo_recipes WHERE id = ${id}`);
         const rows = (result[0] as unknown) as any[];
         return rows[0] || null;
       } else if (slug) {
-        const [result] = await db.execute(sql`SELECT * FROM cigarillo_recipes WHERE slug = ${slug}`) as unknown as [any[]];
+        const result = await db.execute(sql`SELECT * FROM cigarillo_recipes WHERE slug = ${slug}`);
         const rows = (result[0] as unknown) as any[];
         return rows[0] || null;
       }
@@ -61,10 +61,10 @@ export const recipesRouter = router({
   getCollections: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) return [];
-    const [result] = await db.execute(sql`
+    const result = await db.execute(sql`
       SELECT collection, COUNT(*) as count FROM cigarillo_recipes
       WHERE collection IS NOT NULL GROUP BY collection ORDER BY count DESC
-    `) as unknown as [any[]];
+    `);
     const rows = (result[0] as unknown) as { collection: string; count: number }[];
     return rows;
   }),
@@ -74,12 +74,12 @@ export const recipesRouter = router({
     .query(async ({ input }) => {
       const db = await getDb();
       if (!db) return [];
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT id, recipe_id, ingredient_name, ingredient_type, percentage,
           aromatic_profile as role, justification as notes, molecule_id, plant_id
         FROM cigarillo_recipe_ingredients WHERE recipe_id = ${input.recipeId}
         ORDER BY percentage DESC
-      `) as unknown as [any[]];
+      `);
       const rows = (result[0] as unknown) as any[];
       return rows;
     }),
@@ -87,22 +87,22 @@ export const recipesRouter = router({
   getStats: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) return { total: 0, byDifficulty: [], byCollection: [], avgMaturationDays: 0 };
-    const [totalResult] = await db.execute(sql`SELECT COUNT(*) as total FROM cigarillo_recipes`) as unknown as [any[]];
+    const totalResult = await db.execute(sql`SELECT COUNT(*) as total FROM cigarillo_recipes`);
     const totalRows = (totalResult[0] as unknown) as any[];
     const total = totalRows[0]?.total || 0;
-    const [diffResult] = await db.execute(sql`
+    const diffResult = await db.execute(sql`
       SELECT difficulty_level, COUNT(*) as count FROM cigarillo_recipes
       GROUP BY difficulty_level ORDER BY FIELD(difficulty_level, 'débutant', 'intermédiaire', 'avancé', 'expert')
-    `) as unknown as [any[]];
+    `);
     const byDifficulty = (diffResult[0] as unknown) as { difficulty_level: string; count: number }[];
-    const [collResult] = await db.execute(sql`
+    const collResult = await db.execute(sql`
       SELECT collection, COUNT(*) as count FROM cigarillo_recipes
       WHERE collection IS NOT NULL GROUP BY collection ORDER BY count DESC
-    `) as unknown as [any[]];
+    `);
     const byCollection = (collResult[0] as unknown) as { collection: string; count: number }[];
-    const [avgResult] = await db.execute(sql`
+    const avgResult = await db.execute(sql`
       SELECT AVG(maturation_days) as avg_days FROM cigarillo_recipes WHERE maturation_days IS NOT NULL
-    `) as unknown as [any[]];
+    `);
     const avgRows = (avgResult[0] as unknown) as any[];
     return {
       total,

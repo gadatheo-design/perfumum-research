@@ -9,13 +9,13 @@ export const moleculeManagerRouter = router({
     const db = await getDb();
     if (!db) throw new Error("Database not available");
     
-    const [rows] = await db.execute(sql`
+    const rows = await db.execute(sql`
       SELECT m.id, m.name, COUNT(pm.id) as plant_links
       FROM molecules m
       LEFT JOIN plant_molecules pm ON m.id = pm.molecule_id
       GROUP BY m.id
       ORDER BY plant_links DESC
-    `) as unknown as [any[]];
+    `);
     
     return (rows as any[]).map(r => ({
       id: Number(r.id),
@@ -29,13 +29,13 @@ export const moleculeManagerRouter = router({
     const db = await getDb();
     if (!db) throw new Error("Database not available");
     
-    const [rows] = await db.execute(sql`
+    const rows = await db.execute(sql`
       SELECT p.id, p.name, p.category, COUNT(pm.id) as molecule_links
       FROM plants p
       LEFT JOIN plant_molecules pm ON p.id = pm.plant_id
       GROUP BY p.id
       ORDER BY p.name
-    `) as unknown as [any[]];
+    `);
     
     return (rows as any[]).map(r => ({
       id: Number(r.id),
@@ -50,12 +50,12 @@ export const moleculeManagerRouter = router({
     const db = await getDb();
     if (!db) throw new Error("Database not available");
     
-    const [rows] = await db.execute(sql`
+    const rows = await db.execute(sql`
       SELECT category, COUNT(*) as cnt 
       FROM plants 
       GROUP BY category 
       ORDER BY cnt DESC
-    `) as unknown as [any[]];
+    `);
     
     return (rows as any[]).map(r => ({
       category: r.category || 'null',

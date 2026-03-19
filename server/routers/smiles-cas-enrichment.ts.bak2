@@ -46,7 +46,7 @@ export const smilesEnrichmentRouter = router({
   getSmilesStats: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) return { total: 0, withSmiles: 0, withPubChem: 0, withCas: 0, recoverableViaCid: 0, recoverableViaCas: 0 };
-    const [result] = await db.execute(sql`
+    const result = await db.execute(sql`
       SELECT
         COUNT(*) as total,
         SUM(CASE WHEN smiles IS NOT NULL AND smiles != '' THEN 1 ELSE 0 END) as with_smiles,
@@ -55,7 +55,7 @@ export const smilesEnrichmentRouter = router({
         SUM(CASE WHEN (smiles IS NULL OR smiles = '') AND pubchem_cid IS NOT NULL THEN 1 ELSE 0 END) as recoverable_cid,
         SUM(CASE WHEN (smiles IS NULL OR smiles = '') AND pubchem_cid IS NULL AND cas_number IS NOT NULL AND cas_number != '' THEN 1 ELSE 0 END) as recoverable_cas
       FROM molecules
-    `) as unknown as [any[]];
+    `);
     const row = ((result[0] as unknown) as unknown[])[0] as Record<string, unknown>;
     return {
       total: Number(row?.total || 0),
@@ -85,9 +85,9 @@ export const smilesEnrichmentRouter = router({
         .limit(input.batchSize)
         .offset(input.startIndex);
 
-      const [totalResult] = await db.execute(sql`
+      const totalResult = await db.execute(sql`
         SELECT COUNT(*) as cnt FROM molecules WHERE (smiles IS NULL OR smiles = '') AND pubchem_cid IS NOT NULL
-      `) as unknown as [any[]];
+      `);
       const totalRow = ((totalResult[0] as unknown) as unknown[])[0] as Record<string, unknown>;
       const totalCount = Number(totalRow?.cnt || 0);
 
@@ -165,10 +165,10 @@ export const smilesEnrichmentRouter = router({
         .limit(input.batchSize)
         .offset(input.startIndex);
 
-      const [totalResult] = await db.execute(sql`
+      const totalResult = await db.execute(sql`
         SELECT COUNT(*) as cnt FROM molecules
         WHERE (smiles IS NULL OR smiles = '') AND pubchem_cid IS NULL AND cas_number IS NOT NULL AND cas_number != ''
-      `) as unknown as [any[]];
+      `);
       const totalRow = ((totalResult[0] as unknown) as unknown[])[0] as Record<string, unknown>;
       const totalCount = Number(totalRow?.cnt || 0);
 

@@ -228,9 +228,9 @@ export const tobaccoRouter = router({
       const db = await getDb();
       if (!db) return { success: false, data: [], error: "Database not available" };
       
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT * FROM tobacco_landraces ORDER BY perfumery_potential_score DESC
-      `) as unknown as [any[]];
+      `);
       return { success: true, data: (result[0] as unknown) as any[] };
     } catch (error) {
       console.error("Error fetching landraces:", error);
@@ -248,11 +248,11 @@ export const tobaccoRouter = router({
         const db = await getDb();
         if (!db) return { success: false, data: [], error: "Database not available" };
         
-        const [result] = await db.execute(sql`
+        const result = await db.execute(sql`
           SELECT * FROM tobacco_landraces 
           WHERE molecular_profile_type = ${input.profile}
           ORDER BY perfumery_potential_score DESC
-        `) as unknown as [any[]];
+        `);
         return { success: true, data: (result[0] as unknown) as any[] };
       } catch (error) {
         console.error("Error fetching landraces by profile:", error);
@@ -270,9 +270,9 @@ export const tobaccoRouter = router({
         const db = await getDb();
         if (!db) return { success: false, data: null, error: "Database not available" };
         
-        const [result] = await db.execute(sql`
+        const result = await db.execute(sql`
           SELECT * FROM tobacco_landraces WHERE id = ${input.id}
-        `) as unknown as [any[]];
+        `);
         const rows = result[0] as unknown as any[];
         return { success: true, data: rows[0] || null };
       } catch (error) {
@@ -327,9 +327,9 @@ export const tobaccoRouter = router({
       const db = await getDb();
       if (!db) return { success: false, data: [], error: "Database not available" };
       
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT * FROM tobacco_cigarettes ORDER BY perfumery_potential_score DESC
-      `) as unknown as [any[]];
+      `);
       return { success: true, data: (result[0] as unknown) as any[] };
     } catch (error) {
       console.error("Error fetching cigarettes:", error);
@@ -347,11 +347,11 @@ export const tobaccoRouter = router({
         const db = await getDb();
         if (!db) return { success: false, data: [], error: "Database not available" };
         
-        const [result] = await db.execute(sql`
+        const result = await db.execute(sql`
           SELECT * FROM tobacco_cigarettes 
           WHERE region_category = ${input.category}
           ORDER BY perfumery_potential_score DESC
-        `) as unknown as [any[]];
+        `);
         return { success: true, data: (result[0] as unknown) as any[] };
       } catch (error) {
         console.error("Error fetching cigarettes by category:", error);
@@ -369,9 +369,9 @@ export const tobaccoRouter = router({
         const db = await getDb();
         if (!db) return { success: false, data: null, error: "Database not available" };
         
-        const [result] = await db.execute(sql`
+        const result = await db.execute(sql`
           SELECT * FROM tobacco_cigarettes WHERE id = ${input.id}
-        `) as unknown as [any[]];
+        `);
         const rows = result[0] as unknown as any[];
         return { success: true, data: rows[0] || null };
       } catch (error) {
@@ -392,9 +392,9 @@ export const tobaccoRouter = router({
       const db = await getDb();
       if (!db) return { success: false, data: [], error: "Database not available" };
       
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT * FROM tobacco_compounds ORDER BY chemical_class, compound_name
-      `) as unknown as [any[]];
+      `);
       return { success: true, data: (result[0] as unknown) as any[] };
     } catch (error) {
       console.error("Error fetching compounds:", error);
@@ -412,11 +412,11 @@ export const tobaccoRouter = router({
         const db = await getDb();
         if (!db) return { success: false, data: [], error: "Database not available" };
         
-        const [result] = await db.execute(sql`
+        const result = await db.execute(sql`
           SELECT * FROM tobacco_compounds 
           WHERE category = ${input.category}
           ORDER BY compound_name
-        `) as unknown as [any[]];
+        `);
         return { success: true, data: (result[0] as unknown) as any[] };
       } catch (error) {
         console.error("Error fetching compounds by category:", error);
@@ -432,11 +432,11 @@ export const tobaccoRouter = router({
       const db = await getDb();
       if (!db) return { success: false, data: [], error: "Database not available" };
       
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT * FROM tobacco_compounds 
         WHERE is_new_tobacco_isolate = TRUE
         ORDER BY compound_name
-      `) as unknown as [any[]];
+      `);
       return { success: true, data: (result[0] as unknown) as any[] };
     } catch (error) {
       console.error("Error fetching new isolates:", error);
@@ -456,9 +456,9 @@ export const tobaccoRouter = router({
       const db = await getDb();
       if (!db) return { success: false, data: [], error: "Database not available" };
       
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT * FROM soil_analyses ORDER BY terroir_name
-      `) as unknown as [any[]];
+      `);
       return { success: true, data: (result[0] as unknown) as any[] };
     } catch (error) {
       console.error("Error fetching soil analyses:", error);
@@ -504,9 +504,9 @@ export const tobaccoRouter = router({
       const db = await getDb();
       if (!db) return [];
       
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT * FROM landrace_terpene_profiles ORDER BY landrace_name, relative_abundance DESC
-      `) as unknown as [any[]];
+      `);
       return (result[0] as unknown) as any[];
     } catch (error) {
       console.error("Error fetching terpene profiles:", error);
@@ -524,11 +524,11 @@ export const tobaccoRouter = router({
         const db = await getDb();
         if (!db) return [];
         
-        const [result] = await db.execute(sql`
+        const result = await db.execute(sql`
           SELECT * FROM landrace_terpene_profiles 
           WHERE landrace_name = ${input.landraceName}
           ORDER BY relative_abundance DESC
-        `) as unknown as [any[]];
+        `);
         return (result[0] as unknown) as any[];
       } catch (error) {
         console.error("Error fetching terpene profiles by landrace:", error);
@@ -544,9 +544,9 @@ export const tobaccoRouter = router({
       const db = await getDb();
       if (!db) return [];
       
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT * FROM perique_fermentation_stages ORDER BY stage_number
-      `) as unknown as [any[]];
+      `);
       return (result[0] as unknown) as any[];
     } catch (error) {
       console.error("Error fetching fermentation stages:", error);
@@ -562,9 +562,9 @@ export const tobaccoRouter = router({
       const db = await getDb();
       if (!db) return [];
       
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT * FROM gcms_chromatograms ORDER BY landrace_name
-      `) as unknown as [any[]];
+      `);
       return (result[0] as unknown) as any[];
     } catch (error) {
       console.error("Error fetching chromatograms:", error);
@@ -582,12 +582,12 @@ export const tobaccoRouter = router({
         const db = await getDb();
         if (!db) return [];
         
-        const [result] = await db.execute(sql`
+        const result = await db.execute(sql`
           SELECT p.* FROM gcms_peaks p
           JOIN gcms_chromatograms c ON p.chromatogram_id = c.id
           WHERE c.landrace_name = ${input.landraceName}
           ORDER BY p.retention_time
-        `) as unknown as [any[]];
+        `);
         return (result[0] as unknown) as any[];
       } catch (error) {
         console.error("Error fetching chromatogram peaks:", error);
@@ -603,7 +603,7 @@ export const tobaccoRouter = router({
       const db = await getDb();
       if (!db) return [];
       
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT 
           p.compound_name,
           p.cas_number,
@@ -614,7 +614,7 @@ export const tobaccoRouter = router({
         FROM gcms_peaks p
         JOIN gcms_chromatograms c ON p.chromatogram_id = c.id
         ORDER BY p.concentration_ppm DESC
-      `) as unknown as [any[]];
+      `);
       return (result[0] as unknown) as any[];
     } catch (error) {
       console.error("Error fetching all chromatogram peaks:", error);
@@ -634,9 +634,9 @@ export const tobaccoRouter = router({
       const db = await getDb();
       if (!db) return [];
       
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT * FROM ms_spectra ORDER BY compound_name
-      `) as unknown as [any[]];
+      `);
       
       // Parse JSON spectrum_data
       return ((result[0] as unknown) as any[]).map(row => ({
@@ -661,10 +661,10 @@ export const tobaccoRouter = router({
         const db = await getDb();
         if (!db) return null;
         
-        const [result] = await db.execute(sql`
+        const result = await db.execute(sql`
           SELECT * FROM ms_spectra 
           WHERE compound_name = ${input.compoundName}
-        `) as unknown as [any[]];
+        `);
         
         const rows = result[0] as unknown as any[];
         if (rows.length === 0) return null;
@@ -692,10 +692,10 @@ export const tobaccoRouter = router({
         const db = await getDb();
         if (!db) return null;
         
-        const [result] = await db.execute(sql`
+        const result = await db.execute(sql`
           SELECT * FROM ms_spectra 
           WHERE cas_number = ${input.casNumber}
-        `) as unknown as [any[]];
+        `);
         
         const rows = result[0] as unknown as any[];
         if (rows.length === 0) return null;
@@ -722,14 +722,14 @@ export const tobaccoRouter = router({
       try {
         const db = await getDb();
         if (!db) return { success: false, data: [], error: "Database not available" };
-        const [result] = await db.execute(sql`
+        const result = await db.execute(sql`
           SELECT m.id, m.name, m.family, m.olfactiveProfile as odor_description,
                  m.cas_number, tml.notes as link_notes
           FROM tabac_molecule_links tml
           JOIN molecules m ON m.id = tml.molecule_id
           WHERE tml.tabac_id = ${input.tabacId}
           ORDER BY m.name
-        `) as unknown as [any[]];
+        `);
         return { success: true, data: (result[0] as unknown) as any[] };
       } catch (error) {
         console.error("Error fetching variety molecules:", error);
@@ -744,14 +744,14 @@ export const tobaccoRouter = router({
     try {
       const db = await getDb();
       if (!db) return { success: false, data: [], error: "Database not available" };
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT t.id, t.name, t.type, t.origin, t.aromaticProfile, t.intensity, t.internalNotes,
                COUNT(tml.molecule_id) as molecule_count
         FROM tabacs t
         LEFT JOIN tabac_molecule_links tml ON t.id = tml.tabac_id
         GROUP BY t.id, t.name, t.type, t.origin, t.aromaticProfile, t.intensity, t.internalNotes
         ORDER BY t.type, t.name
-      `) as unknown as [any[]];
+      `);
       return { success: true, data: (result[0] as unknown) as any[] };
     } catch (error) {
       console.error("Error fetching varieties with molecule count:", error);

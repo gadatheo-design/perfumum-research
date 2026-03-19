@@ -26,16 +26,16 @@ export const landracesRouter = router({
         conditions.push(sql`(name LIKE ${p} OR alternate_names LIKE ${p} OR origin LIKE ${p} OR aromatic_profile LIKE ${p})`);
       }
       const whereClause = sql.join(conditions, sql` AND `);
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT id, name, slug, alternate_names, type, origin, region, country,
           aromatic_profile, head_notes, heart_notes, base_notes,
           effect_type, thc_range, cbd_range, total_terpene_content,
           dominant_terpenes, conservation_status, cigarillo_potential, created_at
         FROM cannabis_landraces WHERE ${whereClause}
         ORDER BY name ASC LIMIT ${limit} OFFSET ${offset}
-      `) as unknown as [any[]];
+      `);
       const rows = (result[0] as unknown) as any[];
-      const [countResult] = await db.execute(sql`SELECT COUNT(*) as total FROM cannabis_landraces WHERE ${whereClause}`) as unknown as [any[]];
+      const countResult = await db.execute(sql`SELECT COUNT(*) as total FROM cannabis_landraces WHERE ${whereClause}`);
       const countRows = (countResult[0] as unknown) as any[];
       const total = countRows[0]?.total || 0;
       return { landraces: rows, total, limit, offset };
@@ -48,11 +48,11 @@ export const landracesRouter = router({
       if (!db) return null;
       const { id, slug } = input;
       if (id) {
-        const [result] = await db.execute(sql`SELECT * FROM cannabis_landraces WHERE id = ${id}`) as unknown as [any[]];
+        const result = await db.execute(sql`SELECT * FROM cannabis_landraces WHERE id = ${id}`);
         const rows = (result[0] as unknown) as any[];
         return rows[0] || null;
       } else if (slug) {
-        const [result] = await db.execute(sql`SELECT * FROM cannabis_landraces WHERE slug = ${slug}`) as unknown as [any[]];
+        const result = await db.execute(sql`SELECT * FROM cannabis_landraces WHERE slug = ${slug}`);
         const rows = (result[0] as unknown) as any[];
         return rows[0] || null;
       }
@@ -64,11 +64,11 @@ export const landracesRouter = router({
     .query(async ({ input }) => {
       const db = await getDb();
       if (!db) return [];
-      const [result] = await db.execute(sql`
+      const result = await db.execute(sql`
         SELECT id, landrace_id, terpene_name, percentage, notes
         FROM landrace_terpenes WHERE landrace_id = ${input.landraceId}
         ORDER BY percentage DESC
-      `) as unknown as [any[]];
+      `);
       const rows = (result[0] as unknown) as any[];
       return rows;
     }),
@@ -76,25 +76,25 @@ export const landracesRouter = router({
   getStats: publicProcedure.query(async () => {
     const db = await getDb();
     if (!db) return { total: 0, byType: [], byConservation: [], byEffect: [], byCountry: [] };
-    const [totalResult] = await db.execute(sql`SELECT COUNT(*) as total FROM cannabis_landraces`) as unknown as [any[]];
+    const totalResult = await db.execute(sql`SELECT COUNT(*) as total FROM cannabis_landraces`);
     const totalRows = (totalResult[0] as unknown) as any[];
     const total = totalRows[0]?.total || 0;
-    const [typeResult] = await db.execute(sql`SELECT type, COUNT(*) as count FROM cannabis_landraces GROUP BY type ORDER BY count DESC`) as unknown as [any[]];
+    const typeResult = await db.execute(sql`SELECT type, COUNT(*) as count FROM cannabis_landraces GROUP BY type ORDER BY count DESC`);
     const byType = (typeResult[0] as unknown) as { type: string; count: number }[];
-    const [conservationResult] = await db.execute(sql`
+    const conservationResult = await db.execute(sql`
       SELECT conservation_status, COUNT(*) as count FROM cannabis_landraces
       GROUP BY conservation_status ORDER BY count DESC
-    `) as unknown as [any[]];
+    `);
     const byConservation = (conservationResult[0] as unknown) as { conservation_status: string; count: number }[];
-    const [effectResult] = await db.execute(sql`
+    const effectResult = await db.execute(sql`
       SELECT effect_type, COUNT(*) as count FROM cannabis_landraces
       WHERE effect_type IS NOT NULL GROUP BY effect_type ORDER BY count DESC
-    `) as unknown as [any[]];
+    `);
     const byEffect = (effectResult[0] as unknown) as { effect_type: string; count: number }[];
-    const [countryResult] = await db.execute(sql`
+    const countryResult = await db.execute(sql`
       SELECT country, COUNT(*) as count FROM cannabis_landraces
       WHERE country IS NOT NULL GROUP BY country ORDER BY count DESC
-    `) as unknown as [any[]];
+    `);
     const byCountry = (countryResult[0] as unknown) as { country: string; count: number }[];
     return {
       total,
