@@ -311,7 +311,7 @@ export async function getTabacsWithTerroir(): Promise<any[]> {
     LEFT JOIN terroirs te ON te.id = ttl.terroir_id
     ORDER BY t.type, t.name
   `) as unknown as [any[]];
-  return (result as any)[0] as unknown[];
+  return Array.isArray(result) ? result as unknown[] : [];
 }
 
 export async function getTabacsByType(type: string): Promise<any[]> {
@@ -328,7 +328,7 @@ export async function getTabacsByType(type: string): Promise<any[]> {
     WHERE t.type = ${type}
     ORDER BY t.name
   `) as unknown as [any[]];
-  return (result as any)[0] as unknown[];
+  return Array.isArray(result) ? result as unknown[] : [];
 }
 
 export async function getTabacWithMolecules(tabacId: number): Promise<any> {

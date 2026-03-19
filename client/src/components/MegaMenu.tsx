@@ -478,7 +478,7 @@ export function MegaMenu() {
       items: [
         {
           label: "Tabacs Niche",
-          path: "/tabacs-niche",
+          path: "/programmes-recherche/tabacs-niche",
           icon: <Cigarette className="h-4 w-4" />,
           description: "Variétés rares & précieuses",
         },

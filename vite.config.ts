@@ -90,8 +90,10 @@ export default defineConfig({
       "@tanstack/react-query",
       "@trpc/client",
       "@trpc/react-query",
+      "reactflow",
+      "use-sync-external-store/with-selector",
     ],
-    exclude: ["reactflow"],
+    exclude: [],
     force: false,
   },
 

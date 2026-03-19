@@ -295,9 +295,16 @@ export default function TabacsNiche() {
 function VarietyCard({ variety, dbTabac }: { variety: any; dbTabac: any }) {
   const parseProfile = (raw: any): string[] => {
     if (!raw) return [];
+    // Déjà un tableau
+    if (Array.isArray(raw)) return raw.map(String);
+    // Déjà un objet (non-tableau) — extraire les valeurs
+    if (typeof raw === 'object') return Object.values(raw).map(String);
+    // String JSON
     try {
       const parsed = safeJsonParse(raw, null);
-      return Array.isArray(parsed) ? parsed : [String(parsed)];
+      if (Array.isArray(parsed)) return parsed.map(String);
+      if (parsed && typeof parsed === 'object') return Object.values(parsed).map(String);
+      return [String(parsed ?? raw)];
     } catch {
       return [String(raw)];
     }

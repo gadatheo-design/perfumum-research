@@ -173,12 +173,15 @@ export default function GammesOverviewContent() {
         )
       );
       
-      const matchingMolecules = molecules.filter((m: any) =>
-        gamme.keywords.some(kw =>
+      const matchingMolecules = molecules.filter((m: any) => {
+        const profileStr = Array.isArray(m.olfactiveProfile)
+          ? m.olfactiveProfile.join(' ')
+          : (m.olfactiveProfile || '');
+        return gamme.keywords.some(kw =>
           m.name?.toLowerCase().includes(kw.toLowerCase()) ||
-          m.olfactiveProfile?.toLowerCase().includes(kw.toLowerCase())
-        )
-      );
+          profileStr.toLowerCase().includes(kw.toLowerCase())
+        );
+      });
       
       const matchingPlants = plants.filter((p: any) =>
         gamme.keywords.some(kw =>
