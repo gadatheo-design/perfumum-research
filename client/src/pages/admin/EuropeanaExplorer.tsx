@@ -550,6 +550,208 @@ function FreeSearchTab() {
   );
 }
 
+// ─── Onglet IIIF Full-Text Search (Sprint 2) ────────────────────────────────
+
+const IIIF_SUGGESTIONS = [
+  "olibanum", "nardus", "rosa damascena", "myrrha", "styrax",
+  "labdanum", "benzoin", "ambergris", "musk", "castoreum",
+  "frankincense", "oud", "civet", "calamus", "spikenard",
+];
+
+function IiifFullTextTab() {
+  const [query, setQuery] = useState("");
+  const [themeFilter, setThemeFilter] = useState<string | undefined>(undefined);
+  const [submitted, setSubmitted] = useState(false);
+  const [currentQuery, setCurrentQuery] = useState("");
+
+  const { data, isLoading } = trpc.europeana.iiifFullTextSearch.useQuery(
+    { query: currentQuery, limit: 10, themeFilter },
+    { enabled: submitted && currentQuery.length > 1 }
+  );
+
+  const handleSearch = () => {
+    if (query.trim().length > 1) {
+      setCurrentQuery(query.trim());
+      setSubmitted(true);
+    }
+  };
+
+  return (
+    <div className="space-y-4">
+      {/* Description */}
+      <Card className="border-cyan-200 bg-cyan-50/50 dark:bg-cyan-950/20">
+        <CardContent className="p-4 flex items-start gap-3">
+          <BookOpen className="h-4 w-4 text-cyan-600 mt-0.5 shrink-0" />
+          <div>
+            <p className="font-medium text-sm text-cyan-800 dark:text-cyan-200">
+              IIIF Full-Text Search — Citations dans les manuscrits numérisés
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Recherche dans le texte OCR des manuscrits, herbiers et livres anciens conservés
+              dans les collections européennes. Extrait les citations historiques primaires
+              mentionnant vos termes olfactifs.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Formulaire */}
+      <div className="flex flex-col sm:flex-row gap-3 items-end flex-wrap">
+        <div className="flex-1 min-w-[200px]">
+          <Label>Terme à rechercher dans les manuscrits</Label>
+          <Input
+            placeholder="ex: olibanum, rosa damascena, myrrha..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          />
+        </div>
+        <div>
+          <Label>Thème (optionnel)</Label>
+          <Select value={themeFilter || ""} onValueChange={(v) => setThemeFilter(v || undefined)}>
+            <SelectTrigger className="w-44">
+              <SelectValue placeholder="Tous les thèmes" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="">Tous les thèmes</SelectItem>
+              <SelectItem value="distillation_alchimie">⚗️ Distillation & Alchimie</SelectItem>
+              <SelectItem value="illustrations_botaniques">🌱 Illustrations botaniques</SelectItem>
+              <SelectItem value="encens">🕯️ Encens & Oliban</SelectItem>
+              <SelectItem value="routes_epices">🗺️ Routes des épices</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <Button onClick={handleSearch} disabled={!query.trim() || isLoading}>
+          {isLoading ? (
+            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+          ) : (
+            <Search className="h-4 w-4 mr-2" />
+          )}
+          Rechercher
+        </Button>
+      </div>
+
+      {/* Suggestions */}
+      {!submitted && (
+        <div className="flex flex-wrap gap-1.5">
+          <span className="text-xs text-muted-foreground mr-1">Suggestions :</span>
+          {IIIF_SUGGESTIONS.map((s) => (
+            <button
+              key={s}
+              onClick={() => { setQuery(s); }}
+              className="text-xs px-2 py-0.5 rounded-full bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Chargement */}
+      {isLoading && (
+        <div className="flex items-center justify-center py-8">
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+          <span className="ml-2 text-sm text-muted-foreground">
+            Recherche dans les manuscrits numérisés… (peut prendre 10-20s)
+          </span>
+        </div>
+      )}
+
+      {/* Résultats */}
+      {data && !isLoading && (
+        <>
+          {data.error && (
+            <Card className="border-amber-200 bg-amber-50 dark:bg-amber-950/20">
+              <CardContent className="p-4 flex items-center gap-2 text-amber-700 dark:text-amber-400">
+                <AlertCircle className="h-4 w-4 shrink-0" />
+                <p className="text-sm">{data.error}</p>
+              </CardContent>
+            </Card>
+          )}
+
+          {data.hits.length > 0 ? (
+            <div className="space-y-3">
+              <p className="text-sm text-muted-foreground">
+                {data.hits.length} citation(s) trouvée(s) dans {data.total.toLocaleString()} documents textuels
+              </p>
+              {data.hits.map((hit, i) => (
+                <Card key={`${hit.recordId}-${i}`} className="border-l-4 border-l-cyan-500">
+                  <CardContent className="p-4 space-y-2">
+                    <div className="flex items-start gap-3">
+                      {hit.thumbnailUrl && (
+                        <img
+                          src={hit.thumbnailUrl}
+                          alt={hit.title}
+                          className="w-12 h-12 object-cover rounded shrink-0 bg-muted"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                        />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm line-clamp-1">{hit.title}</p>
+                        <div className="flex flex-wrap gap-2 mt-0.5">
+                          {hit.institution && (
+                            <span className="text-xs text-muted-foreground flex items-center gap-1">
+                              <Building2 className="h-2.5 w-2.5" />
+                              {hit.institution}
+                            </span>
+                          )}
+                          {hit.country && (
+                            <span className="text-xs text-muted-foreground flex items-center gap-1">
+                              <MapPin className="h-2.5 w-2.5" />
+                              {hit.country}
+                            </span>
+                          )}
+                          {hit.date && (
+                            <span className="text-xs text-muted-foreground flex items-center gap-1">
+                              <Calendar className="h-2.5 w-2.5" />
+                              {hit.date}
+                            </span>
+                          )}
+                          {hit.pageLabel && (
+                            <Badge variant="outline" className="text-xs h-4">
+                              {hit.pageLabel}
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex gap-1 shrink-0">
+                        <a href={hit.europeanaUrl} target="_blank" rel="noopener noreferrer">
+                          <Button variant="ghost" size="icon" className="h-7 w-7" title="Voir sur Europeana">
+                            <ExternalLink className="h-3.5 w-3.5" />
+                          </Button>
+                        </a>
+                        <a href={hit.iiifManifestUrl} target="_blank" rel="noopener noreferrer">
+                          <Button variant="ghost" size="icon" className="h-7 w-7" title="Manifeste IIIF">
+                            <BookOpen className="h-3.5 w-3.5" />
+                          </Button>
+                        </a>
+                      </div>
+                    </div>
+                    {/* Citation */}
+                    <blockquote className="border-l-2 border-cyan-400 pl-3 py-1 bg-cyan-50/50 dark:bg-cyan-950/20 rounded-r">
+                      <p className="text-xs italic text-foreground/80">“{hit.snippet}”</p>
+                    </blockquote>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : submitted && (
+            <Card className="border-dashed">
+              <CardContent className="p-8 text-center text-muted-foreground">
+                <BookOpen className="h-8 w-8 mx-auto mb-2 opacity-30" />
+                <p className="text-sm">Aucune citation trouvée pour « {currentQuery} »</p>
+                <p className="text-xs mt-1">
+                  Essayez en latin ou en anglais. Les manuscrits sont souvent en latin médiéval.
+                </p>
+              </CardContent>
+            </Card>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
 // ─── Onglet statistiques ──────────────────────────────────────────────────────
 
 function StatsTab() {
@@ -590,6 +792,44 @@ function StatsTab() {
                 : "Mode démonstration actif. Ajoutez EUROPEANA_API_KEY dans les secrets du projet pour activer l'API. Clé gratuite sur pro.europeana.eu."
               }
             </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Sprint 2 — Nouvelles capacités */}
+      <Card className="border-cyan-200 bg-cyan-50/50 dark:bg-cyan-950/20">
+        <CardHeader className="p-4 pb-2">
+          <CardTitle className="text-sm flex items-center gap-2">
+            <Globe className="h-4 w-4 text-cyan-600" />
+            Sprint 2 — Carte géographique & Citations historiques
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-4 pt-0">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+            <div className="grid grid-cols-2 gap-3 flex-1">
+              <div className="flex items-center gap-2 text-xs">
+                <div className="h-2 w-2 rounded-full bg-green-500" />
+                <span>Carte distribution géographique</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs">
+                <div className="h-2 w-2 rounded-full bg-green-500" />
+                <span>IIIF Full-Text Search</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs">
+                <div className="h-2 w-2 rounded-full bg-green-500" />
+                <span>45 pays avec coordonnées</span>
+              </div>
+              <div className="flex items-center gap-2 text-xs">
+                <div className="h-2 w-2 rounded-full bg-green-500" />
+                <span>Citations manuscrits numérisés</span>
+              </div>
+            </div>
+            <Link href="/europeana-map">
+              <Button size="sm" className="gap-2 bg-cyan-600 hover:bg-cyan-700 text-white shrink-0">
+                <Map className="h-3.5 w-3.5" />
+                Ouvrir la carte
+              </Button>
+            </Link>
           </div>
         </CardContent>
       </Card>
@@ -813,6 +1053,11 @@ export default function EuropeanaExplorer() {
             <Search className="h-3.5 w-3.5 mr-1" />
             Recherche libre
           </TabsTrigger>
+          <TabsTrigger value="iiif_fulltext" className="text-xs">
+            <BookOpen className="h-3.5 w-3.5 mr-1" />
+            Citations
+            <Badge className="ml-1 text-[10px] bg-cyan-600 text-white h-3.5 px-1">S2</Badge>
+          </TabsTrigger>
         </TabsList>
 
         {/* Contenu des onglets */}
@@ -830,6 +1075,7 @@ export default function EuropeanaExplorer() {
         <TabsContent value="jardins_botaniques" className="mt-4"><ThematicTab theme="jardins_botaniques" /></TabsContent>
         <TabsContent value="rituels_olfactifs" className="mt-4"><ThematicTab theme="rituels_olfactifs" /></TabsContent>
         <TabsContent value="libre" className="mt-4"><FreeSearchTab /></TabsContent>
+        <TabsContent value="iiif_fulltext" className="mt-4"><IiifFullTextTab /></TabsContent>
       </Tabs>
     </div>
   );

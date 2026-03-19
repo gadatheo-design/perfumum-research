@@ -1288,6 +1288,450 @@ export async function searchEuropeanaEntities(
   }
 }
 
+// ─── IIIF Full-Text Search ───────────────────────────────────────────────────
+
+/**
+ * Résultat d'une citation extraite via IIIF Full-Text Search
+ */
+export interface IiifTextHit {
+  recordId: string;          // ID Europeana du document
+  europeanaUrl: string;      // Lien vers la page Europeana
+  iiifManifestUrl: string;   // Lien vers le manifeste IIIF
+  title: string;             // Titre du document
+  institution?: string;      // Institution conservatrice
+  country?: string;          // Pays
+  date?: string;             // Date
+  thumbnailUrl?: string;     // Miniature
+  // Contexte de la citation
+  snippet: string;           // Extrait de texte avec le terme trouvé
+  pageLabel?: string;        // Numéro de page / folio
+  canvasId?: string;         // ID du canvas IIIF (page spécifique)
+  canvasUrl?: string;        // URL vers la page spécifique dans le viewer
+  // Liens croisés PERFUMUM
+  relatedPlantId?: number;
+  relatedPlantName?: string;
+  relatedMoleculeId?: number;
+  relatedMoleculeName?: string;
+}
+
+export interface IiifFullTextResult {
+  hits: IiifTextHit[];
+  total: number;
+  query: string;
+  apiAvailable: boolean;
+  error?: string;
+}
+
+/**
+ * Recherche dans le texte OCR des manuscrits numérisés via IIIF Content Search API.
+ *
+ * Stratégie en 2 étapes :
+ * 1. Recherche Europeana Search API avec qf=TYPE:TEXT + filtre manuscrit pour obtenir
+ *    les records ID des documents textuels pertinents.
+ * 2. Pour chaque record, appel au IIIF Content Search endpoint :
+ *    https://iiif.europeana.eu/presentation/{DATASET_ID}/{LOCAL_ID}/search?q={query}
+ *    → Retourne les annotations de type oa:TextQuoteSelector avec les snippets.
+ *
+ * Termes typiques PERFUMUM : olibanum, nardus, "rosa damascena", myrrha, styrax,
+ * labdanum, benzoin, oud, ambergris, musk, civet, castoreum
+ */
+export async function searchIiifFullText(
+  query: string,
+  limit = 10,
+  themeFilter?: string   // ex: "distillation_alchimie" pour cibler les manuscrits
+): Promise<IiifFullTextResult> {
+  const apiKey = process.env.EUROPEANA_API_KEY;
+
+  if (!apiKey) {
+    return {
+      hits: [],
+      total: 0,
+      query,
+      apiAvailable: false,
+      error: "Clé API Europeana non configurée. Veuillez ajouter EUROPEANA_API_KEY dans les secrets du projet.",
+    };
+  }
+
+  try {
+    // ── Étape 1 : Trouver les documents textuels pertinents ──────────────────
+    const searchUrl = new URL(EUROPEANA_SEARCH_URL);
+    searchUrl.searchParams.set("wskey", apiKey);
+    searchUrl.searchParams.set("query", query);
+    searchUrl.searchParams.set("rows", String(Math.min(limit * 2, 20)));
+    searchUrl.searchParams.append("qf", "TYPE:TEXT");
+    // Cibler les manuscrits et livres anciens
+    searchUrl.searchParams.append("qf", 'proxy_dc_type:("manuscript" OR "book" OR "incunabulum" OR "codex" OR "herbarium")');
+    searchUrl.searchParams.set("profile", "rich");
+    // Si un thème est spécifié, utiliser son filtre Europeana
+    if (themeFilter && THEMATIC_QUERIES[themeFilter]?.europeanaTheme) {
+      searchUrl.searchParams.set("theme", THEMATIC_QUERIES[themeFilter].europeanaTheme!);
+    }
+
+    const controller1 = new AbortController();
+    const timeout1 = setTimeout(() => controller1.abort(), TIMEOUT_MS);
+
+    const searchResponse = await fetch(searchUrl.toString(), {
+      headers: { "User-Agent": "PERFUMUM-Research/1.0", Accept: "application/json" },
+      signal: controller1.signal,
+    });
+    clearTimeout(timeout1);
+
+    if (!searchResponse.ok) {
+      throw new Error(`Europeana Search API HTTP ${searchResponse.status}`);
+    }
+
+    const searchData = await searchResponse.json() as any;
+    const records: any[] = searchData.items || [];
+
+    if (records.length === 0) {
+      return { hits: [], total: 0, query, apiAvailable: true };
+    }
+
+    // ── Étape 2 : IIIF Content Search sur chaque document ───────────────────
+    const hits: IiifTextHit[] = [];
+
+    // Traiter en parallèle (max 5 simultanés pour éviter le rate limiting)
+    const batchSize = 5;
+    for (let i = 0; i < Math.min(records.length, limit * 2); i += batchSize) {
+      const batch = records.slice(i, i + batchSize);
+
+      const batchResults = await Promise.allSettled(
+        batch.map(async (record: any) => {
+          const recordId = record.id || "";
+          if (!recordId) return null;
+
+          const manifestUrl = buildIiifManifestUrl(recordId);
+          // IIIF Content Search URL : manifest_base_url/search?q=query
+          const searchEndpoint = manifestUrl.replace("/manifest", "/search");
+          const iiifSearchUrl = `${searchEndpoint}?q=${encodeURIComponent(query)}&motivation=painting`;
+
+          const controller2 = new AbortController();
+          const timeout2 = setTimeout(() => controller2.abort(), 8_000);
+
+          try {
+            const iiifResponse = await fetch(iiifSearchUrl, {
+              headers: { "User-Agent": "PERFUMUM-Research/1.0", Accept: "application/json" },
+              signal: controller2.signal,
+            });
+            clearTimeout(timeout2);
+
+            if (!iiifResponse.ok) return null;
+
+            const iiifData = await iiifResponse.json() as any;
+
+            // Extraire les annotations (oa:Annotation avec motivation painting/supplementing)
+            const resources: any[] = iiifData.resources || iiifData.items || [];
+            if (resources.length === 0) return null;
+
+            // Prendre le premier hit de ce document
+            const hit = resources[0];
+            const snippet = extractSnippet(hit, query);
+            const canvasId = extractCanvasId(hit);
+
+            return {
+              recordId,
+              europeanaUrl: `https://www.europeana.eu/item${recordId}`,
+              iiifManifestUrl: manifestUrl,
+              title: Array.isArray(record.title) ? record.title[0] : (record.title || "Sans titre"),
+              institution: Array.isArray(record.dataProvider) ? record.dataProvider[0] : record.dataProvider,
+              country: Array.isArray(record.country) ? record.country[0] : record.country,
+              date: Array.isArray(record.year) ? record.year[0] : record.year,
+              thumbnailUrl: buildThumbnailUrl(recordId, 200),
+              snippet,
+              pageLabel: extractPageLabel(hit),
+              canvasId,
+              canvasUrl: canvasId ? `${manifestUrl.replace("/manifest", "")}#${encodeURIComponent(canvasId)}` : undefined,
+            } as IiifTextHit;
+          } catch (e) {
+            clearTimeout(timeout2);
+            return null;
+          }
+        })
+      );
+
+      for (const result of batchResults) {
+        if (result.status === "fulfilled" && result.value) {
+          hits.push(result.value);
+          if (hits.length >= limit) break;
+        }
+      }
+
+      if (hits.length >= limit) break;
+    }
+
+    return {
+      hits,
+      total: searchData.totalResults || 0,
+      query,
+      apiAvailable: true,
+    };
+  } catch (e) {
+    console.error(`[Europeana] IIIF Full-Text Search error:`, e);
+    return {
+      hits: [],
+      total: 0,
+      query,
+      apiAvailable: false,
+      error: e instanceof Error ? e.message : "Erreur IIIF Full-Text Search",
+    };
+  }
+}
+
+/** Extrait un snippet de texte depuis une annotation IIIF */
+function extractSnippet(annotation: any, query: string): string {
+  // Chercher dans les champs courants des annotations IIIF
+  const text =
+    annotation?.resource?.chars ||
+    annotation?.body?.value ||
+    annotation?.value ||
+    annotation?.chars ||
+    "";
+
+  if (!text) return `[Mention de "${query}" trouvée dans ce document]`;
+
+  // Trouver la position du terme et extraire le contexte (±100 chars)
+  const lowerText = text.toLowerCase();
+  const lowerQuery = query.toLowerCase().replace(/"/g, "");
+  const idx = lowerText.indexOf(lowerQuery);
+
+  if (idx === -1) return text.slice(0, 200);
+
+  const start = Math.max(0, idx - 80);
+  const end = Math.min(text.length, idx + lowerQuery.length + 80);
+  let snippet = text.slice(start, end);
+  if (start > 0) snippet = "…" + snippet;
+  if (end < text.length) snippet = snippet + "…";
+  return snippet;
+}
+
+/** Extrait l'ID du canvas depuis une annotation IIIF */
+function extractCanvasId(annotation: any): string | undefined {
+  return (
+    annotation?.on?.full ||
+    annotation?.on ||
+    annotation?.target?.source ||
+    annotation?.target ||
+    undefined
+  );
+}
+
+/** Extrait le label de page depuis une annotation IIIF */
+function extractPageLabel(annotation: any): string | undefined {
+  return (
+    annotation?.label ||
+    annotation?.resource?.label ||
+    undefined
+  );
+}
+
+// ─── Distribution géographique (facettes COUNTRY) ─────────────────────────────
+
+/**
+ * Résultat de distribution géographique par pays
+ */
+export interface CountryDistributionResult {
+  countries: Array<{
+    code: string;       // Code pays Europeana (ex: "France", "Germany")
+    count: number;      // Nombre d'items dans ce pays
+    lat?: number;       // Latitude du centroïde (pour la carte)
+    lng?: number;       // Longitude du centroïde
+    institutions?: string[];  // Top institutions de ce pays
+  }>;
+  total: number;
+  theme: string;
+  query: string;
+  apiAvailable: boolean;
+  error?: string;
+}
+
+/**
+ * Table de correspondance pays Europeana → coordonnées géographiques
+ * (centroïdes approximatifs pour le placement des marqueurs)
+ */
+const COUNTRY_COORDS: Record<string, { lat: number; lng: number }> = {
+  // Europe occidentale
+  France: { lat: 46.2276, lng: 2.2137 },
+  Germany: { lat: 51.1657, lng: 10.4515 },
+  Netherlands: { lat: 52.1326, lng: 5.2913 },
+  Italy: { lat: 41.8719, lng: 12.5674 },
+  Spain: { lat: 40.4637, lng: -3.7492 },
+  Portugal: { lat: 39.3999, lng: -8.2245 },
+  Belgium: { lat: 50.5039, lng: 4.4699 },
+  Austria: { lat: 47.5162, lng: 14.5501 },
+  Switzerland: { lat: 46.8182, lng: 8.2275 },
+  "United Kingdom": { lat: 55.3781, lng: -3.4360 },
+  Ireland: { lat: 53.1424, lng: -7.6921 },
+  // Europe nordique
+  Sweden: { lat: 60.1282, lng: 18.6435 },
+  Norway: { lat: 60.4720, lng: 8.4689 },
+  Denmark: { lat: 56.2639, lng: 9.5018 },
+  Finland: { lat: 61.9241, lng: 25.7482 },
+  // Europe de l'Est
+  Poland: { lat: 51.9194, lng: 19.1451 },
+  Czech: { lat: 49.8175, lng: 15.4730 },
+  Hungary: { lat: 47.1625, lng: 19.5033 },
+  Romania: { lat: 45.9432, lng: 24.9668 },
+  Bulgaria: { lat: 42.7339, lng: 25.4858 },
+  Croatia: { lat: 45.1000, lng: 15.2000 },
+  Slovenia: { lat: 46.1512, lng: 14.9955 },
+  Slovakia: { lat: 48.6690, lng: 19.6990 },
+  Estonia: { lat: 58.5953, lng: 25.0136 },
+  Latvia: { lat: 56.8796, lng: 24.6032 },
+  Lithuania: { lat: 55.1694, lng: 23.8813 },
+  // Europe du Sud
+  Greece: { lat: 39.0742, lng: 21.8243 },
+  Turkey: { lat: 38.9637, lng: 35.2433 },
+  Serbia: { lat: 44.0165, lng: 21.0059 },
+  // Autres
+  Russia: { lat: 61.5240, lng: 105.3188 },
+  Ukraine: { lat: 48.3794, lng: 31.1656 },
+  "United States": { lat: 37.0902, lng: -95.7129 },
+  Canada: { lat: 56.1304, lng: -106.3468 },
+  Australia: { lat: -25.2744, lng: 133.7751 },
+  Japan: { lat: 36.2048, lng: 138.2529 },
+  China: { lat: 35.8617, lng: 104.1954 },
+  // Pays arabes / Proche-Orient
+  Iran: { lat: 32.4279, lng: 53.6880 },
+  Egypt: { lat: 26.8206, lng: 30.8025 },
+  Morocco: { lat: 31.7917, lng: -7.0926 },
+  Tunisia: { lat: 33.8869, lng: 9.5375 },
+  Algeria: { lat: 28.0339, lng: 1.6596 },
+  Israel: { lat: 31.0461, lng: 34.8516 },
+  Lebanon: { lat: 33.8547, lng: 35.8623 },
+  Syria: { lat: 34.8021, lng: 38.9968 },
+};
+
+/**
+ * Récupère la distribution géographique des collections Europeana pour un thème.
+ * Utilise les facettes COUNTRY pour obtenir le décompte par pays.
+ * Enrichit avec les coordonnées géographiques pour la carte.
+ */
+export async function getCountryDistribution(
+  theme: string,
+  limit = 30
+): Promise<CountryDistributionResult> {
+  const apiKey = process.env.EUROPEANA_API_KEY;
+  const themeConfig = THEMATIC_QUERIES[theme];
+
+  if (!apiKey) {
+    return {
+      countries: DEMO_COUNTRY_DISTRIBUTION,
+      total: 0,
+      theme,
+      query: themeConfig?.query || theme,
+      apiAvailable: false,
+      error: "Mode démonstration — clé API Europeana non configurée.",
+    };
+  }
+
+  if (!themeConfig) {
+    return {
+      countries: [],
+      total: 0,
+      theme,
+      query: theme,
+      apiAvailable: false,
+      error: `Thème inconnu : ${theme}`,
+    };
+  }
+
+  try {
+    const url = new URL(EUROPEANA_SEARCH_URL);
+    url.searchParams.set("wskey", apiKey);
+    url.searchParams.set("query", themeConfig.query);
+    url.searchParams.set("rows", "0"); // Pas d'items, seulement les facettes
+    url.searchParams.set("profile", "facets");
+    url.searchParams.append("facet", "COUNTRY");
+    url.searchParams.append("facet", "DATA_PROVIDER");
+    url.searchParams.set("f.COUNTRY.facet.limit", String(limit));
+    url.searchParams.set("f.DATA_PROVIDER.facet.limit", "5");
+
+    // Filtres thématiques
+    if (themeConfig.europeanaTheme) {
+      url.searchParams.set("theme", themeConfig.europeanaTheme);
+    }
+    if (themeConfig.typeFilter) {
+      url.searchParams.append("qf", `TYPE:${themeConfig.typeFilter}`);
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), TIMEOUT_MS);
+
+    const response = await fetch(url.toString(), {
+      headers: { "User-Agent": "PERFUMUM-Research/1.0", Accept: "application/json" },
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      throw new Error(`Europeana API HTTP ${response.status}`);
+    }
+
+    const data = await response.json() as any;
+    const rawFacets = data.facets || [];
+
+    const countryFacet = rawFacets.find((f: any) => f.name === "COUNTRY");
+    const providerFacet = rawFacets.find((f: any) => f.name === "DATA_PROVIDER");
+
+    // Construire un index institution → pays (approximatif)
+    const providerFields: Array<{ label: string; count: number }> = providerFacet?.fields || [];
+
+    const countries = (countryFacet?.fields || []).map((field: any) => {
+      const countryName = field.label || "";
+      const coords = COUNTRY_COORDS[countryName];
+
+      return {
+        code: countryName,
+        count: Number(field.count) || 0,
+        lat: coords?.lat,
+        lng: coords?.lng,
+        // Top 3 institutions de ce pays (approximatif depuis DATA_PROVIDER)
+        institutions: providerFields
+          .filter((p) => p.label.toLowerCase().includes(countryName.toLowerCase().slice(0, 4)))
+          .slice(0, 3)
+          .map((p) => p.label),
+      };
+    });
+
+    return {
+      countries,
+      total: data.totalResults || 0,
+      theme,
+      query: themeConfig.query,
+      apiAvailable: true,
+    };
+  } catch (e) {
+    console.error(`[Europeana] countryDistribution error:`, e);
+    return {
+      countries: DEMO_COUNTRY_DISTRIBUTION,
+      total: 0,
+      theme,
+      query: themeConfig?.query || theme,
+      apiAvailable: false,
+      error: e instanceof Error ? e.message : "Erreur API Europeana",
+    };
+  }
+}
+
+/** Données de démonstration pour la carte géographique */
+const DEMO_COUNTRY_DISTRIBUTION: CountryDistributionResult["countries"] = [
+  { code: "France",          count: 1842, lat: 46.2276, lng: 2.2137 },
+  { code: "Germany",         count: 1534, lat: 51.1657, lng: 10.4515 },
+  { code: "Netherlands",     count: 1287, lat: 52.1326, lng: 5.2913 },
+  { code: "Italy",           count: 1156, lat: 41.8719, lng: 12.5674 },
+  { code: "United Kingdom",  count: 987,  lat: 55.3781, lng: -3.4360 },
+  { code: "Spain",           count: 743,  lat: 40.4637, lng: -3.7492 },
+  { code: "Austria",         count: 612,  lat: 47.5162, lng: 14.5501 },
+  { code: "Belgium",         count: 534,  lat: 50.5039, lng: 4.4699 },
+  { code: "Sweden",          count: 421,  lat: 60.1282, lng: 18.6435 },
+  { code: "Poland",          count: 389,  lat: 51.9194, lng: 19.1451 },
+  { code: "Czech",           count: 312,  lat: 49.8175, lng: 15.4730 },
+  { code: "Portugal",        count: 287,  lat: 39.3999, lng: -8.2245 },
+  { code: "Greece",          count: 234,  lat: 39.0742, lng: 21.8243 },
+  { code: "Denmark",         count: 198,  lat: 56.2639, lng: 9.5018 },
+  { code: "Hungary",         count: 176,  lat: 47.1625, lng: 19.5033 },
+];
+
 /**
  * Retourne la configuration des thèmes disponibles.
  */

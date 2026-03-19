@@ -2712,3 +2712,28 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Tous les tests passent (11/11 ✓)
 - [x] Suite complète : 1738 tests passés (117 fichiers)
 - [x] API thematicConfig validée via curl (12 thèmes retournés)
+
+
+## 🌐 SESSION 19 MARS 2026 — Europeana Sprint 2 (IIIF Full-Text + Carte géographique)
+
+### Phase 1 : IIIF Full-Text Search
+- [x] Implémenter searchIiifFullText dans server/europeana.ts
+- [x] Ajouter la procédure tRPC iiifFullTextSearch dans le router
+- [x] Créer le composant IiifFullTextTab dans EuropeanaExplorer
+- [x] Afficher les citations extraites avec contexte et lien vers le manuscrit
+- [x] 15 suggestions pré-remplies (olibanum, nardus, rosa damascena, myrrha...)
+
+### Phase 2 : Carte de distribution géographique
+- [x] Ajouter la procédure tRPC countryDistribution (facettes COUNTRY par thème)
+- [x] Créer la page EuropeanaMap.tsx avec composant Map Google Maps
+- [x] Afficher les marqueurs proportionnels par pays avec comptage de collections
+- [x] Ajouter un sélecteur de thème sur la carte (12 thèmes)
+- [x] Relier la carte depuis l'onglet Vue d'ensemble de l'Explorateur
+- [x] Classement des pays avec barres de progression
+- [x] 45 pays avec coordonnées géographiques
+- [x] Mode démonstration (15 pays) si clé API absente
+
+### Phase 3 : Tests et checkpoint
+- [x] Écrire les tests unitaires Sprint 2 (12 tests, 1750 passés au total)
+- [x] Valider les deux fonctionnalités
+- [x] Sauvegarder le checkpoint

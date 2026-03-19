@@ -26,6 +26,8 @@ import {
   getEuropeanaRecord,
   resolveEuropeanaEntity,
   searchEuropeanaEntities,
+  searchIiifFullText,
+  getCountryDistribution,
   getThematicConfig,
   buildIiifManifestUrl,
   buildThumbnailUrl,
@@ -298,6 +300,37 @@ export const europeanaRouter = router({
     }),
 
   /**
+   * IIIF Full-Text Search — recherche dans le texte OCR des manuscrits numérisés
+   * Retourne les citations historiques primaires avec contexte et lien vers la page
+   */
+  iiifFullTextSearch: publicProcedure
+    .input(
+      z.object({
+        query: z.string().min(2).max(200),
+        limit: z.number().int().min(1).max(20).default(10),
+        themeFilter: z.string().optional(), // ex: "distillation_alchimie"
+      })
+    )
+    .query(async ({ input }) => {
+      return searchIiifFullText(input.query, input.limit, input.themeFilter);
+    }),
+
+  /**
+   * Distribution géographique — répartition par pays pour un thème
+   * Basé sur les facettes COUNTRY de l'API Europeana
+   */
+  countryDistribution: publicProcedure
+    .input(
+      z.object({
+        theme: z.string().min(2),
+        limit: z.number().int().min(1).max(50).default(30),
+      })
+    )
+    .query(async ({ input }) => {
+      return getCountryDistribution(input.theme, input.limit);
+    }),
+
+  /**
    * Statistiques Europeana — état de l'intégration PERFUMUM
    * Inclut la couverture QID, les thèmes disponibles et les capacités Sprint 1
    */
@@ -340,6 +373,13 @@ export const europeanaRouter = router({
           entityApiEnabled: !!apiKey,
           thematicFiltersEnabled: true,
           newThemes,
+        },
+        // Capacités Sprint 2
+        sprint2: {
+          iiifFullTextSearch: true,
+          countryDistributionMap: true,
+          iiifFullTextApiAvailable: !!apiKey,
+          mapCountries: 45, // Nombre de pays avec coordonnées
         },
       };
     } finally {
