@@ -1,0 +1,190 @@
+{
+  "query": "\nSELECT id, name, latin_name, conservation_status\nFROM plants\nWHERE conservation_status IN ('CR', 'EN', 'VU')\nAND (certifications IS NULL OR JSON_LENGTH(certifications) = 0)\nORDER BY \n  CASE conservation_status \n    WHEN 'CR' THEN 1 \n    WHEN 'EN' THEN 2 \n    WHEN 'VU' THEN 3 \n  END,\n  name\nLIMIT 30;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, latin_name, conservation_status\nFROM plants\nWHERE conservation_status IN ('CR', 'EN', 'VU')\nAND (certifications IS NULL OR JSON_LENGTH(certifications) = 0)\nORDER BY \n  CASE conservation_status \n    WHEN 'CR' THEN 1 \n    WHEN 'EN' THEN 2 \n    WHEN 'VU' THEN 3 \n  END,\n  name\nLIMIT 30;\n",
+  "rows": [
+    {
+      "id": "870004",
+      "name": "Angola Red",
+      "latin_name": "Cannabis sativa var. indica 'Angola Red'",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "240002",
+      "name": "Bois d'agar",
+      "latin_name": "Aquilaria crassna",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "210039",
+      "name": "Commiphora",
+      "latin_name": "Commiphora wightii",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "270005",
+      "name": "Costus",
+      "latin_name": "Saussurea costus",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "1020008",
+      "name": "Costus root",
+      "latin_name": "Saussurea costus",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "870008",
+      "name": "Panama Red",
+      "latin_name": "Cannabis sativa var. indica 'Panama Red'",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "810024",
+      "name": "Tabac Yenidje",
+      "latin_name": "Nicotiana tabacum var. Yenidje",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "870003",
+      "name": "Thai / Thai Stick",
+      "latin_name": "Cannabis sativa var. indica 'Thai'",
+      "conservation_status": "CR"
+    },
+    {
+      "id": "870010",
+      "name": "Acapulco Gold",
+      "latin_name": "Cannabis sativa var. indica 'Acapulco Gold'",
+      "conservation_status": "EN"
+    },
+    {
+      "id": "870001",
+      "name": "Afghan Kush",
+      "latin_name": "Cannabis sativa subsp. indica var. afghanica 'Afghan Kush'",
+      "conservation_status": "EN"
+    },
+    {
+      "id": "210040",
+      "name": "Aniba",
+      "latin_name": "Aniba rosaeodora",
+      "conservation_status": "EN"
+    },
+    {
+      "id": "870009",
+      "name": "Colombian Gold",
+      "latin_name": "Cannabis sativa var. indica 'Colombian Gold'",
+      "conservation_status": "EN"
+    },
+    {
+      "id": "870007",
+      "name": "Lebanese Red",
+      "latin_name": "Cannabis sativa 'Lebanese Red'",
+      "conservation_status": "EN"
+    },
+    {
+      "id": "870005",
+      "name": "Malawi Gold",
+      "latin_name": "Cannabis sativa var. indica 'Malawi Gold'",
+      "conservation_status": "EN"
+    },
+    {
+      "id": "870011",
+      "name": "Oaxacan",
+      "latin_name": "Cannabis sativa var. indica 'Oaxacan'",
+      "conservation_status": "EN"
+    },
+    {
+      "id": "840003",
+      "name": "Perique",
+      "latin_name": "Nicotiana tabacum var. Perique",
+      "conservation_status": "EN"
+    },
+    {
+      "id": "1080001",
+      "name": "Rhodiola (Orpin rose)",
+      "latin_name": "Rhodiola rosea",
+      "conservation_status": "EN"
+    },
+    {
+      "id": "240005",
+      "name": "Styrax liquide",
+      "latin_name": "Liquidambar orientalis",
+      "conservation_status": "EN"
+    },
+    {
+      "id": "810025",
+      "name": "Tabac Xanthi",
+      "latin_name": "Nicotiana tabacum var. Xanthi",
+      "conservation_status": "EN"
+    },
+    {
+      "id": "840002",
+      "name": "Basma",
+      "latin_name": "Nicotiana tabacum var. Basma",
+      "conservation_status": "VU"
+    },
+    {
+      "id": "150009",
+      "name": "Copal",
+      "latin_name": "Bursera spp.",
+      "conservation_status": "VU"
+    },
+    {
+      "id": "870013",
+      "name": "Djebel (Dubec)",
+      "latin_name": "Nicotiana tabacum var. djebel",
+      "conservation_status": "VU"
+    },
+    {
+      "id": "870006",
+      "name": "Durban Poison",
+      "latin_name": "Cannabis sativa var. indica 'Durban Poison'",
+      "conservation_status": "VU"
+    },
+    {
+      "id": "960012",
+      "name": "Eucalyptus camaldulensis",
+      "latin_name": "Eucalyptus camaldulensis",
+      "conservation_status": "VU"
+    },
+    {
+      "id": "270011",
+      "name": "Galbanum",
+      "latin_name": "Ferula gummosa",
+      "conservation_status": "VU"
+    },
+    {
+      "id": "510002",
+      "name": "Gaïac — Guaiacum sanctum (proxy)",
+      "latin_name": "Guaiacum sanctum",
+      "conservation_status": "VU"
+    },
+    {
+      "id": "870002",
+      "name": "Hindu Kush",
+      "latin_name": "Cannabis sativa subsp. indica var. afghanica 'Hindu Kush'",
+      "conservation_status": "VU"
+    },
+    {
+      "id": "600003",
+      "name": "Hinoki (Cyprès japonais)",
+      "latin_name": "Chamaecyparis obtusa",
+      "conservation_status": "VU"
+    },
+    {
+      "id": "900002",
+      "name": "Isfahan",
+      "latin_name": "Nicotiana tabacum var. isfahan",
+      "conservation_status": "VU"
+    },
+    {
+      "id": "840005",
+      "name": "Latakia",
+      "latin_name": "Nicotiana tabacum var. Latakia",
+      "conservation_status": "VU"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tconservation_status\n870004\tAngola Red\tCannabis sativa var. indica 'Angola Red'\tCR\n240002\tBois d'agar\tAquilaria crassna\tCR\n210039\tCommiphora\tCommiphora wightii\tCR\n270005\tCostus\tSaussurea costus\tCR\n1020008\tCostus root\tSaussurea costus\tCR\n870008\tPanama Red\tCannabis sativa var. indica 'Panama Red'\tCR\n810024\tTabac Yenidje\tNicotiana tabacum var. Yenidje\tCR\n870003\tThai / Thai Stick\tCannabis sativa var. indica 'Thai'\tCR\n870010\tAcapulco Gold\tCannabis sativa var. indica 'Acapulco Gold'\tEN\n870001\tAfghan Kush\tCannabis sativa subsp. indica var. afghanica 'Afghan Kush'\tEN\n210040\tAniba\tAniba rosaeodora\tEN\n870009\tColombian Gold\tCannabis sativa var. indica 'Colombian Gold'\tEN\n870007\tLebanese Red\tCannabis sativa 'Lebanese Red'\tEN\n870005\tMalawi Gold\tCannabis sativa var. indica 'Malawi Gold'\tEN\n870011\tOaxacan\tCannabis sativa var. indica 'Oaxacan'\tEN\n840003\tPerique\tNicotiana tabacum var. Perique\tEN\n1080001\tRhodiola (Orpin rose)\tRhodiola rosea\tEN\n240005\tStyrax liquide\tLiquidambar orientalis\tEN\n810025\tTabac Xanthi\tNicotiana tabacum var. Xanthi\tEN\n840002\tBasma\tNicotiana tabacum var. Basma\tVU\n150009\tCopal\tBursera spp.\tVU\n870013\tDjebel (Dubec)\tNicotiana tabacum var. djebel\tVU\n870006\tDurban Poison\tCannabis sativa var. indica 'Durban Poison'\tVU\n960012\tEucalyptus camaldulensis\tEucalyptus camaldulensis\tVU\n270011\tGalbanum\tFerula gummosa\tVU\n510002\tGaïac — Guaiacum sanctum (proxy)\tGuaiacum sanctum\tVU\n870002\tHindu Kush\tCannabis sativa subsp. indica var. afghanica 'Hindu Kush'\tVU\n600003\tHinoki (Cyprès japonais)\tChamaecyparis obtusa\tVU\n900002\tIsfahan\tNicotiana tabacum var. isfahan\tVU\n840005\tLatakia\tNicotiana tabacum var. Latakia\tVU\n",
+  "stderr": "",
+  "execution_time_ms": 66
+}

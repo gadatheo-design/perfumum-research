@@ -178,6 +178,7 @@ export const NAV_GROUPS: NavGroup[] = [
           { href: "/axes-recherche", label: "Vue d'ensemble", badge: "11 axes" },
           { href: "/bibliographie", label: "Bibliographie" },
           { href: "/outils/export-bibliographique", label: "Export bibliographique" },
+          { href: "/explorer-par-odeur", label: "Explorer par Odeur", badge: "NEW" },
         ],
       },
       {

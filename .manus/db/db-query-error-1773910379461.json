@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT id, common_name, latin_name, conservation_status, certifications\nFROM plants\nWHERE conservation_status IN ('CR', 'EN', 'VU')\nAND (certifications IS NULL OR certifications = '[]' OR certifications = '')\nORDER BY \n  CASE conservation_status \n    WHEN 'CR' THEN 1 \n    WHEN 'EN' THEN 2 \n    WHEN 'VU' THEN 3 \n  END,\n  common_name\nLIMIT 30;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, common_name, latin_name, conservation_status, certifications\nFROM plants\nWHERE conservation_status IN ('CR', 'EN', 'VU')\nAND (certifications IS NULL OR certifications = '[]' OR certifications = '')\nORDER BY \n  CASE conservation_status \n    WHEN 'CR' THEN 1 \n    WHEN 'EN' THEN 2 \n    WHEN 'VU' THEN 3 \n  END,\n  common_name\nLIMIT 30;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'common_name' in 'field list'"
+  ]
+}

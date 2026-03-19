@@ -2666,3 +2666,11 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] /explorer-par-odeur : optimisé avec procédure molecules.getByFamily (chargement ciblé)
 - [x] Onglet Traçabilité ajouté dans PlantDetail (grille certifications, notes durabilité, liens FairWild/UEBT)
 - [x] Onglet visible uniquement pour les 16 plantes avec certifications actives
+
+## SESSION 19 MARS 2026 — Navigation Explorer + Certifications + Radar
+
+- [x] /explorer-par-odeur ajouté dans MegaMenu (section "Axes de Recherche") + navigationConfig.ts + MobileMenu
+- [x] Script enrich-certifications-v2.mjs : 20 plantes supplémentaires enrichies (Aquilaria, Commiphora, Saussurea, Aniba, Liquidambar, Rhodiola, tabacs, landrace cannabis)
+- [x] Total certifications : 36/535 plantes certifiées · 65 certifications actives · 14 types
+- [x] Widget CertificationRadarWidget dans MonDashboard : donut chart recharts + légende + badges IUCN
+- [x] Procédure tRPC plants.getCertificationStats (535 plantes, 36 certifiées, 65 certifications)

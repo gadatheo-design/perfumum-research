@@ -3401,6 +3401,55 @@ export const appRouter = router({
         return Array.isArray(result) ? result[0] as any[] : [];
       }),
 
+    getCertificationStats: publicProcedure.query(async () => {
+      const dbConn = await db.getDb();
+      if (!dbConn) return { totalPlants: 0, totalCertified: 0, totalCertifications: 0, byType: {}, byIucn: {} };
+      const { sql } = await import('drizzle-orm');
+
+      // Statistiques globales
+      const [globalStats] = await (dbConn as any).execute(sql.raw(
+        `SELECT
+           COUNT(*) as total_plants,
+           SUM(CASE WHEN certifications IS NOT NULL AND JSON_LENGTH(certifications) > 0 THEN 1 ELSE 0 END) as total_certified
+         FROM plants`
+      ));
+      const global = (globalStats as any[])[0];
+
+      // Plantes certifiées avec leurs certifications
+      const [certRows] = await (dbConn as any).execute(sql.raw(
+        `SELECT certifications, conservation_status FROM plants
+         WHERE certifications IS NOT NULL AND JSON_LENGTH(certifications) > 0`
+      ));
+
+      // Agréger par type et par statut IUCN
+      const byType: Record<string, number> = {};
+      const byIucn: Record<string, number> = {};
+      let totalCertifications = 0;
+
+      for (const row of (certRows as any[])) {
+        const certs = typeof row.certifications === 'string'
+          ? JSON.parse(row.certifications)
+          : row.certifications;
+        if (Array.isArray(certs)) {
+          totalCertifications += certs.length;
+          for (const cert of certs) {
+            if (cert.type) byType[cert.type] = (byType[cert.type] || 0) + 1;
+          }
+        }
+        if (row.conservation_status && row.conservation_status !== 'NE' && row.conservation_status !== 'DD') {
+          byIucn[row.conservation_status] = (byIucn[row.conservation_status] || 0) + 1;
+        }
+      }
+
+      return {
+        totalPlants: Number(global.total_plants),
+        totalCertified: Number(global.total_certified),
+        totalCertifications,
+        byType,
+        byIucn,
+      };
+    }),
+
     create: publicProcedure
       .input(z.object({
         name: z.string().min(1),

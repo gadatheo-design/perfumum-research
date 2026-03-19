@@ -1,0 +1,42 @@
+{
+  "query": "SHOW COLUMNS FROM plants WHERE Field IN ('name', 'common_name', 'latin_name', 'scientific_name', 'conservation_status', 'certifications', 'iucn_status');",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW COLUMNS FROM plants WHERE Field IN ('name', 'common_name', 'latin_name', 'scientific_name', 'conservation_status', 'certifications', 'iucn_status');",
+  "rows": [
+    {
+      "Field": "name",
+      "Type": "varchar(255)",
+      "Null": "NO",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "latin_name",
+      "Type": "varchar(255)",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "certifications",
+      "Type": "json",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    },
+    {
+      "Field": "conservation_status",
+      "Type": "enum('EX','EW','CR','EN','VU','NT','LC','DD','NE')",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NE",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nname\tvarchar(255)\tNO\t\tNULL\t\nlatin_name\tvarchar(255)\tYES\t\tNULL\t\ncertifications\tjson\tYES\t\tNULL\t\nconservation_status\tenum('EX','EW','CR','EN','VU','NT','LC','DD','NE')\tYES\t\tNE\t\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

@@ -829,6 +829,13 @@ export function MegaMenu() {
           description: "47 esp\u00e8ces menac\u00e9es \u00b7 UICN \u00b7 CITES",
           badge: "47",
         },
+        {
+          label: "Explorer par Odeur",
+          path: "/explorer-par-odeur",
+          icon: <Sparkles className="h-4 w-4" />,
+          description: "Navigation narrative par famille olfactive",
+          badge: "NEW",
+        },
       ],
     },
     {

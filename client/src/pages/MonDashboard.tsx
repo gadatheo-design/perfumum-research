@@ -4,10 +4,143 @@ import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "wouter";
-import { Heart, TrendingUp, Clock, BarChart3, Sparkles, ArrowRight } from "lucide-react";
+import { Heart, TrendingUp, Clock, BarChart3, Sparkles, ArrowRight, Shield, Leaf } from "lucide-react";
+import { PieChart, Pie, Cell, Tooltip } from "recharts";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend } from "recharts";
 import { useMemo, useEffect } from "react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+
+// ── Certification Radar Widget ───────────────────────────────────────────────
+const CERT_COLORS: Record<string, string> = {
+  FairWild: "#16a34a",
+  UEBT: "#2563eb",
+  "Rainforest Alliance": "#15803d",
+  FSC: "#166534",
+  COSMOS: "#7c3aed",
+  CITES: "#dc2626",
+  AOC: "#d97706",
+  IGP: "#b45309",
+  IFRA: "#9f1239",
+  UICN: "#0e7490",
+  TRAFFIC: "#6b7280",
+  "Slow Food Ark of Taste": "#ea580c",
+  "Patrimoine vivant": "#8b5cf6",
+  "Banque de semences": "#0891b2",
+};
+
+function CertificationRadarWidget() {
+  const { data: certStats, isLoading } = trpc.plants.getCertificationStats.useQuery();
+
+  const pieData = useMemo(() => {
+    if (!certStats?.byType) return [];
+    return Object.entries(certStats.byType)
+      .map(([type, count]) => ({ name: type, value: count as number }))
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 10);
+  }, [certStats]);
+
+  if (isLoading) {
+    return (
+      <Card>
+        <CardContent className="py-8">
+          <div className="h-48 bg-muted animate-pulse rounded-lg" />
+        </CardContent>
+      </Card>
+    );
+  }
+
+  if (!certStats || certStats.totalCertified === 0) return null;
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Shield className="h-5 w-5 text-green-600" />
+          Durabilité du Corpus PERFUMUM
+        </CardTitle>
+        <CardDescription>
+          {certStats.totalCertified} plantes certifiées sur {certStats.totalPlants} ({Math.round((certStats.totalCertified / certStats.totalPlants) * 100)}%)
+          · {certStats.totalCertifications} certifications actives
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Donut chart */}
+          <div className="flex flex-col items-center">
+            <ResponsiveContainer width="100%" height={220}>
+              <PieChart>
+                <Pie
+                  data={pieData}
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={55}
+                  outerRadius={90}
+                  paddingAngle={2}
+                  dataKey="value"
+                >
+                  {pieData.map((entry) => (
+                    <Cell key={entry.name} fill={CERT_COLORS[entry.name] || "#94a3b8"} />
+                  ))}
+                </Pie>
+                <Tooltip formatter={(v: number, n: string) => [`${v} plante${v > 1 ? 's' : ''}`, n]} />
+              </PieChart>
+            </ResponsiveContainer>
+            <p className="text-xs text-muted-foreground text-center mt-1">Répartition par type de certification</p>
+          </div>
+
+          {/* Légende + statuts IUCN */}
+          <div className="space-y-3">
+            <div className="space-y-1.5">
+              {pieData.map((entry) => (
+                <div key={entry.name} className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: CERT_COLORS[entry.name] || "#94a3b8" }} />
+                    <span className="text-muted-foreground">{entry.name}</span>
+                  </div>
+                  <Badge variant="outline" className="text-xs">{entry.value}</Badge>
+                </div>
+              ))}
+            </div>
+
+            {certStats.byIucn && (
+              <div className="pt-3 border-t">
+                <p className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1">
+                  <Leaf className="h-3 w-3" /> Plantes certifiées par statut IUCN
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {Object.entries(certStats.byIucn).map(([status, count]) => (
+                    <Badge
+                      key={status}
+                      className="text-xs"
+                      style={{
+                        backgroundColor:
+                          status === 'CR' ? '#dc2626' :
+                          status === 'EN' ? '#ea580c' :
+                          status === 'VU' ? '#d97706' :
+                          status === 'NT' ? '#65a30d' :
+                          '#16a34a',
+                        color: 'white',
+                      }}
+                    >
+                      {status}: {count as number}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <Link href="/patrimoine-menace">
+              <div className="flex items-center gap-1 text-xs text-primary hover:underline cursor-pointer mt-2">
+                <ArrowRight className="h-3 w-3" />
+                Voir le Patrimoine Menacé
+              </div>
+            </Link>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
 
 export default function MonDashboard() {
   const trackEvent = trpc.analytics.trackEvent.useMutation();
@@ -273,6 +406,9 @@ export default function MonDashboard() {
           </CardContent>
         </Card>
       )}
+
+      {/* Widget Certification Radar — durabilité du corpus PERFUMUM */}
+      <CertificationRadarWidget />
 
       {/* Message si aucune donnée */}
       {favoriteMolecules.length === 0 && favoriteRecettes.length === 0 && recentlyViewed.length === 0 && (
