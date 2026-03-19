@@ -767,6 +767,36 @@ export default function PatrimoineMenace() {
                       </p>
                     </div>
                   )}
+
+                  {/* Badges certifications FairWild / UEBT / Rainforest Alliance */}
+                  {plant.certifications && Array.isArray(plant.certifications) && (plant.certifications as any[]).length > 0 && (
+                    <div className="border-t pt-3">
+                      <p className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1">
+                        <Shield className="h-3 w-3" />
+                        Certifications durables
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {(plant.certifications as any[]).map((cert: any, idx: number) => (
+                          <Badge
+                            key={idx}
+                            className={`text-xs cursor-default ${
+                              cert.type === 'FairWild' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 border-green-300' :
+                              cert.type === 'UEBT' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 border-blue-300' :
+                              cert.type === 'Rainforest Alliance' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200 border-emerald-300' :
+                              cert.type === 'FSC' ? 'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200 border-teal-300' :
+                              cert.type === 'COSMOS' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 border-purple-300' :
+                              cert.type === 'CITES' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 border-red-300' :
+                              cert.type === 'AOC' || cert.type === 'IGP' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200 border-amber-300' :
+                              'bg-gray-100 text-gray-800 border-gray-300'
+                            }`}
+                            title={`${cert.scope} — ${cert.status} ${cert.year}${cert.notes ? ' · ' + cert.notes : ''}`}
+                          >
+                            {cert.type} {cert.year}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             );

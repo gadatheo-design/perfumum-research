@@ -133,22 +133,19 @@ const OLFACTIVE_DESCRIPTORS = [
 export default function ExplorerParOdeur() {
   const [selectedDescriptor, setSelectedDescriptor] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
-
-  const { data: allMolecules, isLoading } = trpc.molecules.list.useQuery();
-  const { data: allPlants } = trpc.plants.list.useQuery();
+  const [stableSearchQuery] = useState("");
 
   const descriptor = OLFACTIVE_DESCRIPTORS.find(d => d.key === selectedDescriptor);
 
-  // Filtrer les molécules selon le descripteur sélectionné
-  const filteredMolecules = useMemo(() => {
-    if (!allMolecules || !descriptor) return [];
-    return allMolecules.filter((m: any) => {
-      const fam = (m.family || "").toLowerCase();
-      return descriptor.families.some(f => fam === f.toLowerCase() || fam.includes(f.toLowerCase()));
-    });
-  }, [allMolecules, descriptor]);
+  // Charger les molécules de la famille sélectionnée via la procédure dédiée
+  const { data: filteredMolecules, isLoading } = trpc.molecules.getByFamily.useQuery(
+    { families: descriptor?.families ?? [], limit: 50 },
+    { enabled: !!descriptor }
+  );
 
-  // Filtrer les plantes selon le descripteur sélectionné
+  // Charger les plantes de la famille sélectionnée
+  const { data: allPlants } = trpc.plants.list.useQuery(undefined, { enabled: !!descriptor });
+
   const filteredPlants = useMemo(() => {
     if (!allPlants || !descriptor) return [];
     return (allPlants as any[]).filter((p: any) => {
@@ -160,16 +157,20 @@ export default function ExplorerParOdeur() {
     }).slice(0, 12);
   }, [allPlants, descriptor]);
 
-  // Recherche transversale
+  // Recherche transversale (charge les molécules uniquement quand nécessaire)
+  const { data: searchMolecules } = trpc.molecules.list.useQuery(undefined, {
+    enabled: searchQuery.length >= 2,
+  });
+
   const searchResults = useMemo(() => {
-    if (!searchQuery || searchQuery.length < 2 || !allMolecules) return [];
+    if (!searchQuery || searchQuery.length < 2 || !searchMolecules) return [];
     const q = searchQuery.toLowerCase();
-    return allMolecules.filter((m: any) =>
+    return (searchMolecules as any[]).filter((m: any) =>
       m.name?.toLowerCase().includes(q) ||
       (m.family || "").toLowerCase().includes(q) ||
       (m.olfactiveProfile || "").toLowerCase().includes(q)
     ).slice(0, 10);
-  }, [searchQuery, allMolecules]);
+  }, [searchQuery, searchMolecules]);
 
   return (
     <div className="min-h-screen bg-background">

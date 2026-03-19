@@ -358,6 +358,12 @@ export default function PlantDetail() {
               <span className="hidden sm:inline">Publications ({scientificPubs.length})</span>
             </TabsTrigger>
           )}
+          {plant.certifications && Array.isArray(plant.certifications) && (plant.certifications as any[]).length > 0 && (
+            <TabsTrigger value="traceability" className="flex items-center gap-1">
+              <Shield className="h-3 w-3 text-amber-600" />
+              <span className="hidden sm:inline">Traçabilité ({(plant.certifications as any[]).length})</span>
+            </TabsTrigger>
+          )}
         </TabsList>
         
         {/* Nomenclature */}
@@ -1596,6 +1602,132 @@ export default function PlantDetail() {
               <div className="text-center py-8 text-muted-foreground">
                 <BookOpen className="h-8 w-8 mx-auto mb-2 opacity-40" />
                 <p>Aucune publication scientifique répertoriée pour cette plante.</p>
+              </div>
+            )}
+          </TabErrorBoundary>
+        </TabsContent>
+
+        {/* Onglet Traçabilité */}
+        <TabsContent value="traceability" className="space-y-6">
+          <TabErrorBoundary tabLabel="Traçabilité">
+            {plant.certifications && Array.isArray(plant.certifications) && (plant.certifications as any[]).length > 0 ? (
+              <div className="space-y-6">
+                {/* En-tête */}
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-base font-semibold">Certifications &amp; Traçabilité</h3>
+                    <p className="text-sm text-muted-foreground mt-0.5">
+                      Certifications durables vérifiées pour <span className="italic">{plant.latinName || plant.name}</span>
+                    </p>
+                  </div>
+                  <Badge variant="outline" className="text-sm">
+                    {(plant.certifications as any[]).length} certification{(plant.certifications as any[]).length > 1 ? 's' : ''}
+                  </Badge>
+                </div>
+
+                {/* Grille des certifications */}
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {(plant.certifications as any[]).map((cert: any, idx: number) => (
+                    <Card key={idx} className={`border-l-4 ${
+                      cert.type === 'FairWild' ? 'border-l-green-500' :
+                      cert.type === 'UEBT' ? 'border-l-blue-500' :
+                      cert.type === 'Rainforest Alliance' ? 'border-l-emerald-500' :
+                      cert.type === 'FSC' ? 'border-l-teal-500' :
+                      cert.type === 'COSMOS' ? 'border-l-purple-500' :
+                      cert.type === 'CITES' ? 'border-l-red-500' :
+                      cert.type === 'AOC' || cert.type === 'IGP' ? 'border-l-amber-500' :
+                      'border-l-gray-400'
+                    }`}>
+                      <CardContent className="p-4 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Badge className={`text-xs ${
+                              cert.type === 'FairWild' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
+                              cert.type === 'UEBT' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
+                              cert.type === 'Rainforest Alliance' ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200' :
+                              cert.type === 'FSC' ? 'bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200' :
+                              cert.type === 'COSMOS' ? 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200' :
+                              cert.type === 'CITES' ? 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200' :
+                              cert.type === 'AOC' || cert.type === 'IGP' ? 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200' :
+                              'bg-gray-100 text-gray-800'
+                            }`}>
+                              {cert.type}
+                            </Badge>
+                            <span className="text-xs text-muted-foreground">{cert.year}</span>
+                          </div>
+                          <Badge variant="outline" className={`text-xs ${
+                            cert.status === 'active' ? 'border-green-500 text-green-600' :
+                            cert.status === 'pending' ? 'border-yellow-500 text-yellow-600' :
+                            'border-gray-400 text-gray-500'
+                          }`}>
+                            {cert.status === 'active' ? 'Actif' : cert.status === 'pending' ? 'En cours' : cert.status}
+                          </Badge>
+                        </div>
+                        {cert.certifier && (
+                          <p className="text-xs font-medium">{cert.certifier}</p>
+                        )}
+                        {cert.scope && (
+                          <p className="text-xs text-muted-foreground">{cert.scope}</p>
+                        )}
+                        {cert.notes && (
+                          <p className="text-xs text-muted-foreground italic border-t pt-2 mt-2">{cert.notes}</p>
+                        )}
+                        {cert.source_url && (
+                          <a
+                            href={cert.source_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs text-amber-600 hover:text-amber-700 hover:underline"
+                          >
+                            <ExternalLink className="h-3 w-3" />
+                            Source officielle
+                          </a>
+                        )}
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+
+                {/* Notes de durabilité */}
+                {plant.sustainableAlternatives && (
+                  <Card className="bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800">
+                    <CardContent className="p-4">
+                      <h4 className="text-sm font-medium text-green-800 dark:text-green-200 mb-2 flex items-center gap-2">
+                        <Leaf className="h-4 w-4" />
+                        Notes de durabilité
+                      </h4>
+                      <p className="text-sm text-green-700 dark:text-green-300">{plant.sustainableAlternatives}</p>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Liens externes */}
+                <div className="flex flex-wrap gap-2 pt-2 border-t">
+                  <a
+                    href={`https://www.fairwild.org/wild-collection-sites`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    FairWild — Sites certifiés
+                  </a>
+                  <a
+                    href={`https://www.uebt.org/sourcing-barometer`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    UEBT Sourcing Barometer
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-8 text-muted-foreground">
+                <Shield className="h-8 w-8 mx-auto mb-2 opacity-40" />
+                <p>Aucune certification de traçabilité répertoriée pour cette plante.</p>
+                <p className="text-xs mt-1">Les données FairWild, UEBT et Rainforest Alliance sont mises à jour annuellement.</p>
               </div>
             )}
           </TabErrorBoundary>

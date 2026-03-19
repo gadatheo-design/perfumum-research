@@ -2659,3 +2659,10 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Certifications couvertes : FairWild, UEBT, Rainforest Alliance, FSC, COSMOS, CITES, AOC, IGP
 - [x] UI Certifications dans PlantDetail (onglet Conservation) avec badges colorés par type
 - [x] Boswellia sacra : FairWild 2025 (Wadi Dawkah, Oman) documenté avec source officielle
+
+## SESSION 19 MARS 2026 — Badges Certifications + Explorer par Odeur + Onglet Traçabilité
+
+- [x] Badges FairWild/UEBT dans les cartes plantes de /patrimoine-menace
+- [x] /explorer-par-odeur : optimisé avec procédure molecules.getByFamily (chargement ciblé)
+- [x] Onglet Traçabilité ajouté dans PlantDetail (grille certifications, notes durabilité, liens FairWild/UEBT)
+- [x] Onglet visible uniquement pour les 16 plantes avec certifications actives

@@ -802,6 +802,39 @@ export const appRouter = router({
         }));
       }),
 
+    getByFamily: publicProcedure
+      .input(z.object({
+        families: z.array(z.string()),
+        limit: z.number().min(1).max(100).default(30),
+      }))
+      .query(async ({ input }) => {
+        const mysql2 = await import('mysql2/promise');
+        const conn = await mysql2.createConnection(process.env.DATABASE_URL!);
+        const placeholders = input.families.map(() => '?').join(', ');
+        const likeConditions = input.families.map(() => 'LOWER(family) LIKE ?').join(' OR ');
+        const likeParams = input.families.flatMap(f => [`%${f.toLowerCase()}%`]);
+        const [rows] = await conn.query(`
+          SELECT id, name, family, chemicalFamily, cas_number, pubchem_cid, chebi_id,
+                 iupac_name, smiles, olfactiveProfile, therapeuticProperties
+          FROM molecules
+          WHERE ${likeConditions}
+          ORDER BY name ASC
+          LIMIT ?
+        `, [...likeParams, input.limit]);
+        await conn.end();
+        return (rows as any[]).map(r => ({
+          id: Number(r.id),
+          name: r.name as string,
+          family: r.family as string | null,
+          chemicalFamily: r.chemicalFamily as string | null,
+          cas_number: r.cas_number as string | null,
+          pubchem_cid: r.pubchem_cid ? Number(r.pubchem_cid) : null,
+          chebi_id: r.chebi_id as string | null,
+          iupac_name: r.iupac_name as string | null,
+          smiles: r.smiles as string | null,
+        }));
+      }),
+
   }),
 
   // PubChem IUPAC batch
