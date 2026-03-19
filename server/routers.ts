@@ -6069,7 +6069,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         }
         
         // Enrichir via PubChem avec traduction FR→EN
-        const result = await enrichMoleculeWithTranslation(molecule.name, molecule.casNumber || undefined);
+        const result = await enrichMoleculeWithTranslation(molecule.name);
         
         if (result.success) {
           // Mettre à jour la molécule
@@ -6127,7 +6127,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
             continue;
           }
           
-          const result = await enrichMoleculeWithTranslation(molecule.name, molecule.casNumber || undefined);
+          const result = await enrichMoleculeWithTranslation(molecule.name);
           
           if (result.success) {
             const chemicalClass = inferChemicalClass(result.iupacName, result.molecularFormula);
@@ -6293,7 +6293,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         
         for (const molecule of batch) {
           try {
-            const result = await enrichMoleculeWithTranslation(molecule.name, (molecule as any).casNumber || undefined);
+            const result = await enrichMoleculeWithTranslation(molecule.name);
             
             if (result.success) {
               const chemicalClass = inferChemicalClass(result.iupacName, result.molecularFormula);

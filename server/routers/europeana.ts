@@ -16,7 +16,9 @@
  */
 
 import { z } from "zod";
-import { router, publicProcedure } from "../_core/trpc";
+import { sql } from "drizzle-orm";
+import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
+import { getDb } from "../db";
 import {
   searchEuropeanaThematic,
   searchEuropeanaFree,
@@ -35,7 +37,7 @@ import {
 } from "../europeana";
 import mysql from "mysql2/promise";
 
-async function getDb() {
+async function getDbConn() {
   return mysql.createConnection(process.env.DATABASE_URL!);
 }
 
@@ -72,7 +74,7 @@ export const europeanaRouter = router({
       );
 
       // Enrichir avec les liens PERFUMUM depuis la base de données
-      const conn = await getDb();
+      const conn = await getDbConn();
       try {
         const themeToPlants: Record<string, string[]> = {
           rose_damas: ["Rosa damascena", "Rosa centifolia", "Rosa gallica"],
@@ -175,7 +177,7 @@ export const europeanaRouter = router({
       })
     )
     .query(async ({ input }) => {
-      const conn = await getDb();
+      const conn = await getDbConn();
       try {
         const [rows] = await conn.execute<any[]>(
           "SELECT id, name, wikidata_qid, cas_number FROM molecules WHERE id = ?",
@@ -222,7 +224,7 @@ export const europeanaRouter = router({
       })
     )
     .query(async ({ input }) => {
-      const conn = await getDb();
+      const conn = await getDbConn();
       try {
         const [rows] = await conn.execute<any[]>(
           "SELECT id, name, latin_name, wikidata_qid FROM plants WHERE id = ?",
@@ -336,7 +338,7 @@ export const europeanaRouter = router({
    */
   stats: publicProcedure.query(async () => {
     const apiKey = process.env.EUROPEANA_API_KEY;
-    const conn = await getDb();
+    const conn = await getDbConn();
     try {
       const [[{ totalMolecules }]] = await conn.execute<any[]>(
         "SELECT COUNT(*) as totalMolecules FROM molecules"
@@ -410,7 +412,7 @@ export const europeanaRouter = router({
     )
     .query(async ({ input }) => {
       const apiKey = process.env.EUROPEANA_API_KEY;
-      const conn = await getDb();
+      const conn = await getDbConn();
       try {
         // Compter les plantes sans QID
         const [[{ totalWithoutQid }]] = await conn.execute<any[]>(
@@ -583,5 +585,39 @@ export const europeanaRouter = router({
       }
       const { searchAnnotations } = await import("../europeana");
       return searchAnnotations(input.query, input.type, input.limit);
+    }),
+
+  // ── Sauvegarde des QID Wikidata résolus en base de données ─────────────────
+  saveQidBatch: protectedProcedure
+    .input(
+      z.object({
+        items: z.array(
+          z.object({
+            plantId: z.number().int().positive(),
+            qid: z.string().regex(/^Q\d+$/, "Format QID invalide (ex: Q12345)"),
+          })
+        ).min(1).max(100),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+
+      const results: { plantId: number; qid: string; success: boolean; error?: string }[] = [];
+
+      for (const { plantId, qid } of input.items) {
+        try {
+          await db.execute(
+            sql`UPDATE plants SET wikidata_qid = ${qid}, updated_at = NOW() WHERE id = ${plantId}`
+          );
+          results.push({ plantId, qid, success: true });
+        } catch (err) {
+          results.push({ plantId, qid, success: false, error: String(err) });
+        }
+      }
+
+      const saved = results.filter((r) => r.success).length;
+      const failed = results.filter((r) => !r.success).length;
+      return { saved, failed, results };
     }),
 });

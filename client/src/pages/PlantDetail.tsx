@@ -156,6 +156,12 @@ export default function PlantDetail() {
     { plantId },
     { enabled: plantId > 0 }
   );
+
+  // Sprint 4 — Fils narratifs liés à cette plante
+  const { data: plantStorylines } = trpc.storylines.getByPlant.useQuery(
+    { plantId },
+    { enabled: plantId > 0 }
+  );
   
   if (isLoading) {
     return (
@@ -362,6 +368,12 @@ export default function PlantDetail() {
             <TabsTrigger value="traceability" className="flex items-center gap-1">
               <Shield className="h-3 w-3 text-amber-600" />
               <span className="hidden sm:inline">Traçabilité ({(plant.certifications as any[]).length})</span>
+            </TabsTrigger>
+          )}
+          {plantStorylines && (plantStorylines as any[]).length > 0 && (
+            <TabsTrigger value="storylines" className="flex items-center gap-1">
+              <BookOpen className="h-3 w-3 text-emerald-600" />
+              <span className="hidden sm:inline">Fils narratifs ({(plantStorylines as any[]).length})</span>
             </TabsTrigger>
           )}
         </TabsList>
@@ -1631,6 +1643,77 @@ export default function PlantDetail() {
             )}
           </TabErrorBoundary>
         </TabsContent>
+
+        {/* Onglet Fils Narratifs */}
+        {plantStorylines && (plantStorylines as any[]).length > 0 && (
+          <TabsContent value="storylines" className="space-y-4">
+            <TabErrorBoundary tabLabel="Fils narratifs">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-base font-semibold">Fils narratifs</h3>
+                    <p className="text-sm text-muted-foreground mt-0.5">
+                      Cette plante apparaît dans {(plantStorylines as any[]).length} fil{(plantStorylines as any[]).length > 1 ? 's' : ''} narratif{(plantStorylines as any[]).length > 1 ? 's' : ''} du projet PERFUMUM.
+                    </p>
+                  </div>
+                  <Link href="/admin/storylines">
+                    <Button variant="outline" size="sm" className="gap-1.5">
+                      <BookOpen className="h-3.5 w-3.5" />
+                      Tous les fils
+                    </Button>
+                  </Link>
+                </div>
+                {(plantStorylines as any[]).map((storyline: any) => (
+                  <Card key={storyline.id} className="hover:shadow-sm transition-shadow">
+                    <CardContent className="p-4">
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-1">
+                            <h4 className="text-sm font-semibold line-clamp-1">{storyline.title}</h4>
+                            {storyline.narrative_axis && (
+                              <Badge variant="outline" className="text-xs shrink-0">
+                                {storyline.narrative_axis}
+                              </Badge>
+                            )}
+                          </div>
+                          {storyline.subtitle && (
+                            <p className="text-xs text-muted-foreground italic mb-1">{storyline.subtitle}</p>
+                          )}
+                          {storyline.description && (
+                            <p className="text-sm text-muted-foreground line-clamp-2">{storyline.description}</p>
+                          )}
+                          <div className="flex items-center gap-3 mt-2">
+                            {storyline.period_label && (
+                              <span className="text-xs text-muted-foreground">⏳ {storyline.period_label}</span>
+                            )}
+                            {storyline.geographic_scope && (
+                              <span className="text-xs text-muted-foreground">🌍 {storyline.geographic_scope}</span>
+                            )}
+                            {storyline.role_in_story && (
+                              <Badge variant="secondary" className="text-xs">
+                                {storyline.role_in_story}
+                              </Badge>
+                            )}
+                          </div>
+                          {storyline.narrative_note && (
+                            <p className="text-xs text-emerald-700 dark:text-emerald-400 mt-1.5 italic">
+                              “{storyline.narrative_note}”
+                            </p>
+                          )}
+                        </div>
+                        <Link href={`/admin/storylines/${storyline.slug}`}>
+                          <Button variant="ghost" size="sm" className="shrink-0">
+                            <ExternalLink className="h-3.5 w-3.5" />
+                          </Button>
+                        </Link>
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </TabErrorBoundary>
+          </TabsContent>
+        )}
 
         {/* Onglet Traçabilité */}
         <TabsContent value="traceability" className="space-y-6">

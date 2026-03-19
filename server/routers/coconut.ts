@@ -202,7 +202,7 @@ export const coconutRouter = router({
         enriched: 0,
         withOrganisms: 0,
         errors: 0,
-        details: [] as { name: string; success: boolean; organisms?: number }[],
+        details: [] as { name: string; success: boolean; organisms?: number; newPlantLinks?: number }[],
       };
 
       for (const molecule of molecules) {
