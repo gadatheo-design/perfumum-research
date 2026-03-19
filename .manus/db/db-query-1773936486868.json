@@ -1,0 +1,148 @@
+{
+  "query": "\nSELECT id, name, latin_name, category \nFROM plants \nWHERE wikidata_qid IS NULL \nORDER BY name \nLIMIT 30;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name, latin_name, category \nFROM plants \nWHERE wikidata_qid IS NULL \nORDER BY name \nLIMIT 30;\n",
+  "rows": [
+    {
+      "id": "690104",
+      "name": "Camphre japonais (Okusu)",
+      "latin_name": "Arbre sacré (Japon), énergie ancienne",
+      "category": "autre"
+    },
+    {
+      "id": "690080",
+      "name": "Cassie (Absolue)",
+      "latin_name": "Absolue 50% (DPG)",
+      "category": "autre"
+    },
+    {
+      "id": "690077",
+      "name": "Citronnelle",
+      "latin_name": "Huile essentielle (sample 1.3 ml)",
+      "category": "autre"
+    },
+    {
+      "id": "480016",
+      "name": "Copaifera spp. (copaiba)",
+      "latin_name": "Copaifera sp.",
+      "category": "resine"
+    },
+    {
+      "id": "150009",
+      "name": "Copal",
+      "latin_name": "Bursera spp.",
+      "category": "resine"
+    },
+    {
+      "id": "660880",
+      "name": "Dragon’s Blood",
+      "latin_name": "Dracaena spp.",
+      "category": "autre"
+    },
+    {
+      "id": "690109",
+      "name": "Elemi",
+      "latin_name": "Alternative frankincense plus fraîche (dosage 0.3-1.5%)",
+      "category": "autre"
+    },
+    {
+      "id": "690015",
+      "name": "Fève Tonka",
+      "latin_name": "Parfumerie (notes vertes)",
+      "category": "autre"
+    },
+    {
+      "id": "1800014",
+      "name": "Gossypium spp.",
+      "latin_name": "Gossypium spp.",
+      "category": "aromatique"
+    },
+    {
+      "id": "750007",
+      "name": "Lavandin Grosso",
+      "latin_name": "Lavandula × intermedia \"Grosso\"",
+      "category": "aromatique"
+    },
+    {
+      "id": "690175",
+      "name": "Néroli (Oranger amer)",
+      "latin_name": "Citrus aurantium",
+      "category": "autre"
+    },
+    {
+      "id": "420002",
+      "name": "Orange amère",
+      "latin_name": "Citrus aurantium var. amara",
+      "category": "aromatique"
+    },
+    {
+      "id": "690237",
+      "name": "Petitgrain bigarade",
+      "latin_name": "Citrus aurantium subsp. aurantium",
+      "category": "autre"
+    },
+    {
+      "id": "480017",
+      "name": "Protium spp. (copal)",
+      "latin_name": "Protium sp.",
+      "category": "resine"
+    },
+    {
+      "id": "930002",
+      "name": "Quercus funebris",
+      "latin_name": "Poyomatli (usage historique)",
+      "category": "aromatique"
+    },
+    {
+      "id": "480024",
+      "name": "Rosa × damascena (rose de Damas)",
+      "latin_name": "Rosa × damascena",
+      "category": "fleur"
+    },
+    {
+      "id": "750005",
+      "name": "Rose de Kazanlak",
+      "latin_name": "Rosa × damascena var. trigintipetala",
+      "category": "fleur"
+    },
+    {
+      "id": "660829",
+      "name": "Securidaca longipedunculata",
+      "latin_name": "Securidaca longipedunculata",
+      "category": "autre"
+    },
+    {
+      "id": "480023",
+      "name": "Silphium (plante antique disparue)",
+      "latin_name": "Silphium sp. (extinct)",
+      "category": "autre"
+    },
+    {
+      "id": "540023",
+      "name": "Silphium sp.",
+      "latin_name": "Silphium sp.",
+      "category": "autre"
+    },
+    {
+      "id": "210031",
+      "name": "Test Plant 1",
+      "latin_name": "Testus plantus",
+      "category": "aromatique"
+    },
+    {
+      "id": "210032",
+      "name": "Test Resin Plant",
+      "latin_name": "Testus resinus",
+      "category": "resine"
+    },
+    {
+      "id": "210033",
+      "name": "Test Wind Plant",
+      "latin_name": "Testus ventus",
+      "category": "aromatique"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\tlatin_name\tcategory\n690104\tCamphre japonais (Okusu)\tArbre sacré (Japon), énergie ancienne\tautre\n690080\tCassie (Absolue)\tAbsolue 50% (DPG)\tautre\n690077\tCitronnelle\tHuile essentielle (sample 1.3 ml)\tautre\n480016\tCopaifera spp. (copaiba)\tCopaifera sp.\tresine\n150009\tCopal\tBursera spp.\tresine\n660880\tDragon’s Blood\tDracaena spp.\tautre\n690109\tElemi\tAlternative frankincense plus fraîche (dosage 0.3-1.5%)\tautre\n690015\tFève Tonka\tParfumerie (notes vertes)\tautre\n1800014\tGossypium spp.\tGossypium spp.\taromatique\n750007\tLavandin Grosso\tLavandula × intermedia \"Grosso\"\taromatique\n690175\tNéroli (Oranger amer)\tCitrus aurantium\tautre\n420002\tOrange amère\tCitrus aurantium var. amara\taromatique\n690237\tPetitgrain bigarade\tCitrus aurantium subsp. aurantium\tautre\n480017\tProtium spp. (copal)\tProtium sp.\tresine\n930002\tQuercus funebris\tPoyomatli (usage historique)\taromatique\n480024\tRosa × damascena (rose de Damas)\tRosa × damascena\tfleur\n750005\tRose de Kazanlak\tRosa × damascena var. trigintipetala\tfleur\n660829\tSecuridaca longipedunculata\tSecuridaca longipedunculata\tautre\n480023\tSilphium (plante antique disparue)\tSilphium sp. (extinct)\tautre\n540023\tSilphium sp.\tSilphium sp.\tautre\n210031\tTest Plant 1\tTestus plantus\taromatique\n210032\tTest Resin Plant\tTestus resinus\tresine\n210033\tTest Wind Plant\tTestus ventus\taromatique\n",
+  "stderr": "",
+  "execution_time_ms": 73
+}

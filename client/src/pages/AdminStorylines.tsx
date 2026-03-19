@@ -232,19 +232,19 @@ export default function AdminStorylines() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <Card>
             <CardContent className="pt-4">
-              <div className="text-2xl font-bold text-indigo-600">{stats.total}</div>
+              <div className="text-2xl font-bold text-indigo-600">{String(stats.total ?? 0)}</div>
               <div className="text-sm text-muted-foreground">Fils narratifs</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-4">
-              <div className="text-2xl font-bold text-green-600">{stats.active}</div>
+              <div className="text-2xl font-bold text-green-600">{String(stats.active ?? 0)}</div>
               <div className="text-sm text-muted-foreground">Actifs</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-4">
-              <div className="text-2xl font-bold text-amber-600">{stats.elements}</div>
+              <div className="text-2xl font-bold text-amber-600">{String((stats as any).elements ?? 0)}</div>
               <div className="text-sm text-muted-foreground">Éléments liés</div>
             </CardContent>
           </Card>

@@ -359,7 +359,7 @@ function generateSearchVariants(moleculeName: string): string[] {
   }
   
   // Dédupliquer et filtrer
-  return [...new Set(variants)].filter(v => v.length > 2);
+  return Array.from(new Set(variants)).filter(v => v.length > 2);
 }
 
 export interface COCONUTMolecule {

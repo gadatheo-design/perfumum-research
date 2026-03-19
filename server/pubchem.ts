@@ -461,7 +461,6 @@ const FR_TO_EN_MOLECULES: Record<string, string> = {
 
   // === AJOUTS ISSUS DE L'ANALYSE PUBCHEM (mars 2026) ===
   // Préfixes grecs normalisés (FR)
-  'alpha-vetivene': 'alpha-vetivene',
   'alpha-vetivone': 'alpha-vetivone',
   'alpha-thujene': 'alpha-thujene',
   'alpha-terpinene': 'alpha-terpinene',
@@ -505,9 +504,6 @@ const FR_TO_EN_MOLECULES: Record<string, string> = {
   'delta-2-carene': 'delta-2-carene',
   '(z)-beta-santalol': '(Z)-beta-santalol',
   '(z)-alpha-santalol': '(Z)-alpha-santalol',
-  '(z)-nuciferol': '(Z)-nuciferol',
-  '(e,e)-alpha-farnesene': '(E,E)-alpha-farnesene',
-  'epi-beta-santalol': 'epi-beta-santalol',
   'cis-beta-farnesene': '(Z)-beta-farnesene',
 
   // Molécules FR avec équivalents EN connus
@@ -518,7 +514,6 @@ const FR_TO_EN_MOLECULES: Record<string, string> = {
   'oxyde de rose': 'rose oxide',
   'acide boswellique': 'boswellic acid',
   'acide hexadecanoique': 'hexadecanoic acid',
-  'acide hyaluronique': 'hyaluronic acid',
   'acide fulvique': 'fulvic acid',
   'acides humiques': 'humic acids',
   'glycyrrhizine': 'glycyrrhizin',
@@ -526,33 +521,16 @@ const FR_TO_EN_MOLECULES: Record<string, string> = {
   'glucoerucine': 'glucoerucin',
   'isothiocyanate de benzyle': 'benzyl isothiocyanate',
   'acetate de thymyle': 'thymyl acetate',
-  'linalyl glucoside': 'linalyl glucoside',
   'secologanine': 'secologanin',
   'rosavine': 'rosavin',
   'morine': 'morin',
-  'fucoïdane': 'fucoidan',
-  'arabinogalactane': 'arabinogalactan',
-  'alginat de sodium': 'sodium alginate',
-  'chitosane': 'chitosan',
-  'methyl syringol': 'methyl syringol',
   'dimethyl trisulfide': 'dimethyl trisulfide',
   'dimethyl trisulfure': 'dimethyl trisulfide',
   'diméthyl trisulfure (dmts)': 'dimethyl trisulfide',
-  'jinkoh-eudesmol': 'jinkoh-eudesmol',
-  'jasmonal': 'jasmonal',
-  'cedarol': 'cedarol',
-  'bisabolone': 'bisabolone',
   'betulinine': 'betulin',
-  'damianine': 'damianin',
-  'duvatrienol': 'duvatrienol',
   'eudesmol beta': 'beta-eudesmol',
   'eudesmol alpha': 'alpha-eudesmol',
-  'methoxyfuranoguaia-9-ene': 'methoxyfuranoguaia-9-ene',
-  'aristolen-9beta-ol': 'aristolen-9beta-ol',
   'vetiseleninene': 'vetiseleninene',
-  'vetivone': 'vetivone',
-  'ionone gamma': 'gamma-ionone',
-  'ionone beta': 'beta-ionone',
   'ionone blanche': 'alpha-isomethyl ionone',
   'acide 3-mercaptohexanoique': '3-mercaptohexanoic acid',
   'tanin (acide tannique)': 'tannic acid',
@@ -562,7 +540,6 @@ const FR_TO_EN_MOLECULES: Record<string, string> = {
   'brachytylanolide a': 'brachytylanolide A',
   'brachytylanolide b': 'brachytylanolide B',
   '3,3-dimethylhex-5-ene-1-thiol': '3,3-dimethylhex-5-ene-1-thiol',
-  'akba': 'AKBA',
   'gamma-octadecalactone': 'gamma-octadecalactone',
   'gamma-tetradecalactone': 'gamma-tetradecalactone',
   '2-ethyl-3-methylpyrazine': '2-ethyl-3-methylpyrazine',
@@ -675,22 +652,22 @@ const FR_TO_EN_TERMS: Record<string, string> = {
  */
 export function normalizeGreekPrefixes(name: string): string {
   return name
-    .replace(/^α-/u, 'alpha-')
-    .replace(/^β-/u, 'beta-')
-    .replace(/^γ-/u, 'gamma-')
-    .replace(/^δ-/u, 'delta-')
-    .replace(/^Δ-?/u, 'delta-')
-    .replace(/\(α-/gu, '(alpha-')
-    .replace(/\(β-/gu, '(beta-')
-    .replace(/\(γ-/gu, '(gamma-')
-    .replace(/\(δ-/gu, '(delta-')
-    .replace(/\(Z\)-β-/gu, '(Z)-beta-')
-    .replace(/\(E\)-β-/gu, '(E)-beta-')
-    .replace(/\(Z\)-α-/gu, '(Z)-alpha-')
-    .replace(/\(E\)-α-/gu, '(E)-alpha-')
-    .replace(/epi-β-/gu, 'epi-beta-')
-    .replace(/cis-β-/gu, 'cis-beta-')
-    .replace(/trans-β-/gu, 'trans-beta-');
+    .replace(/^α-/g, 'alpha-')
+    .replace(/^β-/g, 'beta-')
+    .replace(/^γ-/g, 'gamma-')
+    .replace(/^δ-/g, 'delta-')
+    .replace(/^Δ-?/g, 'delta-')
+    .replace(/\(α-/g, '(alpha-')
+    .replace(/\(β-/g, '(beta-')
+    .replace(/\(γ-/g, '(gamma-')
+    .replace(/\(δ-/g, '(delta-')
+    .replace(/\(Z\)-β-/g, '(Z)-beta-')
+    .replace(/\(E\)-β-/g, '(E)-beta-')
+    .replace(/\(Z\)-α-/g, '(Z)-alpha-')
+    .replace(/\(E\)-α-/g, '(E)-alpha-')
+    .replace(/epi-β-/g, 'epi-beta-')
+    .replace(/cis-β-/g, 'cis-beta-')
+    .replace(/trans-β-/g, 'trans-beta-');
 }
 
 /**

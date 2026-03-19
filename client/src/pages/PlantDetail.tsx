@@ -364,10 +364,10 @@ export default function PlantDetail() {
               <span className="hidden sm:inline">Publications ({scientificPubs.length})</span>
             </TabsTrigger>
           )}
-          {plant.certifications && Array.isArray(plant.certifications) && (plant.certifications as any[]).length > 0 && (
+          {(plant as any).certifications && Array.isArray((plant as any).certifications) && ((plant as any).certifications as any[]).length > 0 && (
             <TabsTrigger value="traceability" className="flex items-center gap-1">
               <Shield className="h-3 w-3 text-amber-600" />
-              <span className="hidden sm:inline">Traçabilité ({(plant.certifications as any[]).length})</span>
+              <span className="hidden sm:inline">Traçabilité ({((plant as any).certifications as any[]).length})</span>
             </TabsTrigger>
           )}
           {plantStorylines && (plantStorylines as any[]).length > 0 && (
@@ -1071,22 +1071,22 @@ export default function PlantDetail() {
               )}
               
               {/* Alternatives durables */}
-              {plant.sustainableAlternatives && (
+              {(plant as any).sustainableAlternatives && (
                 <div className="p-4 border rounded-lg bg-green-50 dark:bg-green-950">
                   <h4 className="text-sm font-medium mb-2 text-green-700 dark:text-green-300">Alternatives durables</h4>
-                  <p className="text-sm text-green-600 dark:text-green-400">{plant.sustainableAlternatives}</p>
+                  <p className="text-sm text-green-600 dark:text-green-400">{(plant as any).sustainableAlternatives}</p>
                 </div>
               )}
               
               {/* Certifications durables FairWild / UEBT / Rainforest Alliance */}
-              {plant.certifications && Array.isArray(plant.certifications) && plant.certifications.length > 0 && (
+              {(plant as any).certifications && Array.isArray((plant as any).certifications) && (plant as any).certifications.length > 0 && (
                 <div className="p-4 border rounded-lg">
                   <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
                     <span>Certifications durables</span>
-                    <Badge variant="outline" className="text-xs">{plant.certifications.length}</Badge>
+                    <Badge variant="outline" className="text-xs">{(plant as any).certifications.length}</Badge>
                   </h4>
                   <div className="space-y-3">
-                    {(plant.certifications as any[]).map((cert: any, idx: number) => (
+                    {((plant as any).certifications as any[]).map((cert: any, idx: number) => (
                       <div key={idx} className="flex items-start gap-3 p-3 rounded-md bg-muted/40">
                         <div className={`shrink-0 w-2 h-2 mt-2 rounded-full ${
                           cert.type === 'FairWild' ? 'bg-green-500' :
@@ -1132,10 +1132,10 @@ export default function PlantDetail() {
               )}
 
               {/* Notes durabilité (sustainable_alternatives) */}
-              {plant.sustainableAlternatives && !plant.certifications && (
+              {(plant as any).sustainableAlternatives && !(plant as any).certifications && (
                 <div className="p-4 border rounded-lg bg-green-50 dark:bg-green-950">
                   <h4 className="text-sm font-medium mb-2 text-green-700 dark:text-green-300">Notes de durabilité</h4>
-                  <p className="text-sm text-green-600 dark:text-green-400">{plant.sustainableAlternatives}</p>
+                  <p className="text-sm text-green-600 dark:text-green-400">{(plant as any).sustainableAlternatives}</p>
                 </div>
               )}
 
@@ -1483,7 +1483,7 @@ export default function PlantDetail() {
                     </p>
                   </div>
                   <a
-                    href={`/admin/sparql-explorer?tab=europeana-sparql&qid=${(plant as any).wikidata_qid}&plant=${encodeURIComponent(plant.latin_name || plant.name)}`}
+                    href={`/admin/sparql-explorer?tab=europeana-sparql&qid=${(plant as any).wikidata_qid}&plant=${encodeURIComponent((plant as any).latin_name || plant.latinName || plant.name)}`}
                     className="inline-flex items-center gap-1.5 text-xs font-medium text-violet-700 dark:text-violet-300 hover:text-violet-900 dark:hover:text-violet-100 border border-violet-300 dark:border-violet-700 rounded-md px-3 py-1.5 hover:bg-violet-100 dark:hover:bg-violet-900/40 transition-colors flex-shrink-0"
                   >
                     <ExternalLink className="h-3 w-3" />
@@ -1495,7 +1495,7 @@ export default function PlantDetail() {
                 <EuropeanaWidget
                   type="plant"
                   entityId={plantId}
-                  entityName={plant.latin_name || plant.name}
+                  entityName={(plant as any).latin_name || plant.latinName || plant.name}
                   limit={8}
                 />
               </div>
@@ -1718,7 +1718,7 @@ export default function PlantDetail() {
         {/* Onglet Traçabilité */}
         <TabsContent value="traceability" className="space-y-6">
           <TabErrorBoundary tabLabel="Traçabilité">
-            {plant.certifications && Array.isArray(plant.certifications) && (plant.certifications as any[]).length > 0 ? (
+            {(plant as any).certifications && Array.isArray((plant as any).certifications) && ((plant as any).certifications as any[]).length > 0 ? (
               <div className="space-y-6">
                 {/* En-tête */}
                 <div className="flex items-center justify-between">
@@ -1729,13 +1729,13 @@ export default function PlantDetail() {
                     </p>
                   </div>
                   <Badge variant="outline" className="text-sm">
-                    {(plant.certifications as any[]).length} certification{(plant.certifications as any[]).length > 1 ? 's' : ''}
+                    {((plant as any).certifications as any[]).length} certification{((plant as any).certifications as any[]).length > 1 ? 's' : ''}
                   </Badge>
                 </div>
 
                 {/* Grille des certifications */}
                 <div className="grid gap-4 sm:grid-cols-2">
-                  {(plant.certifications as any[]).map((cert: any, idx: number) => (
+                  {((plant as any).certifications as any[]).map((cert: any, idx: number) => (
                     <Card key={idx} className={`border-l-4 ${
                       cert.type === 'FairWild' ? 'border-l-green-500' :
                       cert.type === 'UEBT' ? 'border-l-blue-500' :
@@ -1797,14 +1797,14 @@ export default function PlantDetail() {
                 </div>
 
                 {/* Notes de durabilité */}
-                {plant.sustainableAlternatives && (
+                {(plant as any).sustainableAlternatives && (
                   <Card className="bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800">
                     <CardContent className="p-4">
                       <h4 className="text-sm font-medium text-green-800 dark:text-green-200 mb-2 flex items-center gap-2">
                         <Leaf className="h-4 w-4" />
                         Notes de durabilité
                       </h4>
-                      <p className="text-sm text-green-700 dark:text-green-300">{plant.sustainableAlternatives}</p>
+                      <p className="text-sm text-green-700 dark:text-green-300">{(plant as any).sustainableAlternatives}</p>
                     </CardContent>
                   </Card>
                 )}

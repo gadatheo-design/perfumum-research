@@ -144,7 +144,7 @@ export function EuropeanaWidget({
   );
   // Recherche libre pour les traditions olfactives / civilisations
   const freeQuery = trpc.europeana.freeSearch.useQuery(
-    { query: entityName, rows: effectiveLimit },
+    { query: entityName, limit: effectiveLimit },
     { enabled: enabled && type === "civilisation" }
   );
 

@@ -197,8 +197,8 @@ export default function WikidataBatch() {
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Header />
       <main className="flex-1 container py-8 max-w-7xl">
-        <Breadcrumbs items={[
-          { label: "Admin", href: "/admin" },
+        <Breadcrumbs customItems={[
+          { label: "Admin", path: "/admin" },
           { label: "Wikidata QIDs" },
         ]} />
 

@@ -1,0 +1,16 @@
+{
+  "query": "\nSELECT \n  COUNT(*) as total_plants,\n  SUM(CASE WHEN wikidata_qid IS NOT NULL AND wikidata_qid != '' THEN 1 ELSE 0 END) as with_qid,\n  SUM(CASE WHEN wikidata_qid IS NULL OR wikidata_qid = '' THEN 1 ELSE 0 END) as without_qid,\n  ROUND(100.0 * SUM(CASE WHEN wikidata_qid IS NOT NULL AND wikidata_qid != '' THEN 1 ELSE 0 END) / COUNT(*), 1) as coverage_percent\nFROM plants;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  COUNT(*) as total_plants,\n  SUM(CASE WHEN wikidata_qid IS NOT NULL AND wikidata_qid != '' THEN 1 ELSE 0 END) as with_qid,\n  SUM(CASE WHEN wikidata_qid IS NULL OR wikidata_qid = '' THEN 1 ELSE 0 END) as without_qid,\n  ROUND(100.0 * SUM(CASE WHEN wikidata_qid IS NOT NULL AND wikidata_qid != '' THEN 1 ELSE 0 END) / COUNT(*), 1) as coverage_percent\nFROM plants;\n",
+  "rows": [
+    {
+      "total_plants": "535",
+      "with_qid": "512",
+      "without_qid": "23",
+      "coverage_percent": "95.7"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_plants\twith_qid\twithout_qid\tcoverage_percent\n535\t512\t23\t95.7\n",
+  "stderr": "",
+  "execution_time_ms": 127
+}

@@ -127,14 +127,14 @@ function ExclusiveMoleculesSection() {
   const [expanded, setExpanded] = useState(false);
   const [filterStatus, setFilterStatus] = useState<string>("all");
 
-  const { data: molecules, isLoading } = trpc.plants.getExclusiveMolecules.useQuery({
+  const { data: molecules, isLoading } = trpc.plantVarieties.getExclusiveMolecules.useQuery({
     statuses: ["EX", "EW", "CR", "EN"],
   });
 
   const filtered = useMemo(() => {
     if (!molecules) return [];
     if (filterStatus === "all") return molecules;
-    return molecules.filter((m) => m.statuses.includes(filterStatus));
+    return molecules.filter((m: any) => m.statuses.includes(filterStatus));
   }, [molecules, filterStatus]);
 
   const displayed = expanded ? filtered : filtered.slice(0, 12);
@@ -142,7 +142,7 @@ function ExclusiveMoleculesSection() {
   const countByStatus = useMemo(() => {
     if (!molecules) return {};
     const counts: Record<string, number> = {};
-    for (const m of molecules) {
+    for (const m of molecules as any[]) {
       const worst = STATUS_ORDER.find((s) => m.statuses.includes(s)) || "EN";
       counts[worst] = (counts[worst] || 0) + 1;
     }
@@ -211,7 +211,7 @@ function ExclusiveMoleculesSection() {
         ) : (
           <>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-              {displayed.map((mol) => {
+              {displayed.map((mol: any) => {
                 const worstStatus = STATUS_ORDER.find((s) => mol.statuses.includes(s)) || "EN";
                 const worstCfg = UICN_CONFIG[worstStatus];
                 return (
@@ -268,17 +268,17 @@ export default function Conservation() {
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [filterCites, setFilterCites] = useState<string>("all");
 
-  const { data: plants, isLoading } = trpc.plants.getAll.useQuery({ limit: 1000, offset: 0 });
+  const { data: plantsData, isLoading } = trpc.plants.list.useQuery();
 
   const threatened = useMemo(() => {
-    if (!plants?.plants) return [];
-    return plants.plants.filter(
+    if (!plantsData) return [];
+    return (plantsData as any[]).filter(
       (p) =>
         p.conservation_status &&
         p.conservation_status !== "NE" &&
         p.conservation_status !== "LC"
     );
-  }, [plants]);
+  }, [plantsData]);
 
   const filtered = useMemo(() => {
     return threatened
@@ -286,7 +286,7 @@ export default function Conservation() {
         const matchSearch =
           !search ||
           p.name.toLowerCase().includes(search.toLowerCase()) ||
-          (p.latin_name || "").toLowerCase().includes(search.toLowerCase());
+          ((p as any).latin_name || "").toLowerCase().includes(search.toLowerCase());
         const matchStatus =
           filterStatus === "all" || p.conservation_status === filterStatus;
         const matchCites =
@@ -296,7 +296,7 @@ export default function Conservation() {
             : !p.cites_appendix || p.cites_appendix === "NONE" || p.cites_appendix === "NULL");
         return matchSearch && matchStatus && matchCites;
       })
-      .sort((a, b) => {
+      .sort((a: any, b: any) => {
         const ia = STATUS_ORDER.indexOf(a.conservation_status || "");
         const ib = STATUS_ORDER.indexOf(b.conservation_status || "");
         if (ia !== ib) return ia - ib;
@@ -412,7 +412,7 @@ export default function Conservation() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {filtered.map((plant) => {
+            {filtered.map((plant: any) => {
               const cfg = UICN_CONFIG[plant.conservation_status || ""] || UICN_CONFIG["DD"];
               return (
                 <Link key={plant.id} href={`/matieres-premieres/${plant.id}`}>
@@ -425,7 +425,7 @@ export default function Conservation() {
                             {plant.name}
                           </h3>
                           <p className="text-xs text-muted-foreground italic mt-0.5 line-clamp-1">
-                            {plant.latin_name || "—"}
+                            {(plant as any).latin_name || "—"}
                           </p>
                         </div>
                         <UICNBadge status={plant.conservation_status || ""} />

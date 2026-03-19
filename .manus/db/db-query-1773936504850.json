@@ -1,0 +1,15 @@
+{
+  "query": "\nSELECT \n  COUNT(*) as total_plants,\n  SUM(CASE WHEN wikidata_qid IS NOT NULL THEN 1 ELSE 0 END) as with_qid,\n  SUM(CASE WHEN wikidata_qid IS NULL THEN 1 ELSE 0 END) as without_qid\nFROM plants;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT \n  COUNT(*) as total_plants,\n  SUM(CASE WHEN wikidata_qid IS NOT NULL THEN 1 ELSE 0 END) as with_qid,\n  SUM(CASE WHEN wikidata_qid IS NULL THEN 1 ELSE 0 END) as without_qid\nFROM plants;\n",
+  "rows": [
+    {
+      "total_plants": "535",
+      "with_qid": "526",
+      "without_qid": "9"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_plants\twith_qid\twithout_qid\n535\t526\t9\n",
+  "stderr": "",
+  "execution_time_ms": 53
+}

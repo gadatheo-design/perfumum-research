@@ -232,7 +232,7 @@ export default function ExplorerParOdeur() {
             <div className="mb-8">
               <h2 className="text-lg font-semibold mb-1">Choisissez votre porte d'entrée</h2>
               <p className="text-sm text-muted-foreground">
-                {OLFACTIVE_DESCRIPTORS.length} familles olfactives · {allMolecules?.length || "…"} molécules dans la base
+                {OLFACTIVE_DESCRIPTORS.length} familles olfactives · {(searchMolecules ?? []).length || "…"} molécules dans la base
               </p>
             </div>
 
@@ -243,7 +243,7 @@ export default function ExplorerParOdeur() {
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {OLFACTIVE_DESCRIPTORS.map(desc => {
-                  const count = allMolecules?.filter((m: any) =>
+                  const count = (searchMolecules ?? []).filter((m: any) =>
                     desc.families.some(f => (m.family || "").toLowerCase() === f.toLowerCase() || (m.family || "").toLowerCase().includes(f.toLowerCase()))
                   ).length || 0;
 
@@ -311,7 +311,7 @@ export default function ExplorerParOdeur() {
               <p className="text-zinc-300 text-base max-w-xl">{descriptor.description}</p>
               <div className="flex gap-3 mt-4">
                 <Badge variant="outline" className={`border-white/20 ${descriptor.textColor}`}>
-                  {filteredMolecules.length} molécules
+                  {(filteredMolecules ?? []).length} molécules
                 </Badge>
                 <Badge variant="outline" className={`border-white/20 ${descriptor.textColor}`}>
                   {filteredPlants.length} plantes sources
@@ -320,14 +320,14 @@ export default function ExplorerParOdeur() {
             </div>
 
             {/* Molécules */}
-            {filteredMolecules.length > 0 && (
+            {(filteredMolecules ?? []).length > 0 && (
               <div>
                 <h3 className="font-semibold text-base mb-4 flex items-center gap-2">
                   <FlaskConical className="h-4 w-4 text-muted-foreground" />
                   Molécules {descriptor.label.toLowerCase()}s dans PERFUMUM
                 </h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                  {filteredMolecules.slice(0, 24).map((mol: any) => (
+                  {(filteredMolecules ?? []).slice(0, 24).map((mol: any) => (
                     <Link key={mol.id} href={`/molecules/${mol.id}`}>
                       <div className="group rounded-lg border border-border bg-card p-4 hover:border-primary/40 hover:bg-card/80 transition-all cursor-pointer">
                         <div className="font-medium text-sm mb-1 group-hover:text-primary transition-colors line-clamp-1">
@@ -343,11 +343,11 @@ export default function ExplorerParOdeur() {
                     </Link>
                   ))}
                 </div>
-                {filteredMolecules.length > 24 && (
+                {(filteredMolecules ?? []).length > 24 && (
                   <div className="mt-4 text-center">
                     <Link href={`/molecules?family=${encodeURIComponent(descriptor.key)}`}>
                       <Button variant="outline" size="sm">
-                        Voir les {filteredMolecules.length - 24} autres molécules →
+                        Voir les {(filteredMolecules ?? []).length - 24} autres molécules →
                       </Button>
                     </Link>
                   </div>
@@ -384,7 +384,7 @@ export default function ExplorerParOdeur() {
               </div>
             )}
 
-            {filteredMolecules.length === 0 && filteredPlants.length === 0 && (
+            {(filteredMolecules ?? []).length === 0 && filteredPlants.length === 0 && (
               <div className="rounded-xl border border-border bg-card p-12 text-center">
                 <div className="text-4xl mb-3">{descriptor.emoji}</div>
                 <h3 className="text-lg font-medium mb-2">Aucun résultat pour ce descripteur</h3>

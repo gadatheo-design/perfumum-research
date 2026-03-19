@@ -710,8 +710,8 @@ function EuropeanaUnifiedTab() {
     if (!sparqlQuery.trim()) return;
     setSparqlLoading(true);
     try {
-      const result = await freeSparqlMutation.mutateAsync({ query: sparqlQuery });
-      setSparqlResults(result.results || []);
+      const result = await freeSparqlMutation.mutateAsync({ sparql: sparqlQuery });
+      setSparqlResults((result as any).results || result.bindings || []);
     } catch (e) {
       setSparqlResults([]);
     } finally {
@@ -736,12 +736,12 @@ function EuropeanaUnifiedTab() {
           <div className="flex gap-2 shrink-0">
             <div className="text-center px-3 py-1.5 bg-cyan-50 dark:bg-cyan-950/20 rounded-lg border border-cyan-200 dark:border-cyan-800">
               <p className="text-lg font-bold text-cyan-700 dark:text-cyan-400">
-                {europeanaStats.apiAvailable ? "✓" : "○"}
+                {(europeanaStats as any).apiAvailable ? "✓" : "○"}
               </p>
               <p className="text-xs text-muted-foreground">API</p>
             </div>
             <div className="text-center px-3 py-1.5 bg-muted rounded-lg border">
-              <p className="text-lg font-bold">{europeanaStats.themesCount}</p>
+              <p className="text-lg font-bold">{(europeanaStats as any).themesCount ?? (europeanaStats as any).newThemesCount ?? 0}</p>
               <p className="text-xs text-muted-foreground">Thèmes</p>
             </div>
           </div>
@@ -777,7 +777,7 @@ function EuropeanaUnifiedTab() {
           </h4>
           {thematicData && (
             <Badge variant="outline" className="text-xs">
-              {thematicData.apiAvailable
+              {(thematicData as any).apiAvailable
                 ? `${thematicData.total.toLocaleString()} œuvres`
                 : "Démo"}
             </Badge>
@@ -793,7 +793,7 @@ function EuropeanaUnifiedTab() {
 
         {thematicData && !thematicLoading && (
           <>
-            {!thematicData.apiAvailable && (
+            {!(thematicData as any).apiAvailable && (
               <div className="flex items-center gap-2 text-xs text-amber-700 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/20 rounded p-2">
                 <AlertCircle className="h-3.5 w-3.5 shrink-0" />
                 Mode démonstration — configurez EUROPEANA_API_KEY pour accéder aux vraies collections.
