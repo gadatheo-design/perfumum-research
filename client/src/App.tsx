@@ -132,6 +132,7 @@ const AdminThermalMatrix = React.lazy(() => import('./pages/AdminThermalMatrix')
 const AdminNOSE = React.lazy(() => import('./pages/AdminNOSE'));
 const AdminStorylines = React.lazy(() => import('./pages/AdminStorylines'));
 const StorylineDetail = React.lazy(() => import('./pages/StorylineDetail'));
+const StorylineIndex = React.lazy(() => import('./pages/StorylineIndex'));
 const KNApSAcKBatch = React.lazy(() => import('./pages/admin/KNApSAcKBatch'));
 const AdminBundleVisualizer = React.lazy(() => import('./pages/AdminBundleVisualizer'));
 const AdminReclassifyMolecules = React.lazy(() => import('./pages/AdminReclassifyMolecules'));
@@ -560,6 +561,7 @@ function Router() {
       <Route path="/admin/thermal-matrix" component={AdminThermalMatrix} />
       <Route path="/admin/nose" component={AdminNOSE} />
       <Route path="/admin/storylines" component={AdminStorylines} />
+      <Route path="/storylines"><WithLayout><Suspense fallback={<PageLoader />}><StorylineIndex /></Suspense></WithLayout></Route>
       <Route path="/storyline/:slug">{(params) => <WithLayout><Suspense fallback={<PageLoader />}><StorylineDetail /></Suspense></WithLayout>}</Route>
       
       {/* === RECHERCHE === */}

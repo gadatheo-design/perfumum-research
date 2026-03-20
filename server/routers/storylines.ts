@@ -203,6 +203,120 @@ export const storylinesRouter = router({
       return { success: true };
     }),
 
+  // ── Intégration Europeana ──────────────────────────────────────────────────
+
+  // Rechercher des images Europeana pour un élément narratif
+  searchEuropeanaForElement: publicProcedure
+    .input(z.object({
+      elementId: z.number(),
+      query: z.string().optional(), // override du terme de recherche
+      limit: z.number().min(1).max(20).default(6),
+    }))
+    .query(async ({ input }) => {
+      const db = await requireDb();
+      // Récupérer l'élément et son entité associée
+      const [rows] = await db.execute(sql`
+        SELECT se.*,
+          CASE se.entity_type
+            WHEN 'plant' THEN (SELECT CONCAT(COALESCE(p.latin_name, p.name), '|', COALESCE(p.wikidata_qid, '')) FROM plants p WHERE p.id = se.entity_id)
+            WHEN 'molecule' THEN (SELECT CONCAT(m.name, '|', COALESCE(m.wikidata_qid, '')) FROM molecules m WHERE m.id = se.entity_id)
+            WHEN 'recipe' THEN (SELECT CONCAT(r.name, '|') FROM recettes r WHERE r.id = se.entity_id)
+            ELSE NULL
+          END as entity_info
+        FROM story_elements se WHERE se.id = ${input.elementId}
+      `) as unknown as [any[]];
+      const element = (rows as any[])[0];
+      if (!element) return { items: [], total: 0, query: '', apiAvailable: false };
+
+      const apiKey = process.env.EUROPEANA_API_KEY;
+      if (!apiKey) {
+        return { items: [], total: 0, query: '', apiAvailable: false, error: 'EUROPEANA_API_KEY non configurée' };
+      }
+
+      // Construire le terme de recherche
+      let searchQuery = input.query || '';
+      if (!searchQuery && element.entity_info) {
+        const [entityName] = element.entity_info.split('|');
+        searchQuery = entityName || element.skos_concept || '';
+      }
+      if (!searchQuery) return { items: [], total: 0, query: '', apiAvailable: true };
+
+      try {
+        const url = new URL('https://api.europeana.eu/record/v2/search.json');
+        url.searchParams.set('wskey', apiKey);
+        url.searchParams.set('query', searchQuery);
+        url.searchParams.set('qf', 'TYPE:IMAGE');
+        url.searchParams.set('qf', 'REUSABILITY:open');
+        url.searchParams.set('rows', String(input.limit));
+        url.searchParams.set('profile', 'rich');
+        url.searchParams.set('fl', 'id,title,edmPreview,dataProvider,year,country,rights');
+
+        const resp = await fetch(url.toString(), {
+          headers: { 'User-Agent': 'PERFUMUM-Research/1.0', Accept: 'application/json' },
+          signal: AbortSignal.timeout(10000),
+        });
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const data = await resp.json() as any;
+        const items = (data.items || []).map((item: any) => ({
+          id: item.id,
+          title: Array.isArray(item.title) ? item.title[0] : item.title,
+          thumbnailUrl: Array.isArray(item.edmPreview) ? item.edmPreview[0] : item.edmPreview,
+          dataProvider: Array.isArray(item.dataProvider) ? item.dataProvider[0] : item.dataProvider,
+          year: Array.isArray(item.year) ? item.year[0] : item.year,
+          country: Array.isArray(item.country) ? item.country[0] : item.country,
+          europeanaUrl: `https://www.europeana.eu/item${item.id}`,
+        }));
+        return { items, total: data.totalResults || 0, query: searchQuery, apiAvailable: true };
+      } catch (e) {
+        return { items: [], total: 0, query: searchQuery, apiAvailable: true, error: String(e) };
+      }
+    }),
+
+  // Sauvegarder l'image Europeana sélectionnée pour un élément narratif
+  saveElementImage: protectedProcedure
+    .input(z.object({
+      elementId: z.number(),
+      imageUrl: z.string().url(),
+      europeanaId: z.string().optional(),
+      imageCaption: z.string().optional(),
+      imageSource: z.string().default('europeana'),
+    }))
+    .mutation(async ({ input }) => {
+      const db = await requireDb();
+      await db.execute(sql`
+        UPDATE story_elements
+        SET image_url = ${input.imageUrl},
+            europeana_id = ${input.europeanaId ?? null},
+            image_caption = ${input.imageCaption ?? null},
+            image_source = ${input.imageSource}
+        WHERE id = ${input.elementId}
+      `);
+      return { success: true };
+    }),
+
+  // Récupérer tous les éléments avec images pour un storyline
+  getElementsWithImages: publicProcedure
+    .input(z.object({ storylineSlug: z.string() }))
+    .query(async ({ input }) => {
+      const db = await requireDb();
+      const [rows] = await db.execute(sql`
+        SELECT se.id, se.image_url, se.europeana_id, se.image_caption, se.image_source,
+          se.entity_type, se.entity_id, se.narrative_axis, se.odeuropa_level,
+          CASE se.entity_type
+            WHEN 'plant' THEN (SELECT name FROM plants WHERE id = se.entity_id)
+            WHEN 'molecule' THEN (SELECT name FROM molecules WHERE id = se.entity_id)
+            WHEN 'recipe' THEN (SELECT name FROM recettes WHERE id = se.entity_id)
+            ELSE NULL
+          END as entity_name
+        FROM story_elements se
+        JOIN storylines s ON s.id = se.storyline_id
+        WHERE s.slug = ${input.storylineSlug}
+          AND se.image_url IS NOT NULL
+        ORDER BY se.sequence_order ASC
+      `) as unknown as [any[]];
+      return rows as unknown[];
+    }),
+
   // Stats globales
   getStats: publicProcedure.query(async () => {
     const db = await requireDb();

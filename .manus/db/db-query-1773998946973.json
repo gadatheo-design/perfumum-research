@@ -1,0 +1,90 @@
+{
+  "query": "SELECT id, title, slug, narrative_axis, geographic_scope, odeuropa_story_type, status, (SELECT COUNT(*) FROM story_elements WHERE storyline_id = storylines.id) as element_count FROM storylines ORDER BY id;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, title, slug, narrative_axis, geographic_scope, odeuropa_story_type, status, (SELECT COUNT(*) FROM story_elements WHERE storyline_id = storylines.id) as element_count FROM storylines ORDER BY id;",
+  "rows": [
+    {
+      "id": "1",
+      "title": "La Route de l'Encens",
+      "slug": "route-encens",
+      "narrative_axis": "route_encens",
+      "geographic_scope": "Arabie du Sud, Oman, Yémen, Éthiopie, Égypte, Jordanie (Pétra), Grèce, Rome",
+      "odeuropa_story_type": "NULL",
+      "status": "active",
+      "element_count": "8"
+    },
+    {
+      "id": "2",
+      "title": "Tabac et Rituel Amérindien",
+      "slug": "tabac-rituel-amerindien",
+      "narrative_axis": "tabac_rituel",
+      "geographic_scope": "Amérique du Nord (Plaines), Amazonie (Pérou, Brésil), Mexique, Caraïbes",
+      "odeuropa_story_type": "NULL",
+      "status": "active",
+      "element_count": "8"
+    },
+    {
+      "id": "3",
+      "title": "Nardostachys — Le Nard Perdu",
+      "slug": "nardostachys-nard-perdu",
+      "narrative_axis": "plantes_menacees",
+      "geographic_scope": "Himalaya (Népal, Inde, Bhoutan), Route de la Soie, Méditerranée antique",
+      "odeuropa_story_type": "NULL",
+      "status": "active",
+      "element_count": "7"
+    },
+    {
+      "id": "4",
+      "title": "Burkina Faso — Combustion Lente",
+      "slug": "burkina-faso-combustion-lente",
+      "narrative_axis": "pyrolyse_rituelle",
+      "geographic_scope": "Burkina Faso, Mali, Niger, Sénégal — Sahel ouest-africain",
+      "odeuropa_story_type": "materially_informed",
+      "status": "active",
+      "element_count": "23"
+    },
+    {
+      "id": "5",
+      "title": "Atlas Mnémosyne — Mémoire Olfactive",
+      "slug": "atlas-mnemosyne",
+      "narrative_axis": "atlas_mnemosyne",
+      "geographic_scope": "France, Europe, Monde",
+      "odeuropa_story_type": "NULL",
+      "status": "active",
+      "element_count": "8"
+    },
+    {
+      "id": "30002",
+      "title": "Tabac Oriental — Géographie d'une fumée",
+      "slug": "tabac-oriental",
+      "narrative_axis": "combustion",
+      "geographic_scope": "Turquie, Grèce, Bulgarie, Macédoine, Syrie, Méditerranée orientale",
+      "odeuropa_story_type": "NULL",
+      "status": "active",
+      "element_count": "13"
+    },
+    {
+      "id": "30003",
+      "title": "Vétiver d'Haïti — Racines du monde",
+      "slug": "vetiver-haiti",
+      "narrative_axis": "terroir",
+      "geographic_scope": "Haïti, Java, Réunion, Inde (Tamil Nadu)",
+      "odeuropa_story_type": "NULL",
+      "status": "active",
+      "element_count": "11"
+    },
+    {
+      "id": "30004",
+      "title": "Cannabis Landrace — Mémoire terpénique des origines",
+      "slug": "cannabis-landrace",
+      "narrative_axis": "heritage",
+      "geographic_scope": "Asie centrale (Hindu Kush, Himalaya), Colombie, Burkina Faso, Afrique de l'Ouest",
+      "odeuropa_story_type": "NULL",
+      "status": "active",
+      "element_count": "11"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tslug\tnarrative_axis\tgeographic_scope\todeuropa_story_type\tstatus\telement_count\n1\tLa Route de l'Encens\troute-encens\troute_encens\tArabie du Sud, Oman, Yémen, Éthiopie, Égypte, Jordanie (Pétra), Grèce, Rome\tNULL\tactive\t8\n2\tTabac et Rituel Amérindien\ttabac-rituel-amerindien\ttabac_rituel\tAmérique du Nord (Plaines), Amazonie (Pérou, Brésil), Mexique, Caraïbes\tNULL\tactive\t8\n3\tNardostachys — Le Nard Perdu\tnardostachys-nard-perdu\tplantes_menacees\tHimalaya (Népal, Inde, Bhoutan), Route de la Soie, Méditerranée antique\tNULL\tactive\t7\n4\tBurkina Faso — Combustion Lente\tburkina-faso-combustion-lente\tpyrolyse_rituelle\tBurkina Faso, Mali, Niger, Sénégal — Sahel ouest-africain\tmaterially_informed\tactive\t23\n5\tAtlas Mnémosyne — Mémoire Olfactive\tatlas-mnemosyne\tatlas_mnemosyne\tFrance, Europe, Monde\tNULL\tactive\t8\n30002\tTabac Oriental — Géographie d'une fumée\ttabac-oriental\tcombustion\tTurquie, Grèce, Bulgarie, Macédoine, Syrie, Méditerranée orientale\tNULL\tactive\t13\n30003\tVétiver d'Haïti — Racines du monde\tvetiver-haiti\tterroir\tHaïti, Java, Réunion, Inde (Tamil Nadu)\tNULL\tactive\t11\n30004\tCannabis Landrace — Mémoire terpénique des origines\tcannabis-landrace\theritage\tAsie centrale (Hindu Kush, Himalaya), Colombie, Burkina Faso, Afrique de l'Ouest\tNULL\tactive\t11\n",
+  "stderr": "",
+  "execution_time_ms": 418
+}

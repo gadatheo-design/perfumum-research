@@ -3076,3 +3076,26 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 
 ### Phase 5 : Checkpoint
 - [ ] Sauvegarder le checkpoint final
+
+---
+
+## 🗺️ SESSION 20 MARS 2026 — Index Storylines + Europeana + Audit Navigation Odeuropa
+
+### Phase 1 : Page /storylines index
+- [x] Créer la page StorylineIndex.tsx avec filtres par axe narratif et carte de connexions
+- [x] Afficher les connexions inter-storylines (molécules communes)
+- [x] Ajouter la route /storylines dans App.tsx
+
+### Phase 2 : Intégration Europeana
+- [x] Ajouter colonnes image_url et europeana_id à story_elements (SQL)
+- [x] Créer router europeana.ts avec procédures search, getRecord, linkToElement, getElementImages
+- [x] Afficher les images Europeana dans NarrativeCard avec lien source et légende
+- [x] Lien retour vers /storylines depuis StorylineDetail hero
+
+### Phase 3 : Audit navigation digitale Odeuropa × PERFUMUM
+- [x] Relu les 4 PDFs Odeuropa (How-To Guide, GLAM Guidelines, Eudopra Howto, Historical Scent Collection)
+- [x] Identifié 5 paradigmes de navigation : moléculaire, hypertext, géo-temporelle, iconographique, sensorielle
+- [x] Rédigé rapport d'audit complet (PERFUMUM_Audit_Navigation_Odeuropa.md)
+
+### Phase 4 : Checkpoint
+- [ ] Sauvegarder le checkpoint final

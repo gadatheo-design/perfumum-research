@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   ArrowLeft, BookOpen, MapPin, Calendar, Layers, AlertCircle,
   Leaf, FlaskConical, Flame, Beaker, GitBranch, Archive,
-  ArrowRight, ExternalLink, ChevronRight
+  ArrowRight, ExternalLink, ChevronRight, Image as ImageIcon
 } from "lucide-react";
 
 // ─── Constantes Odeuropa ────────────────────────────────────────────────────
@@ -110,13 +110,44 @@ const CROSS_STORYLINE_LABELS: Record<number, { title: string; slug: string; colo
 
 function NarrativeCard({ element, showOdeuropa = true }: { element: any; showOdeuropa?: boolean }) {
   const [expanded, setExpanded] = useState(false);
+  const [imgError, setImgError] = useState(false);
   const roleInfo = ROLE_LABELS[element.role_in_story] ?? { label: element.role_in_story, color: "bg-muted text-muted-foreground" };
   const entityIcon = ENTITY_ICONS[element.entity_type] ?? "📌";
   const odeuropa = ODEUROPA_LEVELS[element.odeuropa_level ?? "olfactory"];
   const entityLink = ENTITY_LINKS[element.entity_type]?.(element.entity_id);
+  const hasImage = element.image_url && !imgError;
 
   return (
     <Card className={`border-l-4 transition-all ${odeuropa?.color ?? "border-l-primary/30"}`}>
+      {/* Image Europeana */}
+      {hasImage && (
+        <div className="relative overflow-hidden rounded-t-lg" style={{ maxHeight: 160 }}>
+          <img
+            src={element.image_url}
+            alt={element.image_caption || element.entity_name || "Image Europeana"}
+            className="w-full object-cover"
+            style={{ maxHeight: 160 }}
+            onError={() => setImgError(true)}
+          />
+          {element.image_source === 'europeana' && element.europeana_id && (
+            <a
+              href={`https://www.europeana.eu/item${element.europeana_id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1 hover:bg-black/80 transition-colors"
+            >
+              <ImageIcon className="w-3 h-3" />
+              Europeana
+            </a>
+          )}
+          {element.image_caption && (
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-3 py-2">
+              <p className="text-white text-xs italic line-clamp-1">{element.image_caption}</p>
+            </div>
+          )}
+        </div>
+      )}
+
       <CardHeader className="pb-2 pt-4 px-4">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -153,12 +184,19 @@ function NarrativeCard({ element, showOdeuropa = true }: { element: any; showOde
         </div>
       </CardHeader>
 
-      {(element.narrative_note || element.odeuropa_note) && (
+      {(element.narrative_note || element.odeuropa_note || element.sensory_experience || entityLink) && (
         <CardContent className="pb-4 px-4 pt-0">
           {element.narrative_note && (
             <p className="text-sm text-muted-foreground italic mb-2">
               "{element.narrative_note}"
             </p>
+          )}
+          {element.sensory_experience && (
+            <div className="mt-2 p-2 rounded bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200/50 dark:border-amber-800/30">
+              <p className="text-xs text-amber-800 dark:text-amber-300 leading-relaxed">
+                🎯 {element.sensory_experience}
+              </p>
+            </div>
           )}
           {element.odeuropa_note && (
             <div className="mt-2">
@@ -294,9 +332,9 @@ export default function StorylineDetail() {
         />
         <div className="container max-w-5xl py-12 relative z-10">
           <Button variant="ghost" size="sm" asChild className="mb-6 -ml-2 text-white/70 hover:text-white hover:bg-white/10">
-            <Link href="/admin/storylines">
+            <Link href="/storylines">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Tous les fils narratifs
+              Atlas des Storylines
             </Link>
           </Button>
 
