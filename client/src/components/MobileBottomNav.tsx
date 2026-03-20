@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, Beaker, Search, FlaskConical, Compass } from "lucide-react";
+import { Home, Beaker, Search, FlaskConical, BookOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -22,10 +22,10 @@ export function MobileBottomNav() {
       activePattern: /^\/$/,
     },
     {
-      icon: <Compass className="h-5 w-5" />,
-      label: "Explorer",
-      path: "/gammes",
-      activePattern: /^\/(gammes|colombie|sourcing)/,
+      icon: <BookOpen className="h-5 w-5" />,
+      label: "Narration",
+      path: "/storylines",
+      activePattern: /^\/(storylines|storyline|galerie-olfactive|atlas)/,
     },
     {
       icon: <Search className="h-5 w-5" />,

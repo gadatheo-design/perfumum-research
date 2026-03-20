@@ -73,6 +73,7 @@ function useNavGroup(trigger: string) {
 // ── MegaMenuOptimizedNav ──────────────────────────────────────────────────────
 function MegaMenuOptimizedNav() {
   const donneesSections     = useNavGroup("Données");
+  const narrationSections   = useNavGroup("Narration");
   const outilsSections      = useNavGroup("Outils");
   const rechercheSections   = useNavGroup("Recherche");
   const tabacothequeSections = useNavGroup("Tabacothèque");
@@ -81,6 +82,7 @@ function MegaMenuOptimizedNav() {
   return (
     <nav className="hidden lg:flex items-center gap-8" role="navigation" aria-label="Menu principal">
       <MegaMenuOptimized sections={donneesSections}      trigger="Données" />
+      <MegaMenuOptimized sections={narrationSections}    trigger="Narration" />
       <MegaMenuOptimized sections={outilsSections}       trigger="Outils" />
       <MegaMenuOptimized sections={rechercheSections}    trigger="Recherche" />
       <MegaMenuOptimized sections={tabacothequeSections} trigger="Tabacothèque" />

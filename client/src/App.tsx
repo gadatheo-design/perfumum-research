@@ -133,6 +133,8 @@ const AdminNOSE = React.lazy(() => import('./pages/AdminNOSE'));
 const AdminStorylines = React.lazy(() => import('./pages/AdminStorylines'));
 const StorylineDetail = React.lazy(() => import('./pages/StorylineDetail'));
 const StorylineIndex = React.lazy(() => import('./pages/StorylineIndex'));
+const GalerieOlfactive = React.lazy(() => import('./pages/GalerieOlfactive'));
+const AtlasOlfactif = React.lazy(() => import('./pages/AtlasOlfactif'));
 const KNApSAcKBatch = React.lazy(() => import('./pages/admin/KNApSAcKBatch'));
 const AdminBundleVisualizer = React.lazy(() => import('./pages/AdminBundleVisualizer'));
 const AdminReclassifyMolecules = React.lazy(() => import('./pages/AdminReclassifyMolecules'));
@@ -563,6 +565,8 @@ function Router() {
       <Route path="/admin/storylines" component={AdminStorylines} />
       <Route path="/storylines"><WithLayout><Suspense fallback={<PageLoader />}><StorylineIndex /></Suspense></WithLayout></Route>
       <Route path="/storyline/:slug">{(params) => <WithLayout><Suspense fallback={<PageLoader />}><StorylineDetail /></Suspense></WithLayout>}</Route>
+      <Route path="/galerie-olfactive"><WithLayout><Suspense fallback={<PageLoader />}><GalerieOlfactive /></Suspense></WithLayout></Route>
+      <Route path="/atlas"><WithLayout><Suspense fallback={<PageLoader />}><AtlasOlfactif /></Suspense></WithLayout></Route>
       
       {/* === RECHERCHE === */}
       <LazyRoute path="/recherche-avancee" component={RechercheAvancee} />

@@ -3098,4 +3098,41 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Rédigé rapport d'audit complet (PERFUMUM_Audit_Navigation_Odeuropa.md)
 
 ### Phase 4 : Checkpoint
-- [ ] Sauvegarder le checkpoint final
+- [x] Sauvegarder le checkpoint final (version e2b84255)
+
+---
+
+## 🚪 SESSION 20 MARS 2026 — 5 Portes d'entrée Odeuropa × PERFUMUM (4.1 + 4.2)
+
+### Phase 1 : Audit de la navigation existante
+- [x] Auditer les pages existantes (PlantDetail, MoleculeDetail, StorylineDetail, StorylineIndex)
+- [x] Lire navigationConfig.ts pour identifier les entrées manquantes
+- [x] Constater : /galerie-olfactive et /atlas absents, /storylines présent, /plantes/:id et /molecules/:id présents
+
+### Phase 2 : Page /galerie-olfactive (entrée par l'image — Europeana)
+- [x] Créer GalerieOlfactive.tsx avec mosaïque d'images Europeana par famille olfactive (6 familles)
+- [x] Filtres par famille (boisé, résineux, floral, animal, fumé, épicé)
+- [x] Chaque image avec liens vers /storylines, /plantes, /molecules
+- [x] Ajouter la route /galerie-olfactive dans App.tsx
+- [x] Citation Odeuropa dans le hero
+
+### Phase 3 : Page /atlas (entrée par le lieu — smellscape géo-temporel)
+- [x] Créer AtlasOlfactif.tsx avec carte SVG mondiale interactive
+- [x] Storylines géolocalisés (8 storylines avec coordonnées codées)
+- [x] Curseur temporel (-3000 → 2035) filtrant par period_start_year/period_end_year
+- [x] Clic sur un point → détail du storyline + lien vers StorylineDetail
+- [x] Ajouter la route /atlas dans App.tsx
+- [x] Citation Odeuropa dans le hero
+
+### Phase 4 : Enrichissement fiches selon grille Odeuropa (4.2)
+- [x] PlantDetail possède déjà onglets Europeana et Fils narratifs (vérifié)
+- [x] MoleculeDetail possède déjà onglets Europeana et Fils narratifs (vérifié)
+- [x] Les 5 portes d'entrée accessibles depuis chaque page via le widget de navigation
+
+### Phase 5 : Unification navigation globale
+- [x] Ajout groupe "Narration" dans navigationConfig.ts (3 sections, 5 portes + 5 storylines + patrimoine)
+- [x] Mise à jour DynamicBreadcrumb.tsx pour /galerie-olfactive, /atlas, /storylines
+- [x] Navigation mobile mise à jour : "Explorer" → "Narration" (BookOpen, /storylines)
+
+### Phase 6 : Checkpoint
+- [x] Sauvegarder le checkpoint final

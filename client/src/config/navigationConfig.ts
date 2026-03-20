@@ -278,6 +278,49 @@ export const NAV_GROUPS: NavGroup[] = [
   },
 
   // ════════════════════════════════════════════════════════════════════════════
+  // NARRATION — Les 5 portes d'entrée Odeuropa × PERFUMUM
+  // ════════════════════════════════════════════════════════════════════════════
+  {
+    trigger: "Narration",
+    sections: [
+      {
+        title: "Les 5 portes d'entrée",
+        icon: "BookOpen",
+        items: [
+          { href: "/plantes", label: "Plantes — La source matérielle", badge: "od:L12" },
+          { href: "/molecules", label: "Molécules — Le stimulus chimique", badge: "od:L1" },
+          { href: "/storylines", label: "Fils narratifs — L'expérience culturelle", badge: "od:L13" },
+          { href: "/galerie-olfactive", label: "Galerie Olfactive — L'iconographie", badge: "NEW" },
+          { href: "/atlas", label: "Atlas Olfactif — Le smellscape", badge: "NEW" },
+        ],
+      },
+      {
+        title: "Fils narratifs",
+        icon: "Layers",
+        items: [
+          { href: "/storylines", label: "Index des fils narratifs", badge: "HUB" },
+          { href: "/storyline/route-encens", label: "La Route de l'Encens" },
+          { href: "/storyline/tabac-rituel-amerindien", label: "Tabac & Rituel Amérindien" },
+          { href: "/storyline/nardostachys-nard-perdu", label: "Nardostachys — Le Nard Perdu" },
+          { href: "/storyline/burkina-faso-combustion-lente", label: "Burkina Faso — Combustion Lente" },
+          { href: "/storyline/atlas-mnemosyne", label: "Atlas Mnémosyne" },
+        ],
+      },
+      {
+        title: "Patrimoine Olfactif",
+        icon: "Archive",
+        items: [
+          { href: "/galerie-olfactive", label: "Galerie Europeana", badge: "NEW" },
+          { href: "/atlas", label: "Atlas Géo-Temporel", badge: "NEW" },
+          { href: "/archives-olfactives", label: "Archives Olfactives" },
+          { href: "/civilisations", label: "Traditions Olfactives" },
+          { href: "/absorbe-x/patrimoine", label: "Patrimoine ABSORBE X" },
+        ],
+      },
+    ],
+  },
+
+  // ════════════════════════════════════════════════════════════════════════════
   // PROJET — Documentation, Administration
   // ════════════════════════════════════════════════════════════════════════════
   {
