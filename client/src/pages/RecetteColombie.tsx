@@ -458,7 +458,7 @@ export default function RecetteColombie() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <Breadcrumbs />
+      <Breadcrumbs currentLabel={recette.name} />
       
       {/* Header */}
       <div className={`relative overflow-hidden bg-gradient-to-r ${recette.color} py-20 text-white`}>

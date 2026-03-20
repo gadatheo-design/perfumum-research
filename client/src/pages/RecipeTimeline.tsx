@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { trpc } from '@/lib/trpc';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 import { Link } from 'wouter';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
@@ -110,6 +111,7 @@ export default function RecipeTimeline() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20">
+      <Breadcrumbs currentLabel="Timeline des Recettes" />
       <div className="container py-8 space-y-8">
         {/* Header */}
         <motion.div

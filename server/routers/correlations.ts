@@ -88,7 +88,7 @@ export const correlationsRouter = router({
     const db = await getDb();
     if (!db) return null;
 
-    const [stats] = await db.execute(sql`
+    const [rows] = await db.execute(sql`
       SELECT
         SUM(CASE WHEN domain_count = 3 THEN 1 ELSE 0 END) as triple_domain,
         SUM(CASE WHEN domain_count = 2 THEN 1 ELSE 0 END) as double_domain,
@@ -122,8 +122,9 @@ export const correlationsRouter = router({
         GROUP BY m.id
         HAVING domain_count >= 2
       ) subq
-    `) as any;
+    `) as unknown as [any[]];
 
+    const stats = (rows as any[])[0];
     return {
       tripleDomain: Number(stats?.triple_domain || 0),
       doubleDomain: Number(stats?.double_domain || 0),

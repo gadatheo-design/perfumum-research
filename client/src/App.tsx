@@ -769,7 +769,7 @@ function Router() {
       <Route path="/suggestions-synergies" component={SuggestionsSynergies} />
       <Route path="/synergies-heatmap" component={SynergiesHeatmap} />
       <Route path="/synergies-graph-visualization" component={SynergiesGraphVisualization} />
-      <Route path="/correlations" component={CorrelationsParfumTabacCannabis} />
+      <Route path="/correlations">{() => <WithLayout><CorrelationsParfumTabacCannabis /></WithLayout>}</Route>
       <Route path="/parfums" component={ParfumsEmblematiques} />
       <Route path="/muscs" component={MuscsComparatif} />
       <Route path="/recipe-network">{() => <WithLayout><RecipeNetworkPage /></WithLayout>}</Route>
@@ -787,7 +787,7 @@ function Router() {
       <Route path="/outils/editeur-formulation" component={() => <SimpleRedirect to="/outils-hub?tab=formulation" />} />
       <Route path="/outils/generateur-formules" component={() => <SimpleRedirect to="/outils-hub?tab=formulation" />} />
       {/* Keep these as they're not in hub */}
-      <Route path="/analyses" component={CorrelationAnalysis} />
+      <Route path="/analyses">{() => <WithLayout><CorrelationAnalysis /></WithLayout>}</Route>
       <Route path="/absorbe-scale" component={AbsorbeScale} />
       <Route path="/outils/enrichissement-pubchem" component={EnrichissementPubChem} />
       <Route path="/outils/carte-origines" component={CarteOrigines} />
@@ -1039,7 +1039,7 @@ function Router() {
       {/* Route /recherche-avancee déjà définie ligne 364 avec RechercheAvancee */}
       <Route path="/recherche-croisee" component={CrossSearch} />
       <Route path="/timeline-recettes">{() => <WithLayout><RecipeTimeline /></WithLayout>}</Route>
-      <Route path="/heatmap-correlations" component={RadarCorrelationHeatmap} />
+      <Route path="/heatmap-correlations">{() => <WithLayout><RadarCorrelationHeatmap /></WithLayout>}</Route>
       
       {/* === UTILISATEUR === */}
       <Route path="/favoris" component={Favoris} />

@@ -1,6 +1,4 @@
 import { getDb } from './db';
-import { recettes, molecules, moleculesRecettes, recetteMolecules } from '../drizzle/schema';
-import { eq, and, gte, lte } from 'drizzle-orm';
 
 // Interface pour une recette avec son profil radar moyen
 export interface RecetteWithRadar {
@@ -24,91 +22,80 @@ export interface RecetteWithRadar {
   moleculeCount: number;
 }
 
+const RADAR_QUERY = `
+  SELECT
+    r.id,
+    r.name,
+    r.category,
+    r.description,
+    r.ingredients,
+    r.formula,
+    r.intensity,
+    r.stability,
+    r.parent_recette_id AS parentRecetteId,
+    r.createdAt,
+    COALESCE(
+      SUM(m.radar_intensity * COALESCE(mr.proportion, 1)) / NULLIF(SUM(COALESCE(mr.proportion, 1)), 0),
+      50
+    ) AS avgIntensity,
+    COALESCE(
+      SUM(m.radar_freshness * COALESCE(mr.proportion, 1)) / NULLIF(SUM(COALESCE(mr.proportion, 1)), 0),
+      50
+    ) AS avgFreshness,
+    COALESCE(
+      SUM(m.radar_warmth * COALESCE(mr.proportion, 1)) / NULLIF(SUM(COALESCE(mr.proportion, 1)), 0),
+      50
+    ) AS avgWarmth,
+    COALESCE(
+      SUM(m.radar_sweetness * COALESCE(mr.proportion, 1)) / NULLIF(SUM(COALESCE(mr.proportion, 1)), 0),
+      50
+    ) AS avgSweetness,
+    COALESCE(
+      SUM(m.radar_spiciness * COALESCE(mr.proportion, 1)) / NULLIF(SUM(COALESCE(mr.proportion, 1)), 0),
+      50
+    ) AS avgSpiciness,
+    COALESCE(
+      SUM(m.radar_earthiness * COALESCE(mr.proportion, 1)) / NULLIF(SUM(COALESCE(mr.proportion, 1)), 0),
+      50
+    ) AS avgEarthiness,
+    COUNT(DISTINCT mr.molecule_id) AS moleculeCount
+  FROM recettes r
+  LEFT JOIN molecules_recettes mr ON mr.recette_id = r.id
+  LEFT JOIN molecules m ON m.id = mr.molecule_id
+  GROUP BY r.id, r.name, r.category, r.description, r.ingredients, r.formula,
+           r.intensity, r.stability, r.parent_recette_id, r.createdAt
+  ORDER BY r.id
+`;
+
 // Récupérer toutes les recettes avec leur profil radar moyen
+// Optimisé : 1 seule requête SQL agrégée au lieu de N+1 requêtes
 export async function getAllRecettesWithRadar(): Promise<RecetteWithRadar[]> {
   const db = await getDb();
   if (!db) return [];
-  
-  // Récupérer toutes les recettes
-  const allRecettes = await db.select().from(recettes);
-  
-  // Pour chaque recette, calculer le profil radar moyen
-  const result = await Promise.all(
-    allRecettes.map(async (recette) => {
-      // Récupérer les molécules associées avec leurs proportions
-      const mols = await db
-        .select({
-          proportion: moleculesRecettes.proportion,
-          radarIntensity: molecules.radarIntensity,
-          radarFreshness: molecules.radarFreshness,
-          radarWarmth: molecules.radarWarmth,
-          radarSweetness: molecules.radarSweetness,
-          radarSpiciness: molecules.radarSpiciness,
-          radarEarthiness: molecules.radarEarthiness,
-        })
-        .from(moleculesRecettes)
-        .innerJoin(molecules, eq(moleculesRecettes.moleculeId, molecules.id))
-        .where(eq(moleculesRecettes.recetteId, recette.id));
-      
-      // Calculer les moyennes pondérées par proportion
-      let totalWeight = 0;
-      let sumIntensity = 0;
-      let sumFreshness = 0;
-      let sumWarmth = 0;
-      let sumSweetness = 0;
-      let sumSpiciness = 0;
-      let sumEarthiness = 0;
-      
-      for (const mol of mols) {
-        const weight = parseFloat(mol.proportion || '1');
-        totalWeight += weight;
-        sumIntensity += (mol.radarIntensity || 50) * weight;
-        sumFreshness += (mol.radarFreshness || 50) * weight;
-        sumWarmth += (mol.radarWarmth || 50) * weight;
-        sumSweetness += (mol.radarSweetness || 50) * weight;
-        sumSpiciness += (mol.radarSpiciness || 50) * weight;
-        sumEarthiness += (mol.radarEarthiness || 50) * weight;
-      }
-      
-      // Si pas de molécules, utiliser des valeurs par défaut
-      const avgIntensity = totalWeight > 0 ? Math.round(sumIntensity / totalWeight) : 50;
-      const avgFreshness = totalWeight > 0 ? Math.round(sumFreshness / totalWeight) : 50;
-      const avgWarmth = totalWeight > 0 ? Math.round(sumWarmth / totalWeight) : 50;
-      const avgSweetness = totalWeight > 0 ? Math.round(sumSweetness / totalWeight) : 50;
-      const avgSpiciness = totalWeight > 0 ? Math.round(sumSpiciness / totalWeight) : 50;
-      const avgEarthiness = totalWeight > 0 ? Math.round(sumEarthiness / totalWeight) : 50;
-      
-      // Compter aussi les liaisons recette_molecules (nouvelle table)
-      const molsV2 = await db
-        .select({ moleculeId: recetteMolecules.moleculeId })
-        .from(recetteMolecules)
-        .where(eq(recetteMolecules.recetteId, recette.id));
-      
-      const totalMoleculeCount = mols.length + molsV2.length;
-      
-      return {
-        id: recette.id,
-        name: recette.name,
-        category: recette.category,
-        description: recette.description,
-        ingredients: recette.ingredients,
-        formula: recette.formula,
-        intensity: recette.intensity,
-        stability: recette.stability,
-        parentRecetteId: recette.parentRecetteId,
-        createdAt: recette.createdAt,
-        avgIntensity,
-        avgFreshness,
-        avgWarmth,
-        avgSweetness,
-        avgSpiciness,
-        avgEarthiness,
-        moleculeCount: totalMoleculeCount,
-      };
-    })
-  );
-  
-  return result;
+
+  // Use db.$client.promise().query() for complex aggregation queries
+  // that Drizzle's sql template doesn't handle well
+  const [rows] = await (db as any).$client.promise().query(RADAR_QUERY);
+
+  return (rows as any[]).map((r: any) => ({
+    id: r.id,
+    name: r.name,
+    category: r.category,
+    description: r.description,
+    ingredients: r.ingredients,
+    formula: r.formula,
+    intensity: r.intensity,
+    stability: r.stability,
+    parentRecetteId: r.parentRecetteId,
+    createdAt: r.createdAt,
+    avgIntensity: Math.round(Number(r.avgIntensity) || 50),
+    avgFreshness: Math.round(Number(r.avgFreshness) || 50),
+    avgWarmth: Math.round(Number(r.avgWarmth) || 50),
+    avgSweetness: Math.round(Number(r.avgSweetness) || 50),
+    avgSpiciness: Math.round(Number(r.avgSpiciness) || 50),
+    avgEarthiness: Math.round(Number(r.avgEarthiness) || 50),
+    moleculeCount: Number(r.moleculeCount) || 0,
+  }));
 }
 
 // Interface pour les filtres radar

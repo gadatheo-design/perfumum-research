@@ -78,7 +78,7 @@ export default function FinalRecipeDetail() {
     return (
       <div className="min-h-screen flex flex-col">
         <Header />
-        <Breadcrumbs />
+        <Breadcrumbs currentLabel="Chargement..." />
         <main className="flex-1 container py-12 flex items-center justify-center">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
         </main>
@@ -91,7 +91,7 @@ export default function FinalRecipeDetail() {
     return (
       <div className="min-h-screen flex flex-col">
         <Header />
-        <Breadcrumbs />
+        <Breadcrumbs currentLabel="Recette introuvable" />
         <main className="flex-1 container py-12">
           <div className="max-w-2xl mx-auto text-center space-y-4">
             <AlertTriangle className="h-12 w-12 text-amber-500 mx-auto" />
@@ -119,7 +119,7 @@ export default function FinalRecipeDetail() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <Breadcrumbs />
+      <Breadcrumbs currentLabel={recipe.name} />
 
       <main className="flex-1">
         {/* ── Hero ── */}

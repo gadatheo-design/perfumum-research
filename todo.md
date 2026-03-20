@@ -2844,3 +2844,41 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Ajouter Header/Footer dans RecetteDetail.tsx
 - [ ] Ajouter Header/Footer dans FinalRecipeDetail.tsx
 - [ ] Identifier et corriger les autres fiches recette sans Header
+
+---
+
+## SESSION 20 MARS 2026 — Fil d'Ariane et Heatmaps
+
+- [ ] Fil d'Ariane dynamique sur RecetteColombie (nom métier au lieu de l'URL brute)
+- [ ] Fil d'Ariane dynamique sur RecipeTimeline (nom métier au lieu de l'URL brute)
+- [ ] Corriger FinalRecipeDetail : breadcrumb affiche le nom de la recette au lieu de l'ID numérique
+- [ ] Tester et corriger les heatmaps (Synergies Heatmap, Corrélations Olfactives, Radar Familles)
+- [ ] Tester et corriger les graphes de corrélation restants
+
+---
+
+## 🎨 SESSION 20 MARS 2026 — Audit UX : Header/Footer, Breadcrumbs, Corrections
+
+### ✅ Phase 1 : Corrections critiques et Header/Footer
+- [x] Corriger 6 bugs critiques (FavoriteButton, GammesOverviewContent, MegaMenu, ReactFlow, TabacsNiche, profil aromatique)
+- [x] Ajouter Header/Footer aux 6 pages de visualisation (GrapheTerroirPlanteMolecule, GraphePlanteMolecule, etc.)
+- [x] Optimiser payload GrapheTerroirPlanteMolecule : 5.5 Mo → 244 Ko (3 appels API séparés)
+- [x] Corriger couleur Skeleton (bg-accent rose → bg-muted gris)
+
+### ✅ Phase 2 : Breadcrumbs dynamiques
+- [x] Créer BreadcrumbContext pour breadcrumbs dynamiques
+- [x] Intégrer dans Header.tsx
+- [x] Breadcrumb dynamique TabacDetail : "Accueil > Tabacothèque > [Nom du Tabac]"
+- [x] Breadcrumb dynamique MoleculeDetail : "Accueil > Molécules > [Nom Molécule]"
+- [x] Breadcrumb dynamique PlantDetail : "Accueil > Plantes > [Nom Plante]"
+
+### ✅ Phase 3 : Pages recette sans Header
+- [x] Ajouter Header/Footer via WithLayout : RecipeDetail, RecetteColombie, RecipeNetworkPage, RecettesLeafEconomies, RecipeTimeline
+- [x] Corriger breadcrumbs RecetteColombie, RecipeTimeline, FinalRecipeDetail
+
+### ✅ Phase 4 : Audit heatmaps et corrélations
+- [x] SynergiesHeatmap : fonctionnel avec Header ✅
+- [x] Ajouter Header/Footer : CorrelationAnalysis, CorrelationsParfumTabacCannabis, RadarCorrelationHeatmap
+- [x] Corriger statistiques à 0 dans CorrelationsParfumTabacCannabis (bug destructuration db.execute)
+- [x] Corriger blocage RadarCorrelationHeatmap : réécriture getAllRecettesWithRadar() N+1 → 1 requête SQL (db.$client.promise().query)
+
