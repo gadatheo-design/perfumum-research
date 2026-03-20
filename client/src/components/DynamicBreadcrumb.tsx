@@ -86,8 +86,17 @@ const routeConfig: Record<string, { label: string; parent?: string }> = {
   "/resines-cbd": { label: "Résines CBD" },
   "/protocoles-maturation": { label: "Protocoles de Maturation" },
   
-  // Comparaison
+  // Comparaison & Visualisation
   "/compare": { label: "Comparer" },
+  "/heatmap-correlations": { label: "Heatmap Radar", parent: "/analyses" },
+  "/analyses": { label: "Analyses de Corrélation" },
+  "/correlations": { label: "Corrélations Parfum-Tabac-Cannabis" },
+  "/recipe-network": { label: "Réseau de Recettes", parent: "/recettes" },
+  "/timeline-recettes": { label: "Timeline Recettes", parent: "/recettes" },
+  "/recettes-leaf-economies": { label: "Recettes Leaf Economies", parent: "/leaf-economies" },
+  "/compare-molecules-advanced": { label: "Comparaison Avancée", parent: "/molecules" },
+  "/synergies-graph-visualization": { label: "Graphe Synergies", parent: "/synergies" },
+  "/enhanced-radar": { label: "Radar Avancé", parent: "/analyses" },
   "/compare-terpenes": { label: "Comparaison Terpènes", parent: "/molecules" },
   "/compare-radar": { label: "Comparaison Radar", parent: "/molecules" },
   "/compare-recettes": { label: "Comparaison Recettes", parent: "/recettes" },

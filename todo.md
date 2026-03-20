@@ -2882,3 +2882,25 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Corriger statistiques à 0 dans CorrelationsParfumTabacCannabis (bug destructuration db.execute)
 - [x] Corriger blocage RadarCorrelationHeatmap : réécriture getAllRecettesWithRadar() N+1 → 1 requête SQL (db.$client.promise().query)
 
+
+---
+
+## 🔍 SESSION 20 MARS 2026 (suite) — Audit routes, N+1, Breadcrumbs
+
+### Phase 1 : Audit routes sans Header/Footer
+- [x] Inventorier toutes les routes dans App.tsx sans WithLayout
+- [x] Identifier lesquelles nécessitent Header/Footer (pages publiques vs admin)
+- [x] Appliquer WithLayout aux 24 pages publiques manquantes (AbsorbeX×8, BioMineralis, Collaborations, CompareMoleculesAdvanced, Conservation, ExplorerParOdeur, FondementsPhilosophiques, GammeRaretes, LaboratoireRecettes, Manifeste, MethodologieRecherche, MyFavorites, RechercheRadicale, RechercheScientifique, SourcingCannabis, SystemePerfumum, TabacsResines)
+
+### Phase 2 : Optimisation requêtes N+1
+- [x] Identifier toutes les fonctions avec boucles de requêtes SQL dans db.ts et routers
+- [x] Réécrire getSimilarRecettes : 952 requêtes → 1 requête SQL agrégée
+- [x] Réécrire getRecommendedRecettesFromFavorites : 476 requêtes → 2 requêtes SQL
+- [x] Réécrire getSimilarMolecules : N requêtes → 1 requête SQL
+
+### Phase 3 : Breadcrumbs dynamiques pages visualisation
+- [x] Ajouter breadcrumb "Accueil > Analyses > Heatmap Radar" à RadarCorrelationHeatmap (via routeConfig)
+- [x] Ajouter breadcrumb "Accueil > Analyses de Corrélation" à CorrelationAnalysis (via routeConfig)
+- [x] Ajouter breadcrumb "Accueil > Corrélations Parfum-Tabac-Cannabis" à CorrelationsParfumTabacCannabis (via routeConfig)
+- [x] Ajouter 10 nouvelles routes de visualisation dans DynamicBreadcrumb.routeConfig
+

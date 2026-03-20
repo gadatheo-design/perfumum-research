@@ -473,7 +473,7 @@ function Router() {
       
       {/* === PAGES PRINCIPALES === */}
       <Route path="/" component={Home} />
-      <Route path="/systeme" component={SystemePerfumum} /> 
+      <Route path="/systeme">{() => <WithLayout><SystemePerfumum /></WithLayout>}</Route> 
       {/* === ADMINISTRATION === */}
       <Route path="/admin" component={Admin} />
       <Route path="/admin/liaison-recettes-molecules" component={LiaisonRecettesMolecules} />
@@ -552,22 +552,22 @@ function Router() {
       
       {/* === PROJET === */}
       <Route path="/le-projet" component={LeProjet} />
-      <Route path="/manifeste" component={Manifeste} />
+      <Route path="/manifeste">{() => <WithLayout><Manifeste /></WithLayout>}</Route>
       <Route path="/a-propos" component={APropos} />
       <Route path="/contact" component={Contact} />
       <Route path="/nouveautes" component={Nouveautes} />
       <Route path="/projet/timeline" component={TimelinePerfumum} />
       
       {/* === ABSORBE X - RECHERCHE AVANCÉE === */}
-      <Route path="/absorbe-x" component={AbsorbeXDashboard} />
-      <Route path="/absorbe-x/manifeste" component={AbsorbeXManifeste} />
-      <Route path="/absorbe-x/notes-recherche" component={AbsorbeXNotesRecherche} />
-      <Route path="/absorbe-x/quantique" component={AbsorbeXQuantique} />
-      <Route path="/absorbe-x/patrimoine" component={AbsorbeXPatrimoine} />
-      <Route path="/absorbe-x/neuro-olfaction" component={AbsorbeXNeuroOlfaction} />
-      <Route path="/absorbe-x/odeurs-perdues" component={AbsorbeXOdeursPerdues} />
+      <Route path="/absorbe-x">{() => <WithLayout><AbsorbeXDashboard /></WithLayout>}</Route>
+      <Route path="/absorbe-x/manifeste">{() => <WithLayout><AbsorbeXManifeste /></WithLayout>}</Route>
+      <Route path="/absorbe-x/notes-recherche">{() => <WithLayout><AbsorbeXNotesRecherche /></WithLayout>}</Route>
+      <Route path="/absorbe-x/quantique">{() => <WithLayout><AbsorbeXQuantique /></WithLayout>}</Route>
+      <Route path="/absorbe-x/patrimoine">{() => <WithLayout><AbsorbeXPatrimoine /></WithLayout>}</Route>
+      <Route path="/absorbe-x/neuro-olfaction">{() => <WithLayout><AbsorbeXNeuroOlfaction /></WithLayout>}</Route>
+      <Route path="/absorbe-x/odeurs-perdues">{() => <WithLayout><AbsorbeXOdeursPerdues /></WithLayout>}</Route>
       <Route path="/molecules-disparues" component={MoleculesDisparues} />
-      <Route path="/absorbe-x/guide-laboratoire" component={AbsorbeXGuideLaboratoire} />
+      <Route path="/absorbe-x/guide-laboratoire">{() => <WithLayout><AbsorbeXGuideLaboratoire /></WithLayout>}</Route>
       
       {/* === TABACOTHÈQUE === */}
       <Route path="/tabacotheque" component={Tabacotheque} />
@@ -655,7 +655,7 @@ function Router() {
       <Route path="/matieres-premieres-rares" component={AromaticRarities} />
 
       {/* === CONSERVATION === */}
-      <Route path="/conservation" component={Conservation} />
+      <Route path="/conservation">{() => <WithLayout><Conservation /></WithLayout>}</Route>
       
       {/* === ERREURS === */}
       <Route path="/prototypes" component={Prototypes} />
@@ -677,7 +677,7 @@ function Router() {
       {/* Note: /gammes/signatures, /gammes/pheromones, /gammes/raretes are not in hub - keep original routes */}
       <Route path="/gammes/signatures" component={GammeSignatures} />
       <Route path="/gammes/pheromones" component={GammePheromones} />
-      <Route path="/gammes/raretes" component={GammeRaretes} />
+      <Route path="/gammes/raretes">{() => <WithLayout><GammeRaretes /></WithLayout>}</Route>
       
       <Route path="/colombie" component={ColombieLine} />
       <Route path="/corpus-burkina" component={CorpusBurkinaFaso} />
@@ -689,12 +689,12 @@ function Router() {
       <Route path="/sourcing/madagascar" component={SourcingMadagascar} />
       <Route path="/sourcing/north-america" component={SourcingNorthAmerica} />
       <Route path="/sourcing/tabac" component={SourcingTabac} />
-      <Route path="/sourcing/cannabis" component={SourcingCannabis} />
+      <Route path="/sourcing/cannabis">{() => <WithLayout><SourcingCannabis /></WithLayout>}</Route>
       <Route path="/sourcing-hub" component={SourcingHub} />
       
       {/* === LABORATOIRE === */}
       <Route path="/laboratoire" component={Laboratoire} />
-      <Route path="/laboratoire/recettes" component={LaboratoireRecettes} />
+      <Route path="/laboratoire/recettes">{() => <WithLayout><LaboratoireRecettes /></WithLayout>}</Route>
       <Route path="/laboratoire/matrice-interactive" component={MatriceInteractive} />
       <Route path="/laboratoire/statistiques" component={Statistiques} />
       <Route path="/inventaire" component={Inventaire} />
@@ -742,8 +742,8 @@ function Router() {
       <Route path="/accords-legacy" component={Accords} />
       <Route path="/accords-dedies" component={AccordsDedies} />
       <Route path="/experimental-accords" component={ExperimentalAccords} />
-        <Route path="/recherche-radicale" component={RechercheRadicale} />
-        <Route path="/recherche/fondements-theoriques" component={FondementsPhilosophiques} />
+        <Route path="/recherche-radicale">{() => <WithLayout><RechercheRadicale /></WithLayout>}</Route>
+        <Route path="/recherche/fondements-theoriques">{() => <WithLayout><FondementsPhilosophiques /></WithLayout>}</Route>
       
       {/* === RÉSINES CBD === */}
       <Route path="/resines-cbd" component={ResinesCBD} />
@@ -755,7 +755,7 @@ function Router() {
       <Route path="/compare-terpenes" component={CompareTerpenes} />
       <Route path="/compare-radar" component={CompareRadar} />
       <Route path="/compare-recettes" component={CompareRecettes} />
-      <Route path="/compare-molecules-advanced" component={CompareMoleculesAdvanced} />
+      <Route path="/compare-molecules-advanced">{() => <WithLayout><CompareMoleculesAdvanced /></WithLayout>}</Route>
      <Route path="/comparaison-molecules" component={ComparaisonMolecules} />
       <Route path="/compare-plants" component={ComparePlants} />
       <Route path="/comparaison-plantes" component={ComparePlants} />
@@ -797,7 +797,7 @@ function Router() {
       <Route path="/outils/export-bibliographique" component={ExportBibliographique} />
       
       {/* === RECHERCHE SCIENTIFIQUE === */}
-      <Route path="/recherche-scientifique" component={RechercheScientifique} />
+      <Route path="/recherche-scientifique">{() => <WithLayout><RechercheScientifique /></WithLayout>}</Route>
       <Route path="/recherche-scientifique/synergies-moleculaires" component={SynergiesMoleculaires} />
       <Route path="/recherche-scientifique/pyrolyse-combustion" component={PyrolyseCombustion} />
       <Route path="/recherche-scientifique/courbes-volatilite" component={CourbesVolatilite} />
@@ -821,7 +821,7 @@ function Router() {
       <Route path="/methode" component={MethodeAbsorbe} />
       <Route path="/methode-absorbe" component={MethodeAbsorbe} />
           <Route path="/methodologie/absorbe" component={MethodologieAbsorbe} />
-          <Route path="/methodologie/recherche" component={MethodologieRecherche} />
+          <Route path="/methodologie/recherche">{() => <WithLayout><MethodologieRecherche /></WithLayout>}</Route>
           <Route path="/outils/generateur-formules" component={GenerateurFormules} />
       <Route path="/historique-formules" component={HistoriqueFormules} />
       <Route path="/methodologie/echelle-absorbe" component={EchelleAbsorbe} />
@@ -874,10 +874,10 @@ function Router() {
       </Route>
       <Route path="/reseau-axes" component={ReseauAxes} />
       <Route path="/gestion" component={GestionPage} />
-      <Route path="/collaborations" component={Collaborations} />
+      <Route path="/collaborations">{() => <WithLayout><Collaborations /></WithLayout>}</Route>
       <Route path="/archives" component={Archives} />
       <Route path="/patrimoine-menace" component={PatrimoineMenace} />
-      <Route path="/explorer-par-odeur" component={ExplorerParOdeur} />
+      <Route path="/explorer-par-odeur">{() => <WithLayout><ExplorerParOdeur /></WithLayout>}</Route>
       <Route path="/alternatives-durables" component={AlternativesDurables} />
       <Route path="/archives-olfactives" component={ArchivesOlfactives} />
 
@@ -1021,7 +1021,7 @@ function Router() {
       <Route path="/installations" component={Installations} />
       
       {/* === TABACS & ASSOCIATIONS === */}
-      <Route path="/tabacs-resines" component={TabacsResines} />
+      <Route path="/tabacs-resines">{() => <WithLayout><TabacsResines /></WithLayout>}</Route>
       <Route path="/tabacs-naturels" component={TabacsNaturels} />
       <Route path="/tabacs-originaux" component={TabacsOriginaux} />
       <Route path="/associations" component={Associations} />
@@ -1043,7 +1043,7 @@ function Router() {
       
       {/* === UTILISATEUR === */}
       <Route path="/favoris" component={Favoris} />
-      <Route path="/mes-favoris" component={MyFavorites} />
+      <Route path="/mes-favoris">{() => <WithLayout><MyFavorites /></WithLayout>}</Route>
       <Route path="/reseau" component={Reseau} />
       <Route path="/reseau-molecules-plantes" component={ReseauMoleculePlante} />
       <Route path="/reseau-plantes-molecules" component={PlantMoleculeNetwork} />
@@ -1067,7 +1067,7 @@ function Router() {
         )}
       </Route>
       <Route path="/parcours/:code" component={ParcoursDetail} />
-      <Route path="/bio-mineralis" component={BioMineralis} />
+      <Route path="/bio-mineralis">{() => <WithLayout><BioMineralis /></WithLayout>}</Route>
       <Route path="/admin/duplicates" component={AdminDuplicates} />
       
       

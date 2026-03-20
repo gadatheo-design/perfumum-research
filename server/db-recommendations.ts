@@ -1,6 +1,4 @@
 import { getDb } from './db';
-import { recettes, molecules, moleculesRecettes } from '../drizzle/schema';
-import { eq } from 'drizzle-orm';
 
 // Interface pour une recette avec son profil radar
 export interface RecetteWithRadar {
@@ -33,109 +31,84 @@ export interface MoleculeWithRadar {
 
 // Calculer la distance euclidienne entre deux profils radar
 function calculateRadarDistance(
-  profile1: {
-    intensity: number;
-    freshness: number;
-    warmth: number;
-    sweetness: number;
-    spiciness: number;
-    earthiness: number;
-  },
-  profile2: {
-    intensity: number;
-    freshness: number;
-    warmth: number;
-    sweetness: number;
-    spiciness: number;
-    earthiness: number;
-  }
+  profile1: { intensity: number; freshness: number; warmth: number; sweetness: number; spiciness: number; earthiness: number },
+  profile2: { intensity: number; freshness: number; warmth: number; sweetness: number; spiciness: number; earthiness: number }
 ): number {
-  const diff = {
-    intensity: profile1.intensity - profile2.intensity,
-    freshness: profile1.freshness - profile2.freshness,
-    warmth: profile1.warmth - profile2.warmth,
-    sweetness: profile1.sweetness - profile2.sweetness,
-    spiciness: profile1.spiciness - profile2.spiciness,
-    earthiness: profile1.earthiness - profile2.earthiness,
-  };
-
   const sumOfSquares =
-    diff.intensity ** 2 +
-    diff.freshness ** 2 +
-    diff.warmth ** 2 +
-    diff.sweetness ** 2 +
-    diff.spiciness ** 2 +
-    diff.earthiness ** 2;
-
+    (profile1.intensity - profile2.intensity) ** 2 +
+    (profile1.freshness - profile2.freshness) ** 2 +
+    (profile1.warmth - profile2.warmth) ** 2 +
+    (profile1.sweetness - profile2.sweetness) ** 2 +
+    (profile1.spiciness - profile2.spiciness) ** 2 +
+    (profile1.earthiness - profile2.earthiness) ** 2;
   return Math.sqrt(sumOfSquares);
 }
 
 // Calculer le score de similarité (0-100%)
 function calculateSimilarityScore(distance: number): number {
-  // Distance maximale possible = sqrt(6 * 100^2) = ~244.95
   const maxDistance = Math.sqrt(6 * 100 ** 2);
   const similarity = 100 - (distance / maxDistance) * 100;
   return Math.round(Math.max(0, Math.min(100, similarity)));
 }
 
-// Récupérer le profil radar d'une recette
-async function getRecetteRadarProfile(recetteId: number): Promise<{
-  intensity: number;
-  freshness: number;
-  warmth: number;
-  sweetness: number;
-  spiciness: number;
-  earthiness: number;
-} | null> {
-  const db = await getDb();
-  if (!db) return null;
+// SQL agrégé : récupérer le profil radar moyen de toutes les recettes en 1 requête
+const ALL_RECETTES_RADAR_SQL = `
+  SELECT
+    r.id,
+    r.name,
+    r.category,
+    r.description,
+    COALESCE(
+      SUM(m.radar_intensity * COALESCE(mr.proportion, 1)) / NULLIF(SUM(COALESCE(mr.proportion, 1)), 0),
+      50
+    ) AS avgIntensity,
+    COALESCE(
+      SUM(m.radar_freshness * COALESCE(mr.proportion, 1)) / NULLIF(SUM(COALESCE(mr.proportion, 1)), 0),
+      50
+    ) AS avgFreshness,
+    COALESCE(
+      SUM(m.radar_warmth * COALESCE(mr.proportion, 1)) / NULLIF(SUM(COALESCE(mr.proportion, 1)), 0),
+      50
+    ) AS avgWarmth,
+    COALESCE(
+      SUM(m.radar_sweetness * COALESCE(mr.proportion, 1)) / NULLIF(SUM(COALESCE(mr.proportion, 1)), 0),
+      50
+    ) AS avgSweetness,
+    COALESCE(
+      SUM(m.radar_spiciness * COALESCE(mr.proportion, 1)) / NULLIF(SUM(COALESCE(mr.proportion, 1)), 0),
+      50
+    ) AS avgSpiciness,
+    COALESCE(
+      SUM(m.radar_earthiness * COALESCE(mr.proportion, 1)) / NULLIF(SUM(COALESCE(mr.proportion, 1)), 0),
+      50
+    ) AS avgEarthiness,
+    COUNT(DISTINCT mr.molecule_id) AS moleculeCount
+  FROM recettes r
+  LEFT JOIN molecules_recettes mr ON mr.recette_id = r.id
+  LEFT JOIN molecules m ON m.id = mr.molecule_id
+  GROUP BY r.id, r.name, r.category, r.description
+  ORDER BY r.id
+`;
 
-  const mols = await db
-    .select({
-      proportion: moleculesRecettes.proportion,
-      radarIntensity: molecules.radarIntensity,
-      radarFreshness: molecules.radarFreshness,
-      radarWarmth: molecules.radarWarmth,
-      radarSweetness: molecules.radarSweetness,
-      radarSpiciness: molecules.radarSpiciness,
-      radarEarthiness: molecules.radarEarthiness,
-    })
-    .from(moleculesRecettes)
-    .innerJoin(molecules, eq(moleculesRecettes.moleculeId, molecules.id))
-    .where(eq(moleculesRecettes.recetteId, recetteId));
-
-  if (mols.length === 0) return null;
-
-  let totalWeight = 0;
-  let sumIntensity = 0;
-  let sumFreshness = 0;
-  let sumWarmth = 0;
-  let sumSweetness = 0;
-  let sumSpiciness = 0;
-  let sumEarthiness = 0;
-
-  for (const mol of mols) {
-    const weight = parseFloat(mol.proportion || '1');
-    totalWeight += weight;
-    sumIntensity += (mol.radarIntensity || 50) * weight;
-    sumFreshness += (mol.radarFreshness || 50) * weight;
-    sumWarmth += (mol.radarWarmth || 50) * weight;
-    sumSweetness += (mol.radarSweetness || 50) * weight;
-    sumSpiciness += (mol.radarSpiciness || 50) * weight;
-    sumEarthiness += (mol.radarEarthiness || 50) * weight;
-  }
-
-  return {
-    intensity: totalWeight > 0 ? Math.round(sumIntensity / totalWeight) : 50,
-    freshness: totalWeight > 0 ? Math.round(sumFreshness / totalWeight) : 50,
-    warmth: totalWeight > 0 ? Math.round(sumWarmth / totalWeight) : 50,
-    sweetness: totalWeight > 0 ? Math.round(sumSweetness / totalWeight) : 50,
-    spiciness: totalWeight > 0 ? Math.round(sumSpiciness / totalWeight) : 50,
-    earthiness: totalWeight > 0 ? Math.round(sumEarthiness / totalWeight) : 50,
-  };
+// Récupérer tous les profils radar en 1 requête (partagé entre getSimilarRecettes et getRecommendedRecettesFromFavorites)
+async function getAllRecettesRadarProfiles(db: any): Promise<RecetteWithRadar[]> {
+  const [rows] = await db.$client.promise().query(ALL_RECETTES_RADAR_SQL);
+  return (rows as any[]).map((r: any) => ({
+    id: r.id,
+    name: r.name,
+    category: r.category,
+    description: r.description,
+    avgIntensity: Math.round(Number(r.avgIntensity) || 50),
+    avgFreshness: Math.round(Number(r.avgFreshness) || 50),
+    avgWarmth: Math.round(Number(r.avgWarmth) || 50),
+    avgSweetness: Math.round(Number(r.avgSweetness) || 50),
+    avgSpiciness: Math.round(Number(r.avgSpiciness) || 50),
+    avgEarthiness: Math.round(Number(r.avgEarthiness) || 50),
+    moleculeCount: Number(r.moleculeCount) || 0,
+  }));
 }
 
-// Recommander des recettes similaires
+// Recommander des recettes similaires — optimisé : 1 requête SQL au lieu de N+1
 export async function getSimilarRecettes(
   recetteId: number,
   limit: number = 5
@@ -147,61 +120,44 @@ export async function getSimilarRecettes(
   const db = await getDb();
   if (!db) return [];
 
-  // Récupérer le profil radar de la recette cible
-  const targetProfile = await getRecetteRadarProfile(recetteId);
+  // 1 seule requête pour tous les profils radar
+  const allProfiles = await getAllRecettesRadarProfiles(db);
+
+  // Trouver le profil cible
+  const targetProfile = allProfiles.find(r => r.id === recetteId);
   if (!targetProfile) return [];
 
-  // Récupérer toutes les autres recettes
-  const allRecettes = await db.select().from(recettes).where(eq(recettes.id, recetteId));
-  if (allRecettes.length === 0) return [];
+  const targetVec = {
+    intensity: targetProfile.avgIntensity,
+    freshness: targetProfile.avgFreshness,
+    warmth: targetProfile.avgWarmth,
+    sweetness: targetProfile.avgSweetness,
+    spiciness: targetProfile.avgSpiciness,
+    earthiness: targetProfile.avgEarthiness,
+  };
 
-  const otherRecettes = await db.select().from(recettes);
+  // Calculer la similarité pour chaque autre recette (en mémoire, pas de requête SQL)
+  const similarities = allProfiles
+    .filter(r => r.id !== recetteId)
+    .map((recette) => {
+      const profile = {
+        intensity: recette.avgIntensity,
+        freshness: recette.avgFreshness,
+        warmth: recette.avgWarmth,
+        sweetness: recette.avgSweetness,
+        spiciness: recette.avgSpiciness,
+        earthiness: recette.avgEarthiness,
+      };
+      const distance = calculateRadarDistance(targetVec, profile);
+      const similarityScore = calculateSimilarityScore(distance);
+      return { recette, similarityScore, distance };
+    });
 
-  // Calculer la similarité pour chaque recette
-  const similarities = await Promise.all(
-    otherRecettes
-      .filter(r => r.id !== recetteId)
-      .map(async (recette) => {
-        const profile = await getRecetteRadarProfile(recette.id);
-        if (!profile) return null;
-
-        const distance = calculateRadarDistance(targetProfile, profile);
-        const similarityScore = calculateSimilarityScore(distance);
-
-        // Compter les molécules
-        const mols = await db
-          .select()
-          .from(moleculesRecettes)
-          .where(eq(moleculesRecettes.recetteId, recette.id));
-
-        return {
-          recette: {
-            id: recette.id,
-            name: recette.name,
-            category: recette.category,
-            description: recette.description,
-            avgIntensity: profile.intensity,
-            avgFreshness: profile.freshness,
-            avgWarmth: profile.warmth,
-            avgSweetness: profile.sweetness,
-            avgSpiciness: profile.spiciness,
-            avgEarthiness: profile.earthiness,
-            moleculeCount: mols.length,
-          },
-          similarityScore,
-          distance,
-        };
-      })
-  );
-
-  // Filtrer les nulls et trier par score de similarité
-  const validSimilarities = similarities.filter((s): s is NonNullable<typeof s> => s !== null);
-  validSimilarities.sort((a, b) => b.similarityScore - a.similarityScore);
-
-  return validSimilarities.slice(0, limit);
+  similarities.sort((a, b) => b.similarityScore - a.similarityScore);
+  return similarities.slice(0, limit);
 }
 
-// Recommander des molécules similaires
+// Recommander des molécules similaires — déjà efficace (pas de N+1, calcul en mémoire)
 export async function getSimilarMolecules(
   moleculeId: number,
   limit: number = 5
@@ -213,69 +169,65 @@ export async function getSimilarMolecules(
   const db = await getDb();
   if (!db) return [];
 
-  // Récupérer la molécule cible
-  const targetMolecule = await db
-    .select()
-    .from(molecules)
-    .where(eq(molecules.id, moleculeId))
-    .limit(1);
+  // 1 seule requête pour toutes les molécules
+  const [rows] = await db.$client.promise().query(`
+    SELECT id, name, family, olfactiveProfile,
+      COALESCE(radar_intensity, 50) AS radarIntensity,
+      COALESCE(radar_freshness, 50) AS radarFreshness,
+      COALESCE(radar_warmth, 50) AS radarWarmth,
+      COALESCE(radar_sweetness, 50) AS radarSweetness,
+      COALESCE(radar_spiciness, 50) AS radarSpiciness,
+      COALESCE(radar_earthiness, 50) AS radarEarthiness
+    FROM molecules
+    ORDER BY id
+  `);
 
-  if (targetMolecule.length === 0) return [];
+  const allMolecules = (rows as any[]).map((m: any) => ({
+    id: m.id,
+    name: m.name,
+    family: m.family,
+    olfactiveProfile: m.olfactiveProfile,
+    radarIntensity: Number(m.radarIntensity) || 50,
+    radarFreshness: Number(m.radarFreshness) || 50,
+    radarWarmth: Number(m.radarWarmth) || 50,
+    radarSweetness: Number(m.radarSweetness) || 50,
+    radarSpiciness: Number(m.radarSpiciness) || 50,
+    radarEarthiness: Number(m.radarEarthiness) || 50,
+  }));
 
-  const target = targetMolecule[0];
+  const target = allMolecules.find(m => m.id === moleculeId);
+  if (!target) return [];
+
   const targetProfile = {
-    intensity: target.radarIntensity || 50,
-    freshness: target.radarFreshness || 50,
-    warmth: target.radarWarmth || 50,
-    sweetness: target.radarSweetness || 50,
-    spiciness: target.radarSpiciness || 50,
-    earthiness: target.radarEarthiness || 50,
+    intensity: target.radarIntensity,
+    freshness: target.radarFreshness,
+    warmth: target.radarWarmth,
+    sweetness: target.radarSweetness,
+    spiciness: target.radarSpiciness,
+    earthiness: target.radarEarthiness,
   };
 
-  // Récupérer toutes les autres molécules
-  const allMolecules = await db.select().from(molecules);
-
-  // Calculer la similarité pour chaque molécule
   const similarities = allMolecules
     .filter(m => m.id !== moleculeId)
     .map((molecule) => {
       const profile = {
-        intensity: molecule.radarIntensity || 50,
-        freshness: molecule.radarFreshness || 50,
-        warmth: molecule.radarWarmth || 50,
-        sweetness: molecule.radarSweetness || 50,
-        spiciness: molecule.radarSpiciness || 50,
-        earthiness: molecule.radarEarthiness || 50,
+        intensity: molecule.radarIntensity,
+        freshness: molecule.radarFreshness,
+        warmth: molecule.radarWarmth,
+        sweetness: molecule.radarSweetness,
+        spiciness: molecule.radarSpiciness,
+        earthiness: molecule.radarEarthiness,
       };
-
       const distance = calculateRadarDistance(targetProfile, profile);
       const similarityScore = calculateSimilarityScore(distance);
-
-      return {
-        molecule: {
-          id: molecule.id,
-          name: molecule.name,
-          family: molecule.family,
-          olfactiveProfile: molecule.olfactiveProfile,
-          radarIntensity: profile.intensity,
-          radarFreshness: profile.freshness,
-          radarWarmth: profile.warmth,
-          radarSweetness: profile.sweetness,
-          radarSpiciness: profile.spiciness,
-          radarEarthiness: profile.earthiness,
-        },
-        similarityScore,
-        distance,
-      };
+      return { molecule, similarityScore, distance };
     });
 
-  // Trier par score de similarité
   similarities.sort((a, b) => b.similarityScore - a.similarityScore);
-
   return similarities.slice(0, limit);
 }
 
-// Recommander des recettes basées sur les favoris de l'utilisateur
+// Recommander des recettes basées sur les favoris — optimisé : 2 requêtes SQL au lieu de N+1
 export async function getRecommendedRecettesFromFavorites(
   favoriteMoleculeIds: number[],
   limit: number = 10
@@ -287,78 +239,40 @@ export async function getRecommendedRecettesFromFavorites(
   const db = await getDb();
   if (!db || favoriteMoleculeIds.length === 0) return [];
 
-  // Récupérer toutes les recettes
-  const allRecettes = await db.select().from(recettes);
+  // Requête 1 : tous les profils radar en 1 requête
+  const allProfiles = await getAllRecettesRadarProfiles(db);
 
-  // Pour chaque recette, calculer le score de correspondance
-  const recommendations = await Promise.all(
-    allRecettes.map(async (recette) => {
-      const mols = await db
-        .select({
-          moleculeId: moleculesRecettes.moleculeId,
-          proportion: moleculesRecettes.proportion,
-          radarIntensity: molecules.radarIntensity,
-          radarFreshness: molecules.radarFreshness,
-          radarWarmth: molecules.radarWarmth,
-          radarSweetness: molecules.radarSweetness,
-          radarSpiciness: molecules.radarSpiciness,
-          radarEarthiness: molecules.radarEarthiness,
-        })
-        .from(moleculesRecettes)
-        .innerJoin(molecules, eq(moleculesRecettes.moleculeId, molecules.id))
-        .where(eq(moleculesRecettes.recetteId, recette.id));
+  // Requête 2 : toutes les liaisons recette-molécule en 1 requête
+  const [linkRows] = await db.$client.promise().query(`
+    SELECT recette_id AS recetteId, molecule_id AS moleculeId
+    FROM molecules_recettes
+    ORDER BY recette_id
+  `);
 
-      // Compter les molécules favorites présentes
-      const matchingMolecules = mols.filter(m => favoriteMoleculeIds.includes(m.moleculeId)).length;
+  // Construire un index recetteId → Set<moleculeId>
+  const recetteMoleculeIndex = new Map<number, Set<number>>();
+  for (const row of (linkRows as any[])) {
+    const rid = row.recetteId;
+    if (!recetteMoleculeIndex.has(rid)) recetteMoleculeIndex.set(rid, new Set());
+    recetteMoleculeIndex.get(rid)!.add(row.moleculeId);
+  }
 
-      // Calculer le score de correspondance (0-100)
-      const matchScore = mols.length > 0 ? Math.round((matchingMolecules / mols.length) * 100) : 0;
+  const favoriteSet = new Set(favoriteMoleculeIds);
 
-      // Calculer le profil radar moyen
-      let totalWeight = 0;
-      let sumIntensity = 0;
-      let sumFreshness = 0;
-      let sumWarmth = 0;
-      let sumSweetness = 0;
-      let sumSpiciness = 0;
-      let sumEarthiness = 0;
-
-      for (const mol of mols) {
-        const weight = parseFloat(mol.proportion || '1');
-        totalWeight += weight;
-        sumIntensity += (mol.radarIntensity || 50) * weight;
-        sumFreshness += (mol.radarFreshness || 50) * weight;
-        sumWarmth += (mol.radarWarmth || 50) * weight;
-        sumSweetness += (mol.radarSweetness || 50) * weight;
-        sumSpiciness += (mol.radarSpiciness || 50) * weight;
-        sumEarthiness += (mol.radarEarthiness || 50) * weight;
+  // Calculer le score de correspondance en mémoire
+  const recommendations = allProfiles
+    .map((recette) => {
+      const molSet = recetteMoleculeIndex.get(recette.id) || new Set();
+      const totalMols = molSet.size;
+      let matchingMolecules = 0;
+      for (const mid of favoriteSet) {
+        if (molSet.has(mid)) matchingMolecules++;
       }
-
-      return {
-        recette: {
-          id: recette.id,
-          name: recette.name,
-          category: recette.category,
-          description: recette.description,
-          avgIntensity: totalWeight > 0 ? Math.round(sumIntensity / totalWeight) : 50,
-          avgFreshness: totalWeight > 0 ? Math.round(sumFreshness / totalWeight) : 50,
-          avgWarmth: totalWeight > 0 ? Math.round(sumWarmth / totalWeight) : 50,
-          avgSweetness: totalWeight > 0 ? Math.round(sumSweetness / totalWeight) : 50,
-          avgSpiciness: totalWeight > 0 ? Math.round(sumSpiciness / totalWeight) : 50,
-          avgEarthiness: totalWeight > 0 ? Math.round(sumEarthiness / totalWeight) : 50,
-          moleculeCount: mols.length,
-        },
-        matchScore,
-        matchingMolecules,
-      };
+      const matchScore = totalMols > 0 ? Math.round((matchingMolecules / totalMols) * 100) : 0;
+      return { recette, matchScore, matchingMolecules };
     })
-  );
+    .filter(r => r.matchingMolecules > 0);
 
-  // Filtrer les recettes avec au moins une molécule favorite
-  const validRecommendations = recommendations.filter(r => r.matchingMolecules > 0);
-
-  // Trier par score de correspondance
-  validRecommendations.sort((a, b) => b.matchScore - a.matchScore);
-
-  return validRecommendations.slice(0, limit);
+  recommendations.sort((a, b) => b.matchScore - a.matchScore);
+  return recommendations.slice(0, limit);
 }
