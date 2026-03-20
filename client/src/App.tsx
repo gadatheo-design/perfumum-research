@@ -131,6 +131,7 @@ const ExtractionMethodsAdmin = React.lazy(() => import('./pages/admin/Extraction
 const AdminThermalMatrix = React.lazy(() => import('./pages/AdminThermalMatrix'));
 const AdminNOSE = React.lazy(() => import('./pages/AdminNOSE'));
 const AdminStorylines = React.lazy(() => import('./pages/AdminStorylines'));
+const StorylineDetail = React.lazy(() => import('./pages/StorylineDetail'));
 const KNApSAcKBatch = React.lazy(() => import('./pages/admin/KNApSAcKBatch'));
 const AdminBundleVisualizer = React.lazy(() => import('./pages/AdminBundleVisualizer'));
 const AdminReclassifyMolecules = React.lazy(() => import('./pages/AdminReclassifyMolecules'));
@@ -456,7 +457,21 @@ const OsmothequeMolecules = lazy(() => import("./pages/OsmothequeMolecules"));
 
 
 // Wrapper for lazy-loaded components
+// LazyRoute avec WithLayout (Header + Footer) — pour les pages publiques
 const LazyRoute: React.FC<{ path: string; component: React.LazyExoticComponent<React.ComponentType<unknown>> }> = ({ path, component: Component }) => (
+  <Route path={path}>
+    {() => (
+      <WithLayout>
+        <Suspense fallback={<PageLoader />}>
+          <Component />
+        </Suspense>
+      </WithLayout>
+    )}
+  </Route>
+);
+
+// LazyRouteRaw sans WithLayout — pour les pages admin/dashboard qui gèrent leur propre layout
+const LazyRouteRaw: React.FC<{ path: string; component: React.LazyExoticComponent<React.ComponentType<unknown>> }> = ({ path, component: Component }) => (
   <Route path={path}>
     {() => (
       <Suspense fallback={<PageLoader />}>
@@ -479,11 +494,11 @@ function Router() {
       <Route path="/admin/liaison-recettes-molecules" component={LiaisonRecettesMolecules} />
       <Route path="/molecule-recette-linking" component={MoleculeRecetteLinking} />
       <Route path="/molecule-recette-audit" component={MoleculeRecetteAudit} />
-      <Route path="/molecule-recette-dragdrop" component={MoleculeRecetteDragDrop} />
+      <LazyRoute path="/molecule-recette-dragdrop" component={MoleculeRecetteDragDrop} />
       <Route path="/molecule-recette-import-csv" component={MoleculeRecetteImportCSV} />
       <Route path="/plant-terroir-linking" component={PlantTerroirLinking} />
       <Route path="/plant-terroir-audit" component={PlantTerroirAudit} />
-      <Route path="/plant-terroir-dragdrop" component={PlantTerroirDragDrop} />
+      <LazyRoute path="/plant-terroir-dragdrop" component={PlantTerroirDragDrop} />
       <Route path="/plant-terroir-import-csv" component={PlantTerroirImportCSV} />
       <Route path="/plant-molecule-audit" component={PlantMoleculeAudit} />
       <Route path="/linking-dashboard" component={LinkingDashboard} />
@@ -498,11 +513,11 @@ function Router() {
       <Route path="/admin/classification-review" component={ClassificationReviewQueue} />
       <Route path="/admin/notifications" component={AdminNotifications} />
       <Route path="/admin/completude" component={AdminCompletude} />
-      <Route path="/reseau-liaisons" component={ReseauLiaisons} />
+      <LazyRoute path="/reseau-liaisons" component={ReseauLiaisons} />
       <Route path="/admin/progress-report" component={AdminProgressReport} />
       <Route path="/admin/molecule-origins" component={MoleculeOriginsAdmin} />
       <Route path="/admin/terroirs-geocode" component={TerroirsGeocode} />
-      <Route path="/outils/editeur-formulation" component={EditeurFormulation} />
+      <LazyRoute path="/outils/editeur-formulation" component={EditeurFormulation} />
 
       <Route path="/admin/molecules" component={AdminMoleculesIndex} />
       <Route path="/admin/molecules/new" component={AdminMoleculeNew} />
@@ -545,18 +560,19 @@ function Router() {
       <Route path="/admin/thermal-matrix" component={AdminThermalMatrix} />
       <Route path="/admin/nose" component={AdminNOSE} />
       <Route path="/admin/storylines" component={AdminStorylines} />
+      <Route path="/storyline/:slug">{(params) => <WithLayout><Suspense fallback={<PageLoader />}><StorylineDetail /></Suspense></WithLayout>}</Route>
       
       {/* === RECHERCHE === */}
       <LazyRoute path="/recherche-avancee" component={RechercheAvancee} />
-      <Route path="/recherche-globale" component={RechercheGlobale} />
+      <LazyRoute path="/recherche-globale" component={RechercheGlobale} />
       
       {/* === PROJET === */}
-      <Route path="/le-projet" component={LeProjet} />
+      <LazyRoute path="/le-projet" component={LeProjet} />
       <Route path="/manifeste">{() => <WithLayout><Manifeste /></WithLayout>}</Route>
-      <Route path="/a-propos" component={APropos} />
-      <Route path="/contact" component={Contact} />
-      <Route path="/nouveautes" component={Nouveautes} />
-      <Route path="/projet/timeline" component={TimelinePerfumum} />
+      <LazyRoute path="/a-propos" component={APropos} />
+      <LazyRoute path="/contact" component={Contact} />
+      <LazyRoute path="/nouveautes" component={Nouveautes} />
+      <LazyRoute path="/projet/timeline" component={TimelinePerfumum} />
       
       {/* === ABSORBE X - RECHERCHE AVANCÉE === */}
       <Route path="/absorbe-x">{() => <WithLayout><AbsorbeXDashboard /></WithLayout>}</Route>
@@ -566,15 +582,15 @@ function Router() {
       <Route path="/absorbe-x/patrimoine">{() => <WithLayout><AbsorbeXPatrimoine /></WithLayout>}</Route>
       <Route path="/absorbe-x/neuro-olfaction">{() => <WithLayout><AbsorbeXNeuroOlfaction /></WithLayout>}</Route>
       <Route path="/absorbe-x/odeurs-perdues">{() => <WithLayout><AbsorbeXOdeursPerdues /></WithLayout>}</Route>
-      <Route path="/molecules-disparues" component={MoleculesDisparues} />
+      <LazyRoute path="/molecules-disparues" component={MoleculesDisparues} />
       <Route path="/absorbe-x/guide-laboratoire">{() => <WithLayout><AbsorbeXGuideLaboratoire /></WithLayout>}</Route>
       
       {/* === TABACOTHÈQUE === */}
-      <Route path="/tabacotheque" component={Tabacotheque} />
-      <Route path="/perique-compounds" component={PeriqueCompounds} />
-      <Route path="/historic-cigarettes" component={HistoricCigarettes} />
-      <Route path="/tobacco-landraces" component={TobaccoLandraces} />
-      <Route path="/tobacco-landrace/:name" component={TobaccoLandraceDetail} />
+      <LazyRoute path="/tabacotheque" component={Tabacotheque} />
+      <LazyRoute path="/perique-compounds" component={PeriqueCompounds} />
+      <LazyRoute path="/historic-cigarettes" component={HistoricCigarettes} />
+      <LazyRoute path="/tobacco-landraces" component={TobaccoLandraces} />
+      <LazyRoute path="/tobacco-landrace/:name" component={TobaccoLandraceDetail} />
       <Route path="/tabac/:id">
         {(params) => (
           <Suspense fallback={<PageLoader />}>
@@ -582,51 +598,51 @@ function Router() {
           </Suspense>
         )}
       </Route>
-      <Route path="/soil-analysis" component={SoilAnalysis} />
-      <Route path="/analyses-pedologiques" component={SoilAnalysis} />
-      <Route path="/biosynthetic-pathways" component={BiosyntheticPathways} />
-      <Route path="/voies-biosynthetiques" component={BiosyntheticPathways} />
-      <Route path="/tps-pathways" component={BiosyntheticPathways} />
-      <Route path="/pyrolysis" component={PyrolysisVisualization} />
-      <Route path="/pyrolyse" component={PyrolysisVisualization} />
-      <Route path="/transformations-pyrolytiques" component={PyrolysisVisualization} />
-      <Route path="/terpene-profiles" component={TerpeneProfiles} />
-      <Route path="/profils-terpeniques" component={TerpeneProfiles} />
-      <Route path="/terpenes" component={TerpeneProfiles} />
-      <Route path="/perique-fermentation" component={PeriqueFermentation} />
-      <Route path="/fermentation-perique" component={PeriqueFermentation} />
-      <Route path="/perique" component={PeriqueFermentation} />
-      <Route path="/landrace-comparator" component={LandraceComparator} />
-      <Route path="/comparateur-landraces" component={LandraceComparator} />
-      <Route path="/compare-landraces" component={LandraceComparator} />
-      <Route path="/gcms-chromatograms" component={GCMSChromatograms} />
-      <Route path="/chromatogrammes-gcms" component={GCMSChromatograms} />
-      <Route path="/chromatograms" component={GCMSChromatograms} />
-      <Route path="/compound-search" component={CompoundSearch} />
-      <Route path="/recherche-compose" component={CompoundSearch} />
-      <Route path="/search-compound" component={CompoundSearch} />
-      <Route path="/analysis-hub" component={AnalysisHub} />
-      <Route path="/hub-analyse" component={AnalysisHub} />
-      <Route path="/gcms-hub" component={AnalysisHub} />
-      <Route path="/raw-materials" component={RawMaterialsInventory} />
-      <Route path="/matieres-premieres" component={RawMaterialsInventory} />
-      <Route path="/inventory" component={RawMaterialsInventory} />
-      <Route path="/inventaire" component={RawMaterialsInventory} />
-      <Route path="/inventory-dashboard" component={InventoryDashboard} />
-      <Route path="/tableau-inventaire" component={InventoryDashboard} />
-      <Route path="/stock-dashboard" component={InventoryDashboard} />
-      <Route path="/publication-molecule-graph" component={PublicationMoleculeGraph} />
-      <Route path="/graphe-publications-molecules" component={PublicationMoleculeGraph} />
-      <Route path="/research-graph" component={PublicationMoleculeGraph} />
-      <Route path="/ms-spectra" component={MSSpectraViewer} />
-      <Route path="/spectres-masse" component={MSSpectraViewer} />
-      <Route path="/mass-spectrometry" component={MSSpectraViewer} />
-      <Route path="/compare-spectra" component={SpectraComparison} />
-      <Route path="/comparaison-spectres" component={SpectraComparison} />
-      <Route path="/spectra-comparison" component={SpectraComparison} />
-      <Route path="/identify-spectrum" component={SpectraIdentification} />
-      <Route path="/identification-spectre" component={SpectraIdentification} />
-      <Route path="/spectra-identification" component={SpectraIdentification} />
+      <LazyRoute path="/soil-analysis" component={SoilAnalysis} />
+      <LazyRoute path="/analyses-pedologiques" component={SoilAnalysis} />
+      <LazyRoute path="/biosynthetic-pathways" component={BiosyntheticPathways} />
+      <LazyRoute path="/voies-biosynthetiques" component={BiosyntheticPathways} />
+      <LazyRoute path="/tps-pathways" component={BiosyntheticPathways} />
+      <LazyRoute path="/pyrolysis" component={PyrolysisVisualization} />
+      <LazyRoute path="/pyrolyse" component={PyrolysisVisualization} />
+      <LazyRoute path="/transformations-pyrolytiques" component={PyrolysisVisualization} />
+      <LazyRoute path="/terpene-profiles" component={TerpeneProfiles} />
+      <LazyRoute path="/profils-terpeniques" component={TerpeneProfiles} />
+      <LazyRoute path="/terpenes" component={TerpeneProfiles} />
+      <LazyRoute path="/perique-fermentation" component={PeriqueFermentation} />
+      <LazyRoute path="/fermentation-perique" component={PeriqueFermentation} />
+      <LazyRoute path="/perique" component={PeriqueFermentation} />
+      <LazyRoute path="/landrace-comparator" component={LandraceComparator} />
+      <LazyRoute path="/comparateur-landraces" component={LandraceComparator} />
+      <LazyRoute path="/compare-landraces" component={LandraceComparator} />
+      <LazyRoute path="/gcms-chromatograms" component={GCMSChromatograms} />
+      <LazyRoute path="/chromatogrammes-gcms" component={GCMSChromatograms} />
+      <LazyRoute path="/chromatograms" component={GCMSChromatograms} />
+      <LazyRoute path="/compound-search" component={CompoundSearch} />
+      <LazyRoute path="/recherche-compose" component={CompoundSearch} />
+      <LazyRoute path="/search-compound" component={CompoundSearch} />
+      <LazyRoute path="/analysis-hub" component={AnalysisHub} />
+      <LazyRoute path="/hub-analyse" component={AnalysisHub} />
+      <LazyRoute path="/gcms-hub" component={AnalysisHub} />
+      <LazyRoute path="/raw-materials" component={RawMaterialsInventory} />
+      <LazyRoute path="/matieres-premieres" component={RawMaterialsInventory} />
+      <LazyRoute path="/inventory" component={RawMaterialsInventory} />
+      <LazyRoute path="/inventaire" component={RawMaterialsInventory} />
+      <LazyRoute path="/inventory-dashboard" component={InventoryDashboard} />
+      <LazyRoute path="/tableau-inventaire" component={InventoryDashboard} />
+      <LazyRoute path="/stock-dashboard" component={InventoryDashboard} />
+      <LazyRoute path="/publication-molecule-graph" component={PublicationMoleculeGraph} />
+      <LazyRoute path="/graphe-publications-molecules" component={PublicationMoleculeGraph} />
+      <LazyRoute path="/research-graph" component={PublicationMoleculeGraph} />
+      <LazyRoute path="/ms-spectra" component={MSSpectraViewer} />
+      <LazyRoute path="/spectres-masse" component={MSSpectraViewer} />
+      <LazyRoute path="/mass-spectrometry" component={MSSpectraViewer} />
+      <LazyRoute path="/compare-spectra" component={SpectraComparison} />
+      <LazyRoute path="/comparaison-spectres" component={SpectraComparison} />
+      <LazyRoute path="/spectra-comparison" component={SpectraComparison} />
+      <LazyRoute path="/identify-spectrum" component={SpectraIdentification} />
+      <LazyRoute path="/identification-spectre" component={SpectraIdentification} />
+      <LazyRoute path="/spectra-identification" component={SpectraIdentification} />
       
       {/* === RECETTES DE CIGARILLOS === */}
       <LazyRoute path="/recettes-cigarillos" component={CigarilloRecipes} />
@@ -647,62 +663,62 @@ function Router() {
       <LazyRoute path="/osmotheque" component={OsmothequeMolecules} />
       
       {/* === CLAIMS & PREUVES === */}
-      <Route path="/claims-and-proofs" component={ClaimsAndProofs} />
+      <LazyRoute path="/claims-and-proofs" component={ClaimsAndProofs} />
       
       {/* === MATIÈRES PREMIÈRES RARES === */}
-      <Route path="/aromatic-rarities" component={AromaticRarities} />
-      <Route path="/aromatic-rarities/:id" component={AromaticRarityDetailPage} />
-      <Route path="/matieres-premieres-rares" component={AromaticRarities} />
+      <LazyRoute path="/aromatic-rarities" component={AromaticRarities} />
+      <LazyRoute path="/aromatic-rarities/:id" component={AromaticRarityDetailPage} />
+      <LazyRoute path="/matieres-premieres-rares" component={AromaticRarities} />
 
       {/* === CONSERVATION === */}
       <Route path="/conservation">{() => <WithLayout><Conservation /></WithLayout>}</Route>
       
-      {/* === ERREURS === */}
-      <Route path="/prototypes" component={Prototypes} />
-      <Route path="/prototypes/c1" component={C1Fermentum} />
-      <Route path="/prototypes/c2" component={C2ClarusVerde} />
-      <Route path="/prototypes/c3" component={C3LactaSolis} />
-      <Route path="/prototypes/c4" component={C4TerraAmbra} />
-      <Route path="/prototypes/:code" component={PrototypeDetail} />
+      {/* === PROTOTYPES === */}
+      <LazyRoute path="/prototypes" component={Prototypes} />
+      <LazyRoute path="/prototypes/c1" component={C1Fermentum} />
+      <LazyRoute path="/prototypes/c2" component={C2ClarusVerde} />
+      <LazyRoute path="/prototypes/c3" component={C3LactaSolis} />
+      <LazyRoute path="/prototypes/c4" component={C4TerraAmbra} />
+      <LazyRoute path="/prototypes/:code" component={PrototypeDetail} />
       
       {/* === GAMMES === */}
       {/* Legacy redirects to gammes-hub */}
       <Route path="/gammes" component={() => <SimpleRedirect to="/gammes-hub" />} />
-      <Route path="/gammes-hub" component={GammesHub} />
+      <LazyRoute path="/gammes-hub" component={GammesHub} />
       <Route path="/gammes/petrichor" component={() => <SimpleRedirect to="/gammes-hub?tab=petrichor" />} />
       <Route path="/gammes/volcanique" component={() => <SimpleRedirect to="/gammes-hub?tab=volcanique" />} />
       <Route path="/gammes/glaciaire" component={() => <SimpleRedirect to="/gammes-hub?tab=glaciaire" />} />
       <Route path="/gammes/biolab" component={() => <SimpleRedirect to="/gammes-hub?tab=bio-lab" />} />
       <Route path="/gammes/mossi" component={() => <SimpleRedirect to="/gammes-hub?tab=mossi" />} />
       {/* Note: /gammes/signatures, /gammes/pheromones, /gammes/raretes are not in hub - keep original routes */}
-      <Route path="/gammes/signatures" component={GammeSignatures} />
-      <Route path="/gammes/pheromones" component={GammePheromones} />
+      <LazyRoute path="/gammes/signatures" component={GammeSignatures} />
+      <LazyRoute path="/gammes/pheromones" component={GammePheromones} />
       <Route path="/gammes/raretes">{() => <WithLayout><GammeRaretes /></WithLayout>}</Route>
       
-      <Route path="/colombie" component={ColombieLine} />
-      <Route path="/corpus-burkina" component={CorpusBurkinaFaso} />
+      <LazyRoute path="/colombie" component={ColombieLine} />
+      <LazyRoute path="/corpus-burkina" component={CorpusBurkinaFaso} />
       <Route path="/recette/colombie/:id">{() => <WithLayout><RecetteColombie /></WithLayout>}</Route>
-      <Route path="/sourcing" component={Sourcing} />
-      <Route path="/sourcing/colombie" component={SourcingColombie} />
-      <Route path="/sourcing/france" component={SourcingFrance} />
-      <Route path="/sourcing/inde" component={SourcingInde} />
-      <Route path="/sourcing/madagascar" component={SourcingMadagascar} />
-      <Route path="/sourcing/north-america" component={SourcingNorthAmerica} />
-      <Route path="/sourcing/tabac" component={SourcingTabac} />
+      <LazyRoute path="/sourcing" component={Sourcing} />
+      <LazyRoute path="/sourcing/colombie" component={SourcingColombie} />
+      <LazyRoute path="/sourcing/france" component={SourcingFrance} />
+      <LazyRoute path="/sourcing/inde" component={SourcingInde} />
+      <LazyRoute path="/sourcing/madagascar" component={SourcingMadagascar} />
+      <LazyRoute path="/sourcing/north-america" component={SourcingNorthAmerica} />
+      <LazyRoute path="/sourcing/tabac" component={SourcingTabac} />
       <Route path="/sourcing/cannabis">{() => <WithLayout><SourcingCannabis /></WithLayout>}</Route>
-      <Route path="/sourcing-hub" component={SourcingHub} />
+      <LazyRoute path="/sourcing-hub" component={SourcingHub} />
       
       {/* === LABORATOIRE === */}
-      <Route path="/laboratoire" component={Laboratoire} />
+      <LazyRoute path="/laboratoire" component={Laboratoire} />
       <Route path="/laboratoire/recettes">{() => <WithLayout><LaboratoireRecettes /></WithLayout>}</Route>
-      <Route path="/laboratoire/matrice-interactive" component={MatriceInteractive} />
-      <Route path="/laboratoire/statistiques" component={Statistiques} />
-      <Route path="/inventaire" component={Inventaire} />
+      <LazyRoute path="/laboratoire/matrice-interactive" component={MatriceInteractive} />
+      <LazyRoute path="/laboratoire/statistiques" component={Statistiques} />
+      <LazyRoute path="/inventaire" component={Inventaire} />
       
       {/* === MOLÉCULES (Consolidé) === */}
-      <Route path="/molecules-hub" component={MoleculesHub} />
-      <Route path="/molecules" component={Molecules} />
-      <Route path="/recherche-molecule" component={MoleculeSearch} />
+      <LazyRoute path="/molecules-hub" component={MoleculesHub} />
+      <LazyRoute path="/molecules" component={Molecules} />
+      <LazyRoute path="/recherche-molecule" component={MoleculeSearch} />
       {/* Lazy-loaded detail pages */}
       <Route path="/molecule/:id">
         {(params) => (
@@ -719,15 +735,15 @@ function Router() {
           </Suspense>
         )}
       </Route>
-      <Route path="/terpene/:id" component={TerpeneDetail} />
+      <LazyRoute path="/terpene/:id" component={TerpeneDetail} />
       {/* Anciennes routes redirigées vers MoleculesHub */}
-      <Route path="/familles" component={Familles} />
-      <Route path="/familles/list" component={FamillesList} />
-      <Route path="/chemical-families" component={ChemicalFamilies} />
+      <LazyRoute path="/familles" component={Familles} />
+      <LazyRoute path="/familles/list" component={FamillesList} />
+      <LazyRoute path="/chemical-families" component={ChemicalFamilies} />
       
       {/* === RECETTES === */}
-      <Route path="/recettes" component={RecettesHub} />
-      <Route path="/recettes-tl" component={RecettesTL} />
+      <LazyRoute path="/recettes" component={RecettesHub} />
+      <LazyRoute path="/recettes-tl" component={RecettesTL} />
       <Route path="/recette/:id">
         {(params) => (
           <Suspense fallback={<PageLoader />}>
@@ -739,47 +755,47 @@ function Router() {
       {/* Legacy redirects for accords and formules-reference */}
       <Route path="/accords" component={() => <SimpleRedirect to="/recettes-hub?tab=accords" />} />
       <Route path="/formules-reference" component={() => <SimpleRedirect to="/recettes-hub?tab=formules" />} />
-      <Route path="/accords-legacy" component={Accords} />
-      <Route path="/accords-dedies" component={AccordsDedies} />
-      <Route path="/experimental-accords" component={ExperimentalAccords} />
+      <LazyRoute path="/accords-legacy" component={Accords} />
+      <LazyRoute path="/accords-dedies" component={AccordsDedies} />
+      <LazyRoute path="/experimental-accords" component={ExperimentalAccords} />
         <Route path="/recherche-radicale">{() => <WithLayout><RechercheRadicale /></WithLayout>}</Route>
         <Route path="/recherche/fondements-theoriques">{() => <WithLayout><FondementsPhilosophiques /></WithLayout>}</Route>
       
       {/* === RÉSINES CBD === */}
-      <Route path="/resines-cbd" component={ResinesCBD} />
-      <Route path="/resine-cbd/:id" component={RecetteCBDDetail} />
-      <Route path="/protocoles-maturation" component={ProtocolesMaturation} />
+      <LazyRoute path="/resines-cbd" component={ResinesCBD} />
+      <LazyRoute path="/resine-cbd/:id" component={RecetteCBDDetail} />
+      <LazyRoute path="/protocoles-maturation" component={ProtocolesMaturation} />
       
       {/* === COMPARAISON & VISUALISATION === */}
-      <Route path="/compare" component={Compare} />
-      <Route path="/compare-terpenes" component={CompareTerpenes} />
-      <Route path="/compare-radar" component={CompareRadar} />
-      <Route path="/compare-recettes" component={CompareRecettes} />
+      <LazyRoute path="/compare" component={Compare} />
+      <LazyRoute path="/compare-terpenes" component={CompareTerpenes} />
+      <LazyRoute path="/compare-radar" component={CompareRadar} />
+      <LazyRoute path="/compare-recettes" component={CompareRecettes} />
       <Route path="/compare-molecules-advanced">{() => <WithLayout><CompareMoleculesAdvanced /></WithLayout>}</Route>
-     <Route path="/comparaison-molecules" component={ComparaisonMolecules} />
-      <Route path="/compare-plants" component={ComparePlants} />
-      <Route path="/comparaison-plantes" component={ComparePlants} />
-      <Route path="/comparateur-avance" component={ComparateurAvance} />
-      <Route path="/matrice-synergies" component={MatriceSynergies} />
-      <Route path="/graphe-molecules-recettes" component={GrapheMoleculesRecettes} />
-      <Route path="/graphe-plante-molecule" component={GraphePlanteMolecule} />
-      <Route path="/graphe-synergies" component={SynergiesPage} />
-      <Route path="/synergies" component={SynergiesPage} />
-      <Route path="/graphe-relations" component={RelationsGraph} />
-      <Route path="/suggestions-synergies" component={SuggestionsSynergies} />
-      <Route path="/synergies-heatmap" component={SynergiesHeatmap} />
-      <Route path="/synergies-graph-visualization" component={SynergiesGraphVisualization} />
+      <LazyRoute path="/comparaison-molecules" component={ComparaisonMolecules} />
+      <LazyRoute path="/compare-plants" component={ComparePlants} />
+      <LazyRoute path="/comparaison-plantes" component={ComparePlants} />
+      <LazyRoute path="/comparateur-avance" component={ComparateurAvance} />
+      <LazyRoute path="/matrice-synergies" component={MatriceSynergies} />
+      <LazyRoute path="/graphe-molecules-recettes" component={GrapheMoleculesRecettes} />
+      <LazyRoute path="/graphe-plante-molecule" component={GraphePlanteMolecule} />
+      <LazyRoute path="/graphe-synergies" component={SynergiesPage} />
+      <LazyRoute path="/synergies" component={SynergiesPage} />
+      <LazyRoute path="/graphe-relations" component={RelationsGraph} />
+      <LazyRoute path="/suggestions-synergies" component={SuggestionsSynergies} />
+      <LazyRoute path="/synergies-heatmap" component={SynergiesHeatmap} />
+      <LazyRoute path="/synergies-graph-visualization" component={SynergiesGraphVisualization} />
       <Route path="/correlations">{() => <WithLayout><CorrelationsParfumTabacCannabis /></WithLayout>}</Route>
-      <Route path="/parfums" component={ParfumsEmblematiques} />
-      <Route path="/muscs" component={MuscsComparatif} />
+      <LazyRoute path="/parfums" component={ParfumsEmblematiques} />
+      <LazyRoute path="/muscs" component={MuscsComparatif} />
       <Route path="/recipe-network">{() => <WithLayout><RecipeNetworkPage /></WithLayout>}</Route>
-      <Route path="/sankey-flow" component={SankeyFlow} />
-      <Route path="/enhanced-radar" component={EnhancedRadarDemo} />
+      <LazyRoute path="/sankey-flow" component={SankeyFlow} />
+      <LazyRoute path="/enhanced-radar" component={EnhancedRadarDemo} />
       
       {/* === OUTILS === */}
       {/* Legacy redirects to outils-hub */}
       <Route path="/outils" component={() => <SimpleRedirect to="/outils-hub" />} />
-      <Route path="/outils-hub" component={OutilsHub} />
+      <LazyRoute path="/outils-hub" component={OutilsHub} />
       <Route path="/outils-formulation" component={() => <SimpleRedirect to="/outils-hub" />} />
       <Route path="/calculateur" component={() => <SimpleRedirect to="/outils-hub?tab=calculateurs" />} />
       <Route path="/outils/dilution" component={() => <SimpleRedirect to="/outils-hub?tab=calculateurs" />} />
@@ -788,62 +804,62 @@ function Router() {
       <Route path="/outils/generateur-formules" component={() => <SimpleRedirect to="/outils-hub?tab=formulation" />} />
       {/* Keep these as they're not in hub */}
       <Route path="/analyses">{() => <WithLayout><CorrelationAnalysis /></WithLayout>}</Route>
-      <Route path="/absorbe-scale" component={AbsorbeScale} />
-      <Route path="/outils/enrichissement-pubchem" component={EnrichissementPubChem} />
-      <Route path="/outils/carte-origines" component={CarteOrigines} />
-      <Route path="/carte-terroirs-recherche" component={CarteTerroirsRecherche} />
-      <Route path="/carte-plantes-gps" component={CartePlantesGPS} />
-      <Route path="/outils/visualisations-correlation" component={VisualisationsCorrelation} />
-      <Route path="/outils/export-bibliographique" component={ExportBibliographique} />
+      <LazyRoute path="/absorbe-scale" component={AbsorbeScale} />
+      <LazyRoute path="/outils/enrichissement-pubchem" component={EnrichissementPubChem} />
+      <LazyRoute path="/outils/carte-origines" component={CarteOrigines} />
+      <LazyRoute path="/carte-terroirs-recherche" component={CarteTerroirsRecherche} />
+      <LazyRoute path="/carte-plantes-gps" component={CartePlantesGPS} />
+      <LazyRoute path="/outils/visualisations-correlation" component={VisualisationsCorrelation} />
+      <LazyRoute path="/outils/export-bibliographique" component={ExportBibliographique} />
       
       {/* === RECHERCHE SCIENTIFIQUE === */}
       <Route path="/recherche-scientifique">{() => <WithLayout><RechercheScientifique /></WithLayout>}</Route>
-      <Route path="/recherche-scientifique/synergies-moleculaires" component={SynergiesMoleculaires} />
-      <Route path="/recherche-scientifique/pyrolyse-combustion" component={PyrolyseCombustion} />
-      <Route path="/recherche-scientifique/courbes-volatilite" component={CourbesVolatilite} />
-      <Route path="/recherche-scientifique/degradation-terpenes" component={DegradationTerpenes} />
-      <Route path="/recherche-scientifique/modeles-analytiques-gcms" component={ModelesAnalytiquesGCMS} />
-      <Route path="/recherche-scientifique/donnees" component={ResearchData} />
-      <Route path="/research-data" component={ResearchData} />
-      <Route path="/synergies-terpenes-niches" component={SynergiesTerpenesNiches} />
-      <Route path="/chimie-tabac" component={ChimieTabac} />
-      <Route path="/interactions-tabac-cannabis" component={InteractionsTabacCannabis} />
-      <Route path="/comparaison-terpenes" component={ComparaisonTerpenes} />
-      <Route path="/outil-formulation" component={OutilFormulation} />
+      <LazyRoute path="/recherche-scientifique/synergies-moleculaires" component={SynergiesMoleculaires} />
+      <LazyRoute path="/recherche-scientifique/pyrolyse-combustion" component={PyrolyseCombustion} />
+      <LazyRoute path="/recherche-scientifique/courbes-volatilite" component={CourbesVolatilite} />
+      <LazyRoute path="/recherche-scientifique/degradation-terpenes" component={DegradationTerpenes} />
+      <LazyRoute path="/recherche-scientifique/modeles-analytiques-gcms" component={ModelesAnalytiquesGCMS} />
+      <LazyRoute path="/recherche-scientifique/donnees" component={ResearchData} />
+      <LazyRoute path="/research-data" component={ResearchData} />
+      <LazyRoute path="/synergies-terpenes-niches" component={SynergiesTerpenesNiches} />
+      <LazyRoute path="/chimie-tabac" component={ChimieTabac} />
+      <LazyRoute path="/interactions-tabac-cannabis" component={InteractionsTabacCannabis} />
+      <LazyRoute path="/comparaison-terpenes" component={ComparaisonTerpenes} />
+      <LazyRoute path="/outil-formulation" component={OutilFormulation} />
       
       {/* === PROGRAMMES DE RECHERCHE === */}
-      <Route path="/programmes-recherche" component={ProgrammesRecherche} />
-      <Route path="/programmes-recherche/resines-cbd" component={ResinesCBD} />
-      <Route path="/programmes-recherche/tabacs-niche" component={TabacsNiche} />
+      <Route path="/programmes-recherche">{() => <WithLayout><ProgrammesRecherche /></WithLayout>}</Route>
+      <Route path="/programmes-recherche/resines-cbd">{() => <WithLayout><ResinesCBD /></WithLayout>}</Route>
+      <Route path="/programmes-recherche/tabacs-niche">{() => <WithLayout><TabacsNiche /></WithLayout>}</Route>
       
       {/* === JOURNAL & MÉTHODOLOGIE === */}
-      <Route path="/journal" component={Journal} />
-      <Route path="/methode" component={MethodeAbsorbe} />
-      <Route path="/methode-absorbe" component={MethodeAbsorbe} />
-          <Route path="/methodologie/absorbe" component={MethodologieAbsorbe} />
-          <Route path="/methodologie/recherche">{() => <WithLayout><MethodologieRecherche /></WithLayout>}</Route>
-          <Route path="/outils/generateur-formules" component={GenerateurFormules} />
-      <Route path="/historique-formules" component={HistoriqueFormules} />
-      <Route path="/methodologie/echelle-absorbe" component={EchelleAbsorbe} />
-      <Route path="/methodologie/pyrolyse" component={Pyrolyse} />
-      <Route path="/methodologie/gc-ms" component={GCMS} />
-      <Route path="/methodologie/gcms" component={GCMS} />
+      <Route path="/journal">{() => <WithLayout><Journal /></WithLayout>}</Route>
+      <Route path="/methode">{() => <WithLayout><MethodeAbsorbe /></WithLayout>}</Route>
+      <Route path="/methode-absorbe">{() => <WithLayout><MethodeAbsorbe /></WithLayout>}</Route>
+      <Route path="/methodologie/absorbe">{() => <WithLayout><MethodologieAbsorbe /></WithLayout>}</Route>
+      <Route path="/methodologie/recherche">{() => <WithLayout><MethodologieRecherche /></WithLayout>}</Route>
+      <Route path="/outils/generateur-formules">{() => <WithLayout><GenerateurFormules /></WithLayout>}</Route>
+      <Route path="/historique-formules">{() => <WithLayout><HistoriqueFormules /></WithLayout>}</Route>
+      <Route path="/methodologie/echelle-absorbe">{() => <WithLayout><EchelleAbsorbe /></WithLayout>}</Route>
+      <Route path="/methodologie/pyrolyse">{() => <WithLayout><Pyrolyse /></WithLayout>}</Route>
+      <Route path="/methodologie/gc-ms">{() => <WithLayout><GCMS /></WithLayout>}</Route>
+      <Route path="/methodologie/gcms">{() => <WithLayout><GCMS /></WithLayout>}</Route>
       
       {/* === CONTENU ÉDITORIAL === */}
-      <Route path="/etudes" component={Etudes} />
-      <Route path="/etudes-climatiques" component={EtudesClimatiques} />
-      <Route path="/etudes-climatiques/:id" component={EtudeClimatiqueDetail} />
-      <Route path="/archives-terrain" component={ArchivesTerrain} />
-      <Route path="/archives-terrain/:id" component={ArchiveTerrainDetail} />
-      <Route path="/protocoles-moleculaires" component={ProtocolesMoleculaires} />
-      <Route path="/protocoles-moleculaires/:id" component={ProtocoleMoleculaireDetail} />
-      <Route path="/tests-extraction" component={TestsExtraction} />
-      <Route path="/tests-extraction/:id" component={TestExtractionDetail} />
-      <Route path="/odeurs-situees" component={OdeursSituees} />
-      <Route path="/odeurs-situees/:id" component={OdeurSitueeDetail} />
-      <Route path="/projets" component={Projets} />
-      <Route path="/terrains" component={Terrains} />
-      <Route path="/bibliographie" component={BibliographiePage} />
+      <LazyRoute path="/etudes" component={Etudes} />
+      <LazyRoute path="/etudes-climatiques" component={EtudesClimatiques} />
+      <LazyRoute path="/etudes-climatiques/:id" component={EtudeClimatiqueDetail} />
+      <LazyRoute path="/archives-terrain" component={ArchivesTerrain} />
+      <LazyRoute path="/archives-terrain/:id" component={ArchiveTerrainDetail} />
+      <LazyRoute path="/protocoles-moleculaires" component={ProtocolesMoleculaires} />
+      <LazyRoute path="/protocoles-moleculaires/:id" component={ProtocoleMoleculaireDetail} />
+      <LazyRoute path="/tests-extraction" component={TestsExtraction} />
+      <LazyRoute path="/tests-extraction/:id" component={TestExtractionDetail} />
+      <LazyRoute path="/odeurs-situees" component={OdeursSituees} />
+      <LazyRoute path="/odeurs-situees/:id" component={OdeurSitueeDetail} />
+      <LazyRoute path="/projets" component={Projets} />
+      <LazyRoute path="/terrains" component={Terrains} />
+      <LazyRoute path="/bibliographie" component={BibliographiePage} />
       <Route path="/bibliographie-globale">
         {() => (
           <Suspense fallback={<PageLoader />}>
@@ -851,20 +867,20 @@ function Router() {
           </Suspense>
         )}
       </Route>
-      <Route path="/references-v3" component={ReferencesV3} />
-      <Route path="/reference-entity-link-manager" component={ReferenceEntityLinkManager} />
-      <Route path="/bulk-import-references" component={BulkImportReferences} />
-      <Route path="/reseau-liaisons-references" component={ReferenceLinkNetwork} />
-      <Route path="/suggest-reference-links" component={SuggestReferenceLinks} />
-      <Route path="/visualisations" component={Visualisations} />
-      <Route path="/bibliographie-hub" component={Bibliographie} />
-      <Route path="/heritage-conservation" component={HeritageConservation} />
-      <Route path="/h2-linking" component={H2LinkingInterface} />
-      <Route path="/h3-linking" component={H3LinkingInterface} />
-      <Route path="/genomics-explorer" component={GenomicsExplorer} />
-      <Route path="/tps-genes" component={TpsGenesExplorer} />
-      <Route path="/molecular-transformations" component={MolecularTransformations} />
-      <Route path="/axes-recherche" component={AxesRecherche} />
+      <LazyRoute path="/references-v3" component={ReferencesV3} />
+      <LazyRoute path="/reference-entity-link-manager" component={ReferenceEntityLinkManager} />
+      <LazyRoute path="/bulk-import-references" component={BulkImportReferences} />
+      <LazyRoute path="/reseau-liaisons-references" component={ReferenceLinkNetwork} />
+      <LazyRoute path="/suggest-reference-links" component={SuggestReferenceLinks} />
+      <LazyRoute path="/visualisations" component={Visualisations} />
+      <LazyRoute path="/bibliographie-hub" component={Bibliographie} />
+      <LazyRoute path="/heritage-conservation" component={HeritageConservation} />
+      <LazyRoute path="/h2-linking" component={H2LinkingInterface} />
+      <LazyRoute path="/h3-linking" component={H3LinkingInterface} />
+      <LazyRoute path="/genomics-explorer" component={GenomicsExplorer} />
+      <LazyRoute path="/tps-genes" component={TpsGenesExplorer} />
+      <LazyRoute path="/molecular-transformations" component={MolecularTransformations} />
+      <LazyRoute path="/axes-recherche" component={AxesRecherche} />
       <Route path="/axes-recherche/:code">
         {(params) => (
           <Suspense fallback={<PageLoader />}>
@@ -872,23 +888,23 @@ function Router() {
           </Suspense>
         )}
       </Route>
-      <Route path="/reseau-axes" component={ReseauAxes} />
-      <Route path="/gestion" component={GestionPage} />
+      <LazyRoute path="/reseau-axes" component={ReseauAxes} />
+      <LazyRoute path="/gestion" component={GestionPage} />
       <Route path="/collaborations">{() => <WithLayout><Collaborations /></WithLayout>}</Route>
-      <Route path="/archives" component={Archives} />
-      <Route path="/patrimoine-menace" component={PatrimoineMenace} />
+      <LazyRoute path="/archives" component={Archives} />
+      <LazyRoute path="/patrimoine-menace" component={PatrimoineMenace} />
       <Route path="/explorer-par-odeur">{() => <WithLayout><ExplorerParOdeur /></WithLayout>}</Route>
-      <Route path="/alternatives-durables" component={AlternativesDurables} />
-      <Route path="/archives-olfactives" component={ArchivesOlfactives} />
+      <LazyRoute path="/alternatives-durables" component={AlternativesDurables} />
+      <LazyRoute path="/archives-olfactives" component={ArchivesOlfactives} />
 
-      <Route path="/glossaire" component={Glossaire} />
-      <Route path="/glossaire-visuel-radar" component={GlossaireVisuelRadar} />
-      <Route path="/contribuer" component={Contribuer} />
-      <Route path="/contributor" component={ContributorInterface} />
-      <Route path="/contributor/add" component={ContributorInterface} />
-      <Route path="/contributor/links" component={PlantMoleculeLinking} />
-      <Route path="/contributor/simple" component={SimplifiedContributorForm} />
-      <Route path="/coverage-goal" component={CoverageGoalDashboard} />
+      <LazyRoute path="/glossaire" component={Glossaire} />
+      <LazyRoute path="/glossaire-visuel-radar" component={GlossaireVisuelRadar} />
+      <LazyRoute path="/contribuer" component={Contribuer} />
+      <LazyRoute path="/contributor" component={ContributorInterface} />
+      <LazyRoute path="/contributor/add" component={ContributorInterface} />
+      <LazyRoute path="/contributor/links" component={PlantMoleculeLinking} />
+      <LazyRoute path="/contributor/simple" component={SimplifiedContributorForm} />
+      <LazyRoute path="/coverage-goal" component={CoverageGoalDashboard} />
       <Route path="/csv-validation-import">
         {() => (
           <Suspense fallback={<PageLoader />}>
@@ -896,31 +912,31 @@ function Router() {
           </Suspense>
         )}
       </Route>
-      <Route path="/plant-molecule-linking" component={PlantMoleculeLinking} />
-      <Route path="/timeline" component={Timeline} />
-      <Route path="/timeline/interactive" component={TimelineInteractive} />
-      <Route path="/formules-reference" component={FormulesReference} />
-      <Route path="/comparaison" component={ComparaisonAvancee} />
+      <LazyRoute path="/plant-molecule-linking" component={PlantMoleculeLinking} />
+      <LazyRoute path="/timeline" component={Timeline} />
+      <LazyRoute path="/timeline/interactive" component={TimelineInteractive} />
+      <LazyRoute path="/formules-reference" component={FormulesReference} />
+      <LazyRoute path="/comparaison" component={ComparaisonAvancee} />
       {/* <Route path="/galerie-botaniques" component={GalerieBotaniques} /> */} {/* Intégré dans /plants?tab=gallery */}
-      <Route path="/galerie" component={Gallery} />
-      <Route path="/gallery" component={Gallery} />
-      <Route path="/galerie/import" component={BatchImport} />
-      <Route path="/batch-import" component={BatchImport} />
-      <Route path="/ifra" component={Ifra} />
-      <Route path="/reglementation-ifra" component={Ifra} />
+      <LazyRoute path="/galerie" component={Gallery} />
+      <LazyRoute path="/gallery" component={Gallery} />
+      <LazyRoute path="/galerie/import" component={BatchImport} />
+      <LazyRoute path="/batch-import" component={BatchImport} />
+      <LazyRoute path="/ifra" component={Ifra} />
+      <LazyRoute path="/reglementation-ifra" component={Ifra} />
       
       {/* === SAN ANDRÉS / LEAF ECONOMIES === */}
-      <Route path="/leaf-economies" component={LeafEconomies} />
-      <Route path="/san-andres" component={LeafEconomies} />
-      <Route path="/san-andres/leaf-economies" component={LeafEconomies} />
-      <Route path="/san-andres/echantillon/:id" component={LeafEconomyDetail} />
-      <Route path="/san-andres/echantillon/:id/edit" component={LeafEconomyForm} />
-      <Route path="/san-andres/echantillon/new" component={LeafEconomyForm} />
-      <Route path="/timeline-botanique" component={TimelineBotanique} />
-      <Route path="/botanique-critique" component={BotaniqueCritique} />
-      <Route path="/varietes-fantomes" component={VarietesFantomes} />
-      <Route path="/ghost-varieties-explorer" component={GhostVarietiesExplorer} />
-      <Route path="/ghost-variety/new" component={GhostVarietyForm} />
+      <LazyRoute path="/leaf-economies" component={LeafEconomies} />
+      <LazyRoute path="/san-andres" component={LeafEconomies} />
+      <LazyRoute path="/san-andres/leaf-economies" component={LeafEconomies} />
+      <LazyRoute path="/san-andres/echantillon/:id" component={LeafEconomyDetail} />
+      <LazyRoute path="/san-andres/echantillon/:id/edit" component={LeafEconomyForm} />
+      <LazyRoute path="/san-andres/echantillon/new" component={LeafEconomyForm} />
+      <LazyRoute path="/timeline-botanique" component={TimelineBotanique} />
+      <LazyRoute path="/botanique-critique" component={BotaniqueCritique} />
+      <LazyRoute path="/varietes-fantomes" component={VarietesFantomes} />
+      <LazyRoute path="/ghost-varieties-explorer" component={GhostVarietiesExplorer} />
+      <LazyRoute path="/ghost-variety/new" component={GhostVarietyForm} />
       <Route path="/ghost-variety/:id">
         {(params) => (
           <Suspense fallback={<PageLoader />}>
@@ -928,40 +944,40 @@ function Router() {
           </Suspense>
         )}
       </Route>
-      <Route path="/ghost-variety/:id/upload-image" component={GhostVarietyImageUpload} />
+      <LazyRoute path="/ghost-variety/:id/upload-image" component={GhostVarietyImageUpload} />
       <Route path="/recettes-leaf-economies">{() => <WithLayout><RecettesLeafEconomies /></WithLayout>}</Route>
-      <Route path="/terp-profiles" component={TerpProfiles} />
-      <Route path="/terp-profiles/compare" component={TerpProfilesCompare} />
-      <Route path="/plants" component={PlantsHub} />
-      <Route path="/plantes" component={PlantsHub} />
-      <Route path="/plants-legacy" component={Plants} />
-      <Route path="/varietes" component={PlantsHub} />
-      <Route path="/plant-varieties" component={PlantsHub} />
-      <Route path="/plantes-varietes" component={PlantsHub} />
-      <Route path="/varietes-legacy" component={PlantVarieties} />
-      <Route path="/varietes/new" component={VarietyForm} />
-      <Route path="/varietes/:id" component={VarietyDetail} />
-      <Route path="/genealogy" component={GenealogyGraph} />
-      <Route path="/arbre-genealogique" component={GenealogyGraph} />
-      <Route path="/plantes-varietes/new" component={VarietyForm} />
-      <Route path="/carte-varietes" component={CarteVarietes} />
-      <Route path="/carte-origines" component={CarteVarietes} />
-      <Route path="/chemotypes" component={Chemotypes} />
-      <Route path="/phylogenetique" component={PhylogeneticView} />
-      <Route path="/phylogenetic" component={PhylogeneticView} />
-      <Route path="/famille/:name" component={FamilyDetail} />
-      <Route path="/smiles" component={SmilesViewer} />
-      <Route path="/structures" component={SmilesViewer} />
-      <Route path="/enrichissement" component={EnrichmentDashboard} />
-      <Route path="/enrichment" component={EnrichmentDashboard} />
-      <Route path="/ifra" component={IFRACompliance} />
-      <Route path="/conformite-ifra" component={IFRACompliance} />
-      <Route path="/percepts" component={PerceptSearch} />
-      <Route path="/recherche-percepts" component={PerceptSearch} />
-      <Route path="/stats-olfactives" component={OlfactiveStats} />
-      <Route path="/statistiques" component={OlfactiveStats} />
-      <Route path="/plants/new" component={PlantForm} />
-      <Route path="/plants/:id/edit" component={PlantForm} />
+      <LazyRoute path="/terp-profiles" component={TerpProfiles} />
+      <LazyRoute path="/terp-profiles/compare" component={TerpProfilesCompare} />
+      <LazyRoute path="/plants" component={PlantsHub} />
+      <LazyRoute path="/plantes" component={PlantsHub} />
+      <LazyRoute path="/plants-legacy" component={Plants} />
+      <LazyRoute path="/varietes" component={PlantsHub} />
+      <LazyRoute path="/plant-varieties" component={PlantsHub} />
+      <LazyRoute path="/plantes-varietes" component={PlantsHub} />
+      <LazyRoute path="/varietes-legacy" component={PlantVarieties} />
+      <LazyRoute path="/varietes/new" component={VarietyForm} />
+      <LazyRoute path="/varietes/:id" component={VarietyDetail} />
+      <LazyRoute path="/genealogy" component={GenealogyGraph} />
+      <LazyRoute path="/arbre-genealogique" component={GenealogyGraph} />
+      <LazyRoute path="/plantes-varietes/new" component={VarietyForm} />
+      <LazyRoute path="/carte-varietes" component={CarteVarietes} />
+      <LazyRoute path="/carte-origines" component={CarteVarietes} />
+      <LazyRoute path="/chemotypes" component={Chemotypes} />
+      <LazyRoute path="/phylogenetique" component={PhylogeneticView} />
+      <LazyRoute path="/phylogenetic" component={PhylogeneticView} />
+      <LazyRoute path="/famille/:name" component={FamilyDetail} />
+      <LazyRoute path="/smiles" component={SmilesViewer} />
+      <LazyRoute path="/structures" component={SmilesViewer} />
+      <LazyRoute path="/enrichissement" component={EnrichmentDashboard} />
+      <LazyRoute path="/enrichment" component={EnrichmentDashboard} />
+      <LazyRoute path="/ifra" component={IFRACompliance} />
+      <LazyRoute path="/conformite-ifra" component={IFRACompliance} />
+      <LazyRoute path="/percepts" component={PerceptSearch} />
+      <LazyRoute path="/recherche-percepts" component={PerceptSearch} />
+      <LazyRoute path="/stats-olfactives" component={OlfactiveStats} />
+      <LazyRoute path="/statistiques" component={OlfactiveStats} />
+      <LazyRoute path="/plants/new" component={PlantForm} />
+      <LazyRoute path="/plants/:id/edit" component={PlantForm} />
       <Route path="/plantes/par-molecule">
         {() => (
           <Suspense fallback={<PageLoader />}>
@@ -990,75 +1006,75 @@ function Router() {
           </Suspense>
         )}
       </Route>
-      <Route path="/final-recipes" component={FinalRecipes} />
-      <Route path="/recettes-finales" component={FinalRecipes} />
-      <Route path="/final-recipes/:id" component={FinalRecipeDetail} />
-      <Route path="/recettes-finales/:id" component={FinalRecipeDetail} />
-      <Route path="/terroirs" component={PlantsHub} />
-      <Route path="/terroirs-legacy" component={Terroirs} />
-      <Route path="/terroirs/:id" component={TerroirDetail} />
-      <Route path="/chemotypes" component={ChemotypesExplorer} />
-      <Route path="/methodes-analytiques" component={AnalyticalMethodsPage} />
-      <Route path="/analytical-methods" component={AnalyticalMethodsPage} />
-      <Route path="/origines-geographiques" component={OriginesGeographiques} />
-      <Route path="/extraction-methods" component={ExtractionMethods} />
-      <Route path="/methodes-extraction" component={ExtractionMethods} />
-      <Route path="/comparaison-extractions" component={ComparaisonExtractions} />
-      <Route path="/he-absolue-co2" component={ComparaisonExtractions} />
+      <LazyRoute path="/final-recipes" component={FinalRecipes} />
+      <LazyRoute path="/recettes-finales" component={FinalRecipes} />
+      <LazyRoute path="/final-recipes/:id" component={FinalRecipeDetail} />
+      <LazyRoute path="/recettes-finales/:id" component={FinalRecipeDetail} />
+      <LazyRoute path="/terroirs" component={PlantsHub} />
+      <LazyRoute path="/terroirs-legacy" component={Terroirs} />
+      <LazyRoute path="/terroirs/:id" component={TerroirDetail} />
+      <LazyRoute path="/chemotypes" component={ChemotypesExplorer} />
+      <LazyRoute path="/methodes-analytiques" component={AnalyticalMethodsPage} />
+      <LazyRoute path="/analytical-methods" component={AnalyticalMethodsPage} />
+      <LazyRoute path="/origines-geographiques" component={OriginesGeographiques} />
+      <LazyRoute path="/extraction-methods" component={ExtractionMethods} />
+      <LazyRoute path="/methodes-extraction" component={ExtractionMethods} />
+      <LazyRoute path="/comparaison-extractions" component={ComparaisonExtractions} />
+      <LazyRoute path="/he-absolue-co2" component={ComparaisonExtractions} />
       
       {/* === MATIÈRES PREMIÈRES & RELATIONS === */}
-      <Route path="/matieres-premieres" component={MatieresPremieres} />
-      <Route path="/matieres-premieres/nouvelle" component={RawMaterialForm} />
-      <Route path="/matieres-premieres/:id" component={MatierePremierePage} />
-      <Route path="/raw-materials" component={RawMaterials} />
-      <Route path="/raw-materials/:id" component={RawMaterialDetail} />
-      <Route path="/relations-molecule-plante" component={MoleculePlantRelations} />
-      <Route path="/molecule-plant-relations" component={MoleculePlantRelations} />
+      <LazyRoute path="/matieres-premieres" component={MatieresPremieres} />
+      <LazyRoute path="/matieres-premieres/nouvelle" component={RawMaterialForm} />
+      <LazyRoute path="/matieres-premieres/:id" component={MatierePremierePage} />
+      <LazyRoute path="/raw-materials" component={RawMaterials} />
+      <LazyRoute path="/raw-materials/:id" component={RawMaterialDetail} />
+      <LazyRoute path="/relations-molecule-plante" component={MoleculePlantRelations} />
+      <LazyRoute path="/molecule-plant-relations" component={MoleculePlantRelations} />
       
       {/* === CIVILISATIONS & TRADITIONS === */}
-      <Route path="/civilisations" component={Civilisations} />
-      <Route path="/civilisation/:id" component={CivilisationDetail} />
-      <Route path="/installations" component={Installations} />
+      <LazyRoute path="/civilisations" component={Civilisations} />
+      <LazyRoute path="/civilisation/:id" component={CivilisationDetail} />
+      <LazyRoute path="/installations" component={Installations} />
       
       {/* === TABACS & ASSOCIATIONS === */}
       <Route path="/tabacs-resines">{() => <WithLayout><TabacsResines /></WithLayout>}</Route>
-      <Route path="/tabacs-naturels" component={TabacsNaturels} />
-      <Route path="/tabacs-originaux" component={TabacsOriginaux} />
-      <Route path="/associations" component={Associations} />
-      <Route path="/fournisseurs" component={Fournisseurs} />
+      <LazyRoute path="/tabacs-naturels" component={TabacsNaturels} />
+      <LazyRoute path="/tabacs-originaux" component={TabacsOriginaux} />
+      <LazyRoute path="/associations" component={Associations} />
+      <LazyRoute path="/fournisseurs" component={Fournisseurs} />
       
       {/* === DASHBOARDS === */}
-      <Route path="/dashboard" component={DashboardMinimal} />
-      <Route path="/dashboard/recherche" component={DashboardRecherche} />
-      <Route path="/analytics" component={AnalyticsDashboard} />
-      <Route path="/analytics/advanced" component={AnalyticsDashboardAdvanced} />
-      <Route path="/mon-dashboard" component={MonDashboard} />
-      <Route path="/statistiques" component={Statistics} />
- <LazyRoute path="/recherche" component={RechercheAvancee} />
-      <Route path="/recherche-profil-moleculaire" component={RechercheProfilMoleculaire} />
+      <LazyRoute path="/dashboard" component={DashboardMinimal} />
+      <LazyRoute path="/dashboard/recherche" component={DashboardRecherche} />
+      <LazyRoute path="/analytics" component={AnalyticsDashboard} />
+      <LazyRoute path="/analytics/advanced" component={AnalyticsDashboardAdvanced} />
+      <LazyRoute path="/mon-dashboard" component={MonDashboard} />
+      <LazyRoute path="/statistiques" component={Statistics} />
+      <LazyRoute path="/recherche" component={RechercheAvancee} />
+      <LazyRoute path="/recherche-profil-moleculaire" component={RechercheProfilMoleculaire} />
       {/* Route /recherche-avancee déjà définie ligne 364 avec RechercheAvancee */}
-      <Route path="/recherche-croisee" component={CrossSearch} />
+      <LazyRoute path="/recherche-croisee" component={CrossSearch} />
       <Route path="/timeline-recettes">{() => <WithLayout><RecipeTimeline /></WithLayout>}</Route>
       <Route path="/heatmap-correlations">{() => <WithLayout><RadarCorrelationHeatmap /></WithLayout>}</Route>
       
       {/* === UTILISATEUR === */}
-      <Route path="/favoris" component={Favoris} />
+      <LazyRoute path="/favoris" component={Favoris} />
       <Route path="/mes-favoris">{() => <WithLayout><MyFavorites /></WithLayout>}</Route>
-      <Route path="/reseau" component={Reseau} />
-      <Route path="/reseau-molecules-plantes" component={ReseauMoleculePlante} />
-      <Route path="/reseau-plantes-molecules" component={PlantMoleculeNetwork} />
-      <Route path="/reseau-plantes-terroirs" component={PlantTerroirNetwork} />
-      <Route path="/carte-terroirs-plantes" component={CarteTerroirsPlantes} />
-      <Route path="/graphe-terroir-plante-molecule" component={GrapheTerroirPlanteMolecule} />
-      <Route path="/graphe-molecules-familles-chimiques" component={GrapheMoleculesFamillesChimiques} />
-      <Route path="/vue-connexions" component={VueDetailConnexions} />
-      <Route path="/graphe-axes-thematiques" component={GrapheAxesThematiques} />
+      <LazyRoute path="/reseau" component={Reseau} />
+      <LazyRoute path="/reseau-molecules-plantes" component={ReseauMoleculePlante} />
+      <LazyRoute path="/reseau-plantes-molecules" component={PlantMoleculeNetwork} />
+      <LazyRoute path="/reseau-plantes-terroirs" component={PlantTerroirNetwork} />
+      <LazyRoute path="/carte-terroirs-plantes" component={CarteTerroirsPlantes} />
+      <LazyRoute path="/graphe-terroir-plante-molecule" component={GrapheTerroirPlanteMolecule} />
+      <LazyRoute path="/graphe-molecules-familles-chimiques" component={GrapheMoleculesFamillesChimiques} />
+      <LazyRoute path="/vue-connexions" component={VueDetailConnexions} />
+      <LazyRoute path="/graphe-axes-thematiques" component={GrapheAxesThematiques} />
       {/* Alias court */}
-      <Route path="/axes-thematiques" component={GrapheAxesThematiques} />
-      <Route path="/graphe-references-axes" component={GrapheReferencesAxes} />
-      <Route path="/references-graph" component={ReferencesGraph} />
-      <Route path="/carte-interactive-terroirs" component={CarteInteractiveTerroirs} />
-      <Route path="/carte-terroirs" component={TerroirMapPage} />
+      <LazyRoute path="/axes-thematiques" component={GrapheAxesThematiques} />
+      <LazyRoute path="/graphe-references-axes" component={GrapheReferencesAxes} />
+      <LazyRoute path="/references-graph" component={ReferencesGraph} />
+      <LazyRoute path="/carte-interactive-terroirs" component={CarteInteractiveTerroirs} />
+      <LazyRoute path="/carte-terroirs" component={TerroirMapPage} />
       <Route path="/parcours-olfactif">
         {() => (
           <Suspense fallback={<PageLoader />}>
@@ -1066,7 +1082,7 @@ function Router() {
           </Suspense>
         )}
       </Route>
-      <Route path="/parcours/:code" component={ParcoursDetail} />
+      <LazyRoute path="/parcours/:code" component={ParcoursDetail} />
       <Route path="/bio-mineralis">{() => <WithLayout><BioMineralis /></WithLayout>}</Route>
       <Route path="/admin/duplicates" component={AdminDuplicates} />
       

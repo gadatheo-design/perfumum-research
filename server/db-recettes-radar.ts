@@ -1,8 +1,9 @@
 import { getDb } from './db';
-import { withCache, invalidateRecetteCache, CACHE_TTL } from './cache';
+import { withCache, invalidateRecetteCache, CACHE_TTL, cache } from './cache';
 
-// Clé de cache pour les profils radar
+// Clés de cache pour les profils radar
 const RADAR_CACHE_KEY = 'recettes:radar:all';
+const RADAR_RECETTE_KEY = (id: number) => `recettes:radar:${id}`;
 
 // Interface pour une recette avec son profil radar moyen
 export interface RecetteWithRadar {
@@ -104,9 +105,19 @@ export async function getAllRecettesWithRadar(): Promise<RecetteWithRadar[]> {
   );
 }
 
-// Invalider le cache radar lors d'une mutation de recette
+// Invalider tout le cache radar (ex: ajout/suppression de recette)
 export function invalidateRadarCache(): void {
+  cache.invalidate(RADAR_CACHE_KEY);
+  cache.invalidatePattern('^recettes:radar:');
   invalidateRecetteCache();
+}
+
+// Invalider le cache radar d'une seule recette (ex: ajout d'une molécule à une recette existante)
+export function invalidateRadarCacheForRecette(recetteId: number): void {
+  cache.invalidate(RADAR_RECETTE_KEY(recetteId));
+  // Invalider aussi le cache global car la liste agrégée contient cette recette
+  cache.invalidate(RADAR_CACHE_KEY);
+  invalidateRecetteCache(recetteId);
 }
 
 // Interface pour les filtres radar

@@ -2977,3 +2977,26 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 
 ### Phase 3 : Checkpoint
 - [ ] Sauvegarder le checkpoint
+
+---
+
+## 🔧 SESSION 20 MARS 2026 — Invalidation sélective + Corrections 404
+
+### Phase 1 : Invalidation sélective cache radar
+- [x] Ajouter invalidateRadarCacheForRecette(id) dans db-recettes-radar.ts
+- [x] Utiliser invalidateRadarCacheForRecette dans addMoleculeAssociation (invalide uniquement la recette modifiée)
+
+### Phase 2 : Correction 404 /storyline/burkina-faso-combustion-lente
+- [x] Diagnostiqué : route /storyline/:slug manquante dans App.tsx + base vide
+- [x] Créé la route /storyline/:slug dans App.tsx avec WithLayout
+- [x] Créé StorylineDetail.tsx avec état "introuvable" élégant si slug absent en base
+
+### Phase 3 : Correction 404 Tabac Niche
+- [x] Diagnostiqué : route sans WithLayout (component= au lieu de WithLayout)
+- [x] Corrigé /programmes-recherche/tabacs-niche et 10+ autres routes du même bloc
+- [x] Audit massif : converti 200+ routes publiques de component= en LazyRoute (avec WithLayout intégré)
+- [x] LazyRoute inclut maintenant automatiquement WithLayout pour toutes les pages publiques
+- [x] LazyRouteRaw créé pour les pages admin sans layout
+
+### Phase 4 : Checkpoint
+- [ ] Sauvegarder le checkpoint

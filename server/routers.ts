@@ -45,7 +45,7 @@ import {
   searchPlantsByMolecule,
   searchPlantsByTerroir,
 } from "./db";
-import { getAllRecettesWithRadar, filterRecettesByRadar, invalidateRadarCache, type RadarFilters } from "./db-recettes-radar";
+import { getAllRecettesWithRadar, filterRecettesByRadar, invalidateRadarCache, invalidateRadarCacheForRecette, type RadarFilters } from "./db-recettes-radar";
 import { getSimilarRecettes, getSimilarMolecules, getRecommendedRecettesFromFavorites } from "./db-recommendations";
 import { koppenRouter } from "./routers/koppen";
 import { tobaccoRouter } from "./routers/tobacco";
@@ -1166,9 +1166,8 @@ export const appRouter = router({
           input.proportion,
           input.notes
         );
-        // Le profil radar de la recette a changé : invalider le cache radar
-        invalidateRadarCache();
-        invalidateRecetteCache(input.recetteId);
+        // Invalider uniquement le cache radar de cette recette (invalidation sélective)
+        invalidateRadarCacheForRecette(input.recetteId);
         return result;
       }),
     
