@@ -3018,3 +3018,28 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 ### Phase 3 : Validation et checkpoint
 - [x] API storylines.getBySlug fonctionne (17 éléments chargés)
 - [ ] Sauvegarder le checkpoint
+
+---
+
+## 📖 SESSION 20 MARS 2026 — Création des 3 storylines manquants
+
+### Storyline 1 : Tabac Oriental
+- [x] Analysé : 15 tabacs orientaux (Samsun, Xanthi, Izmir, Basma, Latakia, Yenidje, Dubek, Djebel...)
+- [x] Créé storyline id=30002 avec 13 éléments (5 tabacs, 4 molécules, 4 recettes)
+- [x] Molécules : Solanone, Mégastigmatriénone, Phytol, Nicotine
+- [x] Recettes : Oriental Ambré, Oriental Sacré, Oriental Mystique, Noir Tabac
+
+### Storyline 2 : Vétiver Haïti
+- [x] Analysé : 4 variétés vétiver (Haïti, Java, Inde Tamil Nadu, Burkina Faso)
+- [x] Créé storyline id=30003 avec 11 éléments (4 plantes, 5 molécules, 2 recettes)
+- [x] Molécules : Khusimol, Vetivone, Vetiverol, Vetiveryl acetate, Haitian Vetiver
+- [x] Recettes : Vétiver Labdanum, CBD Vétiver Serein
+
+### Storyline 3 : Cannabis Landrace
+- [x] Analysé : Cannabis sativa L. (Hindu Kush) + Cannabis feuille sèche #3 (Colombie/Burkina Faso)
+- [x] Créé storyline id=30004 avec 11 éléments (2 plantes, 4 molécules, 5 recettes)
+- [x] Molécules : Myrcène, Terpinolène, β-Ocimène, Humulène
+- [x] Recettes : CBD Terre Première, CBD Fumée Blanche, CBD Bois Sacré, Oriental Mystique, Himalaya Sacré
+
+### Checkpoint
+- [ ] Sauvegarder le checkpoint final
