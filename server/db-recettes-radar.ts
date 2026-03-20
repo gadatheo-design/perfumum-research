@@ -1,4 +1,8 @@
 import { getDb } from './db';
+import { withCache, invalidateRecetteCache, CACHE_TTL } from './cache';
+
+// Clé de cache pour les profils radar
+const RADAR_CACHE_KEY = 'recettes:radar:all';
 
 // Interface pour une recette avec son profil radar moyen
 export interface RecetteWithRadar {
@@ -68,34 +72,41 @@ const RADAR_QUERY = `
 `;
 
 // Récupérer toutes les recettes avec leur profil radar moyen
-// Optimisé : 1 seule requête SQL agrégée au lieu de N+1 requêtes
+// Optimisé : 1 seule requête SQL agrégée + cache TTL 5 min
 export async function getAllRecettesWithRadar(): Promise<RecetteWithRadar[]> {
-  const db = await getDb();
-  if (!db) return [];
+  return withCache<RecetteWithRadar[]>(
+    RADAR_CACHE_KEY,
+    async () => {
+      const db = await getDb();
+      if (!db) return [];
+      const [rows] = await (db as any).$client.promise().query(RADAR_QUERY);
+      return (rows as any[]).map((r: any) => ({
+        id: r.id,
+        name: r.name,
+        category: r.category,
+        description: r.description,
+        ingredients: r.ingredients,
+        formula: r.formula,
+        intensity: r.intensity,
+        stability: r.stability,
+        parentRecetteId: r.parentRecetteId,
+        createdAt: r.createdAt,
+        avgIntensity: Math.round(Number(r.avgIntensity) || 50),
+        avgFreshness: Math.round(Number(r.avgFreshness) || 50),
+        avgWarmth: Math.round(Number(r.avgWarmth) || 50),
+        avgSweetness: Math.round(Number(r.avgSweetness) || 50),
+        avgSpiciness: Math.round(Number(r.avgSpiciness) || 50),
+        avgEarthiness: Math.round(Number(r.avgEarthiness) || 50),
+        moleculeCount: Number(r.moleculeCount) || 0,
+      }));
+    },
+    CACHE_TTL.MEDIUM
+  );
+}
 
-  // Use db.$client.promise().query() for complex aggregation queries
-  // that Drizzle's sql template doesn't handle well
-  const [rows] = await (db as any).$client.promise().query(RADAR_QUERY);
-
-  return (rows as any[]).map((r: any) => ({
-    id: r.id,
-    name: r.name,
-    category: r.category,
-    description: r.description,
-    ingredients: r.ingredients,
-    formula: r.formula,
-    intensity: r.intensity,
-    stability: r.stability,
-    parentRecetteId: r.parentRecetteId,
-    createdAt: r.createdAt,
-    avgIntensity: Math.round(Number(r.avgIntensity) || 50),
-    avgFreshness: Math.round(Number(r.avgFreshness) || 50),
-    avgWarmth: Math.round(Number(r.avgWarmth) || 50),
-    avgSweetness: Math.round(Number(r.avgSweetness) || 50),
-    avgSpiciness: Math.round(Number(r.avgSpiciness) || 50),
-    avgEarthiness: Math.round(Number(r.avgEarthiness) || 50),
-    moleculeCount: Number(r.moleculeCount) || 0,
-  }));
+// Invalider le cache radar lors d'une mutation de recette
+export function invalidateRadarCache(): void {
+  invalidateRecetteCache();
 }
 
 // Interface pour les filtres radar

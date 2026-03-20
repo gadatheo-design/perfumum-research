@@ -1,4 +1,10 @@
 import { getDb } from './db';
+import { withCache, CACHE_TTL } from './cache';
+
+// Clés de cache
+const RADAR_PROFILES_CACHE_KEY = 'recommendations:radar:all';
+const MOLECULES_RADAR_CACHE_KEY = 'recommendations:molecules:radar:all';
+const RECETTE_MOLECULE_LINKS_CACHE_KEY = 'recommendations:recette-molecule-links';
 
 // Interface pour une recette avec son profil radar
 export interface RecetteWithRadar {
@@ -90,10 +96,13 @@ const ALL_RECETTES_RADAR_SQL = `
   ORDER BY r.id
 `;
 
-// Récupérer tous les profils radar en 1 requête (partagé entre getSimilarRecettes et getRecommendedRecettesFromFavorites)
+// Récupérer tous les profils radar en 1 requête + cache TTL 5 min
 async function getAllRecettesRadarProfiles(db: any): Promise<RecetteWithRadar[]> {
-  const [rows] = await db.$client.promise().query(ALL_RECETTES_RADAR_SQL);
-  return (rows as any[]).map((r: any) => ({
+  return withCache<RecetteWithRadar[]>(
+    RADAR_PROFILES_CACHE_KEY,
+    async () => {
+      const [rows] = await db.$client.promise().query(ALL_RECETTES_RADAR_SQL);
+      return (rows as any[]).map((r: any) => ({
     id: r.id,
     name: r.name,
     category: r.category,
@@ -104,8 +113,11 @@ async function getAllRecettesRadarProfiles(db: any): Promise<RecetteWithRadar[]>
     avgSweetness: Math.round(Number(r.avgSweetness) || 50),
     avgSpiciness: Math.round(Number(r.avgSpiciness) || 50),
     avgEarthiness: Math.round(Number(r.avgEarthiness) || 50),
-    moleculeCount: Number(r.moleculeCount) || 0,
-  }));
+      moleculeCount: Number(r.moleculeCount) || 0,
+      }));
+    },
+    CACHE_TTL.MEDIUM
+  );
 }
 
 // Recommander des recettes similaires — optimisé : 1 requête SQL au lieu de N+1
@@ -169,20 +181,22 @@ export async function getSimilarMolecules(
   const db = await getDb();
   if (!db) return [];
 
-  // 1 seule requête pour toutes les molécules
-  const [rows] = await db.$client.promise().query(`
-    SELECT id, name, family, olfactiveProfile,
-      COALESCE(radar_intensity, 50) AS radarIntensity,
-      COALESCE(radar_freshness, 50) AS radarFreshness,
-      COALESCE(radar_warmth, 50) AS radarWarmth,
-      COALESCE(radar_sweetness, 50) AS radarSweetness,
-      COALESCE(radar_spiciness, 50) AS radarSpiciness,
-      COALESCE(radar_earthiness, 50) AS radarEarthiness
-    FROM molecules
-    ORDER BY id
-  `);
-
-  const allMolecules = (rows as any[]).map((m: any) => ({
+  // 1 seule requête pour toutes les molécules + cache TTL 5 min
+  const allMolecules = await withCache<MoleculeWithRadar[]>(
+    MOLECULES_RADAR_CACHE_KEY,
+    async () => {
+      const [rows] = await db.$client.promise().query(`
+        SELECT id, name, family, olfactiveProfile,
+          COALESCE(radar_intensity, 50) AS radarIntensity,
+          COALESCE(radar_freshness, 50) AS radarFreshness,
+          COALESCE(radar_warmth, 50) AS radarWarmth,
+          COALESCE(radar_sweetness, 50) AS radarSweetness,
+          COALESCE(radar_spiciness, 50) AS radarSpiciness,
+          COALESCE(radar_earthiness, 50) AS radarEarthiness
+        FROM molecules
+        ORDER BY id
+      `);
+      return (rows as any[]).map((m: any) => ({
     id: m.id,
     name: m.name,
     family: m.family,
@@ -192,8 +206,11 @@ export async function getSimilarMolecules(
     radarWarmth: Number(m.radarWarmth) || 50,
     radarSweetness: Number(m.radarSweetness) || 50,
     radarSpiciness: Number(m.radarSpiciness) || 50,
-    radarEarthiness: Number(m.radarEarthiness) || 50,
-  }));
+      radarEarthiness: Number(m.radarEarthiness) || 50,
+      }));
+    },
+    CACHE_TTL.MEDIUM
+  );
 
   const target = allMolecules.find(m => m.id === moleculeId);
   if (!target) return [];
@@ -242,16 +259,23 @@ export async function getRecommendedRecettesFromFavorites(
   // Requête 1 : tous les profils radar en 1 requête
   const allProfiles = await getAllRecettesRadarProfiles(db);
 
-  // Requête 2 : toutes les liaisons recette-molécule en 1 requête
-  const [linkRows] = await db.$client.promise().query(`
-    SELECT recette_id AS recetteId, molecule_id AS moleculeId
-    FROM molecules_recettes
-    ORDER BY recette_id
-  `);
+  // Requête 2 : toutes les liaisons recette-molécule en 1 requête + cache TTL 5 min
+  const linkRows = await withCache<Array<{recetteId: number; moleculeId: number}>>(
+    RECETTE_MOLECULE_LINKS_CACHE_KEY,
+    async () => {
+      const [rows] = await db.$client.promise().query(`
+        SELECT recette_id AS recetteId, molecule_id AS moleculeId
+        FROM molecules_recettes
+        ORDER BY recette_id
+      `);
+      return rows as Array<{recetteId: number; moleculeId: number}>;
+    },
+    CACHE_TTL.MEDIUM
+  );
 
   // Construire un index recetteId → Set<moleculeId>
   const recetteMoleculeIndex = new Map<number, Set<number>>();
-  for (const row of (linkRows as any[])) {
+  for (const row of linkRows) {
     const rid = row.recetteId;
     if (!recetteMoleculeIndex.has(rid)) recetteMoleculeIndex.set(rid, new Set());
     recetteMoleculeIndex.get(rid)!.add(row.moleculeId);

@@ -2934,3 +2934,25 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 
 ### Phase 3 : Checkpoint
 - [ ] Sauvegarder le checkpoint
+
+---
+
+## ⚡ SESSION 20 MARS 2026 — Cache radar + Breadcrumbs admin techniques
+
+### Phase 1 : Cache serveur TTL pour profils radar
+- [x] Module cache générique server/cache.ts déjà existant (LRU + TTL + stats hit/miss)
+- [x] Intégrer withCache() dans getAllRecettesWithRadar() (db-recettes-radar.ts) — TTL 5 min
+- [x] Intégrer withCache() dans getAllRecettesRadarProfiles() (db-recommendations.ts) — TTL 5 min
+- [x] Intégrer withCache() dans getSimilarMolecules() (db-recommendations.ts) — TTL 5 min
+- [x] Intégrer withCache() pour les liaisons recette-molécule (db-recommendations.ts) — TTL 5 min
+- [x] Exporter invalidateRadarCache() pour invalidation lors des mutations
+
+### Phase 2 : Breadcrumbs pages admin techniques
+- [x] Inventorier 40 routes admin techniques sans breadcrumb
+- [x] Ajouter 13 routes Batch (ChEBI, COCONUT, GBIF, KNApSAcK, LOTUS, PubChem, SMILES, Wikidata, Wikimedia, Europeana QID, IA×2)
+- [x] Ajouter 16 routes Admin gestion (Doublons, Complétude, Contributions, Europeana, GC-MS import, Molécule Manager, Storylines, Synergies, SPARQL, etc.)
+- [x] Ajouter 10 routes Liaison techniques (molecule-recette×4, plant-molecule×2, plant-terroir×4)
+- [x] Ajouter /galerie/import avec parent /galerie
+
+### Phase 3 : Checkpoint
+- [ ] Sauvegarder le checkpoint
