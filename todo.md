@@ -2904,3 +2904,33 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Ajouter breadcrumb "Accueil > Corrélations Parfum-Tabac-Cannabis" à CorrelationsParfumTabacCannabis (via routeConfig)
 - [x] Ajouter 10 nouvelles routes de visualisation dans DynamicBreadcrumb.routeConfig
 
+
+---
+
+## 🔬 SESSION 20 MARS 2026 — Breadcrumbs recherche scientifique et sections connexes
+
+### Phase 1 : Inventaire des routes sans breadcrumb parent
+- [x] Lister toutes les routes de recherche scientifique dans App.tsx (181 routes manquantes identifiées)
+- [x] Identifier les routes de méthodologie, programmes, journal, études sans parent
+- [x] Identifier les routes de visualisation/comparaison sans parent
+
+### Phase 2 : Ajout dans routeConfig
+- [x] Ajouter breadcrumbs pour les 6 sous-pages /recherche-scientifique/* avec parent correct
+- [x] Ajouter breadcrumbs pour /methodologie/gc-ms, /methodologie/recherche, /methode, /methodes-analytiques, /methodes-extraction
+- [x] Ajouter breadcrumbs pour /programmes-recherche/resines-cbd, /tabacs-niche, /axes-recherche, /axes-thematiques
+- [x] Ajouter breadcrumbs ABSORBE-X (9 sous-pages) avec parent /absorbe-x
+- [x] Ajouter breadcrumbs Tabac & Cannabis (Tabacothèque, Landraces, Périque, San Andrés)
+- [x] Ajouter breadcrumbs Spectres & Chromatographie (GC-MS Hub, 12 sous-pages)
+- [x] Ajouter breadcrumbs Visualisations & Graphes (15 graphes et réseaux)
+- [x] Ajouter breadcrumbs Plantes & Variétés (Généalogie, Phylogénétique, TPS, etc.)
+- [x] Ajouter breadcrumbs Terroirs & Cartographie (5 cartes)
+- [x] Ajouter breadcrumbs Comparaison & Outils (8 outils)
+- [x] Ajouter breadcrumbs Bibliographie & Références (4 sous-pages)
+- [x] Ajouter breadcrumbs Inventaire & Stocks (5 sous-pages)
+- [x] Ajouter breadcrumbs Recettes & Formulation (8 sous-pages)
+- [x] Ajouter breadcrumbs Patrimoine & Conservation (5 sous-pages)
+- [x] Ajouter breadcrumbs Statistiques & Analytics (5 sous-pages)
+- [x] Total : 181 routes couvertes
+
+### Phase 3 : Checkpoint
+- [ ] Sauvegarder le checkpoint
