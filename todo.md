@@ -3136,3 +3136,35 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 
 ### Phase 6 : Checkpoint
 - [x] Sauvegarder le checkpoint final
+
+---
+
+## 🌍 SESSION 20 MARS 2026 — Géocodage Storylines + Widget 5 Portes
+
+### Phase 1 : Audit
+- [x] Vérifié la table storylines (colonnes lat/lng absentes)
+- [x] Vérifié l'état de Home.tsx (section hero actuelle)
+
+### Phase 2 : Migration DB — lat/lng dans storylines
+- [x] Ajouté colonnes lat et lng (DECIMAL 10,7) via ALTER TABLE SQL
+- [x] Pré-rempli les coordonnées GPS des 8 storylines existants
+
+### Phase 3 : Interface admin lat/lng sur fiches storylines
+- [x] Ajouté procédure updateCoordinates dans server/routers/storylines.ts
+- [x] Ajouté widget admin lat/lng dans StorylineDetail.tsx (visible propriétaire)
+- [x] Affichage coordonnées actuelles + bouton de mise à jour
+
+### Phase 4 : Atlas — utiliser les coordonnées réelles
+- [x] Mis à jour AtlasOlfactif.tsx : lat/lng de la base en priorité, fallback STORYLINE_GEO
+- [x] Couleurs des points liées à l'axe narratif (SVG_AXIS_COLORS)
+- [x] Affichage des coordonnées réelles dans les cartes storylines
+
+### Phase 5 : Widget "5 portes d'entrée" sur Home.tsx
+- [x] Créé bloc visuel avec 5 cartes-portes (Plante / Molécule / Fil narratif / Image / Lieu)
+- [x] Chaque carte avec icône colorée, code Odeuropa (od:L12, od:L1, od:L13), description et lien
+- [x] Hover avec animation scale + reveal du lien
+- [x] Responsive desktop (5 colonnes) + mobile (1 colonne) + tablette (2 colonnes)
+- [x] Citation Odeuropa en bas de section
+
+### Phase 6 : Checkpoint
+- [ ] Sauvegarder le checkpoint final

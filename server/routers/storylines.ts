@@ -317,6 +317,25 @@ export const storylinesRouter = router({
       return rows as unknown[];
     }),
 
+  // Mettre à jour les coordonnées GPS d'un storyline (protegé)
+  updateCoordinates: protectedProcedure
+    .input(z.object({
+      id: z.number(),
+      lat: z.number().min(-90).max(90).nullable(),
+      lng: z.number().min(-180).max(180).nullable(),
+    }))
+    .mutation(async ({ input }) => {
+      const db = await requireDb();
+      await db.execute(sql`
+        UPDATE storylines
+        SET lat = ${input.lat},
+            lng = ${input.lng},
+            updated_at = ${Date.now()}
+        WHERE id = ${input.id}
+      `);
+      return { success: true, id: input.id, lat: input.lat, lng: input.lng };
+    }),
+
   // Stats globales
   getStats: publicProcedure.query(async () => {
     const db = await requireDb();

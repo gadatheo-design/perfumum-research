@@ -101,6 +101,8 @@ interface StorylineMapPoint {
   narrative_axis: string;
   status: string;
   smellscape_description?: string;
+  lat?: number | null;
+  lng?: number | null;
 }
 
 interface WorldMapProps {
@@ -162,11 +164,21 @@ function WorldMap({ storylines, selectedId, onSelect, yearRange }: WorldMapProps
 
         {/* Points des storylines */}
         {filteredStorylines.map((storyline) => {
-          const geo = STORYLINE_GEO[storyline.slug];
-          if (!geo) return null;
-          const { x, y } = latLngToSvg(geo.lat, geo.lng);
+          // Priorité aux coordonnées réelles de la base, fallback sur STORYLINE_GEO
+          const geoFallback = STORYLINE_GEO[storyline.slug];
+          const lat = storyline.lat != null ? Number(storyline.lat) : geoFallback?.lat;
+          const lng = storyline.lng != null ? Number(storyline.lng) : geoFallback?.lng;
+          if (lat == null || lng == null) return null;
+          const { x, y } = latLngToSvg(lat, lng);
           const isSelected = storyline.id === selectedId;
-          const color = geo.color;
+          // Couleur : axe narratif en priorité, puis fallback STORYLINE_GEO
+          const SVG_AXIS_COLORS: Record<string, string> = {
+            route_encens: "#d97706", tabac_rituel: "#7c3aed", plantes_menacees: "#059669",
+            pyrolyse_rituelle: "#dc2626", atlas_mnemosyne: "#2563eb", combustion: "#ea580c",
+            terroir: "#16a34a", botanique: "#22c55e", chimie: "#8b5cf6", rituel: "#ef4444",
+            formulation: "#14b8a6", comparaison: "#f97316", patrimoine: "#3b82f6", autre: "#64748b",
+          };
+          const color = SVG_AXIS_COLORS[storyline.narrative_axis] ?? geoFallback?.color ?? "#64748b";
 
           return (
             <g key={storyline.id} onClick={() => onSelect(storyline.id)} style={{ cursor: "pointer" }}>
@@ -226,6 +238,7 @@ function StorylineCard({ storyline, isSelected, onClick }: {
 }) {
   const axisColor = AXIS_COLORS[storyline.narrative_axis] ?? AXIS_COLORS.default;
   const geo = STORYLINE_GEO[storyline.slug];
+  const hasCoords = (storyline.lat != null && storyline.lng != null) || geo != null;
 
   return (
     <Card
@@ -272,10 +285,14 @@ function StorylineCard({ storyline, isSelected, onClick }: {
         )}
 
         {/* Indicateur géo disponible */}
-        {geo && (
-          <div className="flex items-center gap-1 text-xs" style={{ color: geo.color }}>
-            <div className="w-2 h-2 rounded-full" style={{ backgroundColor: geo.color }} />
-            <span>{geo.region}</span>
+        {hasCoords && (
+          <div className="flex items-center gap-1.5 text-xs text-blue-500/80">
+            <div className="w-2 h-2 rounded-full bg-blue-500" />
+            {storyline.lat != null && storyline.lng != null ? (
+              <span className="font-mono">{Number(storyline.lat).toFixed(2)}°, {Number(storyline.lng).toFixed(2)}°</span>
+            ) : geo ? (
+              <span>{geo.region}</span>
+            ) : null}
           </div>
         )}
       </CardContent>

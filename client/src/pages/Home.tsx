@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/Footer";
 import { EntityConnectionMap } from "@/components/EntityConnectionMap";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Beaker, Droplets, Flame, Globe2, Snowflake, FlaskConical, Database, BarChart3, Microscope, Network, Eye, Cigarette, Leaf, BookOpen, Cog } from "lucide-react";
+import { ArrowRight, Beaker, Droplets, Flame, Globe2, Snowflake, FlaskConical, Database, BarChart3, Microscope, Network, Eye, Cigarette, Leaf, BookOpen, Cog, MapPin, Image, Map } from "lucide-react";
 import { MoleculeOfTheDay } from "@/components/MoleculeOfTheDay";
 import { RecentActivity } from "@/components/RecentActivity";
 import { ResearchNews } from "@/components/ResearchNews";
@@ -75,6 +75,109 @@ export default function Home() {
                 </Button>
                 <StartGuidedTourButton className="btn-enhanced border-2" />
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Widget : 5 Portes d'entrée Odeuropa ────────────────────────────── */}
+        <section className="section-spacing bg-gradient-to-b from-muted/10 to-background border-b border-border/30">
+          <div className="container">
+            <div className="max-w-5xl mx-auto">
+              <div className="text-center mb-10">
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">Architecture Mnemosyne</p>
+                <h2 className="text-2xl md:text-3xl font-bold mb-3">Cinq portes d'entrée dans PERFUMUM</h2>
+                <p className="text-muted-foreground max-w-2xl mx-auto text-sm md:text-base">
+                  Chaque contenu est accessible par plusieurs chemins. L'odorat fonctionne par associations multiples : la navigation de PERFUMUM aussi.
+                </p>
+              </div>
+              {/* Grille des 5 portes */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                {/* Porte 1 : Plante */}
+                <Link href="/plants">
+                  <div className="group relative flex flex-col items-center text-center p-6 rounded-2xl border border-border/60 bg-card hover:border-emerald-500/60 hover:bg-emerald-500/5 transition-all duration-300 cursor-pointer h-full">
+                    <div className="w-14 h-14 rounded-xl bg-emerald-500/10 flex items-center justify-center mb-4 group-hover:bg-emerald-500/20 group-hover:scale-110 transition-all duration-300">
+                      <Leaf className="w-7 h-7 text-emerald-600 dark:text-emerald-400" />
+                    </div>
+                    <div className="text-xs font-mono text-muted-foreground/60 mb-1">od:L12</div>
+                    <h3 className="font-semibold text-sm mb-1.5 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">La Plante</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      La source matérielle de l'odeur
+                    </p>
+                    <div className="mt-3 text-xs text-emerald-600/70 dark:text-emerald-400/70 font-medium opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                      Explorer <ArrowRight className="w-3 h-3" />
+                    </div>
+                  </div>
+                </Link>
+                {/* Porte 2 : Molécule */}
+                <Link href="/molecules">
+                  <div className="group relative flex flex-col items-center text-center p-6 rounded-2xl border border-border/60 bg-card hover:border-violet-500/60 hover:bg-violet-500/5 transition-all duration-300 cursor-pointer h-full">
+                    <div className="w-14 h-14 rounded-xl bg-violet-500/10 flex items-center justify-center mb-4 group-hover:bg-violet-500/20 group-hover:scale-110 transition-all duration-300">
+                      <FlaskConical className="w-7 h-7 text-violet-600 dark:text-violet-400" />
+                    </div>
+                    <div className="text-xs font-mono text-muted-foreground/60 mb-1">od:L1</div>
+                    <h3 className="font-semibold text-sm mb-1.5 group-hover:text-violet-600 dark:group-hover:text-violet-400 transition-colors">La Molécule</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      Le stimulus chimique de l'odeur
+                    </p>
+                    <div className="mt-3 text-xs text-violet-600/70 dark:text-violet-400/70 font-medium opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                      Explorer <ArrowRight className="w-3 h-3" />
+                    </div>
+                  </div>
+                </Link>
+                {/* Porte 3 : Fil narratif */}
+                <Link href="/storylines">
+                  <div className="group relative flex flex-col items-center text-center p-6 rounded-2xl border border-border/60 bg-card hover:border-amber-500/60 hover:bg-amber-500/5 transition-all duration-300 cursor-pointer h-full">
+                    <div className="w-14 h-14 rounded-xl bg-amber-500/10 flex items-center justify-center mb-4 group-hover:bg-amber-500/20 group-hover:scale-110 transition-all duration-300">
+                      <BookOpen className="w-7 h-7 text-amber-600 dark:text-amber-400" />
+                    </div>
+                    <div className="text-xs font-mono text-muted-foreground/60 mb-1">od:L13</div>
+                    <h3 className="font-semibold text-sm mb-1.5 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">Le Fil narratif</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      L'expérience culturelle olfactive
+                    </p>
+                    <div className="mt-3 text-xs text-amber-600/70 dark:text-amber-400/70 font-medium opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                      Explorer <ArrowRight className="w-3 h-3" />
+                    </div>
+                  </div>
+                </Link>
+                {/* Porte 4 : Image */}
+                <Link href="/galerie-olfactive">
+                  <div className="group relative flex flex-col items-center text-center p-6 rounded-2xl border border-border/60 bg-card hover:border-rose-500/60 hover:bg-rose-500/5 transition-all duration-300 cursor-pointer h-full">
+                    <div className="w-14 h-14 rounded-xl bg-rose-500/10 flex items-center justify-center mb-4 group-hover:bg-rose-500/20 group-hover:scale-110 transition-all duration-300">
+                      <Image className="w-7 h-7 text-rose-600 dark:text-rose-400" />
+                    </div>
+                    <div className="text-xs font-mono text-muted-foreground/60 mb-1">Europeana</div>
+                    <h3 className="font-semibold text-sm mb-1.5 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">L'Image</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      L'iconographie olfactive patrimoniale
+                    </p>
+                    <div className="mt-3 text-xs text-rose-600/70 dark:text-rose-400/70 font-medium opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                      Explorer <ArrowRight className="w-3 h-3" />
+                    </div>
+                  </div>
+                </Link>
+                {/* Porte 5 : Lieu */}
+                <Link href="/atlas">
+                  <div className="group relative flex flex-col items-center text-center p-6 rounded-2xl border border-border/60 bg-card hover:border-blue-500/60 hover:bg-blue-500/5 transition-all duration-300 cursor-pointer h-full">
+                    <div className="w-14 h-14 rounded-xl bg-blue-500/10 flex items-center justify-center mb-4 group-hover:bg-blue-500/20 group-hover:scale-110 transition-all duration-300">
+                      <Map className="w-7 h-7 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <div className="text-xs font-mono text-muted-foreground/60 mb-1">Smellscape</div>
+                    <h3 className="font-semibold text-sm mb-1.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">Le Lieu</h3>
+                    <p className="text-xs text-muted-foreground leading-relaxed">
+                      Le smellscape géo-temporel
+                    </p>
+                    <div className="mt-3 text-xs text-blue-600/70 dark:text-blue-400/70 font-medium opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                      Explorer <ArrowRight className="w-3 h-3" />
+                    </div>
+                  </div>
+                </Link>
+              </div>
+              {/* Citation Odeuropa */}
+              <blockquote className="mt-8 text-center text-xs text-muted-foreground/60 italic border-t border-border/30 pt-6">
+                « Un même contenu peut être atteint par plusieurs chemins — par la plante, par la molécule, par l'image, par la géographie, par l'émotion. »
+                <span className="block mt-1 not-italic">Architecture Mnemosyne × Odeuropa</span>
+              </blockquote>
             </div>
           </div>
         </section>

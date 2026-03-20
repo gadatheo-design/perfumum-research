@@ -1,15 +1,19 @@
 import { useState } from "react";
 import { useParams, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useToast } from "@/hooks/use-toast";
 import {
   ArrowLeft, BookOpen, MapPin, Calendar, Layers, AlertCircle,
   Leaf, FlaskConical, Flame, Beaker, GitBranch, Archive,
-  ArrowRight, ExternalLink, ChevronRight, Image as ImageIcon
+  ArrowRight, ExternalLink, ChevronRight, Image as ImageIcon, Navigation, Save
 } from "lucide-react";
 
 // ─── Constantes Odeuropa ────────────────────────────────────────────────────
@@ -238,11 +242,27 @@ export default function StorylineDetail() {
   const params = useParams<{ slug: string }>();
   const slug = params.slug;
   const [activeAxis, setActiveAxis] = useState("all");
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [editLat, setEditLat] = useState("");
+  const [editLng, setEditLng] = useState("");
+  const [coordsEditing, setCoordsEditing] = useState(false);
 
-  const { data: storyline, isLoading, error } = trpc.storylines.getBySlug.useQuery(
+  const { data: storyline, isLoading, error, refetch } = trpc.storylines.getBySlug.useQuery(
     { slug: slug ?? "" },
     { enabled: !!slug }
   );
+
+  const updateCoords = trpc.storylines.updateCoordinates.useMutation({
+    onSuccess: () => {
+      toast({ title: "Coordonnées mises à jour", description: `lat: ${editLat}, lng: ${editLng}` });
+      setCoordsEditing(false);
+      refetch();
+    },
+    onError: (err) => {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    },
+  });
 
   if (isLoading) {
     return (
@@ -588,6 +608,136 @@ export default function StorylineDetail() {
             </div>
           </div>
         </div>
+
+        {/* ── Widget admin : coordonnées GPS ─────────────────────────────── */}
+        {user && (
+          <>
+            <Separator className="mb-8 mt-8" />
+            <div className="rounded-xl border border-dashed border-border/70 bg-muted/20 p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <Navigation className="w-4 h-4 text-blue-500" />
+                  <h3 className="text-sm font-semibold">Coordonnées GPS — Atlas olfactif</h3>
+                  <Badge variant="outline" className="text-xs">Admin</Badge>
+                </div>
+                {!coordsEditing && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setEditLat(String(s.lat ?? ""));
+                      setEditLng(String(s.lng ?? ""));
+                      setCoordsEditing(true);
+                    }}
+                  >
+                    Modifier
+                  </Button>
+                )}
+              </div>
+              {!coordsEditing ? (
+                <div className="flex flex-wrap gap-6 text-sm">
+                  <div>
+                    <span className="text-muted-foreground text-xs uppercase tracking-wide">Latitude</span>
+                    <p className="font-mono font-medium mt-0.5">
+                      {s.lat != null ? Number(s.lat).toFixed(6) : <span className="text-muted-foreground italic">non renseignée</span>}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="text-muted-foreground text-xs uppercase tracking-wide">Longitude</span>
+                    <p className="font-mono font-medium mt-0.5">
+                      {s.lng != null ? Number(s.lng).toFixed(6) : <span className="text-muted-foreground italic">non renseignée</span>}
+                    </p>
+                  </div>
+                  {s.lat != null && s.lng != null && (
+                    <div>
+                      <span className="text-muted-foreground text-xs uppercase tracking-wide">Carte</span>
+                      <p className="mt-0.5">
+                        <a
+                          href={`https://www.openstreetmap.org/?mlat=${s.lat}&mlon=${s.lng}&zoom=6`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-primary hover:underline flex items-center gap-1"
+                        >
+                          <ExternalLink className="w-3 h-3" />
+                          Voir sur OpenStreetMap
+                        </a>
+                      </p>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className="flex flex-col gap-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="lat" className="text-xs">Latitude (-90 à 90)</Label>
+                      <Input
+                        id="lat"
+                        type="number"
+                        step="0.000001"
+                        min="-90"
+                        max="90"
+                        value={editLat}
+                        onChange={(e) => setEditLat(e.target.value)}
+                        placeholder="ex: 21.473500"
+                        className="font-mono text-sm"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <Label htmlFor="lng" className="text-xs">Longitude (-180 à 180)</Label>
+                      <Input
+                        id="lng"
+                        type="number"
+                        step="0.000001"
+                        min="-180"
+                        max="180"
+                        value={editLng}
+                        onChange={(e) => setEditLng(e.target.value)}
+                        placeholder="ex: 55.975400"
+                        className="font-mono text-sm"
+                      />
+                    </div>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      onClick={() => {
+                        const lat = editLat === "" ? null : parseFloat(editLat);
+                        const lng = editLng === "" ? null : parseFloat(editLng);
+                        if (lat !== null && (isNaN(lat) || lat < -90 || lat > 90)) {
+                          toast({ title: "Latitude invalide", description: "Doit être entre -90 et 90", variant: "destructive" });
+                          return;
+                        }
+                        if (lng !== null && (isNaN(lng) || lng < -180 || lng > 180)) {
+                          toast({ title: "Longitude invalide", description: "Doit être entre -180 et 180", variant: "destructive" });
+                          return;
+                        }
+                        updateCoords.mutate({ id: s.id, lat, lng });
+                      }}
+                      disabled={updateCoords.isPending}
+                    >
+                      <Save className="w-3.5 h-3.5 mr-1.5" />
+                      {updateCoords.isPending ? "Enregistrement..." : "Enregistrer"}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setCoordsEditing(false)}
+                    >
+                      Annuler
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Astuce : trouvez les coordonnées sur{" "}
+                    <a href="https://www.openstreetmap.org" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">OpenStreetMap</a>{" "}
+                    (clic droit → "Afficher l'adresse") ou{" "}
+                    <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Google Maps</a>{" "}
+                    (clic droit → coordonnées).
+                  </p>
+                </div>
+              )}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
