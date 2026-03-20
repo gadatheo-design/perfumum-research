@@ -3043,3 +3043,36 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 
 ### Checkpoint
 - [ ] Sauvegarder le checkpoint final
+
+---
+
+## 🌿 SESSION 20 MARS 2026 — Storyline Burkina Faso × Odeuropa : navigation narrative multiple
+
+### Phase 1 : Exploration des sources Odeuropa
+- [x] Lu les 4 PDFs Odeuropa (How-To Guide, GLAM Guidelines, Eudopra Howto, Historical Scent Collection)
+- [x] Extrait les concepts clés : Story Connection, StoryElement, StoryLine, niveaux CIDOC-CRM/Sensorial/Olfactory
+- [x] Analysé les données Burkina Faso : 10 plantes, gamme Mossi, molécules clés
+
+### Phase 2 : Architecture narrative
+- [x] Conçu 6 axes de lecture croisés (Botanique, Chimie, Rituel, Formulation, Comparaison, Patrimoine)
+- [x] Défini les connexions inter-storylines : Burkina ↔ Tabac Oriental (Eugénol), Burkina ↔ Cannabis Landrace (Camphre)
+- [x] Documenté l'architecture dans docs/burkina-narrative-architecture.md
+
+### Phase 3 : Enrichissement base de données
+- [x] Ajouté colonnes Odeuropa à story_elements (odeuropa_level, narrative_axis, skos_concept, odeuropa_note, connects_to_element_id)
+- [x] Ajouté colonnes Odeuropa à storylines (smellscape_description, sensory_experience, cross_storyline_ids, odeuropa_story_type)
+- [x] Enrichi les éléments existants avec axes et niveaux Odeuropa (physical/sensorial/olfactory)
+- [x] Ajouté 6 nouveaux éléments narratifs (axe comparaison : Daniellia vs Boswellia, Eugénol, Camphre ; axe patrimoine : Securidaca, OS ROUGE, PÉTRICHOR)
+- [x] Total : 23 éléments narratifs sur 6 axes
+
+### Phase 4 : Interface de navigation narrative
+- [x] Réécrit StorylineDetail.tsx avec navigation narrative multiple (sélecteur d'axe, smellscape, niveaux Odeuropa)
+- [x] Implémenté le sélecteur d'axe (Tous / Botanique / Chimie / Rituel / Formulation / Comparaison / Patrimoine)
+- [x] Ajouté le smellscape en hero section (fond sombre gradient amber/stone)
+- [x] Ajouté les statistiques par niveau Odeuropa (Physical/Sensorial/Olfactory)
+- [x] Ajouté les narrations croisées inter-storylines (Tabac Oriental, Cannabis Landrace)
+- [x] Ajouté le modèle Odeuropa en bas de page (3 niveaux CIDOC-CRM)
+- [x] Ajouté les notes Odeuropa dépliables par élément
+
+### Phase 5 : Checkpoint
+- [ ] Sauvegarder le checkpoint final

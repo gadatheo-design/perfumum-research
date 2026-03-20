@@ -1,0 +1,129 @@
+{
+  "query": "\n-- Récupérer les story_elements existants du storyline Burkina (id=4)\nSELECT id, entity_type, entity_id, role_in_story, sequence_order FROM story_elements WHERE storyline_id = 4 ORDER BY sequence_order;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Récupérer les story_elements existants du storyline Burkina (id=4)\nSELECT id, entity_type, entity_id, role_in_story, sequence_order FROM story_elements WHERE storyline_id = 4 ORDER BY sequence_order;\n",
+  "rows": [
+    {
+      "id": "24",
+      "entity_type": "plant",
+      "entity_id": "210016",
+      "role_in_story": "protagonist",
+      "sequence_order": "1"
+    },
+    {
+      "id": "25",
+      "entity_type": "plant",
+      "entity_id": "270004",
+      "role_in_story": "context",
+      "sequence_order": "2"
+    },
+    {
+      "id": "26",
+      "entity_type": "plant",
+      "entity_id": "210039",
+      "role_in_story": "context",
+      "sequence_order": "3"
+    },
+    {
+      "id": "27",
+      "entity_type": "plant",
+      "entity_id": "630016",
+      "role_in_story": "context",
+      "sequence_order": "4"
+    },
+    {
+      "id": "28",
+      "entity_type": "molecule",
+      "entity_id": "30008",
+      "role_in_story": "symbol",
+      "sequence_order": "5"
+    },
+    {
+      "id": "29",
+      "entity_type": "molecule",
+      "entity_id": "30005",
+      "role_in_story": "symbol",
+      "sequence_order": "6"
+    },
+    {
+      "id": "30",
+      "entity_type": "molecule",
+      "entity_id": "30006",
+      "role_in_story": "context",
+      "sequence_order": "7"
+    },
+    {
+      "id": "30001",
+      "entity_type": "plant",
+      "entity_id": "210018",
+      "role_in_story": "protagonist",
+      "sequence_order": "8"
+    },
+    {
+      "id": "30002",
+      "entity_type": "plant",
+      "entity_id": "210019",
+      "role_in_story": "context",
+      "sequence_order": "9"
+    },
+    {
+      "id": "30003",
+      "entity_type": "plant",
+      "entity_id": "210020",
+      "role_in_story": "context",
+      "sequence_order": "10"
+    },
+    {
+      "id": "30004",
+      "entity_type": "plant",
+      "entity_id": "210024",
+      "role_in_story": "transformation",
+      "sequence_order": "11"
+    },
+    {
+      "id": "30005",
+      "entity_type": "plant",
+      "entity_id": "210025",
+      "role_in_story": "symbol",
+      "sequence_order": "12"
+    },
+    {
+      "id": "30006",
+      "entity_type": "molecule",
+      "entity_id": "120003",
+      "role_in_story": "protagonist",
+      "sequence_order": "13"
+    },
+    {
+      "id": "30007",
+      "entity_type": "molecule",
+      "entity_id": "570039",
+      "role_in_story": "transformation",
+      "sequence_order": "14"
+    },
+    {
+      "id": "30008",
+      "entity_type": "recipe",
+      "entity_id": "390001",
+      "role_in_story": "destination",
+      "sequence_order": "15"
+    },
+    {
+      "id": "30009",
+      "entity_type": "recipe",
+      "entity_id": "390002",
+      "role_in_story": "destination",
+      "sequence_order": "16"
+    },
+    {
+      "id": "30010",
+      "entity_type": "recipe",
+      "entity_id": "360021",
+      "role_in_story": "destination",
+      "sequence_order": "17"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tentity_type\tentity_id\trole_in_story\tsequence_order\n24\tplant\t210016\tprotagonist\t1\n25\tplant\t270004\tcontext\t2\n26\tplant\t210039\tcontext\t3\n27\tplant\t630016\tcontext\t4\n28\tmolecule\t30008\tsymbol\t5\n29\tmolecule\t30005\tsymbol\t6\n30\tmolecule\t30006\tcontext\t7\n30001\tplant\t210018\tprotagonist\t8\n30002\tplant\t210019\tcontext\t9\n30003\tplant\t210020\tcontext\t10\n30004\tplant\t210024\ttransformation\t11\n30005\tplant\t210025\tsymbol\t12\n30006\tmolecule\t120003\tprotagonist\t13\n30007\tmolecule\t570039\ttransformation\t14\n30008\trecipe\t390001\tdestination\t15\n30009\trecipe\t390002\tdestination\t16\n30010\trecipe\t360021\tdestination\t17\n",
+  "stderr": "",
+  "execution_time_ms": 382
+}

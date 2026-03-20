@@ -1,0 +1,50 @@
+{
+  "query": "\nSELECT id, name FROM recettes WHERE name LIKE '%Mossi%' LIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \nSELECT id, name FROM recettes WHERE name LIKE '%Mossi%' LIMIT 10;\n",
+  "rows": [
+    {
+      "id": "20",
+      "name": "OS ROUGE (Mossi)"
+    },
+    {
+      "id": "27",
+      "name": "PÉTRICHOR DE SAVANE (Mossi)"
+    },
+    {
+      "id": "69",
+      "name": "OS ROUGE (Mossi)"
+    },
+    {
+      "id": "76",
+      "name": "PÉTRICHOR DE SAVANE (Mossi)"
+    },
+    {
+      "id": "360019",
+      "name": "Mossi Mossi Clair"
+    },
+    {
+      "id": "360020",
+      "name": "Mossi Mossi Sombre"
+    },
+    {
+      "id": "360021",
+      "name": "Mossi Mossi du Feu"
+    },
+    {
+      "id": "360022",
+      "name": "Mossi Mossi Verger Sacré"
+    },
+    {
+      "id": "390001",
+      "name": "Mossi Clair"
+    },
+    {
+      "id": "390002",
+      "name": "Mossi Sombre"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n20\tOS ROUGE (Mossi)\n27\tPÉTRICHOR DE SAVANE (Mossi)\n69\tOS ROUGE (Mossi)\n76\tPÉTRICHOR DE SAVANE (Mossi)\n360019\tMossi Mossi Clair\n360020\tMossi Mossi Sombre\n360021\tMossi Mossi du Feu\n360022\tMossi Mossi Verger Sacré\n390001\tMossi Clair\n390002\tMossi Sombre\n",
+  "stderr": "",
+  "execution_time_ms": 364
+}

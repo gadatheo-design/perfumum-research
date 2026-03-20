@@ -1,0 +1,60 @@
+{
+  "query": "\n-- Récupérer les IDs des plantes, molécules et recettes Burkina\nSELECT 'plant' as type, id, name FROM plants WHERE name LIKE '%Daniellia%' OR name LIKE '%Boswellia%' OR name LIKE '%Xylopia%' OR name LIKE '%Cymbopogon%' OR name LIKE '%Securidaca%' OR name LIKE '%Lippia%' OR name LIKE '%Vetiver%' OR name LIKE '%Vétiver%' LIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Récupérer les IDs des plantes, molécules et recettes Burkina\nSELECT 'plant' as type, id, name FROM plants WHERE name LIKE '%Daniellia%' OR name LIKE '%Boswellia%' OR name LIKE '%Xylopia%' OR name LIKE '%Cymbopogon%' OR name LIKE '%Securidaca%' OR name LIKE '%Lippia%' OR name LIKE '%Vetiver%' OR name LIKE '%Vétiver%' LIMIT 10;\n",
+  "rows": [
+    {
+      "type": "plant",
+      "id": "3",
+      "name": "Lippia alba"
+    },
+    {
+      "type": "plant",
+      "id": "30008",
+      "name": "Vétiver"
+    },
+    {
+      "type": "plant",
+      "id": "210019",
+      "name": "Lippia africaine"
+    },
+    {
+      "type": "plant",
+      "id": "210024",
+      "name": "Vétiver ouest-africain"
+    },
+    {
+      "type": "plant",
+      "id": "270007",
+      "name": "Vétiver d'Haïti"
+    },
+    {
+      "type": "plant",
+      "id": "540032",
+      "name": "Lippia graveolens"
+    },
+    {
+      "type": "plant",
+      "id": "660765",
+      "name": "Cymbopogon caesius subsp. giganteus"
+    },
+    {
+      "type": "plant",
+      "id": "660767",
+      "name": "Cymbopogon (Citronnelle de brousse)"
+    },
+    {
+      "type": "plant",
+      "id": "660829",
+      "name": "Securidaca longipedunculata"
+    },
+    {
+      "type": "plant",
+      "id": "660905",
+      "name": "Citronnelle (Cymbopogon flexuosus)"
+    }
+  ],
+  "messages": [],
+  "stdout": "type\tid\tname\nplant\t3\tLippia alba\nplant\t30008\tVétiver\nplant\t210019\tLippia africaine\nplant\t210024\tVétiver ouest-africain\nplant\t270007\tVétiver d'Haïti\nplant\t540032\tLippia graveolens\nplant\t660765\tCymbopogon caesius subsp. giganteus\nplant\t660767\tCymbopogon (Citronnelle de brousse)\nplant\t660829\tSecuridaca longipedunculata\nplant\t660905\tCitronnelle (Cymbopogon flexuosus)\n",
+  "stderr": "",
+  "execution_time_ms": 397
+}

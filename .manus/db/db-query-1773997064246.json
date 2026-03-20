@@ -1,0 +1,94 @@
+{
+  "query": "\n-- Plantes Burkina manquantes\nSELECT id, name FROM plants WHERE name LIKE '%Daniellia%' OR name LIKE '%Boswellia%' OR name LIKE '%Xylopia%';\n\n-- Molécules clés\nSELECT id, name FROM molecules WHERE name IN ('α-Pinène', 'alpha-Pinène', 'Alpha-Pinène', 'β-Caryophyllène', 'beta-Caryophyllène', 'Khusimol', 'Eugénol', 'Limonène', 'Camphre') LIMIT 15;\n\n-- Recettes Mossi\nSELECT id, name FROM recettes WHERE name LIKE '%Mossi%' OR name LIKE '%OS ROUGE%' OR name LIKE '%PÉTRICHOR%' OR name LIKE '%Petrichor%' LIMIT 10;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute \n-- Plantes Burkina manquantes\nSELECT id, name FROM plants WHERE name LIKE '%Daniellia%' OR name LIKE '%Boswellia%' OR name LIKE '%Xylopia%';\n\n-- Molécules clés\nSELECT id, name FROM molecules WHERE name IN ('α-Pinène', 'alpha-Pinène', 'Alpha-Pinène', 'β-Caryophyllène', 'beta-Caryophyllène', 'Khusimol', 'Eugénol', 'Limonène', 'Camphre') LIMIT 15;\n\n-- Recettes Mossi\nSELECT id, name FROM recettes WHERE name LIKE '%Mossi%' OR name LIKE '%OS ROUGE%' OR name LIKE '%PÉTRICHOR%' OR name LIKE '%Petrichor%' LIMIT 10;\n",
+  "rows": [
+    {
+      "id": "690021",
+      "name": "Daniellia oliveri"
+    },
+    {
+      "id": "690128",
+      "name": "Xylopia (Poivre de Selim)"
+    },
+    {
+      "id": "690259",
+      "name": "Oliban (Boswellia serrata)"
+    },
+    {
+      "id": "id",
+      "name": "name"
+    },
+    {
+      "id": "570047",
+      "name": "Camphre"
+    },
+    {
+      "id": "570039",
+      "name": "Eugénol"
+    },
+    {
+      "id": "120003",
+      "name": "Khusimol"
+    },
+    {
+      "id": "30007",
+      "name": "Limonène"
+    },
+    {
+      "id": "30008",
+      "name": "α-Pinène"
+    },
+    {
+      "id": "30005",
+      "name": "β-Caryophyllène"
+    },
+    {
+      "id": "id",
+      "name": "name"
+    },
+    {
+      "id": "5",
+      "name": "PÉTRICHOR SÉPULCRAL"
+    },
+    {
+      "id": "20",
+      "name": "OS ROUGE (Mossi)"
+    },
+    {
+      "id": "21",
+      "name": "PÉTRICHOR CLAIR / GLACIAIRE"
+    },
+    {
+      "id": "22",
+      "name": "PÉTRICHOR SOMBRE / HUMIDE"
+    },
+    {
+      "id": "23",
+      "name": "PÉTRICHOR TROPICAL FOSSILISÉ (Monoï)"
+    },
+    {
+      "id": "24",
+      "name": "PÉTRICHOR URBAIN / MÉTAL"
+    },
+    {
+      "id": "25",
+      "name": "PÉTRICHOR ARCHIVE HUMIDE"
+    },
+    {
+      "id": "27",
+      "name": "PÉTRICHOR DE SAVANE (Mossi)"
+    },
+    {
+      "id": "28",
+      "name": "PÉTRICHOR DE TEMPÊTE (Volcanique)"
+    },
+    {
+      "id": "29",
+      "name": "PÉTRICHOR MARIN / ATLANTIDE"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n690021\tDaniellia oliveri\n690128\tXylopia (Poivre de Selim)\n690259\tOliban (Boswellia serrata)\nid\tname\n570047\tCamphre\n570039\tEugénol\n120003\tKhusimol\n30007\tLimonène\n30008\tα-Pinène\n30005\tβ-Caryophyllène\nid\tname\n5\tPÉTRICHOR SÉPULCRAL\n20\tOS ROUGE (Mossi)\n21\tPÉTRICHOR CLAIR / GLACIAIRE\n22\tPÉTRICHOR SOMBRE / HUMIDE\n23\tPÉTRICHOR TROPICAL FOSSILISÉ (Monoï)\n24\tPÉTRICHOR URBAIN / MÉTAL\n25\tPÉTRICHOR ARCHIVE HUMIDE\n27\tPÉTRICHOR DE SAVANE (Mossi)\n28\tPÉTRICHOR DE TEMPÊTE (Volcanique)\n29\tPÉTRICHOR MARIN / ATLANTIDE\n",
+  "stderr": "",
+  "execution_time_ms": 589
+}
