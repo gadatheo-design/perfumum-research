@@ -166,8 +166,6 @@ const routeConfig: Record<string, { label: string; parent?: string }> = {
   "/timeline-botanique": { label: "Timeline Botanique" },
   "/botanique-critique": { label: "Botanique Critique" },
   "/varietes-fantomes": { label: "Variétés Fantômes" },
-  "/recettes-leaf-economies": { label: "Recettes Leaf Economies" },
-  
   // TerpProfiles & Plants
   "/terp-profiles": { label: "TerpProfiles" },
   "/terp-profiles/compare": { label: "Comparer", parent: "/terp-profiles" },
@@ -223,8 +221,7 @@ const routeConfig: Record<string, { label: string; parent?: string }> = {
   
   // Matières premières
   "/raw-materials": { label: "Matières Premières" },
-  "/molecule-plant-relations": { label: "Relations Molécule-Plante" },
-  
+
   // Admin
   "/admin": { label: "Administration" },
   "/admin/molecules": { label: "Molécules", parent: "/admin" },
@@ -483,7 +480,6 @@ const routeConfig: Record<string, { label: string; parent?: string }> = {
   "/parfums": { label: "Parfums", parent: "/recettes" },
   "/explorer-par-odeur": { label: "Explorer par Odeur", parent: "/recettes" },
   "/percepts": { label: "Percepts", parent: "/recherche-scientifique" },
-  "/recherche-percepts": { label: "Recherche Percepts", parent: "/percepts" },
 
   // ── PATRIMOINE & CONSERVATION ─────────────────────────────────────────────
   "/heritage-conservation": { label: "Conservation du Patrimoine", parent: "/civilisations" },

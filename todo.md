@@ -3167,4 +3167,29 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Citation Odeuropa en bas de section
 
 ### Phase 6 : Checkpoint
+- [x] Sauvegarder le checkpoint final (version b909e553)
+
+---
+
+## 🌫️ SESSION 20 MARS 2026 — Enrichissement Smellscape
+
+### Phase 1 : Audit
+- [x] Vérifié : smellscape_description existe déjà en base (TEXT, nullable), 1 valeur renseignée (Burkina Faso)
+- [x] Vérifié : affichage déjà présent dans l'Atlas et le hero StorylineDetail
+
+### Phase 2 : Base de données
+- [x] Colonne smellscape_description déjà présente (pas de migration nécessaire)
+- [x] Ajouté procédure tRPC updateSmellscape dans server/routers/storylines.ts
+
+### Phase 3 : Interface admin smellscape
+- [x] Ajouté widget admin smellscape dans StorylineDetail (textarea éditable, compteur de caractères)
+- [x] Affichage en blockquote du smellscape actuel, bouton Ajouter/Modifier
+- [x] Import Textarea ajouté dans StorylineDetail
+
+### Phase 4 : Affichage dans l'Atlas et les cartes
+- [x] Smellscape affiché dans les cartes storylines de l'Atlas (line-clamp-2, italic)
+- [x] Smellscape affiché dans le panneau de détail de l'Atlas (texte complet, italic)
+- [x] Smellscape affiché dans le hero de StorylineDetail (encadré amber, od:L12)
+
+### Phase 5 : Checkpoint
 - [ ] Sauvegarder le checkpoint final

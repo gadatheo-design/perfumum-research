@@ -336,6 +336,25 @@ export const storylinesRouter = router({
       return { success: true, id: input.id, lat: input.lat, lng: input.lng };
     }),
 
+  // Mettre à jour le smellscape d'un storyline
+  updateSmellscape: protectedProcedure
+    .input(z.object({
+      id: z.number(),
+      smellscape_description: z.string().max(3000),
+    }))
+    .mutation(async ({ input, ctx }) => {
+      const db = await requireDb();
+      const isOwner = ctx.user?.openId === process.env.OWNER_OPEN_ID;
+      if (!isOwner) throw new TRPCError({ code: 'FORBIDDEN', message: 'Accès réservé au propriétaire' });
+      await db.execute(sql`
+        UPDATE storylines
+        SET smellscape_description = ${input.smellscape_description},
+            updated_at = ${Date.now()}
+        WHERE id = ${input.id}
+      `);
+      return { success: true, id: input.id };
+    }),
+
   // Stats globales
   getStats: publicProcedure.query(async () => {
     const db = await requireDb();

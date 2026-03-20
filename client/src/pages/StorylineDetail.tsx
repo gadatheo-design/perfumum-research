@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -247,6 +248,8 @@ export default function StorylineDetail() {
   const [editLat, setEditLat] = useState("");
   const [editLng, setEditLng] = useState("");
   const [coordsEditing, setCoordsEditing] = useState(false);
+  const [smellscapeEditing, setSmellscapeEditing] = useState(false);
+  const [editSmellscape, setEditSmellscape] = useState("");
 
   const { data: storyline, isLoading, error, refetch } = trpc.storylines.getBySlug.useQuery(
     { slug: slug ?? "" },
@@ -257,6 +260,17 @@ export default function StorylineDetail() {
     onSuccess: () => {
       toast({ title: "Coordonnées mises à jour", description: `lat: ${editLat}, lng: ${editLng}` });
       setCoordsEditing(false);
+      refetch();
+    },
+    onError: (err) => {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    },
+  });
+
+  const updateSmellscape = trpc.storylines.updateSmellscape.useMutation({
+    onSuccess: () => {
+      toast({ title: "Smellscape mis à jour", description: "Description olfactive enregistrée" });
+      setSmellscapeEditing(false);
       refetch();
     },
     onError: (err) => {
@@ -609,9 +623,88 @@ export default function StorylineDetail() {
           </div>
         </div>
 
-        {/* ── Widget admin : coordonnées GPS ─────────────────────────────── */}
+        {/* ── Widget admin : smellscape ────────────────────────────────────────── */}
         {user && (
           <>
+            <Separator className="mb-8 mt-8" />
+            <div className="rounded-xl border border-dashed border-border/70 bg-muted/20 p-6">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">🌫️</span>
+                  <h3 className="text-sm font-semibold">Smellscape — Description olfactive du lieu</h3>
+                  <Badge variant="outline" className="text-xs">Admin</Badge>
+                </div>
+                {!smellscapeEditing && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setEditSmellscape(s.smellscape_description ?? "");
+                      setSmellscapeEditing(true);
+                    }}
+                  >
+                    {s.smellscape_description ? "Modifier" : "Ajouter"}
+                  </Button>
+                )}
+              </div>
+              {!smellscapeEditing ? (
+                <div className="text-sm">
+                  {s.smellscape_description ? (
+                    <blockquote className="border-l-4 border-amber-400 pl-4 italic text-muted-foreground leading-relaxed">
+                      {s.smellscape_description}
+                    </blockquote>
+                  ) : (
+                    <p className="text-muted-foreground italic text-xs">
+                      Aucune description olfactive du lieu. Cliquez sur "Ajouter" pour décrire l'atmosphère sensorielle de ce smellscape.
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div className="flex flex-col gap-3">
+                  <div className="flex flex-col gap-1.5">
+                    <Label htmlFor="smellscape" className="text-xs">
+                      Description olfactive du lieu (max 3000 caractères)
+                    </Label>
+                    <Textarea
+                      id="smellscape"
+                      value={editSmellscape}
+                      onChange={(e) => setEditSmellscape(e.target.value)}
+                      placeholder="Décrivez l'atmosphère sensorielle de ce lieu — les odeurs, les textures olfactives, les évocations..."
+                      className="min-h-[120px] text-sm leading-relaxed resize-y"
+                      maxLength={3000}
+                    />
+                    <p className="text-xs text-muted-foreground text-right">
+                      {editSmellscape.length} / 3000 caractères
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      size="sm"
+                      onClick={() => updateSmellscape.mutate({ id: s.id, smellscape_description: editSmellscape })}
+                      disabled={updateSmellscape.isPending}
+                    >
+                      <Save className="w-3.5 h-3.5 mr-1.5" />
+                      {updateSmellscape.isPending ? "Enregistrement..." : "Enregistrer"}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setSmellscapeEditing(false)}
+                    >
+                      Annuler
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Ce texte apparaîtra dans l'Atlas olfactif et dans le hero de ce fil narratif.
+                  </p>
+                </div>
+              )}
+            </div>
+          </>
+        )}
+
+        {/* ── Widget admin : coordonnées GPS ─────────────────────────────────── */}
+        {user && (       <>
             <Separator className="mb-8 mt-8" />
             <div className="rounded-xl border border-dashed border-border/70 bg-muted/20 p-6">
               <div className="flex items-center justify-between mb-4">

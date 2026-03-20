@@ -1,0 +1,18 @@
+{
+  "query": "SHOW COLUMNS FROM storylines LIKE 'smellscape_description';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SHOW COLUMNS FROM storylines LIKE 'smellscape_description';",
+  "rows": [
+    {
+      "Field": "smellscape_description",
+      "Type": "text",
+      "Null": "YES",
+      "Key": "",
+      "Default": "NULL",
+      "Extra": ""
+    }
+  ],
+  "messages": [],
+  "stdout": "Field\tType\tNull\tKey\tDefault\tExtra\nsmellscape_description\ttext\tYES\t\tNULL\t\n",
+  "stderr": "",
+  "execution_time_ms": 563
+}
