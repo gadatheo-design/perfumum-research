@@ -2956,3 +2956,24 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 
 ### Phase 3 : Checkpoint
 - [ ] Sauvegarder le checkpoint
+
+---
+
+## 🔄 SESSION 20 MARS 2026 — Invalidation cache radar dans mutations tRPC
+
+### Phase 1 : Identification des mutations
+- [x] Router recettes : create, update, delete, addMoleculeAssociation identifiées
+- [x] Router molecules : create, updateRadar, applyAIClassification, applyAINotes identifiées
+- [x] Mutations de liaison : addMoleculeAssociation identifiée
+
+### Phase 2 : Branchement invalidateRadarCache()
+- [x] recettes.create → invalidateRecetteCache() + invalidateRadarCache()
+- [x] recettes.update → invalidateRecetteCache(id) + invalidateRadarCache()
+- [x] recettes.delete → invalidateRecetteCache() + invalidateRadarCache()
+- [x] recettes.addMoleculeAssociation → invalidateRadarCache() + invalidateRecetteCache(id)
+- [x] molecules.updateRadar → invalidateMoleculeCache(id) + invalidateRadarCache()
+- [x] molecules.applyAIClassification → invalidateMoleculeCache(id) (déjà présent)
+- [x] molecules.applyAINotes → invalidateMoleculeCache(id) (déjà présent)
+
+### Phase 3 : Checkpoint
+- [ ] Sauvegarder le checkpoint

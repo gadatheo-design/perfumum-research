@@ -45,7 +45,7 @@ import {
   searchPlantsByMolecule,
   searchPlantsByTerroir,
 } from "./db";
-import { getAllRecettesWithRadar, filterRecettesByRadar, type RadarFilters } from "./db-recettes-radar";
+import { getAllRecettesWithRadar, filterRecettesByRadar, invalidateRadarCache, type RadarFilters } from "./db-recettes-radar";
 import { getSimilarRecettes, getSimilarMolecules, getRecommendedRecettesFromFavorites } from "./db-recommendations";
 import { koppenRouter } from "./routers/koppen";
 import { tobaccoRouter } from "./routers/tobacco";
@@ -347,7 +347,8 @@ export const appRouter = router({
       }))
       .mutation(async ({ input }) => {
         const result = await db.updateMoleculeRadar(input);
-        invalidateMoleculeCache(input.id); // Invalider le cache après mise à jour
+        invalidateMoleculeCache(input.id); // Invalider le cache molécule
+        invalidateRadarCache(); // Invalider le cache radar (profils recettes affectés)
         return result;
       }),
     // Recherche de molécules par nom
@@ -1092,7 +1093,10 @@ export const appRouter = router({
         notesFond: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        return await db.createRecette(input);
+        const result = await db.createRecette(input);
+        invalidateRecetteCache();
+        invalidateRadarCache();
+        return result;
       }),
     
     update: publicProcedure
@@ -1123,13 +1127,19 @@ export const appRouter = router({
       }))
       .mutation(async ({ input }) => {
         const { id, ...data } = input;
-        return await db.updateRecette(id, data);
+        const result = await db.updateRecette(id, data);
+        invalidateRecetteCache(id);
+        invalidateRadarCache();
+        return result;
       }),
     
     delete: publicProcedure
       .input(z.number())
       .mutation(async ({ input }) => {
-        return await db.deleteRecette(input);
+        const result = await db.deleteRecette(input);
+        invalidateRecetteCache();
+        invalidateRadarCache();
+        return result;
       }),
     
     // Enrichir les associations molécules-recettes pour une gamme
@@ -1150,12 +1160,16 @@ export const appRouter = router({
         notes: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        return await db.insertMoleculeRecetteAssociation(
+        const result = await db.insertMoleculeRecetteAssociation(
           input.recetteId,
           input.moleculeId,
           input.proportion,
           input.notes
         );
+        // Le profil radar de la recette a changé : invalider le cache radar
+        invalidateRadarCache();
+        invalidateRecetteCache(input.recetteId);
+        return result;
       }),
     
     // Récupérer les recettes sans associations pour une gamme
