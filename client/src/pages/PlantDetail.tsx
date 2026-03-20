@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { safeJsonParse } from "@/lib/utils";
 import { useParams, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
+import { useBreadcrumbSegments } from "@/contexts/BreadcrumbContext";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -200,6 +201,16 @@ export default function PlantDetail() {
   }
   
   const plant = plantDetails;
+
+  // Breadcrumb dynamique avec le nom de la plante
+  useBreadcrumbSegments(
+    plant ? [
+      { label: "Plantes", path: "/plants" },
+      { label: plant.name, path: `/plants/${plantId}` },
+    ] : null,
+    [plant?.name, plantId]
+  );
+
   // Helpers de normalisation des champs JSON polymorphes
   const asStringPlant = (val: unknown): string => {
     if (!val) return "";

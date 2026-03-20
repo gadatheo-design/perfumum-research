@@ -631,7 +631,7 @@ function Router() {
       {/* === RECETTES DE CIGARILLOS === */}
       <LazyRoute path="/recettes-cigarillos" component={CigarilloRecipes} />
       <LazyRoute path="/cigarillo-recipes" component={CigarilloRecipes} />
-      <LazyRoute path="/recettes/:slug" component={RecipeDetail} />
+      <Route path="/recettes/:slug">{() => <WithLayout><RecipeDetail /></WithLayout>}</Route>
       
       {/* === PROTOCOLES TECHNIQUES === */}
       <LazyRoute path="/protocoles" component={TechnicalProtocols} />
@@ -681,7 +681,7 @@ function Router() {
       
       <Route path="/colombie" component={ColombieLine} />
       <Route path="/corpus-burkina" component={CorpusBurkinaFaso} />
-      <Route path="/recette/colombie/:id" component={RecetteColombie} />
+      <Route path="/recette/colombie/:id">{() => <WithLayout><RecetteColombie /></WithLayout>}</Route>
       <Route path="/sourcing" component={Sourcing} />
       <Route path="/sourcing/colombie" component={SourcingColombie} />
       <Route path="/sourcing/france" component={SourcingFrance} />
@@ -772,7 +772,7 @@ function Router() {
       <Route path="/correlations" component={CorrelationsParfumTabacCannabis} />
       <Route path="/parfums" component={ParfumsEmblematiques} />
       <Route path="/muscs" component={MuscsComparatif} />
-      <Route path="/recipe-network" component={RecipeNetworkPage} />
+      <Route path="/recipe-network">{() => <WithLayout><RecipeNetworkPage /></WithLayout>}</Route>
       <Route path="/sankey-flow" component={SankeyFlow} />
       <Route path="/enhanced-radar" component={EnhancedRadarDemo} />
       
@@ -929,7 +929,7 @@ function Router() {
         )}
       </Route>
       <Route path="/ghost-variety/:id/upload-image" component={GhostVarietyImageUpload} />
-      <Route path="/recettes-leaf-economies" component={RecettesLeafEconomies} />
+      <Route path="/recettes-leaf-economies">{() => <WithLayout><RecettesLeafEconomies /></WithLayout>}</Route>
       <Route path="/terp-profiles" component={TerpProfiles} />
       <Route path="/terp-profiles/compare" component={TerpProfilesCompare} />
       <Route path="/plants" component={PlantsHub} />
@@ -1038,7 +1038,7 @@ function Router() {
       <Route path="/recherche-profil-moleculaire" component={RechercheProfilMoleculaire} />
       {/* Route /recherche-avancee déjà définie ligne 364 avec RechercheAvancee */}
       <Route path="/recherche-croisee" component={CrossSearch} />
-      <Route path="/timeline-recettes" component={RecipeTimeline} />
+      <Route path="/timeline-recettes">{() => <WithLayout><RecipeTimeline /></WithLayout>}</Route>
       <Route path="/heatmap-correlations" component={RadarCorrelationHeatmap} />
       
       {/* === UTILISATEUR === */}

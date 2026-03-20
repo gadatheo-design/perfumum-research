@@ -2834,3 +2834,13 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Créer BreadcrumbContext pour breadcrumbs dynamiques depuis les pages de détail
 - [x] Intégrer useBreadcrumb dans Header.tsx pour passer les segments au DynamicBreadcrumb
 - [x] Ajouter useBreadcrumbSegments dans TabacDetail.tsx — breadcrumb affiche maintenant "Accueil > Tabacothèque > [Nom du Tabac]"
+
+---
+
+## SESSION 20 MARS 2026 — Breadcrumb dynamique + Header fiches recette
+
+- [ ] Ajouter useBreadcrumbSegments dans MoleculeDetail.tsx — breadcrumb "Accueil > Molécules > [Nom]"
+- [ ] Ajouter useBreadcrumbSegments dans PlantDetail.tsx — breadcrumb "Accueil > Plantes > [Nom]"
+- [ ] Ajouter Header/Footer dans RecetteDetail.tsx
+- [ ] Ajouter Header/Footer dans FinalRecipeDetail.tsx
+- [ ] Identifier et corriger les autres fiches recette sans Header

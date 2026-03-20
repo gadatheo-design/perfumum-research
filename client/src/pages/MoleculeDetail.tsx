@@ -27,6 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
+import { useBreadcrumbSegments } from "@/contexts/BreadcrumbContext";
 
 // Composant indicateur de statut PubChem
 function PubChemStatusBadge({ hasPubChem, pubchemCid }: { hasPubChem: boolean; pubchemCid?: number }) {
@@ -629,6 +630,16 @@ export default function MoleculeDetail() {
   const [isExporting, setIsExporting] = useState(false);
   const { toast } = useToast();
   const utils = trpc.useUtils();
+
+  // Breadcrumb dynamique avec le nom de la molécule
+  useBreadcrumbSegments(
+    molecule ? [
+      { label: "Molécules", path: "/molecules" },
+      { label: molecule.name, path: `/molecule/${id}` },
+    ] : null,
+    [molecule?.name, id]
+  );
+
   const applyAIClassificationMutation = trpc.molecules.applyAIClassification.useMutation({
     onSuccess: (data) => {
       if (data.success) {
