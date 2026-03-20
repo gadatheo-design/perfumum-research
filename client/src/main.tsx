@@ -6,6 +6,7 @@ import { createRoot } from "react-dom/client";
 import superjson from "superjson";
 import App from "./App";
 import { getLoginUrl } from "./const";
+import { BreadcrumbProvider } from "@/contexts/BreadcrumbContext";
 import "./index.css";
 import "./mobile-touch.css";
 import { Toaster } from "@/components/ui/sonner";
@@ -64,8 +65,10 @@ const trpcClient = trpc.createClient({
 createRoot(document.getElementById("root")!).render(
   <QueryClientProvider client={queryClient}>
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <App />
-      <Toaster position="bottom-right" />
+      <BreadcrumbProvider>
+        <App />
+        <Toaster position="bottom-right" />
+      </BreadcrumbProvider>
     </trpc.Provider>
   </QueryClientProvider>
 );

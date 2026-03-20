@@ -2821,3 +2821,16 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [ ] Tester les 10 graphes D3.js restants (heatmaps, corrélations, etc.)
 - [ ] Ajouter le Header/Footer aux pages RecetteDetail et FinalRecipeDetail
 - [ ] Corriger le breadcrumb "Tabac > 1" → "Tabac > Krumovgrad" dans TabacDetail
+
+## SESSION 20 MARS 2026 — Correction breadcrumb TabacDetail
+
+- [ ] Corriger le breadcrumb TabacDetail : afficher le nom du tabac au lieu de l'ID numérique
+
+
+---
+
+## SESSION 20 MARS 2026 — Correction breadcrumb TabacDetail
+
+- [x] Créer BreadcrumbContext pour breadcrumbs dynamiques depuis les pages de détail
+- [x] Intégrer useBreadcrumb dans Header.tsx pour passer les segments au DynamicBreadcrumb
+- [x] Ajouter useBreadcrumbSegments dans TabacDetail.tsx — breadcrumb affiche maintenant "Accueil > Tabacothèque > [Nom du Tabac]"

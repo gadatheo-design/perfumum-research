@@ -1,6 +1,8 @@
 // @ts-nocheck
 import { useParams, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
+import { useBreadcrumbSegments } from "@/contexts/BreadcrumbContext";
+import { useEffect } from "react";
 import { ArrowLeft, Loader2, FlaskConical, MapPin, Thermometer, Leaf, Atom, ExternalLink, Flame } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -26,6 +28,15 @@ export default function TabacDetail() {
   const { data: synergies } = trpc.synergies.list.useQuery();
 
   const tabacSynergies = synergies?.filter((s: any) => s.tabacId === tabacId) || [];
+
+  // Breadcrumb dynamique avec le nom du tabac
+  useBreadcrumbSegments(
+    tabac ? [
+      { label: "Tabacothèque", path: "/tabacotheque" },
+      { label: tabac.name, path: `/tabac/${tabacId}` },
+    ] : null,
+    [tabac?.name, tabacId]
+  );
 
   if (loadingTabac) {
     return (

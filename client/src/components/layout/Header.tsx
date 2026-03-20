@@ -23,6 +23,7 @@ import { useState, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
 import { DynamicBreadcrumb } from "@/components/DynamicBreadcrumb";
+import { useBreadcrumb } from "@/contexts/BreadcrumbContext";
 import {
   Dialog,
   DialogContent,
@@ -94,6 +95,7 @@ export function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [location] = useLocation();
   const { theme, toggleTheme } = useTheme();
+  const { segments: breadcrumbSegments } = useBreadcrumb();
 
   // Écouter l'événement global pour ouvrir la recherche
   useEffect(() => {
@@ -206,7 +208,7 @@ export function Header() {
     {/* Breadcrumb sous le header */}
     <div className="sticky top-14 lg:top-[72px] z-40 border-b border-border/50 bg-background/95 backdrop-blur-md shadow-sm">
       <div className="container py-1.5 sm:py-2 px-4 lg:px-6">
-        <DynamicBreadcrumb />
+        <DynamicBreadcrumb segments={breadcrumbSegments ?? undefined} />
       </div>
     </div>
 
