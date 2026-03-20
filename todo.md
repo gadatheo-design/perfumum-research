@@ -3000,3 +3000,21 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 
 ### Phase 4 : Checkpoint
 - [ ] Sauvegarder le checkpoint
+
+---
+
+## 📖 SESSION 20 MARS 2026 — Création storyline Burkina Faso
+
+### Phase 1 : Analyse et préparation
+- [x] Analyser la structure de la table storylines (15 colonnes dont narrative_axis, geographic_scope, wikidata_id)
+- [x] Rechercher les données disponibles : 10 plantes Burkina Faso, gamme Mossi (OS ROUGE, PÉTRICHOR, Mossi Clair/Sombre/Feu), molécules Khusimol/Eugénol
+
+### Phase 2 : Création du storyline
+- [x] Storyline existait déjà (id=4) avec 7 éléments narratifs
+- [x] Corrigé bug router storylines : table 'recipes' → 'recettes'
+- [x] Enrichi le storyline avec 10 nouveaux éléments narratifs (plantes, molécules, recettes Mossi)
+- [x] Total : 17 éléments narratifs (7 plantes, 4 molécules, 3 recettes Mossi)
+
+### Phase 3 : Validation et checkpoint
+- [x] API storylines.getBySlug fonctionne (17 éléments chargés)
+- [ ] Sauvegarder le checkpoint

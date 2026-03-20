@@ -1,0 +1,19 @@
+{
+  "query": "SELECT id, name FROM recettes WHERE name LIKE '%Corpus%' OR name LIKE '%corpus%' OR name LIKE '%Burkina%' OR name LIKE '%Mossi%' OR name LIKE '%combustion%' LIMIT 10; SELECT m.id, m.name, m.olfactive_family FROM molecules m JOIN plant_molecules pm ON pm.molecule_id = m.id WHERE pm.plant_id IN (210016, 210018, 210019, 210020, 210021, 210022, 210024, 210025) GROUP BY m.id ORDER BY COUNT(*) DESC LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM recettes WHERE name LIKE '%Corpus%' OR name LIKE '%corpus%' OR name LIKE '%Burkina%' OR name LIKE '%Mossi%' OR name LIKE '%combustion%' LIMIT 10; SELECT m.id, m.name, m.olfactive_family FROM molecules m JOIN plant_molecules pm ON pm.molecule_id = m.id WHERE pm.plant_id IN (210016, 210018, 210019, 210020, 210021, 210022, 210024, 210025) GROUP BY m.id ORDER BY COUNT(*) DESC LIMIT 20;",
+  "returncode": 1,
+  "logs": [
+    "id\tname",
+    "20\tOS ROUGE (Mossi)",
+    "27\tPÉTRICHOR DE SAVANE (Mossi)",
+    "69\tOS ROUGE (Mossi)",
+    "76\tPÉTRICHOR DE SAVANE (Mossi)",
+    "360019\tMossi Mossi Clair",
+    "360020\tMossi Mossi Sombre",
+    "360021\tMossi Mossi du Feu",
+    "360022\tMossi Mossi Verger Sacré",
+    "390001\tMossi Clair",
+    "390002\tMossi Sombre",
+    "ERROR 1054 (42S22) at line 1: Unknown column 'm.olfactive_family' in 'field list'"
+  ]
+}

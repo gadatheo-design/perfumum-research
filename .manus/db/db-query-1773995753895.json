@@ -1,0 +1,134 @@
+{
+  "query": "SELECT id, name FROM recettes WHERE name LIKE '%Corpus%' OR name LIKE '%Burkina%' OR name LIKE '%Mossi%' OR name LIKE '%combustion%' LIMIT 10; SELECT m.id, m.name FROM molecules m JOIN plant_molecules pm ON pm.molecule_id = m.id WHERE pm.plant_id IN (210016, 210018, 210019, 210020, 210021, 210022, 210024, 210025) GROUP BY m.id ORDER BY COUNT(*) DESC LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM recettes WHERE name LIKE '%Corpus%' OR name LIKE '%Burkina%' OR name LIKE '%Mossi%' OR name LIKE '%combustion%' LIMIT 10; SELECT m.id, m.name FROM molecules m JOIN plant_molecules pm ON pm.molecule_id = m.id WHERE pm.plant_id IN (210016, 210018, 210019, 210020, 210021, 210022, 210024, 210025) GROUP BY m.id ORDER BY COUNT(*) DESC LIMIT 20;",
+  "rows": [
+    {
+      "id": "20",
+      "name": "OS ROUGE (Mossi)"
+    },
+    {
+      "id": "27",
+      "name": "PÉTRICHOR DE SAVANE (Mossi)"
+    },
+    {
+      "id": "69",
+      "name": "OS ROUGE (Mossi)"
+    },
+    {
+      "id": "76",
+      "name": "PÉTRICHOR DE SAVANE (Mossi)"
+    },
+    {
+      "id": "360019",
+      "name": "Mossi Mossi Clair"
+    },
+    {
+      "id": "360020",
+      "name": "Mossi Mossi Sombre"
+    },
+    {
+      "id": "360021",
+      "name": "Mossi Mossi du Feu"
+    },
+    {
+      "id": "360022",
+      "name": "Mossi Mossi Verger Sacré"
+    },
+    {
+      "id": "390001",
+      "name": "Mossi Clair"
+    },
+    {
+      "id": "390002",
+      "name": "Mossi Sombre"
+    },
+    {
+      "id": "id",
+      "name": "name"
+    },
+    {
+      "id": "30007",
+      "name": "Limonène"
+    },
+    {
+      "id": "30008",
+      "name": "α-Pinène"
+    },
+    {
+      "id": "570052",
+      "name": "α-Terpinéol"
+    },
+    {
+      "id": "570073",
+      "name": "Sabinène"
+    },
+    {
+      "id": "1410073",
+      "name": "Humulène"
+    },
+    {
+      "id": "720003",
+      "name": "Camphène"
+    },
+    {
+      "id": "720002",
+      "name": "β-Ocimène"
+    },
+    {
+      "id": "570047",
+      "name": "Camphre"
+    },
+    {
+      "id": "810002",
+      "name": "beta-pinene"
+    },
+    {
+      "id": "570072",
+      "name": "p-Cymène"
+    },
+    {
+      "id": "30005",
+      "name": "β-Caryophyllène"
+    },
+    {
+      "id": "30002",
+      "name": "Linalol"
+    },
+    {
+      "id": "960002",
+      "name": "Terpinen-4-ol"
+    },
+    {
+      "id": "720006",
+      "name": "α-Terpinène"
+    },
+    {
+      "id": "720018",
+      "name": "Caryophyllène oxide"
+    },
+    {
+      "id": "1050009",
+      "name": "α-Bergamotène"
+    },
+    {
+      "id": "720007",
+      "name": "γ-Terpinène"
+    },
+    {
+      "id": "720004",
+      "name": "α-Phellandrène"
+    },
+    {
+      "id": "570042",
+      "name": "Thymol"
+    },
+    {
+      "id": "30006",
+      "name": "Myrcène"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\n20\tOS ROUGE (Mossi)\n27\tPÉTRICHOR DE SAVANE (Mossi)\n69\tOS ROUGE (Mossi)\n76\tPÉTRICHOR DE SAVANE (Mossi)\n360019\tMossi Mossi Clair\n360020\tMossi Mossi Sombre\n360021\tMossi Mossi du Feu\n360022\tMossi Mossi Verger Sacré\n390001\tMossi Clair\n390002\tMossi Sombre\nid\tname\n30007\tLimonène\n30008\tα-Pinène\n570052\tα-Terpinéol\n570073\tSabinène\n1410073\tHumulène\n720003\tCamphène\n720002\tβ-Ocimène\n570047\tCamphre\n810002\tbeta-pinene\n570072\tp-Cymène\n30005\tβ-Caryophyllène\n30002\tLinalol\n960002\tTerpinen-4-ol\n720006\tα-Terpinène\n720018\tCaryophyllène oxide\n1050009\tα-Bergamotène\n720007\tγ-Terpinène\n720004\tα-Phellandrène\n570042\tThymol\n30006\tMyrcène\n",
+  "stderr": "",
+  "execution_time_ms": 430
+}

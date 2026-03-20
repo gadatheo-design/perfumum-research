@@ -1,0 +1,19 @@
+{
+  "query": "DESCRIBE tabacs; SELECT id, name, origin, description FROM tabacs WHERE origin LIKE '%Burkina%' OR name LIKE '%Burkina%' OR name LIKE '%Mossi%' LIMIT 10; SELECT id, name, description FROM recettes WHERE name LIKE '%Burkina%' OR description LIKE '%Burkina%' LIMIT 5; SELECT id, name, latin_name, origin FROM plants WHERE origin LIKE '%Burkina%' OR name LIKE '%Burkina%' LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute DESCRIBE tabacs; SELECT id, name, origin, description FROM tabacs WHERE origin LIKE '%Burkina%' OR name LIKE '%Burkina%' OR name LIKE '%Mossi%' LIMIT 10; SELECT id, name, description FROM recettes WHERE name LIKE '%Burkina%' OR description LIKE '%Burkina%' LIMIT 5; SELECT id, name, latin_name, origin FROM plants WHERE origin LIKE '%Burkina%' OR name LIKE '%Burkina%' LIMIT 10;",
+  "returncode": 1,
+  "logs": [
+    "Field\tType\tNull\tKey\tDefault\tExtra",
+    "id\tint\tNO\tPRI\tNULL\tauto_increment",
+    "name\tvarchar(255)\tNO\t\tNULL\t",
+    "type\tenum('blond','brun','oriental','experimental')\tNO\t\tNULL\t",
+    "origin\tvarchar(255)\tYES\t\tNULL\t",
+    "aromaticProfile\ttext\tYES\t\tNULL\t",
+    "intensity\tint\tYES\t\tNULL\t",
+    "idealTemperature\tint\tYES\t\tNULL\t",
+    "internalNotes\ttext\tYES\t\tNULL\t",
+    "createdAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t",
+    "updatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP",
+    "ERROR 1054 (42S22) at line 1: Unknown column 'description' in 'field list'"
+  ]
+}

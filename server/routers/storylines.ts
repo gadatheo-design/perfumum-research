@@ -60,7 +60,7 @@ export const storylinesRouter = router({
           CASE se.entity_type
             WHEN 'plant' THEN (SELECT name FROM plants WHERE id = se.entity_id)
             WHEN 'molecule' THEN (SELECT name FROM molecules WHERE id = se.entity_id)
-            WHEN 'recipe' THEN (SELECT name FROM recipes WHERE id = se.entity_id)
+            WHEN 'recipe' THEN (SELECT name FROM recettes WHERE id = se.entity_id)
             WHEN 'reference' THEN (SELECT title FROM bibliography_entries WHERE id = se.entity_id)
             ELSE NULL
           END as entity_name,

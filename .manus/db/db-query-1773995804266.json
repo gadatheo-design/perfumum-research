@@ -1,0 +1,17 @@
+{
+  "query": "SELECT id, title, slug, status, description FROM storylines WHERE slug = 'burkina-faso-combustion-lente';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, title, slug, status, description FROM storylines WHERE slug = 'burkina-faso-combustion-lente';",
+  "rows": [
+    {
+      "id": "4",
+      "title": "Burkina Faso — Combustion Lente",
+      "slug": "burkina-faso-combustion-lente",
+      "status": "active",
+      "description": "Au Burkina Faso, la combustion lente (smoldering) de bois aromatiques est une pratique centrale dans les rituels Mossi, Peul et Bobo. L'encens ouest-africain (Daniellia oliveri, Boswellia dalzielii) produit une fumée dense et persistante aux notes terreuses et résineuses. Ce corpus régional documente les pratiques olfactives du Sahel : combustion lente, fumigation des vêtements (dukhan), usage médicinal des fumées aromatiques."
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttitle\tslug\tstatus\tdescription\n4\tBurkina Faso — Combustion Lente\tburkina-faso-combustion-lente\tactive\tAu Burkina Faso, la combustion lente (smoldering) de bois aromatiques est une pratique centrale dans les rituels Mossi, Peul et Bobo. L'encens ouest-africain (Daniellia oliveri, Boswellia dalzielii) produit une fumée dense et persistante aux notes terreuses et résineuses. Ce corpus régional documente les pratiques olfactives du Sahel : combustion lente, fumigation des vêtements (dukhan), usage médicinal des fumées aromatiques.\n",
+  "stderr": "",
+  "execution_time_ms": 390
+}

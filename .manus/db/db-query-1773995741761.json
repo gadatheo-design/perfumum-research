@@ -1,0 +1,73 @@
+{
+  "query": "SELECT id, name FROM recettes WHERE name LIKE '%Burkina%' OR notes LIKE '%Burkina%' LIMIT 5; SELECT id, name, latin_name, origin FROM plants WHERE origin LIKE '%Burkina%' OR name LIKE '%Burkina%' LIMIT 10; SELECT id, name FROM molecules WHERE name LIKE '%Burkina%' OR notes LIKE '%Burkina%' LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name FROM recettes WHERE name LIKE '%Burkina%' OR notes LIKE '%Burkina%' LIMIT 5; SELECT id, name, latin_name, origin FROM plants WHERE origin LIKE '%Burkina%' OR name LIKE '%Burkina%' LIMIT 10; SELECT id, name FROM molecules WHERE name LIKE '%Burkina%' OR notes LIKE '%Burkina%' LIMIT 5;",
+  "rows": [
+    {
+      "id": "210016",
+      "name": "Encens ouest-africain",
+      "latin_name": "Boswellia dalzielii",
+      "origin": "Burkina Faso; Sahel"
+    },
+    {
+      "id": "210018",
+      "name": "Poivre de Guinée (fruit)",
+      "latin_name": "Xylopia aethiopica",
+      "origin": "Burkina Faso; Afrique de l’Ouest"
+    },
+    {
+      "id": "210019",
+      "name": "Lippia africaine",
+      "latin_name": "Lippia multiflora",
+      "origin": "Burkina Faso, Ghana, Côte d'Ivoire"
+    },
+    {
+      "id": "210020",
+      "name": "Citronnelle africaine",
+      "latin_name": "Cymbopogon giganteus",
+      "origin": "Burkina Faso; Sahel"
+    },
+    {
+      "id": "210021",
+      "name": "Basilic clou de girofle",
+      "latin_name": "Ocimum gratissimum",
+      "origin": "Burkina Faso; Afrique de l’Ouest"
+    },
+    {
+      "id": "210022",
+      "name": "Hyptis (menthe sauvage)",
+      "latin_name": "Hyptis suaveolens",
+      "origin": "Burkina Faso; Afrique de l’Ouest"
+    },
+    {
+      "id": "210024",
+      "name": "Vétiver ouest-africain",
+      "latin_name": "Chrysopogon nigritanus",
+      "origin": "Burkina Faso"
+    },
+    {
+      "id": "210025",
+      "name": "Violet tree (racine)",
+      "latin_name": "Securidaca longepedunculata",
+      "origin": "Burkina Faso; Afrique de l’Ouest"
+    },
+    {
+      "id": "210030",
+      "name": "Cannabis feuille sèche #3",
+      "latin_name": "Cannabis sativa",
+      "origin": "Colombie; Burkina Faso"
+    },
+    {
+      "id": "300002",
+      "name": "Basilic africain",
+      "latin_name": "Ocimum canum",
+      "origin": "Burkina Faso, Cameroun, Côte d'Ivoire"
+    }
+  ],
+  "messages": [
+    "id\tname",
+    "1080018\tGomme arabique — Senegalia senegal (filière fragile)"
+  ],
+  "stdout": "id\tname\tlatin_name\torigin\n210016\tEncens ouest-africain\tBoswellia dalzielii\tBurkina Faso; Sahel\n210018\tPoivre de Guinée (fruit)\tXylopia aethiopica\tBurkina Faso; Afrique de l’Ouest\n210019\tLippia africaine\tLippia multiflora\tBurkina Faso, Ghana, Côte d'Ivoire\n210020\tCitronnelle africaine\tCymbopogon giganteus\tBurkina Faso; Sahel\n210021\tBasilic clou de girofle\tOcimum gratissimum\tBurkina Faso; Afrique de l’Ouest\n210022\tHyptis (menthe sauvage)\tHyptis suaveolens\tBurkina Faso; Afrique de l’Ouest\n210024\tVétiver ouest-africain\tChrysopogon nigritanus\tBurkina Faso\n210025\tViolet tree (racine)\tSecuridaca longepedunculata\tBurkina Faso; Afrique de l’Ouest\n210030\tCannabis feuille sèche #3\tCannabis sativa\tColombie; Burkina Faso\n300002\tBasilic africain\tOcimum canum\tBurkina Faso, Cameroun, Côte d'Ivoire\nid\tname\n1080018\tGomme arabique — Senegalia senegal (filière fragile)\n",
+  "stderr": "",
+  "execution_time_ms": 533
+}

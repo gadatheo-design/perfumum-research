@@ -1,0 +1,91 @@
+{
+  "query": "SELECT id, name, notes, gamme FROM recettes WHERE id IN (20, 27, 69, 76, 360019, 360020, 360021, 360022, 390001, 390002) LIMIT 10; SELECT m.id, m.name, m.notes FROM molecules m JOIN plant_molecules pm ON pm.molecule_id = m.id WHERE pm.plant_id IN (210016, 210018, 210019, 210020, 210021, 210022, 210024, 210025) GROUP BY m.id LIMIT 15;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT id, name, notes, gamme FROM recettes WHERE id IN (20, 27, 69, 76, 360019, 360020, 360021, 360022, 390001, 390002) LIMIT 10; SELECT m.id, m.name, m.notes FROM molecules m JOIN plant_molecules pm ON pm.molecule_id = m.id WHERE pm.plant_id IN (210016, 210018, 210019, 210020, 210021, 210022, 210024, 210025) GROUP BY m.id LIMIT 15;",
+  "rows": [
+    {
+      "id": "20",
+      "name": "OS ROUGE (Mossi)",
+      "notes": "NULL",
+      "gamme": "NULL"
+    },
+    {
+      "id": "27",
+      "name": "PÉTRICHOR DE SAVANE (Mossi)",
+      "notes": "NULL",
+      "gamme": "NULL"
+    },
+    {
+      "id": "69",
+      "name": "OS ROUGE (Mossi)",
+      "notes": "NULL",
+      "gamme": "NULL"
+    },
+    {
+      "id": "76",
+      "name": "PÉTRICHOR DE SAVANE (Mossi)",
+      "notes": "NULL",
+      "gamme": "NULL"
+    },
+    {
+      "id": "360019",
+      "name": "Mossi Mossi Clair",
+      "notes": "NULL",
+      "gamme": "Mossi"
+    },
+    {
+      "id": "360020",
+      "name": "Mossi Mossi Sombre",
+      "notes": "NULL",
+      "gamme": "Mossi"
+    },
+    {
+      "id": "360021",
+      "name": "Mossi Mossi du Feu",
+      "notes": "NULL",
+      "gamme": "Mossi"
+    },
+    {
+      "id": "360022",
+      "name": "Mossi Mossi Verger Sacré",
+      "notes": "NULL",
+      "gamme": "Mossi"
+    },
+    {
+      "id": "390001",
+      "name": "Mossi Clair",
+      "notes": "Profil olfactif: poussière claire, encens blanc, lumière. Base : oliban blanc, ionones, argile blanche, aldéhydes chauds.",
+      "gamme": "Traditions Olfactives"
+    },
+    {
+      "id": "390002",
+      "name": "Mossi Sombre",
+      "notes": "Profil olfactif: ombre chaude, résine sacrée, terre humide. Accord nocturne, rituel, profond.",
+      "gamme": "Traditions Olfactives"
+    }
+  ],
+  "messages": [
+    "id\tname\tnotes",
+    "30002\tLinalol\tÉmotion : “respiration ouverte”",
+    "30005\tβ-Caryophyllène\tSesquiterpène majeur du cannabis. Seul terpène connu à agir comme cannabinoïde.",
+    "30006\tMyrcène\tTerpène le plus abondant dans de nombreuses variétés de cannabis.",
+    "30007\tLimonène\tDeuxième terpène le plus répandu dans la nature après le pinène.",
+    "30008\tα-Pinène\tTerpène le plus répandu dans le règne végétal. Deux isomères : α-pinène et β-pinène.",
+    "60008\tAcide Caféique\tNULL",
+    "120003\tKhusimol\tMolécule-clé Royal Mossi - Famille 1: Sesquiterpènes racinaires",
+    "210014\tEthyl cinnamate\tNULL",
+    "210017\tMethyl salicylate\tNULL",
+    "570014\tNérol\tLe Nérol est l'isomère Z du Géraniol et est un composant clé de l'huile essentielle de néroli et de rose. Sa note florale est plus douce et moins rosée que le géraniol pur, avec une facette verte plus prononcée. Il est largement utilisé en parfumerie fine et en cosmétique.",
+    "--- Notes IA ---",
+    "Le Nérol est l'isomère Z du Géraniol et est un composant clé de l'huile essentielle de néroli et de rose. Sa note florale est plus douce et moins rosée que le géraniol pur, avec une facette verte plus prononcée. Il est largement utilisé en parfumerie fine et en cosmétique.",
+    "570016\tMenthone\tNULL",
+    "570039\tEugénol\tProduit de pyrolyse de la lignine (400-700°C). Présent dans tabacs orientaux (50-100 ppm). Synergies: isoeugenol, méthyl eugenol, caryophyllène.",
+    "570041\tCarvacrol\tLe Carvacrol est un isomère du Thymol et est un composant majeur de l'huile essentielle d'origan et de thym. Il est connu pour ses propriétés antimicrobiennes et antioxydantes, en plus de son rôle en parfumerie pour apporter des notes chaudes et épicées. Sa nature phénolique peut le rendre irritant à haute concentration.",
+    "570042\tThymol\tLe Thymol est un monoterpène phénolique. Bien qu'il dérive de la voie des terpènes (C10), sa fonction phénol est sa caractéristique chimique prédominante pour la classification. Il est connu pour ses propriétés antiseptiques et est un composant majeur de l'huile essentielle de thym.",
+    "--- Notes IA ---",
+    "Le Thymol est un monoterpène phénolique. Bien qu'il dérive de la voie des terpènes (C10), sa fonction phénol est sa caractéristique chimique prédominante pour la classification. Il est connu pour ses propriétés antiseptiques et est un composant majeur de l'huile essentielle de thym.",
+    "570045\tCitral\tNULL"
+  ],
+  "stdout": "id\tname\tnotes\tgamme\n20\tOS ROUGE (Mossi)\tNULL\tNULL\n27\tPÉTRICHOR DE SAVANE (Mossi)\tNULL\tNULL\n69\tOS ROUGE (Mossi)\tNULL\tNULL\n76\tPÉTRICHOR DE SAVANE (Mossi)\tNULL\tNULL\n360019\tMossi Mossi Clair\tNULL\tMossi\n360020\tMossi Mossi Sombre\tNULL\tMossi\n360021\tMossi Mossi du Feu\tNULL\tMossi\n360022\tMossi Mossi Verger Sacré\tNULL\tMossi\n390001\tMossi Clair\tProfil olfactif: poussière claire, encens blanc, lumière. Base : oliban blanc, ionones, argile blanche, aldéhydes chauds.\tTraditions Olfactives\n390002\tMossi Sombre\tProfil olfactif: ombre chaude, résine sacrée, terre humide. Accord nocturne, rituel, profond.\tTraditions Olfactives\nid\tname\tnotes\n30002\tLinalol\tÉmotion : “respiration ouverte”\n30005\tβ-Caryophyllène\tSesquiterpène majeur du cannabis. Seul terpène connu à agir comme cannabinoïde.\n30006\tMyrcène\tTerpène le plus abondant dans de nombreuses variétés de cannabis.\n30007\tLimonène\tDeuxième terpène le plus répandu dans la nature après le pinène.\n30008\tα-Pinène\tTerpène le plus répandu dans le règne végétal. Deux isomères : α-pinène et β-pinène.\n60008\tAcide Caféique\tNULL\n120003\tKhusimol\tMolécule-clé Royal Mossi - Famille 1: Sesquiterpènes racinaires\n210014\tEthyl cinnamate\tNULL\n210017\tMethyl salicylate\tNULL\n570014\tNérol\tLe Nérol est l'isomère Z du Géraniol et est un composant clé de l'huile essentielle de néroli et de rose. Sa note florale est plus douce et moins rosée que le géraniol pur, avec une facette verte plus prononcée. Il est largement utilisé en parfumerie fine et en cosmétique.\n\n--- Notes IA ---\nLe Nérol est l'isomère Z du Géraniol et est un composant clé de l'huile essentielle de néroli et de rose. Sa note florale est plus douce et moins rosée que le géraniol pur, avec une facette verte plus prononcée. Il est largement utilisé en parfumerie fine et en cosmétique.\n570016\tMenthone\tNULL\n570039\tEugénol\tProduit de pyrolyse de la lignine (400-700°C). Présent dans tabacs orientaux (50-100 ppm). Synergies: isoeugenol, méthyl eugenol, caryophyllène.\n570041\tCarvacrol\tLe Carvacrol est un isomère du Thymol et est un composant majeur de l'huile essentielle d'origan et de thym. Il est connu pour ses propriétés antimicrobiennes et antioxydantes, en plus de son rôle en parfumerie pour apporter des notes chaudes et épicées. Sa nature phénolique peut le rendre irritant à haute concentration.\n570042\tThymol\tLe Thymol est un monoterpène phénolique. Bien qu'il dérive de la voie des terpènes (C10), sa fonction phénol est sa caractéristique chimique prédominante pour la classification. Il est connu pour ses propriétés antiseptiques et est un composant majeur de l'huile essentielle de thym.\n\n--- Notes IA ---\nLe Thymol est un monoterpène phénolique. Bien qu'il dérive de la voie des terpènes (C10), sa fonction phénol est sa caractéristique chimique prédominante pour la classification. Il est connu pour ses propriétés antiseptiques et est un composant majeur de l'huile essentielle de thym.\n570045\tCitral\tNULL\n",
+  "stderr": "",
+  "execution_time_ms": 462
+}

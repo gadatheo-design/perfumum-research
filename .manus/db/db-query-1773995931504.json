@@ -1,0 +1,66 @@
+{
+  "query": "SELECT se.id, se.entity_type, se.entity_id, se.role_in_story, se.narrative_note, se.sequence_order FROM story_elements se WHERE se.storyline_id = 4 ORDER BY se.sequence_order ASC, se.id ASC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute SELECT se.id, se.entity_type, se.entity_id, se.role_in_story, se.narrative_note, se.sequence_order FROM story_elements se WHERE se.storyline_id = 4 ORDER BY se.sequence_order ASC, se.id ASC;",
+  "rows": [
+    {
+      "id": "24",
+      "entity_type": "plant",
+      "entity_id": "210016",
+      "role_in_story": "protagonist",
+      "narrative_note": "Encens ouest-africain (Daniellia oliveri) — Résine aromatique du Sahel. Utilisée dans les rituels Mossi du Burkina Faso pour la combustion lente (smoldering). Note terreuse, fumée et légèrement sucrée.",
+      "sequence_order": "1"
+    },
+    {
+      "id": "25",
+      "entity_type": "plant",
+      "entity_id": "270004",
+      "role_in_story": "context",
+      "narrative_note": "Encens négligé (Boswellia neglecta) — Espèce africaine sous-documentée. Utilisée dans les rituels de l'Afrique de l'Est et du Sahel.",
+      "sequence_order": "2"
+    },
+    {
+      "id": "26",
+      "entity_type": "plant",
+      "entity_id": "210039",
+      "role_in_story": "context",
+      "narrative_note": "Commiphora — Genre africain de résines aromatiques. Plusieurs espèces utilisées dans les rituels de combustion lente au Burkina Faso.",
+      "sequence_order": "3"
+    },
+    {
+      "id": "27",
+      "entity_type": "plant",
+      "entity_id": "630016",
+      "role_in_story": "context",
+      "narrative_note": "Commiphora africain — Variété africaine de myrrhe. Note plus terreuse et fumée que la myrrhe de Somalie.",
+      "sequence_order": "4"
+    },
+    {
+      "id": "28",
+      "entity_type": "molecule",
+      "entity_id": "30008",
+      "role_in_story": "symbol",
+      "narrative_note": "α-Pinène — Terpène dominant des résines africaines. Libéré lors de la combustion lente, il contribue à la note fraîche et résineuse de la fumée.",
+      "sequence_order": "5"
+    },
+    {
+      "id": "29",
+      "entity_type": "molecule",
+      "entity_id": "30005",
+      "role_in_story": "symbol",
+      "narrative_note": "β-Caryophyllène — Sesquiterpène abondant dans les résines africaines. Note épicée et boisée de la fumée de combustion lente.",
+      "sequence_order": "6"
+    },
+    {
+      "id": "30",
+      "entity_type": "molecule",
+      "entity_id": "30006",
+      "role_in_story": "context",
+      "narrative_note": "Myrcène — Monoterpène herbacé présent dans les résines du Sahel. Note verte et résineuse de la fumée fraîche.",
+      "sequence_order": "7"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tentity_type\tentity_id\trole_in_story\tnarrative_note\tsequence_order\n24\tplant\t210016\tprotagonist\tEncens ouest-africain (Daniellia oliveri) — Résine aromatique du Sahel. Utilisée dans les rituels Mossi du Burkina Faso pour la combustion lente (smoldering). Note terreuse, fumée et légèrement sucrée.\t1\n25\tplant\t270004\tcontext\tEncens négligé (Boswellia neglecta) — Espèce africaine sous-documentée. Utilisée dans les rituels de l'Afrique de l'Est et du Sahel.\t2\n26\tplant\t210039\tcontext\tCommiphora — Genre africain de résines aromatiques. Plusieurs espèces utilisées dans les rituels de combustion lente au Burkina Faso.\t3\n27\tplant\t630016\tcontext\tCommiphora africain — Variété africaine de myrrhe. Note plus terreuse et fumée que la myrrhe de Somalie.\t4\n28\tmolecule\t30008\tsymbol\tα-Pinène — Terpène dominant des résines africaines. Libéré lors de la combustion lente, il contribue à la note fraîche et résineuse de la fumée.\t5\n29\tmolecule\t30005\tsymbol\tβ-Caryophyllène — Sesquiterpène abondant dans les résines africaines. Note épicée et boisée de la fumée de combustion lente.\t6\n30\tmolecule\t30006\tcontext\tMyrcène — Monoterpène herbacé présent dans les résines du Sahel. Note verte et résineuse de la fumée fraîche.\t7\n",
+  "stderr": "",
+  "execution_time_ms": 394
+}
