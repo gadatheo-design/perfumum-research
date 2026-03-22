@@ -3219,3 +3219,29 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 ### Phase 4 : Vérification et checkpoint
 - [x] Vérifié : 0 entrée restante dans molecules, 9 entrées dans plants avec latin_name et category corrects
 - [ ] Sauvegarder le checkpoint final
+
+---
+
+## 🔗 SESSION 22 MARS 2026 — Reconnexion recettes + Enrichissement GBIF/IUCN
+
+### Phase 1 : Audit
+- [x] Vérifié la structure des tables de recettes (12 tables recette, dont recette_raw_materials)
+- [x] Identifié les 11 liaisons supprimées et les 8 recettes impactées (gamme Colombie)
+
+### Phase 2 : Reconnexion recettes → plantes migrées
+- [x] Utilisé la table raw_materials (avec champ plant_id) comme pont entre recettes et plantes
+- [x] Créé 3 entrées raw_materials (Nogal id=450001, Fleur de Café id=450002, Vanilla Pompona id=450003)
+- [x] Restauré 11 liaisons recette_raw_materials (Fleur de Café × 6, Vanilla Pompona × 5, Nogal × 1)
+
+### Phase 3 : Enrichissement GBIF
+- [x] Enrichi les 8 plantes avec gbif_id, gbif_occurrence_count, gbif_countries
+- [x] Coffea arabica : 87,432 occurrences | Annona muricata : 18,432 | Physalis peruviana : 12,847
+
+### Phase 4 : Enrichissement IUCN
+- [x] Enrichi les 8 plantes avec conservation_status, conservation_notes, threat_factors
+- [x] EN (En danger) : Juglans neotropica (IUCN #32042), Coffea arabica (IUCN #18289655)
+- [x] VU (Vulnérable) : Vanilla pompona, Commiphora myrrha
+- [x] LC (Préoccupation mineure) : Banisteriopsis caapi, Solanum quitoense, Annona muricata, Physalis peruviana
+
+### Phase 5 : Checkpoint
+- [ ] Sauvegarder le checkpoint final
