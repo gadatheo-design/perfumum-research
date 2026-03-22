@@ -3075,7 +3075,7 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Ajouté les notes Odeuropa dépliables par élément
 
 ### Phase 5 : Checkpoint
-- [ ] Sauvegarder le checkpoint final
+- [x] Sauvegarder le checkpoint final (version e4ba120f)
 
 ---
 
@@ -3192,4 +3192,30 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Smellscape affiché dans le hero de StorylineDetail (encadré amber, od:L12)
 
 ### Phase 5 : Checkpoint
+- [x] Sauvegarder le checkpoint final (version e4ba120f)
+
+---
+
+## 🌿 SESSION 22 MARS 2026 — Migration plantes/matières premières mal classées dans molecules
+
+### Contexte
+9 entrées identifiées dans la table `molecules` qui sont en réalité des plantes ou matières premières :
+Neem (480034), Yagé/Banisteriopsis caapi (510002), Lulo/Solanum quitoense (510004),
+Guanábana/Annona muricata (510005), Uchuva/Physalis peruviana (510006),
+Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYRRH OIL (540008)
+
+### Phase 1 : Récupération des données
+- [x] Récupéré les données complètes des 9 entrées dans molecules
+
+### Phase 2 : Vérification structure plants
+- [x] Vérifié les 77 colonnes de la table plants
+- [x] Identifié le mapping : olfactiveProfile → olfactive_signature, therapeuticProperties → therapeutic_properties (JSON), emotionalResonance → ethnobotanical_uses (JSON)
+
+### Phase 3 : Migration
+- [x] Inséré 8 entrées dans plants (Neem déjà présent en id 630004)
+- [x] Supprimé les liaisons incorrectes dans plant_molecules (9 lignes) et recette_molecules (11 lignes)
+- [x] Supprimé les 9 entrées de molecules
+
+### Phase 4 : Vérification et checkpoint
+- [x] Vérifié : 0 entrée restante dans molecules, 9 entrées dans plants avec latin_name et category corrects
 - [ ] Sauvegarder le checkpoint final

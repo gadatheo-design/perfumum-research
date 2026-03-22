@@ -1,0 +1,9 @@
+{
+  "query": "DELETE FROM plant_molecules WHERE molecule_id IN (480034, 510002, 510004, 510005, 510006, 510018, 510022, 510024, 540008);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute DELETE FROM plant_molecules WHERE molecule_id IN (480034, 510002, 510004, 510005, 510006, 510018, 510022, 510024, 540008);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 361
+}

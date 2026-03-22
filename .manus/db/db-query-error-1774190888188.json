@@ -1,0 +1,8 @@
+{
+  "query": "DELETE FROM molecules WHERE id IN (480034, 510002, 510004, 510005, 510006, 510018, 510022, 510024, 540008);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3ND3mF15qH8onZj.root --database H2pjHHJbH276XmnbNcJhCp --execute DELETE FROM molecules WHERE id IN (480034, 510002, 510004, 510005, 510006, 510018, 510022, 510024, 540008);",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1451 (23000) at line 1: Cannot delete or update a parent row: a foreign key constraint fails (`h2pjhhjbh276xmnbncjhcp`.`recette_molecules`, CONSTRAINT `fk_2` FOREIGN KEY (`molecule_id`) REFERENCES `molecules` (`id`))"
+  ]
+}
