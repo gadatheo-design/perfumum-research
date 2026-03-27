@@ -3042,7 +3042,7 @@ Elles nécessitent une saisie manuelle via /admin/molecules pour renseigner leur
 - [x] Recettes : CBD Terre Première, CBD Fumée Blanche, CBD Bois Sacré, Oriental Mystique, Himalaya Sacré
 
 ### Checkpoint
-- [ ] Sauvegarder le checkpoint final
+- [x] Sauvegarder le checkpoint final (version f7814980)
 
 ---
 
@@ -3218,7 +3218,7 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 
 ### Phase 4 : Vérification et checkpoint
 - [x] Vérifié : 0 entrée restante dans molecules, 9 entrées dans plants avec latin_name et category corrects
-- [ ] Sauvegarder le checkpoint final
+- [x] Sauvegarder le checkpoint final (version f7814980)
 
 ---
 
@@ -3244,7 +3244,7 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 - [x] LC (Préoccupation mineure) : Banisteriopsis caapi, Solanum quitoense, Annona muricata, Physalis peruviana
 
 ### Phase 5 : Checkpoint
-- [ ] Sauvegarder le checkpoint final
+- [x] Sauvegarder le checkpoint final (version f7814980)
 
 ---
 
@@ -3272,4 +3272,30 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 
 ### Phase 6 : Vérification et checkpoint
 - [x] Vérification visuelle desktop : 4 menus propres et lisibles
+- [x] Sauvegarder le checkpoint final (version f7814980)
+
+---
+
+## 🎨 SESSION 27 MARS 2026 — Thème sombre "Résine & Cendre"
+
+### Phase 1 : Audit styles actuels
+- [ ] Lire index.css (variables CSS, ThemeProvider)
+- [ ] Vérifier App.tsx (defaultTheme)
+
+### Phase 2 : Palette "Résine & Cendre" dans index.css
+- [ ] Appliquer fond charbon (#1A1814) en mode dark
+- [ ] Accents ambre (#C4873A), vert sauge (#7A9E7E), bordeaux (#8B3A3A)
+- [ ] Typographie Cormorant Garamond + Inter + JetBrains Mono
+
+### Phase 3 : Header et navigation
+- [ ] Fond dark cohérent dans le header
+- [ ] Menus déroulants avec palette "Résine & Cendre"
+
+### Phase 4 : Home et pages principales
+- [ ] Hero avec fond sombre et typographie Cormorant Garamond
+- [ ] Widget 5 portes avec palette cohérente
+- [ ] Sections statistiques et parcours
+
+### Phase 5 : Vérification et checkpoint
+- [ ] Vérification visuelle desktop + mobile
 - [ ] Sauvegarder le checkpoint final

@@ -123,14 +123,15 @@ export function Header() {
         {/* Logo */}
         <Link href="/" className="flex flex-col group">
           <motion.span
-            className="text-xl lg:text-2xl font-bold tracking-tight"
-            whileHover={{ letterSpacing: "0.06em" }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="text-xl lg:text-2xl tracking-widest uppercase"
+            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, letterSpacing: "0.18em" }}
+            whileHover={{ letterSpacing: "0.22em" }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
             PERFUMUM
           </motion.span>
-          <span className="hidden md:block text-[10px] text-muted-foreground/70 tracking-wide font-light -mt-1 transition-opacity group-hover:opacity-100 opacity-70">
-            Recherche olfactive expérimentale
+          <span className="hidden md:block text-[9px] text-muted-foreground/60 tracking-[0.25em] uppercase font-light -mt-0.5 transition-opacity group-hover:opacity-100 opacity-50">
+            Recherche olfactive
           </span>
         </Link>
 

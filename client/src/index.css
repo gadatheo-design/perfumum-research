@@ -44,48 +44,60 @@
 }
 
 :root {
-  /* PERFUMUM - Modern & Elegant Research Platform */
-  --primary: oklch(0.50 0.18 280); /* Refined violet */
+  /* PERFUMUM — Laboratoire Atmosphérique — Palette "Résine & Cendre" (Light) */
+  --radius: 0.375rem;
+
+  /* Primaire — Ambre doré */
+  --primary: oklch(0.62 0.12 55);        /* #C4873A ambre */
   --primary-foreground: oklch(0.98 0 0);
-  --sidebar-primary: oklch(0.55 0.25 290);
-  --sidebar-primary-foreground: oklch(0.98 0 0);
-  --chart-1: oklch(0.60 0.28 330); /* Hot magenta */
-  --chart-2: oklch(0.65 0.25 140); /* Acid green */
-  --chart-3: oklch(0.70 0.22 60); /* Electric yellow */
-  --chart-4: oklch(0.55 0.26 220); /* Cyber blue */
-  --chart-5: oklch(0.60 0.24 20); /* Neon orange */
-  --radius: 0.5rem; /* Modern rounded corners */
-  /* Base - Pure white with subtle tint */
-  --background: oklch(0.99 0.005 290);
-  --foreground: oklch(0.10 0.02 290); /* Deep black */
-  /* Card - Stark white */
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.10 0.02 290);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.10 0.02 290);
-  /* Secondary - High contrast */
-  --secondary: oklch(0.15 0.02 290);
-  --secondary-foreground: oklch(0.98 0 0);
-  /* Muted - Still punchy */
-  --muted: oklch(0.92 0.03 290);
-  --muted-foreground: oklch(0.45 0.05 290); /* WCAG AA compliant - ratio 4.5:1+ */
-  /* Accent - Psychedelic pink */
-  --accent: oklch(0.65 0.28 340);
+
+  /* Fond — Parchemin chaud */
+  --background: oklch(0.97 0.008 65);    /* Crème légère */
+  --foreground: oklch(0.14 0.015 45);    /* Charbon doux */
+
+  /* Cartes */
+  --card: oklch(0.99 0.004 65);
+  --card-foreground: oklch(0.14 0.015 45);
+  --popover: oklch(0.99 0.004 65);
+  --popover-foreground: oklch(0.14 0.015 45);
+
+  /* Secondaire — Charbon */
+  --secondary: oklch(0.20 0.015 45);
+  --secondary-foreground: oklch(0.97 0.004 65);
+
+  /* Muted — Cendre claire */
+  --muted: oklch(0.92 0.010 60);
+  --muted-foreground: oklch(0.48 0.025 50);
+
+  /* Accent — Vert sauge */
+  --accent: oklch(0.58 0.08 145);        /* #7A9E7E sauge */
   --accent-foreground: oklch(0.98 0 0);
+
   /* Destructive */
-  --destructive: oklch(0.60 0.20 25);
+  --destructive: oklch(0.55 0.18 25);
   --destructive-foreground: oklch(1 0 0);
-  /* Border - Sharp black */
-  --border: oklch(0.85 0.01 280); /* Softer border */
-  --input: oklch(0.92 0.03 290);
-  --ring: oklch(0.55 0.25 290);
+
+  /* Bordures */
+  --border: oklch(0.82 0.018 55);
+  --input: oklch(0.90 0.012 60);
+  --ring: oklch(0.62 0.12 55);
+
+  /* Charts — Palette olfactive */
+  --chart-1: oklch(0.62 0.12 55);       /* Ambre */
+  --chart-2: oklch(0.58 0.08 145);      /* Sauge */
+  --chart-3: oklch(0.50 0.10 25);       /* Bordeaux fumé */
+  --chart-4: oklch(0.55 0.06 220);      /* Bleu ardoise */
+  --chart-5: oklch(0.70 0.06 80);       /* Or pâle */
+
   /* Sidebar */
-  --sidebar: oklch(1 0 0);
-  --sidebar-foreground: oklch(0.25 0.01 290);
-  --sidebar-accent: oklch(0.90 0.02 290);
-  --sidebar-accent-foreground: oklch(0.25 0.01 290);
-  --sidebar-border: oklch(0.85 0.015 290);
-  --sidebar-ring: oklch(0.65 0.08 290);
+  --sidebar: oklch(0.95 0.010 60);
+  --sidebar-foreground: oklch(0.20 0.015 45);
+  --sidebar-primary: oklch(0.62 0.12 55);
+  --sidebar-primary-foreground: oklch(0.98 0 0);
+  --sidebar-accent: oklch(0.88 0.015 60);
+  --sidebar-accent-foreground: oklch(0.20 0.015 45);
+  --sidebar-border: oklch(0.82 0.018 55);
+  --sidebar-ring: oklch(0.62 0.12 55);
   
   /* PERFUMUM Prototype Colors */
   --c1-fermentum: oklch(0.35 0.03 35);
@@ -108,40 +120,59 @@
 }
 
 .dark {
-  /* Mode sombre optimisé - Contraste amélioré */
-  --primary: oklch(0.65 0.25 290); /* Violet plus clair pour meilleur contraste */
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.12 0.008 285); /* Fond plus sombre pour contraste */
-  --foreground: oklch(0.95 0.005 65); /* Texte plus clair */
+  /* PERFUMUM — Laboratoire Atmosphérique — Palette "Résine & Cendre" (Dark) */
 
-  --card: oklch(0.18 0.008 285); /* Cartes plus contrastées */
-  --card-foreground: oklch(0.95 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.75 0.015 286); /* Texte muted plus lisible */
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 15%); /* Bordures plus visibles */
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
+  /* Primaire — Ambre lumineux */
+  --primary: oklch(0.70 0.13 55);        /* Ambre plus lumineux sur fond sombre */
+  --primary-foreground: oklch(0.10 0.015 45);
+
+  /* Fond — Charbon profond #1A1814 */
+  --background: oklch(0.13 0.012 45);    /* Charbon chaud */
+  --foreground: oklch(0.92 0.010 65);    /* Parchemin clair */
+
+  /* Cartes — Charbon légèrement plus clair */
+  --card: oklch(0.17 0.012 45);
+  --card-foreground: oklch(0.92 0.010 65);
+  --popover: oklch(0.19 0.012 45);
+  --popover-foreground: oklch(0.90 0.010 65);
+
+  /* Secondaire — Cendre chaude */
+  --secondary: oklch(0.25 0.015 50);
+  --secondary-foreground: oklch(0.88 0.010 65);
+
+  /* Muted — Cendre profonde */
+  --muted: oklch(0.22 0.012 48);
+  --muted-foreground: oklch(0.65 0.020 60);
+
+  /* Accent — Vert sauge lumineux */
+  --accent: oklch(0.62 0.09 145);
+  --accent-foreground: oklch(0.10 0.015 45);
+
+  /* Destructive */
+  --destructive: oklch(0.60 0.18 25);
+  --destructive-foreground: oklch(0.98 0 0);
+
+  /* Bordures — Cendre fine */
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 10%);
+  --ring: oklch(0.70 0.13 55);
+
+  /* Charts — Palette olfactive lumineuse */
+  --chart-1: oklch(0.70 0.13 55);       /* Ambre */
+  --chart-2: oklch(0.62 0.09 145);      /* Sauge */
+  --chart-3: oklch(0.60 0.12 25);       /* Bordeaux fumé */
+  --chart-4: oklch(0.60 0.08 220);      /* Ardoise */
+  --chart-5: oklch(0.75 0.07 80);       /* Or pâle */
+
+  /* Sidebar */
+  --sidebar: oklch(0.16 0.012 45);
+  --sidebar-foreground: oklch(0.88 0.010 65);
+  --sidebar-primary: oklch(0.70 0.13 55);
+  --sidebar-primary-foreground: oklch(0.10 0.015 45);
+  --sidebar-accent: oklch(0.22 0.012 48);
+  --sidebar-accent-foreground: oklch(0.88 0.010 65);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
+  --sidebar-ring: oklch(0.70 0.13 55);
 }
 
 @layer base {
@@ -150,38 +181,62 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-    font-feature-settings: "rlig" 1, "calt" 1;
-    letter-spacing: -0.02em; /* Tight Swiss spacing */
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+    letter-spacing: -0.01em;
+    line-height: 1.6;
   }
   
-  /* Typography scale - Modern & Readable */
+  /* Typographie — Laboratoire Atmosphérique */
+  /* Cormorant Garamond pour les titres — élégance scientifique */
+  h1, h2, h3 {
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-weight: 400;
+    line-height: 1.15;
+  }
   h1 {
-    @apply text-4xl md:text-5xl font-bold;
-    letter-spacing: -0.03em;
+    @apply text-5xl md:text-6xl;
+    letter-spacing: -0.02em;
+    font-weight: 300;
   }
   h2 {
-    @apply text-3xl md:text-4xl font-semibold;
-    letter-spacing: -0.02em;
+    @apply text-3xl md:text-4xl;
+    letter-spacing: -0.015em;
+    font-weight: 400;
   }
   h3 {
-    @apply text-2xl md:text-3xl font-semibold;
+    @apply text-2xl md:text-3xl;
     letter-spacing: -0.01em;
+    font-weight: 400;
+  }
+  /* Inter pour les sous-titres et corps — lisibilité fonctionnelle */
+  h4, h5, h6 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    line-height: 1.3;
   }
   h4 {
-    @apply text-xl md:text-2xl font-medium;
+    @apply text-xl md:text-2xl;
   }
   h5 {
-    @apply text-lg md:text-xl font-medium;
+    @apply text-lg md:text-xl;
   }
   h6 {
-    @apply text-base md:text-lg font-medium;
+    @apply text-base md:text-lg;
   }
   
-  /* Monospace for technical content */
-  code, pre, .mono {
+  /* Classe utilitaire pour les titres serif */
+  .font-serif-display {
+    font-family: 'Cormorant Garamond', 'Georgia', serif;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+  }
+  
+  /* Monospace pour les données techniques */
+  code, pre, .mono, .font-mono {
     font-family: 'JetBrains Mono', 'Courier New', monospace;
     letter-spacing: 0;
+    font-size: 0.875em;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -377,9 +432,12 @@
     animation: pulse-glow 2s ease-in-out infinite;
   }
   
-  /* Gradient text effect */
+  /* Gradient text effect — Ambre & Sauge */
   .gradient-text {
-    @apply bg-gradient-to-r from-primary via-purple-500 to-pink-500 bg-clip-text text-transparent;
+    background: linear-gradient(135deg, oklch(0.70 0.13 55), oklch(0.62 0.09 145));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
   
   /* Shimmer effect for loading states */
@@ -613,18 +671,17 @@
     background-size: 20px 20px;
   }
   
-  /* Psychedelic gradient */
+  /* Gradient olfactif — Ambre à Sauge */
   .psychedelic-gradient {
     background: linear-gradient(
       135deg,
       oklch(var(--chart-1)) 0%,
-      oklch(var(--chart-2)) 25%,
-      oklch(var(--chart-3)) 50%,
-      oklch(var(--chart-4)) 75%,
-      oklch(var(--chart-5)) 100%
+      oklch(var(--chart-5)) 30%,
+      oklch(var(--chart-2)) 60%,
+      oklch(var(--chart-3)) 100%
     );
-    background-size: 400% 400%;
-    animation: moire 10s ease infinite;
+    background-size: 300% 300%;
+    animation: moire 12s ease infinite;
   }
   
   /* Optical moiré pattern */

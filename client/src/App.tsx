@@ -1110,7 +1110,7 @@ function App() {
   
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="light" switchable={true}>
+      <ThemeProvider defaultTheme="dark" switchable={true}>
         <GuidedNavigationProvider>
           <TooltipProvider>
             <Toaster />
