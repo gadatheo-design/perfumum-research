@@ -3245,3 +3245,31 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 
 ### Phase 5 : Checkpoint
 - [ ] Sauvegarder le checkpoint final
+
+---
+
+## 🧭 SESSION 27 MARS 2026 — Refonte Navigation (Audit → Implémentation)
+
+### Phase 1 : Audit navigation actuelle
+- [x] Lu Header.tsx, navigationConfig.ts, MobileMenu.tsx, MobileBottomNav.tsx
+- [x] Cartographié les 6 groupes actuels (Données, Outils, Recherche, Tabacothèque, Narration, Projet)
+
+### Phase 2 : Restructurer navigationConfig.ts
+- [x] Réécrit en 4 groupes : Atelier / Atlas / Bibliothèque / Projet
+- [x] Tous les liens conservés et redistribués (Atelier : 12 liens, Atlas : 9, Bibliothèque : 9, Projet : 6)
+
+### Phase 3 : Refondre le Header desktop
+- [x] 4 menus déroulants avec icônes (FlaskConical, BookOpen, Library, FolderOpen)
+- [x] MegaMenuOptimizedNav mis à jour avec les 4 nouveaux groupes
+
+### Phase 4 : Refondre la navigation mobile
+- [x] MobileBottomNav réécrit : 5 items (Accueil / Atelier / Atlas / Biblio. / Projet)
+- [x] activePatterns couvrant toutes les routes des 4 groupes
+- [x] Supprimé le bouton Recherche central (remplacé par Biblio. et Projet)
+
+### Phase 5 : DynamicBreadcrumb et liens contextuels
+- [x] Ajouté parent "/storylines" pour /galerie-olfactive et /atlas
+
+### Phase 6 : Vérification et checkpoint
+- [x] Vérification visuelle desktop : 4 menus propres et lisibles
+- [ ] Sauvegarder le checkpoint final

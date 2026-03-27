@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Home, Beaker, Search, FlaskConical, BookOpen } from "lucide-react";
+import { Home, FlaskConical, BookOpen, Library, FolderOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -8,9 +8,14 @@ interface NavItem {
   label: string;
   path: string;
   activePattern?: RegExp;
-  isSearch?: boolean;
 }
 
+/**
+ * MobileBottomNav
+ * Barre de navigation fixe en bas de l'écran (mobile uniquement, < lg).
+ * Reflète les 4 groupes de navigationConfig.ts :
+ *   Accueil / Atelier / Atlas / Bibliothèque / Projet
+ */
 export function MobileBottomNav() {
   const [location] = useLocation();
 
@@ -22,36 +27,33 @@ export function MobileBottomNav() {
       activePattern: /^\/$/,
     },
     {
-      icon: <BookOpen className="h-5 w-5" />,
-      label: "Narration",
-      path: "/storylines",
-      activePattern: /^\/(storylines|storyline|galerie-olfactive|atlas)/,
-    },
-    {
-      icon: <Search className="h-5 w-5" />,
-      label: "Recherche",
-      path: "#",
-      isSearch: true,
-    },
-    {
-      icon: <Beaker className="h-5 w-5" />,
-      label: "Molécules",
-      path: "/molecules",
-      activePattern: /^\/(molecules|molecule|terpenes|terpene)/,
-    },
-    {
       icon: <FlaskConical className="h-5 w-5" />,
-      label: "Recettes",
-      path: "/recettes",
-      activePattern: /^\/(recettes|recette)/,
+      label: "Atelier",
+      path: "/plantes",
+      activePattern:
+        /^\/(plantes|plant|molecules|molecule|recettes|recette|gammes|tabacotheque|tabac|terroirs|osmotheque|synergies|ifra|sourcing|smiles|matieres|final-recipes|calculateur|terpenes|terpene)/,
+    },
+    {
+      icon: <BookOpen className="h-5 w-5" />,
+      label: "Atlas",
+      path: "/storylines",
+      activePattern:
+        /^\/(storylines|storyline|galerie-olfactive|atlas|civilisations|archives-olfactives|timeline|phylogenetique|genealogy|ghost|leaf-economies|carte-plantes)/,
+    },
+    {
+      icon: <Library className="h-5 w-5" />,
+      label: "Biblio.",
+      path: "/axes-recherche",
+      activePattern:
+        /^\/(axes-recherche|bibliographie|visualisations|reseau|recipe-network|correlations|sankey|synergies-heatmap|stats|recherche|parfums|muscs|enrichissement|percepts|absorbe|methodologie|methodes|gcms|ms-spectra)/,
+    },
+    {
+      icon: <FolderOpen className="h-5 w-5" />,
+      label: "Projet",
+      path: "/a-propos",
+      activePattern: /^\/(a-propos|contribuer|admin|glossaire|manifeste|outils-hub)/,
     },
   ];
-
-  const handleSearchClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const event = new CustomEvent("open-global-search");
-    window.dispatchEvent(event);
-  };
 
   return (
     <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-background/98 backdrop-blur-xl border-t border-border/50 safe-area-bottom">
@@ -59,40 +61,17 @@ export function MobileBottomNav() {
         {navItems.map((item) => {
           const isActive = item.activePattern?.test(location) || false;
 
-          if (item.isSearch) {
-            return (
-              <button
-                key={item.label}
-                onClick={handleSearchClick}
-                className={cn(
-                  "flex flex-col items-center justify-center gap-0.5 min-w-[64px] py-2 rounded-xl transition-all duration-200",
-                  "hover:bg-primary/5 active:scale-95"
-                )}
-                aria-label="Ouvrir la recherche"
-              >
-                <div className="relative">
-                  <div className="relative p-2 rounded-full bg-primary/10 text-primary">
-                    {item.icon}
-                  </div>
-                </div>
-                <span className="text-[10px] font-medium text-primary mt-0.5">
-                  {item.label}
-                </span>
-              </button>
-            );
-          }
-
           return (
             <Link key={item.label} href={item.path}>
               <motion.div
                 whileTap={{ scale: 0.88 }}
                 className={cn(
-                  "flex flex-col items-center justify-center gap-0.5 min-w-[64px] py-2 rounded-xl transition-all duration-200 cursor-pointer relative",
+                  "flex flex-col items-center justify-center gap-0.5 min-w-[60px] py-2 rounded-xl transition-all duration-200 cursor-pointer relative",
                   "hover:bg-muted/50",
                   isActive && "bg-primary/5"
                 )}
               >
-                {/* Indicateur actif — point lumineux en haut */}
+                {/* Indicateur actif — barre en haut */}
                 <AnimatePresence>
                   {isActive && (
                     <motion.span
@@ -117,6 +96,7 @@ export function MobileBottomNav() {
                 >
                   {item.icon}
                 </motion.div>
+
                 <span
                   className={cn(
                     "text-[10px] font-medium transition-colors",

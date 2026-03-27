@@ -14,6 +14,7 @@ import {
   Database, Leaf, Compass, BarChart3, Zap, FlaskConical,
   Microscope, BookOpen, Archive, Globe, Info, FileText,
   Brain, Flame, Layers, TestTube, Sparkles, BarChart2, Atom,
+  MapPin, TreePine,
 } from "lucide-react";
 import { MegaMenuOptimized, useMegaMenuSections } from "@/components/MegaMenuOptimized";
 import { MobileMenu } from "@/components/MobileMenu";
@@ -36,6 +37,7 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   Database, Leaf, Compass, BarChart3, Zap, FlaskConical,
   Microscope, BookOpen, Archive, Globe, Info, FileText,
   Brain, Flame, Layers, TestTube, Sparkles, BarChart2, Atom,
+  MapPin, TreePine,
 };
 
 function resolveIcon(name: string) {
@@ -72,20 +74,16 @@ function useNavGroup(trigger: string) {
 
 // ── MegaMenuOptimizedNav ──────────────────────────────────────────────────────
 function MegaMenuOptimizedNav() {
-  const donneesSections     = useNavGroup("Données");
-  const narrationSections   = useNavGroup("Narration");
-  const outilsSections      = useNavGroup("Outils");
-  const rechercheSections   = useNavGroup("Recherche");
-  const tabacothequeSections = useNavGroup("Tabacothèque");
+  const atelierSections     = useNavGroup("Atelier");
+  const atlasSections       = useNavGroup("Atlas");
+  const bibliothequeSection = useNavGroup("Bibliothèque");
   const projetSections      = useNavGroup("Projet");
 
   return (
     <nav className="hidden lg:flex items-center gap-8" role="navigation" aria-label="Menu principal">
-      <MegaMenuOptimized sections={donneesSections}      trigger="Données" />
-      <MegaMenuOptimized sections={narrationSections}    trigger="Narration" />
-      <MegaMenuOptimized sections={outilsSections}       trigger="Outils" />
-      <MegaMenuOptimized sections={rechercheSections}    trigger="Recherche" />
-      <MegaMenuOptimized sections={tabacothequeSections} trigger="Tabacothèque" />
+      <MegaMenuOptimized sections={atelierSections}      trigger="Atelier" />
+      <MegaMenuOptimized sections={atlasSections}        trigger="Atlas" />
+      <MegaMenuOptimized sections={bibliothequeSection}  trigger="Bibliothèque" />
       <MegaMenuOptimized sections={projetSections}       trigger="Projet" />
     </nav>
   );
