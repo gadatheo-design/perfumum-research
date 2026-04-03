@@ -78,6 +78,7 @@ import { storylinesRouter } from './routers/storylines';
 import { wikidataRouter } from './routers/wikidata';
 import { sparqlRouter } from './routers/sparql';
 import { europeanaRouter } from './routers/europeana';
+import { p5dataRouter } from './routers/p5data';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -12500,6 +12501,8 @@ Familles olfactives disponibles:
   // NOSE Phase 5 — SPARQL Wikidata/Europeana (requêtes croisées)
   sparql: sparqlRouter,
   europeana: europeanaRouter,
+  // API p5.js — Endpoints publics pour sketches p5.js externes (editor.p5js.org)
+  p5data: p5dataRouter,
 });
 export type AppRouter = typeof appRouter;
 

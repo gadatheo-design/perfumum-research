@@ -3299,3 +3299,13 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 ### Phase 5 : Vérification et checkpoint
 - [ ] Vérification visuelle desktop + mobile
 - [ ] Sauvegarder le checkpoint final
+
+---
+## 🔌 SESSION 4 AVRIL 2026 — API p5data pour sketch p5.js
+
+### Phase 1 : Endpoint tRPC p5data.gcms
+- [x] Analyser le schéma DB existant (molécules, plantes, liaisons)
+- [x] Créer le router tRPC p5data avec endpoint gcms (6 endpoints : gcms, molecules, search, families, stats, plantProfile)
+- [x] Configurer CORS pour accès depuis editor.p5js.org (origin: true, OPTIONS preflight)
+- [x] Adapter le sketch p5.js pour charger les données via fetch (sketch_api.js avec recherche, fallback, Arduino)
+- [x] Tester l'intégration complète sketch ↔ API (CORS validé curl, rendu visuel validé)

@@ -8,6 +8,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { initWebSocket } from "./websocket";
+import cors from "cors";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -34,8 +35,24 @@ async function startServer() {
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
+  
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
+  
+  // CORS pour les endpoints p5data — permet l'accès depuis editor.p5js.org
+  // et d'autres origines (localhost, fichiers locaux, etc.)
+  const p5Cors = cors({
+    origin: true, // Accepter toutes les origines pour les endpoints p5data (données publiques)
+    methods: ["GET", "OPTIONS"],
+    allowedHeaders: ["Content-Type"],
+    credentials: false,
+  });
+  
+  // Appliquer CORS uniquement aux routes p5data
+  // Le middleware CORS doit intercepter les requêtes OPTIONS AVANT tRPC
+  app.use("/api/trpc/p5data", p5Cors);
+  app.options("/api/trpc/p5data*", p5Cors); // Pré-vol CORS explicite
+  
   // tRPC API
   app.use(
     "/api/trpc",
