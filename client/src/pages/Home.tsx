@@ -32,80 +32,46 @@ export default function Home() {
       <Header />
       
       <main className="flex-1">
-        {/* Hero Section — Laboratoire Atmosphérique */}
+        {/* Hero Section — Swiss Modern */}
         <section className="relative overflow-hidden bg-background border-b border-border/30" style={{minHeight: '85vh', display: 'flex', alignItems: 'center'}}>
-          {/* Fond atmosphérique — halos subtils */}
+          {/* Fond subtil */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent"></div>
-            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/60 to-transparent"></div>
-            <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] rounded-full blur-[140px]" style={{background: 'radial-gradient(circle, hsl(var(--primary)/0.06) 0%, transparent 70%)'}}></div>
-            <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full blur-[120px]" style={{background: 'radial-gradient(circle, hsl(var(--accent)/0.04) 0%, transparent 70%)'}}></div>
+            <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary/60 via-primary to-primary/60"></div>
+            <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] rounded-full blur-[180px] opacity-30" style={{background: 'radial-gradient(circle, oklch(0.55 0.18 270 / 0.08) 0%, transparent 70%)'}}></div>
+            <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full blur-[150px] opacity-20" style={{background: 'radial-gradient(circle, oklch(0.60 0.15 300 / 0.06) 0%, transparent 70%)'}}></div>
           </div>
           <div className="container">
             <div className="max-w-4xl mx-auto text-center relative z-10 py-20">
-              {/* Surtitre — Inter, espacement extrême */}
-              <p className="text-[10px] font-medium uppercase tracking-[0.5em] text-primary/60 mb-10 animate-fadeInUp">
-                Recherche olfactive expérimentale &nbsp;&bull;&nbsp; Berne &nbsp;&bull;&nbsp; 2025–2035
-              </p>
-              {/* Titre principal — Cormorant Garamond ultra-léger */}
-              <h1
-                className="mb-8 animate-fadeInUp text-foreground"
-                style={{
-                  fontFamily: "'Cormorant Garamond', Georgia, serif",
-                  fontWeight: 200,
-                  fontSize: 'clamp(3.5rem, 11vw, 8.5rem)',
-                  letterSpacing: '0.18em',
-                  lineHeight: 0.95,
-                }}
-              >
+              {/* Titre principal — Sans-serif bold */}
+              <h1 className="mb-6 animate-fadeInUp text-foreground font-extrabold tracking-tight">
                 PERFUMUM
               </h1>
-              {/* Ligne décorative ambre */}
-              <div className="flex items-center justify-center gap-6 mb-8 animate-fadeInUp" style={{animationDelay: '0.08s'}}>
-                <div className="h-px flex-1 max-w-[80px] bg-gradient-to-r from-transparent to-primary/50"></div>
-                <Link href="/methodologie/absorbe" className="text-[11px] tracking-[0.35em] uppercase text-primary/70 hover:text-primary transition-colors font-light">
-                  ABSORBE
-                </Link>
-                <div className="h-px flex-1 max-w-[80px] bg-gradient-to-l from-transparent to-primary/50"></div>
-              </div>
-              {/* Sous-titre — Cormorant italic */}
-              <p
-                className="text-muted-foreground/60 mb-10 animate-fadeInUp"
-                style={{animationDelay: '0.12s', fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, fontSize: '1.2rem', fontStyle: 'italic', letterSpacing: '0.02em'}}
-              >
-                Laboratoire atmosphérique olfactif &mdash; exploration moléculaire et artistique
+              {/* Sous-titre violet */}
+              <p className="text-primary font-medium text-lg md:text-xl mb-4 animate-fadeInUp" style={{animationDelay: '0.08s'}}>
+                <Link href="/methodologie/absorbe" className="hover:underline">ABSORBE</Link> &mdash; laboratoire atmosphérique olfactif basé à Berne
               </p>
-              {/* Stats dynamiques */}
-              <div className="flex items-center justify-center gap-8 mb-12 animate-fadeInUp" style={{animationDelay: '0.16s'}}>
-                <div className="text-center">
-                  <div className="text-2xl font-light text-foreground" style={{fontFamily: "'Cormorant Garamond', serif"}}>{stats?.molecules || '—'}</div>
-                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground/50 mt-0.5">molécules</div>
-                </div>
-                <div className="w-px h-8 bg-border/50"></div>
-                <div className="text-center">
-                  <div className="text-2xl font-light text-foreground" style={{fontFamily: "'Cormorant Garamond', serif"}}>{stats?.recettes || '—'}</div>
-                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground/50 mt-0.5">recettes</div>
-                </div>
-                <div className="w-px h-8 bg-border/50"></div>
-                <div className="text-center">
-                  <div className="text-2xl font-light text-foreground" style={{fontFamily: "'Cormorant Garamond', serif"}}>{stats?.plants || '—'}</div>
-                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground/50 mt-0.5">plantes</div>
-                </div>
-              </div>
+              {/* Description italique */}
+              <p className="text-muted-foreground italic text-base md:text-lg mb-8 animate-fadeInUp" style={{animationDelay: '0.12s'}}>
+                Laboratoire de recherche olfactive expérimentale<br />&mdash; 10 ans d'exploration moléculaire et artistique
+              </p>
+              {/* Paragraphe descriptif */}
+              <p className="text-muted-foreground max-w-2xl mx-auto mb-10 text-sm md:text-base leading-relaxed animate-fadeInUp" style={{animationDelay: '0.16s'}}>
+                PERFUMUM est une plateforme de recherche olfactive expérimentale développée sur 10 ans (2025-2035). Explorez <strong className="text-foreground">{stats?.molecules || '808'} molécules documentées</strong>, <strong className="text-foreground">{stats?.recettes || '476'} recettes olfactives</strong> et des méthodologies scientifiques (GC-MS, synergies moléculaires). Les accords créés sont utilisés dans des projets artistiques site-specific et archivés selon la méthodologie ABSORBE.
+              </p>
               {/* CTA */}
               <div className="flex flex-wrap gap-4 justify-center animate-fadeInUp" style={{animationDelay: '0.22s'}}>
-                <Button size="lg" className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground" style={{letterSpacing: '0.08em', fontSize: '0.8rem'}} asChild>
+                <Button size="lg" className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
                   <Link href="/gammes">
                     Consulter les gammes
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="gap-2 border-border/60 hover:border-primary/50" style={{letterSpacing: '0.08em', fontSize: '0.8rem'}} asChild>
+                <Button size="lg" variant="outline" className="gap-2" asChild>
                   <Link href="/dashboard">
-                    Dashboard
+                    Accéder au Dashboard
                   </Link>
                 </Button>
-                <StartGuidedTourButton className="border-border/60 hover:border-primary/50" />
+                <StartGuidedTourButton />
               </div>
             </div>
           </div>
@@ -117,7 +83,7 @@ export default function Home() {
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-10">
                 <p className="text-[10px] font-medium uppercase tracking-[0.4em] text-primary/60 mb-3">Architecture Mnemosyne</p>
-                <h2 className="mb-3 text-foreground" style={{fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', letterSpacing: '0.05em'}}>Cinq portes d'entrée dans PERFUMUM</h2>
+                <h2 className="mb-3 text-foreground">Cinq portes d'entrée dans PERFUMUM</h2>
                 <p className="text-muted-foreground max-w-2xl mx-auto text-sm md:text-base">
                   Chaque contenu est accessible par plusieurs chemins. L'odorat fonctionne par associations multiples : la navigation de PERFUMUM aussi.
                 </p>
@@ -218,7 +184,7 @@ export default function Home() {
         <section className="section-spacing bg-background border-b border-border/20">
           <div className="container">
             <div className="max-w-6xl mx-auto">
-              <h2 className="mb-4 text-center text-foreground" style={{fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', letterSpacing: '0.05em'}}>Trois parcours pour explorer PERFUMUM</h2>
+              <h2 className="mb-4 text-center text-foreground">Trois parcours pour explorer PERFUMUM</h2>
               <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
                 Choisissez votre point d'entrée selon votre profil : chercheur scientifique, créateur parfumeur ou curieux explorateur.
               </p>
@@ -346,7 +312,7 @@ export default function Home() {
         <section className="section-spacing bg-muted/10 border-b border-border/20">
           <div className="container">
             <div className="max-w-4xl mx-auto">
-              <h2 className="mb-8 text-center text-foreground" style={{fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', letterSpacing: '0.05em'}}>Présentation du projet</h2>
+              <h2 className="mb-8 text-center text-foreground">Présentation du projet</h2>
               <div className="grid md:grid-cols-2 gap-8">
                 <Card className="brutal-border bg-card">
                   <CardHeader>
@@ -396,7 +362,7 @@ export default function Home() {
         <section className="section-spacing bg-background border-b border-border/20">
           <div className="container">
             <div className="max-w-5xl mx-auto">
-              <h2 className="mb-4 text-center text-foreground" style={{fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', letterSpacing: '0.05em'}}>Les 5 Gammes Perfumeum</h2>
+              <h2 className="mb-4 text-center text-foreground">Les 5 Gammes Perfumeum</h2>
               <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
                 Cinq univers olfactifs conceptuels structurant la recherche PERFUMUM, chacun explorant des territoires sensoriels distincts.
               </p>
@@ -525,7 +491,7 @@ export default function Home() {
         <section className="section-spacing bg-muted/10 border-b border-border/20">
           <div className="container">
             <div className="max-w-5xl mx-auto">
-              <h2 className="mb-4 text-center text-foreground" style={{fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', letterSpacing: '0.05em'}}>Accès aux données</h2>
+              <h2 className="mb-4 text-center text-foreground">Accès aux données</h2>
               <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
                 Bases de données, visualisations scientifiques et programmes de recherche.
               </p>
@@ -643,7 +609,7 @@ export default function Home() {
         <section className="section-spacing bg-background border-b border-border/20">
           <div className="container">
             <div className="max-w-5xl mx-auto">
-              <h2 className="mb-4 text-center text-foreground" style={{fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', letterSpacing: '0.05em'}}>Recherche Spécialisée</h2>
+              <h2 className="mb-4 text-center text-foreground">Recherche Spécialisée</h2>
               <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
                 Explorez nos collections de recettes de cigarillos, les landraces cannabis ancestrales et les protocoles techniques de fabrication.
               </p>
@@ -773,7 +739,7 @@ export default function Home() {
         <section className="section-spacing bg-muted/10 border-b border-border/20">
           <div className="container">
             <div className="max-w-5xl mx-auto">
-              <h2 className="mb-4 text-center text-foreground" style={{fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', letterSpacing: '0.05em'}}>Analyse GC-MS</h2>
+              <h2 className="mb-4 text-center text-foreground">Analyse GC-MS</h2>
               <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
                 Outils d'analyse chromatographique et spectrométrique pour l'identification des composés volatils.
               </p>
@@ -871,7 +837,7 @@ export default function Home() {
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Globe2 className="h-5 w-5 text-primary" />
                 </div>
-                <h2 className="text-foreground" style={{fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', letterSpacing: '0.05em'}}>Géographie Olfactive</h2>
+                <h2 className="text-foreground">Géographie Olfactive</h2>
               </div>
               <p className="text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
                 Distribution des plantes aromatiques selon les zones climatiques de Köppen — {koppenStats ? koppenStats.reduce((s, z) => s + z.count, 0) : '...'} plantes géolocalisées.
@@ -928,7 +894,7 @@ export default function Home() {
         <section className="py-16 bg-muted/10 border-b border-border/20">
           <div className="container">
             <div className="max-w-6xl mx-auto">
-              <h2 className="mb-8 text-center text-foreground" style={{fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', letterSpacing: '0.05em'}}>Actualités de la recherche</h2>
+              <h2 className="mb-8 text-center text-foreground">Actualités de la recherche</h2>
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <ResearchNews />
                 <MoleculeOfTheDay />

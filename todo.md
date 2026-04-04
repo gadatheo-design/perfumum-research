@@ -3309,3 +3309,12 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 - [x] Configurer CORS pour accès depuis editor.p5js.org (origin: true, OPTIONS preflight)
 - [x] Adapter le sketch p5.js pour charger les données via fetch (sketch_api.js avec recherche, fallback, Arduino)
 - [x] Tester l'intégration complète sketch ↔ API (CORS validé curl, rendu visuel validé)
+
+## 🎨 SESSION 4 AVRIL 2026 — Restauration du style visuel précédent
+
+### Phase 1 : Restaurer le thème light + sans-serif + violet
+- [x] Remettre defaultTheme à "light" dans App.tsx
+- [x] Restaurer la palette CSS light (fond clair, boutons violets)
+- [x] Restaurer le Hero avec typographie bold sans-serif
+- [x] Restaurer les sections de Home.tsx au style précédent
+- [x] Vérifier le rendu visuel et sauvegarder le checkpoint
