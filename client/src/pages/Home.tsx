@@ -33,40 +33,38 @@ export default function Home() {
       
       <main className="flex-1">
         {/* Hero Section — Swiss Modern */}
-        <section className="relative overflow-hidden bg-background border-b border-border/30" style={{minHeight: '85vh', display: 'flex', alignItems: 'center'}}>
-          {/* Fond subtil */}
+        <section className="relative overflow-hidden bg-background border-b border-border" style={{minHeight: '75vh', display: 'flex', alignItems: 'center'}}>
+          {/* Fond blanc pur, sans décoration */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-primary/60 via-primary to-primary/60"></div>
-            <div className="absolute top-1/3 left-1/4 w-[600px] h-[600px] rounded-full blur-[180px] opacity-30" style={{background: 'radial-gradient(circle, oklch(0.55 0.18 270 / 0.08) 0%, transparent 70%)'}}></div>
-            <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full blur-[150px] opacity-20" style={{background: 'radial-gradient(circle, oklch(0.60 0.15 300 / 0.06) 0%, transparent 70%)'}}></div>
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-primary"></div>
           </div>
           <div className="container">
             <div className="max-w-4xl mx-auto text-center relative z-10 py-20">
-              {/* Titre principal — Sans-serif bold */}
-              <h1 className="mb-6 animate-fadeInUp text-foreground font-extrabold tracking-tight">
+              {/* Titre principal — Sans-serif bold, noir pur */}
+              <h1 className="mb-8 animate-fadeInUp text-foreground font-black tracking-tighter">
                 PERFUMUM
               </h1>
               {/* Sous-titre violet */}
-              <p className="text-primary font-medium text-lg md:text-xl mb-4 animate-fadeInUp" style={{animationDelay: '0.08s'}}>
+              <p className="text-primary font-semibold text-base md:text-lg mb-6 animate-fadeInUp" style={{animationDelay: '0.08s'}}>
                 <Link href="/methodologie/absorbe" className="hover:underline">ABSORBE</Link> &mdash; laboratoire atmosphérique olfactif basé à Berne
               </p>
               {/* Description italique */}
-              <p className="text-muted-foreground italic text-base md:text-lg mb-8 animate-fadeInUp" style={{animationDelay: '0.12s'}}>
+              <p className="text-muted-foreground italic text-sm md:text-base mb-8 animate-fadeInUp" style={{animationDelay: '0.12s'}}>
                 Laboratoire de recherche olfactive expérimentale<br />&mdash; 10 ans d'exploration moléculaire et artistique
               </p>
               {/* Paragraphe descriptif */}
-              <p className="text-muted-foreground max-w-2xl mx-auto mb-10 text-sm md:text-base leading-relaxed animate-fadeInUp" style={{animationDelay: '0.16s'}}>
-                PERFUMUM est une plateforme de recherche olfactive expérimentale développée sur 10 ans (2025-2035). Explorez <strong className="text-foreground">{stats?.molecules || '808'} molécules documentées</strong>, <strong className="text-foreground">{stats?.recettes || '476'} recettes olfactives</strong> et des méthodologies scientifiques (GC-MS, synergies moléculaires). Les accords créés sont utilisés dans des projets artistiques site-specific et archivés selon la méthodologie ABSORBE.
+              <p className="text-muted-foreground max-w-2xl mx-auto mb-12 text-sm md:text-base leading-relaxed animate-fadeInUp" style={{animationDelay: '0.16s'}}>
+                PERFUMUM est une plateforme de recherche olfactive expérimentale développée sur 10 ans (2025-2035). Explorez <strong className="text-foreground font-semibold">{stats?.molecules || '808'} molécules documentées</strong>, <strong className="text-foreground font-semibold">{stats?.recettes || '476'} recettes olfactives</strong> et des méthodologies scientifiques (GC-MS, synergies moléculaires). Les accords créés sont utilisés dans des projets artistiques site-specific et archivés selon la méthodologie ABSORBE.
               </p>
               {/* CTA */}
               <div className="flex flex-wrap gap-4 justify-center animate-fadeInUp" style={{animationDelay: '0.22s'}}>
-                <Button size="lg" className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground" asChild>
+                <Button size="lg" className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold" asChild>
                   <Link href="/gammes">
                     Consulter les gammes
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
-                <Button size="lg" variant="outline" className="gap-2" asChild>
+                <Button size="lg" variant="outline" className="gap-2 font-semibold" asChild>
                   <Link href="/dashboard">
                     Accéder au Dashboard
                   </Link>

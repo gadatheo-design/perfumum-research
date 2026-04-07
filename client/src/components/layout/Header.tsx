@@ -120,17 +120,17 @@ export function Header() {
     <>
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/70 transition-all duration-300 shadow-sm">
       <div className="container flex h-14 lg:h-[72px] items-center justify-between px-4 lg:px-6">
-        {/* Logo */}
+        {/* Logo — Swiss Modern sans-serif bold */}
         <Link href="/" className="flex flex-col group">
           <motion.span
-            className="text-xl lg:text-2xl tracking-widest uppercase"
-            style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontWeight: 300, letterSpacing: "0.18em" }}
-            whileHover={{ letterSpacing: "0.22em" }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="text-lg lg:text-xl font-black tracking-tight uppercase"
+            style={{ fontFamily: "'Inter', sans-serif", fontWeight: 900, letterSpacing: "-0.02em" }}
+            whileHover={{ scale: 1.02 }}
+            transition={{ duration: 0.2 }}
           >
             PERFUMUM
           </motion.span>
-          <span className="hidden md:block text-[9px] text-muted-foreground/60 tracking-[0.25em] uppercase font-light -mt-0.5 transition-opacity group-hover:opacity-100 opacity-50">
+          <span className="hidden md:block text-[10px] text-muted-foreground/70 tracking-[0.15em] uppercase font-medium -mt-1 transition-opacity group-hover:opacity-100 opacity-60">
             Recherche olfactive
           </span>
         </Link>
