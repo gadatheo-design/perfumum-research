@@ -3459,3 +3459,25 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 
 ### Phase 4 : Sauvegarder
 - [ ] Créer un checkpoint avec le déplacement de la recherche
+
+
+## SESSION ACTUELLE — Ajouter barre de recherche persistante desktop
+
+### Phase 1 : Créer SearchSidebar
+- [x] Créer le composant SearchSidebar.tsx
+- [x] Intégrer SmartSearch dans le composant
+- [x] Styliser avec Swiss Modern (compact, épuré)
+
+### Phase 2 : Intégrer dans le layout
+- [x] Ajouter SearchSidebar dans App.tsx
+- [x] Positionner sur le côté droit (fixed ou sticky)
+- [x] Adapter la largeur du contenu principal
+
+### Phase 3 : Tester et valider
+- [x] Vérifier l'affichage sur desktop
+- [x] Tester la recherche dans la sidebar
+- [x] Vérifier le responsive (masquer sur mobile)
+- [x] Valider que la sidebar ne cache pas le contenu
+
+### Phase 4 : Sauvegarder
+- [ ] Créer un checkpoint avec la barre de recherche desktop
