@@ -22,7 +22,7 @@ type Category =
   | "distillation" | "expression" | "extraction_solvant" | "co2_supercritique"
   | "enfleurage" | "maceration" | "hydrodistillation" | "percolation" | "other";
 
-type CostLevel = "low" | "medium" | "high" | "very_high";
+type CostLevel = "faible" | "moyen" | "eleve" | "tres_eleve";
 type ComplexityLevel = "simple" | "moderate" | "complex" | "expert";
 
 interface ExtractionMethod {

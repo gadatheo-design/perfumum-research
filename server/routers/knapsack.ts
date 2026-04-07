@@ -116,7 +116,7 @@ async function findMoleculeInDb(
           .from(molecules)
           .where(
             and(
-              sql`${molecules.molecularFormula} = ${km.formula}`,
+              sql`${molecules.chemicalFormula} = ${km.formula}`,
               sql`ABS(CAST(${molecules.molecularWeight} AS DECIMAL) - ${massNum}) < 0.01`
             )
           )
