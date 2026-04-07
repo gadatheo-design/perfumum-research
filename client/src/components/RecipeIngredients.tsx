@@ -88,7 +88,7 @@ export function RecipeIngredients({ recipeId }: RecipeIngredientsProps) {
   }
 
   // Calculer le total des pourcentages
-  const totalPercentage = ingredients.reduce((sum, ing) => sum + (ing.percentage || 0), 0);
+  const totalPercentage = ingredients.reduce((sum, ing) => sum + (typeof ing.percentage === 'number' ? ing.percentage : 0), 0);
 
   // Grouper par type
   const groupedByType = ingredients.reduce((acc, ing) => {
@@ -107,7 +107,7 @@ export function RecipeIngredients({ recipeId }: RecipeIngredientsProps) {
             Composition Détaillée
           </CardTitle>
           <Badge variant="outline" className="text-xs">
-            {ingredients.length} ingrédients • {totalPercentage.toFixed(1)}%
+            {ingredients.length} ingrédients • {typeof totalPercentage === 'number' ? totalPercentage.toFixed(1) : '0.0'}%
           </Badge>
         </div>
       </CardHeader>
@@ -136,7 +136,7 @@ export function RecipeIngredients({ recipeId }: RecipeIngredientsProps) {
           </div>
           <div className="flex flex-wrap gap-3 text-xs">
             {(Object.entries(groupedByType) as [string, typeof ingredients][]).map(([type, items]) => {
-              const typeTotal = items.reduce((sum, i) => sum + (i.percentage || 0), 0);
+              const typeTotal = items.reduce((sum, i) => sum + (typeof i.percentage === 'number' ? i.percentage : 0), 0);
               const colors: Record<string, string> = {
                 cannabis: "text-green-400",
                 tabac: "text-amber-400",
@@ -147,7 +147,7 @@ export function RecipeIngredients({ recipeId }: RecipeIngredientsProps) {
               return (
                 <span key={type} className={`flex items-center gap-1 ${colors[type] || colors.other}`}>
                   {getTypeIcon(type)}
-                  <span className="capitalize">{type}</span>: {typeTotal.toFixed(1)}%
+                  <span className="capitalize">{type}</span>: {typeof typeTotal === 'number' ? typeTotal.toFixed(1) : '0.0'}%
                 </span>
               );
             })}
@@ -205,7 +205,7 @@ export function RecipeIngredients({ recipeId }: RecipeIngredientsProps) {
                 </div>
                 <div className="text-right shrink-0">
                   <span className="text-2xl font-bold text-foreground">
-                    {ing.percentage?.toFixed(1)}%
+                    {typeof ing.percentage === 'number' ? ing.percentage.toFixed(1) : '0.0'}%
                   </span>
                 </div>
               </div>

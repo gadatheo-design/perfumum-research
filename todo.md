@@ -3481,3 +3481,13 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 
 ### Phase 4 : Sauvegarder
 - [ ] Créer un checkpoint avec la barre de recherche desktop
+
+
+## SESSION ACTUELLE — Corriger erreur toFixed sur RecipeDetail
+
+### Phase 1 : Identifier et corriger l'erreur
+- [x] Examiner RecipeDetail.tsx pour trouver l'appel toFixed
+- [x] Identifier les valeurs null/undefined qui causent l'erreur
+- [x] Ajouter des vérifications de type avant toFixed
+- [x] Tester la page RecipeDetail
+- [ ] Créer un checkpoint avec la correction
