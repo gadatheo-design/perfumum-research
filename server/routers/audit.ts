@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { router, publicProcedure } from "../_core/trpc";
 import { molecules, plants, plantMolecules } from "../../drizzle/schema";
 import { getDb } from "../db";
@@ -37,6 +37,7 @@ export const auditRouter = router({
   getMoleculesWithoutFormula: publicProcedure.query(async () => {
     try {
       const db = await getDb();
+      if (!db) throw new Error("Database not available");
       
       const result = await db
         .select({
@@ -67,6 +68,7 @@ export const auditRouter = router({
   getOrphanPlants: publicProcedure.query(async () => {
     try {
       const db = await getDb();
+      if (!db) throw new Error("Database not available");
       
       // Plantes sans liaisons
       const orphanPlants = await db
@@ -99,6 +101,7 @@ export const auditRouter = router({
   getOrphanMolecules: publicProcedure.query(async () => {
     try {
       const db = await getDb();
+      if (!db) throw new Error("Database not available");
       
       // Molécules sans liaisons
       const orphanMolecules = await db
@@ -131,6 +134,7 @@ export const auditRouter = router({
   getCoverageStats: publicProcedure.query(async () => {
     try {
       const db = await getDb();
+      if (!db) throw new Error("Database not available");
       
       const totalMolecules = await db.select({ count: count() }).from(molecules);
       const moleculesWithFormula = await db

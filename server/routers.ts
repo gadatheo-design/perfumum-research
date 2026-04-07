@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 import { COOKIE_NAME } from "@shared/const";
 import { z } from "zod";
 import { getSessionCookieOptions } from "./_core/cookies";
@@ -3158,7 +3158,7 @@ export const appRouter = router({
         const geocodeUrl = `${FORGE_BASE_URL}/v1/maps/proxy/maps/api/geocode/json?address=${encodeURIComponent(searchAddress)}&key=${FORGE_API_KEY}`;
         
         const response = await fetch(geocodeUrl);
-        const data = (await response.json()) as { status?: string; results?: Array<{geometry: {location: {lat: number; lng: number}}}>};
+        const data = (await response.json()) as { status?: string; results?: Array<{geometry: {location: {lat: number; lng: number}}; formatted_address?: string}>};
         
         if (data.status !== 'OK' || !data.results || data.results.length === 0) {
           throw new Error(`Géocodage échoué: ${data.status || 'Aucun résultat'}`);
@@ -3177,7 +3177,7 @@ export const appRouter = router({
           success: true,
           latitude: lat,
           longitude: lng,
-          formattedAddress: result.formatted_address,
+          formattedAddress: result.formatted_address || '',
         };
       }),
     // Géocodage en masse de tous les terroirs sans coordonnées
@@ -3197,7 +3197,7 @@ export const appRouter = router({
             const geocodeUrl = `${FORGE_BASE_URL}/v1/maps/proxy/maps/api/geocode/json?address=${encodeURIComponent(searchAddress)}&key=${FORGE_API_KEY}`;
             
             const response = await fetch(geocodeUrl);
-            const data = await response.json();
+            const data = (await response.json()) as { status?: string; results?: Array<{geometry: {location: {lat: number; lng: number}; formatted_address?: string}}> };
             
             if (data.status === 'OK' && data.results && data.results.length > 0) {
               const { lat, lng } = data.results[0].geometry.location;

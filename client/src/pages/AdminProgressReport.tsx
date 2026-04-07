@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { safeToFixed } from "@/lib/utils";
 import { trpc } from "@/lib/trpc";
+import { ProgressIndicator } from "@/components/ProgressIndicator";
 import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,49 +18,12 @@ import {
   Target,
   TrendingUp,
   Clock,
-  ArrowUpRight,
-  ArrowDownRight,
-  Minus,
   History,
   Sparkles
 } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 import { fr } from "date-fns/locale";
 import { TabErrorBoundary } from "@/components/TabErrorBoundary";
-
-function ProgressIndicator({ start, end, change, changePercent, label }: {
-  start: number;
-  end: number;
-  change: number;
-  changePercent: number;
-  label: string;
-}) {
-  const trend = change > 0 ? 'up' : change < 0 ? 'down' : 'neutral';
-  const TrendIcon = trend === 'up' ? ArrowUpRight : trend === 'down' ? ArrowDownRight : Minus;
-  const trendColor = trend === 'up' ? 'text-green-500' : trend === 'down' ? 'text-red-500' : 'text-muted-foreground';
-  
-  // Vérifications de type pour éviter les erreurs toFixed
-  const safeChange = typeof change === 'number' ? safeToFixed(change, 1) : '0.0';
-  const safeStart = typeof start === 'number' ? safeToFixed(start, 1) : '0.0';
-  const safeEnd = typeof end === 'number' ? safeToFixed(end, 1) : '0.0';
-
-  return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-medium">{label}</span>
-        <div className={`flex items-center gap-1 text-sm ${trendColor}`}>
-          <TrendIcon className="h-4 w-4" />
-          <span>{change >= 0 ? '+' : ''}{safeChange}%</span>
-        </div>
-      </div>
-      <Progress value={end} className="h-2" />
-      <div className="flex justify-between text-xs text-muted-foreground">
-        <span>Début: {safeStart}%</span>
-        <span className="font-medium">Actuel: {safeEnd}%</span>
-      </div>
-    </div>
-  );
-}
 
 export default function AdminProgressReport() {
   const { toast } = useToast();

@@ -1,4 +1,4 @@
-// @ts-nocheck
+
 /**
  * PubChem PUG REST API Integration
  * 
@@ -86,7 +86,7 @@ export async function searchCompoundByName(name: string): Promise<number[]> {
       throw new Error(`PubChem API error: ${response.status}`);
     }
     
-    const data = (await response.json()) as { PC_Compounds?: Array<{id: {id: {cid: number}}; props?: Array<{urn: {label: string}; value: {sval: string}}> }> };
+    const data = (await response.json()) as { IdentifierList?: { CID?: number[] } };
     return data.IdentifierList?.CID || [];
   } catch (error: unknown) {
     console.error(`Error searching PubChem for "${name}":`, error);
@@ -127,7 +127,7 @@ export async function getCompoundProperties(cid: number): Promise<PubChemCompoun
       throw new Error(`PubChem API error: ${response.status}`);
     }
     
-    const data = await response.json();
+    const data = (await response.json()) as { PropertyTable?: { Properties?: Array<Record<string, any>> } };
     const props = data.PropertyTable?.Properties?.[0];
     
     if (!props) {
@@ -154,7 +154,7 @@ export async function getCompoundSynonyms(cid: number): Promise<string[]> {
       return [];
     }
     
-    const data = await response.json();
+    const data = (await response.json()) as { InformationList?: { Information?: Array<{Synonym?: string[]}> } };
     return data.InformationList?.Information?.[0]?.Synonym || [];
   } catch (error: unknown) {
     console.error(`Error fetching synonyms for CID ${cid}:`, error);

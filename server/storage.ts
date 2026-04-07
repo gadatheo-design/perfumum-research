@@ -38,7 +38,8 @@ async function buildDownloadUrl(
     method: "GET",
     headers: buildAuthHeaders(apiKey),
   });
-  return ((await response.json()) as {url: string}).url;
+  const result = (await response.json()) as { url: string };
+  return result.url;
 }
 
 function ensureTrailingSlash(value: string): string {

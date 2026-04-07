@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Service ChEBI (Chemical Entities of Biological Interest)
  * API gratuite de l'EBI pour l'enrichissement des données moléculaires
@@ -131,13 +130,13 @@ export async function searchChEBI(name: string): Promise<ChEBISearchResult[]> {
       return [];
     }
     
-    const data = await response.json();
+    const data = (await response.json()) as { return?: Array<{chebiId: string; chebiAsciiName: string; searchScore?: number}> };
     
     if (!data.return || !Array.isArray(data.return)) {
       return [];
     }
     
-    return data.return.map((item: any) => ({
+    return data.return.map((item) => ({
       chebiId: item.chebiId,
       chebiAsciiName: item.chebiAsciiName,
       searchScore: item.searchScore || 0,
@@ -166,13 +165,13 @@ export async function getChEBIEntity(chebiId: string): Promise<ChEBIEntity | nul
       return null;
     }
     
-    const data = await response.json();
+    const data = (await response.json()) as { return?: Record<string, any> };
     
     if (!data.return) {
       return null;
     }
     
-    const entity = data.return;
+    const entity = data.return as Record<string, any>;
     
     // Extraire les données structurelles
     let smiles: string | undefined;
