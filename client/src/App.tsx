@@ -458,6 +458,8 @@ const CannabisLandraces = lazy(() => import("./pages/CannabisLandraces"));
 const LandraceDetail = lazy(() => import("./pages/LandraceDetail"));
 const OsmothequeMolecules = lazy(() => import("./pages/OsmothequeMolecules"));
 const NicotianaPhylogeny = React.lazy(() => import('./components/NicotianaPhylogeny').then(m => ({ default: m.NicotianaPhylogeny })));
+const NicotianaSpeciesDetail = React.lazy(() => import('./pages/NicotianaSpeciesDetail'));
+const NicotianaExplorer = React.lazy(() => import('./pages/NicotianaExplorer'));
 
 
 
@@ -495,7 +497,9 @@ function Router() {
       {/* === PAGES PRINCIPALES === */}
       <Route path="/" component={Home} />
       <Route path="/systeme">{() => <WithLayout><SystemePerfumum /></WithLayout>}</Route>
+      <Route path="/nicotiana-explorer">{() => <WithLayout><Suspense fallback={<PageLoader />}><NicotianaExplorer /></Suspense></WithLayout>}</Route>
       <Route path="/nicotiana-phylogeny">{() => <WithLayout><Suspense fallback={<PageLoader />}><NicotianaPhylogeny /></Suspense></WithLayout>}</Route>
+      <Route path="/nicotiana-species/:speciesId">{() => <WithLayout><Suspense fallback={<PageLoader />}><NicotianaSpeciesDetail /></Suspense></WithLayout>}</Route>
       {/* === ADMINISTRATION === */}
       <Route path="/admin" component={Admin} />
       <Route path="/admin/liaison-recettes-molecules" component={LiaisonRecettesMolecules} />
