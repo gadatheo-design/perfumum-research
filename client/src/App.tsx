@@ -62,6 +62,7 @@ const APropos = React.lazy(() => import('./pages/APropos'));
 const Contact = React.lazy(() => import('./pages/Contact'));
 const Nouveautes = React.lazy(() => import('./pages/Nouveautes'));
 const LeProjet = React.lazy(() => import('./pages/LeProjet'));
+const VisualisationGCMS = React.lazy(() => import('./pages/VisualisationGCMS'));
 
 // === ADMINISTRATION ===
 const Admin = React.lazy(() => import('./pages/Admin'));
@@ -930,6 +931,9 @@ function Router() {
       <LazyRoute path="/batch-import" component={BatchImport} />
       <LazyRoute path="/ifra" component={Ifra} />
       <LazyRoute path="/reglementation-ifra" component={Ifra} />
+      
+      {/* === VISUALISATIONS INTERACTIVES === */}
+      <LazyRoute path="/visualisation/gcms" component={VisualisationGCMS} />
       
       {/* === SAN ANDRÉS / LEAF ECONOMIES === */}
       <LazyRoute path="/leaf-economies" component={LeafEconomies} />

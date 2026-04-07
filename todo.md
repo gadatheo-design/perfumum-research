@@ -3325,3 +3325,12 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 - [x] Corriger les erreurs TypeScript dans extraction-methods-admin.ts (z.record 2 args Zod v4 + enum category étendu avec percolation/other)
 - [x] Vérifier la compilation (OOM tsc = mémoire sandbox, pas d'erreurs de code)
 - [x] Scanner les 29 composants Detail pour détecter les violations des règles React — aucune autre violation trouvée (seul PlantDetail avait le problème, déjà corrigé)
+
+
+## 📱 SESSION 7 AVRIL 2026 — Publication + Sketch p5.js + Navigation Mobile
+
+- [x] Publier le site via le bouton Publish (domaine: perfumum-h2pjhhjb.manus.space)
+- [x] Créer la page /visualisation/gcms avec le sketch p5.js intégré (sélecteur de plante, connexion API)
+- [x] Améliorer la navigation mobile avec icônes distinctives et indicateur de page active (barre gradient, animation scroll, dot indicator)
+- [x] Créer un document de test complet pour le sketch p5.js (PERFUMUM_Sketch_p5js_Guide_Test.md)
+- [x] Tester et sauvegarder le checkpoint final
