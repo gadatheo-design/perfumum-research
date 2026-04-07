@@ -1,3 +1,4 @@
+import { safeToFixed } from "@/lib/utils";
 /**
  * Parsers pour les formats de fichiers spectraux
  * 
@@ -400,10 +401,10 @@ export function formatMetadata(metadata: ParsedSpectrum['metadata']): string[] {
   if (metadata.name) lines.push(`Nom: ${metadata.name}`);
   if (metadata.casNumber) lines.push(`CAS: ${metadata.casNumber}`);
   if (metadata.molecularFormula) lines.push(`Formule: ${metadata.molecularFormula}`);
-  if (metadata.molecularWeight) lines.push(`Masse moléculaire: ${metadata.safeToFixed(molecularWeight, 2)}`);
+  if (metadata.molecularWeight) lines.push(`Masse moléculaire: ${safeToFixed(metadata, 2)}`);
   if (metadata.instrument) lines.push(`Instrument: ${metadata.instrument}`);
   if (metadata.ionizationMode) lines.push(`Mode d'ionisation: ${metadata.ionizationMode}`);
-  if (metadata.retentionTime) lines.push(`Temps de rétention: ${metadata.safeToFixed(retentionTime, 2)} min`);
+  if (metadata.retentionTime) lines.push(`Temps de rétention: ${safeToFixed(metadata, 2)} min`);
   if (metadata.numPeaks) lines.push(`Nombre de pics: ${metadata.numPeaks}`);
   if (metadata.comment) lines.push(`Commentaire: ${metadata.comment}`);
   

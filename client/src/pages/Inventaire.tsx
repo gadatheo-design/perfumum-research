@@ -298,7 +298,7 @@ export default function Inventaire() {
               </Card>
               <Card>
                 <CardContent className="pt-6">
-                  <div className="text-3xl font-bold text-blue-600">{stats.safeToFixed(valeurTotale, 0)} CHF</div>
+                  <div className="text-3xl font-bold text-blue-600">{safeToFixed(stats, 0)} CHF</div>
                   <p className="text-sm text-muted-foreground">Valeur stock</p>
                 </CardContent>
               </Card>

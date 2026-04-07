@@ -226,7 +226,7 @@ export function TerpeneRadarChart({ terpenes, title = "Profil Terpénique", size
                   {data.name}
                 </span>
                 <span className="text-sm font-medium text-foreground">
-                  {data.safeToFixed(percentage, 1)}%
+                  {safeToFixed(data, 1)}%
                 </span>
               </div>
             ))}

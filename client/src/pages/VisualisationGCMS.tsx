@@ -247,8 +247,8 @@ export default function VisualisationGCMS() {
 
           p.textSize(10);
           p.textStyle(p.NORMAL);
-          p.text(`RT: ${peak.safeToFixed(rt, 2)} min`, panelX + 10, panelY + 45);
-          p.text(`Intensité: ${peak.safeToFixed(intensity, 1)}%`, panelX + 10, panelY + 60);
+          p.text(`RT: ${safeToFixed(peak, 2)} min`, panelX + 10, panelY + 45);
+          p.text(`Intensité: ${safeToFixed(peak, 1)}%`, panelX + 10, panelY + 60);
           p.text(`CAS: ${peak.cas}`, panelX + 10, panelY + 75);
           p.text(`Famille: ${peak.family}`, panelX + 10, panelY + 90);
           p.text(`Odeur: ${peak.odor}`, panelX + 10, panelY + 105);

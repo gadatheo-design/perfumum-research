@@ -205,7 +205,7 @@ export function RecipeIngredients({ recipeId }: RecipeIngredientsProps) {
                 </div>
                 <div className="text-right shrink-0">
                   <span className="text-2xl font-bold text-foreground">
-                    {typeof ing.percentage === 'number' ? ing.safeToFixed(percentage, 1) : '0.0'}%
+                    {typeof ing.percentage === 'number' ? safeToFixed(ing, 1) : '0.0'}%
                   </span>
                 </div>
               </div>

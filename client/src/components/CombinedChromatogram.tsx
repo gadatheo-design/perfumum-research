@@ -192,7 +192,7 @@ export function CombinedChromatogram({ spectra, materialName, isLoading }: Combi
       
       // Tooltip data
       rect.setAttribute("data-mz", String(peak.mz));
-      rect.setAttribute("data-intensity", String(peak.safeToFixed(intensity, 1)));
+      rect.setAttribute("data-intensity", String(safeToFixed(peak, 1)));
       rect.setAttribute("data-compounds", peak.compounds.join(", "));
       
       g.appendChild(rect);

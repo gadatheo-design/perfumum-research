@@ -667,7 +667,7 @@ export default function SpectraIdentification() {
                                  result.similarity > 60 ? 'hsl(45, 93%, 47%)' : 
                                  'hsl(var(--muted-foreground))'
                         }}>
-                          {result.safeToFixed(similarity, 1)}%
+                          {safeToFixed(result, 1)}%
                         </div>
                         <div className="text-xs text-muted-foreground">
                           {result.matchedPeaks}/{manualPeaks.length} pics matchés

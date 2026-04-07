@@ -453,7 +453,7 @@ export default function SpectraComparison() {
                         variant={sim.similarity > 80 ? 'default' : 'secondary'}
                         className={sim.similarity > 80 ? 'bg-green-500/20 text-green-400' : ''}
                       >
-                        {sim.safeToFixed(similarity, 1)}%
+                        {safeToFixed(sim, 1)}%
                       </Badge>
                     </div>
                   </div>

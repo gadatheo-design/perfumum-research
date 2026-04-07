@@ -316,7 +316,7 @@ export default function RadarCorrelationHeatmap() {
                             {strongest.axis.label}
                           </span>
                           <Badge variant="secondary" className="ml-2">
-                            r = {strongest.safeToFixed(value, 2)}
+                            r = {safeToFixed(strongest, 2)}
                           </Badge>
                         </p>
                       </div>

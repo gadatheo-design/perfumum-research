@@ -3535,3 +3535,116 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 - [x] Tester la requête avec les données KNApSAcK
 - [x] Vérifier que les liaisons plante-molécule se créent correctement
 - [ ] Créer un checkpoint avec la correction
+
+
+## SESSION ACTUELLE — Audit KNApSAcK + Dashboard d'audit
+
+### Phase 1 : Auditer les données KNApSAcK
+- [ ] Analyser les formules chimiques (format, validité, doublons)
+- [ ] Vérifier les poids moléculaires (plage valide, précision)
+- [ ] Identifier les liaisons plante-molécule manquantes ou invalides
+- [ ] Lister les molécules orphelines (sans plante source)
+- [ ] Lister les plantes orphelines (sans molécule associée)
+
+### Phase 2 : Créer procédures tRPC pour l'audit
+- [ ] Procédure pour analyser les formules chimiques
+- [ ] Procédure pour vérifier les poids moléculaires
+- [ ] Procédure pour identifier les doublons
+- [ ] Procédure pour lister les entités orphelines
+- [ ] Procédure pour générer les statistiques d'audit
+
+### Phase 3 : Créer le dashboard d'audit (page admin)
+- [ ] Créer AdminDataAudit.tsx
+- [ ] Ajouter la route /admin/data-audit
+- [ ] Implémenter les visualisations (graphiques, tableaux)
+- [ ] Ajouter les filtres et options d'export
+
+### Phase 4 : Tester et valider
+- [ ] Tester les procédures tRPC
+- [ ] Vérifier le dashboard sur desktop et mobile
+- [ ] Valider les statistiques et rapports
+- [ ] Créer un checkpoint final
+
+
+---
+
+## 🔴 DIAGNOSTIC CRITIQUE — Session 8 avril 2026
+
+### Problème identifié
+Le serveur de développement échoue à compiler avec l'erreur **abort signal 134** (dépassement mémoire du compilateur TypeScript).
+
+### Causes racines
+1. **Migration automatique safeToFixed cassée** : 42 appels invalides `x.safeToFixed()` au lieu de `safeToFixed(x)` dans 17 fichiers
+2. **Imports manquants** : Les fichiers corrigés n'avaient pas l'import `safeToFixed`
+3. **Boucles de recompilation** : Les erreurs TypeScript causent des re-compilations infinies
+
+### Actions prises
+✅ Créé script `fix-safeToFixed.mjs` qui a corrigé automatiquement :
+- 17 fichiers modifiés
+- 42 appels invalides corrigés
+- Imports ajoutés où nécessaire
+
+### Fichiers corrigés
+- CombinedChromatogram.tsx
+- EnhancedRadarChart.tsx
+- RecipeIngredients.tsx
+- SeasonalVariations.tsx
+- TerpeneRadarChart.tsx
+- MultiRadarChart.tsx
+- spectrumParsers.ts
+- CalculateurCout.tsx (21 appels)
+- CompoundSearch.tsx
+- Ifra.tsx
+- Inventaire.tsx
+- InventoryDashboard.tsx
+- RadarCorrelationHeatmap.tsx
+- SpectraComparison.tsx
+- SpectraIdentification.tsx
+- VarietyDetail.tsx
+- VisualisationGCMS.tsx
+
+### Problème résiduel
+Même après les corrections, le compilateur manque de mémoire. Cela indique :
+- Des fichiers très volumineux (AdminProgressReport.tsx ~500 lignes)
+- Possibles dépendances circulaires
+- Processus tsc --watch laissé actif ailleurs
+
+### Solutions recommandées
+
+#### Option 1 : Nettoyage radical (recommandé)
+```bash
+# 1. Tuer tous les processus Node
+killall node
+
+# 2. Nettoyer complètement
+rm -rf node_modules dist .turbo .vite
+npm cache clean --force
+
+# 3. Réinstaller
+pnpm install
+
+# 4. Redémarrer
+npm run dev
+```
+
+#### Option 2 : Augmenter la mémoire davantage
+```bash
+# Dans package.json, augmenter à 4096 MB
+"dev": "NODE_ENV=development NODE_OPTIONS=--max-old-space-size=4096 tsx watch server/_core/index.ts"
+```
+
+#### Option 3 : Diviser les fichiers volumineux
+- `AdminProgressReport.tsx` (500+ lignes) → Diviser en composants plus petits
+- `CalculateurCout.tsx` (400+ lignes) → Extraire les fonctions utilitaires
+
+#### Option 4 : Désactiver les checks TypeScript en développement
+```bash
+# Ajouter dans package.json
+"dev": "NODE_ENV=development tsx watch server/_core/index.ts --no-type-check"
+```
+
+### Prochaines étapes
+1. Exécuter le nettoyage radical (Option 1)
+2. Si toujours bloqué : augmenter mémoire (Option 2)
+3. Si toujours bloqué : diviser les fichiers volumineux (Option 3)
+4. Tester MoleculeManager après chaque étape

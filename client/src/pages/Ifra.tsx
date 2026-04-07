@@ -409,7 +409,7 @@ export default function Ifra() {
                             <TableCell className="text-center">
                               {result.margin !== null ? (
                                 <span className={result.margin >= 0 ? "text-green-600" : "text-red-600"}>
-                                  {result.margin >= 0 ? "+" : ""}{result.safeToFixed(margin, 3)}%
+                                  {result.margin >= 0 ? "+" : ""}{safeToFixed(result, 3)}%
                                 </span>
                               ) : (
                                 <span className="text-muted-foreground">—</span>
@@ -634,7 +634,7 @@ export default function Ifra() {
                         Limite IFRA: <strong>{complianceResult.limit}%</strong>
                         {complianceResult.margin !== undefined && (
                           <span className="ml-2 text-muted-foreground">
-                            (marge: {complianceResult.safeToFixed(margin, 3)}%)
+                            (marge: {safeToFixed(complianceResult, 3)}%)
                           </span>
                         )}
                       </p>

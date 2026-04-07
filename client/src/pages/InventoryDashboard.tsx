@@ -289,7 +289,7 @@ export default function InventoryDashboard() {
                           backgroundColor: CHART_COLORS[i % CHART_COLORS.length],
                           minHeight: stat.value > 0 ? "4px" : "0"
                         }}
-                        title={`${stat.safeToFixed(value, 2)} CHF`}
+                        title={`${safeToFixed(stat, 2)} CHF`}
                       />
                       <span className="text-xs text-muted-foreground">{stat.label}</span>
                     </div>
@@ -327,7 +327,7 @@ export default function InventoryDashboard() {
                           </span>
                         </div>
                         <Badge variant="outline" className="text-amber-500 border-amber-500/50">
-                          {alert.safeToFixed(stock, 1)} {alert.unit}
+                          {safeToFixed(alert, 1)} {alert.unit}
                         </Badge>
                       </div>
                     </Link>

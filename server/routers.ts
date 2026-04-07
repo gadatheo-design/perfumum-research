@@ -79,6 +79,7 @@ import { wikidataRouter } from './routers/wikidata';
 import { sparqlRouter } from './routers/sparql';
 import { europeanaRouter } from './routers/europeana';
 import { p5dataRouter } from './routers/p5data';
+import { auditRouter } from './routers/audit';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -12503,6 +12504,8 @@ Familles olfactives disponibles:
   europeana: europeanaRouter,
   // API p5.js — Endpoints publics pour sketches p5.js externes (editor.p5js.org)
   p5data: p5dataRouter,
+  // Audit — Analyse et nettoyage des données
+  audit: auditRouter,
 });
 export type AppRouter = typeof appRouter;
 
