@@ -37,6 +37,11 @@ function ProgressIndicator({ start, end, change, changePercent, label }: {
   const trend = change > 0 ? 'up' : change < 0 ? 'down' : 'neutral';
   const TrendIcon = trend === 'up' ? ArrowUpRight : trend === 'down' ? ArrowDownRight : Minus;
   const trendColor = trend === 'up' ? 'text-green-500' : trend === 'down' ? 'text-red-500' : 'text-muted-foreground';
+  
+  // Vérifications de type pour éviter les erreurs toFixed
+  const safeChange = typeof change === 'number' ? change.toFixed(1) : '0.0';
+  const safeStart = typeof start === 'number' ? start.toFixed(1) : '0.0';
+  const safeEnd = typeof end === 'number' ? end.toFixed(1) : '0.0';
 
   return (
     <div className="space-y-2">
@@ -44,13 +49,13 @@ function ProgressIndicator({ start, end, change, changePercent, label }: {
         <span className="text-sm font-medium">{label}</span>
         <div className={`flex items-center gap-1 text-sm ${trendColor}`}>
           <TrendIcon className="h-4 w-4" />
-          <span>{change >= 0 ? '+' : ''}{change.toFixed(1)}%</span>
+          <span>{change >= 0 ? '+' : ''}{safeChange}%</span>
         </div>
       </div>
       <Progress value={end} className="h-2" />
       <div className="flex justify-between text-xs text-muted-foreground">
-        <span>Début: {start.toFixed(1)}%</span>
-        <span className="font-medium">Actuel: {end.toFixed(1)}%</span>
+        <span>Début: {safeStart}%</span>
+        <span className="font-medium">Actuel: {safeEnd}%</span>
       </div>
     </div>
   );
@@ -132,7 +137,7 @@ export default function AdminProgressReport() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {(latestSnapshot.overallClassificationRate / 100).toFixed(1)}%
+                  {typeof latestSnapshot?.overallClassificationRate === 'number' ? (latestSnapshot.overallClassificationRate / 100).toFixed(1) : '0.0'}%
                 </div>
                 <Progress value={latestSnapshot.overallClassificationRate / 100} className="mt-2" />
                 <p className="text-xs text-muted-foreground mt-2">
@@ -148,7 +153,7 @@ export default function AdminProgressReport() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {(latestSnapshot.overallLinkingRate / 100).toFixed(1)}%
+                  {typeof latestSnapshot?.overallLinkingRate === 'number' ? (latestSnapshot.overallLinkingRate / 100).toFixed(1) : '0.0'}%
                 </div>
                 <Progress value={latestSnapshot.overallLinkingRate / 100} className="mt-2" />
                 <p className="text-xs text-muted-foreground mt-2">
@@ -314,7 +319,7 @@ export default function AdminProgressReport() {
                         <span className="text-sm text-muted-foreground">Progression quotidienne</span>
                         <span className="font-medium">
                           {report.projection.dailyProgress >= 0 ? '+' : ''}
-                          {report.projection.dailyProgress.toFixed(4)}%/jour
+                          {typeof report.projection?.dailyProgress === 'number' ? report.projection.dailyProgress.toFixed(4) : '0.0000'}%/jour
                         </span>
                       </div>
                     </div>
@@ -343,7 +348,7 @@ export default function AdminProgressReport() {
                           <Progress value={report.projection.tenYearProjection.estimatedClassificationRate} className="h-3" />
                         </div>
                         <span className="text-lg font-bold">
-                          {report.projection.tenYearProjection.estimatedClassificationRate.toFixed(1)}%
+                          {typeof report.projection?.tenYearProjection?.estimatedClassificationRate === 'number' ? report.projection.tenYearProjection.estimatedClassificationRate.toFixed(1) : '0.0'}%
                         </span>
                       </div>
                       <p className="text-xs text-muted-foreground mt-2">
@@ -366,7 +371,7 @@ export default function AdminProgressReport() {
                         <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
                           <h4 className="font-medium text-amber-700 dark:text-amber-400">Numéros CAS manquants</h4>
                           <p className="text-sm text-muted-foreground mt-1">
-                            Seulement {report.classification.casNumber.end.toFixed(0)}% des molécules ont un numéro CAS. 
+                            Seulement {typeof report.classification?.casNumber?.end === 'number' ? report.classification.casNumber.end.toFixed(0) : '0'}% des molécules ont un numéro CAS. 
                             Utilisez PubChem pour enrichir automatiquement ces données.
                           </p>
                         </div>
@@ -376,7 +381,7 @@ export default function AdminProgressReport() {
                         <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
                           <h4 className="font-medium text-blue-700 dark:text-blue-400">Classification par famille</h4>
                           <p className="text-sm text-muted-foreground mt-1">
-                            {(100 - report.classification.family.end).toFixed(0)}% des molécules n'ont pas de famille assignée.
+                            {typeof report.classification?.family?.end === 'number' ? (100 - report.classification.family.end).toFixed(0) : '0'}% des molécules n'ont pas de famille assignée.
                             Utilisez l'interface de classification en masse.
                           </p>
                         </div>
@@ -454,12 +459,12 @@ export default function AdminProgressReport() {
                           <span>{snapshot.totalMolecules}</span>
                           <span>
                             <Badge variant="outline">
-                              {(snapshot.overallClassificationRate / 100).toFixed(1)}%
+                              {typeof snapshot?.overallClassificationRate === 'number' ? (snapshot.overallClassificationRate / 100).toFixed(1) : '0.0'}%
                             </Badge>
                           </span>
                           <span>
                             <Badge variant="outline">
-                              {(snapshot.overallLinkingRate / 100).toFixed(1)}%
+                              {typeof snapshot?.overallLinkingRate === 'number' ? (snapshot.overallLinkingRate / 100).toFixed(1) : '0.0'}%
                             </Badge>
                           </span>
                           <span>
@@ -492,7 +497,7 @@ export default function AdminProgressReport() {
                         key={i}
                         className="flex-1 bg-primary/80 rounded-t hover:bg-primary transition-colors"
                         style={{ height: `${s.classificationRate}%` }}
-                        title={`${format(new Date(s.date), 'dd/MM/yyyy')}: ${s.classificationRate.toFixed(1)}%`}
+                        title={`${format(new Date(s.date), 'dd/MM/yyyy')}: ${typeof s?.classificationRate === 'number' ? s.classificationRate.toFixed(1) : '0.0'}%`}
                       />
                     ))}
                   </div>
