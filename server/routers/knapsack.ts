@@ -110,17 +110,21 @@ async function findMoleculeInDb(
   if (km.formula && km.mass) {
     const massNum = parseFloat(km.mass);
     if (!isNaN(massNum)) {
-      const byFormula = await db
-        .select({ id: molecules.id, name: molecules.name })
-        .from(molecules)
-        .where(
-          and(
-            sql`molecular_formula = ${km.formula}`,
-            sql`ABS(CAST(${molecules.molecularWeight} AS DECIMAL) - ${massNum}) < 0.01`
+      try {
+        const byFormula = await db
+          .select({ id: molecules.id, name: molecules.name })
+          .from(molecules)
+          .where(
+            and(
+              sql`${molecules.molecularFormula} = ${km.formula}`,
+              sql`ABS(CAST(${molecules.molecularWeight} AS DECIMAL) - ${massNum}) < 0.01`
+            )
           )
-        )
-        .limit(1);
-      if (byFormula.length > 0) return byFormula[0];
+          .limit(1);
+        if (byFormula.length > 0) return byFormula[0];
+      } catch (err) {
+        console.warn(`[KNApSAcK] Erreur lors du matching par formule ${km.formula}:`, err);
+      }
     }
   }
   

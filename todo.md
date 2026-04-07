@@ -3511,3 +3511,27 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 - [x] Vérifier que les pages chargent sans erreur
 - [x] Tester les calculs avec des données invalides
 - [x] Créer un checkpoint avec les corrections
+
+
+## SESSION ACTUELLE — Corriger erreur requête SQL KNApSAcK
+
+### Phase 1 : Identifier la source de l'erreur
+- [x] Chercher le code qui génère la requête SQL
+- [x] Identifier où la formule chimique et le poids moléculaire sont utilisés
+- [x] Vérifier le format des données en base de données
+
+### Phase 2 : Analyser le problème
+- [x] Vérifier que la formule chimique "C9H8O3" existe en base
+- [x] Vérifier que le poids moléculaire 164.04734412 est correct
+- [x] Tester la tolérance de 0.01 sur le poids moléculaire
+- [x] Vérifier le type de données (DECIMAL vs FLOAT)
+
+### Phase 3 : Corriger la requête
+- [x] Ajuster la tolérance ou la logique de recherche
+- [x] Ajouter des vérifications de données nulles/invalides
+- [x] Améliorer la gestion des erreurs
+
+### Phase 4 : Tester et valider
+- [x] Tester la requête avec les données KNApSAcK
+- [x] Vérifier que les liaisons plante-molécule se créent correctement
+- [ ] Créer un checkpoint avec la correction
