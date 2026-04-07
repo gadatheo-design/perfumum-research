@@ -2,8 +2,28 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
-import { Loader2, Search, RotateCcw } from "lucide-react";
+import { Loader2, Search, RotateCcw, Zap, ZapOff } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+
+// Déclarer les types TypeScript pour WebSerial
+declare global {
+  interface Navigator {
+    serial?: {
+      requestPort(): Promise<SerialPort>;
+    };
+  }
+  interface SerialPort {
+    open(options: { baudRate: number }): Promise<void>;
+    close(): Promise<void>;
+    readable: ReadableStream<Uint8Array> | null;
+  }
+  interface Window {
+    p5SketchData?: {
+      zoomLevel: number;
+      panX: number;
+    };
+  }
+}
 
 /**
  * VisualisationGCMS — Chromatogramme GC-MS interactif
@@ -12,11 +32,16 @@ import { trpc } from "@/lib/trpc";
 export default function VisualisationGCMS() {
   const canvasRef = useRef<HTMLDivElement>(null);
   const p5InstanceRef = useRef<any>(null);
+  const serialPortRef = useRef<SerialPort | null>(null);
+  const readerRef = useRef<ReadableStreamDefaultReader<Uint8Array> | null>(null);
+  
   const [selectedPlant, setSelectedPlant] = useState<string>("Lavandula angustifolia");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [plantList, setPlantList] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState<boolean>(false);
+  const [arduinoConnected, setArduinoConnected] = useState<boolean>(false);
+  const [arduinoStatus, setArduinoStatus] = useState<string>("Déconnecté");
 
   // Récupérer la liste des plantes disponibles
   const { data: plantsData } = trpc.p5data.molecules.useQuery({});
@@ -40,6 +65,9 @@ export default function VisualisationGCMS() {
     return () => {
       if (p5InstanceRef.current) {
         p5InstanceRef.current.remove();
+      }
+      if (arduinoConnected) {
+        disconnectArduino();
       }
     };
   }, []);
@@ -89,6 +117,12 @@ export default function VisualisationGCMS() {
         };
 
         p.draw = function () {
+          // Mettre à jour depuis Arduino
+          if ((window as any).p5SketchData) {
+            zoomLevel = (window as any).p5SketchData.zoomLevel;
+            panX = (window as any).p5SketchData.panX;
+          }
+
           p.background(255);
 
           // Grille
@@ -264,6 +298,8 @@ export default function VisualisationGCMS() {
           }
         };
 
+
+
         p.windowResized = function () {
           if (canvasRef.current) {
             const width = canvasRef.current.clientWidth;
@@ -276,6 +312,13 @@ export default function VisualisationGCMS() {
       if (p5InstanceRef.current) {
         p5InstanceRef.current.remove();
       }
+      
+      // Créer un objet global pour partager les données avec Arduino
+      (window as any).p5SketchData = {
+        zoomLevel: 1,
+        panX: 0,
+      };
+      
       p5InstanceRef.current = new (window as any).p5(sketch);
       setIsLoading(false);
     } catch (error) {
@@ -295,9 +338,98 @@ export default function VisualisationGCMS() {
     setShowSuggestions(query.length > 0);
   };
 
+  // Connexion Arduino WebSerial
+  const connectArduino = async () => {
+    try {
+      if (!('serial' in navigator)) {
+        alert('WebSerial API non supportée par ce navigateur. Utilisez Chrome/Edge.');
+        return;
+      }
+
+      const port = await (navigator.serial as any).requestPort();
+      await port.open({ baudRate: 9600 });
+      serialPortRef.current = port;
+      setArduinoConnected(true);
+      setArduinoStatus("Connecté");
+
+      // Lire les données du port série
+      readSerialData();
+    } catch (error) {
+      console.error('Erreur de connexion Arduino:', error);
+      setArduinoStatus("Erreur de connexion");
+    }
+  };
+
+  const readSerialData = async () => {
+    if (!serialPortRef.current) return;
+
+    try {
+      const reader = serialPortRef.current.readable?.getReader();
+      if (!reader) return;
+      readerRef.current = reader;
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        // Décoder les données du port série
+        const text = new TextDecoder().decode(value);
+        const lines = text.split('\n');
+
+        for (const line of lines) {
+          const data = line.trim().split(',');
+          if (data.length >= 2) {
+            const potentiometer1 = parseInt(data[0]); // Zoom
+            const potentiometer2 = parseInt(data[1]); // Pan
+
+            // Mettre à jour le sketch p5.js avec les données Arduino
+            if (p5InstanceRef.current) {
+              // Zoom: 0-1023 → 0.5-20x
+              const newZoom = 0.5 + (potentiometer1 / 1023) * 19.5;
+              // Pan: 0-1023 → -500 à 500
+              const newPan = (potentiometer2 / 1023) * 1000 - 500;
+
+              // Envoyer les données au sketch (via une variable globale ou callback)
+              if (window.p5SketchData) {
+                window.p5SketchData.zoomLevel = newZoom;
+                window.p5SketchData.panX = newPan;
+              }
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Erreur de lecture du port série:', error);
+    }
+  };
+
+  const disconnectArduino = async () => {
+    try {
+      if (readerRef.current) {
+        await readerRef.current.cancel();
+      }
+      if (serialPortRef.current) {
+        await serialPortRef.current.close();
+      }
+      serialPortRef.current = null;
+      readerRef.current = null;
+      setArduinoConnected(false);
+      setArduinoStatus("Déconnecté");
+    } catch (error) {
+      console.error('Erreur de déconnexion Arduino:', error);
+    }
+  };
+
   const filteredPlants = plantList.filter((plant) =>
     plant.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Déclarer les types TypeScript pour WebSerial
+  interface SerialPort {
+    open(options: { baudRate: number }): Promise<void>;
+    close(): Promise<void>;
+    readable: ReadableStream<Uint8Array> | null;
+  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -369,6 +501,34 @@ export default function VisualisationGCMS() {
                 )}
               </Button>
 
+              {/* Bouton Arduino */}
+              <Button
+                onClick={arduinoConnected ? disconnectArduino : connectArduino}
+                variant={arduinoConnected ? "destructive" : "outline"}
+                className="w-full mb-2"
+              >
+                {arduinoConnected ? (
+                  <>
+                    <ZapOff className="h-4 w-4 mr-2" />
+                    Déconnecter Arduino
+                  </>
+                ) : (
+                  <>
+                    <Zap className="h-4 w-4 mr-2" />
+                    Connecter Arduino
+                  </>
+                )}
+              </Button>
+
+              {/* Statut Arduino */}
+              <div className={`text-xs p-2 rounded-md mb-4 ${
+                arduinoConnected
+                  ? "bg-green-100 text-green-700"
+                  : "bg-gray-100 text-gray-700"
+              }`}>
+                <p>Arduino: {arduinoStatus}</p>
+              </div>
+
               {/* Légende des contrôles */}
               <div className="text-xs text-muted-foreground space-y-2 mt-4 pt-4 border-t border-border">
                 <p>
@@ -378,6 +538,11 @@ export default function VisualisationGCMS() {
                 <p>• R = Reset zoom</p>
                 <p>• G = Grille on/off</p>
                 <p>• F = Couleurs on/off</p>
+                <p className="mt-3 pt-3 border-t border-border/50">
+                  <strong>Arduino:</strong>
+                </p>
+                <p>• Pot 1 = Zoom</p>
+                <p>• Pot 2 = Pan</p>
               </div>
             </Card>
           </div>

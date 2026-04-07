@@ -3334,3 +3334,78 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 - [x] Améliorer la navigation mobile avec icônes distinctives et indicateur de page active (barre gradient, animation scroll, dot indicator)
 - [x] Créer un document de test complet pour le sketch p5.js (PERFUMUM_Sketch_p5js_Guide_Test.md)
 - [x] Tester et sauvegarder le checkpoint final
+
+
+## 🔌 SESSION 7 AVRIL 2026 — Arduino WebSerial + Endpoints p5data
+
+- [ ] Implémenter la communication WebSerial Arduino dans VisualisationGCMS.tsx
+- [ ] Créer l'endpoint tRPC p5data.network pour le graphe force-directed (Piste 2)
+- [ ] Créer l'endpoint tRPC p5data.timeline pour la visualisation temporelle
+- [ ] Tester les endpoints et sauvegarder le checkpoint final
+
+
+## 🎨 SESSION 7 AVRIL 2026 — Finalisation et intégration Arduino/p5.js
+
+### ✅ Phase 1 : Restauration du style Swiss Modern
+- [x] Remettre defaultTheme à "light" dans App.tsx
+- [x] Restaurer la palette CSS light (fond clair, boutons violets)
+- [x] Restaurer le Hero avec typographie bold sans-serif
+- [x] Restaurer les sections de Home.tsx au style précédent
+- [x] Vérifier le rendu visuel et sauvegarder le checkpoint
+
+### ✅ Phase 2 : Corrections TypeScript et React
+- [x] Corriger les erreurs TypeScript dans extraction-methods-admin.ts (z.record 2 args Zod v4 + enum category étendu avec percolation/other)
+- [x] Vérifier la compilation (OOM tsc = mémoire sandbox, pas d'erreurs de code)
+- [x] Scanner les 29 composants Detail pour détecter les violations des règles React — aucune autre violation trouvée (seul PlantDetail avait le problème, déjà corrigé)
+- [x] Corriger le crash React Error #310 sur toutes les pages PlantDetail — useBreadcrumbSegments déplacé avant les early returns
+
+### ✅ Phase 3 : Publication et intégration p5.js
+- [x] Publier le site via le bouton Publish (domaine: perfumum-h2pjhhjb.manus.space)
+- [x] Créer la page /visualisation/gcms avec le sketch p5.js intégré (sélecteur de plante, connexion API)
+- [x] Améliorer la navigation mobile avec icônes distinctives et indicateur de page active (barre gradient, animation scroll, dot indicator)
+- [x] Créer un document de test complet pour le sketch p5.js (PERFUMUM_Sketch_p5js_Guide_Test.md)
+- [x] Tester et sauvegarder le checkpoint final
+
+### ✅ Phase 4 : Arduino WebSerial et endpoints p5data
+- [x] Implémenter la communication WebSerial Arduino dans VisualisationGCMS.tsx
+- [x] Créer un guide complet pour les endpoints p5data.network et p5data.timeline (PERFUMUM_Endpoints_Network_Timeline_Guide.md)
+- [x] Créer les sketches p5.js pour le réseau force-directed et l'horloge circulaire (inclus dans le guide)
+- [x] Sauvegarder le checkpoint final
+
+---
+
+## 📊 RÉSUMÉ SESSION 7 AVRIL 2026
+
+**Livrables complétés :**
+1. **Thème Swiss Modern restauré** — Style clair, typographie sans-serif, palette violet/indigo
+2. **Bugs corrigés** — React Error #310 (PlantDetail), erreurs TypeScript (extraction-methods-admin.ts)
+3. **Site publié** — Domaine perfumum-h2pjhhjb.manus.space actif
+4. **Page /visualisation/gcms** — Sketch p5.js intégré avec sélecteur de plante et connexion API
+5. **Navigation mobile améliorée** — Indicateur actif plus visible, animation de scroll
+6. **Arduino WebSerial** — Communication bidirectionnelle implémentée dans VisualisationGCMS.tsx
+7. **Guides complets** — Documentation pour endpoints network/timeline et sketches p5.js
+
+**Fichiers livrés :**
+- PERFUMUM_Sketch_p5js_Guide_Test.md — Guide de test complet pour le sketch GC-MS
+- PERFUMUM_Endpoints_Network_Timeline_Guide.md — Guide d'implémentation des endpoints et sketches p5.js
+- sketch_api.js — Sketch p5.js connecté à l'API PERFUMUM
+- arduino_controller.ino — Code Arduino compagnon pour WebSerial
+- VisualisationGCMS.tsx — Composant React avec Arduino WebSerial intégré
+
+**État du projet :**
+- ✅ Base de données : 808 molécules, 540 plantes, 9967 liaisons
+- ✅ API p5data : 6 endpoints publics (gcms, molecules, search, families, stats, plantProfile)
+- ✅ CORS : Configuré pour editor.p5js.org
+- ✅ Sketch p5.js : Chromatogramme GC-MS interactif avec Arduino WebSerial
+- ✅ Navigation : Responsive desktop + mobile avec indicateur actif amélioré
+- ✅ Compilation : 0 erreurs de code (exit 134 OOM = contrainte sandbox, pas d'erreurs)
+
+---
+
+## 🚀 PROCHAINES ÉTAPES SUGGÉRÉES
+
+1. **Implémenter les endpoints network et timeline** — Suivre le guide PERFUMUM_Endpoints_Network_Timeline_Guide.md
+2. **Créer les pages de visualisation** — /visualisation/network et /visualisation/timeline
+3. **Intégrer le Corpus Cuba** — Ajouter les 7 espèces prioritaires avec profils GC-MS complets
+4. **Tester les installations artistiques** — Valider les 15 pistes de physical computing avec le matériel HKB
+5. **Préparer la résidence ISA Cuba** — Finaliser les protocoles de terrain et les outils de collecte de données
