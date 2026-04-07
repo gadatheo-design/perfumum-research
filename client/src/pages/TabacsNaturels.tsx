@@ -46,6 +46,7 @@ interface AromaticProfile {
   descripteurs?: string[];
   [key: string]: unknown;
 }
+
 function parseProfile(raw: string | null): AromaticProfile | null {
   if (!raw) return null;
   try {
@@ -65,7 +66,7 @@ function IntensityBar({ value }: { value: number | null }) {
       <div className="flex gap-0.5">
         {[...Array(10)].map((_, i) => (
           <div
-            key={i}
+            key={`intensity-${i}`}
             className={"h-2 w-2 rounded-sm " + (i < value ? "bg-amber-500" : "bg-muted")}
           />
         ))}
@@ -131,7 +132,7 @@ function TabacCard({ tabac }: { tabac: TabacWithTerroir }) {
             {profile.descripteurs && Array.isArray(profile.descripteurs) && profile.descripteurs.length > 0 && (
               <div className="flex flex-wrap gap-1 mt-1">
                 {profile.descripteurs.map((d: string, i: number) => (
-                  <Badge key={i} variant="secondary" className="text-xs">{d}</Badge>
+                  <Badge key={`${tabac.id}-desc-${i}`} variant="secondary" className="text-xs">{d}</Badge>
                 ))}
               </div>
             )}
@@ -243,12 +244,12 @@ export default function TabacsNaturels() {
         {!isLoading && tabacs && (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { label: "Virginia / Blond", count: stats.blond, color: "text-amber-400" },
-              { label: "Brun / Burley", count: stats.brun, color: "text-orange-400" },
-              { label: "Oriental", count: stats.oriental, color: "text-purple-400" },
-              { label: "Expérimental", count: stats.experimental, color: "text-cyan-400" },
+              { label: "Virginia / Blond", count: stats.blond, color: "text-amber-400", id: "blond" },
+              { label: "Brun / Burley", count: stats.brun, color: "text-orange-400", id: "brun" },
+              { label: "Oriental", count: stats.oriental, color: "text-purple-400", id: "oriental" },
+              { label: "Expérimental", count: stats.experimental, color: "text-cyan-400", id: "exp" },
             ].map(s => (
-              <Card key={s.label} className="text-center p-3">
+              <Card key={s.id} className="text-center p-3">
                 <div className={"text-2xl font-bold " + s.color}>{s.count}</div>
                 <div className="text-xs text-muted-foreground mt-1">{s.label}</div>
               </Card>
@@ -285,8 +286,8 @@ export default function TabacsNaturels() {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Tous les pays</SelectItem>
-              {countries.map(c => (
-                <SelectItem key={c} value={c}>{c}</SelectItem>
+              {countries.map((c, idx) => (
+                <SelectItem key={`country-${idx}-${c}`} value={c}>{c}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -296,7 +297,7 @@ export default function TabacsNaturels() {
         {isLoading ? (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {[...Array(6)].map((_, i) => (
-              <Card key={i}>
+              <Card key={`skeleton-${i}`}>
                 <CardHeader><Skeleton className="h-5 w-3/4" /><Skeleton className="h-4 w-1/2" /></CardHeader>
                 <CardContent><Skeleton className="h-24 w-full" /></CardContent>
               </Card>

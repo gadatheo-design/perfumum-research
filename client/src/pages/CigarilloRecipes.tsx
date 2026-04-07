@@ -73,7 +73,7 @@ export default function CigarilloRecipes() {
           <Card className="bg-card/50 border-border/50">
             <CardContent className="pt-4">
               <div className="text-2xl font-bold text-foreground">
-                {stats.byDifficulty?.find((d: any) => d.difficulty_level === "expert")?.count || 0}
+                {Array.isArray(stats.byDifficulty) ? (stats.byDifficulty.find((d: any) => d.difficulty_level === "expert")?.count || 0) : 0}
               </div>
               <div className="text-sm text-muted-foreground">Recettes Expert</div>
             </CardContent>

@@ -3409,3 +3409,31 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 3. **Intégrer le Corpus Cuba** — Ajouter les 7 espèces prioritaires avec profils GC-MS complets
 4. **Tester les installations artistiques** — Valider les 15 pistes de physical computing avec le matériel HKB
 5. **Préparer la résidence ISA Cuba** — Finaliser les protocoles de terrain et les outils de collecte de données
+
+
+## SESSION ACTUELLE — Correction des erreurs React et problèmes d'affichage
+
+### Phase 1 : Corriger les erreurs React
+- [x] Corriger l'erreur `stats.byDifficulty?.find is not a function` dans CigarilloRecipes.tsx
+- [x] Corriger les clés dupliquées (key `30010`) dans les listes React
+- [x] Valider que la page /recettes-cigarillos charge sans erreur
+
+### Phase 2 : Fixer le layout DashboardLayout
+- [x] Réduire la largeur de la sidebar (trop large actuellement)
+- [x] Vérifier l'alignment du contenu principal
+- [x] Tester sur les pages Cigarettes Historiques et Tabacs Naturels
+
+### Phase 3 : Corriger les problèmes d'affichage
+- [x] Corriger la troncature des champs de recherche ("Rech" → "Rechercher")
+- [x] Fixer le responsive design pour petits écrans
+- [x] Corriger le débordement des cartes de tabac
+- [x] Corriger la troncature des titres de cartes ("Virg..." → nom complet)
+
+### Phase 4 : Tester et valider
+- [x] Tester la page Cigarettes Historiques (affichage + données)
+- [x] Tester la page Tabacs Naturels (layout + cartes)
+- [x] Vérifier la responsive sur mobile (< 768px)
+- [x] Vérifier la responsive sur tablet (768px - 1024px)
+
+### Phase 5 : Sauvegarder
+- [ ] Créer un checkpoint avec toutes les corrections
