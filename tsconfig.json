@@ -11,11 +11,13 @@
     "dist",
     "**/*.test.ts",
     "**/*.test.tsx",
+    "**/*.test.mjs",
+    "server/**/*.test.ts",
     "client/src/pages/**/*"
   ],
   "compilerOptions": {
     "incremental": true,
-    "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo",
+    "tsBuildInfoFile": "./node_modules/.tsbuildinfo",
     "noEmit": true,
     "module": "ESNext",
     "strict": true,
@@ -27,6 +29,8 @@
     "jsx": "preserve",
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "allowImportingTsExtensions": true,
     "moduleResolution": "bundler",
     "baseUrl": ".",
