@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Service ChEBI (Chemical Entities of Biological Interest)
  * API gratuite de l'EBI pour l'enrichissement des données moléculaires

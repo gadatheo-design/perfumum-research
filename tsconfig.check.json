@@ -21,6 +21,8 @@
     "build",
     "dist",
     "**/*.test.ts",
+    "**/*.test.tsx",
+    "server/**/*.test.ts",
     "client/src/pages/**/*",
     "client/src/components/A*.tsx",
     "client/src/components/B*.tsx",

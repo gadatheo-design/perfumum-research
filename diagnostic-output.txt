@@ -1,0 +1,35 @@
+🔍 Starting TypeScript diagnostic...
+
+============================================================
+
+📦 SERVER FILES:
+============================================================
+
+📝 Compiling: server/adminNotifications.test.ts...
+⚠️  ERRORS: server/adminNotifications.test.ts
+spawnSync /bin/sh ETIMEDOUT
+
+📝 Compiling: server/ai-batch-classification.test.ts...
+⚠️  ERRORS: server/ai-batch-classification.test.ts
+spawnSync /bin/sh ETIMEDOUT
+
+📝 Compiling: server/ai-classification.test.ts...
+✅ OK: server/ai-classification.test.ts
+
+📝 Compiling: server/analytical-methods-molecule.test.ts...
+⚠️  ERRORS: server/analytical-methods-molecule.test.ts
+spawnSync /bin/sh ETIMEDOUT
+
+📝 Compiling: server/auth.logout.test.ts...
+⚠️  ERRORS: server/auth.logout.test.ts
+spawnSync /bin/sh ETIMEDOUT
+
+📝 Compiling: server/auto-linking.test.ts...
+⚠️  ERRORS: server/auto-linking.test.ts
+spawnSync /bin/sh ETIMEDOUT
+
+📝 Compiling: server/axisReferenceLinks.test.ts...
+⚠️  ERRORS: server/axisReferenceLinks.test.ts
+spawnSync /bin/sh ETIMEDOUT
+
+📝 Compiling: server/batchImport.test.ts...
