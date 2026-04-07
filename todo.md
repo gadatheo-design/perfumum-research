@@ -3318,3 +3318,9 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 - [x] Restaurer le Hero avec typographie bold sans-serif
 - [x] Restaurer les sections de Home.tsx au style précédent
 - [x] Vérifier le rendu visuel et sauvegarder le checkpoint
+- [x] Corriger le crash React Error #310 sur toutes les pages PlantDetail — useBreadcrumbSegments déplacé avant les early returns
+
+## 🔧 SESSION 7 AVRIL 2026 — Corrections TypeScript
+
+- [x] Corriger les erreurs TypeScript dans extraction-methods-admin.ts (z.record 2 args Zod v4 + enum category étendu avec percolation/other)
+- [x] Vérifier la compilation (OOM tsc = mémoire sandbox, pas d'erreurs de code)

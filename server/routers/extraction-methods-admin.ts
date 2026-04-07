@@ -9,7 +9,8 @@ const ExtractionMethodInput = z.object({
   name: z.string().min(2).max(100),
   category: z.enum([
     'distillation', 'expression', 'extraction_solvant', 'co2_supercritique',
-    'enfleurage', 'maceration', 'hydrodistillation', 'fermentation', 'pyrolyse'
+    'enfleurage', 'maceration', 'hydrodistillation', 'fermentation', 'pyrolyse',
+    'percolation', 'other'
   ]),
   description: z.string().optional(),
   costLevel: z.enum(['faible', 'moyen', 'eleve', 'tres_eleve']).optional(),
@@ -17,9 +18,9 @@ const ExtractionMethodInput = z.object({
   yieldQuality: z.enum(['faible', 'moyen', 'bon', 'excellent']).optional(),
   bestFor: z.array(z.string()).optional(),
   notRecommendedFor: z.array(z.string()).optional(),
-  parameters: z.record(z.any()).optional(),
+  parameters: z.record(z.string(), z.any()).optional(),
   equipment: z.array(z.string()).optional(),
-  typicalYields: z.record(z.any()).optional(),
+  typicalYields: z.record(z.string(), z.any()).optional(),
   preservedMolecules: z.array(z.string()).optional(),
   degradedMolecules: z.array(z.string()).optional(),
   notes: z.string().optional(),

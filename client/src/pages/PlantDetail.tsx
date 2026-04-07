@@ -163,6 +163,15 @@ export default function PlantDetail() {
     { plantId },
     { enabled: plantId > 0 }
   );
+
+  // Breadcrumb dynamique — DOIT être appelé avant tout early return
+  useBreadcrumbSegments(
+    plantDetails ? [
+      { label: "Plantes", path: "/plants" },
+      { label: plantDetails.name, path: `/plants/${plantId}` },
+    ] : null,
+    [plantDetails?.name, plantId]
+  );
   
   if (isLoading) {
     return (
@@ -201,15 +210,6 @@ export default function PlantDetail() {
   }
   
   const plant = plantDetails;
-
-  // Breadcrumb dynamique avec le nom de la plante
-  useBreadcrumbSegments(
-    plant ? [
-      { label: "Plantes", path: "/plants" },
-      { label: plant.name, path: `/plants/${plantId}` },
-    ] : null,
-    [plant?.name, plantId]
-  );
 
   // Helpers de normalisation des champs JSON polymorphes
   const asStringPlant = (val: unknown): string => {
