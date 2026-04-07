@@ -3324,3 +3324,4 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 
 - [x] Corriger les erreurs TypeScript dans extraction-methods-admin.ts (z.record 2 args Zod v4 + enum category étendu avec percolation/other)
 - [x] Vérifier la compilation (OOM tsc = mémoire sandbox, pas d'erreurs de code)
+- [x] Scanner les 29 composants Detail pour détecter les violations des règles React — aucune autre violation trouvée (seul PlantDetail avait le problème, déjà corrigé)
