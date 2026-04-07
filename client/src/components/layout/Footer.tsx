@@ -142,7 +142,7 @@ export function Footer() {
         {/* Ligne de séparation et copyright */}
         <div className="border-t border-border pt-6">
           <p className="text-xs text-muted-foreground text-center">
-            Tous droits réservés. PERFUMUM est un projet de recherche long terme (2025-2035).
+            Tous droits réservés Juan Bastos (2025-2035).
           </p>
         </div>
       </div>
