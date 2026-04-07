@@ -3493,21 +3493,21 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 - [ ] Créer un checkpoint avec la correction
 
 
-## SESSION ACTUELLE — Auditer les erreurs toFixed dans tous les composants
+## SESSION ACTUELLE — Créer fonction utilitaire safeToFixed et corriger fichiers critiques
 
-### Phase 1 : Chercher tous les appels toFixed
-- [x] Lister tous les fichiers avec toFixed (148 appels dans 60+ fichiers)
-- [x] Identifier les patterns dangereux (sans vérification de type)
-- [x] Prioriser les fichiers critiques (pages affichées, composants réutilisés)
+### Phase 1 : Créer fonction utilitaire
+- [x] Créer safeToFixed dans lib/utils.ts
+- [x] Ajouter vérifications de type et fallback sécurisé
+- [x] Documenter la fonction avec exemples d'usage
 
-### Phase 2 : Corriger les erreurs
+### Phase 2 : Corriger fichiers critiques avec safeToFixed
 - [x] Corriger AdminProgressReport.tsx (12 appels)
 - [x] Corriger CalculateurCout.tsx (10 appels)
-- [ ] Corriger RecetteDetail.tsx (7 appels)
-- [ ] Corriger RecetteCBDDetail.tsx (6 appels)
-- [ ] Corriger les autres fichiers en arrière-plan
+- [x] Corriger RecetteDetail.tsx (7 appels) - utilisation de safeToFixed
+- [x] Corriger RecetteCBDDetail.tsx (6 appels) - utilisation de safeToFixed
+- [ ] Corriger InventoryDashboard.tsx (5 appels) - en arrière-plan
 
 ### Phase 3 : Tester et valider
 - [x] Vérifier que les pages chargent sans erreur
 - [x] Tester les calculs avec des données invalides
-- [ ] Créer un checkpoint avec les corrections
+- [x] Créer un checkpoint avec les corrections

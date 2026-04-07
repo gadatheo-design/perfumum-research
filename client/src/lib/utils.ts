@@ -44,3 +44,25 @@ export function normalizeOlfactiveProfile(
   if (typeof value === 'string') return value || null;
   return String(value) || null;
 }
+
+/**
+ * Safe toFixed — never throws.
+ * Converts a value to a fixed-point string with the specified number of decimals.
+ * Returns a fallback string if the value is not a number.
+ *
+ * Usage:
+ *   safeToFixed(molecule.percentage, 1)           // "50.0"
+ *   safeToFixed(recipe.cost, 2)                   // "12.50"
+ *   safeToFixed(undefined, 2, '0.00')             // "0.00"
+ *   safeToFixed(null, 0, 'N/A')                   // "N/A"
+ */
+export function safeToFixed(
+  value: unknown,
+  decimals: number = 2,
+  fallback: string = '0.' + '0'.repeat(decimals)
+): string {
+  if (typeof value === 'number' && !isNaN(value)) {
+    return value.toFixed(decimals);
+  }
+  return fallback;
+}

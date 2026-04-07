@@ -28,6 +28,7 @@ import "reactflow/dist/style.css";
 import { useMemo, useEffect, useState } from "react";
 import { GitBranch, ArrowUpRight, Leaf, Wind, TreeDeciduous, Sparkles, Package, Link2 } from "lucide-react";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { safeToFixed } from "@/lib/utils";
 
 export default function RecetteDetail() {
   const { toast } = useToast();
@@ -724,7 +725,7 @@ export default function RecetteDetail() {
                         <Badge variant="outline" className="cursor-pointer hover:bg-yellow-100 dark:hover:bg-yellow-900/50 transition-colors py-1.5 px-3">
                           <span className="font-medium">{molecule.name}</span>
                           {molecule.proportion && (
-                            <span className="ml-2 text-xs opacity-70">{Number(molecule.proportion).toFixed(2)}%</span>
+                            <span className="ml-2 text-xs opacity-70">{safeToFixed(molecule.proportion, 2)}%</span>
                           )}
                         </Badge>
                       </Link>
@@ -746,7 +747,7 @@ export default function RecetteDetail() {
                         <Badge variant="outline" className="cursor-pointer hover:bg-pink-100 dark:hover:bg-pink-900/50 transition-colors py-1.5 px-3">
                           <span className="font-medium">{molecule.name}</span>
                           {molecule.proportion && (
-                            <span className="ml-2 text-xs opacity-70">{Number(molecule.proportion).toFixed(2)}%</span>
+                            <span className="ml-2 text-xs opacity-70">{safeToFixed(molecule.proportion, 2)}%</span>
                           )}
                         </Badge>
                       </Link>
@@ -768,7 +769,7 @@ export default function RecetteDetail() {
                         <Badge variant="outline" className="cursor-pointer hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors py-1.5 px-3">
                           <span className="font-medium">{molecule.name}</span>
                           {molecule.proportion && (
-                            <span className="ml-2 text-xs opacity-70">{Number(molecule.proportion).toFixed(2)}%</span>
+                            <span className="ml-2 text-xs opacity-70">{safeToFixed(molecule.proportion, 2)}%</span>
                           )}
                         </Badge>
                       </Link>
@@ -790,7 +791,7 @@ export default function RecetteDetail() {
                         <Badge variant="outline" className="cursor-pointer hover:bg-muted transition-colors py-1.5 px-3">
                           <span className="font-medium">{molecule.name}</span>
                           {molecule.proportion && (
-                            <span className="ml-2 text-xs opacity-70">{Number(molecule.proportion).toFixed(2)}%</span>
+                            <span className="ml-2 text-xs opacity-70">{safeToFixed(molecule.proportion, 2)}%</span>
                           )}
                         </Badge>
                       </Link>
@@ -832,7 +833,7 @@ export default function RecetteDetail() {
                           <div className="mb-2">
                             <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
                               <span>Proportion</span>
-                              <span className="font-semibold">{Number(molecule.proportion).toFixed(2)}%</span>
+                              <span className="font-semibold">{safeToFixed(molecule.proportion, 2)}%</span>
                             </div>
                             <div className="w-full bg-muted rounded-full h-1.5">
                               <div 
