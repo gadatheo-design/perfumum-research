@@ -3437,3 +3437,25 @@ Nogal Colombien (510018), Fleur de Café (510022), Vanilla Pompona (510024), MYR
 
 ### Phase 5 : Sauvegarder
 - [ ] Créer un checkpoint avec toutes les corrections
+
+
+## SESSION ACTUELLE — Déplacer la barre de recherche vers le panneau latéral
+
+### Phase 1 : Retirer la barre de recherche du Header
+- [x] Retirer le bouton de recherche du header desktop
+- [x] Retirer le bouton de recherche du header mobile
+- [x] Retirer la dialog SmartSearch du Header
+- [x] Nettoyer les imports inutilisés
+
+### Phase 2 : Intégrer la recherche dans le MobileMenu
+- [x] Ajouter SmartSearch au MobileMenu
+- [x] Remplacer le simple bouton par la composant de recherche complet
+- [x] Supprimer la fonction openSearch devenue inutile
+
+### Phase 3 : Tester et valider
+- [x] Vérifier que le header s'affiche sans la barre de recherche
+- [x] Vérifier que le menu mobile affiche la recherche
+- [x] Tester la recherche dans le menu mobile
+
+### Phase 4 : Sauvegarder
+- [ ] Créer un checkpoint avec le déplacement de la recherche

@@ -10,7 +10,7 @@
  */
 import { Link, useLocation } from "wouter";
 import {
-  Search, Menu, Sun, Moon, Command,
+  Menu, Sun, Moon,
   Database, Leaf, Compass, BarChart3, Zap, FlaskConical,
   Microscope, BookOpen, Archive, Globe, Info, FileText,
   Brain, Flame, Layers, TestTube, Sparkles, BarChart2, Atom,
@@ -18,18 +18,12 @@ import {
 } from "lucide-react";
 import { MegaMenuOptimized, useMegaMenuSections } from "@/components/MegaMenuOptimized";
 import { MobileMenu } from "@/components/MobileMenu";
-import { SmartSearch } from "@/components/SmartSearch";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
 import { DynamicBreadcrumb } from "@/components/DynamicBreadcrumb";
 import { useBreadcrumb } from "@/contexts/BreadcrumbContext";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import { NAV_GROUPS, NavSection } from "@/config/navigationConfig";
 
 // ── Résolution des icônes (string → ReactNode) ────────────────────────────────
@@ -92,29 +86,9 @@ function MegaMenuOptimizedNav() {
 // ── Header principal ──────────────────────────────────────────────────────────
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
   const [location] = useLocation();
   const { theme, toggleTheme } = useTheme();
   const { segments: breadcrumbSegments } = useBreadcrumb();
-
-  // Écouter l'événement global pour ouvrir la recherche
-  useEffect(() => {
-    const handleOpenSearch = () => setSearchOpen(true);
-    window.addEventListener("open-global-search", handleOpenSearch);
-    return () => window.removeEventListener("open-global-search", handleOpenSearch);
-  }, []);
-
-  // Raccourci clavier Cmd/Ctrl + K
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === "k") {
-        e.preventDefault();
-        setSearchOpen(true);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
 
   return (
     <>
@@ -138,22 +112,8 @@ export function Header() {
         {/* Desktop Navigation */}
         <MegaMenuOptimizedNav />
 
-        {/* Search Button & Theme Toggle — desktop */}
+        {/* Theme Toggle — desktop */}
         <div className="hidden lg:flex items-center gap-4">
-          <Button
-            variant="outline"
-            onClick={() => setSearchOpen(true)}
-            className="text-muted-foreground hover:text-foreground gap-2 px-3 min-w-[200px] justify-between"
-            aria-label="Ouvrir la recherche"
-          >
-            <span className="flex items-center gap-2">
-              <Search className="h-4 w-4" />
-              <span className="text-sm">Rechercher...</span>
-            </span>
-            <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
-              <Command className="h-3 w-3" />K
-            </kbd>
-          </Button>
           <Button
             variant="ghost"
             size="icon"
@@ -169,17 +129,8 @@ export function Header() {
           </Button>
         </div>
 
-        {/* Mobile: Search + Theme + Menu */}
+        {/* Mobile: Theme + Menu */}
         <div className="lg:hidden flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setSearchOpen(true)}
-            className="h-10 w-10"
-            aria-label="Ouvrir la recherche"
-          >
-            <Search className="h-5 w-5" />
-          </Button>
           <Button
             variant="ghost"
             size="icon"
@@ -219,18 +170,7 @@ export function Header() {
       onClose={() => setMobileMenuOpen(false)}
     />
 
-    {/* Dialog de recherche SmartSearch */}
-    <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
-      <DialogContent className="sm:max-w-[600px] p-0 gap-0 overflow-hidden">
-        <DialogTitle className="sr-only">Recherche globale</DialogTitle>
-        <SmartSearch
-          variant="hero"
-          autoFocus={true}
-          onResultSelect={() => setSearchOpen(false)}
-          placeholder="Rechercher molécules, recettes, plantes, accords..."
-        />
-      </DialogContent>
-    </Dialog>
+
     </>
   );
 }

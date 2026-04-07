@@ -24,14 +24,15 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
-  X, Search, ChevronRight, ChevronDown, Home,
+  X, ChevronRight, ChevronDown, Home,
   FlaskConical, Atom, Sparkles, BookOpen, TestTube,
   BarChart3, BarChart2, Database, Info, Leaf, FileText,
-  Layers, Command, Sun, Moon, Compass, Zap, Microscope,
+  Layers, Sun, Moon, Compass, Zap, Microscope,
   Archive, Globe, Brain, Flame,
 } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { NAV_GROUPS, NavSection, NavItem } from "@/config/navigationConfig";
+import { SmartSearch } from "@/components/SmartSearch";
 
 // ── Résolution des icônes ─────────────────────────────────────────────────────
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -254,10 +255,7 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
     });
   };
 
-  const openSearch = () => {
-    onClose();
-    setTimeout(() => window.dispatchEvent(new CustomEvent("open-global-search")), 150);
-  };
+
 
   return (
     <AnimatePresence>
@@ -320,17 +318,11 @@ export function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
 
             {/* Search Bar */}
             <div className="p-4 border-b">
-              <Button
-                variant="outline"
-                onClick={openSearch}
-                className="w-full justify-start gap-3 h-12 rounded-xl bg-muted/50 border-muted-foreground/20"
-              >
-                <Search className="h-5 w-5 text-muted-foreground" />
-                <span className="text-muted-foreground">Rechercher...</span>
-                <kbd className="ml-auto hidden sm:flex items-center gap-1 rounded border bg-background px-2 py-0.5 text-xs text-muted-foreground">
-                  <Command className="h-3 w-3" />K
-                </kbd>
-              </Button>
+              <SmartSearch
+                variant="compact"
+                placeholder="Rechercher..."
+                onResultSelect={onClose}
+              />
             </div>
 
             {/* Swipe indicator */}
