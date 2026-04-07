@@ -758,7 +758,7 @@ export default function AdminNOSE() {
                 <div className="grid grid-cols-2 gap-2">{[...Array(10)].map((_, i) => <div key={i} className="h-8 bg-muted rounded animate-pulse" />)}</div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {(eStats?.topMolecules ?? []).map((m: any, i: number) => (
+                  {(eStats?.topMolecules ?? []).map((m: any, i: number) => safeToFixed(
                     <Link key={m.id} href={`/molecules/${m.id}`}>
                       <div className="flex items-center gap-3 p-2 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
                         <span className="text-xs font-mono text-muted-foreground w-5">#{i + 1}</span>
@@ -766,7 +766,7 @@ export default function AdminNOSE() {
                         <span className="text-xs text-muted-foreground">{m.occurrences}×</span>
                         {m.avg_pct && (
                           <span className="text-xs text-blue-600 dark:text-blue-400 w-14 text-right">
-                            ⌀ {Number(m.avg_pct).toFixed(1)}%
+                            ⌀ {Number(m.avg_pct, 1)}%
                           </span>
                         )}
                       </div>

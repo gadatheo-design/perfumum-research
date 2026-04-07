@@ -1444,12 +1444,12 @@ export default function PlantDetail() {
                               </td>
                               <td className="py-2 pr-4 text-muted-foreground text-xs">{e.chemical_family || '—'}</td>
                               <td className="py-2 pr-4 text-right font-mono">
-                                {e.percentage != null ? (
+                                {e.percentage != null ? safeToFixed(
                                   <span className={e.percentage >= 10 ? 'text-emerald-600 font-semibold' : e.percentage >= 1 ? 'text-blue-600' : 'text-muted-foreground'}>
-                                    {Number(e.percentage).toFixed(2)}%
+                                    {Number(e.percentage, 2)}%
                                   </span>
-                                ) : e.concentration_ppm != null ? (
-                                  <span className="text-blue-600">{Number(e.concentration_ppm).toFixed(1)} ppm</span>
+                                ) : e.concentration_ppm != null ? safeToFixed(
+                                  <span className="text-blue-600">{Number(e.concentration_ppm, 1)} ppm</span>
                                 ) : '—'}
                               </td>
                               <td className="py-2 pr-4">

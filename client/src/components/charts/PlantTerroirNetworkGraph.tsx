@@ -371,7 +371,7 @@ export function PlantTerroirNetworkGraph({
     );
   }
 
-  return (
+  return safeToFixed(
     <div className="space-y-4">
       {/* Statistiques */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
@@ -433,7 +433,7 @@ export function PlantTerroirNetworkGraph({
         </div>
         
         <div className="text-sm text-muted-foreground">
-          Zoom: {(zoom * 100).toFixed(0)}%
+          Zoom: {(zoom * 100, 0)}%
         </div>
       </div>
 

@@ -285,11 +285,11 @@ function StorylineCard({ storyline, isSelected, onClick }: {
         )}
 
         {/* Indicateur géo disponible */}
-        {hasCoords && (
+        {hasCoords && safeToFixed(
           <div className="flex items-center gap-1.5 text-xs text-blue-500/80">
             <div className="w-2 h-2 rounded-full bg-blue-500" />
             {storyline.lat != null && storyline.lng != null ? (
-              <span className="font-mono">{Number(storyline.lat).toFixed(2)}°, {Number(storyline.lng).toFixed(2)}°</span>
+              <span className="font-mono">{Number(storyline.lat, 2)}°, {NumbersafeToFixed(storyline.lng, 2)}°</span>
             ) : geo ? (
               <span>{geo.region}</span>
             ) : null}

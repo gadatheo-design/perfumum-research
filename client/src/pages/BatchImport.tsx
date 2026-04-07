@@ -313,12 +313,12 @@ export default function BatchImport() {
                     onClick={() => zipInputRef.current?.click()}
                     className="border-2 border-dashed rounded-lg p-8 text-center cursor-pointer hover:border-primary/50 transition-colors"
                   >
-                    {zipFile ? (
+                    {zipFile ? safeToFixed(
                       <div className="space-y-2">
                         <CheckCircle2 className="h-8 w-8 mx-auto text-green-500" />
                         <p className="font-medium">{zipFile.name}</p>
                         <p className="text-sm text-muted-foreground">
-                          {(zipFile.size / 1024 / 1024).toFixed(2)} MB
+                          {(zipFile.size / 1024 / 1024, 2)} MB
                         </p>
                       </div>
                     ) : (

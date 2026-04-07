@@ -330,7 +330,7 @@ export default function Ifra() {
                         ))}
                         <TableRow className="bg-muted/50">
                           <TableCell className="font-bold">Total</TableCell>
-                          <TableCell className="text-right font-bold">{totalConcentration.toFixed(3)}%</TableCell>
+                          <TableCell className="text-right font-bold">{safeToFixed(totalConcentration, 3)}%</TableCell>
                           <TableCell></TableCell>
                         </TableRow>
                       </TableBody>
@@ -409,7 +409,7 @@ export default function Ifra() {
                             <TableCell className="text-center">
                               {result.margin !== null ? (
                                 <span className={result.margin >= 0 ? "text-green-600" : "text-red-600"}>
-                                  {result.margin >= 0 ? "+" : ""}{result.margin.toFixed(3)}%
+                                  {result.margin >= 0 ? "+" : ""}{result.safeToFixed(margin, 3)}%
                                 </span>
                               ) : (
                                 <span className="text-muted-foreground">—</span>
@@ -634,7 +634,7 @@ export default function Ifra() {
                         Limite IFRA: <strong>{complianceResult.limit}%</strong>
                         {complianceResult.margin !== undefined && (
                           <span className="ml-2 text-muted-foreground">
-                            (marge: {complianceResult.margin.toFixed(3)}%)
+                            (marge: {complianceResult.safeToFixed(margin, 3)}%)
                           </span>
                         )}
                       </p>

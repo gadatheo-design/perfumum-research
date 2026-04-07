@@ -320,7 +320,7 @@ function SynergyGraph({
     };
   }, [synergies, moleculeSynergies, width, height, onNodeClick]);
 
-  return (
+  return safeToFixed(
     <div className="relative">
       <svg ref={svgRef} className="w-full h-full bg-muted/20 rounded-lg" />
       
@@ -350,7 +350,7 @@ function SynergyGraph({
       {/* Contrôles de zoom */}
       <div className="absolute top-4 right-4 flex flex-col gap-2">
         <Badge variant="outline" className="bg-background/90 backdrop-blur-sm">
-          Zoom: {(zoomLevel * 100).toFixed(0)}%
+          Zoom: {(zoomLevel * 100, 0)}%
         </Badge>
       </div>
 

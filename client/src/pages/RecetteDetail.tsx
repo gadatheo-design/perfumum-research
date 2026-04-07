@@ -479,14 +479,14 @@ export default function RecetteDetail() {
                   <Badge variant="secondary" className="text-xs">{molecules.length}</Badge>
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
-                  {molecules.slice(0, 12).map((m: any) => (
+                  {molecules.slice(0, 12).map((m: any) => safeToFixed(
                     <Link key={m.id} href={`/molecule/${m.id}`}>
                       <Badge
                         variant="outline"
                         className="text-xs cursor-pointer hover:bg-purple-50 dark:hover:bg-purple-950/30 transition-colors"
                       >
                         {m.name}
-                        {m.proportion ? <span className="ml-1 opacity-60">{Number(m.proportion).toFixed(0)}%</span> : null}
+                        {m.proportion ? <span className="ml-1 opacity-60">{Number(m.proportion, 0)}%</span> : null}
                       </Badge>
                     </Link>
                   ))}
@@ -575,12 +575,12 @@ export default function RecetteDetail() {
                 </div>
               </div>
             )}
-            {recette.costEstimate && (
+            {recette.costEstimate && safeToFixed(
               <div className="bg-muted/50 p-4 rounded-lg flex items-center gap-3">
                 <DollarSign className="h-5 w-5 text-primary" />
                 <div>
                   <p className="text-sm text-muted-foreground">Coût Estimé</p>
-                  <p className="font-semibold">{(recette.costEstimate / 100).toFixed(2)} CHF</p>
+                  <p className="font-semibold">{(recette.costEstimate / 100, 2)} CHF</p>
                 </div>
               </div>
             )}

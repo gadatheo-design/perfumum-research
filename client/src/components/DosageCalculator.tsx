@@ -270,7 +270,7 @@ export function DosageCalculator() {
           <div className="p-4 bg-stone-50 rounded-lg">
             <div className="text-sm text-stone-600 mb-1">Total grammes</div>
             <div className="text-2xl font-bold text-stone-900">
-              {totalGrams.toFixed(2)}g
+              {safeToFixed(totalGrams, 2)}g
             </div>
             <div className="text-xs text-stone-500 mt-1">
               sur {totalBatch}g ({((totalGrams / totalBatch) * 100).toFixed(1)}%)
@@ -280,7 +280,7 @@ export function DosageCalculator() {
           <div className="p-4 bg-stone-50 rounded-lg">
             <div className="text-sm text-stone-600 mb-1">Total pourcentage</div>
             <div className="text-2xl font-bold text-stone-900">
-              {totalPercentage.toFixed(2)}%
+              {safeToFixed(totalPercentage, 2)}%
             </div>
             <div className="text-xs text-stone-500 mt-1">
               {isValid ? "✓ Formule valide" : "⚠ Ajuster les dosages"}

@@ -333,12 +333,12 @@ export default function CompareMoleculesAdvanced() {
             </Card>
 
             {/* Similarité olfactive */}
-            {selectedMolecules.length === 2 && (
+            {selectedMolecules.length === 2 && safeToFixed(
               <Card className="p-6">
                 <h2 className="text-xl font-bold mb-4">SIMILARITÉ OLFACTIVE</h2>
                 <div className="text-center">
                   <div className="text-5xl font-bold text-primary mb-2">
-                    {calculateSimilarity(selectedMolecules[0], selectedMolecules[1]).toFixed(1)}%
+                    {calculateSimilarity(selectedMolecules[0], selectedMolecules[1], 1)}%
                   </div>
                   <p className="text-muted-foreground">
                     {calculateSimilarity(selectedMolecules[0], selectedMolecules[1]) > 80 ? '🟢 Très similaires' :

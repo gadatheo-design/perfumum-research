@@ -183,7 +183,7 @@ export default function Statistics() {
                       <h3 className="font-semibold mb-2">Ratio Recettes/Molécules</h3>
                       <p className="text-sm text-muted-foreground">
                         {stats.totalMolecules > 0
-                          ? `${(stats.totalRecettes / stats.totalMolecules).toFixed(2)} recettes par molécule en moyenne`
+                          ? `${safeToFixed(stats.totalRecettes / stats.totalMolecules, 2)} recettes par molécule en moyenne`
                           : 'Aucune donnée'}
                       </p>
                     </div>

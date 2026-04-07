@@ -67,7 +67,7 @@ export default function RecipeTimeline() {
     });
 
     const totalRecettes = filtered.length;
-    const avgPerMonth = timelineData.length > 0 ? (totalRecettes / timelineData.length).toFixed(1) : '0';
+    const avgPerMonth = timelineData.length > 0 ? safeToFixed(totalRecettes / timelineData.length, 1) : '0';
     const maxMonth = timelineData.reduce((max, curr) => curr.count > max.count ? curr : max, { count: 0, label: '-' });
 
     return {

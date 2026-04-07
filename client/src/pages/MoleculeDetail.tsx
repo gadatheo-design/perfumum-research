@@ -1580,7 +1580,7 @@ export default function MoleculeDetail() {
                     {molecule.logP && (
                       <div className="bg-muted/50 p-4 rounded-lg">
                         <p className="text-sm text-muted-foreground mb-1">LogP (lipophilie)</p>
-                        <p className="text-2xl font-bold">{(molecule.logP / 100).toFixed(2)}</p>
+                        <p className="text-2xl font-bold">{safeToFixed(molecule.logP / 100, 2)}</p>
                       </div>
                     )}
                     {molecule.volatility && (
@@ -2394,10 +2394,10 @@ export default function MoleculeDetail() {
                                 <td className="py-2 pr-4 text-right font-mono">
                                   {e.percentage != null ? (
                                     <span className={Number(e.percentage) >= 10 ? 'text-emerald-600 font-semibold' : Number(e.percentage) >= 1 ? 'text-blue-600' : 'text-muted-foreground'}>
-                                      {Number(e.percentage).toFixed(2)}%
+                                      {NumbersafeToFixed(e.percentage, 2)}%
                                     </span>
-                                  ) : e.concentration_ppm != null ? (
-                                    <span className="text-blue-600">{Number(e.concentration_ppm).toFixed(1)} ppm</span>
+                                  ) : e.concentration_ppm != null ? safeToFixed(
+                                    <span className="text-blue-600">{Number(e.concentration_ppm, 1)} ppm</span>
                                   ) : '—'}
                                 </td>
                                 <td className="py-2 pr-4">

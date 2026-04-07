@@ -192,7 +192,7 @@ export function CombinedChromatogram({ spectra, materialName, isLoading }: Combi
       
       // Tooltip data
       rect.setAttribute("data-mz", String(peak.mz));
-      rect.setAttribute("data-intensity", String(peak.intensity.toFixed(1)));
+      rect.setAttribute("data-intensity", String(peak.safeToFixed(intensity, 1)));
       rect.setAttribute("data-compounds", peak.compounds.join(", "));
       
       g.appendChild(rect);
@@ -326,7 +326,7 @@ export function CombinedChromatogram({ spectra, materialName, isLoading }: Combi
 
         {/* Légende des composés */}
         <div className="flex flex-wrap gap-2">
-          {spectra.map((spectrum, index) => (
+          {spectra.map((spectrum, index) => safeToFixed(
             <Badge
               key={spectrum.id || index}
               variant="outline"
@@ -338,7 +338,7 @@ export function CombinedChromatogram({ spectra, materialName, isLoading }: Combi
                 style={{ backgroundColor: COMPOUND_COLORS[index % COMPOUND_COLORS.length] }}
               />
               {spectrum.compound_name || spectrum.moleculeName}
-              {spectrum.percentage && ` (${parseFloat(spectrum.percentage).toFixed(1)}%)`}
+              {spectrum.percentage && ` (${parseFloat(spectrum.percentage, 1)}%)`}
             </Badge>
           ))}
         </div>

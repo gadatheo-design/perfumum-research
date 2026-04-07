@@ -23,8 +23,8 @@ type SortKey = "size" | "name";
 type SortDir = "asc" | "desc";
 
 function formatSize(bytes: number): string {
-  if (bytes >= 1024 * 1024) return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
-  if (bytes >= 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+  if (bytes >= 1024 * 1024) return `${safeToFixed(bytes / 1024 / 1024, 1)} MB`;
+  if (bytes >= 1024) return `${safeToFixed(bytes / 1024, 0)} KB`;
   return `${bytes} B`;
 }
 
@@ -367,7 +367,7 @@ export default function AdminBundleVisualizer() {
                               {formatSize(chunk.size)}
                             </Badge>
                             <span className="text-xs text-muted-foreground w-10 text-right shrink-0">
-                              {pct.toFixed(1)}%
+                              {safeToFixed(pct, 1)}%
                             </span>
                           </div>
                         );

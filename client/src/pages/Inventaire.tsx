@@ -298,7 +298,7 @@ export default function Inventaire() {
               </Card>
               <Card>
                 <CardContent className="pt-6">
-                  <div className="text-3xl font-bold text-blue-600">{stats.valeurTotale.toFixed(0)} CHF</div>
+                  <div className="text-3xl font-bold text-blue-600">{stats.safeToFixed(valeurTotale, 0)} CHF</div>
                   <p className="text-sm text-muted-foreground">Valeur stock</p>
                 </CardContent>
               </Card>
@@ -639,7 +639,7 @@ export default function Inventaire() {
                               {matiere.stock !== null ? matiere.stock : "—"}
                             </td>
                             <td className="py-3 px-4 text-right font-mono text-sm">
-                              {matiere.pricePerMl ? `${(matiere.pricePerMl / 100).toFixed(2)} CHF` : "—"}
+                              {matiere.pricePerMl ? `${safeToFixed(matiere.pricePerMl / 100, 2)} CHF` : "—"}
                             </td>
                             <td className="py-3 px-4 text-center">
                               {getStatusBadge(matiere.status)}

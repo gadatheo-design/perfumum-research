@@ -249,7 +249,7 @@ export default function RadarCorrelationHeatmap() {
                             <div className={`absolute inset-0 ${colorClass} rounded-lg`} />
                             <div className="relative z-10">
                               <div className="text-sm font-bold text-white drop-shadow-lg">
-                                {value.toFixed(2)}
+                                {safeToFixed(value, 2)}
                               </div>
                             </div>
                             {/* Tooltip */}
@@ -258,7 +258,7 @@ export default function RadarCorrelationHeatmap() {
                                 {axis1.label} × {axis2.label}
                               </div>
                               <div className="text-xs text-muted-foreground">
-                                r = {value.toFixed(3)}
+                                r = {safeToFixed(value, 3)}
                               </div>
                             </div>
                           </div>
@@ -316,7 +316,7 @@ export default function RadarCorrelationHeatmap() {
                             {strongest.axis.label}
                           </span>
                           <Badge variant="secondary" className="ml-2">
-                            r = {strongest.value.toFixed(2)}
+                            r = {strongest.safeToFixed(value, 2)}
                           </Badge>
                         </p>
                       </div>
