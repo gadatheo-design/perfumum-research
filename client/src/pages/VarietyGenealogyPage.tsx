@@ -19,7 +19,12 @@ import {
   nicotianaVarietyGenealogy,
   cannabisVarietyGenealogy,
   citrusVarietyGenealogy,
-} from '@/server/varietyGenealogy';
+} from '@/lib/nicotianaPhylogeny';
+
+// Données de généalogie temporaires (à remplacer par tRPC)
+const nicotianaVarietyGenealogy = { varieties: [], relationships: [] };
+const cannabisVarietyGenealogy = { varieties: [], relationships: [] };
+const citrusVarietyGenealogy = { varieties: [], relationships: [] };
 
 // ── Mapping des généalogies ──────────────────────────────────────────────────
 

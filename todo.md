@@ -3706,3 +3706,36 @@ npm run dev
 - **Corrections TypeScript** : 31 erreurs corrigées proprement (sans @ts-nocheck)
 - **Optimisation client** : 90 lignes supprimées, code divisé en modules
 - **Serveur stable** : Aucun crash, compilation réussie
+
+
+---
+
+## SESSION 12 — Images Morphologiques, Import CSV, Synchronisation Wikidata
+
+### Phase 1 : Ajouter des images morphologiques aux variétés
+- [ ] Créer un système de gestion des images (upload, stockage S3)
+- [ ] Ajouter des champs image_url aux variétés (feuille, fleur, fruit)
+- [ ] Intégrer les images dans les fiches variétés
+- [ ] Créer une galerie morphologique interactive
+- [ ] Tester sur Nicotiana, Cannabis, Citrus
+
+### Phase 2 : Créer un système d'import CSV pour généalogies
+- [ ] Créer une page `/admin/variety-genealogy-import`
+- [ ] Implémenter un parser CSV pour variétés et relations
+- [ ] Ajouter une preview mode (dry-run) avant import
+- [ ] Implémenter la détection de doublons
+- [ ] Ajouter un système de validation et de rapports d'erreur
+- [ ] Tester avec données de test
+
+### Phase 3 : Implémenter la synchronisation avec Wikidata
+- [ ] Analyser l'API Wikidata pour récupérer les généalogies
+- [ ] Créer une procédure tRPC pour sync Wikidata
+- [ ] Implémenter le matching entre variétés locales et Wikidata
+- [ ] Fusionner les données (parents, hybrides, croisements)
+- [ ] Ajouter un système de confiance/source pour les données
+- [ ] Tester sur Nicotiana, Cannabis, Citrus
+
+### Phase 4 : Tester et sauvegarder
+- [ ] Tester les 3 implémentations
+- [ ] Vérifier la compatibilité mobile
+- [ ] Sauvegarder le checkpoint final
