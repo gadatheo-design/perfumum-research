@@ -259,10 +259,10 @@ export default function TerroirsGeocode() {
                     </p>
                   )}
                   
-                  {origin.latitude && origin.longitude ? safeToFixed(
+                  {origin.latitude && origin.longitude ? (
                     <div className="p-2 bg-muted rounded text-xs font-mono">
                       <Globe className="h-3 w-3 inline mr-1" />
-                      {parseFloat(origin.latitude, 4)}, {parseFloatsafeToFixed(origin.longitude, 4)}
+                      {parseFloat(origin.latitude).toFixed(4)}, {parseFloat(origin.longitude).toFixed(4)}
                     </div>
                   ) : (
                     <p className="text-muted-foreground italic">Coordonnées non définies</p>
