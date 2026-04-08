@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { useState, useRef, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
+import { safeToFixed } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
@@ -146,7 +147,7 @@ export default function PubChemBatch() {
 
   const progress = totalToProcess > 0 ? Math.round((processed / totalToProcess) * 100) : 0;
   const elapsed = startTime ? Math.round((Date.now() - startTime.getTime()) / 1000) : 0;
-  const rate = elapsed > 0 ? safeToFixed(processed / elapsed, 2) : "—";
+  const rate = elapsed > 0 ? (processed / elapsed).toFixed(2) : "—";
   const eta = processed > 0 && totalToProcess > processed
     ? Math.round(((totalToProcess - processed) * delayMs) / 1000)
     : null;
