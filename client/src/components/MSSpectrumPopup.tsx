@@ -184,7 +184,7 @@ export default function MSSpectrumPopup({ compoundName, casNumber, onClose }: MS
           </div>
         )}
         
-        {spectrum && safeToFixed(
+        {spectrum && (
           <div className="space-y-4">
             {/* Informations du composé */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -194,11 +194,11 @@ export default function MSSpectrumPopup({ compoundName, casNumber, onClose }: MS
               </div>
               <div className="p-3 rounded-lg bg-muted/50">
                 <p className="text-xs text-muted-foreground mb-1">Masse moléculaire</p>
-                <p className="font-semibold">{parseFloat(spectrum.molecular_weight, 2)} Da</p>
+                <p className="font-semibold">{parseFloat(spectrum.molecular_weight).toFixed(2)} Da</p>
               </div>
               <div className="p-3 rounded-lg bg-muted/50">
                 <p className="text-xs text-muted-foreground mb-1">Pic de base</p>
-                <p className="font-semibold text-green-500">m/z {parseFloatsafeToFixed(spectrum.base_peak_mz, 0)}</p>
+                <p className="font-semibold text-green-500">m/z {parseFloat(spectrum.base_peak_mz).toFixed(0)}</p>
               </div>
               <div className="p-3 rounded-lg bg-muted/50">
                 <p className="text-xs text-muted-foreground mb-1">CAS</p>

@@ -407,14 +407,14 @@ export default function SpectraComparison() {
               
               {/* Légende */}
               <div className="flex flex-wrap gap-4 mt-4 pt-4 border-t">
-                {selectedSpectra.map((spectrum, idx) => safeToFixed(
+                {selectedSpectra.map((spectrum, idx) => (
                   <div key={spectrum.id} className="flex items-center gap-2">
                     <div 
                       className="w-4 h-4 rounded"
                       style={{ backgroundColor: SPECTRUM_COLORS[idx % SPECTRUM_COLORS.length].main }}
                     />
                     <span className="text-sm">
-                      {spectrum.compound_name} (M+ {parseFloat(spectrum.molecular_weight, 0)})
+                      {spectrum.compound_name} (M+ {parseFloat(spectrum.molecular_weight).toFixed(0)})
                     </span>
                   </div>
                 ))}
@@ -453,7 +453,7 @@ export default function SpectraComparison() {
                         variant={sim.similarity > 80 ? 'default' : 'secondary'}
                         className={sim.similarity > 80 ? 'bg-green-500/20 text-green-400' : ''}
                       >
-                        {safeToFixed(sim, 1)}%
+                        {(sim).toFixed(1)}%
                       </Badge>
                     </div>
                   </div>
@@ -514,15 +514,15 @@ export default function SpectraComparison() {
                     </tr>
                     <tr className="border-b border-border/50">
                       <td className="py-3 px-4 text-muted-foreground">Masse moléculaire</td>
-                      {selectedSpectra.mapsafeToFixed(s => (
-                        <td key={s.id} className="py-3 px-4">{parseFloat(s.molecular_weight, 2)} Da</td>
+                      {selectedSpectra.map(s => (
+                        <td key={s.id} className="py-3 px-4">{parseFloat(s.molecular_weight).toFixed(2)} Da</td>
                       ))}
                     </tr>
                     <tr className="border-b border-border/50">
                       <td className="py-3 px-4 text-muted-foreground">Pic de base (m/z)</td>
-                      {selectedSpectra.mapsafeToFixed(s => (
+                      {selectedSpectra.map(s => (
                         <td key={s.id} className="py-3 px-4 text-green-500 font-semibold">
-                          {parseFloat(s.base_peak_mz, 0)}
+                          {parseFloat(s.base_peak_mz).toFixed(0)}
                         </td>
                       ))}
                     </tr>

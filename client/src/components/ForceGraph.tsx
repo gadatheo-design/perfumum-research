@@ -357,7 +357,7 @@ export function ForceGraph({
         <Card className="shadow-lg w-64">
           <CardContent className="p-3 space-y-3">
             <div className="space-y-2">
-              <Label className="text-xs">Force des liens: {safeToFixed(linkStrength, 2)}</Label>
+              <Label className="text-xs">Force des liens: {(linkStrength).toFixed(2)}</Label>
               <Slider
                 value={[linkStrength]}
                 onValueChange={([v]) => setLinkStrength(v)}

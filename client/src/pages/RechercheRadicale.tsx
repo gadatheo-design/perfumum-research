@@ -128,7 +128,7 @@ export default function RechercheRadicale() {
                             )}
                           </div>
                           <span className="text-sm font-mono text-primary font-semibold">
-                            {safeToFixed(ingredient.concentration * 100, 1)}%
+                            {(ingredient.concentration * 100).toFixed(1)}%
                           </span>
                         </div>
                       ))}

@@ -210,7 +210,7 @@ export default function VisualisationGCMS() {
             p.line(x, 100, x, p.height - 50);
             p.fill(150);
             p.textSize(10);
-            p.textsafeToFixed((i * 3, 1), x - 10, p.height - 30);
+            p.text((i * 3).toFixed(1), x - 10, p.height - 30);
           }
         };
 
@@ -247,8 +247,8 @@ export default function VisualisationGCMS() {
 
           p.textSize(10);
           p.textStyle(p.NORMAL);
-          p.text(`RT: ${safeToFixed(peak, 2)} min`, panelX + 10, panelY + 45);
-          p.text(`Intensité: ${safeToFixed(peak, 1)}%`, panelX + 10, panelY + 60);
+          p.text(`RT: ${(peak).toFixed(2)} min`, panelX + 10, panelY + 45);
+          p.text(`Intensité: ${(peak).toFixed(1)}%`, panelX + 10, panelY + 60);
           p.text(`CAS: ${peak.cas}`, panelX + 10, panelY + 75);
           p.text(`Famille: ${peak.family}`, panelX + 10, panelY + 90);
           p.text(`Odeur: ${peak.odor}`, panelX + 10, panelY + 105);

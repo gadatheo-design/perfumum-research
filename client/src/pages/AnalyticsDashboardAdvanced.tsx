@@ -124,10 +124,10 @@ function KPICard({ title, value, previousValue, icon, color, suffix = "", isLoad
               </div>
             </div>
           </div>
-          {previousValue !== undefined && !isLoading && safeToFixed(
+          {previousValue !== undefined && !isLoading && (
             <div className={`flex items-center gap-1 text-sm ${trendColor}`}>
               {trendIcon}
-              <span>{Math.abs(trend, 1)}%</span>
+              <span>{Math.abs(trend).toFixed(1)}%</span>
             </div>
           )}
         </div>
@@ -244,7 +244,7 @@ function FamilyDistributionChart({ molecules }: { molecules: any[] }) {
           outerRadius={100}
           paddingAngle={2}
           dataKey="value"
-          label={({ name, percent }) => `${name} safeToFixed(${(percent * 100, 0)}%)`}
+          label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
           labelLine={false}
         >
           {data.map((entry, index) => (

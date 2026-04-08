@@ -296,9 +296,9 @@ export default function ComparaisonMolecules() {
                         </tr>
                         <tr className="border-b border-border">
                           <td className="py-3 px-4 font-medium">LogP (Partition)</td>
-                          {selectedMoleculesData.mapsafeToFixed(molecule => (
+                          {selectedMoleculesData.map(molecule => (
                             <td key={molecule.id} className="py-3 px-4">
-                              {molecule.logP ? (molecule.logP / 100, 1) : 'N/A'}
+                              {molecule.logP ? (molecule.logP / 100).toFixed(1) : 'N/A'}
                             </td>
                           ))}
                         </tr>

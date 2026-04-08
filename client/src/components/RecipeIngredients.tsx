@@ -107,7 +107,7 @@ export function RecipeIngredients({ recipeId }: RecipeIngredientsProps) {
             Composition Détaillée
           </CardTitle>
           <Badge variant="outline" className="text-xs">
-            {ingredients.length} ingrédients • {typeof totalPercentage === 'number' ? safeToFixed(totalPercentage, 1) : '0.0'}%
+            {ingredients.length} ingrédients • {typeof totalPercentage === 'number' ? (totalPercentage).toFixed(1) : '0.0'}%
           </Badge>
         </div>
       </CardHeader>
@@ -147,7 +147,7 @@ export function RecipeIngredients({ recipeId }: RecipeIngredientsProps) {
               return (
                 <span key={type} className={`flex items-center gap-1 ${colors[type] || colors.other}`}>
                   {getTypeIcon(type)}
-                  <span className="capitalize">{type}</span>: {typeof typeTotal === 'number' ? safeToFixed(typeTotal, 1) : '0.0'}%
+                  <span className="capitalize">{type}</span>: {typeof typeTotal === 'number' ? (typeTotal).toFixed(1) : '0.0'}%
                 </span>
               );
             })}
@@ -205,7 +205,7 @@ export function RecipeIngredients({ recipeId }: RecipeIngredientsProps) {
                 </div>
                 <div className="text-right shrink-0">
                   <span className="text-2xl font-bold text-foreground">
-                    {typeof ing.percentage === 'number' ? safeToFixed(ing, 1) : '0.0'}%
+                    {typeof ing.percentage === 'number' ? (ing).toFixed(1) : '0.0'}%
                   </span>
                 </div>
               </div>

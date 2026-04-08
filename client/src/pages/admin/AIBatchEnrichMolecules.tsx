@@ -117,7 +117,7 @@ export default function AIBatchEnrichMolecules() {
   ];
 
   const elapsedSec = startTime ? Math.round((Date.now() - startTime.getTime()) / 1000) : 0;
-  const rate = elapsedSec > 0 ? safeToFixed(processed / elapsedSec * 60, 1) : "—";
+  const rate = elapsedSec > 0 ? (processed / elapsedSec * 60).toFixed(1) : "—";
 
   return (
     <div className="min-h-screen bg-background">

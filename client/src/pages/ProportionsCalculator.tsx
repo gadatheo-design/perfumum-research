@@ -164,7 +164,7 @@ export default function ProportionsCalculator() {
       .filter(([, value]) => value > 0)
       .map(([terpene, percentage]) => [
         TERPENE_NAMES[terpene as keyof typeof TERPENE_NAMES],
-        safeToFixed(percentage, 2),
+        (percentage).toFixed(2),
         calculateGrams(percentage),
       ]);
 
@@ -271,7 +271,7 @@ export default function ProportionsCalculator() {
                       className="font-mono"
                     >
                       {isValid ? <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" /> : <AlertCircle className="w-3.5 h-3.5 mr-1.5" />}
-                      {safeToFixed(totalPercentage, 1)}%
+                      {(totalPercentage).toFixed(1)}%
                     </Badge>
                   </div>
                 </CardHeader>
@@ -287,7 +287,7 @@ export default function ProportionsCalculator() {
                             </Label>
                             <div className="flex items-center gap-2">
                               <Badge variant="outline" className="font-mono text-xs">
-                                {safeToFixed(value, 1)}%
+                                {(value).toFixed(1)}%
                               </Badge>
                               <span className="text-xs text-muted-foreground w-16 text-right">
                                 {calculateGrams(value)}g

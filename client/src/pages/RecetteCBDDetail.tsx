@@ -193,7 +193,7 @@ export default function RecetteCBDDetail() {
                   <div className="text-sm text-muted-foreground mb-1">Coût estimé</div>
                   <div className="font-semibold flex items-center gap-1">
                     <DollarSign className="h-4 w-4" />
-                    {safeToFixed(typeof recette.costEstimate === 'number' ? recette.costEstimate / 100 : 0, 2)} CHF
+                    {(typeof recette.costEstimate === 'number' ? recette.costEstimate / 100 : 0).toFixed(2)} CHF
                   </div>
                 </div>
               )}
@@ -324,7 +324,7 @@ export default function RecetteCBDDetail() {
                         <tbody>
                           {molecules.map((item: any) => {
                             const proportion = parseFloat(item.proportion) || 0;
-                            const gramsFor100g = safeToFixed(proportion, 2);
+                            const gramsFor100g = (proportion).toFixed(2);
                             return (
                               <tr key={item.molecule.id} className="border-b hover:bg-accent/50">
                                 <td className="py-3 px-3">
@@ -332,7 +332,7 @@ export default function RecetteCBDDetail() {
                                     {item.molecule.name}
                                   </Link>
                                 </td>
-                                <td className="text-right py-3 px-3 font-semibold">{safeToFixed(proportion, 1)}%</td>
+                                <td className="text-right py-3 px-3 font-semibold">{(proportion).toFixed(1)}%</td>
                                 <td className="text-right py-3 px-3 text-muted-foreground">{gramsFor100g}g</td>
                                 <td className="py-3 px-3">
                                   <Badge variant="outline" className="text-xs">
@@ -423,7 +423,7 @@ export default function RecetteCBDDetail() {
                                 label: (context) => {
                                   const label = context.label || "";
                                   const value = context.parsed || 0;
-                                  return `${label}: ${safeToFixed(value, 1)}%`;
+                                  return `${label}: ${(value).toFixed(1)}%`;
                                 },
                               },
                             },

@@ -299,7 +299,7 @@ export default function ReseauMoleculePlante() {
           strokeWidth,
           opacity,
         },
-        label: percentage > 0 ? `${safeToFixed(percentage, 1)}%` : undefined,
+        label: percentage > 0 ? `${(percentage).toFixed(1)}%` : undefined,
         labelStyle: { fontSize: 9, fill: "#666" },
         labelBgStyle: { fill: "white", fillOpacity: 0.8 },
       });

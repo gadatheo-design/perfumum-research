@@ -188,7 +188,7 @@ export function ResearchTimelineChart({ data }: ResearchTimelineChartProps) {
         </div>
         <div className="text-center">
           <p className="text-2xl font-bold text-primary">
-            {data.length > 0 ? safeToFixed(data[data.length - 1].cumulative / data.length, 1) : 0}
+            {data.length > 0 ? (data[data.length - 1].cumulative / data.length).toFixed(1) : 0}
           </p>
           <p className="text-xs text-muted-foreground">Molécules/mois</p>
         </div>

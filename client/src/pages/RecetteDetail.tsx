@@ -479,14 +479,14 @@ export default function RecetteDetail() {
                   <Badge variant="secondary" className="text-xs">{molecules.length}</Badge>
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
-                  {molecules.slice(0, 12).map((m: any) => safeToFixed(
+                  {molecules.slice(0, 12).map((m: any) => (
                     <Link key={m.id} href={`/molecule/${m.id}`}>
                       <Badge
                         variant="outline"
                         className="text-xs cursor-pointer hover:bg-purple-50 dark:hover:bg-purple-950/30 transition-colors"
                       >
                         {m.name}
-                        {m.proportion ? <span className="ml-1 opacity-60">{Number(m.proportion, 0)}%</span> : null}
+                        {m.proportion ? <span className="ml-1 opacity-60">{Number(m.proportion).toFixed(0)}%</span> : null}
                       </Badge>
                     </Link>
                   ))}
@@ -575,12 +575,12 @@ export default function RecetteDetail() {
                 </div>
               </div>
             )}
-            {recette.costEstimate && safeToFixed(
+            {recette.costEstimate && (
               <div className="bg-muted/50 p-4 rounded-lg flex items-center gap-3">
                 <DollarSign className="h-5 w-5 text-primary" />
                 <div>
                   <p className="text-sm text-muted-foreground">Coût Estimé</p>
-                  <p className="font-semibold">{(recette.costEstimate / 100, 2)} CHF</p>
+                  <p className="font-semibold">{(recette.costEstimate / 100).toFixed(2)} CHF</p>
                 </div>
               </div>
             )}
@@ -725,7 +725,7 @@ export default function RecetteDetail() {
                         <Badge variant="outline" className="cursor-pointer hover:bg-yellow-100 dark:hover:bg-yellow-900/50 transition-colors py-1.5 px-3">
                           <span className="font-medium">{molecule.name}</span>
                           {molecule.proportion && (
-                            <span className="ml-2 text-xs opacity-70">{safeToFixed(molecule.proportion, 2)}%</span>
+                            <span className="ml-2 text-xs opacity-70">{(molecule.proportion).toFixed(2)}%</span>
                           )}
                         </Badge>
                       </Link>
@@ -747,7 +747,7 @@ export default function RecetteDetail() {
                         <Badge variant="outline" className="cursor-pointer hover:bg-pink-100 dark:hover:bg-pink-900/50 transition-colors py-1.5 px-3">
                           <span className="font-medium">{molecule.name}</span>
                           {molecule.proportion && (
-                            <span className="ml-2 text-xs opacity-70">{safeToFixed(molecule.proportion, 2)}%</span>
+                            <span className="ml-2 text-xs opacity-70">{(molecule.proportion).toFixed(2)}%</span>
                           )}
                         </Badge>
                       </Link>
@@ -769,7 +769,7 @@ export default function RecetteDetail() {
                         <Badge variant="outline" className="cursor-pointer hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors py-1.5 px-3">
                           <span className="font-medium">{molecule.name}</span>
                           {molecule.proportion && (
-                            <span className="ml-2 text-xs opacity-70">{safeToFixed(molecule.proportion, 2)}%</span>
+                            <span className="ml-2 text-xs opacity-70">{(molecule.proportion).toFixed(2)}%</span>
                           )}
                         </Badge>
                       </Link>
@@ -791,7 +791,7 @@ export default function RecetteDetail() {
                         <Badge variant="outline" className="cursor-pointer hover:bg-muted transition-colors py-1.5 px-3">
                           <span className="font-medium">{molecule.name}</span>
                           {molecule.proportion && (
-                            <span className="ml-2 text-xs opacity-70">{safeToFixed(molecule.proportion, 2)}%</span>
+                            <span className="ml-2 text-xs opacity-70">{(molecule.proportion).toFixed(2)}%</span>
                           )}
                         </Badge>
                       </Link>
@@ -833,7 +833,7 @@ export default function RecetteDetail() {
                           <div className="mb-2">
                             <div className="flex items-center justify-between text-xs text-muted-foreground mb-1">
                               <span>Proportion</span>
-                              <span className="font-semibold">{safeToFixed(molecule.proportion, 2)}%</span>
+                              <span className="font-semibold">{(molecule.proportion).toFixed(2)}%</span>
                             </div>
                             <div className="w-full bg-muted rounded-full h-1.5">
                               <div 

@@ -229,7 +229,7 @@ export function RecipeNetworkGraph({
     );
   }
 
-  return safeToFixed(
+  return (
     <div className="space-y-4">
       {/* Controls */}
       <div className="flex items-center justify-between">
@@ -245,7 +245,7 @@ export function RecipeNetworkGraph({
           </Button>
         </div>
         <div className="text-sm text-muted-foreground">
-          Zoom: {(zoom * 100, 0)}%
+          Zoom: {(zoom * 100).toFixed(0)}%
         </div>
       </div>
 

@@ -233,7 +233,7 @@ export function EnhancedRadarChart({
       }
 
       // Tooltip
-      circle.append("title").text(`${d.axis}: ${safeToFixed(d, 1)}`);
+      circle.append("title").text(`${d.axis}: ${(d).toFixed(1)}`);
     });
 
     // Add title if provided

@@ -732,7 +732,7 @@ export default function MoleculeRecetteLinking() {
                                   <AlertCircle className="h-4 w-4" />
                                 )}
                                 <AlertDescription>
-                                  Total des proportions : <strong>{safeToFixed(totalProportions, 1)}%</strong>
+                                  Total des proportions : <strong>{(totalProportions).toFixed(1)}%</strong>
                                   {isValid ? " ✓ Formule valide" : " ✗ Doit être exactement 100%"}
                                 </AlertDescription>
                               </Alert>

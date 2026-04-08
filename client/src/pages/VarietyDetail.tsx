@@ -278,7 +278,7 @@ export default function VarietyDetail() {
       tooltip: {
         callbacks: {
           label: (context: any) => {
-            return `${context.dataset.label}: ${safeToFixed(context, 1)}%`;
+            return `${context.dataset.label}: ${(context).toFixed(1)}%`;
           },
         },
       },

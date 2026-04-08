@@ -311,7 +311,7 @@ export default function EditeurFormulation() {
                         variant={isValid ? "default" : "destructive"}
                         className="font-mono"
                       >
-                        {safeToFixed(totalProportions, 1)}%
+                        {(totalProportions).toFixed(1)}%
                       </Badge>
                     )}
                   </div>
@@ -426,7 +426,7 @@ export default function EditeurFormulation() {
                     <Alert variant={isValid ? "default" : "destructive"} className="border-border/50">
                       {isValid ? <CheckCircle2 className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
                       <AlertDescription>
-                        Total des proportions : <strong>{safeToFixed(totalProportions, 1)}%</strong>
+                        Total des proportions : <strong>{(totalProportions).toFixed(1)}%</strong>
                         {isValid ? " — Formule valide" : " — Doit être exactement 100%"}
                       </AlertDescription>
                     </Alert>

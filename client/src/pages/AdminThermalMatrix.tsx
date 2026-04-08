@@ -119,7 +119,7 @@ export default function AdminThermalMatrix() {
     });
     const avgTri = arr.reduce((s, m) => s + (m.thermal_tri ?? 0), 0) / arr.length;
     const avgSai = arr.reduce((s, m) => s + (m.thermal_sai ?? 0), 0) / arr.length;
-    return { total: arr.length, byConst, avgTri: safeToFixed(avgTri, 1), avgSai: safeToFixed(avgSai, 1) };
+    return { total: arr.length, byConst, avgTri: (avgTri).toFixed(1), avgSai: (avgSai).toFixed(1) };
   }, [materials]);
 
   return (

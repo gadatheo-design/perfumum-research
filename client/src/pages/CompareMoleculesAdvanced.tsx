@@ -333,8 +333,7 @@ export default function CompareMoleculesAdvanced() {
             </Card>
 
             {/* Similarité olfactive */}
-            {selectedMolecules.length === 2 && safeToFixed(
-              <Card className="p-6">
+            {selectedMolecules.length === 2 && <Card className="p-6">
                 <h2 className="text-xl font-bold mb-4">SIMILARITÉ OLFACTIVE</h2>
                 <div className="text-center">
                   <div className="text-5xl font-bold text-primary mb-2">

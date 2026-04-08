@@ -188,7 +188,7 @@ export default function InventoryDashboard() {
     );
   }
 
-  return safeToFixed(
+  return (
     <div className="min-h-screen bg-background">
       <div className="container py-8">
         <Breadcrumbs />
@@ -229,7 +229,7 @@ export default function InventoryDashboard() {
                 <div>
                   <p className="text-sm text-muted-foreground">Valeur totale</p>
                   <p className="text-2xl font-bold">
-                    {(inventoryStats?.totalValue || 0, 2)} CHF
+                    {(inventoryStats?.totalValue || 0).toFixed(2)} CHF
                   </p>
                 </div>
               </div>
@@ -289,7 +289,7 @@ export default function InventoryDashboard() {
                           backgroundColor: CHART_COLORS[i % CHART_COLORS.length],
                           minHeight: stat.value > 0 ? "4px" : "0"
                         }}
-                        title={`${safeToFixed(stat, 2)} CHF`}
+                        title={`${(stat).toFixed(2)} CHF`}
                       />
                       <span className="text-xs text-muted-foreground">{stat.label}</span>
                     </div>
@@ -327,7 +327,7 @@ export default function InventoryDashboard() {
                           </span>
                         </div>
                         <Badge variant="outline" className="text-amber-500 border-amber-500/50">
-                          {safeToFixed(alert, 1)} {alert.unit}
+                          {(alert).toFixed(1)} {alert.unit}
                         </Badge>
                       </div>
                     </Link>
@@ -448,12 +448,12 @@ export default function InventoryDashboard() {
                         </TableCell>
                         <TableCell>
                           <Badge variant="secondary">
-                            {parseFloatsafeToFixed(entry.quantity || "0", 2)} {entry.unit}
+                            {parseFloat(entry.quantity || "0").toFixed(2)} {entry.unit}
                           </Badge>
                         </TableCell>
                         <TableCell>
                           <span className="font-medium">
-                            {parseFloatsafeToFixed(entry.price || "0", 2)} {entry.currency}
+                            {parseFloat(entry.price || "0").toFixed(2)} {entry.currency}
                           </span>
                         </TableCell>
                         <TableCell>

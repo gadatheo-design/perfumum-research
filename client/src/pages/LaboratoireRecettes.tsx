@@ -270,10 +270,10 @@ export default function LaboratoireRecettes() {
                     <span><span className="font-medium">Production:</span> {recette.productionTime}min</span>
                   </div>
                 )}
-                {recette.costEstimate && safeToFixed(
+                {recette.costEstimate && (
                   <div className="flex items-center gap-2">
                     <DollarSign className="w-3 h-3" />
-                    <span><span className="font-medium">Coût:</span> {(recette.costEstimate / 100, 2)} CHF</span>
+                    <span><span className="font-medium">Coût:</span> {(recette.costEstimate / 100).toFixed(2)} CHF</span>
                   </div>
                 )}
               </div>

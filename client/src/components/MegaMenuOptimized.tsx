@@ -262,7 +262,7 @@ export const useMegaMenuPerformance = () => {
 
     // Log performance metrics
     if (duration > 100) {
-      console.warn(`MegaMenu render took ${safeToFixed(duration, 2)}ms`);
+      console.warn(`MegaMenu render took ${(duration).toFixed(2)}ms`);
     }
   }, []);
 

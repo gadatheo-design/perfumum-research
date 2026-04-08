@@ -308,7 +308,7 @@ export default function GhostVarietyImageUpload() {
                     <Check className="h-5 w-5" />
                     <span className="font-medium">{selectedFile.name}</span>
                     <Badge variant="secondary">
-                      {safeToFixed(selectedFile.size / 1024 / 1024, 2)} Mo
+                      {(selectedFile.size / 1024 / 1024).toFixed(2)} Mo
                     </Badge>
                   </div>
                 </div>

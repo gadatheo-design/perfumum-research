@@ -650,7 +650,7 @@ export default function SpectraIdentification() {
                         </div>
                         <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
                           <span className="font-mono">{result.molecular_formula}</span>
-                          <span>MW: {parseFloatsafeToFixed(result.molecular_weight, 2)}</span>
+                          <span>MW: {parseFloat(result.molecular_weight).toFixed(2)}</span>
                           <span>CAS: {result.cas_number}</span>
                           {result.retention_index && (
                             <span className={result.riMatch ? 'text-green-500 font-medium' : ''}>
@@ -667,7 +667,7 @@ export default function SpectraIdentification() {
                                  result.similarity > 60 ? 'hsl(45, 93%, 47%)' : 
                                  'hsl(var(--muted-foreground))'
                         }}>
-                          {safeToFixed(result, 1)}%
+                          {(result).toFixed(1)}%
                         </div>
                         <div className="text-xs text-muted-foreground">
                           {result.matchedPeaks}/{manualPeaks.length} pics matchés

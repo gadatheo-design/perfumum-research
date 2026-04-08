@@ -727,18 +727,18 @@ export default function StorylineDetail() {
                   </Button>
                 )}
               </div>
-              {!coordsEditing ? safeToFixed(
+              {!coordsEditing ? (
                 <div className="flex flex-wrap gap-6 text-sm">
                   <div>
                     <span className="text-muted-foreground text-xs uppercase tracking-wide">Latitude</span>
                     <p className="font-mono font-medium mt-0.5">
-                      {s.lat != null ? Number(s.lat, 6) : <span className="text-muted-foreground italic">non renseignée</span>}
+                      {s.lat != null ? Number(s.lat).toFixed(6) : <span className="text-muted-foreground italic">non renseignée</span>}
                     </p>
                   </div>
                   <div>
                     <span className="text-muted-foreground text-xs uppercase tracking-wide">Longitude</span>
                     <p className="font-mono font-medium mt-0.5">
-                      {s.lng != null ? NumbersafeToFixed(s.lng, 6) : <span className="text-muted-foreground italic">non renseignée</span>}
+                      {s.lng != null ? Number(s.lng).toFixed(6) : <span className="text-muted-foreground italic">non renseignée</span>}
                     </p>
                   </div>
                   {s.lat != null && s.lng != null && (

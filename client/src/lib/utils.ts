@@ -51,8 +51,8 @@ export function normalizeOlfactiveProfile(
  * Returns a fallback string if the value is not a number.
  *
  * Usage:
- *   safeToFixed(molecule.percentage, 1)           // "50.0"
- *   safeToFixed(recipe.cost, 2)                   // "12.50"
+ *   (molecule.percentage).toFixed(1)           // "50.0"
+ *   (recipe.cost).toFixed(2)                   // "12.50"
  *   safeToFixed(undefined, 2, '0.00')             // "0.00"
  *   safeToFixed(null, 0, 'N/A')                   // "N/A"
  */

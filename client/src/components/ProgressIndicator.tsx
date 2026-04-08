@@ -18,9 +18,9 @@ export function ProgressIndicator({ start, end, change, changePercent, label }: 
   const trendColor = trend === 'up' ? 'text-green-500' : trend === 'down' ? 'text-red-500' : 'text-muted-foreground';
   
   // Vérifications de type pour éviter les erreurs toFixed
-  const safeChange = typeof change === 'number' ? safeToFixed(change, 1) : '0.0';
-  const safeStart = typeof start === 'number' ? safeToFixed(start, 1) : '0.0';
-  const safeEnd = typeof end === 'number' ? safeToFixed(end, 1) : '0.0';
+  const safeChange = typeof change === 'number' ? (change).toFixed(1) : '0.0';
+  const safeStart = typeof start === 'number' ? (start).toFixed(1) : '0.0';
+  const safeEnd = typeof end === 'number' ? (end).toFixed(1) : '0.0';
 
   return (
     <div className="space-y-2">
