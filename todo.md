@@ -3739,3 +3739,73 @@ npm run dev
 - [ ] Tester les 3 implémentations
 - [ ] Vérifier la compatibilité mobile
 - [ ] Sauvegarder le checkpoint final
+
+
+---
+
+## 🎯 SESSION 9 AVRIL 2026 — Système d'images morphologiques, Import CSV, Synchronisation Wikidata
+
+### ✅ Phase 1 : Système d'images morphologiques
+- [x] Table `variety_images` dans la base de données (stockage S3)
+- [x] Routeur tRPC avec 8 procédures (upload, getByVariety, getAll, getById, update, verify, delete, getStats)
+- [x] Page admin `/admin/variety-images` avec upload drag-and-drop
+- [x] Galerie d'images avec filtrage par type (feuille, fleur, fruit, plante entière)
+- [x] Composant `MorphologyGallery.tsx` pour afficher les images dans les pages détail
+- [ ] Intégration du composant MorphologyGallery dans les pages de détail des variétés
+- [ ] Tests unitaires pour les procédures d'upload et de vérification
+- [ ] Validation des images (dimensions, format, taille)
+- [ ] Compression automatique des images avant upload S3
+
+### ✅ Phase 2 : Import CSV pour généalogies
+- [x] Routeur tRPC avec 4 procédures (preview, validate, getTemplate, getHistory)
+- [x] Page admin `/admin/variety-genealogy-import` avec 3 onglets (Données CSV, Prévisualisation, Modèle)
+- [x] Mode dry-run avec prévisualisation détaillée
+- [x] Validation CSV avec détection d'erreurs et avertissements
+- [x] Téléchargement du modèle CSV
+- [ ] Implémentation de l'import réel (actuellement en dry-run uniquement)
+- [ ] Gestion des doublons lors de l'import
+- [ ] Création automatique des relations généalogiques
+- [ ] Historique des imports avec statistiques
+- [ ] Tests unitaires pour le parsing CSV et la validation
+
+### ✅ Phase 3 : Synchronisation Wikidata
+- [x] Routeur tRPC avec 5 procédures (searchTaxon, getTaxonDetails, batchSearchTaxa, getStats, getEnrichmentRecommendations)
+- [x] Page admin `/admin/wikidata-sync` avec 3 onglets (Recherche unique, Recherche en masse, Recommandations)
+- [x] Requêtes SPARQL pour données taxonomiques
+- [x] Recherche unique et recherche en masse
+- [x] Récupération des hybrides et distribution géographique
+- [ ] Implémentation complète des recommandations d'enrichissement
+- [ ] Fusion automatique des données Wikidata avec les données locales
+- [ ] Gestion du cache pour les requêtes Wikidata
+- [ ] Tests unitaires pour les requêtes SPARQL
+- [ ] Gestion des erreurs de connexion à Wikidata
+
+### Phase 4 : Tests et validation
+- [ ] Vérification de la compilation TypeScript
+- [ ] Tests d'intégration pour les trois routeurs
+- [ ] Validation des pages admin
+- [ ] Tests de performance pour les requêtes Wikidata
+- [ ] Vérification de la compatibilité mobile
+- [ ] Tests d'upload d'images (différents formats et tailles)
+- [ ] Tests du parsing CSV avec données réelles
+
+### Phase 5 : Navigation et intégration
+- [ ] Ajouter les pages admin au menu de navigation
+- [ ] Créer des liens vers les pages admin depuis le dashboard
+- [ ] Intégrer MorphologyGallery dans les pages de détail des variétés
+- [ ] Ajouter des breadcrumbs pour la navigation
+- [ ] Créer une page d'accueil pour les outils d'admin
+
+### Phase 6 : Documentation et déploiement
+- [ ] Documenter les procédures tRPC
+- [ ] Créer un guide d'utilisation pour l'import CSV
+- [ ] Documenter l'API Wikidata
+- [ ] Créer un guide d'upload d'images
+- [ ] Checkpoint et publication
+
+### Notes
+- Les trois routeurs utilisent des procédures publiques et protégées appropriées
+- Les pages admin nécessitent une authentification admin
+- Le stockage S3 est utilisé pour les images morphologiques
+- Les requêtes Wikidata utilisent l'endpoint SPARQL public
+- Le mode dry-run permet de prévisualiser les imports sans modifier la base de données

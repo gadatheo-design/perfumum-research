@@ -81,6 +81,9 @@ import { sparqlRouter } from './routers/sparql';
 import { europeanaRouter } from './routers/europeana';
 import { p5dataRouter } from './routers/p5data';
 import { auditRouter } from './routers/audit';
+import { varietyImagesRouter } from './routers/variety-images';
+import { varietyGenealogyImportRouter } from './routers/variety-genealogy-import';
+import { wikidataSyncRouter } from './routers/wikidata-sync';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -12507,6 +12510,12 @@ Familles olfactives disponibles:
   p5data: p5dataRouter,
   // Audit — Analyse et nettoyage des données
   audit: auditRouter,
+  // Variety Images — Morphological images for plant varieties
+  varietyImages: varietyImagesRouter,
+  // Variety Genealogy Import — CSV import for plant genealogies
+  varietyGenealogyImport: varietyGenealogyImportRouter,
+  // Wikidata Sync — Synchronize variety data with Wikidata
+  wikidataSync: wikidataSyncRouter,
 });
 export type AppRouter = typeof appRouter;
 

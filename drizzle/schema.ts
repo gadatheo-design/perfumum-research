@@ -7114,3 +7114,51 @@ export const olfactiveEmissions = mysqlTable("olfactive_emissions", {
 
 export type OlfactiveEmission = typeof olfactiveEmissions.$inferSelect;
 export type InsertOlfactiveEmission = typeof olfactiveEmissions.$inferInsert;
+
+// ============================================================================
+// VARIETY IMAGES (Morphological images for plant varieties)
+// ============================================================================
+
+export const varietyImages = mysqlTable("variety_images", {
+  id: int("id").autoincrement().primaryKey(),
+  
+  // Reference to the variety (genus + species + cultivar)
+  genus: varchar("genus", { length: 100 }).notNull(),        // e.g., "Nicotiana", "Cannabis", "Citrus"
+  species: varchar("species", { length: 100 }).notNull(),    // e.g., "tabacum", "sativa", "sinensis"
+  cultivar: varchar("cultivar", { length: 255 }),            // e.g., "Basma", "Samsun", optional
+  
+  // Image type and metadata
+  imageType: mysqlEnum("imageType", ["leaf", "flower", "fruit", "whole_plant", "other"]).notNull(),
+  
+  // S3 storage reference
+  fileKey: varchar("file_key", { length: 500 }).notNull(),   // S3 object key (e.g., "variety-images/nicotiana-tabacum-leaf-abc123.jpg")
+  fileUrl: text("file_url").notNull(),                        // Public S3 URL or CDN URL
+  fileName: varchar("file_name", { length: 255 }).notNull(), // Original file name
+  mimeType: varchar("mime_type", { length: 50 }).notNull(),  // e.g., "image/jpeg", "image/png"
+  fileSize: int("file_size").notNull(),                       // File size in bytes
+  
+  // Image metadata
+  description: text("description"),                           // User-provided description
+  source: varchar("source", { length: 255 }),                // Source of the image (e.g., "Wikimedia Commons", "user_upload")
+  sourceUrl: text("source_url"),                              // URL to original source if applicable
+  attribution: varchar("attribution", { length: 255 }),      // Attribution/credit information
+  
+  // Quality and status
+  quality: mysqlEnum("quality", ["low", "medium", "high", "excellent"]).default("medium"),
+  isVerified: boolean("is_verified").default(false),          // Admin verification status
+  
+  // Audit
+  uploadedBy: int("uploaded_by"),                             // User ID who uploaded
+  verifiedBy: int("verified_by"),                             // Admin ID who verified
+  verifiedAt: timestamp("verified_at"),
+  
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  genusSpeciesIdx: index("variety_images_genus_species_idx").on(table.genus, table.species),
+  imageTypeIdx: index("variety_images_type_idx").on(table.imageType),
+  verifiedIdx: index("variety_images_verified_idx").on(table.isVerified),
+}));
+
+export type VarietyImage = typeof varietyImages.$inferSelect;
+export type InsertVarietyImage = typeof varietyImages.$inferInsert;
