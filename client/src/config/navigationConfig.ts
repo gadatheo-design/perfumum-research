@@ -159,6 +159,7 @@ export const NAV_GROUPS: NavGroup[] = [
         icon: "TreePine",
         items: [
           { href: "/phylogenetique", label: "Classification Phylogénétique", badge: "NEW" },
+          { href: "/nicotiana-explorer", label: "Explorateur Nicotiana", badge: "NEW" },
           { href: "/genealogy", label: "Arbre Généalogique", badge: "NEW" },
           { href: "/ghost-varieties-explorer", label: "Herbier des Disparus", badge: "NEW" },
           { href: "/leaf-economies", label: "Leaf Economies", badge: "NEW" },
