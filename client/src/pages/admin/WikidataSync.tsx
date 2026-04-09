@@ -2,7 +2,8 @@
  * WikidataSync.tsx
  * ─────────────────────────────────────────────────────────────────────────────
  * Admin page for synchronizing plant variety genealogies with Wikidata
- * Allows searching, fetching details, and enriching local data with Wikidata
+ * Allows searching, fetching details, enriching local data with Wikidata,
+ * and importing conservation status, images, and parent taxa directly.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -13,11 +14,223 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { trpc } from '@/lib/trpc';
 import { useToast } from '@/hooks/use-toast';
-import { Search, RefreshCw, CheckCircle2, AlertCircle, ExternalLink, Lightbulb, MapPin, Shield, Image, GitBranch, Leaf, BookOpen, ChevronRight, Loader2 } from 'lucide-react';
+import {
+  Search, RefreshCw, CheckCircle2, AlertCircle, ExternalLink,
+  Lightbulb, MapPin, Shield, Image, GitBranch, Leaf, BookOpen,
+  ChevronRight, Loader2, Download, Link2, AlertTriangle,
+} from 'lucide-react';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TYPES
+// ─────────────────────────────────────────────────────────────────────────────
+
+interface Recommendation {
+  type: string;
+  title: string;
+  description: string;
+  priority: 'high' | 'medium' | 'low';
+  action?: string;
+}
+
+interface WikidataEntityResult {
+  qid: string;
+  label: string;
+  description: string;
+  scientificName: string;
+  taxonRank?: string;
+  conservationStatus?: string;
+  imageUrl?: string;
+  parentTaxon?: string;
+  hybrids: string[];
+  distribution: string[];
+}
+
+interface ImportResult {
+  success: boolean;
+  message: string;
+  plantId?: number;
+  plantName?: string;
+  matches?: Array<{ id: number; name: string; latinName: string }>;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SUB-COMPONENT: Action button for a recommendation
+// ─────────────────────────────────────────────────────────────────────────────
+
+function RecommendationCard({
+  rec,
+  wikidataEntity,
+  scientificName,
+}: {
+  rec: Recommendation;
+  wikidataEntity: WikidataEntityResult | null;
+  scientificName: string;
+}) {
+  const { toast } = useToast();
+  const [importing, setImporting] = useState(false);
+  const [importResult, setImportResult] = useState<ImportResult | null>(null);
+
+  const importConservation = trpc.wikidataSync.importConservationStatus.useMutation();
+  const importImage = trpc.wikidataSync.importWikidataImage.useMutation();
+  const linkToWikidata = trpc.wikidataSync.linkToWikidata.useMutation();
+
+  const icons: Record<string, React.ReactNode> = {
+    conservation: <Shield className="h-4 w-4 text-red-500" />,
+    images: <Image className="h-4 w-4 text-purple-500" />,
+    parents: <GitBranch className="h-4 w-4 text-blue-500" />,
+    hybrids: <Leaf className="h-4 w-4 text-green-500" />,
+    distribution: <MapPin className="h-4 w-4 text-orange-500" />,
+    synonyms: <BookOpen className="h-4 w-4 text-gray-500" />,
+  };
+
+  const priorityColors: Record<string, string> = {
+    high: 'border-red-200 bg-red-50',
+    medium: 'border-yellow-200 bg-yellow-50',
+    low: 'border-gray-200 bg-gray-50',
+  };
+
+  const priorityLabel: Record<string, string> = {
+    high: '🔴 Haute',
+    medium: '🟡 Moyenne',
+    low: '🟢 Basse',
+  };
+
+  // Determine if this recommendation has an importable action
+  const canImport =
+    wikidataEntity &&
+    ((rec.type === 'conservation' && wikidataEntity.conservationStatus) ||
+      (rec.type === 'images' && wikidataEntity.imageUrl) ||
+      (rec.type === 'parents' && wikidataEntity.parentTaxon));
+
+  const handleImport = async () => {
+    if (!wikidataEntity) return;
+    setImporting(true);
+    setImportResult(null);
+
+    try {
+      let result: ImportResult;
+
+      if (rec.type === 'conservation' && wikidataEntity.conservationStatus) {
+        result = await importConservation.mutateAsync({
+          latinName: scientificName,
+          wikidataQid: wikidataEntity.qid,
+          conservationStatus: wikidataEntity.conservationStatus,
+        });
+      } else if (rec.type === 'images' && wikidataEntity.imageUrl) {
+        result = await importImage.mutateAsync({
+          latinName: scientificName,
+          wikidataQid: wikidataEntity.qid,
+          imageUrl: wikidataEntity.imageUrl,
+        });
+      } else if (rec.type === 'parents') {
+        result = await linkToWikidata.mutateAsync({
+          latinName: scientificName,
+          wikidataQid: wikidataEntity.qid,
+          parentTaxon: wikidataEntity.parentTaxon,
+        });
+      } else {
+        return;
+      }
+
+      setImportResult(result);
+
+      if (result.success) {
+        toast({
+          title: 'Import réussi',
+          description: result.message,
+        });
+      } else {
+        toast({
+          title: 'Import partiel',
+          description: result.message,
+          variant: 'destructive',
+        });
+      }
+    } catch (err: any) {
+      toast({
+        title: 'Erreur',
+        description: err?.message ?? 'Erreur lors de l\'import',
+        variant: 'destructive',
+      });
+    } finally {
+      setImporting(false);
+    }
+  };
+
+  return (
+    <Card className={priorityColors[rec.priority] || 'border-gray-200'}>
+      <CardContent className="py-3">
+        <div className="flex items-start gap-3">
+          <div className="mt-0.5">{icons[rec.type] || <ChevronRight className="h-4 w-4" />}</div>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <span className="font-medium text-sm">{rec.title}</span>
+              <Badge variant="outline" className="text-xs">
+                {priorityLabel[rec.priority] ?? rec.priority}
+              </Badge>
+            </div>
+            <p className="text-sm text-gray-600">{rec.description}</p>
+            {rec.action && (
+              <p className="text-xs text-blue-600 mt-1 flex items-center gap-1">
+                <ChevronRight className="h-3 w-3" />
+                {rec.action}
+              </p>
+            )}
+
+            {/* Import result feedback */}
+            {importResult && (
+              <div className={`mt-2 p-2 rounded text-xs flex items-start gap-1 ${importResult.success ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
+                {importResult.success ? (
+                  <CheckCircle2 className="h-3 w-3 mt-0.5 shrink-0" />
+                ) : (
+                  <AlertTriangle className="h-3 w-3 mt-0.5 shrink-0" />
+                )}
+                <span>{importResult.message}</span>
+              </div>
+            )}
+
+            {/* Ambiguous match list */}
+            {importResult && !importResult.success && importResult.matches && importResult.matches.length > 1 && (
+              <div className="mt-2 space-y-1">
+                <p className="text-xs font-medium text-gray-600">Plantes correspondantes :</p>
+                {importResult.matches.map((m) => (
+                  <div key={m.id} className="text-xs text-gray-500 pl-2">• {m.name} — <em>{m.latinName}</em></div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Import button */}
+          {canImport && (
+            <div className="shrink-0">
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={handleImport}
+                disabled={importing || (importResult?.success === true)}
+                className="text-xs h-7"
+              >
+                {importing ? (
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                ) : importResult?.success ? (
+                  <CheckCircle2 className="h-3 w-3 text-green-600" />
+                ) : (
+                  <>
+                    <Download className="h-3 w-3 mr-1" />
+                    Importer
+                  </>
+                )}
+              </Button>
+            </div>
+          )}
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // MAIN PAGE
@@ -47,99 +260,52 @@ export default function WikidataSync() {
   // Handle search
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!searchQuery.trim()) {
-      toast({
-        title: 'Erreur',
-        description: 'Veuillez entrer un nom scientifique',
-        variant: 'destructive',
-      });
+      toast({ title: 'Erreur', description: 'Veuillez entrer un nom scientifique', variant: 'destructive' });
       return;
     }
-
     try {
-      const result = await searchQuery_mutation.mutateAsync({
-        scientificName: searchQuery.trim(),
-      });
+      const result = await searchQuery_mutation.mutateAsync({ scientificName: searchQuery.trim() });
       setSelectedEntity(result);
     } catch (error) {
-      console.error('Search error:', error);
-      toast({
-        title: 'Erreur',
-        description: 'Taxon non trouvé sur Wikidata',
-        variant: 'destructive',
-      });
+      toast({ title: 'Erreur', description: 'Taxon non trouvé sur Wikidata', variant: 'destructive' });
     }
   };
 
   // Handle get details
   const handleGetDetails = async () => {
     if (!searchQuery.trim()) {
-      toast({
-        title: 'Erreur',
-        description: 'Veuillez entrer un nom scientifique',
-        variant: 'destructive',
-      });
+      toast({ title: 'Erreur', description: 'Veuillez entrer un nom scientifique', variant: 'destructive' });
       return;
     }
-
     try {
-      const result = await detailsQuery.mutateAsync({
-        scientificName: searchQuery.trim(),
-      });
+      const result = await detailsQuery.mutateAsync({ scientificName: searchQuery.trim() });
       setSelectedEntity(result);
     } catch (error) {
-      console.error('Details error:', error);
-      toast({
-        title: 'Erreur',
-        description: 'Erreur lors de la récupération des détails',
-        variant: 'destructive',
-      });
+      toast({ title: 'Erreur', description: 'Erreur lors de la récupération des détails', variant: 'destructive' });
     }
   };
 
   // Handle batch search
   const handleBatchSearch = async () => {
     if (!batchNames.trim()) {
-      toast({
-        title: 'Erreur',
-        description: 'Veuillez entrer au moins un nom scientifique',
-        variant: 'destructive',
-      });
+      toast({ title: 'Erreur', description: 'Veuillez entrer au moins un nom scientifique', variant: 'destructive' });
       return;
     }
-
-    const names = batchNames
-      .split('\n')
-      .map((n) => n.trim())
-      .filter((n) => n.length > 0);
-
+    const names = batchNames.split('\n').map((n) => n.trim()).filter((n) => n.length > 0);
     if (names.length === 0) {
-      toast({
-        title: 'Erreur',
-        description: 'Veuillez entrer au moins un nom scientifique',
-        variant: 'destructive',
-      });
+      toast({ title: 'Erreur', description: 'Veuillez entrer au moins un nom scientifique', variant: 'destructive' });
       return;
     }
-
     try {
-      await batchQuery.mutateAsync({
-        scientificNames: names,
-      });
-      toast({
-        title: 'Succès',
-        description: `Recherche effectuée pour ${names.length} taxon(s)`,
-      });
+      await batchQuery.mutateAsync({ scientificNames: names });
+      toast({ title: 'Succès', description: `Recherche effectuée pour ${names.length} taxon(s)` });
     } catch (error) {
-      console.error('Batch search error:', error);
-      toast({
-        title: 'Erreur',
-        description: 'Erreur lors de la recherche en masse',
-        variant: 'destructive',
-      });
+      toast({ title: 'Erreur', description: 'Erreur lors de la recherche en masse', variant: 'destructive' });
     }
   };
+
+  const scientificName = `${recGenus} ${recSpecies}${recCultivar ? ` '${recCultivar}'` : ''}`.trim();
 
   return (
     <div className="space-y-6">
@@ -261,9 +427,7 @@ export default function WikidataSync() {
                       <p className="font-semibold">Hybrides ({selectedEntity.hybrids.length})</p>
                       <div className="flex flex-wrap gap-2 mt-2">
                         {selectedEntity.hybrids.map((hybrid: string, idx: number) => (
-                          <Badge key={idx} variant="secondary">
-                            {hybrid}
-                          </Badge>
+                          <Badge key={idx} variant="secondary">{hybrid}</Badge>
                         ))}
                       </div>
                     </div>
@@ -273,22 +437,23 @@ export default function WikidataSync() {
                     <div>
                       <p className="font-semibold">Distribution ({selectedEntity.distribution.length})</p>
                       <div className="flex flex-wrap gap-2 mt-2">
-                        {selectedEntity.distribution.map((country: string, idx: number) => (
-                          <Badge key={idx} variant="outline">
-                            {country}
-                          </Badge>
+                        {selectedEntity.distribution.slice(0, 10).map((country: string, idx: number) => (
+                          <Badge key={idx} variant="outline">{country}</Badge>
                         ))}
+                        {selectedEntity.distribution.length > 10 && (
+                          <Badge variant="outline">+{selectedEntity.distribution.length - 10}</Badge>
+                        )}
                       </div>
                     </div>
                   )}
 
                   {selectedEntity.imageUrl && (
                     <div>
-                      <p className="font-semibold">Image</p>
+                      <p className="font-semibold mb-2">Image</p>
                       <img
                         src={selectedEntity.imageUrl}
                         alt={selectedEntity.label}
-                        className="max-w-xs max-h-64 rounded-lg"
+                        className="max-h-48 rounded border object-contain"
                       />
                     </div>
                   )}
@@ -304,93 +469,52 @@ export default function WikidataSync() {
             <CardHeader>
               <CardTitle>Recherche en masse</CardTitle>
               <CardDescription>
-                Entrez plusieurs noms scientifiques (un par ligne) pour les rechercher tous à la fois
+                Entrez plusieurs noms scientifiques (un par ligne) pour les rechercher en lot
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <label className="text-sm font-medium">Noms scientifiques</label>
+                <label className="text-sm font-medium">Noms scientifiques (un par ligne)</label>
                 <textarea
+                  className="w-full mt-2 p-3 border rounded-md text-sm font-mono min-h-[120px] resize-y"
+                  placeholder={"Nicotiana tabacum\nCannabis sativa\nRosa damascena"}
                   value={batchNames}
                   onChange={(e) => setBatchNames(e.target.value)}
-                  placeholder="Nicotiana tabacum&#10;Nicotiana rustica&#10;Cannabis sativa&#10;Citrus sinensis"
-                  rows={10}
-                  className="w-full mt-2 p-2 border rounded-lg font-mono text-sm"
                 />
               </div>
-
               <Button
                 onClick={handleBatchSearch}
                 disabled={batchQuery.isPending || !batchNames.trim()}
                 className="w-full"
               >
-                <Search className="w-4 h-4 mr-2" />
-                Rechercher {batchNames.split('\n').filter((n) => n.trim()).length} taxon(s)
+                {batchQuery.isPending ? (
+                  <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Recherche en cours...</>
+                ) : (
+                  <><Search className="w-4 h-4 mr-2" />Lancer la recherche en masse</>
+                )}
               </Button>
 
-              {/* Batch Results */}
               {batchQuery.data && (
-                <div className="border-t pt-4 space-y-4">
-                  <div className="grid grid-cols-3 gap-4">
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium">Total</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold">{batchQuery.data.total}</div>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium">Trouvés</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold text-green-600">{batchQuery.data.found}</div>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-sm font-medium">Non trouvés</CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="text-2xl font-bold text-red-600">{batchQuery.data.notFound}</div>
-                      </CardContent>
-                    </Card>
+                <div className="border-t pt-4 space-y-3">
+                  <div className="flex gap-4 text-sm">
+                    <span className="text-green-600 font-medium">✓ {batchQuery.data.found} trouvés</span>
+                    <span className="text-red-600 font-medium">✗ {batchQuery.data.notFound} non trouvés</span>
+                    <span className="text-gray-500">Total : {batchQuery.data.total}</span>
                   </div>
-
-                  <div className="overflow-x-auto">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Nom scientifique</TableHead>
-                          <TableHead>Statut</TableHead>
-                          <TableHead>Label Wikidata</TableHead>
-                          <TableHead>Rang taxonomique</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {batchQuery.data.results.map((result: any, idx: number) => (
-                          <TableRow key={idx}>
-                            <TableCell className="font-mono text-sm">{result.scientificName}</TableCell>
-                            <TableCell>
-                              {result.found ? (
-                                <Badge variant="default" className="gap-1">
-                                  <CheckCircle2 className="w-3 h-3" />
-                                  Trouvé
-                                </Badge>
-                              ) : (
-                                <Badge variant="destructive" className="gap-1">
-                                  <AlertCircle className="w-3 h-3" />
-                                  Non trouvé
-                                </Badge>
-                              )}
-                            </TableCell>
-                            <TableCell>{result.entity?.label || '-'}</TableCell>
-                            <TableCell>{result.entity?.taxonRank || '-'}</TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                  <div className="space-y-2 max-h-80 overflow-y-auto">
+                    {batchQuery.data.results.map((r: any, idx: number) => (
+                      <div key={idx} className={`flex items-center gap-2 p-2 rounded text-sm ${r.found ? 'bg-green-50' : 'bg-red-50'}`}>
+                        {r.found ? (
+                          <CheckCircle2 className="h-4 w-4 text-green-600 shrink-0" />
+                        ) : (
+                          <AlertCircle className="h-4 w-4 text-red-500 shrink-0" />
+                        )}
+                        <span className="font-medium">{r.scientificName}</span>
+                        {r.entity && (
+                          <span className="text-gray-500 text-xs">— {r.entity.id}</span>
+                        )}
+                      </div>
+                    ))}
                   </div>
                 </div>
               )}
@@ -408,7 +532,7 @@ export default function WikidataSync() {
                 Recommandations d'enrichissement
               </CardTitle>
               <CardDescription>
-                Analysez une variété pour obtenir des suggestions d'enrichissement automatique depuis Wikidata
+                Analysez une variété pour obtenir des suggestions d'enrichissement et importez les données directement dans la base
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -474,7 +598,7 @@ export default function WikidataSync() {
           {/* Results */}
           {recommendations && (
             <div className="space-y-4">
-              {/* Summary */}
+              {/* Summary card */}
               <Card className="border-yellow-200 bg-yellow-50">
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base">
@@ -493,7 +617,7 @@ export default function WikidataSync() {
                       <div className="text-xs text-gray-600">Wikidata trouvé</div>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-blue-700">{recommendations.wikidataEntity?.qid || '—'}</div>
+                      <div className="text-2xl font-bold text-blue-700 text-sm">{recommendations.wikidataEntity?.qid || '—'}</div>
                       <div className="text-xs text-gray-600">QID Wikidata</div>
                     </div>
                     <div className="text-center">
@@ -505,50 +629,39 @@ export default function WikidataSync() {
                       <div className="text-xs text-gray-600">Statut IUCN</div>
                     </div>
                   </div>
+
+                  {/* Wikidata image preview */}
+                  {recommendations.wikidataEntity?.imageUrl && (
+                    <div className="mt-3 flex items-start gap-3">
+                      <img
+                        src={recommendations.wikidataEntity.imageUrl}
+                        alt={scientificName}
+                        className="h-20 w-20 object-cover rounded border shrink-0"
+                      />
+                      <div className="text-xs text-gray-600">
+                        <p className="font-medium mb-1">Image Wikidata disponible</p>
+                        <p className="break-all">{recommendations.wikidataEntity.imageUrl.split('/').pop()}</p>
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
 
-              {/* Recommendations list */}
+              {/* Recommendations list — each card has its own import button */}
               {recommendations.recommendations && recommendations.recommendations.length > 0 ? (
                 <div className="space-y-3">
-                  {recommendations.recommendations.map((rec: any, idx: number) => {
-                    const icons: Record<string, React.ReactNode> = {
-                      conservation: <Shield className="h-4 w-4 text-red-500" />,
-                      images: <Image className="h-4 w-4 text-purple-500" />,
-                      parents: <GitBranch className="h-4 w-4 text-blue-500" />,
-                      hybrids: <Leaf className="h-4 w-4 text-green-500" />,
-                      distribution: <MapPin className="h-4 w-4 text-orange-500" />,
-                      synonyms: <BookOpen className="h-4 w-4 text-gray-500" />,
-                    };
-                    const priorityColors: Record<string, string> = {
-                      high: 'border-red-200 bg-red-50',
-                      medium: 'border-yellow-200 bg-yellow-50',
-                      low: 'border-gray-200 bg-gray-50',
-                    };
-                    return (
-                      <Card key={idx} className={priorityColors[rec.priority] || 'border-gray-200'}>
-                        <CardContent className="py-3">
-                          <div className="flex items-start gap-3">
-                            <div className="mt-0.5">{icons[rec.type] || <ChevronRight className="h-4 w-4" />}</div>
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-1">
-                                <span className="font-medium text-sm">{rec.title}</span>
-                                <Badge variant="outline" className="text-xs">
-                                  {rec.priority === 'high' ? '🔴 Haute' : rec.priority === 'medium' ? '🟡 Moyenne' : '🟢 Basse'}
-                                </Badge>
-                              </div>
-                              <p className="text-sm text-gray-600">{rec.description}</p>
-                              {rec.action && (
-                                <p className="text-xs text-blue-600 mt-1 flex items-center gap-1">
-                                  <ChevronRight className="h-3 w-3" />{rec.action}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        </CardContent>
-                      </Card>
-                    );
-                  })}
+                  <p className="text-sm text-gray-500 flex items-center gap-1">
+                    <Download className="h-3 w-3" />
+                    Les boutons <strong>Importer</strong> mettent à jour directement la table <code>plants</code> de votre base de données.
+                  </p>
+                  {recommendations.recommendations.map((rec: Recommendation, idx: number) => (
+                    <RecommendationCard
+                      key={idx}
+                      rec={rec}
+                      wikidataEntity={recommendations.wikidataEntity}
+                      scientificName={`${recGenus} ${recSpecies}`}
+                    />
+                  ))}
                 </div>
               ) : (
                 <Card className="border-green-200 bg-green-50">
@@ -560,7 +673,7 @@ export default function WikidataSync() {
                 </Card>
               )}
 
-              {/* Wikidata link */}
+              {/* Wikidata external link */}
               {recommendations.wikidataEntity?.qid && (
                 <div className="flex justify-end">
                   <a
@@ -592,6 +705,11 @@ export default function WikidataSync() {
           <p>
             Cette page utilise l'API SPARQL de Wikidata pour récupérer automatiquement les données taxonomiques,
             les hybrides, la distribution géographique et le statut de conservation des variétés de plantes.
+          </p>
+          <p>
+            Les boutons <strong>Importer</strong> dans l'onglet Recommandations mettent à jour directement
+            les champs <code>conservation_status</code>, <code>image_url</code> et <code>wikidata_qid</code>
+            de la table <code>plants</code>.
           </p>
           <p>
             <a

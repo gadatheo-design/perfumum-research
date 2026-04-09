@@ -9,6 +9,9 @@
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
+import { getDb } from "../db/core";
+import { plants, plantVarieties } from "../../drizzle/schema";
+import { eq, like, or } from "drizzle-orm";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONSTANTS
@@ -273,9 +276,233 @@ export const wikidataSyncRouter = router({
     }),
 
   /**
-   * Get enrichment recommendations for a variety — returns structured recommendations
-   * Defined as mutation so it can be called with useMutation() on the client
+   * Import IUCN conservation status from Wikidata into a plant record
+   * Searches the plants table by latin name and updates conservationStatus + wikidataQid
    */
+  importConservationStatus: publicProcedure
+    .input(
+      z.object({
+        latinName: z.string().min(1),
+        wikidataQid: z.string().min(1),
+        conservationStatus: z.string().min(1),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'DB unavailable' });
+
+      // Map Wikidata conservation status labels to our enum
+      const statusMap: Record<string, string> = {
+        'extinct': 'EX',
+        'extinct in the wild': 'EW',
+        'critically endangered': 'CR',
+        'endangered': 'EN',
+        'vulnerable': 'VU',
+        'near threatened': 'NT',
+        'least concern': 'LC',
+        'data deficient': 'DD',
+        'not evaluated': 'NE',
+        // French labels
+        'éteint': 'EX',
+        'éteint à l\'état sauvage': 'EW',
+        'en danger critique': 'CR',
+        'en danger': 'EN',
+        'vulnérable': 'VU',
+        'quasi menacé': 'NT',
+        'préoccupation mineure': 'LC',
+        'données insuffisantes': 'DD',
+        'non évalué': 'NE',
+      };
+
+      const normalizedStatus = statusMap[input.conservationStatus.toLowerCase()] ?? 'NE';
+
+      // Find plant by latin name (partial match)
+      const results = await db
+        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+        .from(plants)
+        .where(like(plants.latinName, `%${input.latinName}%`))
+        .limit(5);
+
+      if (results.length === 0) {
+        return {
+          success: false,
+          message: `Aucune plante trouvée avec le nom latin "${input.latinName}" dans la base de données.`,
+          matches: [],
+        };
+      }
+
+      if (results.length > 1) {
+        return {
+          success: false,
+          message: `Plusieurs plantes correspondent à "${input.latinName}". Précisez le nom.`,
+          matches: results.map(r => ({ id: r.id, name: r.name, latinName: r.latinName })),
+        };
+      }
+
+      const plant = results[0];
+      await db
+        .update(plants)
+        .set({
+          conservationStatus: normalizedStatus as any,
+          wikidataQid: input.wikidataQid,
+          wikidataEnrichedAt: new Date(),
+        })
+        .where(eq(plants.id, plant.id));
+
+      return {
+        success: true,
+        message: `Statut IUCN "${normalizedStatus}" importé pour ${plant.name} (${plant.latinName}).`,
+        plantId: plant.id,
+        plantName: plant.name,
+        conservationStatus: normalizedStatus,
+        wikidataQid: input.wikidataQid,
+      };
+    }),
+
+  /**
+   * Import Wikidata image URL into a plant record
+   */
+  importWikidataImage: publicProcedure
+    .input(
+      z.object({
+        latinName: z.string().min(1),
+        wikidataQid: z.string().min(1),
+        imageUrl: z.string().url(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'DB unavailable' });
+
+      const results = await db
+        .select({ id: plants.id, name: plants.name, latinName: plants.latinName, imageUrl: plants.imageUrl })
+        .from(plants)
+        .where(like(plants.latinName, `%${input.latinName}%`))
+        .limit(5);
+
+      if (results.length === 0) {
+        return {
+          success: false,
+          message: `Aucune plante trouvée avec le nom latin "${input.latinName}".`,
+          matches: [],
+        };
+      }
+
+      if (results.length > 1) {
+        return {
+          success: false,
+          message: `Plusieurs plantes correspondent. Précisez le nom.`,
+          matches: results.map(r => ({ id: r.id, name: r.name, latinName: r.latinName })),
+        };
+      }
+
+      const plant = results[0];
+
+      if (plant.imageUrl) {
+        return {
+          success: false,
+          message: `Cette plante a déjà une image. Utilisez /admin/variety-images pour gérer les images.`,
+          plantId: plant.id,
+          existingImageUrl: plant.imageUrl,
+        };
+      }
+
+      await db
+        .update(plants)
+        .set({
+          imageUrl: input.imageUrl,
+          wikidataQid: input.wikidataQid,
+          wikidataEnrichedAt: new Date(),
+        })
+        .where(eq(plants.id, plant.id));
+
+      return {
+        success: true,
+        message: `Image Wikidata importée pour ${plant.name}.`,
+        plantId: plant.id,
+        plantName: plant.name,
+        imageUrl: input.imageUrl,
+      };
+    }),
+
+  /**
+   * Import Wikidata QID into a plant record (link the plant to Wikidata)
+   */
+  linkToWikidata: publicProcedure
+    .input(
+      z.object({
+        latinName: z.string().min(1),
+        wikidataQid: z.string().min(1),
+        parentTaxon: z.string().optional(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'DB unavailable' });
+
+      const results = await db
+        .select({ id: plants.id, name: plants.name, latinName: plants.latinName, wikidataQid: plants.wikidataQid })
+        .from(plants)
+        .where(like(plants.latinName, `%${input.latinName}%`))
+        .limit(5);
+
+      if (results.length === 0) {
+        return {
+          success: false,
+          message: `Aucune plante trouvée avec le nom latin "${input.latinName}".`,
+          matches: [],
+        };
+      }
+
+      if (results.length > 1) {
+        return {
+          success: false,
+          message: `Plusieurs plantes correspondent. Précisez le nom.`,
+          matches: results.map(r => ({ id: r.id, name: r.name, latinName: r.latinName })),
+        };
+      }
+
+      const plant = results[0];
+
+      await db
+        .update(plants)
+        .set({
+          wikidataQid: input.wikidataQid,
+          wikidataEnrichedAt: new Date(),
+          ...(input.parentTaxon ? { notes: `Taxon parent Wikidata: ${input.parentTaxon}` } : {}),
+        })
+        .where(eq(plants.id, plant.id));
+
+      return {
+        success: true,
+        message: `Plante ${plant.name} liée à Wikidata (${input.wikidataQid}).`,
+        plantId: plant.id,
+        plantName: plant.name,
+        wikidataQid: input.wikidataQid,
+        alreadyLinked: !!plant.wikidataQid,
+        previousQid: plant.wikidataQid,
+      };
+    }),
+
+  /**
+   * Search plants in DB by latin name (for autocomplete in recommendations)
+   */
+  searchPlantsInDb: publicProcedure
+    .input(z.object({ query: z.string().min(2) }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const results = await db
+        .select({ id: plants.id, name: plants.name, latinName: plants.latinName, wikidataQid: plants.wikidataQid, conservationStatus: plants.conservationStatus, imageUrl: plants.imageUrl })
+        .from(plants)
+        .where(or(
+          like(plants.latinName, `%${input.query}%`),
+          like(plants.name, `%${input.query}%`)
+        ))
+        .limit(10);
+      return results;
+    }),
+
   getEnrichmentRecommendations: publicProcedure
     .input(
       z.object({
