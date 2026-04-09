@@ -3865,3 +3865,57 @@ npm run dev
 - [ ] Implémenter l'export CSV avec métadonnées
 - [ ] Ajouter les URLs partageables
 - [ ] Tester la compatibilité mobile
+
+
+---
+
+## SESSION 9 AVRIL 2026 — Visualisation Phylogénétique Interactive
+
+### ✅ Phase 1 : Système d'images morphologiques
+- [x] Créer table `variety_images` pour stocker références S3
+- [x] Implémenter 8 procédures tRPC (upload, getByVariety, getAll, etc.)
+- [x] Créer page admin `/admin/variety-images` avec upload drag-and-drop
+- [x] Créer composant `MorphologyGallery` pour affichage
+
+### ✅ Phase 2 : Import CSV pour généalogies
+- [x] Créer routeur tRPC avec validation et dry-run preview
+- [x] Implémenter page admin `/admin/variety-genealogy-import` avec 3 onglets
+- [x] Support du mode preview (dry-run) avec validation détaillée
+- [x] Téléchargement du modèle CSV
+
+### ✅ Phase 3 : Synchronisation Wikidata
+- [x] Créer routeur tRPC avec 5 procédures (searchTaxon, getTaxonDetails, etc.)
+- [x] Implémenter requêtes SPARQL pour données taxonomiques
+- [x] Créer page admin `/admin/wikidata-sync` avec 3 onglets
+- [x] Support recherche unique et en masse
+
+### ✅ Phase 4 : Visualisation phylogénétique arborescente
+- [x] Créer routeur `phylogeny.ts` avec 4 procédures tRPC
+- [x] Implémenter composant `PhylogeneticTree.tsx` avec D3.js
+- [x] Support layout dendrogramme vertical (tree)
+- [x] Support layout circulaire (radial) avec toggle
+- [x] Zoom & pan interactif (mouse wheel, double-click reset)
+- [x] Recherche/filtre par nom scientifique ou commun
+- [x] Intégrer dans `NicotianaExplorer.tsx`
+
+### ✅ Phase 5 : Collapse/Expand branches interactif
+- [x] Créer composant `PhylogeneticTreeCollapsible.tsx` avec état de repliage
+- [x] Implémenter logique D3.js pour collapse/expand
+- [x] Ajouter indicateurs visuels (cercles jaunes, +N descendants)
+- [x] Auto-expand on search
+- [x] Boutons Expand/Collapse all
+- [x] Intégrer dans `NicotianaExplorer.tsx`
+
+### 📊 Statistiques
+- **Fichiers créés** : 10 (3 routeurs tRPC, 3 pages admin, 2 composants, 1 page explorer)
+- **Procédures tRPC** : 17 au total (8 images + 4 genealogy + 5 wikidata)
+- **Fonctionnalités** : Dendrogramme, radial layout, zoom/pan, search, collapse/expand
+- **Layouts** : Tree (vertical), Radial (circular)
+- **Contrôles** : Search, zoom, pan, collapse/expand, expand-all, collapse-all
+
+### 🎯 Prochaines étapes
+- [ ] Ajouter entrée "Phylogénétique" au menu principal
+- [ ] Implémenter visualisations associées (carte, heatmap, timeline)
+- [ ] Ajouter export SVG/PNG pour arbres
+- [ ] Créer page Cannabis Explorer (même structure que Nicotiana)
+- [ ] Enrichir les données généalogiques pour Nicotiana et Cannabis

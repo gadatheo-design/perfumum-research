@@ -3,6 +3,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { NicotianaPhylogeny } from '@/components/NicotianaPhylogeny';
 import { NicotianaPhylogenyInteractive } from '@/components/NicotianaPhylogenyInteractive';
 import { PhylogeneticTree } from '@/components/PhylogeneticTree';
+import { PhylogeneticTreeCollapsible } from '@/components/PhylogeneticTreeCollapsible';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertCircle, Leaf, MapPin, Beaker } from 'lucide-react';
 import { trpc } from '@/lib/trpc';
@@ -219,7 +220,7 @@ function PhylogeneticTreeWrapper() {
 
   return (
     <div className="space-y-4">
-      <PhylogeneticTree
+      <PhylogeneticTreeCollapsible
         data={treeData}
         layout={layout}
         onNodeSelect={setSelectedVariety}
