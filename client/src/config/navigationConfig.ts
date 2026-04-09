@@ -155,16 +155,26 @@ export const NAV_GROUPS: NavGroup[] = [
         ],
       },
       {
-        title: "Botanique & Généalogie",
+        title: "Phylogénétique",
         icon: "TreePine",
         items: [
-          { href: "/phylogenetique", label: "Classification Phylogénétique", badge: "NEW" },
+          { href: "/phylogenetique", label: "Vue d'ensemble", badge: "HUB" },
           { href: "/nicotiana-explorer", label: "Explorateur Nicotiana", badge: "NEW" },
+          { href: "/cannabis-explorer", label: "Explorateur Cannabis", badge: "NEW" },
+          { href: "/rosa-explorer", label: "Explorateur Rosa", badge: "NEW" },
+          { href: "/phylogenetique/compare", label: "Comparaison Genres", badge: "NEW" },
+        ],
+      },
+      {
+        title: "Botanique & Généalogie",
+        icon: "Leaf",
+        items: [
           { href: "/genealogy", label: "Arbre Généalogique", badge: "NEW" },
           { href: "/ghost-varieties-explorer", label: "Herbier des Disparus", badge: "NEW" },
           { href: "/leaf-economies", label: "Leaf Economies", badge: "NEW" },
           { href: "/timeline-botanique", label: "Timeline botanique" },
           { href: "/molecules-disparues", label: "Molécules Disparues & IFRA", badge: "NEW" },
+          { href: "/classification-phylogenetique", label: "Classification Phylogénétique" },
         ],
       },
     ],

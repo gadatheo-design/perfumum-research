@@ -3919,3 +3919,30 @@ npm run dev
 - [ ] Ajouter export SVG/PNG pour arbres
 - [ ] Créer page Cannabis Explorer (même structure que Nicotiana)
 - [ ] Enrichir les données généalogiques pour Nicotiana et Cannabis
+
+
+---
+
+## SESSION 9 AVRIL 2026 — Navigation Phylogénétique (Suite)
+
+### ✅ Phase 6 : Intégration au menu principal
+- [x] Identifier la structure du menu principal (navigationConfig.ts)
+- [x] Ajouter section "Phylogénétique" au groupe "Atlas"
+- [x] Créer page hub PhylogeneticsHub.tsx
+- [x] Créer explorateurs Cannabis et Rosa
+- [x] Ajouter routes dans App.tsx
+- [x] Mettre à jour navigationConfig avec sous-menus
+
+### 📊 Résumé de la session
+- **Fichiers créés** : 3 pages (PhylogeneticsHub, CannabisExplorer, RosaExplorer)
+- **Navigation** : Section "Phylogénétique" ajoutée au menu Atlas
+- **Routes** : /phylogenetique, /cannabis-explorer, /rosa-explorer
+- **Fonctionnalités** : Collapse/expand, zoom/pan, search, statistiques
+- **Couverture** : 3 genres (Nicotiana, Cannabis, Rosa) avec explorateurs interactifs
+
+### 🎯 Prochaines étapes
+- [ ] Enrichir les données généalogiques pour Cannabis et Rosa
+- [ ] Implémenter visualisations associées (carte, heatmap, timeline)
+- [ ] Ajouter export SVG/PNG pour arbres phylogénétiques
+- [ ] Créer page de comparaison entre genres
+- [ ] Intégrer Wikidata pour enrichissement automatique
