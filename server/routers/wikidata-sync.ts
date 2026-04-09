@@ -273,55 +273,195 @@ export const wikidataSyncRouter = router({
     }),
 
   /**
-   * Get enrichment recommendations for a variety
+   * Get enrichment recommendations for a variety — returns structured recommendations
+   * Defined as mutation so it can be called with useMutation() on the client
    */
-  getEnrichmentRecommendations: protectedProcedure
+  getEnrichmentRecommendations: publicProcedure
     .input(
       z.object({
-        genus: z.string(),
-        species: z.string(),
+        genus: z.string().min(1),
+        species: z.string().min(1),
         cultivar: z.string().optional(),
       })
     )
-    .query(async ({ input }) => {
+    .mutation(async ({ input }) => {
       const scientificName = input.cultivar
-        ? `${input.genus} ${input.species} ${input.cultivar}`
+        ? `${input.genus} ${input.species} '${input.cultivar}'`
         : `${input.genus} ${input.species}`;
 
       const details = await queryWikidataForTaxon(scientificName);
 
       if (!details) {
-        return {
-          found: false,
-          recommendations: [],
-          message: `No Wikidata entry found for "${scientificName}"`,
-        };
-      }
+        // Try without cultivar if provided
+        const baseScientificName = `${input.genus} ${input.species}`;
+        const baseDetails = await queryWikidataForTaxon(baseScientificName);
 
-      const recommendations: string[] = [];
-      if (details.conservationStatus)
-        recommendations.push(`Update conservation status: ${details.conservationStatus}`);
-      if (details.imageUrl)
-        recommendations.push(`Add image from Wikidata: ${details.imageUrl}`);
-      if (details.parentTaxon)
-        recommendations.push(`Add parent taxon: ${details.parentTaxon}`);
+        if (!baseDetails) {
+          return {
+            found: false,
+            wikidataEntity: null,
+            recommendations: [
+              {
+                type: 'synonyms',
+                title: 'Taxon non trouvé sur Wikidata',
+                description: `"${scientificName}" n'existe pas dans Wikidata. Vérifiez l'orthographe ou essayez le nom de base sans cultivar.`,
+                priority: 'high',
+                action: 'Vérifier le nom scientifique sur wikidata.org',
+              },
+            ],
+          };
+        }
+
+        // Found at species level
+        const [hybrids, distribution] = await Promise.all([
+          queryWikidataForHybrids(baseScientificName),
+          queryWikidataForDistribution(baseScientificName),
+        ]);
+
+        return buildRecommendations(baseDetails, hybrids, distribution, true);
+      }
 
       const [hybrids, distribution] = await Promise.all([
         queryWikidataForHybrids(scientificName),
         queryWikidataForDistribution(scientificName),
       ]);
 
-      if (hybrids.length > 0)
-        recommendations.push(`Found ${hybrids.length} hybrid(s): ${hybrids.join(", ")}`);
-      if (distribution.length > 0)
-        recommendations.push(`Distribution: ${distribution.join(", ")}`);
-
-      return {
-        found: true,
-        wikidataId: details.id,
-        scientificName: details.scientificName,
-        recommendations,
-        details,
-      };
+      return buildRecommendations(details, hybrids, distribution, false);
     }),
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HELPER: Build structured recommendations
+// ─────────────────────────────────────────────────────────────────────────────
+
+function buildRecommendations(
+  entity: WikidataEntity,
+  hybrids: string[],
+  distribution: string[],
+  speciesLevelOnly: boolean
+) {
+  const recs: Array<{
+    type: string;
+    title: string;
+    description: string;
+    priority: 'high' | 'medium' | 'low';
+    action?: string;
+  }> = [];
+
+  if (speciesLevelOnly) {
+    recs.push({
+      type: 'synonyms',
+      title: 'Cultivar non trouvé — données au niveau espèce',
+      description: 'Le cultivar spécifié n\'existe pas dans Wikidata. Les données affichées sont au niveau espèce.',
+      priority: 'medium',
+      action: 'Vérifier si le cultivar est documenté sous un autre nom',
+    });
+  }
+
+  if (!entity.conservationStatus) {
+    recs.push({
+      type: 'conservation',
+      title: 'Statut de conservation IUCN manquant',
+      description: 'Aucun statut IUCN trouvé sur Wikidata pour ce taxon.',
+      priority: 'medium',
+      action: 'Vérifier sur iucnredlist.org et ajouter le statut manuellement',
+    });
+  } else {
+    recs.push({
+      type: 'conservation',
+      title: `Statut IUCN disponible : ${entity.conservationStatus}`,
+      description: 'Importez ce statut dans votre base de données.',
+      priority: 'low',
+      action: `Mettre à jour le statut de conservation : ${entity.conservationStatus}`,
+    });
+  }
+
+  if (!entity.imageUrl) {
+    recs.push({
+      type: 'images',
+      title: 'Aucune image disponible sur Wikidata',
+      description: 'Ce taxon n\'a pas d\'image sur Wikidata. Cherchez sur Wikimedia Commons ou Tropicos.',
+      priority: 'medium',
+      action: 'Uploader une image via /admin/variety-images → onglet Tropicos',
+    });
+  } else {
+    recs.push({
+      type: 'images',
+      title: 'Image disponible sur Wikidata',
+      description: 'Une image botanique est disponible. Importez-la dans votre galerie.',
+      priority: 'low',
+      action: 'Importer l\'image via /admin/variety-images',
+    });
+  }
+
+  if (!entity.parentTaxon) {
+    recs.push({
+      type: 'parents',
+      title: 'Taxon parent non documenté',
+      description: 'La relation parentale de ce taxon n\'est pas renseignée dans Wikidata.',
+      priority: 'high',
+      action: 'Utiliser l\'import CSV généalogies pour ajouter les relations parentales',
+    });
+  } else {
+    recs.push({
+      type: 'parents',
+      title: `Taxon parent : ${entity.parentTaxon}`,
+      description: 'Relation parentale disponible. Vérifiez qu\'elle est bien enregistrée dans votre base.',
+      priority: 'low',
+      action: `Vérifier la relation avec ${entity.parentTaxon}`,
+    });
+  }
+
+  if (hybrids.length === 0) {
+    recs.push({
+      type: 'hybrids',
+      title: 'Aucun hybride documenté',
+      description: 'Wikidata ne référence aucun hybride pour ce taxon.',
+      priority: 'low',
+      action: 'Vérifier dans la littérature scientifique',
+    });
+  } else {
+    recs.push({
+      type: 'hybrids',
+      title: `${hybrids.length} hybride(s) trouvé(s)`,
+      description: `Hybrides : ${hybrids.slice(0, 5).join(', ')}${hybrids.length > 5 ? ` et ${hybrids.length - 5} autres` : ''}.`,
+      priority: 'medium',
+      action: 'Importer les hybrides via l\'import CSV généalogies',
+    });
+  }
+
+  if (distribution.length === 0) {
+    recs.push({
+      type: 'distribution',
+      title: 'Distribution géographique non documentée',
+      description: 'Aucune donnée de distribution disponible sur Wikidata.',
+      priority: 'medium',
+      action: 'Consulter GBIF pour les données d\'occurrence géographique',
+    });
+  } else {
+    recs.push({
+      type: 'distribution',
+      title: `Distribution : ${distribution.length} pays/régions`,
+      description: `Zones : ${distribution.slice(0, 5).join(', ')}${distribution.length > 5 ? ` et ${distribution.length - 5} autres` : ''}.`,
+      priority: 'low',
+      action: 'Visualiser sur la carte GBIF',
+    });
+  }
+
+  return {
+    found: true,
+    wikidataEntity: {
+      qid: entity.id,
+      label: entity.label,
+      description: entity.description,
+      scientificName: entity.scientificName,
+      taxonRank: entity.taxonRank,
+      conservationStatus: entity.conservationStatus,
+      imageUrl: entity.imageUrl,
+      parentTaxon: entity.parentTaxon,
+      hybrids,
+      distribution,
+    },
+    recommendations: recs,
+  };
+}

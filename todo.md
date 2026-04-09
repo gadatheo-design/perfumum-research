@@ -3961,3 +3961,6 @@ npm run dev
 - [ ] Résoudre Wikidata SPARQL endpoint non accessible
 - [ ] Ajouter onglet Images Tropicos dans /admin/variety-images
 - [ ] Corriger le crash TypeScript (mémoire RAM)
+
+- [ ] Corriger l'erreur sur /admin/variety-images (page inaccessible)
+- [ ] Implémenter les recommandations Wikidata (onglet "Recommandations")

@@ -22,7 +22,7 @@ import { Download, Upload, AlertCircle, CheckCircle2, AlertTriangle } from 'luci
 // MAIN PAGE
 // ─────────────────────────────────────────────────────────────────────────────
 
-export function VarietyGenealogyImport() {
+export default function VarietyGenealogyImport() {
   const { toast } = useToast();
   const [csvData, setCsvData] = useState('');
   const [activeTab, setActiveTab] = useState('input');

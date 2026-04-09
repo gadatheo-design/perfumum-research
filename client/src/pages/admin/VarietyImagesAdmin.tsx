@@ -632,7 +632,7 @@ function ImageGallery({ images, onVerify, onDelete, isLoading }: ImageGalleryPro
 // MAIN PAGE
 // ─────────────────────────────────────────────────────────────────────────────
 
-export function VarietyImagesAdmin() {
+export default function VarietyImagesAdmin() {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('gallery');
   const [filterGenus, setFilterGenus] = useState('');

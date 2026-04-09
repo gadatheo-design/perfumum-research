@@ -17,7 +17,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { trpc } from '@/lib/trpc';
 import { useToast } from '@/hooks/use-toast';
-import { Search, RefreshCw, CheckCircle2, AlertCircle, ExternalLink, Lightbulb } from 'lucide-react';
+import { Search, RefreshCw, CheckCircle2, AlertCircle, ExternalLink, Lightbulb, MapPin, Shield, Image, GitBranch, Leaf, BookOpen, ChevronRight, Loader2 } from 'lucide-react';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // MAIN PAGE
@@ -30,11 +30,19 @@ export default function WikidataSync() {
   const [selectedEntity, setSelectedEntity] = useState<any | null>(null);
   const [batchNames, setBatchNames] = useState('');
 
+  // Recommendation state
+  const [recGenus, setRecGenus] = useState('');
+  const [recSpecies, setRecSpecies] = useState('');
+  const [recCultivar, setRecCultivar] = useState('');
+  const [recommendations, setRecommendations] = useState<any | null>(null);
+  const [recLoading, setRecLoading] = useState(false);
+
   // Queries
   const statsQuery = trpc.wikidataSync.getStats.useQuery();
   const searchQuery_mutation = trpc.wikidataSync.searchTaxon.useMutation();
   const detailsQuery = trpc.wikidataSync.getTaxonDetails.useMutation();
   const batchQuery = trpc.wikidataSync.batchSearchTaxa.useMutation();
+  const recommendationsMutation = trpc.wikidataSync.getEnrichmentRecommendations.useMutation();
 
   // Handle search
   const handleSearch = async (e: React.FormEvent) => {
@@ -392,35 +400,182 @@ export default function WikidataSync() {
 
         {/* TAB 3: ENRICHMENT RECOMMENDATIONS */}
         <TabsContent value="enrichment" className="space-y-4">
+          {/* Search form */}
           <Card>
             <CardHeader>
-              <CardTitle>Recommandations d'enrichissement</CardTitle>
+              <CardTitle className="flex items-center gap-2">
+                <Lightbulb className="h-5 w-5 text-yellow-500" />
+                Recommandations d'enrichissement
+              </CardTitle>
               <CardDescription>
-                Obtenez des suggestions pour enrichir vos données de variétés avec Wikidata
+                Analysez une variété pour obtenir des suggestions d'enrichissement automatique depuis Wikidata
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Alert>
-                <Lightbulb className="h-4 w-4" />
-                <AlertDescription>
-                  Cette fonctionnalité est en développement. Elle permettra bientôt de générer automatiquement
-                  des recommandations d'enrichissement pour vos variétés.
-                </AlertDescription>
-              </Alert>
-
-              <div className="text-sm text-gray-600 space-y-2">
-                <p>Les recommandations incluront :</p>
-                <ul className="list-disc list-inside space-y-1">
-                  <li>Statut de conservation IUCN</li>
-                  <li>Images morphologiques</li>
-                  <li>Taxons parents</li>
-                  <li>Hybrides connus</li>
-                  <li>Distribution géographique</li>
-                  <li>Synonymes scientifiques</li>
-                </ul>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">Genre *</label>
+                  <Input
+                    placeholder="ex: Nicotiana"
+                    value={recGenus}
+                    onChange={(e) => setRecGenus(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">Espèce *</label>
+                  <Input
+                    placeholder="ex: tabacum"
+                    value={recSpecies}
+                    onChange={(e) => setRecSpecies(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-1 block">Cultivar (optionnel)</label>
+                  <Input
+                    placeholder="ex: Basma"
+                    value={recCultivar}
+                    onChange={(e) => setRecCultivar(e.target.value)}
+                  />
+                </div>
               </div>
+              <Button
+                onClick={async () => {
+                  if (!recGenus.trim() || !recSpecies.trim()) {
+                    toast({ title: 'Erreur', description: 'Genre et espèce requis', variant: 'destructive' });
+                    return;
+                  }
+                  setRecLoading(true);
+                  setRecommendations(null);
+                  try {
+                    const result = await recommendationsMutation.mutateAsync({
+                      genus: recGenus.trim(),
+                      species: recSpecies.trim(),
+                      cultivar: recCultivar.trim() || undefined,
+                    });
+                    setRecommendations(result);
+                  } catch (err) {
+                    toast({ title: 'Erreur', description: 'Impossible de générer les recommandations', variant: 'destructive' });
+                  } finally {
+                    setRecLoading(false);
+                  }
+                }}
+                disabled={recLoading}
+                className="w-full md:w-auto"
+              >
+                {recLoading ? (
+                  <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Analyse en cours...</>
+                ) : (
+                  <><Lightbulb className="h-4 w-4 mr-2" />Générer les recommandations</>
+                )}
+              </Button>
             </CardContent>
           </Card>
+
+          {/* Results */}
+          {recommendations && (
+            <div className="space-y-4">
+              {/* Summary */}
+              <Card className="border-yellow-200 bg-yellow-50">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-base">
+                    Analyse de{' '}
+                    <span className="italic">{recGenus} {recSpecies}{recCultivar ? ` '${recCultivar}'` : ''}</span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-yellow-700">{recommendations.recommendations?.length || 0}</div>
+                      <div className="text-xs text-yellow-600">Recommandations</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-green-700">{recommendations.wikidataEntity ? '✓' : '✗'}</div>
+                      <div className="text-xs text-gray-600">Wikidata trouvé</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-blue-700">{recommendations.wikidataEntity?.qid || '—'}</div>
+                      <div className="text-xs text-gray-600">QID Wikidata</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold">
+                        {recommendations.wikidataEntity?.conservationStatus ? (
+                          <Badge variant="outline">{recommendations.wikidataEntity.conservationStatus}</Badge>
+                        ) : '—'}
+                      </div>
+                      <div className="text-xs text-gray-600">Statut IUCN</div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Recommendations list */}
+              {recommendations.recommendations && recommendations.recommendations.length > 0 ? (
+                <div className="space-y-3">
+                  {recommendations.recommendations.map((rec: any, idx: number) => {
+                    const icons: Record<string, React.ReactNode> = {
+                      conservation: <Shield className="h-4 w-4 text-red-500" />,
+                      images: <Image className="h-4 w-4 text-purple-500" />,
+                      parents: <GitBranch className="h-4 w-4 text-blue-500" />,
+                      hybrids: <Leaf className="h-4 w-4 text-green-500" />,
+                      distribution: <MapPin className="h-4 w-4 text-orange-500" />,
+                      synonyms: <BookOpen className="h-4 w-4 text-gray-500" />,
+                    };
+                    const priorityColors: Record<string, string> = {
+                      high: 'border-red-200 bg-red-50',
+                      medium: 'border-yellow-200 bg-yellow-50',
+                      low: 'border-gray-200 bg-gray-50',
+                    };
+                    return (
+                      <Card key={idx} className={priorityColors[rec.priority] || 'border-gray-200'}>
+                        <CardContent className="py-3">
+                          <div className="flex items-start gap-3">
+                            <div className="mt-0.5">{icons[rec.type] || <ChevronRight className="h-4 w-4" />}</div>
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-1">
+                                <span className="font-medium text-sm">{rec.title}</span>
+                                <Badge variant="outline" className="text-xs">
+                                  {rec.priority === 'high' ? '🔴 Haute' : rec.priority === 'medium' ? '🟡 Moyenne' : '🟢 Basse'}
+                                </Badge>
+                              </div>
+                              <p className="text-sm text-gray-600">{rec.description}</p>
+                              {rec.action && (
+                                <p className="text-xs text-blue-600 mt-1 flex items-center gap-1">
+                                  <ChevronRight className="h-3 w-3" />{rec.action}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              ) : (
+                <Card className="border-green-200 bg-green-50">
+                  <CardContent className="py-6 text-center">
+                    <CheckCircle2 className="h-8 w-8 text-green-500 mx-auto mb-2" />
+                    <p className="font-medium text-green-700">Données complètes !</p>
+                    <p className="text-sm text-green-600">Aucune recommandation d'enrichissement pour cette variété.</p>
+                  </CardContent>
+                </Card>
+              )}
+
+              {/* Wikidata link */}
+              {recommendations.wikidataEntity?.qid && (
+                <div className="flex justify-end">
+                  <a
+                    href={`https://www.wikidata.org/wiki/${recommendations.wikidataEntity.qid}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1 text-sm text-blue-600 hover:underline"
+                  >
+                    <ExternalLink className="h-3 w-3" />
+                    Voir sur Wikidata ({recommendations.wikidataEntity.qid})
+                  </a>
+                </div>
+              )}
+            </div>
+          )}
         </TabsContent>
       </Tabs>
 
