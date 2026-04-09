@@ -3809,3 +3809,59 @@ npm run dev
 - Le stockage S3 est utilisé pour les images morphologiques
 - Les requêtes Wikidata utilisent l'endpoint SPARQL public
 - Le mode dry-run permet de prévisualiser les imports sans modifier la base de données
+
+
+---
+
+## 🌳 SESSION 9 AVRIL 2026 — Visualisations Phylogénétiques Interactives
+
+### Phase 1 : Enrichir les données généalogiques (Nicotiana + Cannabis)
+- [ ] Analyser la structure généalogique existante (variétés, parents, hybrides)
+- [ ] Importer les généalogies Nicotiana (Virginia, Burley, Latakia, Oriental, Perique, etc.)
+- [ ] Importer les généalogies Cannabis (Afghan Kush, Durban Poison, Hindu Kush, Thai Stick, etc.)
+- [ ] Ajouter les années de création/découverte
+- [ ] Ajouter les statuts IUCN de conservation
+- [ ] Ajouter les distributions géographiques
+- [ ] Valider les données généalogiques
+
+### Phase 2 : Créer le composant phylogénétique arborescent (D3.js)
+- [ ] Installer D3.js et dépendances (d3-hierarchy, d3-zoom, d3-drag)
+- [ ] Créer le routeur tRPC pour récupérer l'arbre généalogique
+- [ ] Créer le composant PhylogeneticTree.tsx avec layout arborescent vertical
+- [ ] Implémenter le rendu SVG avec D3.js
+- [ ] Ajouter les nœuds (espèces) et liens (relations)
+- [ ] Ajouter les étiquettes (noms scientifiques)
+- [ ] Tester le rendu pour Nicotiana et Cannabis
+
+### Phase 3 : Ajouter les contrôles interactifs
+- [ ] Implémenter le zoom & pan (mouse wheel, drag)
+- [ ] Ajouter la recherche/filtre par nom
+- [ ] Ajouter le highlight des clades (sections taxonomiques)
+- [ ] Ajouter le collapse/expand des branches
+- [ ] Implémenter les tooltips au survol
+- [ ] Créer le side panel pour afficher les détails de l'espèce
+- [ ] Ajouter la légende (couleurs, symboles)
+
+### Phase 4 : Créer le layout circulaire alternatif
+- [ ] Implémenter le layout radial (circulaire)
+- [ ] Ajouter le toggle entre layout arborescent et circulaire
+- [ ] Tester les deux layouts pour Nicotiana et Cannabis
+- [ ] Optimiser les performances pour les grands arbres
+
+### Phase 5 : Ajouter les visualisations associées
+- [ ] Créer la carte mondiale avec distribution des espèces
+- [ ] Créer la heatmap des profils moléculaires (alcaloïdes)
+- [ ] Créer le pie chart des statuts IUCN
+- [ ] Créer la timeline des découvertes taxonomiques
+- [ ] Créer les radar charts de comparaison interactifs
+
+### Phase 6 : Intégration menu + navigation + export
+- [ ] Ajouter "Phylogénétique" au menu principal
+- [ ] Créer la page `/phylogeny` avec sélection du genre
+- [ ] Créer la page `/phylogeny/nicotiana` pour l'explorateur Nicotiana
+- [ ] Créer la page `/phylogeny/cannabis` pour l'explorateur Cannabis
+- [ ] Ajouter les breadcrumbs de navigation
+- [ ] Implémenter l'export SVG/PNG
+- [ ] Implémenter l'export CSV avec métadonnées
+- [ ] Ajouter les URLs partageables
+- [ ] Tester la compatibilité mobile

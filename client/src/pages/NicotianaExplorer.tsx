@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { NicotianaPhylogeny } from '@/components/NicotianaPhylogeny';
 import { NicotianaPhylogenyInteractive } from '@/components/NicotianaPhylogenyInteractive';
+import { PhylogeneticTree } from '@/components/PhylogeneticTree';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { AlertCircle, Leaf, MapPin, Beaker } from 'lucide-react';
+import { trpc } from '@/lib/trpc';
+import { Loader2 } from 'lucide-react';
 
 export default function NicotianaExplorer() {
   return (
@@ -87,7 +90,7 @@ export default function NicotianaExplorer() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <NicotianaPhylogeny />
+                <PhylogeneticTreeWrapper />
               </CardContent>
             </Card>
           </TabsContent>
@@ -169,6 +172,58 @@ export default function NicotianaExplorer() {
           </TabsContent>
         </Tabs>
       </div>
+    </div>
+  );
+}
+
+
+/**
+ * PhylogeneticTreeWrapper - Component to fetch and display phylogenetic tree
+ */
+function PhylogeneticTreeWrapper() {
+  const [layout, setLayout] = useState<"tree" | "radial">("tree");
+  const [selectedVariety, setSelectedVariety] = useState<any>(null);
+
+  const { data: treeData, isLoading, error } = trpc.phylogeny.getPhylogeneticTree.useQuery({
+    genus: "Nicotiana",
+    species: "tabacum",
+    layout,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-center space-y-4">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto text-blue-600" />
+          <p className="text-gray-600">Loading phylogenetic tree...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !treeData) {
+    return (
+      <Card className="p-6 border-red-200 bg-red-50">
+        <div className="flex gap-3">
+          <AlertCircle className="h-5 w-5 text-red-600 flex-shrink-0" />
+          <div>
+            <h3 className="font-bold text-red-900">Error Loading Data</h3>
+            <p className="text-sm text-red-700 mt-1">
+              {error?.message || "Failed to load phylogenetic tree"}
+            </p>
+          </div>
+        </div>
+      </Card>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <PhylogeneticTree
+        data={treeData}
+        layout={layout}
+        onNodeSelect={setSelectedVariety}
+      />
     </div>
   );
 }

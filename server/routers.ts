@@ -84,6 +84,7 @@ import { auditRouter } from './routers/audit';
 import { varietyImagesRouter } from './routers/variety-images';
 import { varietyGenealogyImportRouter } from './routers/variety-genealogy-import';
 import { wikidataSyncRouter } from './routers/wikidata-sync';
+import { phylogenyRouter } from './routers/phylogeny';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -12516,6 +12517,8 @@ Familles olfactives disponibles:
   varietyGenealogyImport: varietyGenealogyImportRouter,
   // Wikidata Sync — Synchronize variety data with Wikidata
   wikidataSync: wikidataSyncRouter,
+  // Phylogeny — Phylogenetic tree visualization for genera
+  phylogeny: phylogenyRouter,
 });
 export type AppRouter = typeof appRouter;
 
