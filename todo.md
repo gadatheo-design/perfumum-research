@@ -3954,3 +3954,10 @@ npm run dev
 - [ ] Créer page admin /admin/tropicos-enrichment
 - [ ] Améliorer tableau de bord admin avec statistiques en temps réel (couverture Wikidata, images manquantes, variétés sans généalogie)
 - [ ] Ajouter liens rapides vers outils d'enrichissement dans le dashboard
+
+
+## SESSION 9 AVRIL 2026 — Wikidata SPARQL + Tropicos Images + TypeScript
+
+- [ ] Résoudre Wikidata SPARQL endpoint non accessible
+- [ ] Ajouter onglet Images Tropicos dans /admin/variety-images
+- [ ] Corriger le crash TypeScript (mémoire RAM)

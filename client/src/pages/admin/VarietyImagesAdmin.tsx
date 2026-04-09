@@ -17,7 +17,213 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { trpc } from '@/lib/trpc';
 import { useToast } from '@/hooks/use-toast';
-import { Upload, CheckCircle2, AlertCircle, Trash2, Eye, Download } from 'lucide-react';
+import { Upload, CheckCircle2, AlertCircle, Trash2, Eye, Download, Search, ExternalLink, ImageIcon, Loader2 } from 'lucide-react';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TROPICOS IMAGE BROWSER COMPONENT
+// ─────────────────────────────────────────────────────────────────────────────
+
+function TropicosImageBrowser() {
+  const { toast } = useToast();
+  const [searchName, setSearchName] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedNameId, setSelectedNameId] = useState<number | null>(null);
+  const [selectedPlantName, setSelectedPlantName] = useState('');
+
+  // Search for plant names in Tropicos
+  const searchResults = trpc.tropicosEnrichment.searchName.useQuery(
+    { name: searchQuery, limit: 10 },
+    { enabled: searchQuery.length >= 3 }
+  );
+
+  // Get images for selected NameId
+  const imagesQuery = trpc.tropicosEnrichment.getImages.useQuery(
+    { nameId: selectedNameId!, limit: 20 },
+    { enabled: selectedNameId !== null }
+  );
+
+  const handleSearch = () => {
+    if (searchName.trim().length < 3) {
+      toast({ title: 'Erreur', description: 'Entrez au moins 3 caractères', variant: 'destructive' });
+      return;
+    }
+    setSearchQuery(searchName.trim());
+    setSelectedNameId(null);
+  };
+
+  const handleSelectPlant = (nameId: number, name: string) => {
+    setSelectedNameId(nameId);
+    setSelectedPlantName(name);
+  };
+
+  const handleImportImage = (img: { largeUrl?: string; thumbnailUrl?: string; copyright?: string; caption?: string }) => {
+    const url = img.largeUrl || img.thumbnailUrl;
+    if (!url) return;
+    window.open(url, '_blank');
+    toast({
+      title: 'Image Tropicos',
+      description: 'Image ouverte dans un nouvel onglet. Téléchargez-la puis uploadez-la via le bouton "Uploader une image".',
+    });
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Info banner */}
+      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 flex gap-3">
+        <ImageIcon className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+        <div className="text-sm text-blue-800">
+          <p className="font-semibold mb-1">Tropicos — Missouri Botanical Garden</p>
+          <p>Recherchez une plante par son nom scientifique pour accéder aux images botaniques de la base Tropicos (685 000+ images). Sélectionnez une image pour l'ouvrir en haute résolution, puis uploadez-la via l'onglet "Galerie locale".</p>
+        </div>
+      </div>
+
+      {/* Search bar */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Rechercher dans Tropicos</CardTitle>
+          <CardDescription>Entrez un nom scientifique (genre + espèce)</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex gap-2">
+            <Input
+              placeholder="ex: Nicotiana tabacum, Cannabis sativa, Rosa damascena"
+              value={searchName}
+              onChange={(e) => setSearchName(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              className="flex-1"
+            />
+            <Button onClick={handleSearch} disabled={searchResults.isFetching}>
+              {searchResults.isFetching ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+              Rechercher
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Search results */}
+      {searchResults.data && searchResults.data.results.length > 0 && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">
+              Résultats ({searchResults.data.total})
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-2">
+              {searchResults.data.results.map((r: any) => (
+                <div
+                  key={String(r.nameId)}
+                  className={`flex items-center justify-between p-3 rounded-lg border cursor-pointer transition-colors ${
+                    selectedNameId === Number(r.nameId)
+                      ? 'bg-primary/10 border-primary'
+                      : 'hover:bg-gray-50 border-gray-200'
+                  }`}
+                  onClick={() => handleSelectPlant(Number(r.nameId), String(r.scientificName || ''))}
+                >
+                  <div>
+                    <p className="font-medium italic">{String(r.scientificName || '')}</p>
+                    <p className="text-sm text-gray-500">
+                      {String(r.author || '')} {r.year ? `(${String(r.year)})` : ''} — {String(r.family || '')} — {String(r.rank || '')}
+                    </p>
+                    {r.nomenclatureStatus && (
+                      <Badge variant="outline" className="text-xs mt-1">{String(r.nomenclatureStatus)}</Badge>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {r.url && (
+                      <a
+                        href={String(r.url)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="text-blue-600 hover:text-blue-800"
+                      >
+                        <ExternalLink className="w-4 h-4" />
+                      </a>
+                    )}
+                    <Button
+                      size="sm"
+                      variant={selectedNameId === Number(r.nameId) ? 'default' : 'outline'}
+                      onClick={(e) => { e.stopPropagation(); handleSelectPlant(Number(r.nameId), String(r.scientificName || '')); }}
+                    >
+                      Voir images
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {searchResults.data && searchResults.data.results.length === 0 && searchQuery && (
+        <Card>
+          <CardContent className="py-8 text-center text-gray-500">
+            Aucun résultat pour "{searchQuery}" dans Tropicos
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Images grid */}
+      {selectedNameId !== null && (
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-base">
+              Images botaniques — <span className="italic">{selectedPlantName}</span>
+            </CardTitle>
+            <CardDescription>
+              {imagesQuery.isLoading ? 'Chargement...' : `${imagesQuery.data?.total || 0} images disponibles`}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {imagesQuery.isLoading && (
+              <div className="flex justify-center py-8">
+                <Loader2 className="w-8 h-8 animate-spin text-primary" />
+              </div>
+            )}
+            {imagesQuery.data && imagesQuery.data.results.length === 0 && (
+              <p className="text-center text-gray-500 py-8">Aucune image disponible pour cette espèce dans Tropicos</p>
+            )}
+            {imagesQuery.data && imagesQuery.data.results.length > 0 && (
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {imagesQuery.data.results.map((img: any, idx: number) => (
+                  <div key={idx} className="group relative rounded-lg overflow-hidden border border-gray-200 hover:border-primary transition-colors">
+                    {img.thumbnailUrl ? (
+                      <img
+                        src={String(img.thumbnailUrl)}
+                        alt={String(img.caption || selectedPlantName)}
+                        className="w-full h-40 object-cover"
+                        onError={(e) => { (e.target as HTMLImageElement).src = '/placeholder-plant.svg'; }}
+                      />
+                    ) : (
+                      <div className="w-full h-40 bg-gray-100 flex items-center justify-center">
+                        <ImageIcon className="w-8 h-8 text-gray-400" />
+                      </div>
+                    )}
+                    <div className="p-2">
+                      {img.caption && <p className="text-xs text-gray-600 truncate">{String(img.caption)}</p>}
+                      {img.copyright && <p className="text-xs text-gray-400 truncate">© {String(img.copyright)}</p>}
+                    </div>
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                      {img.largeUrl && (
+                        <Button size="sm" variant="secondary" onClick={() => window.open(String(img.largeUrl), '_blank')}>
+                          <Eye className="w-4 h-4 mr-1" /> Voir
+                        </Button>
+                      )}
+                      <Button size="sm" onClick={() => handleImportImage(img as any)}>
+                        <Download className="w-4 h-4 mr-1" /> Importer
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // UPLOAD FORM COMPONENT
@@ -428,7 +634,7 @@ function ImageGallery({ images, onVerify, onDelete, isLoading }: ImageGalleryPro
 
 export function VarietyImagesAdmin() {
   const { toast } = useToast();
-  const [activeTab, setActiveTab] = useState('all');
+  const [activeTab, setActiveTab] = useState('gallery');
   const [filterGenus, setFilterGenus] = useState('');
   const [filterVerified, setFilterVerified] = useState<'all' | 'verified' | 'unverified'>('all');
 
@@ -522,6 +728,18 @@ export function VarietyImagesAdmin() {
         </div>
       )}
 
+      {/* Tabs */}
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
+        <TabsList className="mb-4">
+          <TabsTrigger value="gallery">Galerie locale</TabsTrigger>
+          <TabsTrigger value="tropicos">Images Tropicos</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="tropicos">
+          <TropicosImageBrowser />
+        </TabsContent>
+
+        <TabsContent value="gallery">
       {/* Filters */}
       <Card>
         <CardHeader>
@@ -573,6 +791,8 @@ export function VarietyImagesAdmin() {
           />
         </CardContent>
       </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

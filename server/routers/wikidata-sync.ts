@@ -11,6 +11,17 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 
 // ─────────────────────────────────────────────────────────────────────────────
+// CONSTANTS
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Wikidata requires a descriptive User-Agent for all SPARQL requests
+const WIKIDATA_USER_AGENT =
+  "PERFUMUM-Research/1.0 (https://perfumum.manus.space; olfactory-research-project) Node.js/fetch";
+
+const SPARQL_ENDPOINT = "https://query.wikidata.org/sparql";
+const SPARQL_TIMEOUT_MS = 20000; // 20 seconds
+
+// ─────────────────────────────────────────────────────────────────────────────
 // TYPES
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -29,157 +40,134 @@ interface WikidataEntity {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// HELPER: SPARQL fetch with proper headers and timeout
+// ─────────────────────────────────────────────────────────────────────────────
+
+async function sparqlQuery(query: string): Promise<any> {
+  const url = new URL(SPARQL_ENDPOINT);
+  url.searchParams.set("query", query.trim());
+  url.searchParams.set("format", "json");
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), SPARQL_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(url.toString(), {
+      method: "GET",
+      headers: {
+        Accept: "application/sparql-results+json",
+        "User-Agent": WIKIDATA_USER_AGENT,
+        "Accept-Language": "en",
+      },
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      throw new Error(`SPARQL HTTP ${response.status}: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data?.results?.bindings ?? [];
+  } catch (err: any) {
+    clearTimeout(timeoutId);
+    if (err.name === "AbortError") {
+      throw new Error("Wikidata SPARQL request timed out after 20 seconds");
+    }
+    throw err;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // HELPER FUNCTIONS
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * Query Wikidata SPARQL endpoint for a taxon
- */
 async function queryWikidataForTaxon(
   scientificName: string
 ): Promise<WikidataEntity | null> {
   try {
-    // SPARQL query to find taxon by scientific name
-    const sparqlQuery = `
-      SELECT ?item ?itemLabel ?itemDescription ?scientificName ?taxonRank ?taxonRankLabel
-             ?parentTaxon ?parentTaxonLabel ?image ?conservationStatus ?conservationStatusLabel
+    // Escape quotes in scientific name for SPARQL safety
+    const safeName = scientificName.replace(/"/g, '\\"');
+
+    const query = `
+      SELECT ?item ?itemLabel ?itemDescription ?scientificName
+             ?taxonRankLabel ?parentTaxonLabel ?image ?conservationStatusLabel
       WHERE {
-        ?item wdt:P225 "${scientificName}" .
-        ?item rdfs:label ?itemLabel .
-        FILTER(LANG(?itemLabel) = "en")
-        
-        OPTIONAL { ?item schema:description ?itemDescription . FILTER(LANG(?itemDescription) = "en") }
-        OPTIONAL { ?item wdt:P225 ?scientificName . }
+        ?item wdt:P225 "${safeName}" .
         OPTIONAL { ?item wdt:P105 ?taxonRank . }
         OPTIONAL { ?item wdt:P171 ?parentTaxon . }
         OPTIONAL { ?item wdt:P18 ?image . }
         OPTIONAL { ?item wdt:P141 ?conservationStatus . }
-        
-        SERVICE wikibase:label { bd:serviceParam wikibase:language "en" . }
+        SERVICE wikibase:label {
+          bd:serviceParam wikibase:language "en,fr" .
+        }
       }
       LIMIT 1
     `;
 
-    const url = new URL("https://query.wikidata.org/sparql");
-    url.searchParams.append("query", sparqlQuery);
-    url.searchParams.append("format", "json");
+    const bindings = await sparqlQuery(query);
 
-    const response = await fetch(url.toString(), {
-      headers: {
-        Accept: "application/sparql-results+json",
-      },
-    });
+    if (bindings.length === 0) return null;
 
-    if (!response.ok) {
-      throw new Error(`Wikidata query failed: ${response.statusText}`);
-    }
-
-    const data = await response.json() as any;
-    const results = data.results?.bindings || [];
-
-    if (results.length === 0) {
-      return null;
-    }
-
-    const result = results[0];
-    const wikidataId = result.item?.value?.split("/").pop() || "";
+    const r = bindings[0];
+    const wikidataId = r.item?.value?.split("/").pop() ?? "";
 
     return {
       id: wikidataId,
-      label: result.itemLabel?.value || scientificName,
-      description: result.itemDescription?.value || "",
+      label: r.itemLabel?.value ?? scientificName,
+      description: r.itemDescription?.value ?? "",
       aliases: [],
-      scientificName: result.scientificName?.value || scientificName,
-      taxonRank: result.taxonRankLabel?.value,
-      parentTaxon: result.parentTaxonLabel?.value,
-      conservationStatus: result.conservationStatusLabel?.value,
-      imageUrl: result.image?.value,
+      scientificName: r.scientificName?.value ?? scientificName,
+      taxonRank: r.taxonRankLabel?.value,
+      parentTaxon: r.parentTaxonLabel?.value,
+      conservationStatus: r.conservationStatusLabel?.value,
+      imageUrl: r.image?.value,
     };
   } catch (error) {
-    console.error("Error querying Wikidata:", error);
+    console.error("queryWikidataForTaxon error:", error);
     return null;
   }
 }
 
-/**
- * Query Wikidata for hybrids of a taxon
- */
-async function queryWikidataForHybrids(
-  scientificName: string
-): Promise<string[]> {
+async function queryWikidataForHybrids(scientificName: string): Promise<string[]> {
   try {
-    const sparqlQuery = `
+    const safeName = scientificName.replace(/"/g, '\\"');
+    const query = `
       SELECT ?hybridLabel
       WHERE {
-        ?parent wdt:P225 "${scientificName}" .
+        ?parent wdt:P225 "${safeName}" .
         ?hybrid wdt:P7209 ?parent .
-        ?hybrid rdfs:label ?hybridLabel .
-        FILTER(LANG(?hybridLabel) = "en")
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en,fr" . }
       }
       LIMIT 20
     `;
-
-    const url = new URL("https://query.wikidata.org/sparql");
-    url.searchParams.append("query", sparqlQuery);
-    url.searchParams.append("format", "json");
-
-    const response = await fetch(url.toString(), {
-      headers: {
-        Accept: "application/sparql-results+json",
-      },
-    });
-
-    if (!response.ok) {
-      return [];
-    }
-
-    const data = await response.json() as any;
-    const results = data.results?.bindings || [];
-
-    return results.map((r: any) => r.hybridLabel?.value || "").filter((v: string) => v);
-  } catch (error) {
-    console.error("Error querying Wikidata hybrids:", error);
+    const bindings = await sparqlQuery(query);
+    return bindings
+      .map((r: any) => r.hybridLabel?.value ?? "")
+      .filter(Boolean);
+  } catch {
     return [];
   }
 }
 
-/**
- * Query Wikidata for distribution of a taxon
- */
-async function queryWikidataForDistribution(
-  scientificName: string
-): Promise<string[]> {
+async function queryWikidataForDistribution(scientificName: string): Promise<string[]> {
   try {
-    const sparqlQuery = `
+    const safeName = scientificName.replace(/"/g, '\\"');
+    const query = `
       SELECT ?countryLabel
       WHERE {
-        ?taxon wdt:P225 "${scientificName}" .
+        ?taxon wdt:P225 "${safeName}" .
         ?taxon wdt:P183 ?country .
-        ?country rdfs:label ?countryLabel .
-        FILTER(LANG(?countryLabel) = "en")
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en,fr" . }
       }
+      LIMIT 30
     `;
-
-    const url = new URL("https://query.wikidata.org/sparql");
-    url.searchParams.append("query", sparqlQuery);
-    url.searchParams.append("format", "json");
-
-    const response = await fetch(url.toString(), {
-      headers: {
-        Accept: "application/sparql-results+json",
-      },
-    });
-
-    if (!response.ok) {
-      return [];
-    }
-
-    const data = await response.json() as any;
-    const results = data.results?.bindings || [];
-
-    return results.map((r: any) => r.countryLabel?.value || "").filter((v: string) => v);
-  } catch (error) {
-    console.error("Error querying Wikidata distribution:", error);
+    const bindings = await sparqlQuery(query);
+    return bindings
+      .map((r: any) => r.countryLabel?.value ?? "")
+      .filter(Boolean);
+  } catch {
     return [];
   }
 }
@@ -190,165 +178,102 @@ async function queryWikidataForDistribution(
 
 export const wikidataSyncRouter = router({
   /**
+   * Health check — lightweight query to verify SPARQL endpoint availability
+   */
+  getStats: publicProcedure.query(async () => {
+    try {
+      // Minimal query: just ask for 1 species-rank taxon
+      const query = `SELECT ?item WHERE { ?item wdt:P31 wd:Q16521 . } LIMIT 1`;
+      const bindings = await sparqlQuery(query);
+
+      return {
+        status: "ok",
+        message: "Wikidata SPARQL endpoint is accessible",
+        taxaFound: bindings.length,
+        timestamp: new Date().toISOString(),
+      };
+    } catch (error: any) {
+      console.error("Wikidata health check failed:", error);
+      return {
+        status: "error",
+        message: `Wikidata SPARQL endpoint is not responding: ${error?.message ?? "unknown error"}`,
+        timestamp: new Date().toISOString(),
+      };
+    }
+  }),
+
+  /**
    * Search for a taxon on Wikidata by scientific name
    */
   searchTaxon: publicProcedure
-    .input(
-      z.object({
-        scientificName: z.string().min(1),
-      })
-    )
+    .input(z.object({ scientificName: z.string().min(1) }))
     .query(async ({ input }) => {
-      try {
-        const entity = await queryWikidataForTaxon(input.scientificName);
-
-        if (!entity) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: `Taxon "${input.scientificName}" not found on Wikidata`,
-          });
-        }
-
-        return entity;
-      } catch (error) {
-        console.error("Error searching Wikidata:", error);
-        if (error instanceof TRPCError) {
-          throw error;
-        }
+      const entity = await queryWikidataForTaxon(input.scientificName);
+      if (!entity) {
         throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to search Wikidata",
+          code: "NOT_FOUND",
+          message: `Taxon "${input.scientificName}" not found on Wikidata`,
         });
       }
+      return entity;
     }),
 
   /**
    * Get detailed information about a taxon including hybrids and distribution
    */
   getTaxonDetails: publicProcedure
-    .input(
-      z.object({
-        scientificName: z.string().min(1),
-      })
-    )
+    .input(z.object({ scientificName: z.string().min(1) }))
     .query(async ({ input }) => {
-      try {
-        // Get base entity
-        const entity = await queryWikidataForTaxon(input.scientificName);
-
-        if (!entity) {
-          throw new TRPCError({
-            code: "NOT_FOUND",
-            message: `Taxon "${input.scientificName}" not found on Wikidata`,
-          });
-        }
-
-        // Get hybrids and distribution in parallel
-        const [hybrids, distribution] = await Promise.all([
-          queryWikidataForHybrids(input.scientificName),
-          queryWikidataForDistribution(input.scientificName),
-        ]);
-
-        return {
-          ...entity,
-          hybrids,
-          distribution,
-        };
-      } catch (error) {
-        console.error("Error fetching taxon details:", error);
-        if (error instanceof TRPCError) {
-          throw error;
-        }
+      const entity = await queryWikidataForTaxon(input.scientificName);
+      if (!entity) {
         throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to fetch taxon details",
+          code: "NOT_FOUND",
+          message: `Taxon "${input.scientificName}" not found on Wikidata`,
         });
       }
+
+      const [hybrids, distribution] = await Promise.all([
+        queryWikidataForHybrids(input.scientificName),
+        queryWikidataForDistribution(input.scientificName),
+      ]);
+
+      return { ...entity, hybrids, distribution };
     }),
 
   /**
-   * Batch search for multiple taxa
+   * Batch search for multiple taxa (max 20 per request to avoid rate limiting)
    */
   batchSearchTaxa: publicProcedure
     .input(
       z.object({
-        scientificNames: z.array(z.string().min(1)).min(1).max(50),
+        scientificNames: z.array(z.string().min(1)).min(1).max(20),
       })
     )
     .query(async ({ input }) => {
-      try {
-        const results = await Promise.all(
-          input.scientificNames.map(async (name) => {
-            const entity = await queryWikidataForTaxon(name);
-            return {
-              scientificName: name,
-              found: entity !== null,
-              entity: entity || null,
-            };
-          })
-        );
+      // Sequential to avoid hammering Wikidata
+      const results: Array<{
+        scientificName: string;
+        found: boolean;
+        entity: WikidataEntity | null;
+      }> = [];
 
-        return {
-          total: results.length,
-          found: results.filter((r) => r.found).length,
-          notFound: results.filter((r) => !r.found).length,
-          results,
-        };
-      } catch (error) {
-        console.error("Error batch searching Wikidata:", error);
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to batch search Wikidata",
-        });
+      for (const name of input.scientificNames) {
+        const entity = await queryWikidataForTaxon(name);
+        results.push({ scientificName: name, found: entity !== null, entity });
+        // Small delay between requests to be polite to Wikidata
+        await new Promise((r) => setTimeout(r, 300));
       }
+
+      return {
+        total: results.length,
+        found: results.filter((r) => r.found).length,
+        notFound: results.filter((r) => !r.found).length,
+        results,
+      };
     }),
 
   /**
-   * Get Wikidata statistics and health check
-   */
-  getStats: publicProcedure.query(async () => {
-    try {
-      // Simple query to check if Wikidata is accessible
-      const sparqlQuery = `
-        SELECT (COUNT(?item) as ?count)
-        WHERE {
-          ?item wdt:P105 wd:Q7432 .
-        }
-      `;
-
-      const url = new URL("https://query.wikidata.org/sparql");
-      url.searchParams.append("query", sparqlQuery);
-      url.searchParams.append("format", "json");
-
-      const response = await fetch(url.toString(), {
-        headers: {
-          Accept: "application/sparql-results+json",
-        },
-      });
-
-      if (!response.ok) {
-        return {
-          status: "error",
-          message: "Wikidata SPARQL endpoint is not responding",
-        };
-      }
-
-      return {
-        status: "ok",
-        message: "Wikidata SPARQL endpoint is accessible",
-        timestamp: new Date().toISOString(),
-      };
-    } catch (error) {
-      console.error("Error checking Wikidata stats:", error);
-      return {
-        status: "error",
-        message: "Failed to check Wikidata status",
-      };
-    }
-  }),
-
-  /**
-   * Get recommendations for enriching a variety with Wikidata data
+   * Get enrichment recommendations for a variety
    */
   getEnrichmentRecommendations: protectedProcedure
     .input(
@@ -358,59 +283,45 @@ export const wikidataSyncRouter = router({
         cultivar: z.string().optional(),
       })
     )
-    .query(async ({ ctx, input }) => {
-      try {
-        const scientificName = input.cultivar
-          ? `${input.genus} ${input.species} ${input.cultivar}`
-          : `${input.genus} ${input.species}`;
+    .query(async ({ input }) => {
+      const scientificName = input.cultivar
+        ? `${input.genus} ${input.species} ${input.cultivar}`
+        : `${input.genus} ${input.species}`;
 
-        const details = await queryWikidataForTaxon(scientificName);
+      const details = await queryWikidataForTaxon(scientificName);
 
-        if (!details) {
-          return {
-            found: false,
-            recommendations: [],
-            message: `No Wikidata entry found for "${scientificName}"`,
-          };
-        }
-
-        const recommendations: string[] = [];
-
-        if (details.conservationStatus) {
-          recommendations.push(`Update conservation status to: ${details.conservationStatus}`);
-        }
-
-        if (details.imageUrl) {
-          recommendations.push(`Add image from Wikidata: ${details.imageUrl}`);
-        }
-
-        if (details.parentTaxon) {
-          recommendations.push(`Add parent taxon: ${details.parentTaxon}`);
-        }
-
-        const hybrids = await queryWikidataForHybrids(scientificName);
-        if (hybrids.length > 0) {
-          recommendations.push(`Found ${hybrids.length} hybrid(s): ${hybrids.join(", ")}`);
-        }
-
-        const distribution = await queryWikidataForDistribution(scientificName);
-        if (distribution.length > 0) {
-          recommendations.push(`Update distribution: ${distribution.join(", ")}`);
-        }
-
+      if (!details) {
         return {
-          found: true,
-          wikidataId: details.id,
-          scientificName: details.scientificName,
-          recommendations,
-          details,
+          found: false,
+          recommendations: [],
+          message: `No Wikidata entry found for "${scientificName}"`,
         };
-      } catch (error) {
-        console.error("Error getting enrichment recommendations:", error);
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Failed to get enrichment recommendations",
-        });
       }
+
+      const recommendations: string[] = [];
+      if (details.conservationStatus)
+        recommendations.push(`Update conservation status: ${details.conservationStatus}`);
+      if (details.imageUrl)
+        recommendations.push(`Add image from Wikidata: ${details.imageUrl}`);
+      if (details.parentTaxon)
+        recommendations.push(`Add parent taxon: ${details.parentTaxon}`);
+
+      const [hybrids, distribution] = await Promise.all([
+        queryWikidataForHybrids(scientificName),
+        queryWikidataForDistribution(scientificName),
+      ]);
+
+      if (hybrids.length > 0)
+        recommendations.push(`Found ${hybrids.length} hybrid(s): ${hybrids.join(", ")}`);
+      if (distribution.length > 0)
+        recommendations.push(`Distribution: ${distribution.join(", ")}`);
+
+      return {
+        found: true,
+        wikidataId: details.id,
+        scientificName: details.scientificName,
+        recommendations,
+        details,
+      };
     }),
 });
