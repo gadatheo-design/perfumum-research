@@ -393,6 +393,38 @@ export default function Admin() {
       color: "text-cyan-600",
       bgColor: "bg-cyan-50",
     },
+    {
+      title: "Tropicos — Missouri Botanical Garden",
+      description: "Enrichir les données taxonomiques depuis Tropicos : 1.33M noms botaniques, synonymes, 685K images, distribution géographique. Idéal pour Nicotiana, Cannabis, Rosa.",
+      icon: Leaf,
+      href: "/admin/tropicos-enrichment",
+      color: "text-green-700",
+      bgColor: "bg-green-50",
+    },
+    {
+      title: "Images Morphologiques — Variétés",
+      description: "Uploader et gérer les images morphologiques (feuille, fleur, fruit) pour chaque variété avec stockage S3. Vérification et annotation des images.",
+      icon: Image,
+      href: "/admin/variety-images",
+      color: "text-pink-600",
+      bgColor: "bg-pink-50",
+    },
+    {
+      title: "Import CSV — Généalogies de Variétés",
+      description: "Importer en masse les variétés et leurs relations généalogiques depuis CSV avec mode dry-run (prévisualisation) avant import réel.",
+      icon: Database,
+      href: "/admin/variety-genealogy-import",
+      color: "text-amber-700",
+      bgColor: "bg-amber-50",
+    },
+    {
+      title: "Wikidata Sync — Généalogies Phylogénétiques",
+      description: "Synchroniser les données généalogiques avec Wikidata via SPARQL : taxonomie, hybrides, distribution, statuts IUCN pour Nicotiana, Cannabis, Rosa.",
+      icon: Globe,
+      href: "/admin/wikidata-sync",
+      color: "text-blue-700",
+      bgColor: "bg-blue-50",
+    },
   ];
 
   return (
