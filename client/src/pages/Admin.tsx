@@ -425,6 +425,22 @@ export default function Admin() {
       color: "text-blue-700",
       bgColor: "bg-blue-50",
     },
+    {
+      title: "GBIF — Enrichissement Géographique",
+      description: "Rechercher une espèce dans GBIF (2 milliards d'occurrences) : taxonomie complète, distribution par pays, noms vernaculaires multilingues. Import direct dans la fiche plante.",
+      icon: Globe,
+      href: "/admin/gbif-enrichment",
+      color: "text-emerald-700",
+      bgColor: "bg-emerald-50",
+    },
+    {
+      title: "LOTUS — Profil Moléculaire",
+      description: "Interroger LOTUS/Wikidata (220 000+ paires plante-molécule) pour voir les molécules documentées d'une plante ou les plantes sources d'une molécule. Via SPARQL P703.",
+      icon: Database,
+      href: "/admin/lotus-enrichment",
+      color: "text-violet-700",
+      bgColor: "bg-violet-50",
+    },
   ];
 
   return (
