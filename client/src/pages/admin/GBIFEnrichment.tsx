@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
+import { Link } from "wouter";
 import {
   Globe,
   Search,
@@ -25,6 +26,7 @@ import {
   Download,
   Info,
   Leaf,
+  Zap,
 } from "lucide-react";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -205,6 +207,11 @@ export default function GbifEnrichment() {
               <XCircle className="h-3 w-3 mr-1" /> GBIF hors ligne
             </Badge>
           )}
+          <Link href="/admin/gbif-batch">
+            <Button variant="outline" size="sm" className="gap-1 text-emerald-700 border-emerald-300 hover:bg-emerald-50">
+              <Zap className="h-3 w-3" /> Enrichissement en masse
+            </Button>
+          </Link>
           <a
             href="https://www.gbif.org"
             target="_blank"

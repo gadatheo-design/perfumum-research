@@ -3964,3 +3964,10 @@ npm run dev
 
 - [ ] Corriger l'erreur sur /admin/variety-images (page inaccessible)
 - [ ] Implémenter les recommandations Wikidata (onglet "Recommandations")
+
+## SESSION GBIF+LOTUS MASSE — Enrichissement en masse et liaison moléculaire
+
+- [ ] Enrichissement en masse GBIF : procédure batch pour toutes les plantes sans gbif_id avec progression et import automatique
+- [ ] Interface de liaison LOTUS→plantes : page dédiée pour lier les molécules LOTUS identifiées aux fiches plantes existantes
+- [x] Enrichissement en masse GBIF (7 plantes sans gbif_id — lien vers GBIFBatch ajouté dans GBIFEnrichment)
+- [x] Interface de liaison LOTUS→plantes existantes (page /admin/lotus-plant-linker avec import direct plant_molecules)

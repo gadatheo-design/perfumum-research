@@ -467,6 +467,7 @@ const VarietyGenealogyPage = React.lazy(() => import('./pages/VarietyGenealogyPa
 const GBIFEnrichment = React.lazy(() => import('./pages/admin/GBIFEnrichment'));
 const TropicosEnrichment = React.lazy(() => import('./pages/admin/TropicosEnrichment'));
 const LOTUSEnrichment = React.lazy(() => import('./pages/admin/LOTUSEnrichment'));
+const LotusPlantLinker = React.lazy(() => import('./pages/admin/LotusPlantLinker'));
 const COCONUTEnrichment = React.lazy(() => import('./pages/admin/COCONUTEnrichment'));
 const IUCNEnrichment = React.lazy(() => import('./pages/admin/IUCNEnrichment'));
 
@@ -1120,6 +1121,7 @@ function Router() {
       <LazyRouteRaw path="/admin/gbif-enrichment" component={GBIFEnrichment} />
       <LazyRouteRaw path="/admin/tropicos-enrichment" component={TropicosEnrichment} />
       <LazyRouteRaw path="/admin/lotus-enrichment" component={LOTUSEnrichment} />
+      <LazyRouteRaw path="/admin/lotus-plant-linker" component={LotusPlantLinker} />
       <LazyRouteRaw path="/admin/coconut-enrichment" component={COCONUTEnrichment} />
       <LazyRouteRaw path="/admin/iucn-enrichment" component={IUCNEnrichment} />
       

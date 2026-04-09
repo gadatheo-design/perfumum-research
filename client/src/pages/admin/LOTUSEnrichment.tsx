@@ -504,6 +504,19 @@ export default function LotusEnrichment() {
           )}
         </TabsContent>
       </Tabs>
+
+      {/* Lien vers le linker */}
+      <div className="mt-4 pt-4 border-t border-border/50 flex items-center justify-between">
+        <p className="text-xs text-muted-foreground">
+          Pour importer des molécules LOTUS directement dans une fiche plante PERFUMUM, utilisez l'outil dédié.
+        </p>
+        <a
+          href="/admin/lotus-plant-linker"
+          className="text-xs text-violet-600 hover:text-violet-700 font-medium flex items-center gap-1 shrink-0 ml-4 whitespace-nowrap"
+        >
+          LOTUS → Liaison Plantes →
+        </a>
+      </div>
     </div>
   );
 }

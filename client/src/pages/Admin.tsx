@@ -441,6 +441,14 @@ export default function Admin() {
       color: "text-violet-700",
       bgColor: "bg-violet-50",
     },
+    {
+      title: "LOTUS → Liaison Plantes",
+      description: "Importer directement les molécules LOTUS dans les fiches de plantes PERFUMUM. Crée la molécule si elle n'existe pas, puis établit le lien plant_molecules.",
+      icon: Link2,
+      href: "/admin/lotus-plant-linker",
+      color: "text-violet-700",
+      bgColor: "bg-violet-50",
+    },
   ];
 
   return (

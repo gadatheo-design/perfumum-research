@@ -20,8 +20,8 @@ import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db/core";
-import { plants, molecules } from "../../drizzle/schema";
-import { eq, like, and } from "drizzle-orm";
+import { plants, molecules, plantMolecules } from "../../drizzle/schema";
+import { eq, like, and, or, isNull } from "drizzle-orm";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONSTANTS
@@ -285,6 +285,121 @@ export const lotusEnrichmentRouter = router({
         total: results.length,
         results,
         source: "Wikidata SPARQL / LOTUS",
+      };
+    }),
+
+  /**
+   * Full import: create or find molecule, then create plant_molecules link
+   * This is the "real" import that creates a proper DB relationship
+   */
+  importLotusToPlant: publicProcedure
+    .input(z.object({
+      plantId: z.number(),
+      moleculeName: z.string().min(1),
+      wikidataQid: z.string().min(1),
+      inchikey: z.string().optional(),
+      cas: z.string().optional(),
+      smiles: z.string().optional(),
+      formula: z.string().optional(),
+      mass: z.string().optional(),
+      iupacName: z.string().optional(),
+      pubchemCid: z.string().optional(),
+      role: z.enum(["majeur", "secondaire", "trace", "variable"]).optional().default("trace"),
+    }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "DB unavailable" });
+
+      // 1. Find or create molecule
+      let moleculeId: number | null = null;
+      let moleculeAction: "found" | "created" = "found";
+
+      // Search by InChIKey first (most precise), then by Wikidata QID, then by name
+      const searchConditions = [];
+      if (input.inchikey) searchConditions.push(eq(molecules.inchiKey, input.inchikey));
+      if (input.wikidataQid) searchConditions.push(eq(molecules.wikidataQid, input.wikidataQid));
+
+      let existingMol = null;
+      if (searchConditions.length > 0) {
+        const found = await db.select({ id: molecules.id, name: molecules.name })
+          .from(molecules)
+          .where(or(...searchConditions))
+          .limit(1);
+        existingMol = found[0] ?? null;
+      }
+
+      // Fallback: search by name
+      if (!existingMol) {
+        const found = await db.select({ id: molecules.id, name: molecules.name })
+          .from(molecules)
+          .where(like(molecules.name, `%${input.moleculeName}%`))
+          .limit(1);
+        existingMol = found[0] ?? null;
+      }
+
+      if (existingMol) {
+        moleculeId = existingMol.id;
+        moleculeAction = "found";
+        // Update Wikidata QID if missing
+        if (input.wikidataQid) {
+          await db.update(molecules)
+            .set({ wikidataQid: input.wikidataQid })
+            .where(and(eq(molecules.id, existingMol.id), isNull(molecules.wikidataQid)));
+        }
+      } else {
+        // Create new molecule from LOTUS data
+        const insertResult = await db.insert(molecules).values({
+          name: input.moleculeName,
+          iupacName: input.iupacName ?? null,
+          casNumber: input.cas ?? null,
+          chemicalFormula: input.formula ?? null,
+          smiles: input.smiles ?? null,
+          inchiKey: input.inchikey ?? null,
+          wikidataQid: input.wikidataQid,
+          molecularWeight: input.mass ? Math.round(parseFloat(input.mass)) : null,
+          pubchemCid: input.pubchemCid ? parseInt(input.pubchemCid, 10) : null,
+          notes: `Importé depuis LOTUS/Wikidata (${input.wikidataQid}) le ${new Date().toLocaleDateString("fr-FR")}`,
+          botanicalSources: "", // Will be enriched later
+        });
+        moleculeId = Number((insertResult as any).insertId ?? (insertResult as any)[0]?.insertId ?? 0);
+        moleculeAction = "created";
+      }
+
+      if (!moleculeId) {
+        return { success: false, message: "Impossible de créer ou trouver la molécule en base." };
+      }
+
+      // 2. Check if plant_molecules link already exists
+      const existingLink = await db.select({ plantId: plantMolecules.plantId })
+        .from(plantMolecules)
+        .where(and(eq(plantMolecules.plantId, input.plantId), eq(plantMolecules.moleculeId, moleculeId)))
+        .limit(1);
+
+      if (existingLink.length > 0) {
+        return {
+          success: false,
+          alreadyLinked: true,
+          message: `Le lien plante-molécule existe déjà pour "${input.moleculeName}".`,
+          moleculeId,
+          moleculeAction,
+        };
+      }
+
+      // 3. Create plant_molecules link
+      await db.insert(plantMolecules).values({
+        plantId: input.plantId,
+        moleculeId,
+        role: input.role,
+        source: `LOTUS/Wikidata (${input.wikidataQid})`,
+        notes: `Importé depuis LOTUS le ${new Date().toLocaleDateString("fr-FR")}`,
+      });
+
+      return {
+        success: true,
+        message: `"${input.moleculeName}" ${moleculeAction === "created" ? "créée et liée" : "trouvée et liée"} à la plante.`,
+        moleculeId,
+        moleculeAction,
+        linkCreated: true,
       };
     }),
 
