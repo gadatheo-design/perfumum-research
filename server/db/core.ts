@@ -240,6 +240,9 @@ import {
   recetteRawMaterials,
   RecetteRawMaterial,
   InsertRecetteRawMaterial,
+  varietyImages,
+  VarietyImage,
+  InsertVarietyImage,
 } from "../../drizzle/schema";
 import { ENV } from '../_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
@@ -292,6 +295,7 @@ export async function getDb() {
           modificationHistory,
           plantTerroirs,
           plantMolecules,
+          varietyImages,
         },
       });
     } catch (error) {

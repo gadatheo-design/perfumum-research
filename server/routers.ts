@@ -85,6 +85,11 @@ import { varietyImagesRouter } from './routers/variety-images';
 import { varietyGenealogyImportRouter } from './routers/variety-genealogy-import';
 import { wikidataSyncRouter } from './routers/wikidata-sync';
 import { phylogenyRouter } from './routers/phylogeny';
+import { gbifEnrichmentRouter } from './routers/gbif-enrichment';
+import { tropicosEnrichmentRouter } from './routers/tropicos-enrichment';
+import { lotusEnrichmentRouter } from './routers/lotus-enrichment';
+import { coconutEnrichmentRouter } from './routers/coconut-enrichment';
+import { iucnEnrichmentRouter } from './routers/iucn-enrichment';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -12519,6 +12524,16 @@ Familles olfactives disponibles:
   wikidataSync: wikidataSyncRouter,
   // Phylogeny — Phylogenetic tree visualization for genera
   phylogeny: phylogenyRouter,
+  // GBIF Enrichment — Global Biodiversity Information Facility
+  gbifEnrichment: gbifEnrichmentRouter,
+  // Tropicos Enrichment — Missouri Botanical Garden
+  tropicosEnrichment: tropicosEnrichmentRouter,
+  // LOTUS Enrichment — Natural Products Online
+  lotusEnrichment: lotusEnrichmentRouter,
+  // COCONUT Enrichment — Collection of Open Natural Products
+  coconutEnrichment: coconutEnrichmentRouter,
+  // IUCN Enrichment — IUCN Red List Conservation Status
+  iucnEnrichment: iucnEnrichmentRouter,
 });
 export type AppRouter = typeof appRouter;
 

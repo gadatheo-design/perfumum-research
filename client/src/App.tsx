@@ -128,6 +128,9 @@ const SparqlExplorer = React.lazy(() => import('./pages/admin/SparqlExplorer'));
 const EuropeanaExplorer = React.lazy(() => import('./pages/admin/EuropeanaExplorer'));
 const EuropeanaMap = React.lazy(() => import('./pages/admin/EuropeanaMap'));
 const EuropeanaQidBatch = React.lazy(() => import('./pages/admin/EuropeanaQidBatch'));
+const WikidataSync = React.lazy(() => import('./pages/admin/WikidataSync'));
+const VarietyImagesAdmin = React.lazy(() => import('./pages/admin/VarietyImagesAdmin'));
+const VarietyGenealogyImport = React.lazy(() => import('./pages/admin/VarietyGenealogyImport'));
 const COCONUTBatch = React.lazy(() => import('./pages/admin/COCONUTBatch'));
 const ExtractionMethodsAdmin = React.lazy(() => import('./pages/admin/ExtractionMethodsAdmin'));
 const AdminThermalMatrix = React.lazy(() => import('./pages/AdminThermalMatrix'));
@@ -461,6 +464,11 @@ const NicotianaPhylogeny = React.lazy(() => import('./components/NicotianaPhylog
 const NicotianaSpeciesDetail = React.lazy(() => import('./pages/NicotianaSpeciesDetail'));
 const NicotianaExplorer = React.lazy(() => import('./pages/NicotianaExplorer'));
 const VarietyGenealogyPage = React.lazy(() => import('./pages/VarietyGenealogyPage').then(m => ({ default: m.VarietyGenealogyPage })));
+const GBIFEnrichment = React.lazy(() => import('./pages/admin/GBIFEnrichment'));
+const TropicosEnrichment = React.lazy(() => import('./pages/admin/TropicosEnrichment'));
+const LOTUSEnrichment = React.lazy(() => import('./pages/admin/LOTUSEnrichment'));
+const COCONUTEnrichment = React.lazy(() => import('./pages/admin/COCONUTEnrichment'));
+const IUCNEnrichment = React.lazy(() => import('./pages/admin/IUCNEnrichment'));
 
 
 
@@ -573,6 +581,9 @@ function Router() {
       <Route path="/admin/thermal-matrix" component={AdminThermalMatrix} />
       <Route path="/admin/nose" component={AdminNOSE} />
       <Route path="/admin/storylines" component={AdminStorylines} />
+      <Route path="/admin/wikidata-sync" component={WikidataSync} />
+      <Route path="/admin/variety-images" component={VarietyImagesAdmin} />
+      <Route path="/admin/variety-genealogy-import" component={VarietyGenealogyImport} />
       <Route path="/storylines"><WithLayout><Suspense fallback={<PageLoader />}><StorylineIndex /></Suspense></WithLayout></Route>
       <Route path="/storyline/:slug">{(params) => <WithLayout><Suspense fallback={<PageLoader />}><StorylineDetail /></Suspense></WithLayout>}</Route>
       <Route path="/galerie-olfactive"><WithLayout><Suspense fallback={<PageLoader />}><GalerieOlfactive /></Suspense></WithLayout></Route>
@@ -1105,6 +1116,12 @@ function Router() {
       <Route path="/bio-mineralis">{() => <WithLayout><BioMineralis /></WithLayout>}</Route>
       <Route path="/admin/duplicates" component={AdminDuplicates} />
       
+      {/* === ENRICHISSEMENT APIs === */}
+      <LazyRouteRaw path="/admin/gbif-enrichment" component={GBIFEnrichment} />
+      <LazyRouteRaw path="/admin/tropicos-enrichment" component={TropicosEnrichment} />
+      <LazyRouteRaw path="/admin/lotus-enrichment" component={LOTUSEnrichment} />
+      <LazyRouteRaw path="/admin/coconut-enrichment" component={COCONUTEnrichment} />
+      <LazyRouteRaw path="/admin/iucn-enrichment" component={IUCNEnrichment} />
       
       {/* === ERREURS === */}
       <Route path="/404" component={NotFound} />

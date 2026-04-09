@@ -23,7 +23,7 @@ import { Search, RefreshCw, CheckCircle2, AlertCircle, ExternalLink, Lightbulb }
 // MAIN PAGE
 // ─────────────────────────────────────────────────────────────────────────────
 
-export function WikidataSync() {
+export default function WikidataSync() {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('search');
   const [searchQuery, setSearchQuery] = useState('');
