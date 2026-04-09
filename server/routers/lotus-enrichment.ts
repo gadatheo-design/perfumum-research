@@ -483,4 +483,439 @@ export const lotusEnrichmentRouter = router({
         nextStep: "Créer la molécule dans /admin/molecules avec les données LOTUS",
       };
     }),
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // BATCH IMPORT BY GENUS
+  // ─────────────────────────────────────────────────────────────────────────
+
+  /**
+   * List all species of a genus present in PERFUMUM DB
+   * Returns species with their plant IDs and current molecule count
+   */
+  getGenusSpecies: publicProcedure
+    .input(z.object({ genus: z.string().min(1) }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "DB unavailable" });
+
+      const genus = input.genus.trim();
+      const speciesInDb = await db
+        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+        .from(plants)
+        .where(like(plants.latinName, `${genus} %`))
+        .orderBy(plants.latinName);
+
+      // Count existing molecule links per plant
+      const speciesWithCounts = await Promise.all(
+        speciesInDb.map(async (sp) => {
+          const links = await db
+            .select({ moleculeId: plantMolecules.moleculeId })
+            .from(plantMolecules)
+            .where(eq(plantMolecules.plantId, sp.id));
+          return {
+            id: sp.id,
+            name: sp.name,
+            latinName: sp.latinName,
+            existingMoleculeLinks: links.length,
+          };
+        })
+      );
+
+      return {
+        genus,
+        speciesCount: speciesInDb.length,
+        species: speciesWithCounts,
+      };
+    }),
+
+  /**
+   * Preview: fetch all LOTUS molecules for a genus from Wikidata
+   * Returns aggregated data without writing to DB (dry-run)
+   */
+  previewGenusImport: publicProcedure
+    .input(z.object({
+      genus: z.string().min(1),
+      limitPerSpecies: z.number().min(1).max(100).default(30),
+    }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "DB unavailable" });
+
+      const genus = input.genus.trim();
+
+      // 1. Get species in DB matching this genus
+      const speciesInDb = await db
+        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+        .from(plants)
+        .where(like(plants.latinName, `${genus} %`))
+        .orderBy(plants.latinName);
+
+      if (speciesInDb.length === 0) {
+        return {
+          genus,
+          speciesFound: 0,
+          totalMolecules: 0,
+          newMolecules: 0,
+          existingMolecules: 0,
+          preview: [],
+          message: `Aucune espèce du genre ${genus} trouvée dans PERFUMUM.`,
+        };
+      }
+
+      // 2. Fetch molecules for all species in one SPARQL query
+      const safeGenus = genus.replace(/"/g, '\\"');
+      const sparqlQuery = `
+        SELECT DISTINCT ?taxon ?taxonLabel ?latinName ?compound ?compoundLabel ?inchikey ?cas ?smiles ?formula ?mass ?iupac ?pubchem
+        WHERE {
+          ?genus wdt:P225 "${safeGenus}" .
+          ?taxon wdt:P171* ?genus .
+          ?taxon wdt:P105 wd:Q7432 .
+          OPTIONAL { ?taxon wdt:P225 ?latinName . }
+          ?compound wdt:P703 ?taxon .
+          OPTIONAL { ?compound wdt:P235 ?inchikey . }
+          OPTIONAL { ?compound wdt:P231 ?cas . }
+          OPTIONAL { ?compound wdt:P233 ?smiles . }
+          OPTIONAL { ?compound wdt:P274 ?formula . }
+          OPTIONAL { ?compound wdt:P2067 ?mass . }
+          OPTIONAL { ?compound wdt:P2017 ?iupac . }
+          OPTIONAL { ?compound wdt:P662 ?pubchem . }
+          SERVICE wikibase:label { bd:serviceParam wikibase:language "en,fr" . }
+        }
+        LIMIT ${speciesInDb.length * input.limitPerSpecies}
+      `;
+
+      let bindings: any[] = [];
+      try {
+        const url = new URL("https://query.wikidata.org/sparql");
+        url.searchParams.set("query", sparqlQuery.trim());
+        url.searchParams.set("format", "json");
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 28000);
+        const response = await fetch(url.toString(), {
+          headers: {
+            Accept: "application/sparql-results+json",
+            "User-Agent": LOTUS_USER_AGENT,
+          },
+          signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
+        if (response.ok) {
+          const data = await response.json();
+          bindings = data?.results?.bindings ?? [];
+        }
+      } catch {
+        // Timeout or error — return empty
+      }
+
+      // 3. Group by taxon latin name
+      const byTaxon: Record<string, { latinName: string; compounds: LotusCompound[] }> = {};
+      for (const b of bindings) {
+        const latinName = b.latinName?.value ?? b.taxonLabel?.value ?? "";
+        if (!latinName) continue;
+        const compound: LotusCompound = {
+          wikidataQid: b.compound?.value?.split("/").pop() ?? "",
+          name: b.compoundLabel?.value ?? "",
+          inchikey: b.inchikey?.value,
+          cas: b.cas?.value,
+          smiles: b.smiles?.value,
+          formula: b.formula?.value,
+          mass: b.mass?.value,
+          iupacName: b.iupac?.value,
+          pubchemCid: b.pubchem?.value,
+        };
+        if (!compound.wikidataQid || !compound.name) continue;
+        if (!byTaxon[latinName]) byTaxon[latinName] = { latinName, compounds: [] };
+        // Deduplicate by QID
+        if (!byTaxon[latinName].compounds.find((c) => c.wikidataQid === compound.wikidataQid)) {
+          byTaxon[latinName].compounds.push(compound);
+        }
+      }
+
+      // 4. Match LOTUS species to DB species and check existing links
+      const preview = [];
+      let totalNew = 0;
+      let totalExisting = 0;
+
+      for (const sp of speciesInDb) {
+        const taxonData = byTaxon[sp.latinName];
+        const compounds = taxonData?.compounds ?? [];
+
+        // Check which molecules already exist in DB
+        const newCompounds = [];
+        const existingCompounds = [];
+        for (const c of compounds) {
+          const conditions = [];
+          if (c.inchikey) conditions.push(eq(molecules.inchiKey, c.inchikey));
+          if (c.wikidataQid) conditions.push(eq(molecules.wikidataQid, c.wikidataQid));
+          let exists = false;
+          if (conditions.length > 0) {
+            const found = await db.select({ id: molecules.id })
+              .from(molecules)
+              .where(or(...conditions))
+              .limit(1);
+            exists = found.length > 0;
+          }
+          if (exists) existingCompounds.push(c);
+          else newCompounds.push(c);
+        }
+
+        totalNew += newCompounds.length;
+        totalExisting += existingCompounds.length;
+
+        preview.push({
+          plantId: sp.id,
+          plantName: sp.name,
+          latinName: sp.latinName,
+          totalMolecules: compounds.length,
+          newMolecules: newCompounds.length,
+          existingMolecules: existingCompounds.length,
+          compounds: compounds.slice(0, 10), // Preview only first 10
+        });
+      }
+
+      return {
+        genus,
+        speciesFound: speciesInDb.length,
+        totalMolecules: totalNew + totalExisting,
+        newMolecules: totalNew,
+        existingMolecules: totalExisting,
+        preview,
+        message: `${speciesInDb.length} espèces, ${totalNew + totalExisting} molécules LOTUS (${totalNew} nouvelles, ${totalExisting} déjà en base).`,
+      };
+    }),
+
+  /**
+   * Batch import all LOTUS molecules for a genus
+   * Processes species one by one, returns per-species results
+   */
+  batchImportByGenus: publicProcedure
+    .input(z.object({
+      genus: z.string().min(1),
+      limitPerSpecies: z.number().min(1).max(100).default(30),
+      defaultRole: z.enum(["majeur", "secondaire", "trace", "variable"]).default("trace"),
+      selectedSpeciesIds: z.array(z.number()).optional(), // If empty, import all
+    }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "DB unavailable" });
+
+      const genus = input.genus.trim();
+
+      // 1. Get species in DB
+      let speciesInDb = await db
+        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+        .from(plants)
+        .where(like(plants.latinName, `${genus} %`))
+        .orderBy(plants.latinName);
+
+      // Filter by selected species if provided
+      if (input.selectedSpeciesIds && input.selectedSpeciesIds.length > 0) {
+        speciesInDb = speciesInDb.filter((sp) => input.selectedSpeciesIds!.includes(sp.id));
+      }
+
+      if (speciesInDb.length === 0) {
+        return {
+          genus,
+          totalProcessed: 0,
+          totalCreated: 0,
+          totalLinked: 0,
+          totalSkipped: 0,
+          totalErrors: 0,
+          speciesResults: [],
+          message: `Aucune espèce du genre ${genus} trouvée dans PERFUMUM.`,
+        };
+      }
+
+      // 2. Fetch all molecules for the genus in one SPARQL query
+      const safeGenus = genus.replace(/"/g, '\\"');
+      const sparqlQuery = `
+        SELECT DISTINCT ?taxon ?taxonLabel ?latinName ?compound ?compoundLabel ?inchikey ?cas ?smiles ?formula ?mass ?iupac ?pubchem
+        WHERE {
+          ?genus wdt:P225 "${safeGenus}" .
+          ?taxon wdt:P171* ?genus .
+          ?taxon wdt:P105 wd:Q7432 .
+          OPTIONAL { ?taxon wdt:P225 ?latinName . }
+          ?compound wdt:P703 ?taxon .
+          OPTIONAL { ?compound wdt:P235 ?inchikey . }
+          OPTIONAL { ?compound wdt:P231 ?cas . }
+          OPTIONAL { ?compound wdt:P233 ?smiles . }
+          OPTIONAL { ?compound wdt:P274 ?formula . }
+          OPTIONAL { ?compound wdt:P2067 ?mass . }
+          OPTIONAL { ?compound wdt:P2017 ?iupac . }
+          OPTIONAL { ?compound wdt:P662 ?pubchem . }
+          SERVICE wikibase:label { bd:serviceParam wikibase:language "en,fr" . }
+        }
+        LIMIT ${speciesInDb.length * input.limitPerSpecies}
+      `;
+
+      let bindings: any[] = [];
+      try {
+        const url = new URL("https://query.wikidata.org/sparql");
+        url.searchParams.set("query", sparqlQuery.trim());
+        url.searchParams.set("format", "json");
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 28000);
+        const response = await fetch(url.toString(), {
+          headers: {
+            Accept: "application/sparql-results+json",
+            "User-Agent": LOTUS_USER_AGENT,
+          },
+          signal: controller.signal,
+        });
+        clearTimeout(timeoutId);
+        if (response.ok) {
+          const data = await response.json();
+          bindings = data?.results?.bindings ?? [];
+        }
+      } catch (err: any) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: `Erreur SPARQL: ${err.message}`,
+        });
+      }
+
+      // 3. Group by taxon latin name
+      const byTaxon: Record<string, LotusCompound[]> = {};
+      for (const b of bindings) {
+        const latinName = b.latinName?.value ?? b.taxonLabel?.value ?? "";
+        if (!latinName) continue;
+        const compound: LotusCompound = {
+          wikidataQid: b.compound?.value?.split("/").pop() ?? "",
+          name: b.compoundLabel?.value ?? "",
+          inchikey: b.inchikey?.value,
+          cas: b.cas?.value,
+          smiles: b.smiles?.value,
+          formula: b.formula?.value,
+          mass: b.mass?.value,
+          iupacName: b.iupac?.value,
+          pubchemCid: b.pubchem?.value,
+        };
+        if (!compound.wikidataQid || !compound.name) continue;
+        if (!byTaxon[latinName]) byTaxon[latinName] = [];
+        if (!byTaxon[latinName].find((c) => c.wikidataQid === compound.wikidataQid)) {
+          byTaxon[latinName].push(compound);
+        }
+      }
+
+      // 4. Process each species
+      const speciesResults = [];
+      let totalCreated = 0;
+      let totalLinked = 0;
+      let totalSkipped = 0;
+      let totalErrors = 0;
+
+      for (const sp of speciesInDb) {
+        const compounds = byTaxon[sp.latinName] ?? [];
+        let created = 0;
+        let linked = 0;
+        let skipped = 0;
+        let errors = 0;
+
+        for (const compound of compounds) {
+          try {
+            // Find or create molecule
+            let moleculeId: number | null = null;
+
+            const searchConditions = [];
+            if (compound.inchikey) searchConditions.push(eq(molecules.inchiKey, compound.inchikey));
+            if (compound.wikidataQid) searchConditions.push(eq(molecules.wikidataQid, compound.wikidataQid));
+
+            let existingMol = null;
+            if (searchConditions.length > 0) {
+              const found = await db.select({ id: molecules.id })
+                .from(molecules)
+                .where(or(...searchConditions))
+                .limit(1);
+              existingMol = found[0] ?? null;
+            }
+
+            if (!existingMol) {
+              const found = await db.select({ id: molecules.id })
+                .from(molecules)
+                .where(like(molecules.name, `%${compound.name}%`))
+                .limit(1);
+              existingMol = found[0] ?? null;
+            }
+
+            if (existingMol) {
+              moleculeId = existingMol.id;
+              // Update QID if missing
+              if (compound.wikidataQid) {
+                await db.update(molecules)
+                  .set({ wikidataQid: compound.wikidataQid })
+                  .where(and(eq(molecules.id, existingMol.id), isNull(molecules.wikidataQid)));
+              }
+            } else {
+              // Create new molecule
+              const insertResult = await db.insert(molecules).values({
+                name: compound.name,
+                iupacName: compound.iupacName ?? null,
+                casNumber: compound.cas ?? null,
+                chemicalFormula: compound.formula ?? null,
+                smiles: compound.smiles ?? null,
+                inchiKey: compound.inchikey ?? null,
+                wikidataQid: compound.wikidataQid,
+                molecularWeight: compound.mass ? Math.round(parseFloat(compound.mass)) : null,
+                pubchemCid: compound.pubchemCid ? parseInt(compound.pubchemCid, 10) : null,
+                notes: `Importé depuis LOTUS/Wikidata (${compound.wikidataQid}) — genre ${genus}`,
+                botanicalSources: sp.latinName,
+              });
+              moleculeId = Number((insertResult as any).insertId ?? 0);
+              created++;
+              totalCreated++;
+            }
+
+            if (!moleculeId) { errors++; totalErrors++; continue; }
+
+            // Check if link exists
+            const existingLink = await db.select({ plantId: plantMolecules.plantId })
+              .from(plantMolecules)
+              .where(and(eq(plantMolecules.plantId, sp.id), eq(plantMolecules.moleculeId, moleculeId)))
+              .limit(1);
+
+            if (existingLink.length > 0) {
+              skipped++;
+              totalSkipped++;
+              continue;
+            }
+
+            // Create link
+            await db.insert(plantMolecules).values({
+              plantId: sp.id,
+              moleculeId,
+              role: input.defaultRole,
+              source: `LOTUS/Wikidata (${compound.wikidataQid})`,
+              notes: `Import batch genre ${genus} — ${new Date().toLocaleDateString("fr-FR")}`,
+            });
+            linked++;
+            totalLinked++;
+          } catch {
+            errors++;
+            totalErrors++;
+          }
+        }
+
+        speciesResults.push({
+          plantId: sp.id,
+          plantName: sp.name,
+          latinName: sp.latinName,
+          totalMolecules: compounds.length,
+          created,
+          linked,
+          skipped,
+          errors,
+        });
+      }
+
+      return {
+        genus,
+        totalProcessed: speciesInDb.length,
+        totalCreated,
+        totalLinked,
+        totalSkipped,
+        totalErrors,
+        speciesResults,
+        message: `Import terminé : ${totalCreated} molécules créées, ${totalLinked} liens établis, ${totalSkipped} déjà liés, ${totalErrors} erreurs.`,
+      };
+    }),
 });

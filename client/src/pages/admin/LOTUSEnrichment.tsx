@@ -512,9 +512,15 @@ export default function LotusEnrichment() {
         </p>
         <a
           href="/admin/lotus-plant-linker"
-          className="text-xs text-violet-600 hover:text-violet-700 font-medium flex items-center gap-1 shrink-0 ml-4 whitespace-nowrap"
+          className="text-xs text-violet-600 hover:text-violet-700 font-medium flex items-center gap-1 shrink-0 ml-2 whitespace-nowrap"
         >
-          LOTUS → Liaison Plantes →
+          Liaison Plantes →
+        </a>
+        <a
+          href="/admin/lotus-batch-genus"
+          className="text-xs text-violet-600 hover:text-violet-700 font-medium flex items-center gap-1 shrink-0 ml-2 whitespace-nowrap"
+        >
+          Import Genre Entier →
         </a>
       </div>
     </div>

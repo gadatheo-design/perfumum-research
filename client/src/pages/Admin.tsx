@@ -449,6 +449,14 @@ export default function Admin() {
       color: "text-violet-700",
       bgColor: "bg-violet-50",
     },
+    {
+      title: "LOTUS → Import Genre Entier",
+      description: "Importer en masse toutes les molécules LOTUS pour toutes les espèces d'un genre botanique (ex: Lavandula, Rosa, Nicotiana). Aperçu dry-run avant import, déduplication automatique.",
+      icon: FlaskConical,
+      href: "/admin/lotus-batch-genus",
+      color: "text-violet-700",
+      bgColor: "bg-violet-50",
+    },
   ];
 
   return (
