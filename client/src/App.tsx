@@ -470,6 +470,7 @@ const LotusPlantLinker = React.lazy(() => import('./pages/admin/LotusPlantLinker
 const LotusBatchGenus = React.lazy(() => import('./pages/admin/LotusBatchGenus'));
 const COCONUTEnrichment = React.lazy(() => import('./pages/admin/COCONUTEnrichment'));
 const IUCNEnrichment = React.lazy(() => import('./pages/admin/IUCNEnrichment'));
+const PhyloEnrichment = React.lazy(() => import('./pages/admin/PhyloEnrichment'));
 
 
 
@@ -1125,6 +1126,7 @@ function Router() {
       <LazyRouteRaw path="/admin/lotus-batch-genus" component={LotusBatchGenus} />
       <LazyRouteRaw path="/admin/coconut-enrichment" component={COCONUTEnrichment} />
       <LazyRouteRaw path="/admin/iucn-enrichment" component={IUCNEnrichment} />
+      <LazyRouteRaw path="/admin/phylo-enrichment" component={PhyloEnrichment} />
       
       {/* === ERREURS === */}
       <Route path="/404" component={NotFound} />

@@ -90,6 +90,9 @@ import { tropicosEnrichmentRouter } from './routers/tropicos-enrichment';
 import { lotusEnrichmentRouter } from './routers/lotus-enrichment';
 import { coconutEnrichmentRouter } from './routers/coconut-enrichment';
 import { iucnEnrichmentRouter } from './routers/iucn-enrichment';
+import { ncbiTaxonomyRouter } from './routers/ncbi-taxonomy';
+import { powoKewRouter } from './routers/powo-kew';
+import { wikidataPhyloRouter } from './routers/wikidata-phylo';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -12534,6 +12537,12 @@ Familles olfactives disponibles:
   coconutEnrichment: coconutEnrichmentRouter,
   // IUCN Enrichment — IUCN Red List Conservation Status
   iucnEnrichment: iucnEnrichmentRouter,
+  // NCBI Taxonomy u2014 National Center for Biotechnology Information
+  ncbiTaxonomy: ncbiTaxonomyRouter,
+  // POWO/Kew u2014 Plants of the World Online (Kew Gardens)
+  powoKew: powoKewRouter,
+  // Wikidata Phylo u2014 Phylogenetic data from Wikidata SPARQL
+  wikidataPhylo: wikidataPhyloRouter,
 });
 export type AppRouter = typeof appRouter;
 

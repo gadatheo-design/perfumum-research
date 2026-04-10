@@ -4000,3 +4000,11 @@ npm run dev
 - [x] MegaMenuOptimized refondu (MegaNav) : featured item, description de groupe, liens Tout voir, indicateur page active, badges colorés, panel adaptatif
 - [x] MobileBottomNav : patterns actifs mis à jour pour couvrir /phylogenetique, /nicotiana-explorer, /landraces, /prototypes, /inventory-dashboard, /conservation, /compound-search, /analysis-hub
 - [x] DynamicBreadcrumb : /nicotiana-explorer et /classification-phylogenetique ajoutés
+- [x] Routeur NCBI Taxonomy (phylogénie moléculaire, lignée, GenBank)
+- [x] Routeur POWO/Kew (taxonomie acceptée, synonymes, distribution)
+- [x] Routeur Wikidata Phylo étendu (parents, hybrides, chromosomes, cultivars, cross-IDs)
+- [x] Page admin /admin/phylo-enrichment centralisant les 5 APIs (GBIF, POWO, NCBI, Tropicos, Wikidata)
+- [x] Routeur NCBI Taxonomy (phylogénie moléculaire, lignée, GenBank)
+- [x] Routeur POWO/Kew (taxonomie acceptée, synonymes, distribution)
+- [x] Routeur Wikidata Phylo étendu (parents, hybrides, chromosomes, cultivars, cross-IDs)
+- [x] Page admin /admin/phylo-enrichment centralisant les 5 APIs (GBIF, POWO, NCBI, Tropicos, Wikidata)

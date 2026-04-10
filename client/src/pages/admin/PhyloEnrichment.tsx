@@ -1,0 +1,859 @@
+import { useState, useCallback } from "react";
+import { trpc } from "@/lib/trpc";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/hooks/use-toast";
+import {
+  Search, Database, Dna, Globe, Leaf, FlaskConical,
+  ExternalLink, RefreshCw, CheckCircle2, XCircle,
+  ChevronRight, Network, TreePine, Microscope, BookOpen,
+  AlertTriangle, Info, Loader2, ArrowRight
+} from "lucide-react";
+import { Link } from "wouter";
+
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+interface ApiStatusBadge {
+  label: string;
+  status: "online" | "offline" | "unknown";
+  color: string;
+}
+
+// ─── Sub-components ───────────────────────────────────────────────────────────
+
+function StatusDot({ status }: { status: "online" | "offline" | "unknown" }) {
+  const colors = {
+    online: "bg-emerald-400",
+    offline: "bg-red-400",
+    unknown: "bg-zinc-400",
+  };
+  return (
+    <span className={`inline-block w-2 h-2 rounded-full ${colors[status]} animate-pulse`} />
+  );
+}
+
+function IdentifierBadge({ label, value, href }: { label: string; value: string | null; href?: string | null }) {
+  if (!value) return (
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-zinc-800 text-zinc-500">
+      {label}: —
+    </span>
+  );
+  return href ? (
+    <a href={href} target="_blank" rel="noopener noreferrer"
+      className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-violet-900/40 text-violet-300 hover:bg-violet-900/70 transition-colors">
+      {label}: {value} <ExternalLink className="w-2.5 h-2.5" />
+    </a>
+  ) : (
+    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs bg-zinc-800 text-zinc-300">
+      {label}: {value}
+    </span>
+  );
+}
+
+function SectionTitle({ icon: Icon, title, subtitle }: { icon: any; title: string; subtitle?: string }) {
+  return (
+    <div className="flex items-start gap-3 mb-4">
+      <div className="p-2 rounded-lg bg-violet-900/30 border border-violet-800/30">
+        <Icon className="w-4 h-4 text-violet-400" />
+      </div>
+      <div>
+        <h3 className="text-sm font-semibold text-zinc-100">{title}</h3>
+        {subtitle && <p className="text-xs text-zinc-500 mt-0.5">{subtitle}</p>}
+      </div>
+    </div>
+  );
+}
+
+// ─── Tab: Profil Wikidata Phylo ───────────────────────────────────────────────
+
+function WikidataPhyloTab({ scientificName }: { scientificName: string }) {
+  const { data, isLoading, error } = trpc.wikidataPhylo.getFullPhyloProfile.useQuery(
+    { scientificName },
+    { enabled: scientificName.length > 2, retry: 1 }
+  );
+  const { data: childData, isLoading: childLoading } = trpc.wikidataPhylo.getChildTaxa.useQuery(
+    { scientificName, limit: 20 },
+    { enabled: scientificName.length > 2, retry: 1 }
+  );
+  const { data: hybridData } = trpc.wikidataPhylo.getHybridParents.useQuery(
+    { scientificName },
+    { enabled: scientificName.length > 2, retry: 1 }
+  );
+  const { data: chromoData } = trpc.wikidataPhylo.getChromosomeData.useQuery(
+    { scientificName },
+    { enabled: scientificName.length > 2, retry: 1 }
+  );
+
+  if (isLoading) return <div className="flex items-center gap-2 text-zinc-400 py-8"><Loader2 className="w-4 h-4 animate-spin" /> Interrogation de Wikidata...</div>;
+  if (error || !data?.found) return <div className="text-zinc-500 py-8 text-sm">Aucun résultat Wikidata pour <em>{scientificName}</em>.</div>;
+
+  const p = data.profile!;
+
+  return (
+    <div className="space-y-6">
+      {/* Header taxon */}
+      <div className="p-4 rounded-xl border border-violet-800/30 bg-violet-950/20">
+        <div className="flex items-start justify-between">
+          <div>
+            <p className="text-xs text-violet-400 uppercase tracking-widest mb-1">Wikidata</p>
+            <h3 className="text-lg font-semibold text-zinc-100 italic">{p.name}</h3>
+            {p.rank && <Badge variant="outline" className="mt-1 text-xs border-violet-700 text-violet-300">{p.rank}</Badge>}
+          </div>
+          <a href={p.wikidataUrl} target="_blank" rel="noopener noreferrer"
+            className="flex items-center gap-1 text-xs text-violet-400 hover:text-violet-200 transition-colors">
+            {p.qid} <ExternalLink className="w-3 h-3" />
+          </a>
+        </div>
+        {p.image && (
+          <img src={p.image} alt={p.name} className="mt-3 h-32 w-auto rounded-lg object-cover opacity-80" />
+        )}
+      </div>
+
+      {/* Identifiants croisés */}
+      <div>
+        <SectionTitle icon={Database} title="Identifiants croisés" subtitle="Liens vers les bases de données externes" />
+        <div className="flex flex-wrap gap-2">
+          <IdentifierBadge label="Wikidata" value={p.identifiers.wikidata} href={p.wikidataUrl} />
+          <IdentifierBadge label="NCBI" value={p.identifiers.ncbi} href={p.identifiers.ncbi ? `https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=${p.identifiers.ncbi}` : null} />
+          <IdentifierBadge label="GBIF" value={p.identifiers.gbif} href={p.identifiers.gbif ? `https://www.gbif.org/species/${p.identifiers.gbif}` : null} />
+          <IdentifierBadge label="POWO" value={p.identifiers.powo} href={p.identifiers.powo ? `https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:${p.identifiers.powo}` : null} />
+          <IdentifierBadge label="Tropicos" value={p.identifiers.tropicos} href={p.identifiers.tropicos ? `https://www.tropicos.org/name/${p.identifiers.tropicos}` : null} />
+        </div>
+      </div>
+
+      {/* Phylogénie */}
+      {p.parent?.name && (
+        <div>
+          <SectionTitle icon={Network} title="Taxon parent" />
+          <div className="flex items-center gap-2 text-sm">
+            <span className="text-zinc-400">Parent :</span>
+            <span className="text-zinc-200 italic">{p.parent.scientificName ?? p.parent.name}</span>
+            {p.parent.qid && (
+              <a href={`https://www.wikidata.org/wiki/${p.parent.qid}`} target="_blank" rel="noopener noreferrer"
+                className="text-violet-400 hover:text-violet-200">
+                <ExternalLink className="w-3 h-3" />
+              </a>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Chromosomes */}
+      {chromoData?.found && (
+        <div>
+          <SectionTitle icon={Dna} title="Données chromosomiques" />
+          <div className="flex gap-4 text-sm">
+            {chromoData.chromosomeCount && (
+              <div className="p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-center">
+                <p className="text-2xl font-bold text-violet-300">{chromoData.chromosomeCount}</p>
+                <p className="text-xs text-zinc-500 mt-1">Chromosomes (2n)</p>
+              </div>
+            )}
+            {chromoData.ploidy && (
+              <div className="p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-center">
+                <p className="text-lg font-semibold text-violet-300">{chromoData.ploidy}</p>
+                <p className="text-xs text-zinc-500 mt-1">Ploïdie</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Hybrides */}
+      {hybridData?.isHybrid && hybridData.parents.length > 0 && (
+        <div>
+          <SectionTitle icon={Dna} title="Espèces parentales (hybride)" subtitle="Ce taxon est un hybride issu de ces espèces" />
+          <div className="space-y-2">
+            {hybridData.parents.map((parent, i) => (
+              <div key={i} className="flex items-center gap-2 text-sm p-2 rounded-lg bg-zinc-800/30">
+                <ChevronRight className="w-3 h-3 text-violet-400" />
+                <span className="italic text-zinc-200">{parent.scientificName ?? parent.name}</span>
+                <a href={parent.wikidataUrl} target="_blank" rel="noopener noreferrer"
+                  className="text-violet-400 hover:text-violet-200 ml-auto">
+                  <ExternalLink className="w-3 h-3" />
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Taxons enfants */}
+      {childData?.found && (
+        <div>
+          <SectionTitle icon={TreePine} title={`Taxons enfants (${childData.total})`} subtitle="Sous-espèces, variétés, cultivars" />
+          <div className="grid grid-cols-2 gap-1.5 max-h-48 overflow-y-auto">
+            {childData.children.map((child, i) => (
+              <a key={i} href={child.wikidataUrl} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-2 py-1 rounded text-xs bg-zinc-800/40 hover:bg-zinc-800 text-zinc-300 transition-colors">
+                <span className="text-zinc-500 text-[10px]">{child.rankName}</span>
+                <span className="italic truncate">{child.name}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Conservation */}
+      {p.iucnStatus && (
+        <div>
+          <SectionTitle icon={AlertTriangle} title="Statut de conservation IUCN" />
+          <Badge className={`text-sm ${
+            p.iucnStatus.includes("Endangered") || p.iucnStatus.includes("Critical") ? "bg-red-900/50 text-red-300 border-red-700" :
+            p.iucnStatus.includes("Vulnerable") ? "bg-orange-900/50 text-orange-300 border-orange-700" :
+            "bg-emerald-900/50 text-emerald-300 border-emerald-700"
+          }`}>
+            {p.iucnStatus}
+          </Badge>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Tab: GBIF ────────────────────────────────────────────────────────────────
+
+function GbifTab({ scientificName }: { scientificName: string }) {
+  const { data, isLoading } = trpc.gbif.searchByName.useQuery(
+    { name: scientificName, limit: 3 },
+    { enabled: scientificName.length > 2, retry: 1 }
+  );
+
+  if (isLoading) return <div className="flex items-center gap-2 text-zinc-400 py-8"><Loader2 className="w-4 h-4 animate-spin" /> Interrogation de GBIF...</div>;
+  if (!data?.results?.length) return <div className="text-zinc-500 py-8 text-sm">Aucun résultat GBIF pour <em>{scientificName}</em>.</div>;
+
+  const best = data.results[0];
+
+  return (
+    <div className="space-y-6">
+      <div className="p-4 rounded-xl border border-emerald-800/30 bg-emerald-950/20">
+        <p className="text-xs text-emerald-400 uppercase tracking-widest mb-1">GBIF</p>
+        <h3 className="text-lg font-semibold text-zinc-100 italic">{best.scientificName}</h3>
+        <div className="flex flex-wrap gap-2 mt-2">
+          <IdentifierBadge label="GBIF Key" value={String(best.usageKey)} href={`https://www.gbif.org/species/${best.usageKey}`} />
+          {best.family && <Badge variant="outline" className="text-xs border-emerald-700 text-emerald-300">{best.family}</Badge>}
+          {best.order && <Badge variant="outline" className="text-xs border-zinc-700 text-zinc-300">{best.order}</Badge>}
+          {best.status && <Badge variant="outline" className="text-xs border-zinc-700 text-zinc-400">{best.status}</Badge>}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-3">
+        {best.kingdom && <div className="p-3 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
+          <p className="text-xs text-zinc-500">Règne</p>
+          <p className="text-sm text-zinc-200 mt-0.5">{best.kingdom}</p>
+        </div>}
+        {best.phylum && <div className="p-3 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
+          <p className="text-xs text-zinc-500">Embranchement</p>
+          <p className="text-sm text-zinc-200 mt-0.5">{best.phylum}</p>
+        </div>}
+        {best.class && <div className="p-3 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
+          <p className="text-xs text-zinc-500">Classe</p>
+          <p className="text-sm text-zinc-200 mt-0.5">{best.class}</p>
+        </div>}
+        {best.genus && <div className="p-3 rounded-lg bg-zinc-800/30 border border-zinc-700/30">
+          <p className="text-xs text-zinc-500">Genre</p>
+          <p className="text-sm text-zinc-200 mt-0.5 italic">{best.genus}</p>
+        </div>}
+      </div>
+
+      {best.synonyms?.length > 0 && (
+        <div>
+          <SectionTitle icon={BookOpen} title={`Synonymes GBIF (${best.synonyms.length})`} />
+          <div className="flex flex-wrap gap-1.5">
+            {best.synonyms.slice(0, 8).map((s: string, i: number) => (
+              <span key={i} className="px-2 py-0.5 rounded text-xs bg-zinc-800 text-zinc-400 italic">{s}</span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <a href={`https://www.gbif.org/species/${best.usageKey}`} target="_blank" rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 text-sm text-emerald-400 hover:text-emerald-200 transition-colors">
+        Voir sur GBIF <ExternalLink className="w-3 h-3" />
+      </a>
+    </div>
+  );
+}
+
+// ─── Tab: POWO/Kew ────────────────────────────────────────────────────────────
+
+function PowoTab({ scientificName }: { scientificName: string }) {
+  const { data, isLoading } = trpc.powoKew.searchByName.useQuery(
+    { name: scientificName, limit: 3 },
+    { enabled: scientificName.length > 2, retry: 1 }
+  );
+
+  if (isLoading) return <div className="flex items-center gap-2 text-zinc-400 py-8"><Loader2 className="w-4 h-4 animate-spin" /> Interrogation de POWO/Kew...</div>;
+  if (!data?.results?.length) return <div className="text-zinc-500 py-8 text-sm">Aucun résultat POWO pour <em>{scientificName}</em>.</div>;
+
+  const best = data.results.find((r: any) => r.taxonomicStatus === "Accepted") ?? data.results[0];
+
+  return (
+    <div className="space-y-6">
+      <div className="p-4 rounded-xl border border-amber-800/30 bg-amber-950/20">
+        <p className="text-xs text-amber-400 uppercase tracking-widest mb-1">POWO — Kew Gardens</p>
+        <h3 className="text-lg font-semibold text-zinc-100 italic">{best.name}</h3>
+        {best.author && <p className="text-xs text-zinc-400 mt-1">{best.author}</p>}
+        <div className="flex flex-wrap gap-2 mt-2">
+          {best.taxonomicStatus && (
+            <Badge className={`text-xs ${best.taxonomicStatus === "Accepted" ? "bg-emerald-900/50 text-emerald-300 border-emerald-700" : "bg-zinc-800 text-zinc-400 border-zinc-700"}`}>
+              {best.taxonomicStatus}
+            </Badge>
+          )}
+          {best.family && <Badge variant="outline" className="text-xs border-amber-700 text-amber-300">{best.family}</Badge>}
+        </div>
+      </div>
+
+      {best.synonymOf && (
+        <div className="p-3 rounded-lg border border-orange-800/30 bg-orange-950/20">
+          <p className="text-xs text-orange-400 mb-1">Synonyme de :</p>
+          <p className="text-sm text-zinc-200 italic">{best.synonymOf}</p>
+        </div>
+      )}
+
+      <div className="flex flex-wrap gap-2">
+        <IdentifierBadge label="POWO ID" value={best.fqId} href={best.powoUrl} />
+      </div>
+
+      {data.results.length > 1 && (
+        <div>
+          <SectionTitle icon={BookOpen} title="Autres résultats POWO" />
+          <div className="space-y-1.5">
+            {data.results.slice(1).map((r: any, i: number) => (
+              <a key={i} href={r.powoUrl} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-800/30 hover:bg-zinc-800 text-sm text-zinc-300 transition-colors">
+                <span className="italic">{r.name}</span>
+                <span className="text-xs text-zinc-500 ml-auto">{r.taxonomicStatus}</span>
+                <ExternalLink className="w-3 h-3 text-zinc-500" />
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <a href={best.powoUrl} target="_blank" rel="noopener noreferrer"
+        className="inline-flex items-center gap-2 text-sm text-amber-400 hover:text-amber-200 transition-colors">
+        Voir sur POWO/Kew <ExternalLink className="w-3 h-3" />
+      </a>
+    </div>
+  );
+}
+
+// ─── Tab: NCBI Taxonomy ───────────────────────────────────────────────────────
+
+function NcbiTab({ scientificName }: { scientificName: string }) {
+  const { data, isLoading } = trpc.ncbiTaxonomy.searchByName.useQuery(
+    { name: scientificName, limit: 3 },
+    { enabled: scientificName.length > 2, retry: 1 }
+  );
+  const { data: lineageData, isLoading: lineageLoading } = trpc.ncbiTaxonomy.getLineage.useQuery(
+    { scientificName },
+    { enabled: scientificName.length > 2, retry: 1 }
+  );
+
+  if (isLoading) return <div className="flex items-center gap-2 text-zinc-400 py-8"><Loader2 className="w-4 h-4 animate-spin" /> Interrogation de NCBI Taxonomy...</div>;
+  if (!data?.found || !data.results.length) return <div className="text-zinc-500 py-8 text-sm">Aucun résultat NCBI pour <em>{scientificName}</em>.</div>;
+
+  const best = data.results[0];
+
+  return (
+    <div className="space-y-6">
+      <div className="p-4 rounded-xl border border-sky-800/30 bg-sky-950/20">
+        <p className="text-xs text-sky-400 uppercase tracking-widest mb-1">NCBI Taxonomy</p>
+        <h3 className="text-lg font-semibold text-zinc-100 italic">{best.scientificName}</h3>
+        <div className="flex flex-wrap gap-2 mt-2">
+          <IdentifierBadge label="Tax ID" value={best.taxId} href={best.ncbiUrl} />
+          {best.rank && <Badge variant="outline" className="text-xs border-sky-700 text-sky-300">{best.rank}</Badge>}
+          {best.division && <Badge variant="outline" className="text-xs border-zinc-700 text-zinc-300">{best.division}</Badge>}
+        </div>
+      </div>
+
+      {/* Lignée phylogénétique */}
+      {lineageData?.found && lineageData.lineage.length > 0 && (
+        <div>
+          <SectionTitle icon={Network} title="Lignée phylogénétique NCBI" subtitle="De la racine jusqu'à l'espèce" />
+          <div className="flex flex-wrap items-center gap-1 text-xs">
+            {lineageData.lineage.map((item: any, i: number) => (
+              <span key={i} className="flex items-center gap-1">
+                <span className="px-2 py-0.5 rounded bg-zinc-800/50 text-zinc-300">{item.name}</span>
+                {i < lineageData.lineage.length - 1 && <ChevronRight className="w-3 h-3 text-zinc-600" />}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Autres noms */}
+      {best.otherNames?.length > 0 && (
+        <div>
+          <SectionTitle icon={BookOpen} title="Autres noms NCBI" />
+          <div className="space-y-1">
+            {best.otherNames.slice(0, 6).map((name: string, i: number) => (
+              <p key={i} className="text-xs text-zinc-400">{name}</p>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="flex gap-3">
+        {best.ncbiUrl && (
+          <a href={best.ncbiUrl} target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-sky-400 hover:text-sky-200 transition-colors">
+            NCBI Taxonomy <ExternalLink className="w-3 h-3" />
+          </a>
+        )}
+        {best.genbankUrl && (
+          <a href={best.genbankUrl} target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-sm text-sky-400 hover:text-sky-200 transition-colors">
+            GenBank <ExternalLink className="w-3 h-3" />
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── Tab: Tropicos ────────────────────────────────────────────────────────────
+
+function TropicosTab({ scientificName }: { scientificName: string }) {
+  const { data, isLoading } = trpc.tropicosEnrichment.searchNames.useQuery(
+    { name: scientificName, limit: 3 },
+    { enabled: scientificName.length > 2, retry: 1 }
+  );
+
+  if (isLoading) return <div className="flex items-center gap-2 text-zinc-400 py-8"><Loader2 className="w-4 h-4 animate-spin" /> Interrogation de Tropicos...</div>;
+  if (!data?.results?.length) return <div className="text-zinc-500 py-8 text-sm">Aucun résultat Tropicos pour <em>{scientificName}</em>.</div>;
+
+  const best = data.results[0];
+
+  return (
+    <div className="space-y-6">
+      <div className="p-4 rounded-xl border border-rose-800/30 bg-rose-950/20">
+        <p className="text-xs text-rose-400 uppercase tracking-widest mb-1">Tropicos — Missouri Botanical Garden</p>
+        <h3 className="text-lg font-semibold text-zinc-100 italic">{best.scientificName}</h3>
+        {best.author && <p className="text-xs text-zinc-400 mt-1">{best.author}</p>}
+        <div className="flex flex-wrap gap-2 mt-2">
+          <IdentifierBadge label="Tropicos ID" value={String(best.nameId)} href={best.url} />
+          {best.family && <Badge variant="outline" className="text-xs border-rose-700 text-rose-300">{best.family}</Badge>}
+          {best.nomenclatureStatus && <Badge variant="outline" className="text-xs border-zinc-700 text-zinc-300">{best.nomenclatureStatus}</Badge>}
+        </div>
+      </div>
+
+      {best.year && (
+        <div className="flex items-center gap-2 text-sm text-zinc-400">
+          <Info className="w-3.5 h-3.5" />
+          Année de publication : <span className="text-zinc-200">{best.year}</span>
+        </div>
+      )}
+
+      {data.results.length > 1 && (
+        <div>
+          <SectionTitle icon={BookOpen} title="Autres résultats Tropicos" />
+          <div className="space-y-1.5">
+            {data.results.slice(1).map((r: any, i: number) => (
+              <a key={i} href={r.url} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-800/30 hover:bg-zinc-800 text-sm text-zinc-300 transition-colors">
+                <span className="italic">{r.scientificName}</span>
+                <span className="text-xs text-zinc-500 ml-auto">{r.nomenclatureStatus}</span>
+                <ExternalLink className="w-3 h-3 text-zinc-500" />
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {best.url && (
+        <a href={best.url} target="_blank" rel="noopener noreferrer"
+          className="inline-flex items-center gap-2 text-sm text-rose-400 hover:text-rose-200 transition-colors">
+          Voir sur Tropicos <ExternalLink className="w-3 h-3" />
+        </a>
+      )}
+    </div>
+  );
+}
+
+// ─── Batch Enrichment Panel ───────────────────────────────────────────────────
+
+function BatchEnrichmentPanel() {
+  const { toast } = useToast();
+  const [dryRun, setDryRun] = useState(true);
+  const [limit, setLimit] = useState(10);
+
+  const powoMutation = trpc.powoKew.batchEnrichPlants.useMutation({
+    onSuccess: (data) => {
+      toast({
+        title: `POWO Batch ${data.dryRun ? "(Dry Run)" : ""}`,
+        description: `${data.found}/${data.total} plantes trouvées, ${data.enriched} enrichies`,
+      });
+    },
+  });
+
+  const wikidataMutation = trpc.wikidataPhylo.batchEnrichCrossIds.useMutation({
+    onSuccess: (data) => {
+      toast({
+        title: `Wikidata Cross-IDs ${data.dryRun ? "(Dry Run)" : ""}`,
+        description: `${data.found}/${data.total} plantes trouvées, ${data.enriched} enrichies`,
+      });
+    },
+  });
+
+  const ncbiMutation = trpc.ncbiTaxonomy.batchEnrichPlants.useMutation({
+    onSuccess: (data) => {
+      toast({
+        title: `NCBI Batch ${data.dryRun ? "(Dry Run)" : ""}`,
+        description: `${data.found}/${data.total} plantes trouvées, ${data.enriched} enrichies`,
+      });
+    },
+  });
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center gap-4 p-4 rounded-xl border border-zinc-700/50 bg-zinc-800/20">
+        <div className="flex items-center gap-3">
+          <label className="text-sm text-zinc-400">Limite :</label>
+          <Input
+            type="number"
+            value={limit}
+            onChange={(e) => setLimit(Number(e.target.value))}
+            className="w-20 h-8 text-sm bg-zinc-900 border-zinc-700"
+            min={1}
+            max={100}
+          />
+        </div>
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            id="dryrun"
+            checked={dryRun}
+            onChange={(e) => setDryRun(e.target.checked)}
+            className="rounded border-zinc-600"
+          />
+          <label htmlFor="dryrun" className="text-sm text-zinc-400">Mode Dry Run (aperçu sans écriture)</label>
+        </div>
+      </div>
+
+      {!dryRun && (
+        <div className="flex items-center gap-2 p-3 rounded-lg border border-orange-800/50 bg-orange-950/20 text-sm text-orange-300">
+          <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+          Mode écriture activé — les données seront modifiées en base de données.
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* POWO Batch */}
+        <Card className="bg-zinc-900/50 border-zinc-700/50">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm flex items-center gap-2">
+              <Leaf className="w-4 h-4 text-amber-400" />
+              POWO / Kew
+            </CardTitle>
+            <CardDescription className="text-xs">Enrichit powId, authorCitation, synonymes</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button
+              size="sm"
+              variant="outline"
+              className="w-full border-amber-700/50 text-amber-300 hover:bg-amber-900/20"
+              onClick={() => powoMutation.mutate({ limit, dryRun })}
+              disabled={powoMutation.isPending}
+            >
+              {powoMutation.isPending ? <Loader2 className="w-3 h-3 animate-spin mr-2" /> : <RefreshCw className="w-3 h-3 mr-2" />}
+              {dryRun ? "Prévisualiser" : "Enrichir"}
+            </Button>
+            {powoMutation.data && (
+              <div className="mt-3 text-xs space-y-1">
+                <p className="text-zinc-400">{powoMutation.data.found}/{powoMutation.data.total} trouvées</p>
+                {!dryRun && <p className="text-emerald-400">{powoMutation.data.enriched} enrichies</p>}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Wikidata Cross-IDs */}
+        <Card className="bg-zinc-900/50 border-zinc-700/50">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm flex items-center gap-2">
+              <Globe className="w-4 h-4 text-violet-400" />
+              Wikidata Cross-IDs
+            </CardTitle>
+            <CardDescription className="text-xs">Enrichit wikidataQid, gbifId, powId</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button
+              size="sm"
+              variant="outline"
+              className="w-full border-violet-700/50 text-violet-300 hover:bg-violet-900/20"
+              onClick={() => wikidataMutation.mutate({ limit, dryRun })}
+              disabled={wikidataMutation.isPending}
+            >
+              {wikidataMutation.isPending ? <Loader2 className="w-3 h-3 animate-spin mr-2" /> : <RefreshCw className="w-3 h-3 mr-2" />}
+              {dryRun ? "Prévisualiser" : "Enrichir"}
+            </Button>
+            {wikidataMutation.data && (
+              <div className="mt-3 text-xs space-y-1">
+                <p className="text-zinc-400">{wikidataMutation.data.found}/{wikidataMutation.data.total} trouvées</p>
+                {!dryRun && <p className="text-emerald-400">{wikidataMutation.data.enriched} enrichies</p>}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* NCBI Batch */}
+        <Card className="bg-zinc-900/50 border-zinc-700/50">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm flex items-center gap-2">
+              <Microscope className="w-4 h-4 text-sky-400" />
+              NCBI Taxonomy
+            </CardTitle>
+            <CardDescription className="text-xs">Stocke le taxon ID NCBI dans les notes</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button
+              size="sm"
+              variant="outline"
+              className="w-full border-sky-700/50 text-sky-300 hover:bg-sky-900/20"
+              onClick={() => ncbiMutation.mutate({ limit, dryRun })}
+              disabled={ncbiMutation.isPending}
+            >
+              {ncbiMutation.isPending ? <Loader2 className="w-3 h-3 animate-spin mr-2" /> : <RefreshCw className="w-3 h-3 mr-2" />}
+              {dryRun ? "Prévisualiser" : "Enrichir"}
+            </Button>
+            {ncbiMutation.data && (
+              <div className="mt-3 text-xs space-y-1">
+                <p className="text-zinc-400">{ncbiMutation.data.found}/{ncbiMutation.data.total} trouvées</p>
+                {!dryRun && <p className="text-emerald-400">{ncbiMutation.data.enriched} enrichies</p>}
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Résultats batch */}
+      {(powoMutation.data?.results || wikidataMutation.data?.results || ncbiMutation.data?.results) && (
+        <div>
+          <h4 className="text-sm font-medium text-zinc-300 mb-3">Résultats de l'enrichissement</h4>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs border-collapse">
+              <thead>
+                <tr className="border-b border-zinc-700">
+                  <th className="text-left py-2 px-3 text-zinc-500 font-medium">Plante</th>
+                  <th className="text-left py-2 px-3 text-zinc-500 font-medium">Nom latin</th>
+                  <th className="text-left py-2 px-3 text-zinc-500 font-medium">Trouvée</th>
+                  <th className="text-left py-2 px-3 text-zinc-500 font-medium">Données</th>
+                </tr>
+              </thead>
+              <tbody>
+                {(powoMutation.data?.results ?? wikidataMutation.data?.results ?? ncbiMutation.data?.results ?? []).map((r: any, i: number) => (
+                  <tr key={i} className="border-b border-zinc-800/50 hover:bg-zinc-800/20">
+                    <td className="py-2 px-3 text-zinc-300">{r.name}</td>
+                    <td className="py-2 px-3 text-zinc-400 italic">{r.latinName}</td>
+                    <td className="py-2 px-3">
+                      {r.found
+                        ? <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                        : <XCircle className="w-3.5 h-3.5 text-red-400" />}
+                    </td>
+                    <td className="py-2 px-3 text-zinc-500">
+                      {r.fqId ?? r.wikidataQid ?? r.taxId ?? "—"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── Main Component ───────────────────────────────────────────────────────────
+
+export default function PhyloEnrichment() {
+  const [searchInput, setSearchInput] = useState("");
+  const [activeSearch, setActiveSearch] = useState("");
+
+  const handleSearch = useCallback(() => {
+    if (searchInput.trim().length > 2) {
+      setActiveSearch(searchInput.trim());
+    }
+  }, [searchInput]);
+
+  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === "Enter") handleSearch();
+  }, [handleSearch]);
+
+  // API status checks
+  const { data: gbifStatus } = trpc.gbif.getApiStatus?.useQuery(undefined, { retry: 0 }) ?? { data: null };
+  const { data: powoStatus } = trpc.powoKew.getStatus.useQuery(undefined, { retry: 0 });
+  const { data: ncbiStatus } = trpc.ncbiTaxonomy.getStatus.useQuery(undefined, { retry: 0 });
+
+  const apiSources = [
+    { label: "GBIF", color: "emerald", status: gbifStatus?.status ?? "unknown", coverage: "1.9B occurrences" },
+    { label: "POWO/Kew", color: "amber", status: powoStatus?.status ?? "unknown", coverage: "1.4M noms" },
+    { label: "NCBI", color: "sky", status: ncbiStatus?.status ?? "unknown", coverage: "2M+ espèces" },
+    { label: "Tropicos", color: "rose", status: "unknown", coverage: "1.3M noms" },
+    { label: "Wikidata", color: "violet", status: "online", coverage: "SPARQL live" },
+  ];
+
+  return (
+    <div className="min-h-screen bg-zinc-950 text-zinc-100">
+      {/* Header */}
+      <div className="border-b border-zinc-800/50 bg-zinc-900/50 sticky top-0 z-10 backdrop-blur-sm">
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-violet-900/40 border border-violet-700/30">
+                <Dna className="w-5 h-5 text-violet-400" />
+              </div>
+              <div>
+                <h1 className="text-base font-semibold text-zinc-100">Enrichissement Phylogénétique</h1>
+                <p className="text-xs text-zinc-500">5 sources taxonomiques · GBIF · POWO · NCBI · Tropicos · Wikidata</p>
+              </div>
+            </div>
+            <Link href="/admin">
+              <Button variant="ghost" size="sm" className="text-zinc-400 hover:text-zinc-200">
+                ← Admin
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+        {/* API Status Bar */}
+        <div className="flex flex-wrap gap-3">
+          {apiSources.map((api) => (
+            <div key={api.label} className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-700/50 bg-zinc-800/30 text-xs">
+              <StatusDot status={api.status as any} />
+              <span className="text-zinc-300 font-medium">{api.label}</span>
+              <span className="text-zinc-500">{api.coverage}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Search */}
+        <div className="p-6 rounded-2xl border border-zinc-700/50 bg-zinc-900/30">
+          <h2 className="text-sm font-medium text-zinc-300 mb-4">Recherche par nom scientifique</h2>
+          <div className="flex gap-3">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+              <Input
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                placeholder="ex: Nicotiana tabacum, Rosa damascena, Lavandula angustifolia..."
+                className="pl-9 bg-zinc-900 border-zinc-700 text-zinc-100 placeholder:text-zinc-600 h-10"
+              />
+            </div>
+            <Button onClick={handleSearch} className="bg-violet-700 hover:bg-violet-600 text-white px-6">
+              Interroger les 5 sources
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
+
+          {/* Quick examples */}
+          <div className="flex flex-wrap gap-2 mt-3">
+            <span className="text-xs text-zinc-600">Exemples :</span>
+            {["Nicotiana tabacum", "Rosa damascena", "Cannabis sativa", "Lavandula angustifolia", "Citrus aurantium"].map((name) => (
+              <button
+                key={name}
+                onClick={() => { setSearchInput(name); setActiveSearch(name); }}
+                className="text-xs text-violet-400 hover:text-violet-200 italic transition-colors"
+              >
+                {name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Results */}
+        {activeSearch && (
+          <div className="space-y-4">
+            <div className="flex items-center gap-3">
+              <h2 className="text-base font-semibold text-zinc-100">
+                Résultats pour <em className="text-violet-300">{activeSearch}</em>
+              </h2>
+              <Separator className="flex-1 bg-zinc-800" />
+            </div>
+
+            <Tabs defaultValue="wikidata" className="space-y-4">
+              <TabsList className="bg-zinc-900 border border-zinc-700/50 p-1 h-auto flex-wrap gap-1">
+                <TabsTrigger value="wikidata" className="text-xs data-[state=active]:bg-violet-900/50 data-[state=active]:text-violet-200">
+                  <Globe className="w-3 h-3 mr-1.5" /> Wikidata Phylo
+                </TabsTrigger>
+                <TabsTrigger value="gbif" className="text-xs data-[state=active]:bg-emerald-900/50 data-[state=active]:text-emerald-200">
+                  <Leaf className="w-3 h-3 mr-1.5" /> GBIF
+                </TabsTrigger>
+                <TabsTrigger value="powo" className="text-xs data-[state=active]:bg-amber-900/50 data-[state=active]:text-amber-200">
+                  <TreePine className="w-3 h-3 mr-1.5" /> POWO/Kew
+                </TabsTrigger>
+                <TabsTrigger value="ncbi" className="text-xs data-[state=active]:bg-sky-900/50 data-[state=active]:text-sky-200">
+                  <Microscope className="w-3 h-3 mr-1.5" /> NCBI
+                </TabsTrigger>
+                <TabsTrigger value="tropicos" className="text-xs data-[state=active]:bg-rose-900/50 data-[state=active]:text-rose-200">
+                  <FlaskConical className="w-3 h-3 mr-1.5" /> Tropicos
+                </TabsTrigger>
+              </TabsList>
+
+              <div className="p-6 rounded-xl border border-zinc-700/50 bg-zinc-900/30 min-h-64">
+                <TabsContent value="wikidata" className="mt-0">
+                  <WikidataPhyloTab scientificName={activeSearch} />
+                </TabsContent>
+                <TabsContent value="gbif" className="mt-0">
+                  <GbifTab scientificName={activeSearch} />
+                </TabsContent>
+                <TabsContent value="powo" className="mt-0">
+                  <PowoTab scientificName={activeSearch} />
+                </TabsContent>
+                <TabsContent value="ncbi" className="mt-0">
+                  <NcbiTab scientificName={activeSearch} />
+                </TabsContent>
+                <TabsContent value="tropicos" className="mt-0">
+                  <TropicosTab scientificName={activeSearch} />
+                </TabsContent>
+              </div>
+            </Tabs>
+          </div>
+        )}
+
+        {/* Batch Enrichment */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <h2 className="text-base font-semibold text-zinc-100">Enrichissement en lot</h2>
+            <Badge variant="outline" className="text-xs border-zinc-600 text-zinc-400">Beta</Badge>
+            <Separator className="flex-1 bg-zinc-800" />
+          </div>
+          <BatchEnrichmentPanel />
+        </div>
+
+        {/* Links to individual enrichment pages */}
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <h2 className="text-base font-semibold text-zinc-100">Pages d'enrichissement spécialisées</h2>
+            <Separator className="flex-1 bg-zinc-800" />
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              { href: "/admin/gbif-enrichment", label: "GBIF + Climat", desc: "Distribution, Köppen, IUCN", color: "emerald" },
+              { href: "/admin/tropicos-enrichment", label: "Tropicos", desc: "Synonymes, images, distribution", color: "rose" },
+              { href: "/admin/lotus-batch-genus", label: "LOTUS / Wikidata", desc: "Molécules par genre", color: "violet" },
+              { href: "/admin/variety-images", label: "Images morpho.", desc: "Galerie variétale", color: "amber" },
+            ].map((link) => (
+              <Link key={link.href} href={link.href}>
+                <div className={`p-4 rounded-xl border border-${link.color}-800/30 bg-${link.color}-950/20 hover:bg-${link.color}-950/40 transition-colors cursor-pointer group`}>
+                  <p className={`text-sm font-medium text-${link.color}-300 group-hover:text-${link.color}-100`}>{link.label}</p>
+                  <p className="text-xs text-zinc-500 mt-1">{link.desc}</p>
+                  <ArrowRight className={`w-3.5 h-3.5 text-${link.color}-500 mt-2 group-hover:translate-x-1 transition-transform`} />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
