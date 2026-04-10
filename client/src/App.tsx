@@ -3,7 +3,6 @@ import React, { lazy, Suspense } from "react";
 import { Loader2 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { SearchSidebar } from "@/components/SearchSidebar";
 
 // Wrapper qui ajoute Header/Footer aux pages de détail qui n'en ont pas
 const WithLayout = ({ children }: { children: React.ReactNode }) => (
@@ -1154,7 +1153,6 @@ function App() {
             <TourSelector />
             <PageTransition>
               <Router />
-              <SearchSidebar />
             </PageTransition>
             <GuidedNavigationWidget />
             <MobileBottomNav />

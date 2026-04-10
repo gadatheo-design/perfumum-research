@@ -3980,3 +3980,6 @@ npm run dev
 - [x] Navigation URL dans PhylogeneticView (tab=genus&genus=Cannabis)
 - [x] Affichage molécules LOTUS distinctes (section séparée avec badge vert) dans VarietyDetail
 - [x] Champ source ajouté dans getVarietyWithMolecules
+- [x] Suppression barre latérale SearchSidebar parasite
+- [x] Amélioration UI /admin/variety-images (galerie dense, lightbox, badges colorés, onglet Wikidata Images)
+- [x] Amélioration UI /admin/wikidata-sync (4 onglets : Recherche, En masse, Recommandations, Import rapide)
