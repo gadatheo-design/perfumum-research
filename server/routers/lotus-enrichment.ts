@@ -22,15 +22,13 @@ import { TRPCError } from "@trpc/server";
 import { getDb } from "../db/core";
 import { plants, molecules, plantMolecules } from "../../drizzle/schema";
 import { eq, like, and, or, isNull } from "drizzle-orm";
+import { sparqlQuery } from "../utils/sparql";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONSTANTS
 // ─────────────────────────────────────────────────────────────────────────────
 
-const SPARQL_ENDPOINT = "https://query.wikidata.org/sparql";
-const SPARQL_TIMEOUT_MS = 22000;
-const LOTUS_USER_AGENT =
-  "PERFUMUM-Research/1.0 (https://perfumum.manus.space; olfactory-research-lotus) Node.js/fetch";
+// sparqlQuery now imported from server/utils/sparql.ts (with retry + backoff)
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TYPES
@@ -52,41 +50,7 @@ interface LotusCompound {
 // HELPERS
 // ─────────────────────────────────────────────────────────────────────────────
 
-async function sparqlQuery(query: string): Promise<any[]> {
-  const url = new URL(SPARQL_ENDPOINT);
-  url.searchParams.set("query", query.trim());
-  url.searchParams.set("format", "json");
-
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), SPARQL_TIMEOUT_MS);
-
-  try {
-    const response = await fetch(url.toString(), {
-      method: "GET",
-      headers: {
-        Accept: "application/sparql-results+json",
-        "User-Agent": LOTUS_USER_AGENT,
-        "Accept-Language": "en",
-      },
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      throw new Error(`SPARQL HTTP ${response.status}: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    return data?.results?.bindings ?? [];
-  } catch (err: any) {
-    clearTimeout(timeoutId);
-    if (err.name === "AbortError") {
-      throw new Error("LOTUS/Wikidata SPARQL request timed out");
-    }
-    throw err;
-  }
-}
+// sparqlQuery is imported from server/utils/sparql.ts above
 
 /** Get molecules found in a taxon via Wikidata P703 */
 async function getMoleculesByTaxon(
@@ -564,7 +528,7 @@ export const lotusEnrichmentRouter = router({
 
       // 2. Fetch molecules for all species in one SPARQL query
       const safeGenus = genus.replace(/"/g, '\\"');
-      const sparqlQuery = `
+      const sparqlQueryStr = `
         SELECT DISTINCT ?taxon ?taxonLabel ?latinName ?compound ?compoundLabel ?inchikey ?cas ?smiles ?formula ?mass ?iupac ?pubchem
         WHERE {
           ?genus wdt:P225 "${safeGenus}" .
@@ -583,28 +547,12 @@ export const lotusEnrichmentRouter = router({
         }
         LIMIT ${speciesInDb.length * input.limitPerSpecies}
       `;
-
+      // Use shared sparqlQuery helper with retry + exponential backoff
       let bindings: any[] = [];
       try {
-        const url = new URL("https://query.wikidata.org/sparql");
-        url.searchParams.set("query", sparqlQuery.trim());
-        url.searchParams.set("format", "json");
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 28000);
-        const response = await fetch(url.toString(), {
-          headers: {
-            Accept: "application/sparql-results+json",
-            "User-Agent": LOTUS_USER_AGENT,
-          },
-          signal: controller.signal,
-        });
-        clearTimeout(timeoutId);
-        if (response.ok) {
-          const data = await response.json();
-          bindings = data?.results?.bindings ?? [];
-        }
+        bindings = await sparqlQuery(sparqlQueryStr, { timeoutMs: 30000, maxRetries: 3 });
       } catch {
-        // Timeout or error — return empty
+        // Timeout or rate limit after retries — return empty
       }
 
       // 3. Group by taxon latin name
@@ -726,9 +674,9 @@ export const lotusEnrichmentRouter = router({
         };
       }
 
-      // 2. Fetch all molecules for the genus in one SPARQL query
+       // 2. Fetch all molecules for the genus in one SPARQL query
       const safeGenus = genus.replace(/"/g, '\\"');
-      const sparqlQuery = `
+      const sparqlQueryStr2 = `
         SELECT DISTINCT ?taxon ?taxonLabel ?latinName ?compound ?compoundLabel ?inchikey ?cas ?smiles ?formula ?mass ?iupac ?pubchem
         WHERE {
           ?genus wdt:P225 "${safeGenus}" .
@@ -747,30 +695,14 @@ export const lotusEnrichmentRouter = router({
         }
         LIMIT ${speciesInDb.length * input.limitPerSpecies}
       `;
-
+      // Use shared sparqlQuery helper with retry + exponential backoff
       let bindings: any[] = [];
       try {
-        const url = new URL("https://query.wikidata.org/sparql");
-        url.searchParams.set("query", sparqlQuery.trim());
-        url.searchParams.set("format", "json");
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 28000);
-        const response = await fetch(url.toString(), {
-          headers: {
-            Accept: "application/sparql-results+json",
-            "User-Agent": LOTUS_USER_AGENT,
-          },
-          signal: controller.signal,
-        });
-        clearTimeout(timeoutId);
-        if (response.ok) {
-          const data = await response.json();
-          bindings = data?.results?.bindings ?? [];
-        }
+        bindings = await sparqlQuery(sparqlQueryStr2, { timeoutMs: 30000, maxRetries: 3 });
       } catch (err: any) {
         throw new TRPCError({
           code: "INTERNAL_SERVER_ERROR",
-          message: `Erreur SPARQL: ${err.message}`,
+          message: `Erreur SPARQL après plusieurs tentatives: ${err.message}`,
         });
       }
 

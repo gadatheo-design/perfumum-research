@@ -3986,3 +3986,4 @@ npm run dev
 - [x] Correction erreurs TypeScript (z.record Zod v4, .returning() MySQL, null vs undefined, imports @/ serveur)
 - [x] Bug bibliography.ts ligne 311 : bibliography_entity_links → referenceEntityLinks (table correcte)
 - [x] Bug wikidataSync.searchTaxon/getTaxonDetails/batchSearchTaxa : .query() → .mutation() (POST support)
+- [x] Retry + exponential backoff pour Wikidata SPARQL (server/utils/sparql.ts partagé entre lotus.ts, lotus-enrichment.ts, wikidata-sync.ts)

@@ -15,9 +15,9 @@ import { publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { plants, molecules, plantMolecules } from "../../drizzle/schema";
 import { eq, sql, and, or, like } from "drizzle-orm";
+import { sparqlQuery } from "../utils/sparql";
 
-const WIKIDATA_SPARQL = "https://query.wikidata.org/sparql";
-const DELAY_MS = 1200; // Respecter le rate limit Wikidata (1 req/s)
+const DELAY_MS = 1200; // Délai entre les requêtes batch
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -31,10 +31,11 @@ async function fetchMoleculesForPlant(latinName: string): Promise<Array<{
   inchikey?: string;
   inchi?: string;
 }>> {
+  const safeName = latinName.replace(/"/g, '\\"');
   const query = `
 SELECT DISTINCT ?molecule ?moleculeName ?cas ?smiles ?inchikey ?inchi WHERE {
   ?molecule wdt:P703 ?plant .
-  ?plant wdt:P225 "${latinName.replace(/"/g, '\\"')}" .
+  ?plant wdt:P225 "${safeName}" .
   ?molecule rdfs:label ?moleculeName FILTER(LANG(?moleculeName)="en")
   OPTIONAL { ?molecule wdt:P233 ?smiles }
   OPTIONAL { ?molecule wdt:P231 ?cas }
@@ -42,22 +43,8 @@ SELECT DISTINCT ?molecule ?moleculeName ?cas ?smiles ?inchikey ?inchi WHERE {
   OPTIONAL { ?molecule wdt:P235 ?inchi }
 }
 LIMIT 200`;
-
-  const url = `${WIKIDATA_SPARQL}?query=${encodeURIComponent(query)}&format=json`;
-  
-  const res = await fetch(url, {
-    headers: {
-      "Accept": "application/json",
-      "User-Agent": "PERFUMUM-Research/1.0 (https://perfumum.manus.space; research@perfumum.fr)",
-    },
-    signal: AbortSignal.timeout(30000),
-  });
-
-  if (!res.ok) throw new Error(`Wikidata SPARQL HTTP ${res.status}`);
-  
-  const data = await res.json();
-  const bindings = data?.results?.bindings || [];
-  
+  // Use shared sparqlQuery helper with retry + exponential backoff
+  const bindings = await sparqlQuery(query, { timeoutMs: 30000, maxRetries: 3 });
   return bindings.map((b: any) => ({
     wikidataId: b.molecule?.value?.replace("http://www.wikidata.org/entity/", "") || "",
     name: b.moleculeName?.value || "",

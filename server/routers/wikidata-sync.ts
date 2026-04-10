@@ -12,17 +12,13 @@ import { TRPCError } from "@trpc/server";
 import { getDb } from "../db/core";
 import { plants, plantVarieties } from "../../drizzle/schema";
 import { eq, like, or } from "drizzle-orm";
+import { sparqlQuery } from "../utils/sparql";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONSTANTS
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Wikidata requires a descriptive User-Agent for all SPARQL requests
-const WIKIDATA_USER_AGENT =
-  "PERFUMUM-Research/1.0 (https://perfumum.manus.space; olfactory-research-project) Node.js/fetch";
-
-const SPARQL_ENDPOINT = "https://query.wikidata.org/sparql";
-const SPARQL_TIMEOUT_MS = 20000; // 20 seconds
+// User-Agent kept for reference (now managed in server/utils/sparql.ts)
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TYPES
@@ -42,45 +38,7 @@ interface WikidataEntity {
   imageUrl?: string;
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// HELPER: SPARQL fetch with proper headers and timeout
-// ─────────────────────────────────────────────────────────────────────────────
-
-async function sparqlQuery(query: string): Promise<any> {
-  const url = new URL(SPARQL_ENDPOINT);
-  url.searchParams.set("query", query.trim());
-  url.searchParams.set("format", "json");
-
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), SPARQL_TIMEOUT_MS);
-
-  try {
-    const response = await fetch(url.toString(), {
-      method: "GET",
-      headers: {
-        Accept: "application/sparql-results+json",
-        "User-Agent": WIKIDATA_USER_AGENT,
-        "Accept-Language": "en",
-      },
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
-
-    if (!response.ok) {
-      throw new Error(`SPARQL HTTP ${response.status}: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    return data?.results?.bindings ?? [];
-  } catch (err: any) {
-    clearTimeout(timeoutId);
-    if (err.name === "AbortError") {
-      throw new Error("Wikidata SPARQL request timed out after 20 seconds");
-    }
-    throw err;
-  }
-}
+// sparqlQuery is now imported from server/utils/sparql.ts (with retry + backoff)
 
 // ─────────────────────────────────────────────────────────────────────────────
 // HELPER FUNCTIONS
