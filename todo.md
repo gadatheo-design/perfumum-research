@@ -3976,3 +3976,7 @@ npm run dev
 - [x] Sélecteur de genre dans l'arbre phylogénétique (onglet "Arbre par Genre" dans PhylogeneticView)
 - [x] Fix erreur Vite LotusPlantLinker (cache résolu, fichier bien compilé)
 - [x] Liens cliquables depuis chaque nœud de l'arbre phylogénétique vers /varietes/{id} + affichage molécules dominantes
+- [x] Bouton retour vers l'arbre phylogénétique depuis la fiche variété (/varietes/:id)
+- [x] Navigation URL dans PhylogeneticView (tab=genus&genus=Cannabis)
+- [x] Affichage molécules LOTUS distinctes (section séparée avec badge vert) dans VarietyDetail
+- [x] Champ source ajouté dans getVarietyWithMolecules

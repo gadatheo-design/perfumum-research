@@ -244,7 +244,7 @@ function VarietyTreeNode({ node, depth = 0 }: { node: any; depth?: number }) {
 }
 
 // ─── GenreTreeView ────────────────────────────────────────────────────────────
-function GenreTreeView() {
+function GenreTreeView({ initialGenus = "" }: { initialGenus?: string }) {
   const { data: generaData, isLoading: generaLoading } = trpc.phylogeny.getAvailableGenera.useQuery();
 
   // Build unique genus list from available data
@@ -261,7 +261,7 @@ function GenreTreeView() {
     return result.sort((a, b) => (b.varietyCount ?? 0) - (a.varietyCount ?? 0));
   }, [generaData]);
 
-  const [selectedGenus, setSelectedGenus] = useState<string>("");
+  const [selectedGenus, setSelectedGenus] = useState<string>(initialGenus);
   const [selectedSpecies, setSelectedSpecies] = useState<string>("");
 
   // Species list for selected genus
@@ -506,7 +506,7 @@ export default function PhylogeneticView() {
 
         {/* Onglet Genre */}
         <TabsContent value="genus">
-          <GenreTreeView />
+          <GenreTreeView initialGenus={initialGenus} />
         </TabsContent>
       </Tabs>
     </div>

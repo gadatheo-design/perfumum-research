@@ -338,6 +338,8 @@ export default function VarietyDetail() {
 
   const { variety, plant, molecules } = varietyData;
   const conservationStyle = conservationColors[variety.conservationStatus || "unknown"];
+  // Extraire le genre depuis plant.latinName (ex: "Cannabis sativa" → "Cannabis")
+  const plantGenus = plant?.latinName ? plant.latinName.split(' ')[0] : null;
   const olfactiveNotes = variety.olfactiveNotes as { top?: string[]; heart?: string[]; base?: string[] } | null;
   const morphology = variety.morphology as { height?: string; leafShape?: string; flowerColor?: string; growthHabit?: string } | null;
   const dominantMolecules = variety.dominantMolecules as Array<{ molecule: string; percentage: number; role: string }> | null;
@@ -361,19 +363,29 @@ export default function VarietyDetail() {
         />
         
         {/* Navigation */}
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 flex items-center justify-between flex-wrap gap-2">
           <Link href="/plantes?tab=varietes">
             <Button variant="ghost" size="sm" className="gap-2">
               <ArrowLeft className="w-4 h-4" />
               Retour aux variétés
             </Button>
           </Link>
-          <Link href="/carte-varietes">
-            <Button variant="outline" size="sm" className="gap-2">
-              <MapPin className="w-4 h-4" />
-              Voir sur la carte
-            </Button>
-          </Link>
+          <div className="flex items-center gap-2">
+            {plantGenus && (
+              <Link href={`/phylogenetic?tab=genus&genus=${encodeURIComponent(plantGenus)}`}>
+                <Button variant="outline" size="sm" className="gap-2">
+                  <Dna className="w-4 h-4" />
+                  Arbre phylogénétique {plantGenus}
+                </Button>
+              </Link>
+            )}
+            <Link href="/carte-varietes">
+              <Button variant="outline" size="sm" className="gap-2">
+                <MapPin className="w-4 h-4" />
+                Voir sur la carte
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {/* Header */}
@@ -493,49 +505,98 @@ export default function VarietyDetail() {
                   </Card>
                 )}
 
-                {/* Linked Molecules from Plant */}
-                {molecules && molecules.length > 0 && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-lg flex items-center gap-2">
-                        <Dna className="w-4 h-4 text-indigo-500" />
-                        Molécules Associées (via {plant?.name})
-                      </CardTitle>
-                      <CardDescription>
-                        Molécules présentes dans la plante parente
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {molecules.map((mol: any, idx: number) => (
-                          <Link key={idx} href={`/molecule/${mol.molecule.id}`}>
-                            <div className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 cursor-pointer transition-colors">
-                              <div>
-                                <div className="font-medium">{mol.molecule.name}</div>
-                                <div className="text-xs text-muted-foreground">
-                                  {mol.molecule.family || mol.molecule.chemicalClass || "—"}
-                                </div>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                {mol.isSignature && (
-                                  <Badge variant="outline" className="text-xs bg-amber-500/10 text-amber-600">
-                                    Signature
-                                  </Badge>
-                                )}
-                                {mol.percentageTypical && (
-                                  <Badge variant="secondary" className="text-xs">
-                                    {mol.percentageTypical}%
-                                  </Badge>
-                                )}
-                                <ExternalLink className="w-3 h-3 text-muted-foreground" />
-                              </div>
+                {/* Linked Molecules from Plant — split GC-MS vs LOTUS */}
+                {molecules && molecules.length > 0 && (() => {
+                  const lotusMols = molecules.filter((m: any) => m.source && (m.source.toLowerCase().includes('lotus') || m.source.toLowerCase().includes('wikidata')));
+                  const gcmsMols = molecules.filter((m: any) => !m.source || (!m.source.toLowerCase().includes('lotus') && !m.source.toLowerCase().includes('wikidata')));
+                  return (
+                    <>
+                      {gcmsMols.length > 0 && (
+                        <Card>
+                          <CardHeader>
+                            <CardTitle className="text-lg flex items-center gap-2">
+                              <Dna className="w-4 h-4 text-indigo-500" />
+                              Molécules GC-MS (via {plant?.name})
+                            </CardTitle>
+                            <CardDescription>
+                              {gcmsMols.length} molécule{gcmsMols.length > 1 ? 's' : ''} documentée{gcmsMols.length > 1 ? 's' : ''} par analyse chromatographique
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                              {gcmsMols.map((mol: any, idx: number) => (
+                                <Link key={idx} href={`/molecule/${mol.molecule.id}`}>
+                                  <div className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 cursor-pointer transition-colors">
+                                    <div>
+                                      <div className="font-medium">{mol.molecule.name}</div>
+                                      <div className="text-xs text-muted-foreground">
+                                        {mol.molecule.family || mol.molecule.chemicalClass || "—"}
+                                      </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      {mol.isSignature && (
+                                        <Badge variant="outline" className="text-xs bg-amber-500/10 text-amber-600">
+                                          Signature
+                                        </Badge>
+                                      )}
+                                      {mol.percentageTypical && (
+                                        <Badge variant="secondary" className="text-xs">
+                                          {mol.percentageTypical}%
+                                        </Badge>
+                                      )}
+                                      <ExternalLink className="w-3 h-3 text-muted-foreground" />
+                                    </div>
+                                  </div>
+                                </Link>
+                              ))}
                             </div>
-                          </Link>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
+                          </CardContent>
+                        </Card>
+                      )}
+                      {lotusMols.length > 0 && (
+                        <Card className="border-emerald-500/30">
+                          <CardHeader>
+                            <CardTitle className="text-lg flex items-center gap-2">
+                              <FlaskConical className="w-4 h-4 text-emerald-500" />
+                              Molécules LOTUS / Wikidata
+                              <Badge variant="outline" className="text-xs bg-emerald-500/10 text-emerald-600 border-emerald-500/30 ml-auto">
+                                {lotusMols.length} molécule{lotusMols.length > 1 ? 's' : ''}
+                              </Badge>
+                            </CardTitle>
+                            <CardDescription>
+                              Molécules identifiées dans la littérature scientifique via la base LOTUS
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                              {lotusMols.map((mol: any, idx: number) => (
+                                <Link key={idx} href={`/molecule/${mol.molecule.id}`}>
+                                  <div className="flex items-center justify-between p-3 rounded-lg border border-emerald-500/20 hover:bg-emerald-500/5 cursor-pointer transition-colors">
+                                    <div>
+                                      <div className="font-medium">{mol.molecule.name}</div>
+                                      <div className="text-xs text-muted-foreground">
+                                        {mol.molecule.chemicalFormula || mol.molecule.family || "—"}
+                                      </div>
+                                      {mol.molecule.wikidataQid && (
+                                        <div className="text-xs text-emerald-600 mt-0.5">{mol.molecule.wikidataQid}</div>
+                                      )}
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      {mol.role && (
+                                        <Badge variant="outline" className="text-xs">{mol.role}</Badge>
+                                      )}
+                                      <ExternalLink className="w-3 h-3 text-muted-foreground" />
+                                    </div>
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      )}
+                    </>
+                  );
+                })()}
 
                 {(!dominantMolecules || dominantMolecules.length === 0) && (!molecules || molecules.length === 0) && (
                   <Card>

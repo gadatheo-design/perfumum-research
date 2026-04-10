@@ -1287,6 +1287,8 @@ export async function getVarietyWithMolecules(varietyId: number) {
     percentageTypical: plantMolecules.percentageTypical,
     isSignature: plantMolecules.isSignature,
     role: plantMolecules.role,
+    source: plantMolecules.source,
+    notes: plantMolecules.notes,
   })
     .from(plantMolecules)
     .innerJoin(molecules, eq(plantMolecules.moleculeId, molecules.id))
