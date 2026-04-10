@@ -210,7 +210,7 @@ export const wikidataSyncRouter = router({
    */
   searchTaxon: publicProcedure
     .input(z.object({ scientificName: z.string().min(1) }))
-    .query(async ({ input }) => {
+    .mutation(async ({ input }) => {
       const entity = await queryWikidataForTaxon(input.scientificName);
       if (!entity) {
         throw new TRPCError({
@@ -226,7 +226,7 @@ export const wikidataSyncRouter = router({
    */
   getTaxonDetails: publicProcedure
     .input(z.object({ scientificName: z.string().min(1) }))
-    .query(async ({ input }) => {
+    .mutation(async ({ input }) => {
       const entity = await queryWikidataForTaxon(input.scientificName);
       if (!entity) {
         throw new TRPCError({
@@ -252,7 +252,7 @@ export const wikidataSyncRouter = router({
         scientificNames: z.array(z.string().min(1)).min(1).max(20),
       })
     )
-    .query(async ({ input }) => {
+    .mutation(async ({ input }) => {
       // Sequential to avoid hammering Wikidata
       const results: Array<{
         scientificName: string;

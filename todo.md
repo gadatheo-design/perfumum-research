@@ -3984,3 +3984,5 @@ npm run dev
 - [x] Amélioration UI /admin/variety-images (galerie dense, lightbox, badges colorés, onglet Wikidata Images)
 - [x] Amélioration UI /admin/wikidata-sync (4 onglets : Recherche, En masse, Recommandations, Import rapide)
 - [x] Correction erreurs TypeScript (z.record Zod v4, .returning() MySQL, null vs undefined, imports @/ serveur)
+- [x] Bug bibliography.ts ligne 311 : bibliography_entity_links → referenceEntityLinks (table correcte)
+- [x] Bug wikidataSync.searchTaxon/getTaxonDetails/batchSearchTaxa : .query() → .mutation() (POST support)

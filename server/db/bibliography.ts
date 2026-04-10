@@ -305,10 +305,10 @@ export async function getAllBibliographyEntries(filters?: {
   // Filtre par type d'entité liée
   if (filters?.entityType && filters.entityType !== 'any') {
     const entityLinks = await db
-      .select({ bibliographyId: sql<number>`bibliography_id` })
-      .from(sql`bibliography_entity_links`)
-      .where(sql`entity_type = ${filters.entityType}`);
-    const bibIds = entityLinks.map((l) => l.bibliographyId);
+      .select({ referenceId: referenceEntityLinks.referenceId })
+      .from(referenceEntityLinks)
+      .where(eq(referenceEntityLinks.entityType, filters.entityType as "plant" | "molecule" | "recette" | "prototype" | "tradition" | "terroir" | "supplier" | "leaf_economy"));
+    const bibIds = entityLinks.map((l) => l.referenceId);
     if (bibIds.length > 0) {
       conditions.push(inArray(bibliographyEntries.id, bibIds));
     } else {
@@ -319,11 +319,11 @@ export async function getAllBibliographyEntries(filters?: {
   // Filtre par présence de liaisons
   if (filters?.hasLinks === true) {
     conditions.push(
-      sql`EXISTS (SELECT 1 FROM bibliography_entity_links bel WHERE bel.bibliography_id = ${bibliographyEntries.id})`
+      sql`EXISTS (SELECT 1 FROM reference_entity_links bel WHERE bel.reference_id = ${bibliographyEntries.id})`
     );
   } else if (filters?.hasLinks === false) {
     conditions.push(
-      sql`NOT EXISTS (SELECT 1 FROM bibliography_entity_links bel WHERE bel.bibliography_id = ${bibliographyEntries.id})`
+      sql`NOT EXISTS (SELECT 1 FROM reference_entity_links bel WHERE bel.reference_id = ${bibliographyEntries.id})`
     );
   }
 
