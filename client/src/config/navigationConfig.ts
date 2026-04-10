@@ -1,123 +1,103 @@
 /**
- * navigationConfig.ts
- * ─────────────────────────────────────────────────────────────────────────────
- * SOURCE UNIQUE DE VÉRITÉ pour toute la navigation du site PERFUMUM.
- *
- * Structure à 4 groupes (refonte audit 27 mars 2026) :
- *   ATELIER      → Sources matérielles, formulation, analyse
- *   ATLAS        → Navigation spatiale, narrative, iconographique
- *   BIBLIOTHÈQUE → Recherche, archives, visualisations, méthode
- *   PROJET       → Documentation, administration
- *
- * Header.tsx (desktop MegaMenu) et MobileMenu.tsx (mobile accordéon)
- * consomment NAV_GROUPS — toute modification ici se répercute automatiquement.
- *
- * Badges disponibles : "HUB" | "NEW" | "ADMIN" | string libre (ex: "11 axes")
- * ─────────────────────────────────────────────────────────────────────────────
+ * navigationConfig.ts — SOURCE UNIQUE DE VÉRITÉ pour la navigation PERFUMUM.
+ * Refonte audit 10 avril 2026 : badges nettoyés, entrées manquantes ajoutées,
+ * descriptions et featured items par groupe, viewAllHref par section.
  */
-
-// ── Types ─────────────────────────────────────────────────────────────────────
 
 export interface NavItem {
   href: string;
   label: string;
   badge?: string;
+  description?: string;
 }
-
 export interface NavSection {
-  /** Titre affiché dans le MegaMenu desktop (colonne) et le MobileMenu (accordéon) */
   title: string;
-  /** Icône Lucide — nom de la clé (string) résolu côté composant */
   icon: string;
-  /** Si défini, le titre lui-même est un lien direct (ex: Hub Outils) */
   href?: string;
+  viewAllHref?: string;
   items?: NavItem[];
 }
-
 export interface NavGroup {
-  /** Label du trigger desktop */
   trigger: string;
-  /** Description courte affichée sous le trigger dans le MegaMenu */
-  description?: string;
-  /** Sections affichées dans le panneau de ce trigger */
+  description: string;
+  featured?: NavItem;
   sections: NavSection[];
 }
 
-// ── Groupes de navigation (desktop MegaMenu + mobile accordéon) ───────────────
-
 export const NAV_GROUPS: NavGroup[] = [
-
-  // ════════════════════════════════════════════════════════════════════════════
-  // ATELIER — Sources matérielles, formulation, analyse, tabac
-  // La porte d'entrée par la matière : plantes, molécules, recettes, outils
-  // ════════════════════════════════════════════════════════════════════════════
   {
     trigger: "Atelier",
     description: "Sources matérielles & formulation",
+    featured: { href: "/outils/editeur-formulation", label: "Éditeur de Formulation", description: "Composer une recette en temps réel" },
     sections: [
       {
         title: "Matières premières",
         icon: "Leaf",
+        viewAllHref: "/plantes",
         items: [
           { href: "/plantes", label: "Plantes & Variétés", badge: "HUB" },
           { href: "/molecules", label: "Molécules", badge: "HUB" },
-          { href: "/matieres-premieres", label: "Matières Premières", badge: "NEW" },
+          { href: "/matieres-premieres", label: "Matières Premières" },
           { href: "/terroirs", label: "Terroirs" },
-          { href: "/osmotheque", label: "Osmothèque", badge: "NEW" },
-          { href: "/aromatic-rarities", label: "Matières Premières Rares", badge: "NEW" },
+          { href: "/osmotheque", label: "Osmothèque" },
+          { href: "/aromatic-rarities", label: "Matières Premières Rares" },
+          { href: "/conservation", label: "Conservation & Durabilité" },
         ],
       },
       {
         title: "Formulation",
         icon: "FlaskConical",
+        viewAllHref: "/recettes",
         items: [
           { href: "/recettes", label: "Recettes", badge: "HUB" },
           { href: "/gammes-hub", label: "Gammes", badge: "HUB" },
-          { href: "/outils/editeur-formulation", label: "Éditeur de Formulation", badge: "NEW" },
+          { href: "/outils/editeur-formulation", label: "Éditeur de Formulation" },
           { href: "/outils/generateur-formules", label: "Générateur IA" },
           { href: "/calculateur", label: "Calculateur" },
           { href: "/final-recipes", label: "Recettes finales" },
-          { href: "/recettes-tl", label: "Recettes TL", badge: "NEW" },
+          { href: "/recettes-tl", label: "Recettes TL" },
+          { href: "/protocoles", label: "Protocoles Techniques" },
         ],
       },
       {
         title: "Analyse & Sourcing",
         icon: "TestTube",
+        viewAllHref: "/analysis-hub",
         items: [
-          { href: "/synergies", label: "Synergies Moléculaires", badge: "NEW" },
+          { href: "/analysis-hub", label: "Hub Analyse", badge: "HUB" },
+          { href: "/synergies", label: "Synergies Moléculaires" },
           { href: "/terp-profiles", label: "Profils Terpéniques" },
           { href: "/ifra", label: "Conformité IFRA" },
-          { href: "/terp-profiles/compare", label: "Comparaison Profils" },
-          { href: "/smiles", label: "Structures SMILES", badge: "NEW" },
-          { href: "/sourcing-hub", label: "Hub Sourcing", badge: "NEW" },
-          { href: "/alternatives-durables", label: "Alternatives durables", badge: "NEW" },
+          { href: "/smiles", label: "Structures SMILES" },
+          { href: "/sourcing-hub", label: "Hub Sourcing" },
+          { href: "/alternatives-durables", label: "Alternatives durables" },
+          { href: "/inventory-dashboard", label: "Tableau de Bord Inventaire" },
         ],
       },
       {
         title: "Tabacothèque",
         icon: "Layers",
+        viewAllHref: "/tabacotheque",
         items: [
           { href: "/tabacotheque", label: "Vue d'ensemble", badge: "HUB" },
           { href: "/tabacs-niche", label: "Tabacs Niche" },
-          { href: "/tabacs-naturels", label: "Tabacs Naturels", badge: "NEW" },
+          { href: "/tabacs-naturels", label: "Tabacs Naturels" },
           { href: "/historic-cigarettes", label: "Cigarettes Historiques" },
           { href: "/recettes-cigarillos", label: "Recettes Cigarillos" },
-          { href: "/chemotypes", label: "Chémotypes", badge: "NEW" },
+          { href: "/landraces", label: "Landraces Cannabis" },
+          { href: "/chemotypes", label: "Chémotypes" },
           { href: "/perique-compounds", label: "Composés du Perique" },
-          { href: "/molecular-transformations", label: "Transformations Moléculaires", badge: "NEW" },
-          { href: "/tps-genes", label: "Gènes TPS", badge: "NEW" },
+          { href: "/molecular-transformations", label: "Transformations Moléculaires" },
+          { href: "/tps-genes", label: "Gènes TPS" },
         ],
       },
     ],
   },
 
-  // ════════════════════════════════════════════════════════════════════════════
-  // ATLAS — Navigation spatiale, narrative, iconographique
-  // La porte d'entrée par l'espace, le temps, l'image et le récit
-  // ════════════════════════════════════════════════════════════════════════════
   {
     trigger: "Atlas",
     description: "Narration, espace & iconographie",
+    featured: { href: "/storylines", label: "Fils narratifs", description: "Entrer dans le récit olfactif" },
     sections: [
       {
         title: "Les 5 portes d'entrée",
@@ -126,13 +106,14 @@ export const NAV_GROUPS: NavGroup[] = [
           { href: "/plantes", label: "Plantes — La source matérielle", badge: "od:L12" },
           { href: "/molecules", label: "Molécules — Le stimulus chimique", badge: "od:L1" },
           { href: "/storylines", label: "Fils narratifs — L'expérience culturelle", badge: "od:L13" },
-          { href: "/galerie-olfactive", label: "Galerie Olfactive — L'iconographie", badge: "NEW" },
-          { href: "/atlas", label: "Atlas Olfactif — Le smellscape", badge: "NEW" },
+          { href: "/galerie-olfactive", label: "Galerie Olfactive — L'iconographie" },
+          { href: "/atlas", label: "Atlas Olfactif — Le smellscape" },
         ],
       },
       {
         title: "Fils narratifs",
         icon: "Layers",
+        viewAllHref: "/storylines",
         items: [
           { href: "/storylines", label: "Index des fils narratifs", badge: "HUB" },
           { href: "/storyline/route-encens", label: "La Route de l'Encens" },
@@ -145,108 +126,102 @@ export const NAV_GROUPS: NavGroup[] = [
       {
         title: "Géographie & Patrimoine",
         icon: "MapPin",
+        viewAllHref: "/atlas",
         items: [
-          { href: "/atlas", label: "Atlas Géo-Temporel", badge: "NEW" },
+          { href: "/atlas", label: "Atlas Géo-Temporel" },
           { href: "/carte-plantes-gps", label: "Carte GPS Plantes" },
-          { href: "/galerie-olfactive", label: "Galerie Europeana", badge: "NEW" },
-          { href: "/civilisations", label: "Traditions Olfactives" },
+          { href: "/traditions-olfactives", label: "Traditions Olfactives", badge: "HUB" },
           { href: "/archives-olfactives", label: "Archives Olfactives" },
-          { href: "/timeline", label: "Timeline" },
+          { href: "/timeline-civilisations", label: "Timeline des Traditions" },
+          { href: "/europeana-map", label: "Carte Europeana" },
+          { href: "/comparaison-genres", label: "Comparaison Genres" },
         ],
       },
       {
-        title: "Phylogénétique",
+        title: "Botanique & Phylogénie",
         icon: "TreePine",
+        viewAllHref: "/phylogenetique",
         items: [
-          { href: "/phylogenetique", label: "Vue d'ensemble", badge: "HUB" },
-          { href: "/nicotiana-explorer", label: "Explorateur Nicotiana", badge: "NEW" },
-          { href: "/cannabis-explorer", label: "Explorateur Cannabis", badge: "NEW" },
-          { href: "/rosa-explorer", label: "Explorateur Rosa", badge: "NEW" },
-          { href: "/phylogenetique/compare", label: "Comparaison Genres", badge: "NEW" },
-        ],
-      },
-      {
-        title: "Botanique & Généalogie",
-        icon: "Leaf",
-        items: [
-          { href: "/genealogy", label: "Arbre Généalogique", badge: "NEW" },
-          { href: "/ghost-varieties-explorer", label: "Herbier des Disparus", badge: "NEW" },
-          { href: "/leaf-economies", label: "Leaf Economies", badge: "NEW" },
+          { href: "/phylogenetique", label: "Classification Phylogénétique", badge: "HUB" },
+          { href: "/nicotiana-explorer", label: "Explorateur Nicotiana" },
+          { href: "/genealogy", label: "Arbre Généalogique" },
+          { href: "/ghost-varieties-explorer", label: "Herbier des Disparus" },
+          { href: "/leaf-economies", label: "Leaf Economies" },
           { href: "/timeline-botanique", label: "Timeline botanique" },
-          { href: "/molecules-disparues", label: "Molécules Disparues & IFRA", badge: "NEW" },
-          { href: "/classification-phylogenetique", label: "Classification Phylogénétique" },
+          { href: "/molecules-disparues", label: "Molécules Disparues & IFRA" },
+          { href: "/classification-phylogenetique", label: "Classification Détaillée" },
         ],
       },
     ],
   },
 
-  // ════════════════════════════════════════════════════════════════════════════
-  // BIBLIOTHÈQUE — Recherche, méthode, archives, visualisations
-  // La porte d'entrée par la connaissance et l'analyse
-  // ════════════════════════════════════════════════════════════════════════════
   {
     trigger: "Bibliothèque",
     description: "Méthode, recherche & visualisations",
+    featured: { href: "/axes-recherche", label: "11 Axes de Recherche", description: "Vue d'ensemble de la méthodologie" },
     sections: [
       {
         title: "Méthode ABSORBE",
         icon: "BookOpen",
+        viewAllHref: "/methodologie/absorbe",
         items: [
           { href: "/methodologie/absorbe", label: "Présentation" },
           { href: "/methodologie/echelle-absorbe", label: "Échelle de classification" },
           { href: "/methodologie/gc-ms", label: "GC-MS & Pyrolyse" },
-          { href: "/methodes-analytiques", label: "Méthodes Analytiques", badge: "NEW" },
-          { href: "/gcms-chromatograms", label: "Chromatogrammes", badge: "NEW" },
-          { href: "/ms-spectra", label: "Spectres de Masse", badge: "NEW" },
+          { href: "/methodes-analytiques", label: "Méthodes Analytiques" },
+          { href: "/gcms-chromatograms", label: "Chromatogrammes" },
+          { href: "/ms-spectra", label: "Spectres de Masse" },
+          { href: "/compound-search", label: "Recherche de Composés" },
         ],
       },
       {
         title: "Axes de Recherche",
         icon: "Globe",
+        viewAllHref: "/axes-recherche",
         items: [
           { href: "/axes-recherche", label: "Vue d'ensemble", badge: "11 axes" },
           { href: "/bibliographie", label: "Bibliographie" },
           { href: "/outils/export-bibliographique", label: "Export bibliographique" },
-          { href: "/explorer-par-odeur", label: "Explorer par Odeur", badge: "NEW" },
+          { href: "/explorer-par-odeur", label: "Explorer par Odeur" },
           { href: "/percepts", label: "Recherche par Percept" },
-          { href: "/absorbe-x", label: "ABSORBE X — Dashboard", badge: "NEW" },
+          { href: "/absorbe-x", label: "ABSORBE X — Dashboard" },
         ],
       },
       {
         title: "Réseaux & Visualisations",
         icon: "BarChart3",
+        viewAllHref: "/visualisations",
         items: [
           { href: "/visualisations", label: "Hub Visualisations", badge: "HUB" },
-          { href: "/reseau-liaisons", label: "Réseau de Liaisons", badge: "NEW" },
+          { href: "/reseau-liaisons", label: "Réseau de Liaisons" },
           { href: "/recipe-network", label: "Graphe Réseau" },
-          { href: "/correlations", label: "Corrélations", badge: "NEW" },
+          { href: "/correlations", label: "Corrélations" },
           { href: "/sankey-flow", label: "Diagramme Sankey" },
           { href: "/synergies-heatmap", label: "Synergies Heatmap" },
-          { href: "/stats-olfactives", label: "Statistiques Olfactives", badge: "NEW" },
+          { href: "/stats-olfactives", label: "Statistiques Olfactives" },
         ],
       },
       {
         title: "Exploration",
         icon: "Compass",
+        viewAllHref: "/recherche-avancee",
         items: [
           { href: "/recherche-avancee", label: "Recherche avancée" },
-          { href: "/recherche-molecule", label: "Recherche par Molécule", badge: "NEW" },
-          { href: "/plantes/par-molecule", label: "Plantes par molécule", badge: "NEW" },
+          { href: "/recherche-molecule", label: "Recherche par Molécule" },
+          { href: "/plantes/par-molecule", label: "Plantes par molécule" },
           { href: "/parfums", label: "Parfums emblématiques" },
-          { href: "/muscs", label: "Muscs — Guide comparatif", badge: "NEW" },
-          { href: "/enrichissement", label: "Enrichissement PubChem", badge: "NEW" },
-          { href: "/claims-and-proofs", label: "Claims & Preuves", badge: "NEW" },
+          { href: "/muscs", label: "Muscs — Guide comparatif" },
+          { href: "/enrichissement", label: "Enrichissement PubChem" },
+          { href: "/claims-and-proofs", label: "Claims & Preuves" },
         ],
       },
     ],
   },
 
-  // ════════════════════════════════════════════════════════════════════════════
-  // PROJET — Documentation, manifeste, administration
-  // ════════════════════════════════════════════════════════════════════════════
   {
     trigger: "Projet",
     description: "Documentation & administration",
+    featured: { href: "/manifeste", label: "Manifeste PERFUMUM", description: "La vision et la méthode" },
     sections: [
       {
         title: "Documentation",
@@ -256,7 +231,8 @@ export const NAV_GROUPS: NavGroup[] = [
           { href: "/manifeste", label: "Manifeste" },
           { href: "/absorbe-x/manifeste", label: "Manifeste ABSORBE X" },
           { href: "/absorbe-x/notes-recherche", label: "Notes de Recherche" },
-          { href: "/absorbe-x/guide-laboratoire", label: "Guide de Laboratoire", badge: "NEW" },
+          { href: "/absorbe-x/guide-laboratoire", label: "Guide de Laboratoire" },
+          { href: "/prototypes", label: "Prototypes C1–C4" },
         ],
       },
       {
@@ -265,7 +241,8 @@ export const NAV_GROUPS: NavGroup[] = [
         items: [
           { href: "/a-propos", label: "À propos" },
           { href: "/contribuer", label: "Contribuer" },
-          { href: "/admin/completude", label: "Tableau de complétude", badge: "NEW" },
+          { href: "/projet/timeline", label: "Timeline du Projet" },
+          { href: "/admin/completude", label: "Tableau de complétude", badge: "ADMIN" },
           { href: "/admin", label: "Administration", badge: "ADMIN" },
           { href: "/outils-hub", label: "Hub Outils", badge: "HUB" },
         ],
@@ -274,14 +251,10 @@ export const NAV_GROUPS: NavGroup[] = [
   },
 ];
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
-
-/** Retourne toutes les sections d'un groupe par son trigger */
 export function getGroupSections(trigger: string): NavSection[] {
   return NAV_GROUPS.find((g) => g.trigger === trigger)?.sections ?? [];
 }
 
-/** Retourne la liste plate de toutes les entrées (utile pour la recherche) */
 export function getAllNavItems(): (NavItem & { section: string; group: string })[] {
   return NAV_GROUPS.flatMap((group) =>
     group.sections.flatMap((section) =>

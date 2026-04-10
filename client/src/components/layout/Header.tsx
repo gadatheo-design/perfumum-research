@@ -16,7 +16,7 @@ import {
   Brain, Flame, Layers, TestTube, Sparkles, BarChart2, Atom,
   MapPin, TreePine, Command,
 } from "lucide-react";
-import { MegaMenuOptimized, useMegaMenuSections } from "@/components/MegaMenuOptimized";
+import { MegaNav, MegaMenuOptimized, useMegaMenuSections } from "@/components/MegaMenuOptimized";
 import { MobileMenu } from "@/components/MobileMenu";
 import { Button } from "@/components/ui/button";
 import { useState, useMemo, useCallback } from "react";
@@ -187,7 +187,7 @@ export function Header() {
         <PerfumumLogo />
 
         {/* Desktop Navigation */}
-        <MegaMenuOptimizedNav />
+        <MegaNav />
 
         {/* Right side: Search + Theme */}
         <div className="flex items-center gap-2 lg:gap-3">

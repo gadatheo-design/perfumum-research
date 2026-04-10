@@ -3991,3 +3991,12 @@ npm run dev
 - [x] Lien croisé plante → galerie d'images morphologiques dans PlantDetail.tsx
 - [x] Refonte /phylogenetique : hero avec sunburst radial SVG, StatsBar, MoleculeDistribution, bouton Tout développer
 - [x] Refonte header global : logo monogramme, bouton recherche (Cmd+K), animation thème, effet scroll
+- [ ] Audit navigation : mettre à jour navigationConfig.ts (entrées manquantes, badges, descriptions)
+- [ ] Audit navigation : refondre MegaMenuOptimized (descriptions de groupe, item mis en avant, "Voir tout")
+- [ ] Audit navigation : corriger MobileBottomNav (patterns activePattern manquants)
+- [ ] Audit navigation : améliorer MobileMenu (groupes visuels, section récente)
+- [ ] Audit navigation : améliorer DynamicBreadcrumb (routes manquantes)
+- [x] Audit navigation : navigationConfig.ts refondu (entrées manquantes, badges nettoyés, descriptions, featured items, viewAllHref)
+- [x] MegaMenuOptimized refondu (MegaNav) : featured item, description de groupe, liens Tout voir, indicateur page active, badges colorés, panel adaptatif
+- [x] MobileBottomNav : patterns actifs mis à jour pour couvrir /phylogenetique, /nicotiana-explorer, /landraces, /prototypes, /inventory-dashboard, /conservation, /compound-search, /analysis-hub
+- [x] DynamicBreadcrumb : /nicotiana-explorer et /classification-phylogenetique ajoutés

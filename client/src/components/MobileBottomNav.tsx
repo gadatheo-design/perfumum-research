@@ -51,27 +51,27 @@ export function MobileBottomNav() {
       label: "Atelier",
       path: "/plantes",
       activePattern:
-        /^\/(plantes|plant|molecules|molecule|recettes|recette|gammes|tabacotheque|tabac|terroirs|osmotheque|synergies|ifra|sourcing|smiles|matieres|final-recipes|calculateur|terpenes|terpene)/,
+        /^\/(plantes|plant|molecules|molecule|recettes|recette|gammes|tabacotheque|tabac|terroirs|osmotheque|synergies|ifra|sourcing|smiles|matieres|final-recipes|calculateur|terpenes|terpene|conservation|inventory|analysis-hub|landraces|chemotypes|perique|tps-genes|molecular-transform|protocoles|aromatic|alternatives)/
     },
     {
       icon: <BookOpen className="h-5 w-5" />,
       label: "Atlas",
       path: "/storylines",
       activePattern:
-        /^\/(storylines|storyline|galerie-olfactive|atlas|civilisations|archives-olfactives|timeline|phylogenetique|genealogy|ghost|leaf-economies|carte-plantes)/,
+        /^\/(storylines|storyline|galerie-olfactive|atlas|civilisations|traditions-olfactives|archives-olfactives|timeline|phylogenetique|genealogy|ghost|leaf-economies|carte-plantes|nicotiana-explorer|classification-phylogenetique|europeana|comparaison-genres)/
     },
     {
       icon: <Library className="h-5 w-5" />,
       label: "Biblio.",
       path: "/axes-recherche",
       activePattern:
-        /^\/(axes-recherche|bibliographie|visualisations|reseau|recipe-network|correlations|sankey|synergies-heatmap|stats|recherche|parfums|muscs|enrichissement|percepts|absorbe|methodologie|methodes|gcms|ms-spectra|visualisation)/,
+        /^\/(axes-recherche|bibliographie|visualisations|reseau|recipe-network|correlations|sankey|synergies-heatmap|stats|recherche|parfums|muscs|enrichissement|percepts|absorbe|methodologie|methodes|gcms|ms-spectra|visualisation|compound-search|claims|smiles|molecules-disparues)/
     },
     {
       icon: <FolderOpen className="h-5 w-5" />,
       label: "Projet",
       path: "/a-propos",
-      activePattern: /^\/(a-propos|contribuer|admin|glossaire|manifeste|outils-hub)/,
+      activePattern: /^\/(a-propos|contribuer|admin|glossaire|manifeste|outils-hub|prototypes|projet)/,
     },
   ];
 
