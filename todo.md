@@ -3973,3 +3973,5 @@ npm run dev
 - [x] Interface de liaison LOTUS→plantes existantes (page /admin/lotus-plant-linker avec import direct plant_molecules)
 - [x] Import en lot LOTUS pour un genre entier (batchImportByGenus avec progression temps réel)
 - [x] Bug SQL arbre phylogénétique : colonnes genus/species inexistantes → corrigé avec latinName + LIKE
+- [x] Sélecteur de genre dans l'arbre phylogénétique (onglet "Arbre par Genre" dans PhylogeneticView)
+- [x] Fix erreur Vite LotusPlantLinker (cache résolu, fichier bien compilé)
