@@ -637,7 +637,7 @@ export const lotusEnrichmentRouter = router({
       let totalExisting = 0;
 
       for (const sp of speciesInDb) {
-        const taxonData = byTaxon[sp.latinName];
+        const taxonData = sp.latinName ? byTaxon[sp.latinName] : undefined;
         const compounds = taxonData?.compounds ?? [];
 
         // Check which molecules already exist in DB
@@ -805,7 +805,7 @@ export const lotusEnrichmentRouter = router({
       let totalErrors = 0;
 
       for (const sp of speciesInDb) {
-        const compounds = byTaxon[sp.latinName] ?? [];
+        const compounds = (sp.latinName ? byTaxon[sp.latinName] : undefined) ?? [];
         let created = 0;
         let linked = 0;
         let skipped = 0;

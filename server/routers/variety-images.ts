@@ -62,7 +62,7 @@ export const varietyImagesRouter = router({
       const fileKey = generateImageKey(input.genus, input.species, input.imageType, input.fileName);
       const fileBuffer = base64ToBuffer(input.fileData);
       const { url } = await storagePut(fileKey, fileBuffer, input.mimeType);
-      const result = await db.insert(varietyImages).values({
+      const insertResult = await db.insert(varietyImages).values({
         genus: input.genus,
         species: input.species,
         cultivar: input.cultivar,
@@ -78,8 +78,8 @@ export const varietyImagesRouter = router({
         attribution: input.attribution,
         uploadedBy: ctx.user.id,
         isVerified: false,
-      }).returning();
-      return { id: result[0].id, fileUrl: url, isVerified: false };
+      }).$returningId();
+      return { id: insertResult[0].id, fileUrl: url, isVerified: false };
     }),
 
   getByVariety: publicProcedure
@@ -152,15 +152,16 @@ export const varietyImagesRouter = router({
       if (images[0].uploadedBy !== ctx.user.id && ctx.user.role !== "admin") {
         throw new TRPCError({ code: "FORBIDDEN", message: "You can only update your own images" });
       }
-      const result = await db.update(varietyImages).set({
+      await db.update(varietyImages).set({
         description: input.description,
         source: input.source,
         sourceUrl: input.sourceUrl,
         attribution: input.attribution,
         quality: input.quality,
         updatedAt: new Date(),
-      }).where(eq(varietyImages.id, input.id)).returning();
-      return result[0];
+      }).where(eq(varietyImages.id, input.id));
+      const updated = await db.select().from(varietyImages).where(eq(varietyImages.id, input.id));
+      return updated[0];
     }),
 
   verify: protectedProcedure
@@ -170,13 +171,14 @@ export const varietyImagesRouter = router({
         throw new TRPCError({ code: "FORBIDDEN", message: "Only admins can verify images" });
       }
       const db = await requireDb();
-      const result = await db.update(varietyImages).set({
+      await db.update(varietyImages).set({
         isVerified: input.isVerified,
         verifiedBy: input.isVerified ? ctx.user.id : null,
         verifiedAt: input.isVerified ? new Date() : null,
         updatedAt: new Date(),
-      }).where(eq(varietyImages.id, input.id)).returning();
-      return result[0];
+      }).where(eq(varietyImages.id, input.id));
+      const verified = await db.select().from(varietyImages).where(eq(varietyImages.id, input.id));
+      return verified[0];
     }),
 
   delete: protectedProcedure

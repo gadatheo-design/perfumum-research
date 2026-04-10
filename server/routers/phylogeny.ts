@@ -224,11 +224,11 @@ export const phylogenyRouter = router({
             id: v.id,
             varietyId: v.varietyId,
             name: v.name,
-            latinName: v.latinName,
+            latinName: v.latinName ?? undefined,
             type: v.varietyType,
-            yearRegistered: v.yearRegistered,
-            breeder: v.breeder,
-            conservationStatus: v.conservationStatus,
+            yearRegistered: v.yearRegistered ?? undefined,
+            breeder: v.breeder ?? undefined,
+            conservationStatus: v.conservationStatus ?? undefined,
             dominantMolecules: v.dominantMolecules || [],
           });
         });

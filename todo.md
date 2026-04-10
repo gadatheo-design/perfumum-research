@@ -3983,3 +3983,4 @@ npm run dev
 - [x] Suppression barre latérale SearchSidebar parasite
 - [x] Amélioration UI /admin/variety-images (galerie dense, lightbox, badges colorés, onglet Wikidata Images)
 - [x] Amélioration UI /admin/wikidata-sync (4 onglets : Recherche, En masse, Recommandations, Import rapide)
+- [x] Correction erreurs TypeScript (z.record Zod v4, .returning() MySQL, null vs undefined, imports @/ serveur)

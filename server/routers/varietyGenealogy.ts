@@ -6,7 +6,7 @@
  */
 
 import { z } from 'zod';
-import { publicProcedure, router } from '@/server/_core/trpc';
+import { publicProcedure, router } from '../_core/trpc';
 import {
   nicotianaVarietyGenealogy,
   cannabisVarietyGenealogy,
@@ -18,7 +18,7 @@ import {
   type VarietyGenealogy,
   type VarietyNode,
   type RelationType,
-} from '@/server/varietyGenealogy';
+} from '../varietyGenealogy';
 
 // ── Schémas Zod ──────────────────────────────────────────────────────────────
 
@@ -32,8 +32,8 @@ const VarietyNodeSchema = z.object({
   origin: z.string().optional(),
   conservationStatus: z.enum(['extinct', 'endangered', 'vulnerable', 'stable', 'cultivated']).optional(),
   description: z.string().optional(),
-  molecularProfile: z.record(z.number()).optional(),
-  metadata: z.record(z.unknown()).optional(),
+  molecularProfile: z.record(z.string(), z.number()).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
 });
 
 const VarietyRelationSchema = z.object({
@@ -43,7 +43,7 @@ const VarietyRelationSchema = z.object({
   type: RelationTypeSchema,
   year: z.number().optional(),
   description: z.string().optional(),
-  metadata: z.record(z.unknown()).optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
 });
 
 const VarietyGenealogySchema = z.object({
@@ -181,7 +181,7 @@ export const varietyGenealogyRouter = router({
         vulnerable: z.number(),
         stable: z.number(),
         cultivated: z.number(),
-        relationTypes: z.record(z.number()),
+        relationTypes: z.record(z.string(), z.number()),
       }).optional()
     )
     .query(({ input }) => {
