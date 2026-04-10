@@ -1,0 +1,1 @@
+ALTER TABLE `plants` ADD `ncbi_tax_id` varchar(20);

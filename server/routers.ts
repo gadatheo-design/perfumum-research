@@ -93,6 +93,7 @@ import { iucnEnrichmentRouter } from './routers/iucn-enrichment';
 import { ncbiTaxonomyRouter } from './routers/ncbi-taxonomy';
 import { powoKewRouter } from './routers/powo-kew';
 import { wikidataPhyloRouter } from './routers/wikidata-phylo';
+import { phyloBatchRouter } from './routers/phylo-batch';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -12543,6 +12544,8 @@ Familles olfactives disponibles:
   powoKew: powoKewRouter,
   // Wikidata Phylo u2014 Phylogenetic data from Wikidata SPARQL
   wikidataPhylo: wikidataPhyloRouter,
+  // Phylo Batch — Batch enrichment by genus with 5 APIs in parallel
+  phyloBatch: phyloBatchRouter,
 });
 export type AppRouter = typeof appRouter;
 

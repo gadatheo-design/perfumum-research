@@ -1992,6 +1992,7 @@ export const plants = mysqlTable("plants", {
   gbifId: varchar("gbif_id", { length: 50 }), // Identifiant GBIF pour lien direct
   itisId: varchar("itis_id", { length: 50 }), // Identifiant ITIS pour lien direct
   powId: varchar("pow_id", { length: 50 }), // Identifiant Plants of the World (POWO)
+  ncbiTaxId: varchar("ncbi_tax_id", { length: 20 }), // NCBI Taxonomy ID (e.g., "3702" for Arabidopsis thaliana)
   wikidataQid: varchar("wikidata_qid", { length: 20 }), // Wikidata QID (e.g., "Q193178" for Rosa damascena)
   wikidataEnrichedAt: timestamp("wikidata_enriched_at"), // When Wikidata data was fetched
   // Métadonnées

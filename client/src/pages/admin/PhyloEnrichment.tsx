@@ -670,6 +670,340 @@ function BatchEnrichmentPanel() {
   );
 }
 
+
+// ─── BatchByGenusPanel ────────────────────────────────────────────────────────
+function BatchByGenusPanel() {
+  const { toast } = useToast();
+  const [genusSearch, setGenusSearch] = useState("");
+  const [selectedGenus, setSelectedGenus] = useState("");
+  const [dryRun, setDryRun] = useState(true);
+  const [selectedApis, setSelectedApis] = useState<string[]>(["gbif", "powo", "ncbi", "wikidata"]);
+
+  // Fetch genera list
+  const { data: generaData, isLoading: generaLoading } = trpc.phyloBatch.getGenera.useQuery(
+    { search: genusSearch.length >= 2 ? genusSearch : undefined },
+    { enabled: true }
+  );
+
+  // Coverage report for selected genus
+  const { data: coverageData, isLoading: coverageLoading, refetch: refetchCoverage } = trpc.phyloBatch.getCoverageReport.useQuery(
+    { genus: selectedGenus },
+    { enabled: selectedGenus.length >= 2 }
+  );
+
+  // Batch mutation
+  const batchMutation = trpc.phyloBatch.batchByGenus.useMutation({
+    onSuccess: (data) => {
+      if (data.success) {
+        toast({
+          title: data.dryRun ? "Prévisualisation terminée" : "Enrichissement appliqué",
+          description: data.dryRun
+            ? `${data.results.filter((r: any) => r.fieldsToUpdate > 0).length}/${data.total} plantes à enrichir`
+            : `${data.enriched}/${data.total} plantes enrichies`,
+        });
+        if (!data.dryRun) refetchCoverage();
+      }
+    },
+    onError: (err) => toast({ title: "Erreur", description: err.message, variant: "destructive" }),
+  });
+
+  // Sync batch results mutation
+  const syncMutation = trpc.phyloBatch.syncBatchResults.useMutation({
+    onSuccess: (data) => {
+      toast({
+        title: data.dryRun ? "Simulation appliquée" : "Synchronisation réussie",
+        description: data.message,
+      });
+      if (!data.dryRun) refetchCoverage();
+    },
+    onError: (err) => toast({ title: "Erreur", description: err.message, variant: "destructive" }),
+  });
+
+  const toggleApi = (api: string) => {
+    setSelectedApis((prev) =>
+      prev.includes(api) ? prev.filter((a) => a !== api) : [...prev, api]
+    );
+  };
+
+  const handleApplyResults = () => {
+    if (!batchMutation.data?.results) return;
+    const updates = batchMutation.data.results
+      .filter((r: any) => r.fieldsToUpdate > 0)
+      .map((r: any) => ({
+        plantId: r.id,
+        gbifId: r.newIds?.gbif ?? null,
+        powId: r.newIds?.powo ?? null,
+        ncbiTaxId: r.newIds?.ncbi ?? null,
+        wikidataQid: r.newIds?.wikidata ?? null,
+      }));
+    syncMutation.mutate({ updates, dryRun: false });
+  };
+
+  const apiColors: Record<string, string> = {
+    gbif: "emerald",
+    powo: "amber",
+    ncbi: "sky",
+    wikidata: "violet",
+    tropicos: "rose",
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Genre selector */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="space-y-3">
+          <h4 className="text-sm font-medium text-zinc-300">1. Sélectionner un genre</h4>
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-500" />
+            <Input
+              placeholder="Rechercher un genre (ex: Rosa, Nicotiana...)"
+              value={genusSearch}
+              onChange={(e) => setGenusSearch(e.target.value)}
+              className="pl-8 bg-zinc-900 border-zinc-700 text-zinc-200 text-sm h-9"
+            />
+          </div>
+          {/* Genera list */}
+          <div className="max-h-48 overflow-y-auto rounded-lg border border-zinc-700/50 bg-zinc-900/50 divide-y divide-zinc-800/50">
+            {generaLoading ? (
+              <div className="p-3 flex items-center gap-2 text-xs text-zinc-500">
+                <Loader2 className="w-3 h-3 animate-spin" /> Chargement...
+              </div>
+            ) : (generaData?.genera ?? []).length === 0 ? (
+              <div className="p-3 text-xs text-zinc-500">Aucun genre trouvé</div>
+            ) : (
+              (generaData?.genera ?? []).slice(0, 30).map((g: any) => (
+                <button
+                  key={g.genus}
+                  onClick={() => setSelectedGenus(g.genus)}
+                  className={`w-full flex items-center justify-between px-3 py-2 text-xs hover:bg-zinc-800/50 transition-colors ${
+                    selectedGenus === g.genus ? "bg-violet-900/30 text-violet-300" : "text-zinc-300"
+                  }`}
+                >
+                  <span className="font-medium italic">{g.genus}</span>
+                  <Badge variant="outline" className="text-[10px] border-zinc-600 text-zinc-500 h-4 px-1.5">
+                    {g.count} plante{g.count > 1 ? "s" : ""}
+                  </Badge>
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* Coverage report */}
+        <div className="space-y-3">
+          <h4 className="text-sm font-medium text-zinc-300">
+            2. Couverture actuelle
+            {selectedGenus && <span className="ml-2 text-violet-400 italic">{selectedGenus}</span>}
+          </h4>
+          {!selectedGenus ? (
+            <div className="h-48 rounded-lg border border-zinc-700/30 bg-zinc-900/30 flex items-center justify-center text-xs text-zinc-600">
+              Sélectionnez un genre pour voir sa couverture
+            </div>
+          ) : coverageLoading ? (
+            <div className="h-48 rounded-lg border border-zinc-700/30 bg-zinc-900/30 flex items-center justify-center">
+              <Loader2 className="w-4 h-4 animate-spin text-zinc-500" />
+            </div>
+          ) : coverageData ? (
+            <div className="rounded-lg border border-zinc-700/50 bg-zinc-900/50 p-4 space-y-3">
+              <div className="grid grid-cols-2 gap-2">
+                {[
+                  { label: "Total", value: coverageData.summary.total, color: "zinc" },
+                  { label: "GBIF", value: `${coverageData.summary.withGbif}/${coverageData.summary.total}`, color: "emerald" },
+                  { label: "POWO", value: `${coverageData.summary.withPowo}/${coverageData.summary.total}`, color: "amber" },
+                  { label: "NCBI", value: `${coverageData.summary.withNcbi}/${coverageData.summary.total}`, color: "sky" },
+                  { label: "Wikidata", value: `${coverageData.summary.withWikidata}/${coverageData.summary.total}`, color: "violet" },
+                  { label: "Complet", value: `${coverageData.summary.fullyEnriched}/${coverageData.summary.total}`, color: "emerald" },
+                ].map((item) => (
+                  <div key={item.label} className="flex items-center justify-between px-2 py-1.5 rounded bg-zinc-800/40">
+                    <span className="text-xs text-zinc-500">{item.label}</span>
+                    <span className={`text-xs font-mono font-medium text-${item.color}-400`}>{item.value}</span>
+                  </div>
+                ))}
+              </div>
+              {/* Progress bars */}
+              <div className="space-y-1.5">
+                {[
+                  { label: "GBIF", count: coverageData.summary.withGbif, color: "bg-emerald-500" },
+                  { label: "POWO", count: coverageData.summary.withPowo, color: "bg-amber-500" },
+                  { label: "NCBI", count: coverageData.summary.withNcbi, color: "bg-sky-500" },
+                  { label: "Wikidata", count: coverageData.summary.withWikidata, color: "bg-violet-500" },
+                ].map((bar) => (
+                  <div key={bar.label} className="flex items-center gap-2">
+                    <span className="text-[10px] text-zinc-500 w-14 text-right">{bar.label}</span>
+                    <div className="flex-1 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full ${bar.color} rounded-full transition-all duration-500`}
+                        style={{ width: coverageData.summary.total > 0 ? `${(bar.count / coverageData.summary.total) * 100}%` : "0%" }}
+                      />
+                    </div>
+                    <span className="text-[10px] text-zinc-500 w-8">
+                      {coverageData.summary.total > 0 ? Math.round((bar.count / coverageData.summary.total) * 100) : 0}%
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+        </div>
+      </div>
+
+      {/* API selection + options */}
+      {selectedGenus && (
+        <div className="space-y-4 p-4 rounded-xl border border-zinc-700/50 bg-zinc-900/30">
+          <h4 className="text-sm font-medium text-zinc-300">3. Configurer l'enrichissement</h4>
+          <div className="flex flex-wrap gap-2">
+            {(["gbif", "powo", "ncbi", "wikidata", "tropicos"] as const).map((api) => (
+              <button
+                key={api}
+                onClick={() => toggleApi(api)}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
+                  selectedApis.includes(api)
+                    ? `bg-${apiColors[api]}-900/40 border-${apiColors[api]}-700/50 text-${apiColors[api]}-300`
+                    : "bg-zinc-800/40 border-zinc-700/30 text-zinc-500 hover:text-zinc-300"
+                }`}
+              >
+                {api.toUpperCase()}
+              </button>
+            ))}
+          </div>
+          <div className="flex items-center gap-3">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <div
+                onClick={() => setDryRun(!dryRun)}
+                className={`w-8 h-4 rounded-full transition-colors relative cursor-pointer ${dryRun ? "bg-amber-600" : "bg-emerald-600"}`}
+              >
+                <div className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${dryRun ? "left-0.5" : "left-4.5"}`} />
+              </div>
+              <span className="text-xs text-zinc-400">
+                {dryRun ? <span className="text-amber-400">Prévisualisation (dry run)</span> : <span className="text-emerald-400">Appliquer en base</span>}
+              </span>
+            </label>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              size="sm"
+              onClick={() => batchMutation.mutate({ genus: selectedGenus, dryRun, apis: selectedApis as any })}
+              disabled={batchMutation.isPending || selectedApis.length === 0}
+              className="bg-violet-700 hover:bg-violet-600 text-white"
+            >
+              {batchMutation.isPending ? (
+                <><Loader2 className="w-3 h-3 animate-spin mr-2" /> En cours...</>
+              ) : (
+                <><RefreshCw className="w-3 h-3 mr-2" /> {dryRun ? "Prévisualiser" : "Enrichir"} {selectedGenus}</>
+              )}
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {/* Results */}
+      {batchMutation.data && (
+        <div className="space-y-4">
+          {/* Summary */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {[
+              { label: "Plantes analysées", value: batchMutation.data.total, color: "zinc" },
+              { label: "À enrichir", value: batchMutation.data.results.filter((r: any) => r.fieldsToUpdate > 0).length, color: "violet" },
+              { label: "Gain GBIF", value: `+${batchMutation.data.summary.gain?.gbif ?? 0}`, color: "emerald" },
+              { label: "Gain POWO", value: `+${batchMutation.data.summary.gain?.powo ?? 0}`, color: "amber" },
+            ].map((stat) => (
+              <div key={stat.label} className={`p-3 rounded-lg border border-${stat.color}-800/30 bg-${stat.color}-950/20`}>
+                <p className="text-xs text-zinc-500">{stat.label}</p>
+                <p className={`text-xl font-bold text-${stat.color}-400 mt-0.5`}>{stat.value}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* Apply button (only for dry run results) */}
+          {batchMutation.data.dryRun && batchMutation.data.results.filter((r: any) => r.fieldsToUpdate > 0).length > 0 && (
+            <div className="flex items-center gap-3 p-4 rounded-xl border border-emerald-800/30 bg-emerald-950/20">
+              <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm font-medium text-emerald-300">
+                  {batchMutation.data.results.filter((r: any) => r.fieldsToUpdate > 0).length} plante(s) prêtes à être enrichies
+                </p>
+                <p className="text-xs text-zinc-500 mt-0.5">
+                  Cliquez sur "Appliquer en base" pour écrire les identifiants dans la table plants
+                </p>
+              </div>
+              <Button
+                size="sm"
+                onClick={handleApplyResults}
+                disabled={syncMutation.isPending}
+                className="bg-emerald-700 hover:bg-emerald-600 text-white flex-shrink-0"
+              >
+                {syncMutation.isPending ? (
+                  <><Loader2 className="w-3 h-3 animate-spin mr-2" /> Synchronisation...</>
+                ) : (
+                  <><Database className="w-3 h-3 mr-2" /> Appliquer en base</>
+                )}
+              </Button>
+            </div>
+          )}
+
+          {/* Results table */}
+          <div className="overflow-x-auto rounded-xl border border-zinc-700/50">
+            <table className="w-full text-xs border-collapse">
+              <thead>
+                <tr className="border-b border-zinc-700 bg-zinc-900/80">
+                  <th className="text-left py-2.5 px-3 text-zinc-500 font-medium">Plante</th>
+                  <th className="text-left py-2.5 px-3 text-zinc-500 font-medium">Nom latin</th>
+                  <th className="text-center py-2.5 px-3 text-zinc-500 font-medium">GBIF</th>
+                  <th className="text-center py-2.5 px-3 text-zinc-500 font-medium">POWO</th>
+                  <th className="text-center py-2.5 px-3 text-zinc-500 font-medium">NCBI</th>
+                  <th className="text-center py-2.5 px-3 text-zinc-500 font-medium">Wikidata</th>
+                  <th className="text-center py-2.5 px-3 text-zinc-500 font-medium">Champs</th>
+                </tr>
+              </thead>
+              <tbody>
+                {batchMutation.data.results.map((r: any, i: number) => (
+                  <tr key={i} className={`border-b border-zinc-800/50 hover:bg-zinc-800/20 ${r.fieldsToUpdate > 0 ? "bg-violet-950/10" : ""}`}>
+                    <td className="py-2 px-3 text-zinc-300 font-medium">{r.name}</td>
+                    <td className="py-2 px-3 text-zinc-400 italic">{r.latinName}</td>
+                    <td className="py-2 px-3 text-center">
+                      {r.apis?.gbif?.id
+                        ? <span className="text-emerald-400 font-mono">{r.apis.gbif.id}</span>
+                        : r.existing?.gbif
+                          ? <span className="text-zinc-500">✓</span>
+                          : <XCircle className="w-3 h-3 text-zinc-700 mx-auto" />}
+                    </td>
+                    <td className="py-2 px-3 text-center">
+                      {r.apis?.powo?.fqId
+                        ? <span className="text-amber-400 font-mono text-[10px]">{r.apis.powo.fqId.split(":").pop()}</span>
+                        : r.existing?.powo
+                          ? <span className="text-zinc-500">✓</span>
+                          : <XCircle className="w-3 h-3 text-zinc-700 mx-auto" />}
+                    </td>
+                    <td className="py-2 px-3 text-center">
+                      {r.apis?.ncbi?.taxId
+                        ? <span className="text-sky-400 font-mono">{r.apis.ncbi.taxId}</span>
+                        : r.existing?.ncbi
+                          ? <span className="text-zinc-500">✓</span>
+                          : <XCircle className="w-3 h-3 text-zinc-700 mx-auto" />}
+                    </td>
+                    <td className="py-2 px-3 text-center">
+                      {r.apis?.wikidata?.qid
+                        ? <span className="text-violet-400 font-mono">{r.apis.wikidata.qid}</span>
+                        : r.existing?.wikidata
+                          ? <span className="text-zinc-500">✓</span>
+                          : <XCircle className="w-3 h-3 text-zinc-700 mx-auto" />}
+                    </td>
+                    <td className="py-2 px-3 text-center">
+                      {r.fieldsToUpdate > 0
+                        ? <Badge className="bg-violet-900/40 text-violet-300 border-violet-700/30 text-[10px] h-4 px-1.5">+{r.fieldsToUpdate}</Badge>
+                        : <span className="text-zinc-600">—</span>}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function PhyloEnrichment() {
@@ -827,7 +1161,26 @@ export default function PhyloEnrichment() {
             <Badge variant="outline" className="text-xs border-zinc-600 text-zinc-400">Beta</Badge>
             <Separator className="flex-1 bg-zinc-800" />
           </div>
-          <BatchEnrichmentPanel />
+          <Tabs defaultValue="batch-genus" className="space-y-4">
+            <TabsList className="bg-zinc-900 border border-zinc-700/50 p-1 h-auto gap-1">
+              <TabsTrigger value="batch-genus" className="text-xs data-[state=active]:bg-violet-900/50 data-[state=active]:text-violet-200">
+                <TreePine className="w-3 h-3 mr-1.5" /> Batch par Genre
+              </TabsTrigger>
+              <TabsTrigger value="batch-global" className="text-xs data-[state=active]:bg-zinc-700 data-[state=active]:text-zinc-200">
+                <Database className="w-3 h-3 mr-1.5" /> Enrichissement global
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="batch-genus" className="mt-0">
+              <div className="p-6 rounded-xl border border-zinc-700/50 bg-zinc-900/30">
+                <BatchByGenusPanel />
+              </div>
+            </TabsContent>
+            <TabsContent value="batch-global" className="mt-0">
+              <div className="p-6 rounded-xl border border-zinc-700/50 bg-zinc-900/30">
+                <BatchEnrichmentPanel />
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
 
         {/* Links to individual enrichment pages */}

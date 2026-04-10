@@ -4008,3 +4008,6 @@ npm run dev
 - [x] Routeur POWO/Kew (taxonomie acceptée, synonymes, distribution)
 - [x] Routeur Wikidata Phylo étendu (parents, hybrides, chromosomes, cultivars, cross-IDs)
 - [x] Page admin /admin/phylo-enrichment centralisant les 5 APIs (GBIF, POWO, NCBI, Tropicos, Wikidata)
+- [x] Routeur phylo-batch.ts : batchByGenus (5 APIs en parallèle par genre) + syncCrossIds + syncBatchResults
+- [x] Colonne ncbiTaxId ajoutée dans la table plants
+- [x] Page /admin/phylo-enrichment : onglet "Batch par Genre" avec sélecteur de genre, rapport de couverture avant/après, bouton Appliquer en base
