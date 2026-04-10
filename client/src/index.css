@@ -3163,3 +3163,27 @@ a {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
+
+/* MegaMenu panel — fond visible en thème clair et sombre */
+.mega-menu-panel {
+  background-color: oklch(0.97 0.003 270);
+  border: 1px solid oklch(0.88 0.008 270);
+  box-shadow: 0 20px 60px -10px rgba(0,0,0,0.18), 0 4px 16px -4px rgba(0,0,0,0.10);
+}
+.dark .mega-menu-panel {
+  background-color: oklch(0.17 0.01 270);
+  border: 1px solid oklch(0.28 0.02 270);
+  box-shadow: 0 20px 60px -10px rgba(0,0,0,0.45), 0 4px 16px -4px rgba(0,0,0,0.30);
+}
+
+/* MegaMenu panel — fond visible en thème clair et sombre */
+.mega-menu-panel {
+  background-color: oklch(0.97 0.003 270) !important;
+  border: 1px solid oklch(0.88 0.008 270) !important;
+  box-shadow: 0 20px 60px -10px rgba(0,0,0,0.18), 0 4px 16px -4px rgba(0,0,0,0.10) !important;
+}
+.dark .mega-menu-panel {
+  background-color: oklch(0.17 0.01 270) !important;
+  border: 1px solid oklch(0.28 0.02 270) !important;
+  box-shadow: 0 20px 60px -10px rgba(0,0,0,0.45), 0 4px 16px -4px rgba(0,0,0,0.30) !important;
+}

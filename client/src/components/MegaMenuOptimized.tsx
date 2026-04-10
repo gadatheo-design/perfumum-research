@@ -1,26 +1,12 @@
-// @ts-nocheck
 /**
- * MegaMenuOptimized.tsx — Refonte 10 avril 2026
- * Consomme directement NAV_GROUPS depuis navigationConfig.ts.
- * Nouvelles fonctionnalités :
- *   - Featured item mis en avant par groupe
- *   - Description de groupe sous le trigger
- *   - Liens "Voir tout" par section
- *   - Indicateur de page active
- *   - Badges colorés (HUB, ADMIN, NEW, custom)
- *   - Panel multi-colonnes adaptatif
+ * MegaMenuOptimized.tsx — Refonte 11 avril 2026
+ * Implémentation custom (sans Radix NavigationMenu) pour garantir
+ * un fond opaque et un positionnement correct du panneau dropdown.
  */
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import { Link, useLocation } from "wouter";
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-} from "@/components/ui/navigation-menu";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, Sparkles, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   NAV_GROUPS,
@@ -72,12 +58,10 @@ function NavBadge({ badge }: { badge: string }) {
 function MenuItem({ item, isActive, onClick }: { item: NavItem; isActive: boolean; onClick?: () => void }) {
   return (
     <Link href={item.href} onClick={onClick}>
-      <motion.div
-        whileHover={{ x: 3 }}
-        transition={{ duration: 0.12, type: "spring", stiffness: 500 }}
+      <div
         className={cn(
           "flex items-center justify-between gap-2 px-2.5 py-1.5 rounded-md text-sm cursor-pointer",
-          "transition-colors duration-150",
+          "transition-all duration-100 hover:translate-x-0.5",
           isActive
             ? "bg-primary/10 text-primary font-medium"
             : "text-muted-foreground hover:text-foreground hover:bg-muted/60",
@@ -88,7 +72,7 @@ function MenuItem({ item, isActive, onClick }: { item: NavItem; isActive: boolea
           {item.badge && <NavBadge badge={item.badge} />}
           {isActive && <span className="w-1.5 h-1.5 rounded-full bg-primary" />}
         </div>
-      </motion.div>
+      </div>
     </Link>
   );
 }
@@ -128,11 +112,7 @@ function GroupPanel({ group, currentPath, onNavigate }: { group: NavGroup; curre
     "grid-cols-4";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: -6 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.16, ease: "easeOut" }}
-    >
+    <div>
       {/* Header du panneau */}
       {(group.description || group.featured) && (
         <div className="px-5 pt-4 pb-3 border-b border-border/40 flex items-center gap-4">
@@ -156,55 +136,101 @@ function GroupPanel({ group, currentPath, onNavigate }: { group: NavGroup; curre
           <MenuSection key={idx} section={section} currentPath={currentPath} onNavigate={onNavigate} />
         ))}
       </div>
-    </motion.div>
+    </div>
   );
 }
 
 // ── Composant principal ───────────────────────────────────────────────────────
 export function MegaNav() {
   const [location] = useLocation();
-  const handleNavigate = useCallback(() => {}, []);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openMenu = useCallback((trigger: string) => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpenGroup(trigger);
+  }, []);
+
+  const scheduleClose = useCallback(() => {
+    closeTimer.current = setTimeout(() => setOpenGroup(null), 120);
+  }, []);
+
+  const cancelClose = useCallback(() => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+  }, []);
+
+  const closeNow = useCallback(() => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpenGroup(null);
+  }, []);
 
   return (
-    <NavigationMenu className="hidden lg:flex">
-      <NavigationMenuList className="gap-0">
-        {NAV_GROUPS.map((group) => {
-          const hasActive = group.sections.some((s) =>
-            (s.items ?? []).some((item) => item.href === location)
-          );
-          const panelWidth =
-            group.sections.length <= 2 ? "min-w-[480px]" :
-            group.sections.length === 3 ? "min-w-[680px]" :
-            "min-w-[880px]";
+    <nav className="hidden lg:flex items-center gap-0 relative">
+      {NAV_GROUPS.map((group) => {
+        const hasActive = group.sections.some((s) =>
+          (s.items ?? []).some((item) => item.href === location)
+        );
+        const isOpen = openGroup === group.trigger;
+        const panelWidth =
+          group.sections.length <= 2 ? "min-w-[480px]" :
+          group.sections.length === 3 ? "min-w-[680px]" :
+          "min-w-[880px]";
 
-          return (
-            <NavigationMenuItem key={group.trigger}>
-              <NavigationMenuTrigger
+        return (
+          <div
+            key={group.trigger}
+            className="relative"
+            onMouseEnter={() => openMenu(group.trigger)}
+            onMouseLeave={scheduleClose}
+          >
+            {/* Trigger */}
+            <button
+              className={cn(
+                "h-9 px-3 text-sm font-medium rounded-md transition-colors flex items-center gap-1",
+                "bg-transparent hover:bg-muted/60",
+                isOpen && "bg-muted/60",
+                hasActive ? "text-primary font-semibold" : "text-foreground/80 hover:text-foreground",
+              )}
+              onClick={() => isOpen ? closeNow() : openMenu(group.trigger)}
+            >
+              <span>{group.trigger}</span>
+              {hasActive && <span className="w-1.5 h-1.5 rounded-full bg-primary" />}
+              <ChevronDown
                 className={cn(
-                  "h-9 px-3 text-sm font-medium rounded-md transition-colors",
-                  "bg-transparent hover:bg-muted/60 data-[state=open]:bg-muted/60",
-                  hasActive ? "text-primary font-semibold" : "text-foreground/80 hover:text-foreground",
+                  "h-3 w-3 ml-0.5 transition-transform duration-200",
+                  isOpen && "rotate-180"
                 )}
-              >
-                <span>{group.trigger}</span>
-                {hasActive && <span className="ml-1.5 w-1.5 h-1.5 rounded-full bg-primary inline-block" />}
-              </NavigationMenuTrigger>
-              <NavigationMenuContent
-                className={cn(
-                  "absolute top-full left-0 mt-1",
-                  "bg-background/98 backdrop-blur-xl",
-                  "border border-border/60 rounded-xl shadow-2xl shadow-black/10",
-                  "overflow-hidden",
-                  panelWidth,
-                )}
-              >
-                <GroupPanel group={group} currentPath={location} onNavigate={handleNavigate} />
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-          );
-        })}
-      </NavigationMenuList>
-    </NavigationMenu>
+              />
+            </button>
+
+            {/* Panneau dropdown */}
+            <AnimatePresence>
+              {isOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -6, scale: 0.97 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                  className={cn(
+                    "absolute top-full left-0 mt-1 z-[9999]",
+                    "rounded-xl overflow-hidden mega-menu-panel",
+                    panelWidth,
+                  )}
+                  onMouseEnter={cancelClose}
+                  onMouseLeave={scheduleClose}
+                >
+                  <GroupPanel
+                    group={group}
+                    currentPath={location}
+                    onNavigate={closeNow}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        );
+      })}
+    </nav>
   );
 }
 
@@ -218,15 +244,9 @@ export interface MegaMenuSection {
 export interface MegaMenuOptimizedProps {
   sections: MegaMenuSection[];
   trigger: string;
-  useVirtualization?: boolean;
-  maxVisibleItems?: number;
+  activeHref?: string;
 }
-export const MegaMenuOptimized: React.FC<MegaMenuOptimizedProps> = () => null;
-export const useMegaMenuSections = (data: any[]): MegaMenuSection[] =>
-  data.map((section, index) => ({
-    id: `section-${index}`,
-    title: section.category,
-    icon: section.icon,
-    items: section.items,
-  }));
-export const useMegaMenuPerformance = () => ({ renderTime: 0, measureRender: () => {} });
+/** @deprecated Utiliser MegaNav directement */
+export function MegaMenuOptimizedNav(_props: MegaMenuOptimizedProps) {
+  return null;
+}

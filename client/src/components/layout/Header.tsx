@@ -16,56 +16,16 @@ import {
   Brain, Flame, Layers, TestTube, Sparkles, BarChart2, Atom,
   MapPin, TreePine, Command,
 } from "lucide-react";
-import { MegaNav, MegaMenuOptimized, useMegaMenuSections } from "@/components/MegaMenuOptimized";
+import { MegaNav } from "@/components/MegaMenuOptimized";
 import { MobileMenu } from "@/components/MobileMenu";
 import { Button } from "@/components/ui/button";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTheme } from "@/contexts/ThemeContext";
 import { DynamicBreadcrumb } from "@/components/DynamicBreadcrumb";
 import { useBreadcrumb } from "@/contexts/BreadcrumbContext";
-import { NAV_GROUPS, NavSection } from "@/config/navigationConfig";
+
 import { cn } from "@/lib/utils";
-
-// ── Résolution des icônes (string → ReactNode) ────────────────────────────────
-const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
-  Database, Leaf, Compass, BarChart3, Zap, FlaskConical,
-  Microscope, BookOpen, Archive, Globe, Info, FileText,
-  Brain, Flame, Layers, TestTube, Sparkles, BarChart2, Atom,
-  MapPin, TreePine,
-};
-
-function resolveIcon(name: string) {
-  const Icon = ICON_MAP[name];
-  return Icon ? <Icon className="h-4 w-4" /> : null;
-}
-
-/**
- * Convertit les sections d'un groupe navigationConfig en format attendu
- * par useMegaMenuSections (category + icon ReactNode + items avec id).
- */
-function useNavGroup(trigger: string) {
-  const group = useMemo(
-    () => NAV_GROUPS.find((g) => g.trigger === trigger),
-    [trigger]
-  );
-
-  const rawSections = useMemo(() => {
-    if (!group) return [];
-    return group.sections.map((section: NavSection, si: number) => ({
-      category: section.title,
-      icon: resolveIcon(section.icon),
-      items: (section.items ?? []).map((item, ii) => ({
-        id: `${trigger}-${si}-${ii}`,
-        label: item.label,
-        href: item.href,
-        badge: item.badge,
-      })),
-    }));
-  }, [group, trigger]);
-
-  return useMegaMenuSections(rawSections);
-}
 
 // ── Bouton de recherche global ────────────────────────────────────────────────
 function SearchButton() {
@@ -94,23 +54,6 @@ function SearchButton() {
         {isMac ? <Command className="h-2.5 w-2.5" /> : "Ctrl"} K
       </kbd>
     </button>
-  );
-}
-
-// ── MegaMenuOptimizedNav ──────────────────────────────────────────────────────
-function MegaMenuOptimizedNav() {
-  const atelierSections     = useNavGroup("Atelier");
-  const atlasSections       = useNavGroup("Atlas");
-  const bibliothequeSection = useNavGroup("Bibliothèque");
-  const projetSections      = useNavGroup("Projet");
-
-  return (
-    <nav className="hidden lg:flex items-center gap-6" role="navigation" aria-label="Menu principal">
-      <MegaMenuOptimized sections={atelierSections}      trigger="Atelier" />
-      <MegaMenuOptimized sections={atlasSections}        trigger="Atlas" />
-      <MegaMenuOptimized sections={bibliothequeSection}  trigger="Bibliothèque" />
-      <MegaMenuOptimized sections={projetSections}       trigger="Projet" />
-    </nav>
   );
 }
 
@@ -160,8 +103,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
 
   // Détection du scroll pour effet d'ombre dynamique
-  useMemo(() => {
-    if (typeof window === "undefined") return;
+  useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 8);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
