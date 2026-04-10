@@ -194,6 +194,62 @@ export const varietyImagesRouter = router({
       return { success: true };
     }),
 
+  batchUpload: protectedProcedure
+    .input(z.object({
+      genus: z.string().min(1).max(100),
+      species: z.string().min(1).max(100),
+      cultivar: z.string().max(255).optional(),
+      imageType: z.enum(["leaf", "flower", "fruit", "whole_plant", "other"]),
+      source: z.string().max(255).optional(),
+      attribution: z.string().max(255).optional(),
+      files: z.array(z.object({
+        fileData: z.string(),
+        fileName: z.string().min(1).max(255),
+        mimeType: z.string().min(1).max(50),
+        description: z.string().optional(),
+      })).min(1).max(20),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.user?.role !== "admin") {
+        throw new TRPCError({ code: "FORBIDDEN", message: "Only admins can upload images" });
+      }
+      const db = await requireDb();
+      const results: { index: number; id: number; fileUrl: string; fileName: string; success: boolean; error?: string }[] = [];
+      for (let i = 0; i < input.files.length; i++) {
+        const file = input.files[i];
+        try {
+          const fileKey = generateImageKey(input.genus, input.species, input.imageType, file.fileName);
+          const fileBuffer = base64ToBuffer(file.fileData);
+          const { url } = await storagePut(fileKey, fileBuffer, file.mimeType);
+          const insertResult = await db.insert(varietyImages).values({
+            genus: input.genus,
+            species: input.species,
+            cultivar: input.cultivar,
+            imageType: input.imageType,
+            fileKey,
+            fileUrl: url,
+            fileName: file.fileName,
+            mimeType: file.mimeType,
+            fileSize: fileBuffer.length,
+            description: file.description,
+            source: input.source,
+            attribution: input.attribution,
+            uploadedBy: ctx.user.id,
+            isVerified: false,
+          }).$returningId();
+          results.push({ index: i, id: insertResult[0].id, fileUrl: url, fileName: file.fileName, success: true });
+        } catch (err) {
+          results.push({ index: i, id: -1, fileUrl: "", fileName: file.fileName, success: false, error: err instanceof Error ? err.message : "Unknown error" });
+        }
+      }
+      return {
+        results,
+        total: input.files.length,
+        succeeded: results.filter(r => r.success).length,
+        failed: results.filter(r => !r.success).length,
+      };
+    }),
+
   getStats: publicProcedure.query(async () => {
     const db = await requireDb();
     const allImages = await db.select().from(varietyImages);

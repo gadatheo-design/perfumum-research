@@ -3987,3 +3987,7 @@ npm run dev
 - [x] Bug bibliography.ts ligne 311 : bibliography_entity_links → referenceEntityLinks (table correcte)
 - [x] Bug wikidataSync.searchTaxon/getTaxonDetails/batchSearchTaxa : .query() → .mutation() (POST support)
 - [x] Retry + exponential backoff pour Wikidata SPARQL (server/utils/sparql.ts partagé entre lotus.ts, lotus-enrichment.ts, wikidata-sync.ts)
+- [x] Batch upload multi-images avec drag-and-drop et barres de progression par fichier (BatchUploadForm)
+- [x] Lien croisé plante → galerie d'images morphologiques dans PlantDetail.tsx
+- [x] Refonte /phylogenetique : hero avec sunburst radial SVG, StatsBar, MoleculeDistribution, bouton Tout développer
+- [x] Refonte header global : logo monogramme, bouton recherche (Cmd+K), animation thème, effet scroll

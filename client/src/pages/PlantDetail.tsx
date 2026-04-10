@@ -522,6 +522,32 @@ export default function PlantDetail() {
               </CardHeader>
             <CardContent>
               <PlantImageGallery plantId={plantId} />
+              {/* Lien croisé vers la galerie morphologique */}
+              {plant.latinName && (() => {
+                const parts = plant.latinName.trim().split(/\s+/);
+                const genus = parts[0] || '';
+                const species = parts[1] || '';
+                if (!genus) return null;
+                const url = species
+                  ? `/admin/variety-images?genus=${encodeURIComponent(genus)}&species=${encodeURIComponent(species)}`
+                  : `/admin/variety-images?genus=${encodeURIComponent(genus)}`;
+                return (
+                  <div className="mt-4 pt-4 border-t flex items-center justify-between gap-4">
+                    <div>
+                      <p className="text-sm font-medium text-foreground">Images morphologiques</p>
+                      <p className="text-xs text-muted-foreground">
+                        Feuilles, fleurs, fruits et ports de <span className="italic">{plant.latinName}</span>
+                      </p>
+                    </div>
+                    <Link href={url}>
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-muted/50 hover:bg-muted text-sm font-medium transition-colors cursor-pointer">
+                        <ImageIcon className="h-3.5 w-3.5" />
+                        Galerie morphologique →
+                      </span>
+                    </Link>
+                  </div>
+                );
+              })()}
               <div className="mt-4 pt-4 border-t">
                 <PlantContributionModal
                   plantId={plantId}

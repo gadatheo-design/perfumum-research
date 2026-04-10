@@ -549,98 +549,138 @@ function WikidataImageBrowser({ onImportUrl }: { onImportUrl: (url: string, name
 // UPLOAD FORM
 // ─────────────────────────────────────────────────────────────────────────────
 
-interface UploadFormState {
+// ─────────────────────────────────────────────────────────────────────────────
+// BATCH UPLOAD FORM — drag-and-drop multi-images avec barres de progression
+// ─────────────────────────────────────────────────────────────────────────────
+interface BatchFile {
+  file: File;
+  preview: string;
+  status: 'pending' | 'uploading' | 'done' | 'error';
+  progress: number;
+  error?: string;
+}
+interface BatchFormState {
   genus: string; species: string; cultivar: string;
   imageType: 'leaf' | 'flower' | 'fruit' | 'whole_plant' | 'other';
-  description: string; source: string; sourceUrl: string; attribution: string;
-  file: File | null;
+  source: string; attribution: string;
 }
-
-function UploadForm({ onSuccess, prefillUrl }: { onSuccess: () => void; prefillUrl?: string }) {
+function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string }) {
   const { toast } = useToast();
-  const uploadMutation = trpc.varietyImages.upload.useMutation();
+  const batchUploadMutation = trpc.varietyImages.batchUpload.useMutation();
   const [isOpen, setIsOpen] = useState(false);
-  const [formData, setFormData] = useState<UploadFormState>({
+  const [isDragging, setIsDragging] = useState(false);
+  const [files, setFiles] = useState<BatchFile[]>([]);
+  const [formData, setFormData] = useState<BatchFormState>({
     genus: 'Nicotiana', species: 'tabacum', cultivar: '',
-    imageType: 'leaf', description: '', source: '', sourceUrl: prefillUrl || '', attribution: '', file: null,
+    imageType: 'leaf', source: '', attribution: '',
   });
-  const [preview, setPreview] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadDone, setUploadDone] = useState(false);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (!file.type.startsWith('image/')) {
-      toast({ title: 'Erreur', description: 'Fichier image requis', variant: 'destructive' }); return;
+  const addFiles = useCallback((newFiles: FileList | File[]) => {
+    const arr = Array.from(newFiles);
+    const valid = arr.filter(f => f.type.startsWith('image/') && f.size <= 10 * 1024 * 1024);
+    const invalid = arr.length - valid.length;
+    if (invalid > 0) toast({ title: `${invalid} fichier(s) ignoré(s)`, description: 'Format non supporté ou > 10 MB', variant: 'destructive' });
+    if (files.length + valid.length > 20) {
+      toast({ title: 'Maximum 20 images', description: 'Réduisez la sélection', variant: 'destructive' }); return;
     }
-    if (file.size > 10 * 1024 * 1024) {
-      toast({ title: 'Erreur', description: 'Taille max : 10 MB', variant: 'destructive' }); return;
-    }
-    setFormData(prev => ({ ...prev, file }));
-    const reader = new FileReader();
-    reader.onload = () => setPreview(reader.result as string);
-    reader.readAsDataURL(file);
+    const newBatch: BatchFile[] = valid.map(f => ({
+      file: f, preview: URL.createObjectURL(f), status: 'pending', progress: 0,
+    }));
+    setFiles(prev => [...prev, ...newBatch]);
+  }, [files.length, toast]);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault(); setIsDragging(false);
+    addFiles(e.dataTransfer.files);
+  }, [addFiles]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) addFiles(e.target.files);
+    e.target.value = '';
+  };
+
+  const removeFile = (idx: number) => {
+    setFiles(prev => { URL.revokeObjectURL(prev[idx].preview); return prev.filter((_, i) => i !== idx); });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.file) {
-      toast({ title: 'Erreur', description: 'Sélectionnez un fichier', variant: 'destructive' }); return;
+    if (files.length === 0) { toast({ title: 'Aucun fichier', description: 'Ajoutez au moins une image', variant: 'destructive' }); return; }
+    setIsUploading(true);
+    setFiles(prev => prev.map(f => ({ ...f, status: 'uploading' as const, progress: 10 })));
+    try {
+      const filePayloads = await Promise.all(files.map(bf => new Promise<{ fileData: string; fileName: string; mimeType: string }>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve({ fileData: (reader.result as string).split(',')[1], fileName: bf.file.name, mimeType: bf.file.type });
+        reader.onerror = reject;
+        reader.readAsDataURL(bf.file);
+      })));
+      const progressInterval = setInterval(() => {
+        setFiles(prev => prev.map(f => f.status === 'uploading' ? { ...f, progress: Math.min(f.progress + 15, 85) } : f));
+      }, 400);
+      const result = await batchUploadMutation.mutateAsync({
+        genus: formData.genus, species: formData.species,
+        cultivar: formData.cultivar || undefined, imageType: formData.imageType,
+        source: formData.source || undefined, attribution: formData.attribution || undefined,
+        files: filePayloads,
+      });
+      clearInterval(progressInterval);
+      setFiles(prev => prev.map((f, i) => {
+        const r = result.results.find(r => r.index === i);
+        return r?.success ? { ...f, status: 'done' as const, progress: 100 } : { ...f, status: 'error' as const, progress: 0, error: r?.error };
+      }));
+      setUploadDone(true);
+      toast({ title: `✓ ${result.succeeded}/${result.total} images uploadées`, description: result.failed > 0 ? `${result.failed} erreur(s)` : 'En attente de vérification.' });
+      onSuccess();
+    } catch {
+      setFiles(prev => prev.map(f => ({ ...f, status: 'error' as const, progress: 0, error: 'Erreur serveur' })));
+      toast({ title: 'Erreur', description: 'Erreur lors du batch upload', variant: 'destructive' });
+    } finally {
+      setIsUploading(false);
     }
-    const reader = new FileReader();
-    reader.onload = async () => {
-      const base64Data = (reader.result as string).split(',')[1];
-      try {
-        await uploadMutation.mutateAsync({
-          genus: formData.genus, species: formData.species,
-          cultivar: formData.cultivar || undefined, imageType: formData.imageType,
-          fileData: base64Data, fileName: formData.file!.name, mimeType: formData.file!.type,
-          description: formData.description || undefined, source: formData.source || undefined,
-          sourceUrl: formData.sourceUrl || undefined, attribution: formData.attribution || undefined,
-        });
-        toast({ title: '✓ Image uploadée', description: 'En attente de vérification.' });
-        setIsOpen(false);
-        setPreview(null);
-        setFormData({ genus: 'Nicotiana', species: 'tabacum', cultivar: '', imageType: 'leaf', description: '', source: '', sourceUrl: '', attribution: '', file: null });
-        onSuccess();
-      } catch {
-        toast({ title: 'Erreur', description: 'Erreur lors de l\'upload', variant: 'destructive' });
-      }
-    };
-    reader.readAsDataURL(formData.file);
+  };
+
+  const handleClose = () => {
+    if (!isUploading) {
+      files.forEach(f => URL.revokeObjectURL(f.preview));
+      setFiles([]); setUploadDone(false); setIsOpen(false);
+    }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={v => { if (!v) handleClose(); else setIsOpen(true); }}>
       <DialogTrigger asChild>
         <Button className="gap-2 shrink-0">
-          <Upload className="w-4 h-4" /> Uploader une image
+          <Upload className="w-4 h-4" /> Uploader des images
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Camera className="w-5 h-5 text-primary" /> Uploader une image morphologique
+            <Camera className="w-5 h-5 text-primary" /> Batch upload — images morphologiques
           </DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Genre *</label>
-              <Input value={formData.genus} onChange={e => setFormData(p => ({ ...p, genus: e.target.value }))} placeholder="ex: Nicotiana" required className="mt-1" />
+              <Input value={formData.genus} onChange={e => setFormData(p => ({ ...p, genus: e.target.value }))} placeholder="ex: Nicotiana" required className="mt-1" disabled={isUploading} />
             </div>
             <div>
               <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Espèce *</label>
-              <Input value={formData.species} onChange={e => setFormData(p => ({ ...p, species: e.target.value }))} placeholder="ex: tabacum" required className="mt-1" />
+              <Input value={formData.species} onChange={e => setFormData(p => ({ ...p, species: e.target.value }))} placeholder="ex: tabacum" required className="mt-1" disabled={isUploading} />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Cultivar</label>
-              <Input value={formData.cultivar} onChange={e => setFormData(p => ({ ...p, cultivar: e.target.value }))} placeholder="ex: Basma" className="mt-1" />
+              <Input value={formData.cultivar} onChange={e => setFormData(p => ({ ...p, cultivar: e.target.value }))} placeholder="ex: Basma" className="mt-1" disabled={isUploading} />
             </div>
             <div>
               <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Type d'image *</label>
-              <Select value={formData.imageType} onValueChange={v => setFormData(p => ({ ...p, imageType: v as UploadFormState['imageType'] }))}>
+              <Select value={formData.imageType} onValueChange={v => setFormData(p => ({ ...p, imageType: v as BatchFormState['imageType'] }))} disabled={isUploading}>
                 <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="leaf">🌿 Feuille</SelectItem>
@@ -652,56 +692,89 @@ function UploadForm({ onSuccess, prefillUrl }: { onSuccess: () => void; prefillU
               </Select>
             </div>
           </div>
-
-          {/* File drop zone */}
-          <div>
-            <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Fichier image *</label>
-            <div className="mt-1 relative">
-              <input type="file" accept="image/*" onChange={handleFileChange} required
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
-              <div className={`border-2 border-dashed rounded-xl p-6 text-center transition-colors ${
-                formData.file ? 'border-primary bg-primary/5' : 'border-zinc-200 hover:border-zinc-300'
-              }`}>
-                {preview ? (
-                  <div className="space-y-2">
-                    <img src={preview} alt="Aperçu" className="max-h-32 mx-auto rounded-lg object-contain" />
-                    <p className="text-xs text-zinc-500">{formData.file?.name} ({formData.file ? (formData.file.size / 1024).toFixed(0) : 0} KB)</p>
-                  </div>
-                ) : (
-                  <div className="space-y-1">
-                    <Upload className="w-8 h-8 mx-auto text-zinc-300" />
-                    <p className="text-sm text-zinc-500">Glissez une image ou cliquez pour sélectionner</p>
-                    <p className="text-xs text-zinc-400">JPG, PNG, WebP — max 10 MB</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Description</label>
-            <Textarea value={formData.description} onChange={e => setFormData(p => ({ ...p, description: e.target.value }))}
-              placeholder="Description détaillée de l'image..." rows={2} className="mt-1" />
-          </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Source</label>
-              <Input value={formData.source} onChange={e => setFormData(p => ({ ...p, source: e.target.value }))} placeholder="ex: Wikimedia Commons" className="mt-1" />
+              <Input value={formData.source} onChange={e => setFormData(p => ({ ...p, source: e.target.value }))} placeholder="ex: Wikimedia Commons" className="mt-1" disabled={isUploading} />
             </div>
             <div>
-              <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">URL source</label>
-              <Input type="url" value={formData.sourceUrl} onChange={e => setFormData(p => ({ ...p, sourceUrl: e.target.value }))} placeholder="https://..." className="mt-1" />
+              <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Attribution / Crédit</label>
+              <Input value={formData.attribution} onChange={e => setFormData(p => ({ ...p, attribution: e.target.value }))} placeholder="© Auteur" className="mt-1" disabled={isUploading} />
             </div>
           </div>
-          <div>
-            <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Attribution / Crédit</label>
-            <Input value={formData.attribution} onChange={e => setFormData(p => ({ ...p, attribution: e.target.value }))} placeholder="© Auteur / Photographe" className="mt-1" />
-          </div>
+          {!isUploading && !uploadDone && (
+            <div
+              onDragOver={e => { e.preventDefault(); setIsDragging(true); }}
+              onDragLeave={() => setIsDragging(false)}
+              onDrop={handleDrop}
+              className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-all ${
+                isDragging ? 'border-primary bg-primary/5 scale-[1.01]' : 'border-zinc-200 hover:border-zinc-300'
+              }`}
+            >
+              <input type="file" accept="image/*" multiple onChange={handleInputChange}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+              <Upload className="w-10 h-10 mx-auto text-zinc-300 mb-2" />
+              <p className="text-sm font-medium text-zinc-600">Glissez plusieurs images ou cliquez pour sélectionner</p>
+              <p className="text-xs text-zinc-400 mt-1">JPG, PNG, WebP — max 10 MB par image — max 20 images</p>
+            </div>
+          )}
+          {files.length > 0 && (
+            <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">{files.length} fichier{files.length > 1 ? 's' : ''} sélectionné{files.length > 1 ? 's' : ''}</span>
+                {!isUploading && !uploadDone && (
+                  <button type="button" onClick={() => { files.forEach(f => URL.revokeObjectURL(f.preview)); setFiles([]); }}
+                    className="text-xs text-zinc-400 hover:text-red-500 transition-colors">Tout effacer</button>
+                )}
+              </div>
+              {files.map((bf, idx) => (
+                <div key={idx} className="flex items-center gap-3 p-2 rounded-lg bg-zinc-50 border border-zinc-100">
+                  <img src={bf.preview} alt={bf.file.name} className="w-10 h-10 rounded object-cover shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-medium text-zinc-700 truncate">{bf.file.name}</p>
+                    <p className="text-[10px] text-zinc-400">{(bf.file.size / 1024).toFixed(0)} KB</p>
+                    {bf.status !== 'pending' && (
+                      <div className="mt-1">
+                        <div className="h-1 rounded-full bg-zinc-200 overflow-hidden">
+                          <div
+                            className={`h-full rounded-full transition-all duration-300 ${
+                              bf.status === 'done' ? 'bg-emerald-500' :
+                              bf.status === 'error' ? 'bg-red-400' : 'bg-primary'
+                            }`}
+                            style={{ width: `${bf.progress}%` }}
+                          />
+                        </div>
+                        {bf.status === 'error' && <p className="text-[10px] text-red-500 mt-0.5">{bf.error || 'Erreur'}</p>}
+                      </div>
+                    )}
+                  </div>
+                  <div className="shrink-0">
+                    {bf.status === 'pending' && !isUploading && (
+                      <button type="button" onClick={() => removeFile(idx)} className="text-zinc-300 hover:text-red-400 transition-colors">
+                        <X className="w-4 h-4" />
+                      </button>
+                    )}
+                    {bf.status === 'uploading' && <Loader2 className="w-4 h-4 text-primary animate-spin" />}
+                    {bf.status === 'done' && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
+                    {bf.status === 'error' && <AlertCircle className="w-4 h-4 text-red-400" />}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
           <div className="flex gap-2 justify-end pt-2 border-t border-zinc-100">
-            <Button type="button" variant="outline" onClick={() => setIsOpen(false)}>Annuler</Button>
-            <Button type="submit" disabled={uploadMutation.isPending}>
-              {uploadMutation.isPending ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Upload…</> : 'Uploader'}
-            </Button>
+            <Button type="button" variant="outline" onClick={handleClose} disabled={isUploading}>Fermer</Button>
+            {!uploadDone ? (
+              <Button type="submit" disabled={isUploading || files.length === 0}>
+                {isUploading
+                  ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Upload en cours…</>
+                  : <><Upload className="w-4 h-4 mr-2" />Uploader {files.length > 0 ? `${files.length} image${files.length > 1 ? 's' : ''}` : ''}</>}
+              </Button>
+            ) : (
+              <Button type="button" onClick={handleClose} className="bg-emerald-600 hover:bg-emerald-700">
+                <CheckCircle2 className="w-4 h-4 mr-2" /> Terminé
+              </Button>
+            )}
           </div>
         </form>
       </DialogContent>
