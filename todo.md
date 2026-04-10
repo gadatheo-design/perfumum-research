@@ -3975,3 +3975,4 @@ npm run dev
 - [x] Bug SQL arbre phylogénétique : colonnes genus/species inexistantes → corrigé avec latinName + LIKE
 - [x] Sélecteur de genre dans l'arbre phylogénétique (onglet "Arbre par Genre" dans PhylogeneticView)
 - [x] Fix erreur Vite LotusPlantLinker (cache résolu, fichier bien compilé)
+- [x] Liens cliquables depuis chaque nœud de l'arbre phylogénétique vers /varietes/{id} + affichage molécules dominantes

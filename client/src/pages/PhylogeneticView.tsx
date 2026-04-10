@@ -7,8 +7,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { TreePine, Leaf, FlaskConical, Search, ChevronDown, ChevronRight, Dna, Network, AlertCircle } from "lucide-react";
+import { TreePine, Leaf, FlaskConical, Search, ChevronDown, ChevronRight, Dna, Network, AlertCircle, ExternalLink } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { Link } from "wouter";
 
 // ─── Famille → Super-famille ──────────────────────────────────────────────────
 const SF_COLORS: Record<string, string> = {
@@ -201,7 +202,14 @@ function VarietyTreeNode({ node, depth = 0 }: { node: any; depth?: number }) {
         )}
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="font-semibold text-sm">{node.name}</span>
+            {node.id ? (
+              <Link href={`/varietes/${node.id}`} className="font-semibold text-sm hover:text-primary hover:underline transition-colors flex items-center gap-1 group">
+                {node.name}
+                <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-60 transition-opacity" />
+              </Link>
+            ) : (
+              <span className="font-semibold text-sm">{node.name}</span>
+            )}
             {node.latinName && <span className="text-xs italic text-muted-foreground">{node.latinName}</span>}
             {node.type && <Badge variant="outline" className="text-xs">{node.type}</Badge>}
             {node.conservationStatus && (
@@ -212,6 +220,15 @@ function VarietyTreeNode({ node, depth = 0 }: { node: any; depth?: number }) {
           {node.breeder && <p className="text-xs text-muted-foreground mt-0.5">Obtenteur : {node.breeder}</p>}
           {node.relationshipType && depth > 0 && (
             <span className="text-xs text-primary/70">↳ {node.relationshipType}</span>
+          )}
+          {node.dominantMolecules && node.dominantMolecules.length > 0 && (
+            <div className="flex flex-wrap gap-1 mt-1">
+              {node.dominantMolecules.slice(0, 3).map((m: any) => (
+                <span key={m.molecule} className="text-xs bg-primary/10 text-primary/80 px-1.5 py-0.5 rounded-full">
+                  {m.molecule}{m.percentage ? ` ${m.percentage}%` : ''}
+                </span>
+              ))}
+            </div>
           )}
         </div>
       </div>
