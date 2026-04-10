@@ -12,7 +12,7 @@ import { publicProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
 import { plantVarieties, varietyGenealogy, plants } from "../../drizzle/schema";
-import { eq, and, or, isNull, isNotNull } from "drizzle-orm";
+import { eq, and, or, isNull, isNotNull, like, sql } from "drizzle-orm";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TYPES & SCHEMAS
@@ -154,14 +154,17 @@ export const phylogenyRouter = router({
         }
 
         // Get plant by genus and species
+        // The plants table uses latinName (e.g. "Nicotiana tabacum") — no separate genus/species columns
+        const latinSearch = input.species
+          ? `${input.genus} ${input.species}`
+          : input.genus;
         const plantQuery = await db
           .select()
           .from(plants)
           .where(
-            and(
-              eq(plants.genus, input.genus),
-              input.species ? eq(plants.species, input.species) : undefined
-            )
+            input.species
+              ? eq(plants.latinName, latinSearch)
+              : like(plants.latinName, `${input.genus}%`)
           )
           .limit(1);
 
@@ -173,6 +176,10 @@ export const phylogenyRouter = router({
         }
 
         const plant = plantQuery[0];
+        // Derive species from latinName (e.g. "Nicotiana tabacum" → "tabacum")
+        const derivedSpecies = plant.latinName
+          ? plant.latinName.split(" ").slice(1).join(" ")
+          : input.species ?? "";
 
         // Get all varieties for this plant
         const varieties = await db
@@ -183,7 +190,7 @@ export const phylogenyRouter = router({
         if (varieties.length === 0) {
           return {
             genus: input.genus,
-            species: plant.species,
+            species: derivedSpecies,
             totalVarieties: 0,
             rootNodes: [],
             allNodes: new Map(),
@@ -231,7 +238,7 @@ export const phylogenyRouter = router({
 
         return {
           genus: input.genus,
-          species: plant.species,
+          species: derivedSpecies,
           totalVarieties: varieties.length,
           rootNodes,
           allNodes,
@@ -310,11 +317,11 @@ export const phylogenyRouter = router({
         });
       }
 
-      // Get all plants with varieties
+      // Get all plants with varieties — filter by latinName not null (no genus column)
       const plantList = await db
         .select()
         .from(plants)
-        .where(isNotNull(plants.genus));
+        .where(isNotNull(plants.latinName));
 
       // Get variety counts per plant
       const generaWithCounts = await Promise.all(
@@ -324,10 +331,15 @@ export const phylogenyRouter = router({
             .from(plantVarieties)
             .where(eq(plantVarieties.plantId, plant.id));
 
+          // Derive genus and species from latinName (e.g. "Nicotiana tabacum" → genus="Nicotiana", species="tabacum")
+          const parts = (plant.latinName ?? "").split(" ");
+          const derivedGenus = parts[0] ?? null;
+          const derivedSpecies = parts.slice(1).join(" ") || null;
           return {
             id: plant.id,
-            genus: plant.genus,
-            species: plant.species,
+            genus: derivedGenus,
+            species: derivedSpecies,
+            latinName: plant.latinName,
             varietyCount: varietyCount.length,
           };
         })
@@ -364,15 +376,17 @@ export const phylogenyRouter = router({
           });
         }
 
-        // Get plant
+        // Get plant — use latinName since plants table has no separate genus/species columns
+        const latinSearch2 = input.species
+          ? `${input.genus} ${input.species}`
+          : input.genus;
         const plantQuery = await db
           .select()
           .from(plants)
           .where(
-            and(
-              eq(plants.genus, input.genus),
-              input.species ? eq(plants.species, input.species) : undefined
-            )
+            input.species
+              ? eq(plants.latinName, latinSearch2)
+              : like(plants.latinName, `${input.genus}%`)
           )
           .limit(1);
 

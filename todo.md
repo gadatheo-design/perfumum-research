@@ -3972,3 +3972,4 @@ npm run dev
 - [x] Enrichissement en masse GBIF (7 plantes sans gbif_id — lien vers GBIFBatch ajouté dans GBIFEnrichment)
 - [x] Interface de liaison LOTUS→plantes existantes (page /admin/lotus-plant-linker avec import direct plant_molecules)
 - [x] Import en lot LOTUS pour un genre entier (batchImportByGenus avec progression temps réel)
+- [x] Bug SQL arbre phylogénétique : colonnes genus/species inexistantes → corrigé avec latinName + LIKE
