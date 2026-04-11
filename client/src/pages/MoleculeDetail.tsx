@@ -1168,6 +1168,47 @@ export default function MoleculeDetail() {
                     );
                   })()}
 
+                  {/* Badge Procédés d'extraction — affiché si la molécule a une méthode d'extraction ou des sources botaniques */}
+                  {(() => {
+                    // Correspondance extractionMethod → ID du procédé dans /extraction-procedes
+                    const extractionMethodMap: Record<string, { id: string; label: string; icon: string }> = {
+                      'distillation': { id: 'hydrodistillation', label: 'Hydrodistillation', icon: '💧' },
+                      'co2_supercritique': { id: 'co2_supercritique', label: 'CO₂ Supercritique', icon: '⚗️' },
+                      'co2_sous_critique': { id: 'co2_sous_critique', label: 'CO₂ Sous-critique', icon: '⚗️' },
+                      'expression': { id: 'expression_froide', label: 'Expression à froid', icon: '🍋' },
+                      'extraction_solvant': { id: 'extraction_solvant', label: 'Extraction solvant', icon: '🧪' },
+                      'teinture': { id: 'maceration', label: 'Macération / Teinture', icon: '🌿' },
+                      'percolation_froide': { id: 'percolation_froide', label: 'Percolation à froid', icon: '❄️' },
+                    };
+                    // Détection par extractionMethod ou par mots-clés dans les champs texte
+                    const extractionMethodVal = (molecule as any).extractionMethod as string | undefined;
+                    let procede = extractionMethodVal ? extractionMethodMap[extractionMethodVal] : undefined;
+                    if (!procede) {
+                      const searchText = [
+                        molecule.name, molecule.notes, molecule.family, molecule.sourceOrigin,
+                        (molecule as any).botanicalSources, (molecule as any).extractionMethod,
+                      ].filter(Boolean).join(' ').toLowerCase();
+                      if (searchText.includes('distill') || searchText.includes('vapeur')) procede = extractionMethodMap['distillation'];
+                      else if (searchText.includes('co2') || searchText.includes('supercritique')) procede = extractionMethodMap['co2_supercritique'];
+                      else if (searchText.includes('expression') || searchText.includes('cold press')) procede = extractionMethodMap['expression'];
+                      else if (searchText.includes('solvant') || searchText.includes('absolu') || searchText.includes('concrète')) procede = extractionMethodMap['extraction_solvant'];
+                      else if (searchText.includes('enfleurage')) procede = { id: 'enfleurage', label: 'Enfleurage', icon: '🌸' };
+                    }
+                    if (!procede) return null;
+                    return (
+                      <Link href={`/extraction-procedes?focus=${procede.id}`}>
+                        <Badge
+                          variant="outline"
+                          className="text-sm bg-sky-950/30 border-sky-700/50 text-sky-400 hover:border-sky-600 hover:bg-sky-950/50 cursor-pointer transition-colors gap-1"
+                          title={`Voir le procédé ${procede.label} dans la page Procédés d'extraction`}
+                        >
+                          <span>{procede.icon}</span>
+                          {procede.label}
+                        </Badge>
+                      </Link>
+                    );
+                  })()}
+
                   {/* Badge inter-domaines : lien vers la page /correlations */}
                   <Link href={`/correlations?q=${encodeURIComponent(molecule.name)}`}>
                     <Badge

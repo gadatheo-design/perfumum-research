@@ -4058,3 +4058,7 @@ npm run dev
 
 - [x] Ajouter CO2 sous-critique et percolation a froid dans extraction-processes.ts
 - [x] Relier les procedes aux matieres premieres du laboratoire
+
+- [x] Focus URL ?focus= dans ExtractionProcesses.tsx
+- [x] Migration DB enum extractionMethod co2_sous_critique + percolation_froide
+- [x] Badge Procedes extraction dans MoleculeDetail.tsx

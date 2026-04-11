@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Badge } from "@/components/ui/badge";
@@ -398,6 +398,27 @@ export default function ExtractionProcesses() {
   const { data: methods, isLoading } = trpc.extractionProcesses.getWithMolecules.useQuery();
   const [activeCategory, setActiveCategory] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
+
+  // Lecture du paramètre ?focus= pour scroller vers le procédé ciblé
+  useEffect(() => {
+    if (!methods || isLoading) return;
+    const params = new URLSearchParams(window.location.search);
+    const focusId = params.get("focus");
+    if (!focusId) return;
+    // Légèr délai pour laisser le DOM se rendre
+    const timer = setTimeout(() => {
+      const el = cardRefs.current[focusId];
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+        el.classList.add("ring-2", "ring-violet-500", "ring-offset-2", "ring-offset-background");
+        setTimeout(() => {
+          el.classList.remove("ring-2", "ring-violet-500", "ring-offset-2", "ring-offset-background");
+        }, 3000);
+      }
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [methods, isLoading]);
 
   const categories = useMemo(() => {
     if (!methods) return [];
@@ -503,11 +524,16 @@ export default function ExtractionProcesses() {
           {/* Grille de fiches */}
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {filteredMethods.map((method: any) => (
-              <ExtractionCard
+              <div
                 key={method.id}
-                method={method}
-                resolvedMolecules={method.resolvedMolecules}
-              />
+                ref={(el) => { cardRefs.current[method.id] = el; }}
+                className="rounded-lg transition-shadow duration-700"
+              >
+                <ExtractionCard
+                  method={method}
+                  resolvedMolecules={method.resolvedMolecules}
+                />
+              </div>
             ))}
           </div>
 

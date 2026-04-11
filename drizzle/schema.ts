@@ -560,6 +560,8 @@ export const laboratoire = mysqlTable("laboratoire", {
     "distillation",
     "extraction_solvant",
     "co2_supercritique",
+    "co2_sous_critique",
+    "percolation_froide",
     "expression",
     "teinture",
     "autre"
