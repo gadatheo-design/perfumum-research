@@ -49,6 +49,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { EntityConnectionBar } from "@/components/EntityConnectionBar";
 import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
+import { PlantEnrichPanel } from "@/components/PlantEnrichPanel";
 
 // Mapping des axes climatiques vers des couleurs
 const axisColors: Record<string, string> = {
@@ -2256,6 +2257,22 @@ function NomenclatureTab({ plant }: { plant: any }) {
                 </div>
               </div>
             )}
+
+            {/* Panneau d'enrichissement inline */}
+            <PlantEnrichPanel
+              plantId={plantId}
+              latinName={plant.latinName ?? null}
+              plantName={plant.name}
+              currentIds={{
+                gbifId: plant.gbifId,
+                powId: plant.powId,
+                ncbiTaxId: plant.ncbiTaxId,
+                wikidataQid: plant.wikidataQid,
+              }}
+              onEnriched={() => {
+                utils.plantStatistics.getPlantWithDetails.invalidate({ plantId });
+              }}
+            />
 
             {/* Grille des liens vers les bases de données */}
             <div>

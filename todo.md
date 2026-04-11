@@ -4018,3 +4018,6 @@ npm run dev
 - [x] Ajout de /admin/api-coverage dans navigationConfig.ts et Admin.tsx
 - [x] Composant NavigationProgressBar.tsx : barre de progression NProgress-style à chaque changement de route
 - [x] Page 404 narrative et esthétique : texte poétique, particules canvas, 5 points d'entrée, signature PERFUMUM
+
+- [x] Composant PlantEnrichPanel.tsx : panneau d'enrichissement inline dans les fiches plantes (GBIF, POWO, NCBI, Wikidata) avec dry run + appliquer en base
+- [x] Intégration de PlantEnrichPanel dans PlantDetail.tsx (section Identifiants & Bases de données)
