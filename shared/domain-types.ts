@@ -376,13 +376,7 @@ export interface NcbiLineageItem {
   rank: string;
 }
 
-export interface TropicosSearchResult {
-  nameId: string;
-  scientificName: string;
-  author?: string | null;
-  url?: string | null;
-  nomenclatureStatus?: string | null;
-}
+
 
 export interface PhyloBatchGenus {
   genus: string;
