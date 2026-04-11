@@ -4069,3 +4069,6 @@ npm run dev
 - [x] getPlantsByIds ajouté dans resin-tobacco-recipes.ts avec mysql2 direct
 - [x] ResinTobaccoRecipes.tsx mis à jour pour afficher les noms latins des plantes source
 - [x] 10 entrées bibliographiques insérées pour les 6 recettes résines-tabac (Moussaieff2008, Hamm2005, Spicer2011, Bamonti2010, Pollastro2018, Hazekamp2016, Chen2012, Terblanché2016, Masson2020, Rzepa2019)
+- [x] 5 nouvelles recettes résines-tabac (Dammar+Virginia, Sandaraque+Cavendish, Mastic+Dokha, Copal Blanc+Perique, Kyara+Latakia)
+- [x] Badge Bibliographie dans MoleculeDetail.tsx (violet, avec compteur de références)
+- [x] Query bibliography.getByMolecule intégrée dans MoleculeDetail.tsx

@@ -722,6 +722,12 @@ export default function MoleculeDetail() {
     { enabled: !!molecule }
   );
 
+  // Badge Bibliographie — références PERFUMUM liées à cette molécule
+  const { data: bibliographyRefs } = trpc.bibliography.getByMolecule.useQuery(
+    { moleculeId: id },
+    { enabled: !!molecule }
+  );
+
   // Sprint 4 — Fils narratifs liés à cette molécule
   const { data: moleculeStorylines } = trpc.storylines.getByMolecule.useQuery(
     { moleculeId: id },
@@ -1208,6 +1214,20 @@ export default function MoleculeDetail() {
                       </Link>
                     );
                   })()}
+
+                  {/* Badge Bibliographie — affiché si des références sont liées à cette molécule */}
+                  {bibliographyRefs && bibliographyRefs.length > 0 && (
+                    <Link href={`/bibliographie?molecule=${id}`}>
+                      <Badge
+                        variant="outline"
+                        className="text-sm bg-violet-950/30 border-violet-700/50 text-violet-400 hover:border-violet-600 hover:bg-violet-950/50 cursor-pointer transition-colors gap-1"
+                        title={`${bibliographyRefs.length} référence${bibliographyRefs.length > 1 ? 's' : ''} bibliographique${bibliographyRefs.length > 1 ? 's' : ''} liée${bibliographyRefs.length > 1 ? 's' : ''}`}
+                      >
+                        <BookOpen className="h-3 w-3" />
+                        Bibliographie ({bibliographyRefs.length})
+                      </Badge>
+                    </Link>
+                  )}
 
                   {/* Badge inter-domaines : lien vers la page /correlations */}
                   <Link href={`/correlations?q=${encodeURIComponent(molecule.name)}`}>
