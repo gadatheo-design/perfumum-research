@@ -1,5 +1,14 @@
+import React from "react";
 import { useState, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
+import type {
+  PhyloBatchPlantResult,
+  GbifSpeciesResult,
+  PowoSearchResult,
+  NcbiLineageItem,
+  TropicosSearchResult,
+  PhyloBatchGenus,
+} from "../../../../shared/domain-types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -54,7 +63,7 @@ function IdentifierBadge({ label, value, href }: { label: string; value: string 
   );
 }
 
-function SectionTitle({ icon: Icon, title, subtitle }: { icon: any; title: string; subtitle?: string }) {
+function SectionTitle({ icon: Icon, title, subtitle }: { icon: React.ComponentType<{ className?: string }>; title: string; subtitle?: string }) {
   return (
     <div className="flex items-start gap-3 mb-4">
       <div className="p-2 rounded-lg bg-violet-900/30 border border-violet-800/30">
@@ -323,7 +332,7 @@ function PowoTab({ scientificName }: { scientificName: string }) {
         <div>
           <SectionTitle icon={BookOpen} title="Autres résultats POWO" />
           <div className="space-y-1.5">
-            {data.results.slice(1).map((r: any, i: number) => (
+            {data.results.slice(1).map((r: GbifSpeciesResult, i: number) => (
               <a key={i} href={r.powoUrl} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-800/30 hover:bg-zinc-800 text-sm text-zinc-300 transition-colors">
                 <span className="italic">{r.name}</span>
@@ -377,7 +386,7 @@ function NcbiTab({ scientificName }: { scientificName: string }) {
         <div>
           <SectionTitle icon={Network} title="Lignée phylogénétique NCBI" subtitle="De la racine jusqu'à l'espèce" />
           <div className="flex flex-wrap items-center gap-1 text-xs">
-            {lineageData.lineage.map((item: any, i: number) => (
+            {lineageData.lineage.map((item: NcbiLineageItem, i: number) => (
               <span key={i} className="flex items-center gap-1">
                 <span className="px-2 py-0.5 rounded bg-zinc-800/50 text-zinc-300">{item.name}</span>
                 {i < lineageData.lineage.length - 1 && <ChevronRight className="w-3 h-3 text-zinc-600" />}
@@ -454,7 +463,7 @@ function TropicosTab({ scientificName }: { scientificName: string }) {
         <div>
           <SectionTitle icon={BookOpen} title="Autres résultats Tropicos" />
           <div className="space-y-1.5">
-            {data.results.slice(1).map((r: any, i: number) => (
+            {data.results.slice(1).map((r: TropicosSearchResult, i: number) => (
               <a key={i} href={r.url} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-800/30 hover:bg-zinc-800 text-sm text-zinc-300 transition-colors">
                 <span className="italic">{r.scientificName}</span>
@@ -647,7 +656,7 @@ function BatchEnrichmentPanel() {
                 </tr>
               </thead>
               <tbody>
-                {(powoMutation.data?.results ?? wikidataMutation.data?.results ?? ncbiMutation.data?.results ?? []).map((r: any, i: number) => (
+                {(powoMutation.data?.results ?? wikidataMutation.data?.results ?? ncbiMutation.data?.results ?? []).map((r: PhyloBatchPlantResult, i: number) => (
                   <tr key={i} className="border-b border-zinc-800/50 hover:bg-zinc-800/20">
                     <td className="py-2 px-3 text-zinc-300">{r.name}</td>
                     <td className="py-2 px-3 text-zinc-400 italic">{r.latinName}</td>
@@ -698,7 +707,7 @@ function BatchByGenusPanel() {
         toast({
           title: data.dryRun ? "Prévisualisation terminée" : "Enrichissement appliqué",
           description: data.dryRun
-            ? `${data.results.filter((r: any) => r.fieldsToUpdate > 0).length}/${data.total} plantes à enrichir`
+            ? `${data.results.filter((r: PhyloBatchPlantResult) => r.fieldsToUpdate > 0).length}/${data.total} plantes à enrichir`
             : `${data.enriched}/${data.total} plantes enrichies`,
         });
         if (!data.dryRun) refetchCoverage();
@@ -728,8 +737,8 @@ function BatchByGenusPanel() {
   const handleApplyResults = () => {
     if (!batchMutation.data?.results) return;
     const updates = batchMutation.data.results
-      .filter((r: any) => r.fieldsToUpdate > 0)
-      .map((r: any) => ({
+      .filter((r: PhyloBatchPlantResult) => r.fieldsToUpdate > 0)
+      .map((r: PhyloBatchPlantResult) => ({
         plantId: r.id,
         gbifId: r.newIds?.gbif ?? null,
         powId: r.newIds?.powo ?? null,
@@ -771,7 +780,7 @@ function BatchByGenusPanel() {
             ) : (generaData?.genera ?? []).length === 0 ? (
               <div className="p-3 text-xs text-zinc-500">Aucun genre trouvé</div>
             ) : (
-              (generaData?.genera ?? []).slice(0, 30).map((g: any) => (
+              (generaData?.genera ?? []).slice(0, 30).map((g: PhyloBatchGenus) => (
                 <button
                   key={g.genus}
                   onClick={() => setSelectedGenus(g.genus)}
@@ -882,7 +891,7 @@ function BatchByGenusPanel() {
           <div className="flex gap-2">
             <Button
               size="sm"
-              onClick={() => batchMutation.mutate({ genus: selectedGenus, dryRun, apis: selectedApis as any })}
+              onClick={() => batchMutation.mutate({ genus: selectedGenus, dryRun, apis: selectedApis as string[] })}
               disabled={batchMutation.isPending || selectedApis.length === 0}
               className="bg-violet-700 hover:bg-violet-600 text-white"
             >
@@ -903,7 +912,7 @@ function BatchByGenusPanel() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
               { label: "Plantes analysées", value: batchMutation.data.total, color: "zinc" },
-              { label: "À enrichir", value: batchMutation.data.results.filter((r: any) => r.fieldsToUpdate > 0).length, color: "violet" },
+              { label: "À enrichir", value: batchMutation.data.results.filter((r: PhyloBatchPlantResult) => r.fieldsToUpdate > 0).length, color: "violet" },
               { label: "Gain GBIF", value: `+${batchMutation.data.summary.gain?.gbif ?? 0}`, color: "emerald" },
               { label: "Gain POWO", value: `+${batchMutation.data.summary.gain?.powo ?? 0}`, color: "amber" },
             ].map((stat) => (
@@ -915,12 +924,12 @@ function BatchByGenusPanel() {
           </div>
 
           {/* Apply button (only for dry run results) */}
-          {batchMutation.data.dryRun && batchMutation.data.results.filter((r: any) => r.fieldsToUpdate > 0).length > 0 && (
+          {batchMutation.data.dryRun && batchMutation.data.results.filter((r: PhyloBatchPlantResult) => r.fieldsToUpdate > 0).length > 0 && (
             <div className="flex items-center gap-3 p-4 rounded-xl border border-emerald-800/30 bg-emerald-950/20">
               <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
               <div className="flex-1">
                 <p className="text-sm font-medium text-emerald-300">
-                  {batchMutation.data.results.filter((r: any) => r.fieldsToUpdate > 0).length} plante(s) prêtes à être enrichies
+                  {batchMutation.data.results.filter((r: PhyloBatchPlantResult) => r.fieldsToUpdate > 0).length} plante(s) prêtes à être enrichies
                 </p>
                 <p className="text-xs text-zinc-500 mt-0.5">
                   Cliquez sur "Appliquer en base" pour écrire les identifiants dans la table plants
@@ -956,7 +965,7 @@ function BatchByGenusPanel() {
                 </tr>
               </thead>
               <tbody>
-                {batchMutation.data.results.map((r: any, i: number) => (
+                {batchMutation.data.results.map((r: PhyloBatchPlantResult, i: number) => (
                   <tr key={i} className={`border-b border-zinc-800/50 hover:bg-zinc-800/20 ${r.fieldsToUpdate > 0 ? "bg-violet-950/10" : ""}`}>
                     <td className="py-2 px-3 text-zinc-300 font-medium">{r.name}</td>
                     <td className="py-2 px-3 text-zinc-400 italic">{r.latinName}</td>
@@ -1062,7 +1071,7 @@ export default function PhyloEnrichment() {
         <div className="flex flex-wrap gap-3">
           {apiSources.map((api) => (
             <div key={api.label} className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-zinc-700/50 bg-zinc-800/30 text-xs">
-              <StatusDot status={api.status as any} />
+              <StatusDot status={api.status as "online" | "offline" | "unknown"} />
               <span className="text-zinc-300 font-medium">{api.label}</span>
               <span className="text-zinc-500">{api.coverage}</span>
             </div>

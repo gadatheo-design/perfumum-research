@@ -90,16 +90,34 @@ function parseCSV(csvData: string): string[][] {
 /**
  * Convert CSV rows to objects with validation
  */
+
+/**
+ * Représente une ligne de données CSV après parsing.
+ * Les valeurs sont des strings (raw CSV) ou undefined si la colonne est absente.
+ */
+interface CSVRowData {
+  [key: string]: string | undefined;
+}
+
+/**
+ * Représente un résultat de parsing CSV (format PapaParse).
+ */
+interface CSVParseResult {
+  data: CSVRowData[];
+  errors: Array<{ message: string; row?: number }>;
+  meta: { fields?: string[] };
+}
+
 function convertRowsToObjects(
   rows: string[][],
   headers: string[]
-): Array<{ data: any; rowNumber: number; errors: string[] }> {
-  const results: Array<{ data: any; rowNumber: number; errors: string[] }> = [];
+): Array<{ data: CSVRowData[]; rowNumber: number; errors: string[] }> {
+  const results: Array<{ data: CSVRowData[]; rowNumber: number; errors: string[] }> = [];
 
   for (let i = 1; i < rows.length; i++) {
     const row = rows[i];
     const errors: string[] = [];
-    const data: any = {};
+    const data: CSVRowData[] = {};
 
     for (let j = 0; j < headers.length; j++) {
       const header = headers[j].toLowerCase().trim();

@@ -318,3 +318,73 @@ export function d3NodeCoords<TNode extends D3SimulationNode>(
   }
   return { x: 0, y: 0 };
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Interfaces PhyloBatch — résultats des mutations d'enrichissement phylogénétique
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface PhyloBatchPlantResult {
+  id: number;
+  name: string;
+  latinName: string;
+  found: boolean;
+  fieldsToUpdate: number;
+  newIds: {
+    gbif?: string | null;
+    powo?: string | null;
+    ncbi?: string | null;
+    wikidata?: string | null;
+    tropicos?: string | null;
+  };
+  existing: {
+    gbif?: string | null;
+    powo?: string | null;
+    ncbi?: string | null;
+    wikidata?: string | null;
+  };
+  apis: {
+    gbif?: { id: string; confidence: number } | null;
+    powo?: { fqId: string; status: string } | null;
+    ncbi?: { taxId: string; rank: string | null } | null;
+    wikidata?: { qid: string } | null;
+    tropicos?: { nameId: string } | null;
+  };
+}
+
+export interface GbifSpeciesResult {
+  key: number;
+  scientificName: string;
+  canonicalName: string;
+  rank: string;
+  family: string;
+  kingdom: string;
+  confidence: number;
+}
+
+export interface PowoSearchResult {
+  fqId: string;
+  name: string;
+  author?: string | null;
+  rank?: string | null;
+  status?: string | null;
+  synonymOf?: string | null;
+}
+
+export interface NcbiLineageItem {
+  taxId: string;
+  name: string;
+  rank: string;
+}
+
+export interface TropicosSearchResult {
+  nameId: string;
+  scientificName: string;
+  author?: string | null;
+  url?: string | null;
+  nomenclatureStatus?: string | null;
+}
+
+export interface PhyloBatchGenus {
+  genus: string;
+  count: number;
+}

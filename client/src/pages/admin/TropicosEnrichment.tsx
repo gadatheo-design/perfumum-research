@@ -234,14 +234,14 @@ export default function TropicosEnrichment() {
                                 <span className="text-sm text-muted-foreground ml-2">{r.author as string}</span>
                               )}
                               <div className="flex gap-2 mt-1 flex-wrap">
-                                {r.family && <Badge variant="outline" className="text-xs">{r.family as string}</Badge>}
-                                {r.rank && <Badge variant="outline" className="text-xs">{r.rank as string}</Badge>}
+                                {r.family && <Badge variant="outline" className="text-xs">{String(r.family)}</Badge>}
+                                {r.rank && <Badge variant="outline" className="text-xs">{String(r.rank)}</Badge>}
                                 {r.nomenclatureStatus && (
                                   <Badge
                                     variant={(r.nomenclatureStatus as string) === "Legitimate" ? "default" : "secondary"}
                                     className="text-xs"
                                   >
-                                    {r.nomenclatureStatus as string}
+                                    {String(r.nomenclatureStatus)}
                                   </Badge>
                                 )}
                               </div>
@@ -321,9 +321,9 @@ export default function TropicosEnrichment() {
                         {distributionQuery.data.results.slice(0, 8).map((d, i) => (
                           <li key={i} className="text-sm flex items-center gap-2">
                             <Globe className="w-3 h-3 text-muted-foreground shrink-0" />
-                            {d.country as string}
+                            {String(d.country)}
                             {d.nativeStatus && (
-                              <Badge variant="outline" className="text-xs">{d.nativeStatus as string}</Badge>
+                              <Badge variant="outline" className="text-xs">{String(d.nativeStatus)}</Badge>
                             )}
                           </li>
                         ))}
@@ -526,9 +526,9 @@ export default function TropicosEnrichment() {
                             </div>
                             {r.found && (
                               <div className="flex gap-2 mt-1 flex-wrap">
-                                {r.family && <Badge variant="outline" className="text-xs">{r.family as string}</Badge>}
+                                {r.family && <Badge variant="outline" className="text-xs">{String(r.family)}</Badge>}
                                 {r.nomenclatureStatus && (
-                                  <Badge variant="secondary" className="text-xs">{r.nomenclatureStatus as string}</Badge>
+                                  <Badge variant="secondary" className="text-xs">{String(r.nomenclatureStatus)}</Badge>
                                 )}
                                 {r.url && (
                                   <a
