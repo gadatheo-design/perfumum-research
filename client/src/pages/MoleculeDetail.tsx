@@ -1,4 +1,4 @@
-// @ts-nocheck
+// NOTE: @ts-nocheck retiré — types partagés via shared/domain-types.ts
 import { Link, useParams } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ReferencesList } from "@/components/ReferencesList";
@@ -28,6 +28,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 import { useBreadcrumbSegments } from "@/contexts/BreadcrumbContext";
+import type { MoleculeExtended } from "../../../../shared/domain-types";
 
 // Composant indicateur de statut PubChem
 function PubChemStatusBadge({ hasPubChem, pubchemCid }: { hasPubChem: boolean; pubchemCid?: number }) {
@@ -917,6 +918,8 @@ export default function MoleculeDetail() {
   // ============================================================================
   // NORMALISATION DES CHAMPS JSON — évite les crashes sur .map/.toLowerCase()
   // ============================================================================
+  // Cast typé unique — remplace tous les `(molecule as any).xxx`
+  const mol = molecule as unknown as MoleculeExtended;
 
   /** Convertit un champ DB (null | string | string[] | JSON string) en string propre */
   const asString = (val: unknown): string => {
@@ -956,7 +959,7 @@ export default function MoleculeDetail() {
 
   /** Normalise references — toujours un tableau d'objets valides */
   const safeReferences = (() => {
-    const refs = (molecule as any).references;
+    const refs = mol.references;
     if (!refs) return [];
     if (Array.isArray(refs)) return refs;
     if (typeof refs === "string") {
@@ -966,9 +969,9 @@ export default function MoleculeDetail() {
   })();
 
   // Champs normalisés — priorité aux colonnes JSON standardisées
-  const normOlfactiveProfile = asArray((molecule as any).olfactiveProfileJson ?? molecule.olfactiveProfile);
+  const normOlfactiveProfile = asArray(mol.olfactiveProfileJson ?? molecule.olfactiveProfile);
   const normTherapeuticProperties = (() => {
-    const jsonArr = (molecule as any).therapeuticPropertiesJson;
+    const jsonArr = mol.therapeuticPropertiesJson;
     if (Array.isArray(jsonArr) && jsonArr.length > 0) return jsonArr.join(", ");
     return asString(molecule.therapeuticProperties);
   })();
@@ -1067,18 +1070,18 @@ export default function MoleculeDetail() {
                   )}
                   {/* Indicateurs de statut d'enrichissement */}
                   <PubChemStatusBadge 
-                    hasPubChem={!!(molecule as any).pubchem_cid} 
-                    pubchemCid={(molecule as any).pubchem_cid} 
+                    hasPubChem={!!mol.pubchem_cid} 
+                    pubchemCid={mol.pubchem_cid ?? undefined} 
                   />
                   <ChEBIStatusBadge 
-                    hasChebi={!!(molecule as any).chebi_id} 
-                    chebiId={(molecule as any).chebi_id} 
+                    hasChebi={!!mol.chebi_id} 
+                    chebiId={mol.chebi_id ?? undefined} 
                   />
                   {/* Badge IFRA pour le statut réglementaire */}
                   <IFRAStatusBadge 
-                    status={(molecule as any).ifraStatus} 
-                    maxPercent={(molecule as any).ifraData?.maxPercent}
-                    reason={(molecule as any).ifraData?.reason}
+                    status={mol.ifraStatus ?? undefined} 
+                    maxPercent={mol.ifraData?.maxPercent}
+                    reason={mol.ifraData?.reason}
                   />
                   {/* Badge CITES — matières animales protégées */}
                   {(() => {
@@ -1117,7 +1120,7 @@ export default function MoleculeDetail() {
 
                   {/* Badge validation_status */}
                   {(() => {
-                    const vs = (molecule as any).validationStatus;
+                    const vs = mol.validationStatus;
                     if (!vs || vs === 'valide') return null;
                     const cfg: Record<string, { label: string; icon: string; cls: string }> = {
                       brouillon: { label: 'Brouillon', icon: '📝', cls: 'bg-slate-100 text-slate-700 border-slate-300 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-600' },
@@ -1156,7 +1159,7 @@ export default function MoleculeDetail() {
                       molecule.notes,
                       molecule.family,
                       molecule.sourceOrigin,
-                      (molecule as any).botanicalSources,
+                      mol.botanicalSources,
                     ].filter(Boolean).join(' ').toLowerCase();
                     const isResinMolecule = resinKeywords.some(kw => searchText.includes(kw));
                     if (!isResinMolecule) return null;
@@ -1187,7 +1190,7 @@ export default function MoleculeDetail() {
                       'percolation_froide': { id: 'percolation_froide', label: 'Percolation à froid', icon: '❄️' },
                     };
                     // Détection par extractionMethod ou par mots-clés dans les champs texte
-                    const extractionMethodVal = (molecule as any).extractionMethod as string | undefined;
+                    const extractionMethodVal = (mol as unknown as Record<string, unknown>).extractionMethod as string | undefined;
                     let procede = extractionMethodVal ? extractionMethodMap[extractionMethodVal] : undefined;
                     if (!procede) {
                       const searchText = [
@@ -1306,7 +1309,7 @@ export default function MoleculeDetail() {
                     <BookOpen className="h-5 w-5 text-primary" />
                     Identité Chimique
                   </h2>
-                  {!(molecule as any).pubchem_cid && (
+                  {!mol.pubchem_cid && (
                     <PubChemEnrichButton moleculeId={id} moleculeName={molecule.name} />
                   )}
                 </div>
@@ -1389,22 +1392,22 @@ export default function MoleculeDetail() {
               </div>
 
               {/* Liens externes */}
-              {((molecule as any).pubchem_cid || molecule.casNumber || molecule.chemicalFormula) && (
+              {(mol.pubchem_cid || molecule.casNumber || molecule.chemicalFormula) && (
                 <div className="bg-card p-6 rounded-lg border shadow-sm">
                   <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                     <Globe className="h-5 w-5 text-primary" />
                     Bases de données externes
                   </h2>
                   <div className="flex flex-wrap gap-3">
-                    {(molecule as any).pubchem_cid && (
+                    {mol.pubchem_cid && (
                       <a
-                        href={`https://pubchem.ncbi.nlm.nih.gov/compound/${(molecule as any).pubchem_cid}`}
+                        href={`https://pubchem.ncbi.nlm.nih.gov/compound/${mol.pubchem_cid}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors text-sm font-medium"
                       >
                         <ExternalLink className="h-4 w-4" />
-                        PubChem CID {(molecule as any).pubchem_cid}
+                        PubChem CID {mol.pubchem_cid}
                       </a>
                     )}
                     {molecule.casNumber && (
@@ -1432,28 +1435,28 @@ export default function MoleculeDetail() {
                     {molecule.name && (
                       <a
                         href={
-                          (molecule as any).chebi_id
-                            ? `https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${(molecule as any).chebi_id}`
+                          mol.chebi_id
+                            ? `https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${mol.chebi_id}`
                             : `https://www.ebi.ac.uk/chebi/advancedSearchFT.do?searchString=${encodeURIComponent(molecule.name)}`
                         }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-50 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-800 text-teal-700 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/40 transition-colors text-sm font-medium"
-                        title={(molecule as any).chebi_id ? `ChEBI ID: ${(molecule as any).chebi_id}` : 'Rechercher dans ChEBI'}
+                        title={mol.chebi_id ? `ChEBI ID: ${mol.chebi_id}` : 'Rechercher dans ChEBI'}
                       >
                         <ExternalLink className="h-4 w-4" />
-                        ChEBI{(molecule as any).chebi_id ? ` · ${(molecule as any).chebi_id}` : ''}
+                        ChEBI{mol.chebi_id ? ` · ${mol.chebi_id}` : ''}
                       </a>
                     )}
-                    {(molecule as any).wikidata_qid && (
+                    {mol.wikidataQid && (
                       <a
-                        href={`https://www.wikidata.org/entity/${(molecule as any).wikidata_qid}`}
+                        href={`https://www.wikidata.org/entity/${mol.wikidataQid}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors text-sm font-medium"
                       >
                         <ExternalLink className="h-4 w-4" />
-                        Wikidata {(molecule as any).wikidata_qid}
+                        Wikidata {mol.wikidataQid}
                       </a>
                     )}
                   </div>
@@ -1461,17 +1464,17 @@ export default function MoleculeDetail() {
               )}
 
               {/* Synonymes PubChem */}
-              {Array.isArray((molecule as any).pubchemSynonyms) && (molecule as any).pubchemSynonyms.length > 0 && (
+              {Array.isArray(mol.pubchemSynonyms) && mol.pubchemSynonyms && mol.pubchemSynonyms.length > 0 && (
                 <div className="bg-card p-6 rounded-lg border shadow-sm">
                   <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                     <Atom className="h-5 w-5 text-primary" />
                     Synonymes PubChem
                     <span className="ml-auto text-sm font-normal text-muted-foreground">
-                      {((molecule as any).pubchemSynonyms as string[]).length} synonymes
+                      {mol.pubchemSynonyms!.length} synonymes
                     </span>
                   </h2>
                   <div className="flex flex-wrap gap-2">
-                    {((molecule as any).pubchemSynonyms as string[]).map((syn: string, i: number) => (
+                    {mol.pubchemSynonyms!.map((syn, i) => (
                       <span key={i} className="inline-flex items-center px-2.5 py-1 rounded text-xs bg-secondary text-secondary-foreground border border-border font-mono hover:bg-secondary/80 transition-colors">
                         {syn}
                       </span>
@@ -2426,8 +2429,8 @@ export default function MoleculeDetail() {
                 moleculeId={molecule.id}
                 moleculeName={molecule.name}
                 formula={molecule.chemicalFormula}
-                smiles={(molecule as any).smiles}
-                pubchemCid={(molecule as any).pubchem_cid}
+                smiles={mol.smiles ?? undefined}
+                pubchemCid={mol.pubchem_cid ?? undefined}
               />
               </TabErrorBoundary>
             </TabsContent>

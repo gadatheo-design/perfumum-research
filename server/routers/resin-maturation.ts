@@ -2,7 +2,7 @@ import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db/core";
 import { molecules, plants } from "../../drizzle/schema";
-import { like, or, eq } from "drizzle-orm";
+import { like, or, eq, sql } from "drizzle-orm";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -1545,14 +1545,14 @@ export const resinMaturationRouter = router({
       if (profile.dbPlantId) {
         // Lien direct via ID
         dbPlants = await db
-          .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+          .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')` })
           .from(plants)
           .where(eq(plants.id, profile.dbPlantId))
           .limit(1);
       } else {
         // Fallback : recherche par nom latin ou nom commun
         dbPlants = await db
-          .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+          .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')` })
           .from(plants)
           .where(
             or(

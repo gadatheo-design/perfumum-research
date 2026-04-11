@@ -3,6 +3,7 @@ import { safeJsonParse } from "@/lib/utils";
 import { useParams, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { useBreadcrumbSegments } from "@/contexts/BreadcrumbContext";
+import type { PlantExtended } from "../../../../shared/domain-types";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -211,6 +212,8 @@ export default function PlantDetail() {
   }
   
   const plant = plantDetails;
+  // Cast typé unique — remplace tous les `(plant as any).xxx`
+  const plt = plant as unknown as PlantExtended;
 
   // Helpers de normalisation des champs JSON polymorphes
   const asStringPlant = (val: unknown): string => {
@@ -376,10 +379,10 @@ export default function PlantDetail() {
               <span className="hidden sm:inline">Publications ({scientificPubs.length})</span>
             </TabsTrigger>
           )}
-          {(plant as any).certifications && Array.isArray((plant as any).certifications) && ((plant as any).certifications as any[]).length > 0 && (
+          {plt.certifications && Array.isArray(plt.certifications) && plt.certifications.length > 0 && (
             <TabsTrigger value="traceability" className="flex items-center gap-1">
               <Shield className="h-3 w-3 text-amber-600" />
-              <span className="hidden sm:inline">Traçabilité ({((plant as any).certifications as any[]).length})</span>
+              <span className="hidden sm:inline">Traçabilité ({plt.certifications!.length})</span>
             </TabsTrigger>
           )}
           {plantStorylines && (plantStorylines as any[]).length > 0 && (
@@ -1112,19 +1115,19 @@ export default function PlantDetail() {
               {(plant as any).sustainableAlternatives && (
                 <div className="p-4 border rounded-lg bg-green-50 dark:bg-green-950">
                   <h4 className="text-sm font-medium mb-2 text-green-700 dark:text-green-300">Alternatives durables</h4>
-                  <p className="text-sm text-green-600 dark:text-green-400">{(plant as any).sustainableAlternatives}</p>
+                  <p className="text-sm text-green-600 dark:text-green-400">{plt.sustainableAlternatives}</p>
                 </div>
               )}
               
               {/* Certifications durables FairWild / UEBT / Rainforest Alliance */}
-              {(plant as any).certifications && Array.isArray((plant as any).certifications) && (plant as any).certifications.length > 0 && (
+              {plt.certifications && Array.isArray(plt.certifications) && plt.certifications.length > 0 && (
                 <div className="p-4 border rounded-lg">
                   <h4 className="text-sm font-medium mb-3 flex items-center gap-2">
                     <span>Certifications durables</span>
-                    <Badge variant="outline" className="text-xs">{(plant as any).certifications.length}</Badge>
+                    <Badge variant="outline" className="text-xs">{plt.certifications!.length}</Badge>
                   </h4>
                   <div className="space-y-3">
-                    {((plant as any).certifications as any[]).map((cert: any, idx: number) => (
+                    {plt.certifications!.map((cert, idx) => (
                       <div key={idx} className="flex items-start gap-3 p-3 rounded-md bg-muted/40">
                         <div className={`shrink-0 w-2 h-2 mt-2 rounded-full ${
                           cert.type === 'FairWild' ? 'bg-green-500' :
@@ -1170,7 +1173,7 @@ export default function PlantDetail() {
               )}
 
               {/* Notes durabilité (sustainable_alternatives) */}
-              {(plant as any).sustainableAlternatives && !(plant as any).certifications && (
+              {plt.sustainableAlternatives && !plt.certifications && (
                 <div className="p-4 border rounded-lg bg-green-50 dark:bg-green-950">
                   <h4 className="text-sm font-medium mb-2 text-green-700 dark:text-green-300">Notes de durabilité</h4>
                   <p className="text-sm text-green-600 dark:text-green-400">{(plant as any).sustainableAlternatives}</p>
@@ -1507,7 +1510,7 @@ export default function PlantDetail() {
           <TabErrorBoundary tabLabel="Europeana">
             <div className="space-y-4">
               {/* Bouton SPARQL P727 si QID Wikidata disponible */}
-              {(plant as any).wikidata_qid && (
+              {plt.wikidataQid && (
                 <div className="flex items-start gap-3 p-4 rounded-lg border border-violet-200 dark:border-violet-800 bg-violet-50 dark:bg-violet-950/20">
                   <div className="w-8 h-8 rounded-full bg-violet-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
                     <Globe className="h-4 w-4 text-violet-600" />
@@ -1517,11 +1520,11 @@ export default function PlantDetail() {
                       Requête SPARQL fédérée Wikidata × Europeana
                     </p>
                     <p className="text-xs text-violet-600 dark:text-violet-400 mt-0.5">
-                      Croise le QID Wikidata <span className="font-mono">{(plant as any).wikidata_qid}</span> avec les collections muséales Europeana via la propriété P727.
+                      Croise le QID Wikidata <span className="font-mono">{plt.wikidataQid}</span> avec les collections muséales Europeana via la propriété P727.
                     </p>
                   </div>
                   <a
-                    href={`/admin/sparql-explorer?tab=europeana-sparql&qid=${(plant as any).wikidata_qid}&plant=${encodeURIComponent((plant as any).latin_name || plant.latinName || plant.name)}`}
+                    href={`/admin/sparql-explorer?tab=europeana-sparql&qid=${plt.wikidataQid}&plant=${encodeURIComponent(plant.latinName || plant.name)}`}
                     className="inline-flex items-center gap-1.5 text-xs font-medium text-violet-700 dark:text-violet-300 hover:text-violet-900 dark:hover:text-violet-100 border border-violet-300 dark:border-violet-700 rounded-md px-3 py-1.5 hover:bg-violet-100 dark:hover:bg-violet-900/40 transition-colors flex-shrink-0"
                   >
                     <ExternalLink className="h-3 w-3" />
@@ -1533,7 +1536,7 @@ export default function PlantDetail() {
                 <EuropeanaWidget
                   type="plant"
                   entityId={plantId}
-                  entityName={(plant as any).latin_name || plant.latinName || plant.name}
+                  entityName={plant.latinName || plant.name}
                   limit={8}
                 />
               </div>
@@ -1756,7 +1759,7 @@ export default function PlantDetail() {
         {/* Onglet Traçabilité */}
         <TabsContent value="traceability" className="space-y-6">
           <TabErrorBoundary tabLabel="Traçabilité">
-            {(plant as any).certifications && Array.isArray((plant as any).certifications) && ((plant as any).certifications as any[]).length > 0 ? (
+            {plt.certifications && Array.isArray(plt.certifications) && plt.certifications.length > 0 ? (
               <div className="space-y-6">
                 {/* En-tête */}
                 <div className="flex items-center justify-between">
@@ -1767,13 +1770,13 @@ export default function PlantDetail() {
                     </p>
                   </div>
                   <Badge variant="outline" className="text-sm">
-                    {((plant as any).certifications as any[]).length} certification{((plant as any).certifications as any[]).length > 1 ? 's' : ''}
+                    {plt.certifications!.length} certification{plt.certifications!.length > 1 ? 's' : ''}
                   </Badge>
                 </div>
 
                 {/* Grille des certifications */}
                 <div className="grid gap-4 sm:grid-cols-2">
-                  {((plant as any).certifications as any[]).map((cert: any, idx: number) => (
+                  {plt.certifications!.map((cert, idx) => (
                     <Card key={idx} className={`border-l-4 ${
                       cert.type === 'FairWild' ? 'border-l-green-500' :
                       cert.type === 'UEBT' ? 'border-l-blue-500' :
