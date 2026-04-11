@@ -166,14 +166,14 @@ export const tropicosEnrichmentRouter = router({
             input: name,
             success: true,
             found: true,
-            nameId: best["NameId"],
-            scientificName: best["ScientificName"],
-            author: best["Author"],
-            family: best["Family"],
-            rank: best["Rank"],
-            nomenclatureStatus: best["NomenclatureStatusName"],
-            year: best["DisplayDate"],
-            url: best["Url"],
+            nameId: best["NameId"] as number | null,
+            scientificName: best["ScientificName"] as string | null,
+            author: best["Author"] as string | null,
+            family: best["Family"] as string | null,
+            rank: best["Rank"] as string | null,
+            nomenclatureStatus: best["NomenclatureStatusName"] as string | null,
+            year: best["DisplayDate"] as string | null,
+            url: best["Url"] as string | null,
           });
           matched++;
         } else {

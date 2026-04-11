@@ -165,7 +165,7 @@ export const varietyGenealogyImportRouter = router({
    */
   preview: protectedProcedure
     .input(ImportRequestSchema)
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       try {
         // Check admin role
         if (ctx.user.role !== "admin") {
@@ -263,7 +263,7 @@ export const varietyGenealogyImportRouter = router({
    */
   validate: protectedProcedure
     .input(z.object({ csvData: z.string() }))
-    .query(async ({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
       try {
         if (ctx.user.role !== "admin") {
           throw new TRPCError({
