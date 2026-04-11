@@ -3,6 +3,13 @@ import { z } from "zod";
 import { sql } from "drizzle-orm";
 import { getDb } from "../db";
 
+// ─── Type helpers pour les résultats de requêtes SQL brutes ──────────────────
+/** Ligne générique retournée par db.execute(sql.raw(...)) */
+type SqlRow = Record<string, unknown>;
+/** Résultat d'un COUNT(*) */
+type CountRow = { count?: number | string; total?: number | string; cnt?: number | string; name?: string };
+// ─────────────────────────────────────────────────────────────────────────────
+
 export const moleculeManagerRouter = router({
   // Get all molecules with their plant links
   getMolecules: publicProcedure.query(async () => {
@@ -15,9 +22,9 @@ export const moleculeManagerRouter = router({
       LEFT JOIN plant_molecules pm ON m.id = pm.molecule_id
       GROUP BY m.id
       ORDER BY plant_links DESC
-    `) as unknown as [any[]];
+    `) as unknown as [SqlRow[]];
     
-    return (rows as any[]).map(r => ({
+    return (rows as SqlRow[]).map(r => ({
       id: Number(r.id),
       name: r.name,
       plantLinks: Number(r.plant_links),
@@ -35,9 +42,9 @@ export const moleculeManagerRouter = router({
       LEFT JOIN plant_molecules pm ON p.id = pm.plant_id
       GROUP BY p.id
       ORDER BY p.name
-    `) as unknown as [any[]];
+    `) as unknown as [SqlRow[]];
     
-    return (rows as any[]).map(r => ({
+    return (rows as SqlRow[]).map(r => ({
       id: Number(r.id),
       name: r.name,
       category: r.category,
@@ -55,9 +62,9 @@ export const moleculeManagerRouter = router({
       FROM plants 
       GROUP BY category 
       ORDER BY cnt DESC
-    `) as unknown as [any[]];
+    `) as unknown as [SqlRow[]];
     
-    return (rows as any[]).map(r => ({
+    return (rows as SqlRow[]).map(r => ({
       category: r.category || 'null',
       count: Number(r.cnt),
     }));
@@ -68,17 +75,17 @@ export const moleculeManagerRouter = router({
     const db = await getDb();
     if (!db) return { totalMolecules: 0, totalPlants: 0, totalLinks: 0, orphanMolecules: 0, orphanPlants: 0, plantCoverage: 0, moleculeCoverage: 0, duplicateGroups: 0, duplicateMolecules: 0 };
 
-    const [molRows] = await db.execute(sql`SELECT COUNT(*) as cnt FROM molecules`) as unknown as [any[]];
-    const [plantRows] = await db.execute(sql`SELECT COUNT(*) as cnt FROM plants`) as unknown as [any[]];
-    const [linkRows] = await db.execute(sql`SELECT COUNT(*) as cnt FROM plant_molecules`) as unknown as [any[]];
+    const [molRows] = await db.execute(sql`SELECT COUNT(*) as cnt FROM molecules`) as unknown as [SqlRow[]];
+    const [plantRows] = await db.execute(sql`SELECT COUNT(*) as cnt FROM plants`) as unknown as [SqlRow[]];
+    const [linkRows] = await db.execute(sql`SELECT COUNT(*) as cnt FROM plant_molecules`) as unknown as [SqlRow[]];
     const [orphanMolRows] = await db.execute(sql`
       SELECT COUNT(*) as cnt FROM molecules m
       WHERE NOT EXISTS (SELECT 1 FROM plant_molecules pm WHERE pm.molecule_id = m.id)
-    `) as unknown as [any[]];
+    `) as unknown as [SqlRow[]];
     const [orphanPlantRows] = await db.execute(sql`
       SELECT COUNT(*) as cnt FROM plants p
       WHERE NOT EXISTS (SELECT 1 FROM plant_molecules pm WHERE pm.plant_id = p.id)
-    `) as unknown as [any[]];
+    `) as unknown as [SqlRow[]];
     const [dupGroupRows] = await db.execute(sql`
       SELECT COUNT(*) as cnt FROM (
         SELECT LOWER(TRIM(name)) as normalized_name
@@ -86,7 +93,7 @@ export const moleculeManagerRouter = router({
         GROUP BY normalized_name
         HAVING COUNT(*) > 1
       ) as dup_groups
-    `) as unknown as [any[]];
+    `) as unknown as [SqlRow[]];
     const [dupMolRows] = await db.execute(sql`
       SELECT COUNT(*) as cnt FROM molecules m
       WHERE EXISTS (
@@ -94,23 +101,23 @@ export const moleculeManagerRouter = router({
         WHERE LOWER(TRIM(m2.name)) = LOWER(TRIM(m.name))
         AND m2.id != m.id
       )
-    `) as unknown as [any[]];
+    `) as unknown as [SqlRow[]];
 
-    const totalMol = Number((molRows as any[])[0]?.cnt || 0);
-    const totalPlants = Number((plantRows as any[])[0]?.cnt || 0);
-    const plantsWithLinks = totalPlants > 0 ? Math.round((totalPlants - Number((orphanPlantRows as any[])[0]?.cnt || 0)) / totalPlants * 100) : 0;
-    const molsWithLinks = totalMol > 0 ? Math.round((totalMol - Number((orphanMolRows as any[])[0]?.cnt || 0)) / totalMol * 100) : 0;
+    const totalMol = Number((molRows as CountRow[])[0]?.cnt || 0);
+    const totalPlants = Number((plantRows as CountRow[])[0]?.cnt || 0);
+    const plantsWithLinks = totalPlants > 0 ? Math.round((totalPlants - Number((orphanPlantRows as CountRow[])[0]?.cnt || 0)) / totalPlants * 100) : 0;
+    const molsWithLinks = totalMol > 0 ? Math.round((totalMol - Number((orphanMolRows as CountRow[])[0]?.cnt || 0)) / totalMol * 100) : 0;
 
     return {
       totalMolecules: totalMol,
       totalPlants: totalPlants,
-      totalLinks: Number((linkRows as any[])[0]?.cnt || 0),
-      orphanMolecules: Number((orphanMolRows as any[])[0]?.cnt || 0),
-      orphanPlants: Number((orphanPlantRows as any[])[0]?.cnt || 0),
+      totalLinks: Number((linkRows as CountRow[])[0]?.cnt || 0),
+      orphanMolecules: Number((orphanMolRows as CountRow[])[0]?.cnt || 0),
+      orphanPlants: Number((orphanPlantRows as CountRow[])[0]?.cnt || 0),
       plantCoverage: plantsWithLinks,
       moleculeCoverage: molsWithLinks,
-      duplicateGroups: Number((dupGroupRows as any[])[0]?.cnt || 0),
-      duplicateMolecules: Number((dupMolRows as any[])[0]?.cnt || 0),
+      duplicateGroups: Number((dupGroupRows as CountRow[])[0]?.cnt || 0),
+      duplicateMolecules: Number((dupMolRows as CountRow[])[0]?.cnt || 0),
     };
   }),
 
@@ -129,11 +136,11 @@ export const moleculeManagerRouter = router({
       GROUP BY LOWER(TRIM(name))
       HAVING COUNT(*) > 1
       ORDER BY count DESC
-    `) as unknown as [any[]];
+    `) as unknown as [SqlRow[]];
 
     if (!Array.isArray(rows)) return [];
 
-    return rows.map((r: any) => {
+    return rows.map((r: SqlRow) => {
       const ids = String(r.ids).split(',').map(Number);
       const names = String(r.names).split(',');
       
@@ -191,13 +198,13 @@ export const moleculeManagerRouter = router({
         FROM molecules
         GROUP BY LOWER(TRIM(name))
         HAVING COUNT(*) > 1
-      `) as unknown as [any[]];
+      `) as unknown as [SqlRow[]];
 
       if (!Array.isArray(dupGroups) || dupGroups.length === 0) {
         return { success: true, message: "Aucun doublon détecté", results: [] };
       }
 
-      const results: any[] = [];
+      const results: SqlRow[] = [];
 
       for (const group of dupGroups) {
         const ids = String(group.ids).split(',').map(Number);
@@ -205,9 +212,9 @@ export const moleculeManagerRouter = router({
         const removeIds = ids.filter(id => id !== keepId);
 
         if (input.dryRun) {
-          const [nameRow] = await db.execute(sql`SELECT name FROM molecules WHERE id = ${keepId}`) as unknown as [any[]];
+          const [nameRow] = await db.execute(sql`SELECT name FROM molecules WHERE id = ${keepId}`) as unknown as [SqlRow[]];
           results.push({
-            name: (nameRow as any[])[0]?.name || 'Unknown',
+            name: (nameRow as CountRow[])[0]?.name || 'Unknown',
             keepId,
             removeIds,
           });
@@ -223,9 +230,9 @@ export const moleculeManagerRouter = router({
             WHERE id IN (${sql.raw(removeIds.join(','))})
           `);
 
-          const [nameRow] = await db.execute(sql`SELECT name FROM molecules WHERE id = ${keepId}`) as unknown as [any[]];
+          const [nameRow] = await db.execute(sql`SELECT name FROM molecules WHERE id = ${keepId}`) as unknown as [SqlRow[]];
           results.push({
-            name: (nameRow as any[])[0]?.name || 'Unknown',
+            name: (nameRow as CountRow[])[0]?.name || 'Unknown',
             keepId,
             removeIds,
           });
@@ -251,8 +258,8 @@ export const moleculeManagerRouter = router({
       // Get total count
       const [countRows] = await db.execute(sql`
         SELECT COUNT(*) as cnt FROM plant_molecules
-      `) as unknown as [any[]];
-      const total = Number((countRows as any[])[0]?.cnt || 0);
+      `) as unknown as [SqlRow[]];
+      const total = Number((countRows as CountRow[])[0]?.cnt || 0);
 
       // Get paginated results
       const [rows] = await db.execute(sql`
@@ -264,9 +271,9 @@ export const moleculeManagerRouter = router({
         JOIN plants p ON pm.plant_id = p.id
         ORDER BY p.name, m.name
         LIMIT ${input.pageSize} OFFSET ${offset}
-      `) as unknown as [any[]];
+      `) as unknown as [SqlRow[]];
 
-      const relations = (rows as any[]).map(r => ({
+      const relations = (rows as SqlRow[]).map(r => ({
         plant_id: Number(r.plant_id),
         molecule_id: Number(r.molecule_id),
         plant_name: r.plant_name || '',
@@ -323,41 +330,41 @@ export const moleculeManagerRouter = router({
     const db = await getDb();
     if (!db) return { totalPlants: 0, coveragePercent: 0, plantsWithCompositions: 0, plantsWithoutLatinName: 0, duplicatePlantGroups: 0, malformedNames: 0, malformedLatinNames: 0, totalMolecules: 0, totalLinks: 0 };
 
-    const [r1] = await db.execute(sql`SELECT COUNT(*) as cnt FROM plants`) as unknown as [any[]];
+    const [r1] = await db.execute(sql`SELECT COUNT(*) as cnt FROM plants`) as unknown as [SqlRow[]];
     const [r2] = await db.execute(sql`
       SELECT COUNT(DISTINCT plant_id) as cnt FROM plant_molecules
-    `) as unknown as [any[]];
+    `) as unknown as [SqlRow[]];
     const [r3] = await db.execute(sql`
       SELECT COUNT(*) as cnt FROM plants WHERE latin_name IS NULL OR latin_name = ''
-    `) as unknown as [any[]];
+    `) as unknown as [SqlRow[]];
     const [r4] = await db.execute(sql`
       SELECT COUNT(DISTINCT LOWER(TRIM(name))) as cnt FROM plants
       GROUP BY LOWER(TRIM(name))
       HAVING COUNT(*) > 1
-    `) as unknown as [any[]];
+    `) as unknown as [SqlRow[]];
     const [r5] = await db.execute(sql`
       SELECT COUNT(*) as cnt FROM plants WHERE name LIKE '%,%' OR name LIKE '%;%'
-    `) as unknown as [any[]];
+    `) as unknown as [SqlRow[]];
     const [r6] = await db.execute(sql`
       SELECT COUNT(*) as cnt FROM plants WHERE latin_name LIKE '%,%' OR latin_name LIKE '%;%'
-    `) as unknown as [any[]];
-    const [r7] = await db.execute(sql`SELECT COUNT(*) as cnt FROM molecules`) as unknown as [any[]];
-    const [r8] = await db.execute(sql`SELECT COUNT(*) as cnt FROM plant_molecules`) as unknown as [any[]];
+    `) as unknown as [SqlRow[]];
+    const [r7] = await db.execute(sql`SELECT COUNT(*) as cnt FROM molecules`) as unknown as [SqlRow[]];
+    const [r8] = await db.execute(sql`SELECT COUNT(*) as cnt FROM plant_molecules`) as unknown as [SqlRow[]];
 
-    const totalPlants = Number((r1 as any[])[0]?.cnt || 0);
-    const plantsWithCompositions = Number((r2 as any[])[0]?.cnt || 0);
+    const totalPlants = Number((r1 as CountRow[])[0]?.cnt || 0);
+    const plantsWithCompositions = Number((r2 as CountRow[])[0]?.cnt || 0);
     const coveragePercent = totalPlants > 0 ? Math.round((plantsWithCompositions / totalPlants) * 100) : 0;
 
     return {
       totalPlants,
       coveragePercent,
       plantsWithCompositions,
-      plantsWithoutLatinName: Number((r3 as any[])[0]?.cnt || 0),
-      duplicatePlantGroups: Number((r4 as any[])[0]?.cnt || 0),
-      malformedNames: Number((r5 as any[])[0]?.cnt || 0),
-      malformedLatinNames: Number((r6 as any[])[0]?.cnt || 0),
-      totalMolecules: Number((r7 as any[])[0]?.cnt || 0),
-      totalLinks: Number((r8 as any[])[0]?.cnt || 0),
+      plantsWithoutLatinName: Number((r3 as CountRow[])[0]?.cnt || 0),
+      duplicatePlantGroups: Number((r4 as CountRow[])[0]?.cnt || 0),
+      malformedNames: Number((r5 as CountRow[])[0]?.cnt || 0),
+      malformedLatinNames: Number((r6 as CountRow[])[0]?.cnt || 0),
+      totalMolecules: Number((r7 as CountRow[])[0]?.cnt || 0),
+      totalLinks: Number((r8 as CountRow[])[0]?.cnt || 0),
     };
   }),
 
@@ -374,9 +381,9 @@ export const moleculeManagerRouter = router({
          OR wikidata_qid IS NULL
       ORDER BY name
       LIMIT 100
-    `) as unknown as [any[]];
+    `) as unknown as [SqlRow[]];
 
-    return (rows as any[]).map(r => ({
+    return (rows as SqlRow[]).map(r => ({
       id: Number(r.id),
       name: r.name,
       latinName: r.latin_name || null,
@@ -401,7 +408,7 @@ export const moleculeManagerRouter = router({
         LEFT JOIN plants p1 ON vg.variety_id = p1.id
         LEFT JOIN plants p2 ON vg.parent_variety_id = p2.id
         WHERE vg.variety_id = ${varietyId}
-      `) as any;
+      `) as unknown as [SqlRow[]];
 
       const [asParent] = await db.execute(sql`
         SELECT vg.variety_id, vg.parent_variety_id, vg.relationship_type, vg.breeder, vg.notes,
@@ -410,21 +417,21 @@ export const moleculeManagerRouter = router({
         LEFT JOIN plants p1 ON vg.variety_id = p1.id
         LEFT JOIN plants p2 ON vg.parent_variety_id = p2.id
         WHERE vg.parent_variety_id = ${varietyId}
-      `) as any;
+      `) as unknown as [SqlRow[]];
 
       const ancestors = Array.isArray(asChild) ? asChild : [];
       const descendants = Array.isArray(asParent) ? asParent : [];
 
       const allIds = new Set<number>([varietyId]);
-      ancestors.forEach((r: any) => { allIds.add(Number(r.parent_variety_id)); allIds.add(Number(r.variety_id)); });
-      descendants.forEach((r: any) => { allIds.add(Number(r.variety_id)); allIds.add(Number(r.parent_variety_id)); });
+      ancestors.forEach((r: SqlRow) => { allIds.add(Number(r.parent_variety_id)); allIds.add(Number(r.variety_id)); });
+      descendants.forEach((r: SqlRow) => { allIds.add(Number(r.variety_id)); allIds.add(Number(r.parent_variety_id)); });
 
       const idList = Array.from(allIds).join(',');
       const [plantRows] = await db.execute(sql`
         SELECT id, name, category FROM plants WHERE id IN (${sql.raw(idList)})
-      `) as any;
+      `) as unknown as [SqlRow[]];
       const plantMap = new Map<number, { name: string; category: string }>();
-      (Array.isArray(plantRows) ? plantRows : []).forEach((p: any) => {
+      (Array.isArray(plantRows) ? plantRows : []).forEach((p: SqlRow) => {
         plantMap.set(Number(p.id), { name: p.name, category: p.category });
       });
 
@@ -432,7 +439,7 @@ export const moleculeManagerRouter = router({
         const plant = plantMap.get(id);
         let type: 'root' | 'ancestor' | 'descendant' = 'ancestor';
         if (id === varietyId) type = 'root';
-        else if (descendants.some((r: any) => Number(r.variety_id) === id)) type = 'descendant';
+        else if (descendants.some((r: SqlRow) => Number(r.variety_id) === id)) type = 'descendant';
         return {
           id: String(id),
           label: plant?.name || `Plante #${id}`,
@@ -444,13 +451,13 @@ export const moleculeManagerRouter = router({
       const allRelations = [...ancestors, ...descendants];
       const seen = new Set<string>();
       const links = allRelations
-        .filter((r: any) => {
+        .filter((r: SqlRow) => {
           const key = `${r.parent_variety_id}-${r.variety_id}`;
           if (seen.has(key)) return false;
           seen.add(key);
           return true;
         })
-        .map((r: any) => ({
+        .map((r: SqlRow) => ({
           source: String(r.parent_variety_id),
           target: String(r.variety_id),
           type: r.relationship_type || 'parent',

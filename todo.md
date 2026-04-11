@@ -4096,3 +4096,12 @@ npm run dev
 - [ ] COALESCE latinName sur tous les routeurs server/routers/*.ts
 - [ ] Supprimer @ts-nocheck dans MoleculeDetail.tsx et PlantDetail.tsx
 - [ ] Typer retours tRPC : molecules.getById, plants.getById, recipes.getById
+
+## SESSION TypeScript — Batch 2 (5 fichiers critiques) — COMPLÉTÉ
+
+- [x] research.ts — 130 any → 0 (SqlRow/CountRow helpers + catch unknown)
+- [x] moleculeManager.ts — 61 any → 0
+- [x] tobacco.ts — 48 any → 0
+- [x] RecetteDetail.tsx — 41 any → 0 (interfaces RecipeMolecule, RawMaterialLink, Transformation)
+- [x] ChemicalFamilyHierarchyGraph.tsx — 40 any → 0 (@ts-nocheck supprimé, D3 typé)
+- [x] TypeScript: 148 erreurs → 0 erreurs (lsp + tsc)

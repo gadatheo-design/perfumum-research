@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Link, useParams } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,6 +29,62 @@ import { GitBranch, ArrowUpRight, Leaf, Wind, TreeDeciduous, Sparkles, Package, 
 import { useAuth } from "@/_core/hooks/useAuth";
 import { safeToFixed } from "@/lib/utils";
 
+
+// ─── Interfaces locales pour RecetteDetail ───────────────────────────────────
+interface RecipeMolecule {
+  id: number;
+  name: string;
+  chemicalFormula?: string | null;
+  family?: string | null;
+  olfactiveProfile?: string | null;
+  chemicalClass?: string | null;
+  casNumber?: string | null;
+  radarIntensity?: number | null;
+  radarFreshness?: number | null;
+  radarWarmth?: number | null;
+  radarSweetness?: number | null;
+  radarSpiciness?: number | null;
+  radarEarthiness?: number | null;
+  proportion?: number | null;
+  role?: string | null;
+  linkNotes?: string | null;
+  linkSource?: string | null;
+}
+
+interface RawMaterialLink {
+  id: number;
+  rawMaterialId: number;
+  rawMaterialName: string;
+  role?: string | null;
+  dosage?: number | null;
+  dosageUnit?: string | null;
+  percentage?: number | null;
+  notes?: string | null;
+}
+
+interface Transformation {
+  id: number;
+  molecule_name?: string | null;
+  impact_type?: string | null;
+  transformation_type?: string | null;
+  description?: string | null;
+  temperature?: number | null;
+}
+
+interface FormuleReference {
+  id: number;
+  name: string;
+  description?: string | null;
+  source?: string | null;
+}
+
+interface TerpProfile {
+  id: number;
+  name: string;
+  profile?: string | null;
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 export default function RecetteDetail() {
   const { toast } = useToast();
   const { user } = useAuth();
@@ -46,7 +101,7 @@ export default function RecetteDetail() {
   const [rmPercentage, setRmPercentage] = useState("");
   const [rmNotes, setRmNotes] = useState("");
   // Dialog d'édition d'une liaison existante
-  const [editingRm, setEditingRm] = useState<any | null>(null);
+  const [editingRm, setEditingRm] = useState<RawMaterialLink | null>(null);
   const [editRmRole, setEditRmRole] = useState("autre");
   const [editRmDosage, setEditRmDosage] = useState("");
   const [editRmDosageUnit, setEditRmDosageUnit] = useState("g");
@@ -479,7 +534,7 @@ export default function RecetteDetail() {
                   <Badge variant="secondary" className="text-xs">{molecules.length}</Badge>
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
-                  {molecules.slice(0, 12).map((m: any) => (
+                  {molecules.slice(0, 12).map((m: RecipeMolecule) => (
                     <Link key={m.id} href={`/molecule/${m.id}`}>
                       <Badge
                         variant="outline"
@@ -713,14 +768,14 @@ export default function RecetteDetail() {
             {/* Visualisation par rôle olfactif */}
             <div className="mb-6 space-y-4">
               {/* Notes de tête */}
-              {molecules.filter((m: any) => m.role === 'tête').length > 0 && (
+              {molecules.filter((m: RecipeMolecule) => m.role === 'tête').length > 0 && (
                 <div className="bg-gradient-to-r from-yellow-50 to-amber-50 dark:from-yellow-950/30 dark:to-amber-950/30 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
                   <h4 className="text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-3 flex items-center gap-2">
                     <Wind className="h-4 w-4" />
-                    Notes de Tête ({molecules.filter((m: any) => m.role === 'tête').length})
+                    Notes de Tête ({molecules.filter((m: RecipeMolecule) => m.role === 'tête').length})
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {molecules.filter((m: any) => m.role === 'tête').map((molecule: any) => (
+                    {molecules.filter((m: RecipeMolecule) => m.role === 'tête').map((molecule: RecipeMolecule) => (
                       <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
                         <Badge variant="outline" className="cursor-pointer hover:bg-yellow-100 dark:hover:bg-yellow-900/50 transition-colors py-1.5 px-3">
                           <span className="font-medium">{molecule.name}</span>
@@ -735,14 +790,14 @@ export default function RecetteDetail() {
               )}
               
               {/* Notes de cœur */}
-              {molecules.filter((m: any) => m.role === 'cœur').length > 0 && (
+              {molecules.filter((m: RecipeMolecule) => m.role === 'cœur').length > 0 && (
                 <div className="bg-gradient-to-r from-pink-50 to-rose-50 dark:from-pink-950/30 dark:to-rose-950/30 p-4 rounded-lg border border-pink-200 dark:border-pink-800">
                   <h4 className="text-sm font-semibold text-pink-800 dark:text-pink-300 mb-3 flex items-center gap-2">
                     <Sparkles className="h-4 w-4" />
-                    Notes de Cœur ({molecules.filter((m: any) => m.role === 'cœur').length})
+                    Notes de Cœur ({molecules.filter((m: RecipeMolecule) => m.role === 'cœur').length})
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {molecules.filter((m: any) => m.role === 'cœur').map((molecule: any) => (
+                    {molecules.filter((m: RecipeMolecule) => m.role === 'cœur').map((molecule: RecipeMolecule) => (
                       <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
                         <Badge variant="outline" className="cursor-pointer hover:bg-pink-100 dark:hover:bg-pink-900/50 transition-colors py-1.5 px-3">
                           <span className="font-medium">{molecule.name}</span>
@@ -757,14 +812,14 @@ export default function RecetteDetail() {
               )}
               
               {/* Notes de fond */}
-              {molecules.filter((m: any) => m.role === 'fond').length > 0 && (
+              {molecules.filter((m: RecipeMolecule) => m.role === 'fond').length > 0 && (
                 <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/30 dark:to-orange-950/30 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
                   <h4 className="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-3 flex items-center gap-2">
                     <TreeDeciduous className="h-4 w-4" />
-                    Notes de Fond ({molecules.filter((m: any) => m.role === 'fond').length})
+                    Notes de Fond ({molecules.filter((m: RecipeMolecule) => m.role === 'fond').length})
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {molecules.filter((m: any) => m.role === 'fond').map((molecule: any) => (
+                    {molecules.filter((m: RecipeMolecule) => m.role === 'fond').map((molecule: RecipeMolecule) => (
                       <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
                         <Badge variant="outline" className="cursor-pointer hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors py-1.5 px-3">
                           <span className="font-medium">{molecule.name}</span>
@@ -779,14 +834,14 @@ export default function RecetteDetail() {
               )}
               
               {/* Molécules sans rôle défini */}
-              {molecules.filter((m: any) => !m.role).length > 0 && (
+              {molecules.filter((m: RecipeMolecule) => !m.role).length > 0 && (
                 <div className="bg-muted/50 p-4 rounded-lg border">
                   <h4 className="text-sm font-semibold text-muted-foreground mb-3 flex items-center gap-2">
                     <Beaker className="h-4 w-4" />
-                    Autres molécules ({molecules.filter((m: any) => !m.role).length})
+                    Autres molécules ({molecules.filter((m: RecipeMolecule) => !m.role).length})
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {molecules.filter((m: any) => !m.role).map((molecule: any) => (
+                    {molecules.filter((m: RecipeMolecule) => !m.role).map((molecule: RecipeMolecule) => (
                       <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
                         <Badge variant="outline" className="cursor-pointer hover:bg-muted transition-colors py-1.5 px-3">
                           <span className="font-medium">{molecule.name}</span>
@@ -805,7 +860,7 @@ export default function RecetteDetail() {
             <div className="border-t pt-6">
               <h4 className="text-sm font-semibold text-muted-foreground mb-4">Détails des molécules</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {molecules.map((molecule: any) => (
+                {molecules.map((molecule: RecipeMolecule) => (
                   <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
                     <Card className="shadow-sm hover:shadow-md hover:scale-[1.01] transition-all cursor-pointer h-full">
                       <CardHeader className="pb-2">
@@ -899,7 +954,7 @@ export default function RecetteDetail() {
         <CardContent>
           {rawMaterialsLinked && rawMaterialsLinked.length > 0 ? (
             <div className="space-y-2">
-              {rawMaterialsLinked.map((rm: any) => {
+              {rawMaterialsLinked.map((rm: RawMaterialLink) => {
                 const roleColors: Record<string, string> = {
                   base: 'bg-stone-100 text-stone-700 dark:bg-stone-900/50 dark:text-stone-300',
                   coeur: 'bg-rose-100 text-rose-700 dark:bg-rose-900/50 dark:text-rose-300',
@@ -1012,7 +1067,7 @@ export default function RecetteDetail() {
               />
               {rawMaterialsSearch && rawMaterialsSearch.items && rawMaterialsSearch.items.length > 0 && !selectedRmId && (
                 <div className="border rounded-lg max-h-40 overflow-y-auto bg-background shadow-sm">
-                  {rawMaterialsSearch.items.map((rm: any) => (
+                  {rawMaterialsSearch.items.map((rm: RawMaterialLink) => (
                     <button
                       key={rm.id}
                       className="w-full text-left px-3 py-2 text-sm hover:bg-amber-50 dark:hover:bg-amber-950/30 flex items-center justify-between border-b last:border-0"
@@ -1104,7 +1159,7 @@ export default function RecetteDetail() {
                 addRmMutation.mutate({
                   recetteId: id,
                   rawMaterialId: selectedRmId,
-                  role: rmRole as any,
+                  role: rmRole,
                   dosage: rmDosage || undefined,
                   dosageUnit: rmDosageUnit,
                   percentage: rmPercentage || undefined,
@@ -1198,7 +1253,7 @@ export default function RecetteDetail() {
                 updateRmMutation.mutate({
                   id: editingRm.id,
                   data: {
-                    role: editRmRole as any,
+                    role: editRmRole,
                     dosage: editRmDosage || undefined,
                     dosageUnit: editRmDosageUnit,
                     percentage: editRmPercentage || undefined,
@@ -1261,7 +1316,7 @@ export default function RecetteDetail() {
               Cette recette s'inspire des archétypes olfactifs classiques suivants :
             </p>
             <div className="space-y-3">
-              {formulesReference.map((formule: any) => (
+              {formulesReference.map((formule: FormuleReference) => (
                 <div key={formule.id} className="flex items-center justify-between p-3 bg-white rounded-lg border border-amber-200">
                   <div className="flex-1">
                     <div className="font-semibold text-slate-700">{formule.formuleReferenceName}</div>
@@ -1301,7 +1356,7 @@ export default function RecetteDetail() {
               Fiches analytiques partageant des molécules avec cette recette
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
-              {linkedTerpProfiles.map((profile: any) => (
+              {linkedTerpProfiles.map((profile: TerpProfile) => (
                 <Link key={profile.id} href={`/terp-profiles/${profile.profileId}`}>
                   <Card className="hover:shadow-md transition-shadow cursor-pointer border-sky-200 hover:border-sky-400 h-full">
                     <CardContent className="p-3 md:p-4">
@@ -1364,14 +1419,14 @@ export default function RecetteDetail() {
             {/* Liste des transformations par type d'impact */}
             <div className="space-y-4">
               {/* Impacts majeurs */}
-              {transformationsData.transformations.filter((t: any) => t.impact_type === 'major').length > 0 && (
+              {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'major').length > 0 && (
                 <div className="bg-red-50 dark:bg-red-950/30 p-4 rounded-lg border border-red-200 dark:border-red-800">
                   <h4 className="text-sm font-semibold text-red-800 dark:text-red-300 mb-3 flex items-center gap-2">
                     <Zap className="h-4 w-4" />
-                    Impacts Majeurs ({transformationsData.transformations.filter((t: any) => t.impact_type === 'major').length})
+                    Impacts Majeurs ({transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'major').length})
                   </h4>
                   <div className="space-y-3">
-                    {transformationsData.transformations.filter((t: any) => t.impact_type === 'major').map((t: any) => (
+                    {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'major').map((t: Transformation) => (
                       <TransformationCard key={t.id} transformation={t} />
                     ))}
                   </div>
@@ -1379,19 +1434,19 @@ export default function RecetteDetail() {
               )}
               
               {/* Impacts modérés */}
-              {transformationsData.transformations.filter((t: any) => t.impact_type === 'moderate').length > 0 && (
+              {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'moderate').length > 0 && (
                 <div className="bg-orange-50 dark:bg-orange-950/30 p-4 rounded-lg border border-orange-200 dark:border-orange-800">
                   <h4 className="text-sm font-semibold text-orange-800 dark:text-orange-300 mb-3 flex items-center gap-2">
                     <Flame className="h-4 w-4" />
-                    Impacts Modérés ({transformationsData.transformations.filter((t: any) => t.impact_type === 'moderate').length})
+                    Impacts Modérés ({transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'moderate').length})
                   </h4>
                   <div className="space-y-3">
-                    {transformationsData.transformations.filter((t: any) => t.impact_type === 'moderate').slice(0, 5).map((t: any) => (
+                    {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'moderate').slice(0, 5).map((t: Transformation) => (
                       <TransformationCard key={t.id} transformation={t} />
                     ))}
-                    {transformationsData.transformations.filter((t: any) => t.impact_type === 'moderate').length > 5 && (
+                    {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'moderate').length > 5 && (
                       <p className="text-xs text-muted-foreground text-center">
-                        +{transformationsData.transformations.filter((t: any) => t.impact_type === 'moderate').length - 5} autres transformations modérées
+                        +{transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'moderate').length - 5} autres transformations modérées
                       </p>
                     )}
                   </div>
@@ -1399,21 +1454,21 @@ export default function RecetteDetail() {
               )}
               
               {/* Impacts mineurs */}
-              {transformationsData.transformations.filter((t: any) => t.impact_type === 'minor').length > 0 && (
+              {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'minor').length > 0 && (
                 <div className="bg-yellow-50 dark:bg-yellow-950/30 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
                   <h4 className="text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-3 flex items-center gap-2">
                     <Droplets className="h-4 w-4" />
-                    Impacts Mineurs ({transformationsData.transformations.filter((t: any) => t.impact_type === 'minor').length})
+                    Impacts Mineurs ({transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'minor').length})
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {transformationsData.transformations.filter((t: any) => t.impact_type === 'minor').slice(0, 10).map((t: any) => (
+                    {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'minor').slice(0, 10).map((t: Transformation) => (
                       <Badge key={t.id} variant="outline" className="text-xs">
                         {t.source_molecule_name} → {t.product_molecule_name}
                       </Badge>
                     ))}
-                    {transformationsData.transformations.filter((t: any) => t.impact_type === 'minor').length > 10 && (
+                    {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'minor').length > 10 && (
                       <Badge variant="secondary" className="text-xs">
-                        +{transformationsData.transformations.filter((t: any) => t.impact_type === 'minor').length - 10} autres
+                        +{transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'minor').length - 10} autres
                       </Badge>
                     )}
                   </div>
@@ -1421,13 +1476,13 @@ export default function RecetteDetail() {
               )}
               
               {/* Traces */}
-              {transformationsData.transformations.filter((t: any) => t.impact_type === 'trace').length > 0 && (
+              {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'trace').length > 0 && (
                 <div className="bg-gray-50 dark:bg-gray-950/30 p-4 rounded-lg border border-gray-200 dark:border-gray-800">
                   <h4 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">
-                    Traces ({transformationsData.transformations.filter((t: any) => t.impact_type === 'trace').length})
+                    Traces ({transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'trace').length})
                   </h4>
                   <p className="text-xs text-muted-foreground">
-                    {transformationsData.transformations.filter((t: any) => t.impact_type === 'trace').length} transformations à impact négligeable
+                    {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'trace').length} transformations à impact négligeable
                   </p>
                 </div>
               )}
@@ -1524,7 +1579,7 @@ export default function RecetteDetail() {
             {
               label: "Matières premières utilisées",
               type: "rawMaterial",
-              items: (rawMaterialsLinked || []).map((rm: any) => ({
+              items: (rawMaterialsLinked || []).map((rm: RawMaterialLink) => ({
                 id: rm.rawMaterialId,
                 label: rm.rawMaterial?.name || `MP #${rm.rawMaterialId}`,
                 sublabel: rm.role ? `Rôle : ${rm.role}` : (rm.rawMaterial?.category || undefined),
@@ -1537,7 +1592,7 @@ export default function RecetteDetail() {
             {
               label: "Molécules de la formule",
               type: "molecule",
-              items: (molecules || []).slice(0, 10).map((m: any) => ({
+              items: (molecules || []).slice(0, 10).map((m: RecipeMolecule) => ({
                 id: m.id,
                 label: m.name,
                 sublabel: m.family || m.chemicalClass || undefined,
@@ -1550,7 +1605,7 @@ export default function RecetteDetail() {
             {
               label: "Recettes similaires",
               type: "recette",
-              items: (similarRecettes || []).map((r: any) => ({
+              items: (similarRecettes || []).map((r: { id: number; name: string; family?: string | null; accord?: string | null; moleculeCount?: number }) => ({
                 id: r.id,
                 label: r.name,
                 sublabel: r.family || r.category || undefined,
@@ -1569,7 +1624,7 @@ export default function RecetteDetail() {
 
 
 // Composant pour afficher une carte de transformation
-function TransformationCard({ transformation }: { transformation: any }) {
+function TransformationCard({ transformation }: { transformation: Transformation }) {
   const transformationTypeLabels: Record<string, { label: string; color: string }> = {
     pyrolysis: { label: "Pyrolyse", color: "bg-orange-500" },
     oxidation: { label: "Oxydation", color: "bg-blue-500" },

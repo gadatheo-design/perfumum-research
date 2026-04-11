@@ -9,6 +9,13 @@ import { getDb } from "../db";
 import { tabacs } from "../../drizzle/schema";
 import { sql, eq, like, or, and } from "drizzle-orm";
 
+// ─── Type helpers pour les résultats de requêtes SQL brutes ──────────────────
+/** Ligne générique retournée par db.execute(sql.raw(...)) */
+type SqlRow = Record<string, unknown>;
+/** Résultat d'un COUNT(*) */
+type CountRow = { count?: number | string; total?: number | string; cnt?: number | string; name?: string };
+// ─────────────────────────────────────────────────────────────────────────────
+
 export const tobaccoRouter = router({
   /**
    * Get all tobacco varieties with optional filtering
@@ -230,8 +237,8 @@ export const tobaccoRouter = router({
       
       const [result] = await db.execute(sql`
         SELECT * FROM tobacco_landraces ORDER BY perfumery_potential_score DESC
-      `) as unknown as [any[]];
-      return { success: true, data: result as any[] };
+      `) as unknown as [SqlRow[]];
+      return { success: true, data: result as SqlRow[] };
     } catch (error) {
       console.error("Error fetching landraces:", error);
       return { success: false, data: [], error: (error as Error).message };
@@ -252,8 +259,8 @@ export const tobaccoRouter = router({
           SELECT * FROM tobacco_landraces 
           WHERE molecular_profile_type = ${input.profile}
           ORDER BY perfumery_potential_score DESC
-        `) as unknown as [any[]];
-        return { success: true, data: result as any[] };
+        `) as unknown as [SqlRow[]];
+        return { success: true, data: result as SqlRow[] };
       } catch (error) {
         console.error("Error fetching landraces by profile:", error);
         return { success: false, data: [], error: (error as Error).message };
@@ -272,8 +279,8 @@ export const tobaccoRouter = router({
         
         const [result] = await db.execute(sql`
           SELECT * FROM tobacco_landraces WHERE id = ${input.id}
-        `) as unknown as [any[]];
-        const rows = result as any[];
+        `) as unknown as [SqlRow[]];
+        const rows = result as SqlRow[];
         return { success: true, data: rows[0] || null };
       } catch (error) {
         console.error("Error fetching landrace:", error);
@@ -303,10 +310,10 @@ export const tobaccoRouter = router({
       return {
         success: true,
         data: {
-          total: ((total as unknown) as any[])[0]?.count || 0,
-          byCountry: (byCountry as unknown) as any[],
-          byProfile: (byProfile as unknown) as any[],
-          byStatus: (byStatus as unknown) as any[]
+          total: ((total as unknown) as CountRow[])[0]?.count || 0,
+          byCountry: (byCountry as unknown) as SqlRow[],
+          byProfile: (byProfile as unknown) as SqlRow[],
+          byStatus: (byStatus as unknown) as SqlRow[]
         }
       };
     } catch (error) {
@@ -329,8 +336,8 @@ export const tobaccoRouter = router({
       
       const [result] = await db.execute(sql`
         SELECT * FROM tobacco_cigarettes ORDER BY perfumery_potential_score DESC
-      `) as unknown as [any[]];
-      return { success: true, data: result as any[] };
+      `) as unknown as [SqlRow[]];
+      return { success: true, data: result as SqlRow[] };
     } catch (error) {
       console.error("Error fetching cigarettes:", error);
       return { success: false, data: [], error: (error as Error).message };
@@ -351,8 +358,8 @@ export const tobaccoRouter = router({
           SELECT * FROM tobacco_cigarettes 
           WHERE region_category = ${input.category}
           ORDER BY perfumery_potential_score DESC
-        `) as unknown as [any[]];
-        return { success: true, data: result as any[] };
+        `) as unknown as [SqlRow[]];
+        return { success: true, data: result as SqlRow[] };
       } catch (error) {
         console.error("Error fetching cigarettes by category:", error);
         return { success: false, data: [], error: (error as Error).message };
@@ -371,8 +378,8 @@ export const tobaccoRouter = router({
         
         const [result] = await db.execute(sql`
           SELECT * FROM tobacco_cigarettes WHERE id = ${input.id}
-        `) as unknown as [any[]];
-        const rows = result as any[];
+        `) as unknown as [SqlRow[]];
+        const rows = result as SqlRow[];
         return { success: true, data: rows[0] || null };
       } catch (error) {
         console.error("Error fetching cigarette:", error);
@@ -394,8 +401,8 @@ export const tobaccoRouter = router({
       
       const [result] = await db.execute(sql`
         SELECT * FROM tobacco_compounds ORDER BY chemical_class, compound_name
-      `) as unknown as [any[]];
-      return { success: true, data: result as any[] };
+      `) as unknown as [SqlRow[]];
+      return { success: true, data: result as SqlRow[] };
     } catch (error) {
       console.error("Error fetching compounds:", error);
       return { success: false, data: [], error: (error as Error).message };
@@ -416,8 +423,8 @@ export const tobaccoRouter = router({
           SELECT * FROM tobacco_compounds 
           WHERE category = ${input.category}
           ORDER BY compound_name
-        `) as unknown as [any[]];
-        return { success: true, data: result as any[] };
+        `) as unknown as [SqlRow[]];
+        return { success: true, data: result as SqlRow[] };
       } catch (error) {
         console.error("Error fetching compounds by category:", error);
         return { success: false, data: [], error: (error as Error).message };
@@ -436,8 +443,8 @@ export const tobaccoRouter = router({
         SELECT * FROM tobacco_compounds 
         WHERE is_new_tobacco_isolate = TRUE
         ORDER BY compound_name
-      `) as unknown as [any[]];
-      return { success: true, data: result as any[] };
+      `) as unknown as [SqlRow[]];
+      return { success: true, data: result as SqlRow[] };
     } catch (error) {
       console.error("Error fetching new isolates:", error);
       return { success: false, data: [], error: (error as Error).message };
@@ -458,8 +465,8 @@ export const tobaccoRouter = router({
       
       const [result] = await db.execute(sql`
         SELECT * FROM soil_analyses ORDER BY terroir_name
-      `) as unknown as [any[]];
-      return { success: true, data: result as any[] };
+      `) as unknown as [SqlRow[]];
+      return { success: true, data: result as SqlRow[] };
     } catch (error) {
       console.error("Error fetching soil analyses:", error);
       return { success: false, data: [], error: (error as Error).message };
@@ -482,8 +489,8 @@ export const tobaccoRouter = router({
         return {
           success: true,
           data: {
-            terroir1: ((result1 as unknown) as any[])[0] || null,
-            terroir2: ((result2 as unknown) as any[])[0] || null
+            terroir1: ((result1 as unknown) as SqlRow[])[0] || null,
+            terroir2: ((result2 as unknown) as SqlRow[])[0] || null
           }
         };
       } catch (error) {
@@ -506,8 +513,8 @@ export const tobaccoRouter = router({
       
       const [result] = await db.execute(sql`
         SELECT * FROM landrace_terpene_profiles ORDER BY landrace_name, relative_abundance DESC
-      `) as unknown as [any[]];
-      return result as any[];
+      `) as unknown as [SqlRow[]];
+      return result as SqlRow[];
     } catch (error) {
       console.error("Error fetching terpene profiles:", error);
       return [];
@@ -528,8 +535,8 @@ export const tobaccoRouter = router({
           SELECT * FROM landrace_terpene_profiles 
           WHERE landrace_name = ${input.landraceName}
           ORDER BY relative_abundance DESC
-        `) as unknown as [any[]];
-        return result as any[];
+        `) as unknown as [SqlRow[]];
+        return result as SqlRow[];
       } catch (error) {
         console.error("Error fetching terpene profiles by landrace:", error);
         return [];
@@ -546,8 +553,8 @@ export const tobaccoRouter = router({
       
       const [result] = await db.execute(sql`
         SELECT * FROM perique_fermentation_stages ORDER BY stage_number
-      `) as unknown as [any[]];
-      return result as any[];
+      `) as unknown as [SqlRow[]];
+      return result as SqlRow[];
     } catch (error) {
       console.error("Error fetching fermentation stages:", error);
       return [];
@@ -564,8 +571,8 @@ export const tobaccoRouter = router({
       
       const [result] = await db.execute(sql`
         SELECT * FROM gcms_chromatograms ORDER BY landrace_name
-      `) as unknown as [any[]];
-      return result as any[];
+      `) as unknown as [SqlRow[]];
+      return result as SqlRow[];
     } catch (error) {
       console.error("Error fetching chromatograms:", error);
       return [];
@@ -587,8 +594,8 @@ export const tobaccoRouter = router({
           JOIN gcms_chromatograms c ON p.chromatogram_id = c.id
           WHERE c.landrace_name = ${input.landraceName}
           ORDER BY p.retention_time
-        `) as unknown as [any[]];
-        return result as any[];
+        `) as unknown as [SqlRow[]];
+        return result as SqlRow[];
       } catch (error) {
         console.error("Error fetching chromatogram peaks:", error);
         return [];
@@ -614,8 +621,8 @@ export const tobaccoRouter = router({
         FROM gcms_peaks p
         JOIN gcms_chromatograms c ON p.chromatogram_id = c.id
         ORDER BY p.concentration_ppm DESC
-      `) as unknown as [any[]];
-      return result as any[];
+      `) as unknown as [SqlRow[]];
+      return result as SqlRow[];
     } catch (error) {
       console.error("Error fetching all chromatogram peaks:", error);
       return [];
@@ -636,10 +643,10 @@ export const tobaccoRouter = router({
       
       const [result] = await db.execute(sql`
         SELECT * FROM ms_spectra ORDER BY compound_name
-      `) as unknown as [any[]];
+      `) as unknown as [SqlRow[]];
       
       // Parse JSON spectrum_data
-      return (result as any[]).map(row => ({
+      return (result as SqlRow[]).map(row => ({
         ...row,
         spectrum_data: typeof row.spectrum_data === 'string' 
           ? JSON.parse(row.spectrum_data) 
@@ -664,9 +671,9 @@ export const tobaccoRouter = router({
         const [result] = await db.execute(sql`
           SELECT * FROM ms_spectra 
           WHERE compound_name = ${input.compoundName}
-        `) as unknown as [any[]];
+        `) as unknown as [SqlRow[]];
         
-        const rows = result as any[];
+        const rows = result as SqlRow[];
         if (rows.length === 0) return null;
         
         const row = rows[0];
@@ -695,9 +702,9 @@ export const tobaccoRouter = router({
         const [result] = await db.execute(sql`
           SELECT * FROM ms_spectra 
           WHERE cas_number = ${input.casNumber}
-        `) as unknown as [any[]];
+        `) as unknown as [SqlRow[]];
         
-        const rows = result as any[];
+        const rows = result as SqlRow[];
         if (rows.length === 0) return null;
         
         const row = rows[0];
@@ -729,8 +736,8 @@ export const tobaccoRouter = router({
           JOIN molecules m ON m.id = tml.molecule_id
           WHERE tml.tabac_id = ${input.tabacId}
           ORDER BY m.name
-        `) as unknown as [any[]];
-        return { success: true, data: result as any[] };
+        `) as unknown as [SqlRow[]];
+        return { success: true, data: result as SqlRow[] };
       } catch (error) {
         console.error("Error fetching variety molecules:", error);
         return { success: false, data: [], error: (error as Error).message };
@@ -751,8 +758,8 @@ export const tobaccoRouter = router({
         LEFT JOIN tabac_molecule_links tml ON t.id = tml.tabac_id
         GROUP BY t.id, t.name, t.type, t.origin, t.aromaticProfile, t.intensity, t.internalNotes
         ORDER BY t.type, t.name
-      `) as unknown as [any[]];
-      return { success: true, data: result as any[] };
+      `) as unknown as [SqlRow[]];
+      return { success: true, data: result as SqlRow[] };
     } catch (error) {
       console.error("Error fetching varieties with molecule count:", error);
       return { success: false, data: [], error: (error as Error).message };

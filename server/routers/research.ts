@@ -11,6 +11,13 @@ import { sql } from "drizzle-orm";
 // Import the tables from schema
 import type { InferSelectModel } from "drizzle-orm";
 
+// ─── Type helpers pour les résultats de requêtes SQL brutes ──────────────────
+/** Ligne générique retournée par db.execute(sql.raw(...)) */
+type SqlRow = Record<string, unknown>;
+/** Résultat d'un COUNT(*) */
+type CountRow = { count?: number | string; total?: number | string; cnt?: number | string; name?: string };
+// ─────────────────────────────────────────────────────────────────────────────
+
 export const researchRouter = router({
   /**
    * Get all research claims with optional filtering
@@ -56,12 +63,12 @@ export const researchRouter = router({
         queryParts.push(` LIMIT ${input.limit} OFFSET ${input.offset}`);
         
         const fullQuery = queryParts.join('');
-        const [results] = await db.execute(sql.raw(fullQuery)) as unknown as [any[]];
+        const [results] = await db.execute(sql.raw(fullQuery)) as unknown as [SqlRow[]];
         
         return {
           success: true,
-          data: results as any[],
-          count: (results as any[]).length,
+          data: results as SqlRow[],
+          count: (results as SqlRow[]).length,
         };
       } catch (error: unknown) {
         console.error("Error fetching research claims:", error);
@@ -118,12 +125,12 @@ export const researchRouter = router({
         queryParts.push(` LIMIT ${input.limit} OFFSET ${input.offset}`);
         
         const fullQuery = queryParts.join('');
-        const [results] = await db.execute(sql.raw(fullQuery)) as unknown as [any[]];
+        const [results] = await db.execute(sql.raw(fullQuery)) as unknown as [SqlRow[]];
         
         return {
           success: true,
-          data: results as any[],
-          count: (results as any[]).length,
+          data: results as SqlRow[],
+          count: (results as SqlRow[]).length,
         };
       } catch (error: unknown) {
         console.error("Error fetching research sources:", error);
@@ -154,9 +161,9 @@ export const researchRouter = router({
         
         const [results] = await db.execute(
           sql.raw(`SELECT * FROM research_claims WHERE id = ${input.id}`)
-        ) as unknown as [any[]];
+        ) as unknown as [SqlRow[]];
         
-        if ((results as any[]).length === 0) {
+        if ((results as SqlRow[]).length === 0) {
           return {
             success: false,
             data: null,
@@ -166,7 +173,7 @@ export const researchRouter = router({
         
         return {
           success: true,
-          data: (results as any[])[0],
+          data: (results as SqlRow[])[0],
         };
       } catch (error: unknown) {
         console.error("Error fetching research claim:", error);
@@ -196,9 +203,9 @@ export const researchRouter = router({
         
         const [results] = await db.execute(
           sql.raw(`SELECT * FROM research_sources WHERE id = ${input.id}`)
-        ) as unknown as [any[]];
+        ) as unknown as [SqlRow[]];
         
-        if ((results as any[]).length === 0) {
+        if ((results as SqlRow[]).length === 0) {
           return {
             success: false,
             data: null,
@@ -208,7 +215,7 @@ export const researchRouter = router({
         
         return {
           success: true,
-          data: (results as any[])[0],
+          data: (results as SqlRow[])[0],
         };
       } catch (error: unknown) {
         console.error("Error fetching research source:", error);
@@ -235,7 +242,7 @@ export const researchRouter = router({
       
       const [result] = await db.execute(
         sql.raw(`SELECT * FROM perique_compounds ORDER BY category, name`)
-      ) as unknown as [any[]];
+      ) as unknown as [SqlRow[]];
       
       // Flatten the result array (db.execute returns [rows, fields])
       const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
@@ -264,26 +271,26 @@ export const researchRouter = router({
       
       const [claimsResult] = await db.execute(
         sql.raw(`SELECT COUNT(*) as total FROM research_claims`)
-      ) as unknown as [any[]];
+      ) as unknown as [SqlRow[]];
       const [sourcesResult] = await db.execute(
         sql.raw(`SELECT COUNT(*) as total FROM research_sources`)
-      ) as unknown as [any[]];
+      ) as unknown as [SqlRow[]];
       
       const [claimsByType] = await db.execute(
         sql.raw(`SELECT claimType, COUNT(*) as count FROM research_claims GROUP BY claimType`)
-      ) as unknown as [any[]];
+      ) as unknown as [SqlRow[]];
       
       const [sourcesByQuality] = await db.execute(
         sql.raw(`SELECT quality, COUNT(*) as count FROM research_sources GROUP BY quality`)
-      ) as unknown as [any[]];
+      ) as unknown as [SqlRow[]];
       
       return {
         success: true,
         data: {
-          totalClaims: ((claimsResult as any[])[0]?.total || 0),
-          totalSources: ((sourcesResult as any[])[0]?.total || 0),
-          claimsByType: claimsByType as any[],
-          sourcesByQuality: sourcesByQuality as any[],
+          totalClaims: ((claimsResult as CountRow[])[0]?.total || 0),
+          totalSources: ((sourcesResult as CountRow[])[0]?.total || 0),
+          claimsByType: claimsByType as SqlRow[],
+          sourcesByQuality: sourcesByQuality as SqlRow[],
         },
       };
     } catch (error: unknown) {
@@ -308,7 +315,7 @@ export const researchRouter = router({
       
       const [result] = await db.execute(
         sql.raw(`SELECT * FROM historic_cigarettes ORDER BY country, name`)
-      ) as unknown as [any[]];
+      ) as unknown as [SqlRow[]];
       
       // Flatten the result array (db.execute returns [rows, fields])
       const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
@@ -337,7 +344,7 @@ export const researchRouter = router({
           LEFT JOIN molecules m ON pml.molecule_id = m.id
           ORDER BY pml.match_type, pml.confidence DESC
         `)
-      ) as unknown as [any[]];
+      ) as unknown as [SqlRow[]];
       
       // Flatten the result array (db.execute returns [rows, fields])
       const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
@@ -379,7 +386,7 @@ export const researchRouter = router({
         
         query += ` ORDER BY product_class, name`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         return Array.isArray(rows) ? rows : [];
       } catch (error: unknown) {
@@ -399,7 +406,7 @@ export const researchRouter = router({
       
       const [result] = await db.execute(
         sql.raw(`SELECT * FROM biosynthetic_pathways ORDER BY name`)
-      ) as unknown as [any[]];
+      ) as unknown as [SqlRow[]];
       
       const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
       return Array.isArray(rows) ? rows : [];
@@ -424,13 +431,13 @@ export const researchRouter = router({
         };
       }
       
-      const [tpsResult] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes`)) as unknown as [any[]];
-      const [monoResult] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes WHERE product_class = 'monoterpene'`)) as unknown as [any[]];
-      const [sesquiResult] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes WHERE product_class = 'sesquiterpene'`)) as unknown as [any[]];
-      const [diResult] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes WHERE product_class = 'diterpene'`)) as unknown as [any[]];
-      const [pathwayResult] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM biosynthetic_pathways`)) as unknown as [any[]];
+      const [tpsResult] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes`)) as unknown as [SqlRow[]];
+      const [monoResult] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes WHERE product_class = 'monoterpene'`)) as unknown as [SqlRow[]];
+      const [sesquiResult] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes WHERE product_class = 'sesquiterpene'`)) as unknown as [SqlRow[]];
+      const [diResult] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM tps_genes WHERE product_class = 'diterpene'`)) as unknown as [SqlRow[]];
+      const [pathwayResult] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM biosynthetic_pathways`)) as unknown as [SqlRow[]];
       
-      const getCount = (result: any) => {
+      const getCount = (result: SqlRow[]) => {
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         return Array.isArray(rows) && rows.length > 0 ? Number(rows[0].count) : 0;
       };
@@ -514,8 +521,8 @@ export const researchRouter = router({
         
         query += ` ORDER BY tg.name, m.name`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
-        return (result as any)[0] || [];
+        const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
+        return (result as SqlRow[])[0] || [];
       } catch (error: unknown) {
         console.error("Error fetching TPS gene-molecule links:", error);
         return [];
@@ -547,9 +554,9 @@ export const researchRouter = router({
           VALUES (${input.tpsGeneId}, ${input.moleculeId}, '${input.relationshipType}', '${input.confidenceLevel}', ${input.evidenceSource ? `'${input.evidenceSource}'` : 'NULL'}, ${input.notes ? `'${input.notes}'` : 'NULL'})
         `;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
-        return { success: true, id: (result as any)[0]?.insertId };
-      } catch (error: any) {
+        const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
+        return { success: true, id: (result as SqlRow[])[0]?.insertId };
+      } catch (error: unknown) {
         if ((error instanceof Error ? (error as NodeJS.ErrnoException).code : undefined) === 'ER_DUP_ENTRY') {
           return { success: false, error: "Cette liaison existe déjà" };
         }
@@ -570,7 +577,7 @@ export const researchRouter = router({
         
         await db.execute(sql.raw(`DELETE FROM tps_gene_molecules WHERE id = ${input.id}`));
         return { success: true };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error deleting TPS gene-molecule link:", error);
         return { success: false, error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -594,25 +601,25 @@ export const researchRouter = router({
         moleculeCoverage: 0,
       };
       
-      const [totalLinks] = await db.execute(sql.raw('SELECT COUNT(*) as count FROM tps_gene_molecules')) as any;
+      const [totalLinks] = await db.execute(sql.raw('SELECT COUNT(*) as count FROM tps_gene_molecules')) as unknown as [SqlRow[]];
       const [byRelationship] = await db.execute(sql.raw(`
         SELECT relationship_type as type, COUNT(*) as count 
         FROM tps_gene_molecules 
         GROUP BY relationship_type
-      `)) as any;
+      `)) as unknown as [SqlRow[]];
       const [byConfidence] = await db.execute(sql.raw(`
         SELECT confidence_level as level, COUNT(*) as count 
         FROM tps_gene_molecules 
         GROUP BY confidence_level
-      `)) as any;
+      `)) as unknown as [SqlRow[]];
       const [linkedGenes] = await db.execute(sql.raw(`
         SELECT COUNT(DISTINCT tps_gene_id) as count FROM tps_gene_molecules
-      `)) as any;
+      `)) as unknown as [SqlRow[]];
       const [linkedMolecules] = await db.execute(sql.raw(`
         SELECT COUNT(DISTINCT molecule_id) as count FROM tps_gene_molecules
-      `)) as any;
-      const [totalGenes] = await db.execute(sql.raw('SELECT COUNT(*) as count FROM tps_genes')) as any;
-      const [totalMolecules] = await db.execute(sql.raw('SELECT COUNT(*) as count FROM molecules')) as any;
+      `)) as unknown as [SqlRow[]];
+      const [totalGenes] = await db.execute(sql.raw('SELECT COUNT(*) as count FROM tps_genes')) as unknown as [SqlRow[]];
+      const [totalMolecules] = await db.execute(sql.raw('SELECT COUNT(*) as count FROM molecules')) as unknown as [SqlRow[]];
       
       const tGenes = totalGenes[0]?.count || 0;
       const tMols = totalMolecules[0]?.count || 0;
@@ -655,10 +662,10 @@ export const researchRouter = router({
       if (!db) return { success: false, error: "Database connection failed", linksCreated: 0 };
       
       // Get all TPS genes
-      const [genes] = await db.execute(sql.raw(`SELECT id, name, main_product FROM tps_genes`)) as any;
+      const [genes] = await db.execute(sql.raw(`SELECT id, name, main_product FROM tps_genes`)) as unknown as [SqlRow[]];
       
       // Get all molecules
-      const [moleculesList] = await db.execute(sql.raw(`SELECT id, name FROM molecules`)) as any;
+      const [moleculesList] = await db.execute(sql.raw(`SELECT id, name FROM molecules`)) as unknown as [SqlRow[]];
       
       let linksCreated = 0;
       
@@ -685,7 +692,7 @@ export const researchRouter = router({
       }
       
       return { success: true, linksCreated };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error auto-linking TPS genes to molecules:", error);
       return { success: false, error: (error instanceof Error ? error.message : String(error)), linksCreated: 0 };
     }
@@ -702,7 +709,7 @@ export const researchRouter = router({
         if (!db) return { success: false, error: "Database connection failed", gene: null, matches: [] };
         
         // Get the TPS gene details
-        const [geneRows] = await db.execute(sql.raw(`SELECT * FROM tps_genes WHERE id = ${input.tpsGeneId}`)) as any;
+        const [geneRows] = await db.execute(sql.raw(`SELECT * FROM tps_genes WHERE id = ${input.tpsGeneId}`)) as unknown as [SqlRow[]];
         const gene = geneRows[0];
         
         if (!gene) {
@@ -731,7 +738,7 @@ export const researchRouter = router({
             OR LOWER('${mainProduct}') LIKE CONCAT('%', LOWER(m.name), '%')
           ORDER BY matchScore DESC
           LIMIT 20
-        `)) as any;
+        `)) as unknown as [SqlRow[]];
         
         return {
           success: true,
@@ -743,7 +750,7 @@ export const researchRouter = router({
           },
           matches: matches || [],
         };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error searching molecule matches:", error);
         return { success: false, error: (error instanceof Error ? error.message : String(error)), gene: null, matches: [] };
       }
@@ -804,8 +811,8 @@ export const researchRouter = router({
           LIMIT ${input.limit}
         `;
 
-        const [pathsResult] = await db.execute(sql.raw(pathsQuery)) as unknown as [any[]];
-        const paths = (pathsResult[0] as unknown) as any[];
+        const [pathsResult] = await db.execute(sql.raw(pathsQuery)) as unknown as [SqlRow[]];
+        const paths = (pathsResult[0] as unknown) as SqlRow[];
 
         // Get statistics
         const statsQuery = `
@@ -821,8 +828,8 @@ export const researchRouter = router({
           LEFT JOIN recette_molecules rm ON m.id = rm.molecule_id
           LEFT JOIN recettes r ON rm.recette_id = r.id
         `;
-        const [statsResult] = await db.execute(sql.raw(statsQuery)) as unknown as [any[]];
-        const statsRows = (statsResult[0] as unknown) as any[];
+        const [statsResult] = await db.execute(sql.raw(statsQuery)) as unknown as [SqlRow[]];
+        const statsRows = (statsResult[0] as unknown) as SqlRow[];
         const stats = statsRows[0] || null;
 
         // Group paths by gene for visualization
@@ -837,7 +844,7 @@ export const researchRouter = router({
           }>;
         }> = {};
 
-        for (const row of paths as any[]) {
+        for (const row of paths) {
           if (!groupedPaths[row.gene_id]) {
             groupedPaths[row.gene_id] = {
               gene: {
@@ -882,7 +889,7 @@ export const researchRouter = router({
           stats,
           rawPaths: paths,
         };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error getting biosynthetic pathways:", error);
         return { success: false, paths: [], stats: null, error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -937,17 +944,17 @@ export const researchRouter = router({
 
         query += ` ORDER BY mt.source_molecule_name LIMIT ${input.limit} OFFSET ${input.offset}`;
 
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
-        let data = result as any[];
+        const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
+        let data = result as SqlRow[];
         // Flatten if nested array (some DB drivers return [[...]])
         if (Array.isArray(data) && data.length > 0 && Array.isArray(data[0])) {
           data = data.flat();
         }
         // Filter out metadata objects (they have _buf property)
-        data = data.filter((item: any) => item && typeof item === 'object' && !item._buf && item.id !== undefined);
+        data = (data as SqlRow[]).filter((item) => item && typeof item === 'object' && !(item as Record<string,unknown>)._buf && (item as Record<string,unknown>).id !== undefined);
 
         return { success: true, data };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error getting molecular transformations:", error);
         return { success: false, data: [], error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -971,11 +978,11 @@ export const researchRouter = router({
           COUNT(DISTINCT transformation_type) as transformation_types,
           COUNT(DISTINCT relevance_context) as relevance_contexts
         FROM molecular_transformations
-      `)) as unknown as [any[]];
+      `)) as unknown as [SqlRow[]];
 
-      const stats = (result as any[])[0] || null;
+      const stats = (result as SqlRow[])[0] || null;
       return { success: true, stats };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error getting transformation stats:", error);
       return { success: false, stats: null, error: (error instanceof Error ? error.message : String(error)) };
     }
@@ -1046,10 +1053,10 @@ export const researchRouter = router({
             ${input.sourceReference ? `'${escapeSql(input.sourceReference)}'` : 'NULL'},
             ${input.notes ? `'${escapeSql(input.notes)}'` : 'NULL'}
           )
-        `)) as unknown as [any[]];
+        `)) as unknown as [SqlRow[]];
 
         return { success: true, message: "Transformation created successfully" };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error creating molecular transformation:", error);
         return { success: false, error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -1072,11 +1079,11 @@ export const researchRouter = router({
         FROM molecular_transformations
         GROUP BY transformation_type
         ORDER BY count DESC
-      `)) as unknown as [any[]];
+      `)) as unknown as [SqlRow[]];
 
-      const data = result as any[];
+      const data = result as SqlRow[];
       return { success: true, data };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error getting transformation types:", error);
       return { success: false, data: [], error: (error instanceof Error ? error.message : String(error)) };
     }
@@ -1151,11 +1158,11 @@ export const researchRouter = router({
               WHEN 'trace' THEN 4 
             END,
             mt.source_molecule_name
-        `)) as unknown as [any[]];
+        `)) as unknown as [SqlRow[]];
 
-        const impacts = result as any[];
+        const impacts = result as SqlRow[];
         return { success: true, impacts };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error getting transformation recipe impacts:", error);
         return { success: false, impacts: [], error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -1192,11 +1199,11 @@ export const researchRouter = router({
               WHEN 'minor' THEN 3 
               WHEN 'trace' THEN 4 
             END
-        `)) as unknown as [any[]];
+        `)) as unknown as [SqlRow[]];
 
-        const recipes = result as any[];
+        const recipes = result as SqlRow[];
         return { success: true, recipes };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error getting recipes affected by transformation:", error);
         return { success: false, recipes: [], error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -1235,11 +1242,11 @@ export const researchRouter = router({
               WHEN 'minor' THEN 3 
               WHEN 'trace' THEN 4 
             END
-        `)) as unknown as [any[]];
+        `)) as unknown as [SqlRow[]];
 
-        const transformations = result as any[];
+        const transformations = result as SqlRow[];
         return { success: true, transformations };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error getting transformations affecting recipe:", error);
         return { success: false, transformations: [], error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -1289,12 +1296,12 @@ export const researchRouter = router({
       return {
         success: true,
         stats: {
-          impactCounts: (impactCounts[0] as unknown) as any[],
-          topTransformations: (topTransformations[0] as unknown) as any[],
-          topRecipes: (topRecipes[0] as unknown) as any[],
+          impactCounts: (impactCounts[0] as unknown) as SqlRow[],
+          topTransformations: (topTransformations[0] as unknown) as SqlRow[],
+          topRecipes: (topRecipes[0] as unknown) as SqlRow[],
         },
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error getting transformation impact stats:", error);
       return { success: false, stats: null, error: (error instanceof Error ? error.message : String(error)) };
     }
@@ -1343,10 +1350,10 @@ export const researchRouter = router({
             ${input.notes ? `'${escapeSql(input.notes)}'` : 'NULL'},
             ${input.sourceReference ? `'${escapeSql(input.sourceReference)}'` : 'NULL'}
           )
-        `)) as unknown as [any[]];
+        `)) as unknown as [SqlRow[]];
 
         return { success: true, message: "Impact link created successfully" };
-      } catch (error: any) {
+      } catch (error: unknown) {
         if ((error instanceof Error ? (error as NodeJS.ErrnoException).code : undefined) === 'ER_DUP_ENTRY') {
           return { success: false, error: "Cette liaison existe déjà" };
         }
@@ -1369,7 +1376,7 @@ export const researchRouter = router({
 
         await db.execute(sql.raw(`DELETE FROM transformation_recipe_impacts WHERE id = ${input.id}`));
         return { success: true };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error deleting transformation recipe impact:", error);
         return { success: false, error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -1418,8 +1425,8 @@ export const researchRouter = router({
 
         query += ` ORDER BY mt.source_molecule_name`;
 
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
-        const transformations = result as any[];
+        const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
+        const transformations = result as SqlRow[];
 
         // Build nodes and links for D3.js force-directed graph
         const nodesMap = new Map<string, { id: string; name: string; type: 'source' | 'product' | 'both'; moleculeId?: number; transformationCount: number }>();
@@ -1536,7 +1543,7 @@ export const researchRouter = router({
             longestChain: uniqueChains[0]?.path.length || 0,
           },
         };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error getting transformation chains:", error);
         return { success: false, nodes: [], links: [], chains: [], error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -1593,7 +1600,7 @@ export const researchRouter = router({
           LEFT JOIN molecules pm ON mt.product_molecule_id = pm.id
           WHERE ${sourceCondition}
           ORDER BY mt.transformation_type, mt.product_molecule_name
-        `)) as unknown as [any[]];
+        `)) as unknown as [SqlRow[]];
 
         // Get transformations where molecule is product
         const [asProductResult] = await db.execute(sql.raw(`
@@ -1615,10 +1622,10 @@ export const researchRouter = router({
           LEFT JOIN molecules sm ON mt.source_molecule_id = sm.id
           WHERE ${productCondition}
           ORDER BY mt.transformation_type, mt.source_molecule_name
-        `)) as unknown as [any[]];
+        `)) as unknown as [SqlRow[]];
 
-        const asSource = (asSourceResult[0] as unknown) as any[];
-        const asProduct = (asProductResult[0] as unknown) as any[];
+        const asSource = (asSourceResult[0] as unknown) as SqlRow[];
+        const asProduct = (asProductResult[0] as unknown) as SqlRow[];
 
         return {
           success: true,
@@ -1630,7 +1637,7 @@ export const researchRouter = router({
             total: asSource.length + asProduct.length,
           },
         };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error getting transformations by molecule:", error);
         return { success: false, asSource: [], asProduct: [], error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -1675,7 +1682,7 @@ export const researchRouter = router({
         
         query += ` ORDER BY citations DESC LIMIT ${input?.limit || 50} OFFSET ${input?.offset || 0}`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         
         return {
@@ -1683,7 +1690,7 @@ export const researchRouter = router({
           data: Array.isArray(rows) ? rows : [],
           count: Array.isArray(rows) ? rows.length : 0,
         };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error fetching publications:", error);
         return { success: false, data: [], count: 0, error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -1703,12 +1710,12 @@ export const researchRouter = router({
 
         const [result] = await db.execute(
           sql.raw(`SELECT * FROM research_publications WHERE id = ${input.id}`)
-        ) as unknown as [any[]];
+        ) as unknown as [SqlRow[]];
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         const data = Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
         
         return { success: true, data };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error fetching publication:", error);
         return { success: false, data: null, error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -1743,14 +1750,14 @@ export const researchRouter = router({
         
         query += ` ORDER BY performance_score DESC`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         
         return {
           success: true,
           data: Array.isArray(rows) ? rows : [],
         };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error fetching analytical methods:", error);
         return { success: false, data: [], error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -1785,14 +1792,14 @@ export const researchRouter = router({
         
         query += ` ORDER BY total_citations DESC`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         
         return {
           success: true,
           data: Array.isArray(rows) ? rows : [],
         };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error fetching researchers:", error);
         return { success: false, data: [], error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -1831,14 +1838,14 @@ export const researchRouter = router({
         
         query += ` ORDER BY total_citations DESC`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         
         return {
           success: true,
           data: Array.isArray(rows) ? rows : [],
         };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error fetching institutions:", error);
         return { success: false, data: [], error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -1854,32 +1861,32 @@ export const researchRouter = router({
         return { success: false, data: null, error: "Database connection failed" };
       }
 
-      const [pubCount] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM research_publications`)) as unknown as [any[]];
-      const [methodCount] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM analytical_methods`)) as unknown as [any[]];
-      const [researcherCount] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM researchers`)) as unknown as [any[]];
-      const [instCount] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM research_institutions`)) as unknown as [any[]];
-      const [totalCitations] = await db.execute(sql.raw(`SELECT COALESCE(SUM(citations), 0) as total FROM research_publications`)) as unknown as [any[]];
+      const [pubCount] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM research_publications`)) as unknown as [SqlRow[]];
+      const [methodCount] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM analytical_methods`)) as unknown as [SqlRow[]];
+      const [researcherCount] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM researchers`)) as unknown as [SqlRow[]];
+      const [instCount] = await db.execute(sql.raw(`SELECT COUNT(*) as count FROM research_institutions`)) as unknown as [SqlRow[]];
+      const [totalCitations] = await db.execute(sql.raw(`SELECT COALESCE(SUM(citations), 0) as total FROM research_publications`)) as unknown as [SqlRow[]];
 
       const [pubBySubject] = await db.execute(sql.raw(`
         SELECT subject_matter, COUNT(*) as count 
         FROM research_publications 
         GROUP BY subject_matter
-      `)) as unknown as [any[]];
+      `)) as unknown as [SqlRow[]];
       
       const [pubByYear] = await db.execute(sql.raw(`
         SELECT year, COUNT(*) as count, COALESCE(SUM(citations), 0) as citations
         FROM research_publications 
         GROUP BY year 
         ORDER BY year
-      `)) as unknown as [any[]];
+      `)) as unknown as [SqlRow[]];
 
       const [methodsByCategory] = await db.execute(sql.raw(`
         SELECT category, COUNT(*) as count 
         FROM analytical_methods 
         GROUP BY category
-      `)) as unknown as [any[]];
+      `)) as unknown as [SqlRow[]];
 
-      const extractRows = (result: any) => {
+      const extractRows = (result: SqlRow[]) => {
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         return Array.isArray(rows) ? rows : [];
       };
@@ -1897,7 +1904,7 @@ export const researchRouter = router({
           methodsByCategory: extractRows(methodsByCategory),
         },
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error fetching research stats:", error);
       return { success: false, data: null, error: (error instanceof Error ? error.message : String(error)) };
     }
@@ -1917,14 +1924,14 @@ export const researchRouter = router({
 
         const [result] = await db.execute(
           sql.raw(`SELECT * FROM research_publications ORDER BY citations DESC LIMIT ${input?.limit || 10}`)
-        ) as unknown as [any[]];
+        ) as unknown as [SqlRow[]];
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         
         return {
           success: true,
           data: Array.isArray(rows) ? rows : [],
         };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error fetching top cited publications:", error);
         return { success: false, data: [], error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -1949,14 +1956,14 @@ export const researchRouter = router({
           FROM analytical_methods
           ORDER BY performance_score DESC
         `)
-      ) as unknown as [any[]];
+      ) as unknown as [SqlRow[]];
       const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
       
       return {
         success: true,
         data: Array.isArray(rows) ? rows : [],
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error fetching methods performance:", error);
       return { success: false, data: [], error: (error instanceof Error ? error.message : String(error)) };
     }
@@ -1995,7 +2002,7 @@ export const researchRouter = router({
         query += ` ORDER BY name ASC`;
         query += ` LIMIT ${input?.limit || 50} OFFSET ${input?.offset || 0}`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         
         return {
@@ -2003,7 +2010,7 @@ export const researchRouter = router({
           data: Array.isArray(rows) ? rows : [],
           count: Array.isArray(rows) ? rows.length : 0,
         };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error fetching analytical methods:", error);
         return { success: false, data: [], count: 0, error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -2042,7 +2049,7 @@ export const researchRouter = router({
         query += ` ORDER BY id DESC`;
         query += ` LIMIT ${input?.limit || 100} OFFSET ${input?.offset || 0}`;
         
-        const [result] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
         const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
         
         return {
@@ -2050,7 +2057,7 @@ export const researchRouter = router({
           data: Array.isArray(rows) ? rows : [],
           count: Array.isArray(rows) ? rows.length : 0,
         };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error fetching molecular transformations:", error);
         return { success: false, data: [], count: 0, error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -2106,7 +2113,7 @@ export const researchRouter = router({
         
         query += ` ORDER BY rp.year DESC, m.name ASC`;
         
-        const [linksResult] = await db.execute(sql.raw(query)) as unknown as [any[]];
+        const [linksResult] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
         const links = Array.isArray(linksResult) && linksResult.length > 0 ? linksResult[0] : linksResult;
         
         // Get unique publications
@@ -2115,7 +2122,7 @@ export const researchRouter = router({
           FROM research_publications rp
           JOIN publication_molecule_links pml ON rp.id = pml.publication_id
           ORDER BY rp.year DESC
-        `)) as unknown as [any[]];
+        `)) as unknown as [SqlRow[]];
         const publications = Array.isArray(pubsResult) && pubsResult.length > 0 ? pubsResult[0] : pubsResult;
         
         // Get unique molecules
@@ -2124,7 +2131,7 @@ export const researchRouter = router({
           FROM molecules m
           JOIN publication_molecule_links pml ON m.id = pml.molecule_id
           ORDER BY m.name ASC
-        `)) as unknown as [any[]];
+        `)) as unknown as [SqlRow[]];
         const molecules = Array.isArray(molsResult) && molsResult.length > 0 ? molsResult[0] : molsResult;
         
         return {
@@ -2138,7 +2145,7 @@ export const researchRouter = router({
             totalMolecules: Array.isArray(molecules) ? molecules.length : 0,
           }
         };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error fetching publication-molecule links:", error);
         return { success: false, links: [], publications: [], molecules: [], error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -2163,7 +2170,7 @@ export const researchRouter = router({
         if (!db) return { success: false, data: [], count: 0, error: "DB connection failed" };
 
         let whereClause = 'WHERE 1=1';
-        const params: any[] = [];
+        const params: (string | number | boolean)[] = [];
 
         if (input.search) {
           whereClause += ' AND (name LIKE ? OR notes LIKE ? OR key_molecules LIKE ?)';
@@ -2181,11 +2188,11 @@ export const researchRouter = router({
 
         const safeLimit = Math.max(1, Math.min(500, Math.floor(Number(input.limit))));
         const safeOffset = Math.max(0, Math.floor(Number(input.offset)));
-        const [rows] = await (db as any).$client.execute(
+        const [rows] = await (db as unknown as { $client: { execute: (q: string, p?: unknown[]) => Promise<[SqlRow[], unknown]> } }).$client.execute(
           `SELECT * FROM aromatic_rarities ${whereClause} ORDER BY rarity_id LIMIT ${safeLimit} OFFSET ${safeOffset}`,
           params
         );
-        const [countRows] = await (db as any).$client.execute(
+        const [countRows] = await (db as unknown as { $client: { execute: (q: string, p?: unknown[]) => Promise<[CountRow[], unknown]> } }).$client.execute(
           `SELECT COUNT(*) as total FROM aromatic_rarities ${whereClause}`,
           params
         );
@@ -2195,7 +2202,7 @@ export const researchRouter = router({
           data: Array.isArray(rows) ? rows : [],
           count: countRows[0]?.total || 0,
         };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error fetching aromatic rarities:", error);
         return { success: false, data: [], count: 0, error: (error instanceof Error ? error.message : String(error)) };
       }
@@ -2211,7 +2218,7 @@ export const researchRouter = router({
         const db = await getDb();
         if (!db) return { success: false, data: null, error: "DB connection failed" };
 
-        const [rows] = await (db as any).$client.execute(
+        const [rows] = await (db as unknown as { $client: { execute: (q: string, p?: unknown[]) => Promise<[SqlRow[], unknown]> } }).$client.execute(
           `SELECT * FROM aromatic_rarities WHERE rarity_id = ? LIMIT 1`,
           [input.rarityId]
         );
@@ -2220,7 +2227,7 @@ export const researchRouter = router({
           success: true,
           data: Array.isArray(rows) && rows.length > 0 ? rows[0] : null,
         };
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error("Error fetching aromatic rarity:", error);
         return { success: false, data: null, error: (error instanceof Error ? error.message : String(error)) };
       }
