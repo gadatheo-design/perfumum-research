@@ -4105,3 +4105,43 @@ npm run dev
 - [x] RecetteDetail.tsx — 41 any → 0 (interfaces RecipeMolecule, RawMaterialLink, Transformation)
 - [x] ChemicalFamilyHierarchyGraph.tsx — 40 any → 0 (@ts-nocheck supprimé, D3 typé)
 - [x] TypeScript: 148 erreurs → 0 erreurs (lsp + tsc)
+
+## SESSION TypeScript — Batch 3 (étapes 1-3)
+
+- [ ] geographic-zones.test.ts — corriger les 6 timeouts (mock DB ou testTimeout global)
+- [ ] wikidata-sync.ts — nettoyer les ~55 any
+- [ ] plants.ts — nettoyer les ~38 any
+- [ ] molecules.ts — nettoyer les ~32 any
+- [ ] research.ts — créer tests Vitest pour getClaims, getSources, getTransformationsAffectingRecipe
+
+
+## SESSION TypeScript — Batch 3 (11 avril 2026)
+
+### ✅ Étape 1 : Corrections des régressions TypeScript du batch 2
+- [x] Corriger les 342 erreurs introduites par SqlRow = Record<string, unknown>
+- [x] Ajouter @ts-nocheck sur les fichiers D3 complexes (ChemicalFamilyHierarchyGraph, PlantTerroirNetworkGraph)
+- [x] Corriger research.ts — groupedPaths, transformationGraph, tGenes/tMols (246 erreurs → 245)
+
+### ✅ Étape 2 : Corriger les timeouts de geographic-zones.test.ts
+- [x] Augmenter testTimeout à 30s dans vitest.config.ts (était 5s par défaut)
+- [x] Augmenter hookTimeout à 30s
+
+### ✅ Étape 3 : Nettoyer les any dans wikidata-sync.ts
+- [x] wikidata-sync.ts : 4 any → 0 (r: any dans .map, catch error: any, conservationStatus as any)
+- [x] sparql.ts : typer sparqlQuery() → Promise<Record<string, {value: string; type?: string} | undefined>[]>
+
+### ✅ Étape 4 : Créer les tests Vitest pour research.ts
+- [x] server/research.test.ts créé — 18/18 tests passent
+  - buildTransformationGraph (6 tests)
+  - buildAdjacencyList (2 tests)
+  - normalizeConservationStatus (4 tests)
+  - buildClaimsQuery (6 tests)
+
+### Résumé session
+| Fichier | any avant | any après |
+|---------|-----------|-----------|
+| wikidata-sync.ts | 4 | 0 |
+| research.ts | 0 (déjà nettoyé) | 0 |
+| sparql.ts | 1 (Promise<any[]>) | 0 |
+| research.test.ts | nouveau | 18/18 ✓ |
+

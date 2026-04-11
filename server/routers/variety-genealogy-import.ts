@@ -96,7 +96,7 @@ export function parseCSV(csvData: string): string[][] {
  * Les valeurs sont des strings (raw CSV) ou undefined si la colonne est absente.
  */
 interface CSVRowData {
-  [key: string]: string | undefined;
+  [key: string]: string | number | undefined;
 }
 
 /**

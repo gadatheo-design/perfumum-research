@@ -621,10 +621,10 @@ export const researchRouter = router({
       const [totalGenes] = await db.execute(sql.raw('SELECT COUNT(*) as count FROM tps_genes')) as unknown as [SqlRow[]];
       const [totalMolecules] = await db.execute(sql.raw('SELECT COUNT(*) as count FROM molecules')) as unknown as [SqlRow[]];
       
-      const tGenes = totalGenes[0]?.count || 0;
-      const tMols = totalMolecules[0]?.count || 0;
-      const lGenes = linkedGenes[0]?.count || 0;
-      const lMols = linkedMolecules[0]?.count || 0;
+      const tGenes = Number(totalGenes[0]?.count || 0);
+      const tMols = Number(totalMolecules[0]?.count || 0);
+      const lGenes = Number(linkedGenes[0]?.count || 0);
+      const lMols = Number(linkedMolecules[0]?.count || 0);
       
       return {
         totalLinks: totalLinks[0]?.count || 0,
@@ -670,10 +670,10 @@ export const researchRouter = router({
       let linksCreated = 0;
       
       for (const gene of genes) {
-        const mainProduct = gene.main_product.toLowerCase();
+        const mainProduct = (gene.main_product as string).toLowerCase();
         
         for (const mol of moleculesList) {
-          const molName = mol.name.toLowerCase();
+          const molName = (mol.name as string).toLowerCase();
           
           // Check for exact or partial match
           if (molName.includes(mainProduct) || mainProduct.includes(molName)) {
@@ -845,39 +845,42 @@ export const researchRouter = router({
         }> = {};
 
         for (const row of paths) {
-          if (!groupedPaths[row.gene_id]) {
-            groupedPaths[row.gene_id] = {
+          const geneId = row.gene_id as number;
+          if (!groupedPaths[geneId]) {
+            groupedPaths[geneId] = {
               gene: {
-                id: row.gene_id,
-                name: row.gene_name,
-                subfamily: row.subfamily,
-                main_product: row.main_product,
-                olfactory: row.gene_olfactory,
-                pathway: row.pathway,
-                product_class: row.product_class,
+                id: row.gene_id as number,
+                name: row.gene_name as string,
+                subfamily: row.subfamily as string,
+                main_product: row.main_product as string,
+                olfactory: row.gene_olfactory as string,
+                pathway: row.pathway as string,
+                product_class: row.product_class as string,
               },
               molecules: [],
             };
           }
 
           if (row.molecule_id) {
-            let molecule = groupedPaths[row.gene_id].molecules.find(m => m.id === row.molecule_id);
+            const molId = row.molecule_id as number;
+            let molecule = groupedPaths[geneId].molecules.find((m) => m.id === molId);
             if (!molecule) {
               molecule = {
-                id: row.molecule_id,
-                name: row.molecule_name,
-                relationship: row.relationship_type,
-                confidence: row.confidence,
+                id: row.molecule_id as number,
+                name: row.molecule_name as string,
+                relationship: row.relationship_type as string,
+                confidence: row.confidence as string,
                 recipes: [],
               };
-              groupedPaths[row.gene_id].molecules.push(molecule);
+              groupedPaths[geneId].molecules.push(molecule);
             }
 
-            if (row.recipe_id && !molecule.recipes.find(r => r.id === row.recipe_id)) {
+            const recipeId = row.recipe_id as number;
+            if (row.recipe_id && !molecule.recipes.find((r) => r.id === recipeId)) {
               molecule.recipes.push({
-                id: row.recipe_id,
-                name: row.recipe_name,
-                category: row.recipe_category,
+                id: row.recipe_id as number,
+                name: row.recipe_name as string,
+                category: row.recipe_category as string,
               });
             }
           }
@@ -1433,16 +1436,16 @@ export const researchRouter = router({
         const links: Array<{ source: string; target: string; transformationType: string; temperature?: number; description?: string; id: number }> = [];
 
         for (const t of transformations) {
-          const sourceKey = t.source_molecule_name.toLowerCase();
-          const productKey = t.product_molecule_name.toLowerCase();
+          const sourceKey = (t.source_molecule_name as string).toLowerCase();
+          const productKey = (t.product_molecule_name as string).toLowerCase();
 
           // Add or update source node
           if (!nodesMap.has(sourceKey)) {
             nodesMap.set(sourceKey, {
               id: sourceKey,
-              name: t.source_molecule_name,
+              name: t.source_molecule_name as string,
               type: 'source',
-              moleculeId: t.source_molecule_id,
+              moleculeId: t.source_molecule_id as number | undefined,
               transformationCount: 1,
             });
           } else {
@@ -1455,9 +1458,9 @@ export const researchRouter = router({
           if (!nodesMap.has(productKey)) {
             nodesMap.set(productKey, {
               id: productKey,
-              name: t.product_molecule_name,
+              name: t.product_molecule_name as string,
               type: 'product',
-              moleculeId: t.product_molecule_id,
+              moleculeId: t.product_molecule_id as number | undefined,
               transformationCount: 1,
             });
           } else {
@@ -1470,10 +1473,10 @@ export const researchRouter = router({
           links.push({
             source: sourceKey,
             target: productKey,
-            transformationType: t.transformation_type,
-            temperature: t.temperature_optimal,
-            description: t.olfactory_change_description,
-            id: t.id,
+            transformationType: t.transformation_type as string,
+            temperature: t.temperature_optimal as number | undefined,
+            description: t.olfactory_change_description as string | undefined,
+            id: t.id as number,
           });
         }
 

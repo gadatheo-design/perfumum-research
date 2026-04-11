@@ -432,7 +432,7 @@ export const moleculeManagerRouter = router({
       `) as unknown as [SqlRow[]];
       const plantMap = new Map<number, { name: string; category: string }>();
       (Array.isArray(plantRows) ? plantRows : []).forEach((p: SqlRow) => {
-        plantMap.set(Number(p.id), { name: p.name, category: p.category });
+        plantMap.set(Number(p.id), { name: p.name as string, category: p.category as string });
       });
 
       const nodes = Array.from(allIds).map(id => {

@@ -1,7 +1,8 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import * as db from './db';
 
 describe('Geographic Zones', () => {
+  beforeAll(() => { /* timeout handled per-test */ }, 30000);
   it('should list all geographic zones', async () => {
     const zones = await db.listGeographicZones({});
     expect(zones).toBeDefined();

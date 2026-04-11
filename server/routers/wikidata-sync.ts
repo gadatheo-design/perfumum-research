@@ -105,7 +105,7 @@ async function queryWikidataForHybrids(scientificName: string): Promise<string[]
     `;
     const bindings = await sparqlQuery(query);
     return bindings
-      .map((r: any) => r.hybridLabel?.value ?? "")
+      .map((r) => r.hybridLabel?.value ?? "")
       .filter(Boolean);
   } catch {
     return [];
@@ -126,7 +126,7 @@ async function queryWikidataForDistribution(scientificName: string): Promise<str
     `;
     const bindings = await sparqlQuery(query);
     return bindings
-      .map((r: any) => r.countryLabel?.value ?? "")
+      .map((r) => r.countryLabel?.value ?? "")
       .filter(Boolean);
   } catch {
     return [];
@@ -153,11 +153,11 @@ export const wikidataSyncRouter = router({
         taxaFound: bindings.length,
         timestamp: new Date().toISOString(),
       };
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Wikidata health check failed:", error);
       return {
         status: "error",
-        message: `Wikidata SPARQL endpoint is not responding: ${error?.message ?? "unknown error"}`,
+        message: `Wikidata SPARQL endpoint is not responding: ${error instanceof Error ? error.message : "unknown error"}`,
         timestamp: new Date().toISOString(),
       };
     }
@@ -301,7 +301,7 @@ export const wikidataSyncRouter = router({
       await db
         .update(plants)
         .set({
-          conservationStatus: normalizedStatus as any,
+          conservationStatus: normalizedStatus as "LC" | "NT" | "VU" | "EN" | "CR" | "EW" | "EX" | null,
           wikidataQid: input.wikidataQid,
           wikidataEnrichedAt: new Date(),
         })

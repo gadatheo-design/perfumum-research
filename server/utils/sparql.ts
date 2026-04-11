@@ -69,7 +69,7 @@ function jitter(ms: number): number {
 export async function sparqlQuery(
   query: string,
   opts: SparqlOptions = {}
-): Promise<any[]> {
+): Promise<Record<string, { value: string; type?: string } | undefined>[]> {
   const cfg = { ...DEFAULTS, ...opts };
 
   let attempt = 0;
