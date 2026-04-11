@@ -111,13 +111,13 @@ interface CSVParseResult {
 function convertRowsToObjects(
   rows: string[][],
   headers: string[]
-): Array<{ data: CSVRowData[]; rowNumber: number; errors: string[] }> {
-  const results: Array<{ data: CSVRowData[]; rowNumber: number; errors: string[] }> = [];
+): Array<{ data: CSVRowData; rowNumber: number; errors: string[] }> {
+  const results: Array<{ data: CSVRowData; rowNumber: number; errors: string[] }> = [];
 
   for (let i = 1; i < rows.length; i++) {
     const row = rows[i];
     const errors: string[] = [];
-    const data: CSVRowData[] = {};
+    const data: CSVRowData = {};
 
     for (let j = 0; j < headers.length; j++) {
       const header = headers[j].toLowerCase().trim();
