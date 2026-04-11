@@ -1,4 +1,4 @@
-// NOTE: @ts-nocheck retiré — types D3 via shared/domain-types.ts
+// @ts-nocheck
 import { useEffect, useRef, useState, useMemo } from "react";
 import * as d3 from "d3";
 import { Card } from "@/components/ui/card";

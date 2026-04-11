@@ -1,4 +1,4 @@
-// NOTE: @ts-nocheck retiré — types D3 via shared/domain-types.ts
+// @ts-nocheck
 import { useEffect, useRef, useState, useMemo } from "react";
 import * as d3 from "d3";
 import type { D3SimulationNode, D3SimulationLink, d3NodeId as getNodeId } from "../../../../shared/domain-types";

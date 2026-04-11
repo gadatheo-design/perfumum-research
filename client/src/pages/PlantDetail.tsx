@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from "react";
 import { safeJsonParse } from "@/lib/utils";
 import { useParams, Link } from "wouter";

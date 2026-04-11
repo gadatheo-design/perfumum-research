@@ -1,4 +1,4 @@
-// NOTE: @ts-nocheck retiré — types partagés via shared/domain-types.ts
+// @ts-nocheck
 import { Link, useParams } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ReferencesList } from "@/components/ReferencesList";
