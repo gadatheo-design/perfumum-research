@@ -4047,3 +4047,11 @@ npm run dev
 
 - [x] Lien retour Résines & Encens dans MoleculeDetail.tsx pour molécules liées aux résines
 - [x] Ajout Styrax et Oud de Papouasie dans resin-maturation.ts (total 19 résines)
+- [ ] Page Procédés d'Extraction & Distillation — routeur extraction-processes.ts
+- [ ] Page ExtractionProcesses.tsx — fiches, comparatif, visualisation
+- [x] Page Procédés d'Extraction & Distillation (/extraction-procedes)
+- [x] Routeur extraction-processes.ts avec 8 procédés documentés
+- [x] Tableau comparatif des procédés
+- [x] Matrice des transformations chimiques
+- [x] Guide de choix du procédé
+- [x] Lien vers Résines & Encens depuis le guide
