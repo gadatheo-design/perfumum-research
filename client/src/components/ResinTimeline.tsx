@@ -141,6 +141,36 @@ const TIMELINE_DATA: Record<string, { phases: TimelinePhase[]; events: TimelineE
       { month: 12, process: "decarboxylation", processLabel: "Décarboxylation", processColor: "text-yellow-300", processIcon: "CO₂", precursor: "Acide communique", product: "Communol", olfactoryImpact: "Notes boisées plus sèches" },
     ],
   },
+
+  // ─── Styrax / Liquidambar ────────────────────────────────────────────────────
+  styrax: {
+    phases: [
+      { label: "Frais", startMonth: 0, endMonth: 3, color: "text-green-300", bgColor: "bg-green-600", description: "Balsamique doux, légèrement phénolique, notes de cannelle" },
+      { label: "Développement", startMonth: 3, endMonth: 10, color: "text-amber-300", bgColor: "bg-amber-600", description: "Balsamique épicé, cinnamate libéré, notes de cuir naissantes" },
+      { label: "Maturité", startMonth: 10, endMonth: 24, color: "text-orange-300", bgColor: "bg-orange-600", description: "Fumé, balsamique profond, notes de cuir et de vanille" },
+    ],
+    events: [
+      { month: 3, process: "oxidation", processLabel: "Oxydation aldéhydique", processColor: "text-amber-300", processIcon: "O₂", precursor: "Cinnamaldéhyde", product: "Acide cinnamique", olfactoryImpact: "Transition du piquant épicé vers le balsamique doux" },
+      { month: 7, process: "hydrolysis", processLabel: "Hydrolyse estérique", processColor: "text-blue-300", processIcon: "H₂O", precursor: "Cinnamyl cinnamate", product: "Acide cinnamique + Alcool cinnamique", olfactoryImpact: "Libération des notes balsamiques-épicées de cannelle" },
+      { month: 14, process: "pyrolysis", processLabel: "Pyrolyse phénolique (combustion)", processColor: "text-red-300", processIcon: "🔥", precursor: "Phénylpropanoïdes", product: "Guaïacol + Créosol", olfactoryImpact: "Notes fumées-phénoliques, rappelant le goudron de bois" },
+    ],
+  },
+
+  // ─── Oud de Papouasie (Aquilaria filaria) ────────────────────────────────────
+  "oud-papouasie": {
+    phases: [
+      { label: "Infection fongique", startMonth: 0, endMonth: 36, color: "text-lime-300", bgColor: "bg-lime-700", description: "Terreux, boisé vert, légèrement animal — réponse de défense de l'arbre" },
+      { label: "Accumulation résineuse", startMonth: 36, endMonth: 60, color: "text-amber-300", bgColor: "bg-amber-600", description: "Animal, cuiré, notes de tabac naissantes" },
+      { label: "Maturité chromones", startMonth: 60, endMonth: 96, color: "text-orange-300", bgColor: "bg-orange-600", description: "Cuiré profond, animal, sous-bois" },
+      { label: "Oud vieilli", startMonth: 96, endMonth: 120, color: "text-rose-300", bgColor: "bg-rose-700", description: "Encensé profond, fumé, notes de cuir et d'ambre — profil Kyara naissant" },
+    ],
+    events: [
+      { month: 18, process: "cyclization", processLabel: "Cyclisation enzymatique", processColor: "text-teal-300", processIcon: "○", precursor: "Sesquiterpène acyclique", product: "Agarofuran", olfactoryImpact: "Formation des notes animales et terreuses caractéristiques" },
+      { month: 36, process: "oxidation", processLabel: "Oxydation sesquiterpénique", processColor: "text-amber-300", processIcon: "O₂", precursor: "Guaiol", product: "Bulnesol", olfactoryImpact: "Transition vers les notes cuirées et boisées profondes" },
+      { month: 60, process: "cyclization", processLabel: "Biosynthèse des chromones", processColor: "text-teal-300", processIcon: "○", precursor: "Phénylpropanoïde (voie shikimate)", product: "2-(2-Phényléthyl)chromone", olfactoryImpact: "Développement de la douceur et de la complexité du oud de Papouasie" },
+      { month: 96, process: "pyrolysis", processLabel: "Pyrolyse à la combustion", processColor: "text-red-300", processIcon: "🔥", precursor: "Chromones + sesquiterpènes", product: "Composés phénoliques volatils + furanones", olfactoryImpact: "Libération de l'encensé profond, notes de cuir fumé et de tabac" },
+    ],
+  },
 };
 
 // ─── Composant principal ──────────────────────────────────────────────────────
