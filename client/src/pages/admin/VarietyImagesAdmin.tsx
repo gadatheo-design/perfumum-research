@@ -854,7 +854,7 @@ function FilterSidebar({
       <div>
         <label className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-2 block">Type</label>
         <div className="space-y-1">
-          {[{ k: 'all', label: 'Tous', icon: null, count: stats?.total }].concat(
+          {[{ k: 'all', label: 'Tous', icon: null as React.ReactNode, count: stats?.total }].concat(
             Object.entries(IMAGE_TYPE_CONFIG).map(([k, v]) => ({
               k, label: v.label, icon: v.icon, count: stats?.byType?.[k] ?? 0,
             }))
