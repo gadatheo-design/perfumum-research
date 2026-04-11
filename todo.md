@@ -4072,3 +4072,22 @@ npm run dev
 - [x] 5 nouvelles recettes résines-tabac (Dammar+Virginia, Sandaraque+Cavendish, Mastic+Dokha, Copal Blanc+Perique, Kyara+Latakia)
 - [x] Badge Bibliographie dans MoleculeDetail.tsx (violet, avec compteur de références)
 - [x] Query bibliography.getByMolecule intégrée dans MoleculeDetail.tsx
+
+## Correction TypeScript — Plan A→D (11 avril 2026)
+
+- [ ] Checkpoint de sécurité avant corrections TS
+- [ ] Nettoyage fichiers .backup (54 fichiers) + .gitignore
+- [ ] Bloc A — Imports manquants VarietyGenealogyPage.tsx (25 erreurs)
+- [ ] Bloc A — Procédures mal nommées PhyloEnrichment.tsx (22 erreurs)
+- [ ] Bloc B — Unions T|{} ApiCoverage.tsx (13 erreurs)
+- [ ] Bloc B — Unions T|{} PhyloEnrichment.tsx (19 erreurs restantes)
+- [ ] Bloc C — Paramètres implicitement any NicotianaPhylogenyInteractive.tsx (7 erreurs)
+- [ ] Bloc C — unknown→ReactNode TropicosEnrichment.tsx (10 erreurs)
+- [ ] Bloc C — Type incompatible WikidataSync.tsx (3 erreurs)
+- [ ] Bloc C — Enum extractionMethod ExtractionMethodsAdmin.tsx (4 erreurs)
+- [ ] Bloc D — Références manquantes PlantDetail.tsx (3 erreurs)
+- [ ] Bloc D — Module manquant VarietyGenealogyGraph.tsx (1 erreur)
+- [ ] Bloc D — Propriétés MatierePremierePage.tsx (5 erreurs)
+- [ ] Bloc D — Fichiers isolés (1 erreur chacun)
+- [ ] Vérification finale pnpm check = 0 erreur
+- [ ] Checkpoint final post-corrections TS
