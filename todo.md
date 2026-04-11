@@ -4055,3 +4055,6 @@ npm run dev
 - [x] Matrice des transformations chimiques
 - [x] Guide de choix du procédé
 - [x] Lien vers Résines & Encens depuis le guide
+
+- [x] Ajouter CO2 sous-critique et percolation a froid dans extraction-processes.ts
+- [x] Relier les procedes aux matieres premieres du laboratoire

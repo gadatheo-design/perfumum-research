@@ -37,6 +37,16 @@ const CATEGORY_LABELS: Record<string, { label: string; color: string }> = {
   autre: { label: "Autre", color: "bg-zinc-800/60 text-zinc-300 border-zinc-600" },
 };
 
+// Correspondance entre les valeurs enum extractionMethod et les IDs des procédés
+const EXTRACTION_METHOD_TO_PROCESS: Record<string, { id: string; label: string }> = {
+  distillation: { id: "hydrodistillation", label: "Hydrodistillation" },
+  extraction_solvant: { id: "extraction_solvant", label: "Extraction au solvant" },
+  co2_supercritique: { id: "co2_supercritique", label: "CO₂ supercritique" },
+  expression: { id: "expression_a_froid", label: "Expression à froid" },
+  teinture: { id: "maceration", label: "Macération / Teinture" },
+  autre: { id: "enfleurage", label: "Autre procédé" },
+};
+
 const QUALITY_LABELS: Record<string, string> = {
   bio: "Biologique",
   conventionnel: "Conventionnel",
@@ -792,7 +802,7 @@ export default function MatierePremierePage() {
             )}
 
             {/* Méthode d'extraction */}
-            {(material.extractionMethodId || material.extractionYield || material.plantPart) && (
+            {(material.extractionMethodId || material.extractionYield || material.plantPart || material.extractionMethod) && (
               <Card className="bg-[#16161a] border-zinc-800">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wider">
@@ -810,6 +820,24 @@ export default function MatierePremierePage() {
                     <div>
                       <span className="text-zinc-500">Rendement : </span>
                       <span className="text-zinc-200">{material.extractionYield}</span>
+                    </div>
+                  )}
+                  {/* Badge procédé cliquable — lien vers /extraction-procedes */}
+                  {material.extractionMethod && EXTRACTION_METHOD_TO_PROCESS[material.extractionMethod] && (
+                    <div className="pt-1">
+                      <span className="text-zinc-500 text-xs">Procédé documenté : </span>
+                      <Link
+                        href={`/extraction-procedes?focus=${EXTRACTION_METHOD_TO_PROCESS[material.extractionMethod].id}`}
+                        className="inline-flex items-center gap-1 mt-1"
+                      >
+                        <Badge
+                          variant="outline"
+                          className="text-xs border-violet-700 text-violet-300 bg-violet-900/20 hover:bg-violet-900/40 cursor-pointer transition-colors"
+                        >
+                          🔬 {EXTRACTION_METHOD_TO_PROCESS[material.extractionMethod].label}
+                          <ExternalLink className="h-2.5 w-2.5 ml-1 opacity-60" />
+                        </Badge>
+                      </Link>
                     </div>
                   )}
                 </CardContent>
