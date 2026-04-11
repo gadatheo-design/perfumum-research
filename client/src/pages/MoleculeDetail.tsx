@@ -1136,6 +1136,38 @@ export default function MoleculeDetail() {
                     );
                   })()}
 
+                  {/* Badge Résines & Encens — affiché si la molécule est liée à une résine */}
+                  {(() => {
+                    const resinKeywords = [
+                      'résine', 'resine', 'encens', 'oliban', 'myrrhe', 'benjoin', 'labdanum',
+                      'opoponax', 'hashish', 'hashishène', 'oud', 'agarwood', 'mastic', 'dammar',
+                      'sandaraque', 'copal', 'élemi', 'galbanum', 'styrax', 'kyara', 'boswellia',
+                      'commiphora', 'aquilaria', 'pistacia', 'shorea', 'tetraclinis', 'bursera',
+                      'incensole', 'boswellique', 'agarofuran', 'hashishene',
+                    ];
+                    const searchText = [
+                      molecule.name,
+                      molecule.notes,
+                      molecule.family,
+                      molecule.sourceOrigin,
+                      (molecule as any).botanicalSources,
+                    ].filter(Boolean).join(' ').toLowerCase();
+                    const isResinMolecule = resinKeywords.some(kw => searchText.includes(kw));
+                    if (!isResinMolecule) return null;
+                    return (
+                      <Link href="/resines-encens">
+                        <Badge
+                          variant="outline"
+                          className="text-sm bg-amber-950/30 border-amber-700/50 text-amber-400 hover:border-amber-600 hover:bg-amber-950/50 cursor-pointer transition-colors gap-1"
+                          title="Voir la page Maturation des Résines & Encens"
+                        >
+                          <span>🔥</span>
+                          Résines & Encens
+                        </Badge>
+                      </Link>
+                    );
+                  })()}
+
                   {/* Badge inter-domaines : lien vers la page /correlations */}
                   <Link href={`/correlations?q=${encodeURIComponent(molecule.name)}`}>
                     <Badge

@@ -4044,3 +4044,6 @@ npm run dev
 - [x] Fiche molécule Hashishène créée en base (ID 2143313, CAS 1000341-93-4)
 - [x] Liens plant-molecule Hashishène ↔ Cannabis créés
 - [x] Timeline interactive ajoutée dans ResinMaturation.tsx (onglet Timeline)
+
+- [x] Lien retour Résines & Encens dans MoleculeDetail.tsx pour molécules liées aux résines
+- [x] Ajout Styrax et Oud de Papouasie dans resin-maturation.ts (total 19 résines)
