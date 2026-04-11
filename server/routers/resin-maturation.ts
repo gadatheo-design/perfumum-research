@@ -69,6 +69,7 @@ const RESIN_PROFILES: ResinProfile[] = [
     id: "oliban",
     name: "Oliban (Frankincense)",
     latinName: "Boswellia sacra / serrata / carterii",
+    dbPlantId: 150008,
     category: "resine_brute",
     origin: ["Oman", "Somalie", "Éthiopie", "Inde"],
     description:
@@ -192,6 +193,7 @@ const RESIN_PROFILES: ResinProfile[] = [
     id: "myrrhe",
     name: "Myrrhe",
     latinName: "Commiphora myrrha / molmol",
+    dbPlantId: 150011,
     category: "resine_brute",
     origin: ["Somalie", "Éthiopie", "Yémen", "Oman"],
     description:
@@ -271,6 +273,7 @@ const RESIN_PROFILES: ResinProfile[] = [
     id: "benjoin",
     name: "Benjoin",
     latinName: "Styrax benzoin / tonkinensis",
+    dbPlantId: 480022,
     category: "resine_brute",
     origin: ["Sumatra", "Laos", "Vietnam", "Thaïlande"],
     description:
@@ -374,6 +377,7 @@ const RESIN_PROFILES: ResinProfile[] = [
     id: "labdanum",
     name: "Labdanum",
     latinName: "Cistus ladanifer",
+    dbPlantId: 150010,
     category: "resine_brute",
     origin: ["Espagne", "Portugal", "Maroc", "Grèce", "Crète"],
     description:
@@ -455,6 +459,7 @@ const RESIN_PROFILES: ResinProfile[] = [
     id: "opoponax",
     name: "Opoponax (Myrrhe douce)",
     latinName: "Commiphora guidottii / erythraea",
+    dbPlantId: 270010,
     category: "gomme_resine",
     origin: ["Somalie", "Kenya", "Éthiopie"],
     description:
@@ -655,6 +660,7 @@ const RESIN_PROFILES: ResinProfile[] = [
     id: "copal",
     name: "Copal",
     latinName: "Bursera / Protium spp.",
+    dbPlantId: 150009,
     category: "resine_brute",
     origin: ["Mexique", "Guatemala", "Colombie", "Brésil"],
     description:
@@ -712,8 +718,9 @@ const RESIN_PROFILES: ResinProfile[] = [
   // ── ÉLEMI ─────────────────────────────────────────────────────────────────
   {
     id: "elemi",
-    name: "Élemi",
+    name: "Élémi",
     latinName: "Canarium luzonicum",
+    dbPlantId: 270012,
     category: "oleoresine",
     origin: ["Philippines", "Indonésie"],
     description:
@@ -756,6 +763,7 @@ const RESIN_PROFILES: ResinProfile[] = [
     id: "galbanum",
     name: "Galbanum",
     latinName: "Ferula galbaniflua",
+    dbPlantId: 270011,
     category: "gomme_resine",
     origin: ["Iran", "Afghanistan", "Turquie"],
     description:
@@ -798,6 +806,7 @@ const RESIN_PROFILES: ResinProfile[] = [
     id: "oud",
     name: "Oud (Agarwood)",
     latinName: "Aquilaria malaccensis / sinensis / crassna",
+    dbPlantId: 210038,
     category: "resine_brute",
     origin: ["Inde","Cambodge","Malaisie","Indonésie","Laos"],
     description: "Résine pathologique formée dans le bois d'Aquilaria en réponse à une infection fongique (Phialophora parasitica). L'une des matières premières les plus rares et coûteuses au monde, le oud développe une chimie extraordinairement complexe au fil du vieillissement.",
@@ -879,6 +888,7 @@ const RESIN_PROFILES: ResinProfile[] = [
     id: "pin",
     name: "Résine de Pin (Colophane)",
     latinName: "Pinus sylvestris / pinaster / palustris",
+    dbPlantId: 390003,
     category: "oleoresine",
     origin: ["Europe","Amérique du Nord","Asie"],
     description: "L'oléorésine de pin est composée de térébenthine (fraction volatile) et de colophane (fraction fixe). L'acide abiétique, principal composant de la colophane, subit une oxydation progressive qui modifie profondément le profil olfactif.",
@@ -962,6 +972,7 @@ const RESIN_PROFILES: ResinProfile[] = [
     id: "mastic",
     name: "Mastic (Pistachier lentisque)",
     latinName: "Pistacia lentiscus var. Chia",
+    dbPlantId: 780001,
     category: "resine_brute",
     origin: ["Grèce (île de Chios)","Méditerranée"],
     description: "Résine cristalline produite exclusivement par le pistachier lentisque de l'île de Chios. Composée à 65–70% de triterpènes (acide masticadiènoïque, acide isomasticadiènoïque), elle vieillit en développant des notes balsamiques et boisées profondes.",
@@ -1182,6 +1193,7 @@ const RESIN_PROFILES: ResinProfile[] = [
     id: "encens_somalilande",
     name: "Oliban de Somalie (Boswellia carterii)",
     latinName: "Boswellia carterii",
+    dbPlantId: 30014,
     category: "gomme_resine",
     origin: ["Somalie","Éthiopie","Érythrée"],
     description: "Variété d'oliban somalien, distincte de l'oliban sacré (B. sacra). Riche en acides boswelliques et en incensole acétate, elle présente une composition légèrement différente avec davantage de monoterpènes. Très utilisée dans la parfumerie contemporaine.",
@@ -1244,6 +1256,7 @@ const RESIN_PROFILES: ResinProfile[] = [
     id: "agarwood_kyara",
     name: "Kyara (Oud de qualité suprême)",
     latinName: "Aquilaria sinensis — grade Kyara",
+    dbPlantId: 240002,
     category: "resine_brute",
     origin: ["Vietnam","Cambodge"],
     description: "Le kyara est le grade le plus rare et le plus précieux du oud, caractérisé par une concentration exceptionnelle en chromones et en sesquiterpènes oxygénés. Formé après des décennies de vieillissement naturel, il représente l'aboutissement chimique du processus de maturation de l'agarwood.",
@@ -1365,6 +1378,7 @@ const RESIN_PROFILES: ResinProfile[] = [
     id: "styrax",
     name: "Styrax / Liquidambar",
     latinName: "Liquidambar orientalis / Styrax benzoin var. paralleloneurum",
+    dbPlantId: 240005,
     category: "baume",
     origin: ["Turquie", "Sumatra (Indonésie)"],
     description: "Le styrax désigne deux matières distinctes : la résine liquide de Liquidambar orientalis (styrax liquide, baume de storax) et le benjoin de Sumatra var. paralleloneurum. Riche en cinnamates et en phénylpropanoïdes, il développe des notes balsamiques profondes, fumées et légèrement phénoliques au vieillissement.",

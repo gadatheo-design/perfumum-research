@@ -142,6 +142,120 @@ const TIMELINE_DATA: Record<string, { phases: TimelinePhase[]; events: TimelineE
     ],
   },
 
+  // ─── Opoponax (Myrrhe douce) ───────────────────────────────────────────────
+  opoponax: {
+    phases: [
+      { label: "Frais", startMonth: 0, endMonth: 3, color: "text-green-300", bgColor: "bg-green-600", description: "Doux, balsamique, légèrement herbacé" },
+      { label: "Développement", startMonth: 3, endMonth: 12, color: "text-amber-300", bgColor: "bg-amber-600", description: "Vanillé, balsamique, notes de foin" },
+      { label: "Maturité", startMonth: 12, endMonth: 24, color: "text-orange-300", bgColor: "bg-orange-600", description: "Balsamique profond, notes de miel et de tabac" },
+    ],
+    events: [
+      { month: 3, process: "fermentation", processLabel: "Fermentation", processColor: "text-green-300", processIcon: "🦠", precursor: "Glucosides terpéniques", product: "Alcools libres", olfactoryImpact: "Développement des notes sucrées-florales" },
+      { month: 6, process: "oxidation", processLabel: "Oxydation", processColor: "text-amber-300", processIcon: "O₂", precursor: "Furanosesquiterpènes", product: "Lactones oxydées", olfactoryImpact: "Gain de notes balsamiques-vanillées" },
+      { month: 12, process: "polymerization", processLabel: "Polymérisation", processColor: "text-stone-300", processIcon: "⛓", precursor: "Résines phénoliques", product: "Polymères balsamiques", olfactoryImpact: "Fixation des notes, profondeur accrue" },
+    ],
+  },
+
+  // ─── Copal ────────────────────────────────────────────────────────────────────
+  copal: {
+    phases: [
+      { label: "Frais", startMonth: 0, endMonth: 3, color: "text-green-300", bgColor: "bg-green-600", description: "Citronné, résineux, légèrement camphré" },
+      { label: "Développement", startMonth: 3, endMonth: 12, color: "text-amber-300", bgColor: "bg-amber-600", description: "Boisé, balsamique, notes d'encens" },
+      { label: "Maturité", startMonth: 12, endMonth: 24, color: "text-orange-300", bgColor: "bg-orange-600", description: "Ambré, boisé profond, légèrement sucré" },
+    ],
+    events: [
+      { month: 2, process: "isomerization", processLabel: "Isomérisation", processColor: "text-violet-300", processIcon: "⇌", precursor: "α-Pinène", product: "Camphène", olfactoryImpact: "Atténuation du citronné, gain de camphré doux" },
+      { month: 6, process: "oxidation", processLabel: "Oxydation", processColor: "text-amber-300", processIcon: "O₂", precursor: "Limonène", product: "Carvone", olfactoryImpact: "Notes épicées-mentholées" },
+      { month: 12, process: "decarboxylation", processLabel: "Décarboxylation", processColor: "text-yellow-300", processIcon: "CO₂", precursor: "Acide copalique", product: "Copalol", olfactoryImpact: "Gain de profondeur ambrée" },
+    ],
+  },
+
+  // ─── Élemi ────────────────────────────────────────────────────────────────────
+  elemi: {
+    phases: [
+      { label: "Frais", startMonth: 0, endMonth: 2, color: "text-green-300", bgColor: "bg-green-600", description: "Citronné vif, poivré, légèrement herbacé" },
+      { label: "Développement", startMonth: 2, endMonth: 6, color: "text-amber-300", bgColor: "bg-amber-600", description: "Boisé, épicé, notes de fenouil" },
+      { label: "Maturité", startMonth: 6, endMonth: 18, color: "text-orange-300", bgColor: "bg-orange-600", description: "Balsamique, boisé sec, légèrement phénolique" },
+    ],
+    events: [
+      { month: 1, process: "oxidation", processLabel: "Oxydation rapide", processColor: "text-amber-300", processIcon: "O₂", precursor: "Limonène", product: "Carvone", olfactoryImpact: "Transition du citronné vers l'épicé" },
+      { month: 3, process: "isomerization", processLabel: "Isomérisation", processColor: "text-violet-300", processIcon: "⇌", precursor: "Élémi (sesquiterpène)", product: "Isomère stable", olfactoryImpact: "Stabilisation du profil boisé" },
+      { month: 8, process: "polymerization", processLabel: "Polymérisation", processColor: "text-stone-300", processIcon: "⛓", precursor: "Résines phénoliques", product: "Polymères", olfactoryImpact: "Fixation, perte de volatilité" },
+    ],
+  },
+
+  // ─── Galbanum ─────────────────────────────────────────────────────────────────
+  galbanum: {
+    phases: [
+      { label: "Frais", startMonth: 0, endMonth: 2, color: "text-green-300", bgColor: "bg-green-600", description: "Vert intense, piquant, légèrement camphré" },
+      { label: "Développement", startMonth: 2, endMonth: 8, color: "text-amber-300", bgColor: "bg-amber-600", description: "Boisé, balsamique, notes de pin" },
+      { label: "Maturité", startMonth: 8, endMonth: 18, color: "text-orange-300", bgColor: "bg-orange-600", description: "Balsamique profond, légèrement animal" },
+    ],
+    events: [
+      { month: 1, process: "oxidation", processLabel: "Oxydation rapide", processColor: "text-amber-300", processIcon: "O₂", precursor: "α-Pinène", product: "Myrtenol", olfactoryImpact: "Atténuation du vert piquant" },
+      { month: 3, process: "isomerization", processLabel: "Isomérisation", processColor: "text-violet-300", processIcon: "⇌", precursor: "β-Pinène", product: "α-Pinène", olfactoryImpact: "Homogénéisation du profil terpénique" },
+      { month: 6, process: "cyclization", processLabel: "Cyclisation", processColor: "text-teal-300", processIcon: "○", precursor: "Sesquiterpènes ouverts", product: "Guaïazulène", olfactoryImpact: "Apparition de notes bleues-animales" },
+    ],
+  },
+
+  // ─── Oliban de Somalie (Boswellia carterii) ──────────────────────────────────
+  encens_somalilande: {
+    phases: [
+      { label: "Frais", startMonth: 0, endMonth: 4, color: "text-green-300", bgColor: "bg-green-600", description: "Citronné-épicé, camphré, légèrement terreux" },
+      { label: "Développement", startMonth: 4, endMonth: 12, color: "text-amber-300", bgColor: "bg-amber-600", description: "Encensé, balsamique, notes de cumin" },
+      { label: "Maturité", startMonth: 12, endMonth: 24, color: "text-orange-300", bgColor: "bg-orange-600", description: "Encensé profond, boisé, légèrement animal" },
+    ],
+    events: [
+      { month: 3, process: "oxidation", processLabel: "Oxydation", processColor: "text-amber-300", processIcon: "O₂", precursor: "α-Pinène", product: "Myrtenol", olfactoryImpact: "Atténuation du citronné, gain balsamique" },
+      { month: 6, process: "hydrolysis", processLabel: "Hydrolyse", processColor: "text-blue-300", processIcon: "H₂O", precursor: "Incensole acétate", product: "Incensole", olfactoryImpact: "Libération des notes encensées profondes" },
+      { month: 12, process: "decarboxylation", processLabel: "Décarboxylation", processColor: "text-yellow-300", processIcon: "CO₂", precursor: "Acide boswellique", product: "β-Boswellène", olfactoryImpact: "Profondeur boisée et terrestre" },
+    ],
+  },
+
+  // ─── Kyara (Oud de qualité suprême) ──────────────────────────────────────────
+  agarwood_kyara: {
+    phases: [
+      { label: "Formation (décennies 1-2)", startMonth: 0, endMonth: 60, color: "text-lime-300", bgColor: "bg-lime-700", description: "Accumulation initiale de résine, profil encore brut" },
+      { label: "Maturation chromones", startMonth: 60, endMonth: 120, color: "text-amber-300", bgColor: "bg-amber-600", description: "Douceur crémeuse, boisé profond, notes de lait" },
+      { label: "Kyara pur", startMonth: 120, endMonth: 180, color: "text-orange-300", bgColor: "bg-orange-600", description: "Crémeux, boisé sacré, légèrement sucré et animal" },
+      { label: "Kyara vieilli", startMonth: 180, endMonth: 240, color: "text-rose-300", bgColor: "bg-rose-700", description: "Complexité maximale, notes de santal, de cuir doux et d'encens" },
+    ],
+    events: [
+      { month: 24, process: "cyclization", processLabel: "Cyclisation enzymatique", processColor: "text-teal-300", processIcon: "○", precursor: "Sesquiterpène acyclique", product: "Agarofuran", olfactoryImpact: "Premières notes animales" },
+      { month: 60, process: "cyclization", processLabel: "Biosynthèse chromones", processColor: "text-teal-300", processIcon: "○", precursor: "Phénylpropanoïde", product: "2-(2-Phényléthyl)chromone", olfactoryImpact: "Apparition de la douceur crémeuse caractéristique du Kyara" },
+      { month: 120, process: "oxidation", processLabel: "Oxydation avancée", processColor: "text-amber-300", processIcon: "O₂", precursor: "Jinkohol", product: "Kusunol", olfactoryImpact: "Gain de notes boisées-crémeuses de santal" },
+      { month: 180, process: "polymerization", processLabel: "Polymérisation résineuse", processColor: "text-stone-300", processIcon: "⛓", precursor: "Chromones + sesquiterpènes", product: "Complexe polymérisé", olfactoryImpact: "Fixation absolue, complexité maximale du Kyara" },
+    ],
+  },
+
+  // ─── Copal Blanc (Mexique) ────────────────────────────────────────────────────
+  copal_blanc: {
+    phases: [
+      { label: "Frais", startMonth: 0, endMonth: 3, color: "text-green-300", bgColor: "bg-green-600", description: "Citronné, légèrement épicé, résineux propre" },
+      { label: "Développement", startMonth: 3, endMonth: 12, color: "text-amber-300", bgColor: "bg-amber-600", description: "Balsamique doux, boisé, notes d'encens blanc" },
+      { label: "Maturité", startMonth: 12, endMonth: 24, color: "text-orange-300", bgColor: "bg-orange-600", description: "Encensé doux, ambré, légèrement sucré" },
+    ],
+    events: [
+      { month: 2, process: "isomerization", processLabel: "Isomérisation", processColor: "text-violet-300", processIcon: "⇌", precursor: "α-Pinène", product: "Camphène", olfactoryImpact: "Atténuation du citronné vif" },
+      { month: 6, process: "oxidation", processLabel: "Oxydation", processColor: "text-amber-300", processIcon: "O₂", precursor: "Limonène", product: "Carvone", olfactoryImpact: "Notes épicées-mentholées légères" },
+      { month: 12, process: "decarboxylation", processLabel: "Décarboxylation", processColor: "text-yellow-300", processIcon: "CO₂", precursor: "Acide copalique", product: "Copalol", olfactoryImpact: "Profondeur ambrée, encensé doux" },
+    ],
+  },
+
+  // ─── Dammar ───────────────────────────────────────────────────────────────────
+  dammar: {
+    phases: [
+      { label: "Frais", startMonth: 0, endMonth: 6, color: "text-green-300", bgColor: "bg-green-600", description: "Boisé frais, légèrement citronné, résineux neutre" },
+      { label: "Développement", startMonth: 6, endMonth: 24, color: "text-amber-300", bgColor: "bg-amber-600", description: "Boisé sec, légèrement sucré, notes de vanille naissantes" },
+      { label: "Maturité", startMonth: 24, endMonth: 48, color: "text-orange-300", bgColor: "bg-orange-600", description: "Balsamique boisé, notes de vanille et d'ambre léger" },
+    ],
+    events: [
+      { month: 6, process: "oxidation", processLabel: "Oxydation triterpénique", processColor: "text-amber-300", processIcon: "O₂", precursor: "Acide dammararénolique", product: "Acide hydroxydammararénolique", olfactoryImpact: "Gain de notes balsamiques douces" },
+      { month: 12, process: "hydrolysis", processLabel: "Hydrolyse estérique", processColor: "text-blue-300", processIcon: "H₂O", precursor: "Esters résineux", product: "Alcools terpéniques libres", olfactoryImpact: "Libération de notes boisées-vanillées" },
+      { month: 24, process: "polymerization", processLabel: "Polymérisation", processColor: "text-stone-300", processIcon: "⛓", precursor: "Résines triterpéniques", product: "Polymères amorphes", olfactoryImpact: "Durcissement, fixation des notes ambrées" },
+    ],
+  },
+
   // ─── Styrax / Liquidambar ────────────────────────────────────────────────────
   styrax: {
     phases: [
