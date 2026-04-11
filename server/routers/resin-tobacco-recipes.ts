@@ -1,6 +1,11 @@
 import { z } from 'zod';
 import { publicProcedure, router } from '../_core/trpc';
 import { getDb } from '../db/core';
+import mysql from 'mysql2/promise';
+
+async function getRawConn() {
+  return mysql.createConnection(process.env.DATABASE_URL!);
+}
 
 export const resinTobaccoRecipesRouter = router({
   getAll: publicProcedure.query(async () => {
@@ -35,6 +40,28 @@ export const resinTobaccoRecipesRouter = router({
       status: r.status || 'experimental',
     }));
   }),
+
+  getPlantsByIds: publicProcedure
+    .input(z.object({ ids: z.array(z.number()) }))
+    .query(async ({ input }) => {
+      if (!input.ids.length) return [];
+      const conn = await getRawConn();
+      try {
+        const placeholders = input.ids.map(() => '?').join(',');
+        const [rows] = await conn.execute(
+          `SELECT id, name, latin_name, family FROM plants WHERE id IN (${placeholders})`,
+          input.ids
+        );
+        return (rows as any[]).map((r: any) => ({
+          id: r.id as number,
+          name: (r.name || '') as string,
+          latinName: (r.latin_name || '') as string,
+          family: (r.family || '') as string,
+        }));
+      } finally {
+        await conn.end();
+      }
+    }),
 
   getById: publicProcedure
     .input(z.object({ id: z.number() }))

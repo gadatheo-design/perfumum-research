@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'wouter';
 import { trpc } from '@/lib/trpc';
 import { Badge } from '@/components/ui/badge';
@@ -112,6 +112,16 @@ function RecipeCard({ recipe }: { recipe: any }) {
   const [expanded, setExpanded] = useState(false);
   const meta = RECIPE_METADATA[recipe.id];
   const intensityInfo = INTENSITY_LABELS[recipe.intensity] || INTENSITY_LABELS[5];
+  const plantIds = useMemo(() => meta?.plantIds || [], [meta]);
+  const { data: plants } = trpc.resinTobaccoRecipes.getPlantsByIds.useQuery(
+    { ids: plantIds },
+    { enabled: plantIds.length > 0 }
+  );
+  const plantMap = useMemo(() => {
+    const m: Record<number, { name: string; latinName: string }> = {};
+    plants?.forEach(p => { m[p.id] = { name: p.name, latinName: p.latinName }; });
+    return m;
+  }, [plants]);
 
   return (
     <Card className={`bg-gradient-to-br ${meta?.color || 'from-zinc-900/30 to-zinc-800/20'} border border-white/10 hover:border-white/20 transition-all duration-300`}>
@@ -215,13 +225,17 @@ function RecipeCard({ recipe }: { recipe: any }) {
         {/* Plantes source */}
         {meta && meta.plantIds.length > 0 && (
           <div className="flex flex-wrap gap-1">
-            {meta.plantIds.map(id => (
-              <Link key={id} href={`/plantes/${id}`}>
-                <span className="text-xs text-zinc-500 hover:text-zinc-300 underline cursor-pointer transition-colors">
-                  #{id}
-                </span>
-              </Link>
-            ))}
+            <p className="w-full text-xs text-zinc-500 uppercase tracking-wider mb-0.5">Plantes source</p>
+            {meta.plantIds.map(id => {
+              const plant = plantMap[id];
+              return (
+                <Link key={id} href={`/plantes/${id}`}>
+                  <span className="text-xs bg-zinc-800/60 border border-zinc-700/40 rounded px-2 py-0.5 text-zinc-300 hover:text-white hover:border-zinc-500 cursor-pointer transition-colors italic">
+                    {plant ? plant.latinName || plant.name : `#${id}`}
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         )}
 
