@@ -4021,3 +4021,17 @@ npm run dev
 
 - [x] Composant PlantEnrichPanel.tsx : panneau d'enrichissement inline dans les fiches plantes (GBIF, POWO, NCBI, Wikidata) avec dry run + appliquer en base
 - [x] Intégration de PlantEnrichPanel dans PlantDetail.tsx (section Identifiants & Bases de données)
+
+
+## SESSION ACTUELLE — Page Maturation des Résines & Encens
+
+- [ ] Page Maturation des Résines & Encens : schéma DB (resin_types, chemical_transformations, transformation_steps)
+- [ ] Page Maturation des Résines & Encens : procédures tRPC (getResinTypes, getTransformations, getTransformationsByResin)
+- [ ] Page Maturation des Résines & Encens : frontend ResinMaturation.tsx avec fiches, diagrammes de flux et tableau comparatif
+- [ ] Page Maturation des Résines & Encens : connexions aux molécules existantes de la base PERFUMUM
+
+- [x] Page /resines-encens — Maturation des Résines & Encens (fiches, diagrammes flux, tableau comparatif)
+- [x] Routeur resinMaturation.ts avec 10 résines documentées (oliban, myrrhe, benjoin, labdanum, cannabis, etc.)
+- [x] Encyclopédie des 9 processus chimiques (isomérisation, oxydation, pyrolyse, fermentation, hydrolyse, distillation, polymérisation, décarboxylation, cyclisation)
+- [x] Connexions dynamiques aux molécules et plantes de la base PERFUMUM
+- [x] Focus hashishène — isomérisation photo-induite dans le cannabis

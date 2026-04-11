@@ -473,6 +473,7 @@ const COCONUTEnrichment = React.lazy(() => import('./pages/admin/COCONUTEnrichme
 const IUCNEnrichment = React.lazy(() => import('./pages/admin/IUCNEnrichment'));
 const PhyloEnrichment = React.lazy(() => import('./pages/admin/PhyloEnrichment'));
 const ApiCoverage = React.lazy(() => import('./pages/admin/ApiCoverage'));
+const ResinMaturation = React.lazy(() => import('./pages/ResinMaturation'));
 
 
 
@@ -1130,6 +1131,7 @@ function Router() {
       <LazyRouteRaw path="/admin/iucn-enrichment" component={IUCNEnrichment} />
       <LazyRouteRaw path="/admin/phylo-enrichment" component={PhyloEnrichment} />
       <LazyRouteRaw path="/admin/api-coverage" component={ApiCoverage} />
+      <LazyRouteRaw path="/resines-encens" component={ResinMaturation} />
       
       {/* === ERREURS === */}
       <Route path="/404" component={NotFound} />

@@ -41,6 +41,7 @@ export const NAV_GROUPS: NavGroup[] = [
           { href: "/terroirs", label: "Terroirs" },
           { href: "/osmotheque", label: "Osmothèque" },
           { href: "/aromatic-rarities", label: "Matières Premières Rares" },
+          { href: "/resines-encens", label: "Résines & Encens — Maturation" },
           { href: "/conservation", label: "Conservation & Durabilité" },
         ],
       },
