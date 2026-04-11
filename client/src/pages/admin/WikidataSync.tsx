@@ -29,7 +29,7 @@ import {
 // ─────────────────────────────────────────────────────────────────────────────
 
 interface Recommendation {
-  type: 'conservation' | 'images' | 'parents' | 'hybrids' | 'distribution' | 'general';
+  type: 'conservation' | 'images' | 'parents' | 'hybrids' | 'distribution' | 'general' | 'synonyms';
   priority: 'high' | 'medium' | 'low';
   title: string;
   description: string;
@@ -128,17 +128,17 @@ function RecommendationCard({
       let result: ImportResult;
       if (rec.type === 'conservation' && wikidataEntity.conservationStatus) {
         result = await importConservation.mutateAsync({
-          latinName: scientificName, wikidataQid: wikidataEntity.qid,
-          conservationStatus: wikidataEntity.conservationStatus,
+          latinName: scientificName, wikidataQid: wikidataEntity.qid ?? '',
+          conservationStatus: wikidataEntity.conservationStatus ?? '',
         });
       } else if (rec.type === 'images' && wikidataEntity.imageUrl) {
         result = await importImage.mutateAsync({
-          latinName: scientificName, wikidataQid: wikidataEntity.qid,
-          imageUrl: wikidataEntity.imageUrl,
+          latinName: scientificName, wikidataQid: wikidataEntity.qid ?? '',
+          imageUrl: wikidataEntity.imageUrl ?? '',
         });
       } else if (rec.type === 'parents') {
         result = await linkToWikidata.mutateAsync({
-          latinName: scientificName, wikidataQid: wikidataEntity.qid,
+          latinName: scientificName, wikidataQid: wikidataEntity.qid ?? '',
           parentTaxon: wikidataEntity.parentTaxon,
         });
       } else { return; }

@@ -5,9 +5,93 @@ import { getDb } from "../db";
 
 // ─── Type helpers pour les résultats de requêtes SQL brutes ──────────────────
 /** Ligne générique retournée par db.execute(sql.raw(...)) */
-type SqlRow = Record<string, unknown>;
+export type SqlRow = Record<string, unknown>;
 /** Résultat d'un COUNT(*) */
-type CountRow = { count?: number | string; total?: number | string; cnt?: number | string; name?: string };
+export type CountRow = { count?: number | string; total?: number | string; cnt?: number | string; name?: string };
+// ─────────────────────────────────────────────────────────────────────────────
+
+// ─── Fonctions pures exportées (testables) ────────────────────────────────────
+
+/** Normalise un groupe de doublons depuis GROUP_CONCAT */
+export function normalizeDuplicateGroup(r: SqlRow): {
+  nameNormalized: unknown;
+  count: number;
+  ids: number[];
+  molecules: { id: number; name: string }[];
+} {
+  const ids = String(r.ids).split(',').map(Number);
+  const names = String(r.names).split(',');
+  return {
+    nameNormalized: r.nameNormalized,
+    count: Number(r.count),
+    ids,
+    molecules: ids.map((id, idx) => ({ id, name: names[idx] || '' })),
+  };
+}
+
+/** Construit les nœuds et liens d'un graphe de généalogie depuis les SqlRows */
+export function buildGenealogyGraph(
+  varietyId: number,
+  ancestors: SqlRow[],
+  descendants: SqlRow[],
+  plantMap: Map<number, { name: string; category: string }>
+): {
+  nodes: { id: string; label: string; type: 'root' | 'ancestor' | 'descendant'; category: string }[];
+  links: { source: string; target: string; type: unknown; breeder: unknown; notes: unknown }[];
+} {
+  const allIds = new Set<number>([varietyId]);
+  ancestors.forEach((r) => { allIds.add(Number(r.parent_variety_id)); allIds.add(Number(r.variety_id)); });
+  descendants.forEach((r) => { allIds.add(Number(r.variety_id)); allIds.add(Number(r.parent_variety_id)); });
+
+  const nodes = Array.from(allIds).map(id => {
+    const plant = plantMap.get(id);
+    let type: 'root' | 'ancestor' | 'descendant' = 'ancestor';
+    if (id === varietyId) type = 'root';
+    else if (descendants.some((r) => Number(r.variety_id) === id)) type = 'descendant';
+    return {
+      id: String(id),
+      label: plant?.name || `Plante #${id}`,
+      type,
+      category: plant?.category || '',
+    };
+  });
+
+  const allRelations = [...ancestors, ...descendants];
+  const seen = new Set<string>();
+  const links = allRelations
+    .filter((r) => {
+      const key = `${r.parent_variety_id}-${r.variety_id}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    })
+    .map((r) => ({
+      source: String(r.parent_variety_id),
+      target: String(r.variety_id),
+      type: r.relationship_type || 'parent',
+      breeder: r.breeder || '',
+      notes: r.notes || '',
+    }));
+
+  return { nodes, links };
+}
+
+/** Mappe une SqlRow en objet relation plant-molecule typé */
+export function buildRelationRow(r: SqlRow) {
+  return {
+    plant_id: Number(r.plant_id),
+    molecule_id: Number(r.molecule_id),
+    plant_name: r.plant_name || '',
+    plant_scientific_name: r.plant_scientific_name || null,
+    molecule_name: r.molecule_name || '',
+    molecule_cas: r.molecule_cas || null,
+    percentage: r.percentage ? Number(r.percentage) : null,
+    percentage_min: r.percentage_min ? Number(r.percentage_min) : null,
+    percentage_max: r.percentage_max ? Number(r.percentage_max) : null,
+    percentage_typical: r.percentage_typical ? Number(r.percentage_typical) : null,
+    source: r.source || null,
+  };
+}
 // ─────────────────────────────────────────────────────────────────────────────
 
 export const moleculeManagerRouter = router({

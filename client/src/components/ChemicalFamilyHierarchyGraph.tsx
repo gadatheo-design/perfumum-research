@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useRef, useEffect, useState, useMemo } from "react";
 import * as d3 from "d3";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -50,25 +49,17 @@ interface TreeNode {
   data?: Record<string, unknown>;
 }
 
-interface GraphNode {
+interface GraphNode extends d3.SimulationNodeDatum {
   id: string;
   name: string;
-  // Propriétés injectées par D3
-  x?: number;
-  y?: number;
-  fx?: number | null;
-  fy?: number | null;
-  vx?: number;
-  vy?: number;
-  index?: number;
   type: "family" | "molecule";
   family?: string | null;
   linkCount: number;
 }
 
-interface GraphLink {
-  source: string;
-  target: string;
+interface GraphLink extends d3.SimulationLinkDatum<GraphNode> {
+  source: string | GraphNode;
+  target: string | GraphNode;
 }
 
 // Couleurs par catégorie de famille chimique
@@ -319,11 +310,11 @@ export function ChemicalFamilyHierarchyGraph({
         .distance(100)
         .strength(0.5)
       )
-      .force("charge", d3.forceManyBody()
-        .strength((d: GraphNode) => -150 - d.linkCount * 15)
+      .force("charge", d3.forceManyBody<GraphNode>()
+        .strength((d) => -150 - d.linkCount * 15)
       )
       .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("collision", d3.forceCollide<GraphNode>().radius((d: GraphNode) => {
+      .force("collision", d3.forceCollide<GraphNode>().radius((d) => {
         return d.type === "family" ? 35 : 25;
       }));
     
@@ -396,7 +387,9 @@ export function ChemicalFamilyHierarchyGraph({
     node.on("mouseenter", (_event: MouseEvent, d: GraphNode) => {
       setHoveredNode(d);
       link.attr("stroke-opacity", (l: GraphLink) => {
-        return l.source.id === d.id || l.target.id === d.id ? 1 : 0.1;
+        const lsrc = typeof l.source === "object" ? (l.source as GraphNode).id : l.source;
+        const ltgt = typeof l.target === "object" ? (l.target as GraphNode).id : l.target;
+        return lsrc === d.id || ltgt === d.id ? 1 : 0.1;
       });
       node.attr("opacity", (n: GraphNode) => {
         if (n.id === d.id) return 1;
@@ -479,22 +472,24 @@ export function ChemicalFamilyHierarchyGraph({
       .selectAll("path")
       .data(root.links())
       .join("path")
-      .attr("d", d3.linkHorizontal<d3.HierarchyPointLink<TreeNode>, d3.HierarchyPointNode<TreeNode>>()
-        .x((d) => d.y)
-        .y((d) => d.x)
-      );
+      .attr("d", (d) => {
+        const link = d as unknown as d3.HierarchyPointLink<TreeNode>;
+        return d3.linkHorizontal()({ source: [link.source.y, link.source.x], target: [link.target.y, link.target.x] });
+      });
     
-    // Nœuds
+    // Nœuds — root.descendants() retourne HierarchyPointNode<TreeNode> après treeLayout(root)
+    type PointNode = d3.HierarchyPointNode<TreeNode>;
+    const descendants = root.descendants() as PointNode[];
     const node = g.append("g")
-      .selectAll("g")
-      .data(root.descendants())
+      .selectAll<SVGGElement, PointNode>("g")
+      .data(descendants)
       .join("g")
-      .attr("transform", (d: d3.HierarchyPointNode<TreeNode>) => `translate(${d.y},${d.x})`)
+      .attr("transform", (d: PointNode) => `translate(${d.y},${d.x})`)
       .attr("cursor", "pointer");
     
     // Cercles
     node.append("circle")
-      .attr("r", (d: d3.HierarchyPointNode<TreeNode>) => {
+      .attr("r", (d) => {
         switch (d.data.type as string) {
           case "root": return 16;
           case "category": return 12;
@@ -503,7 +498,7 @@ export function ChemicalFamilyHierarchyGraph({
           default: return 8;
         }
       })
-      .attr("fill", (d: d3.HierarchyPointNode<TreeNode>) => {
+      .attr("fill", (d) => {
         switch (d.data.type as string) {
           case "root": return "#6366f1";
           case "category": return "#8b5cf6";
@@ -518,9 +513,9 @@ export function ChemicalFamilyHierarchyGraph({
     // Labels
     node.append("text")
       .attr("dy", "0.32em")
-      .attr("x", (d: d3.HierarchyPointNode<TreeNode>) => d.children ? -12 : 12)
-      .attr("text-anchor", (d: d3.HierarchyPointNode<TreeNode>) => d.children ? "end" : "start")
-      .attr("font-size", (d: d3.HierarchyPointNode<TreeNode>) => {
+      .attr("x", (d) => d.children ? -12 : 12)
+      .attr("text-anchor", (d) => d.children ? "end" : "start")
+      .attr("font-size", (d) => {
         switch (d.data.type as string) {
           case "root": return "14px";
           case "category": return "12px";
@@ -529,23 +524,23 @@ export function ChemicalFamilyHierarchyGraph({
           default: return "10px";
         }
       })
-      .attr("font-weight", (d: d3.HierarchyPointNode<TreeNode>) => d.data.type === "root" || d.data.type === "category" ? "600" : "400")
+      .attr("font-weight", (d) => d.data.type === "root" || d.data.type === "category" ? "600" : "400")
       .attr("fill", "currentColor")
-      .text((d: d3.HierarchyPointNode<TreeNode>) => {
+      .text((d) => {
         const name = d.data.name as string;
         const maxLen = d.data.type === "molecule" ? 20 : 25;
         return name.length > maxLen ? name.substring(0, maxLen) + "..." : name;
       });
     
     // Interactions
-    node.on("mouseenter", (_event: MouseEvent, d: GraphNode) => {
-      setHoveredNode({ id: d.data.id, name: d.data.name, type: d.data.type });
+    node.on("mouseenter", (_event: MouseEvent, d) => {
+      setHoveredNode({ id: d.data.id, name: d.data.name, type: d.data.type as "family" | "molecule", linkCount: 0 });
     })
     .on("mouseleave", () => {
       setHoveredNode(null);
     })
-    .on("click", (_event: MouseEvent, d: d3.HierarchyPointNode<TreeNode>) => {
-      const nodeData = { id: d.data.id as string, name: d.data.name as string, type: d.data.type as "family" | "molecule", linkCount: 0 };
+    .on("click", (_event: MouseEvent, d) => {
+      const nodeData: GraphNode = { id: d.data.id, name: d.data.name, type: d.data.type as "family" | "molecule", linkCount: 0 };
       setSelectedNode(selectedNode?.id === nodeData.id ? null : nodeData);
     });
     

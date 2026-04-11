@@ -519,6 +519,8 @@ export const wikidataSyncRouter = router({
 // HELPER: Build structured recommendations
 // ─────────────────────────────────────────────────────────────────────────────
 
+type RecommendationType = 'conservation' | 'images' | 'parents' | 'hybrids' | 'distribution' | 'general' | 'synonyms';
+
 function buildRecommendations(
   entity: WikidataEntity,
   hybrids: string[],
@@ -526,7 +528,7 @@ function buildRecommendations(
   speciesLevelOnly: boolean
 ) {
   const recs: Array<{
-    type: string;
+    type: RecommendationType;
     title: string;
     description: string;
     priority: 'high' | 'medium' | 'low';

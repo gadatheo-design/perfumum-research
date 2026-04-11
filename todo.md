@@ -4145,3 +4145,26 @@ npm run dev
 | sparql.ts | 1 (Promise<any[]>) | 0 |
 | research.test.ts | nouveau | 18/18 ✓ |
 
+
+## SESSION TypeScript — Batch 4 (11 avril 2026)
+
+- [ ] Refactoriser ChemicalFamilyHierarchyGraph.tsx — séparer HierarchyNode/HierarchyPointNode D3
+- [ ] Corriger l'interface Recommendation dans WikidataSync.tsx (as const)
+- [ ] Créer server/moleculeManager.test.ts — getVarietyGenealogy, buildGenealogyTree, getPlantCompositionNetwork
+
+
+## SESSION TypeScript — Batch 4 (11 avril 2026)
+
+### ✅ Corrections appliquées
+- [x] Refactoriser ChemicalFamilyHierarchyGraph.tsx — GraphNode étend SimulationNodeDatum, HierarchyPointNode cast correct
+- [x] Corriger interface Recommendation dans WikidataSync.tsx + wikidata-sync.ts (ajout 'synonyms' dans l'union)
+- [x] Extraire normalizeDuplicateGroup, buildGenealogyGraph, buildRelationRow dans moleculeManager.ts
+- [x] Créer server/moleculeManager.test.ts — 17/17 tests passent
+- [x] Compteur erreurs TS : 342 → 244 (progression nette de 98 erreurs)
+
+### Fichiers modifiés
+- `client/src/components/ChemicalFamilyHierarchyGraph.tsx` — D3 types corrigés
+- `server/routers/wikidata-sync.ts` — RecommendationType union littéral
+- `client/src/pages/admin/WikidataSync.tsx` — Recommendation.type + 'synonyms'
+- `server/routers/moleculeManager.ts` — 3 fonctions pures exportées
+- `server/moleculeManager.test.ts` — 17 tests (nouveau fichier)
