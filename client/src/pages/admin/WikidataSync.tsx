@@ -42,6 +42,36 @@ interface ImportResult {
   matches?: Array<{ id: number; name: string; latinName: string }>;
 }
 
+/** Entite Wikidata retournee par les mutations cote client */
+interface WikidataEntityClient {
+  id?: string;
+  qid?: string;
+  label?: string;
+  description?: string;
+  scientificName?: string;
+  taxonRank?: string;
+  parentTaxon?: string;
+  hybrids?: string[];
+  distribution?: string[];
+  conservationStatus?: string;
+  imageUrl?: string;
+}
+
+/** Resultat d'un import rapide (Quick Import tab) */
+interface QuickImportResult {
+  name: string;
+  qid: string | null;
+  success: boolean;
+  message: string;
+}
+
+/** Resultat d'une recherche en masse (Batch tab) */
+interface BatchSearchResult {
+  scientificName: string;
+  found: boolean;
+  entity?: { id: string } | null;
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // RECOMMENDATION CARD
 // ─────────────────────────────────────────────────────────────────────────────
@@ -74,7 +104,7 @@ const typeIcons: Record<string, React.ReactNode> = {
 function RecommendationCard({
   rec, wikidataEntity, scientificName,
 }: {
-  rec: Recommendation; wikidataEntity: any; scientificName: string;
+  rec: Recommendation; wikidataEntity: WikidataEntityClient | null; scientificName: string;
 }) {
   const { toast } = useToast();
   const [importing, setImporting] = useState(false);
@@ -119,8 +149,9 @@ function RecommendationCard({
         description: result.message,
         variant: result.success ? 'default' : 'destructive',
       });
-    } catch (err: any) {
-      toast({ title: 'Erreur', description: err?.message ?? 'Erreur lors de l\'import', variant: 'destructive' });
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Erreur lors de l\'import';
+      toast({ title: 'Erreur', description: msg, variant: 'destructive' });
     } finally {
       setImporting(false);
     }
@@ -182,7 +213,7 @@ function RecommendationCard({
 // ENTITY CARD (search result display)
 // ─────────────────────────────────────────────────────────────────────────────
 
-function EntityCard({ entity }: { entity: any }) {
+function EntityCard({ entity }: { entity: WikidataEntityClient | null }) {
   if (!entity) return null;
   return (
     <div className="space-y-4">
@@ -288,7 +319,7 @@ export default function WikidataSync() {
 
   // Search tab state
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedEntity, setSelectedEntity] = useState<any | null>(null);
+  const [selectedEntity, setSelectedEntity] = useState<WikidataEntityClient | null>(null);
 
   // Batch tab state
   const [batchNames, setBatchNames] = useState('');
@@ -297,12 +328,12 @@ export default function WikidataSync() {
   const [recGenus, setRecGenus] = useState('');
   const [recSpecies, setRecSpecies] = useState('');
   const [recCultivar, setRecCultivar] = useState('');
-  const [recommendations, setRecommendations] = useState<any | null>(null);
+  const [recommendations, setRecommendations] = useState<{ found: boolean; wikidataEntity: WikidataEntityClient | null; recommendations: Recommendation[] } | null>(null);
   const [recLoading, setRecLoading] = useState(false);
 
   // Quick import tab state
   const [quickNames, setQuickNames] = useState('');
-  const [quickResults, setQuickResults] = useState<any[]>([]);
+  const [quickResults, setQuickResults] = useState<QuickImportResult[]>([]);
   const [quickLoading, setQuickLoading] = useState(false);
 
   // Queries & mutations
@@ -350,7 +381,7 @@ export default function WikidataSync() {
     if (!names.length) return;
     setQuickLoading(true);
     setQuickResults([]);
-    const results: any[] = [];
+    const results: QuickImportResult[] = [];
     for (const name of names) {
       try {
         const entity = await searchMutation.mutateAsync({ scientificName: name });
@@ -362,8 +393,9 @@ export default function WikidataSync() {
         } else {
           results.push({ name, qid: null, success: false, message: 'Taxon non trouvé sur Wikidata' });
         }
-      } catch (err: any) {
-        results.push({ name, qid: null, success: false, message: err?.message || 'Erreur' });
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : 'Erreur';
+        results.push({ name, qid: null, success: false, message: msg });
       }
     }
     setQuickResults(results);
@@ -505,7 +537,7 @@ export default function WikidataSync() {
                     <span className="text-gray-400">Total : {batchMutation.data.total}</span>
                   </div>
                   <div className="space-y-1.5 max-h-72 overflow-y-auto rounded-lg border p-2">
-                    {batchMutation.data.results.map((r: any, i: number) => (
+                    {batchMutation.data.results.map((r: BatchSearchResult, i: number) => (
                       <div key={i} className={`flex items-center gap-2 p-2 rounded text-sm ${r.found ? 'bg-green-50' : 'bg-red-50'}`}>
                         {r.found
                           ? <CheckCircle2 className="h-4 w-4 text-green-600 shrink-0" />

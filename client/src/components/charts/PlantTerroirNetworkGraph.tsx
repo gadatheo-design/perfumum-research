@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useEffect, useRef, useState, useMemo } from "react";
 import * as d3 from "d3";
 import { Card } from "@/components/ui/card";
@@ -285,7 +284,7 @@ export function PlantTerroirNetworkGraph({
         d3.select(this).select("circle")
           .transition()
           .duration(200)
-          .attr("r", (d: any) => {
+          .attr("r", (d: NetworkNode) => {
             switch (d.type) {
               case 'terroir': return 16;
               case 'plant': return 12;
@@ -316,18 +315,18 @@ export function PlantTerroirNetworkGraph({
     });
 
     // Drag functions
-    function dragstarted(event: any, d: any) {
+    function dragstarted(event: d3.D3DragEvent<SVGGElement, NetworkNode, NetworkNode>, d: NetworkNode) {
       if (!event.active) simulation.alphaTarget(0.3).restart();
       d.fx = d.x;
       d.fy = d.y;
     }
 
-    function dragged(event: any, d: any) {
+    function dragged(event: d3.D3DragEvent<SVGGElement, NetworkNode, NetworkNode>, d: NetworkNode) {
       d.fx = event.x;
       d.fy = event.y;
     }
 
-    function dragended(event: any, d: any) {
+    function dragended(event: d3.D3DragEvent<SVGGElement, NetworkNode, NetworkNode>, d: NetworkNode) {
       if (!event.active) simulation.alphaTarget(0);
       d.fx = null;
       d.fy = null;
@@ -342,12 +341,18 @@ export function PlantTerroirNetworkGraph({
 
   const handleZoomIn = () => {
     const svg = d3.select(svgRef.current);
-    svg.transition().call(d3.zoom<SVGSVGElement, unknown>().scaleBy as any, 1.3);
+    svg.transition().call(
+      (t: d3.Transition<SVGSVGElement, unknown, null, undefined>) =>
+        d3.zoom<SVGSVGElement, unknown>().scaleBy(t, 1.3)
+    );
   };
 
   const handleZoomOut = () => {
     const svg = d3.select(svgRef.current);
-    svg.transition().call(d3.zoom<SVGSVGElement, unknown>().scaleBy as any, 0.7);
+    svg.transition().call(
+      (t: d3.Transition<SVGSVGElement, unknown, null, undefined>) =>
+        d3.zoom<SVGSVGElement, unknown>().scaleBy(t, 0.7)
+    );
   };
 
   const handleReset = () => {
@@ -356,8 +361,8 @@ export function PlantTerroirNetworkGraph({
       .transition()
       .duration(750)
       .call(
-        d3.zoom<SVGSVGElement, unknown>().transform as any,
-        d3.zoomIdentity
+        (t: d3.Transition<SVGSVGElement, unknown, null, undefined>) =>
+          d3.zoom<SVGSVGElement, unknown>().transform(t, d3.zoomIdentity)
       );
   };
 

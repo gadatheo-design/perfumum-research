@@ -46,7 +46,7 @@ const ImportRequestSchema = z.object({
 /**
  * Parse CSV string into rows
  */
-function parseCSV(csvData: string): string[][] {
+export function parseCSV(csvData: string): string[][] {
   const lines = csvData.trim().split('\n');
   const rows: string[][] = [];
 
@@ -108,7 +108,7 @@ interface CSVParseResult {
   meta: { fields?: string[] };
 }
 
-function convertRowsToObjects(
+export function convertRowsToObjects(
   rows: string[][],
   headers: string[]
 ): Array<{ data: CSVRowData; rowNumber: number; errors: string[] }> {

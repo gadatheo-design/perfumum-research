@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { Card } from "@/components/ui/card";
@@ -182,18 +181,18 @@ export function RecipeNetworkGraph({
     });
 
     // Drag functions
-    function dragstarted(event: any, d: any) {
+    function dragstarted(event: d3.D3DragEvent<SVGGElement, RecipeNode, RecipeNode>, d: RecipeNode) {
       if (!event.active) simulation.alphaTarget(0.3).restart();
       d.fx = d.x;
       d.fy = d.y;
     }
 
-    function dragged(event: any, d: any) {
+    function dragged(event: d3.D3DragEvent<SVGGElement, RecipeNode, RecipeNode>, d: RecipeNode) {
       d.fx = event.x;
       d.fy = event.y;
     }
 
-    function dragended(event: any, d: any) {
+    function dragended(event: d3.D3DragEvent<SVGGElement, RecipeNode, RecipeNode>, d: RecipeNode) {
       if (!event.active) simulation.alphaTarget(0);
       d.fx = null;
       d.fy = null;
@@ -208,12 +207,18 @@ export function RecipeNetworkGraph({
 
   const handleZoomIn = () => {
     const svg = d3.select(svgRef.current);
-    svg.transition().call(d3.zoom<SVGSVGElement, unknown>().scaleBy as any, 1.3);
+    svg.transition().call(
+      (t: d3.Transition<SVGSVGElement, unknown, null, undefined>) =>
+        d3.zoom<SVGSVGElement, unknown>().scaleBy(t, 1.3)
+    );
   };
 
   const handleZoomOut = () => {
     const svg = d3.select(svgRef.current);
-    svg.transition().call(d3.zoom<SVGSVGElement, unknown>().scaleBy as any, 0.7);
+    svg.transition().call(
+      (t: d3.Transition<SVGSVGElement, unknown, null, undefined>) =>
+        d3.zoom<SVGSVGElement, unknown>().scaleBy(t, 0.7)
+    );
   };
 
   const handleReset = () => {
@@ -222,8 +227,8 @@ export function RecipeNetworkGraph({
       .transition()
       .duration(750)
       .call(
-        d3.zoom<SVGSVGElement, unknown>().transform as any,
-        d3.zoomIdentity
+        (t: d3.Transition<SVGSVGElement, unknown, null, undefined>) =>
+          d3.zoom<SVGSVGElement, unknown>().transform(t, d3.zoomIdentity)
       );
   };
 
