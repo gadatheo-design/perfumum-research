@@ -2009,6 +2009,12 @@ function NomenclatureTab({ plant }: { plant: any }) {
     : latinEncoded ? `https://powo.science.kew.org/results?q=${latinEncoded}` : null;
   const wikiUrl = latinEncoded ? `https://fr.wikipedia.org/wiki/${latinEncoded.replace(/%20/g, '_')}` : null;
   const tplUrl = latinEncoded ? `https://www.theplantlist.org/tpl1.1/search?q=${latinEncoded}` : null;
+  const ncbiUrl = plant.ncbiTaxId
+    ? `https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=${plant.ncbiTaxId}`
+    : latinEncoded ? `https://www.ncbi.nlm.nih.gov/taxonomy/?term=${latinEncoded}` : null;
+  const wikidataUrl = plant.wikidataQid
+    ? `https://www.wikidata.org/entity/${plant.wikidataQid}`
+    : null;
 
   // Synonymes
   const synonymsList: string[] = asArrayPlant(plant.synonyms);
@@ -2191,100 +2197,162 @@ function NomenclatureTab({ plant }: { plant: any }) {
         </Card>
       )}
 
-      {/* Liens externes */}
+      {/* Identifiants externes + Liens bases de données */}
       {plant.latinName && (
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <ExternalLink className="h-5 w-5 text-blue-500" />
-              Bases de données botaniques
+              Identifiants & Bases de données
             </CardTitle>
-            <CardDescription>Liens vers les références nomenclaturales internationales</CardDescription>
+            <CardDescription>Références nomenclaturales internationales et identifiants croisés</CardDescription>
           </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-              {gbifUrl && (
-                <a href={gbifUrl} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
-                  <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
-                    <Leaf className="h-4 w-4 text-emerald-600" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium group-hover:text-primary">GBIF</p>
-                    <p className="text-xs text-muted-foreground truncate">Global Biodiversity Information Facility</p>
-                  </div>
-                  <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
-                </a>
-              )}
-              {powUrl && (
-                <a href={powUrl} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
-                  <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0">
-                    <TreeDeciduous className="h-4 w-4 text-green-600" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium group-hover:text-primary">Plants of the World</p>
-                    <p className="text-xs text-muted-foreground truncate">Kew Gardens — POWO</p>
-                  </div>
-                  <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
-                </a>
-              )}
-              {itisUrl && (
-                <a href={itisUrl} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
-                  <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center flex-shrink-0">
-                    <Dna className="h-4 w-4 text-blue-600" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium group-hover:text-primary">ITIS</p>
-                    <p className="text-xs text-muted-foreground truncate">Integrated Taxonomic Information System</p>
-                  </div>
-                  <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
-                </a>
-              )}
-              {wikiUrl && (
-                <a href={wikiUrl} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
-                  <div className="w-8 h-8 rounded-full bg-gray-500/10 flex items-center justify-center flex-shrink-0">
-                    <FileText className="h-4 w-4 text-gray-600" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium group-hover:text-primary">Wikipédia</p>
-                    <p className="text-xs text-muted-foreground truncate">Encyclopédie libre</p>
-                  </div>
-                  <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
-                </a>
-              )}
-              {tplUrl && (
-                <a href={tplUrl} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
-                  <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center flex-shrink-0">
-                    <BookOpen className="h-4 w-4 text-amber-600" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium group-hover:text-primary">The Plant List</p>
-                    <p className="text-xs text-muted-foreground truncate">Nomenclature de référence</p>
-                  </div>
-                  <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
-                </a>
-              )}
-              {(plant as any).wikidata_qid && (
-                <a
-                  href={`https://www.wikidata.org/entity/${(plant as any).wikidata_qid}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 p-3 rounded-lg border border-purple-200 dark:border-purple-800 hover:bg-purple-50 dark:hover:bg-purple-950/30 transition-colors group"
-                >
-                  <div className="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center flex-shrink-0">
-                    <Globe className="h-4 w-4 text-purple-600" />
-                  </div>
-                  <div className="min-w-0">
-                    <p className="text-sm font-medium group-hover:text-purple-600">Wikidata</p>
-                    <p className="text-xs text-muted-foreground truncate font-mono">{(plant as any).wikidata_qid}</p>
-                  </div>
-                  <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
-                </a>
-              )}
+          <CardContent className="space-y-5">
+            {/* Bandeau des identifiants directs */}
+            {(plant.gbifId || plant.powId || plant.ncbiTaxId || plant.wikidataQid || plant.itisId) && (
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">Identifiants croisés</p>
+                <div className="flex flex-wrap gap-2">
+                  {plant.gbifId && (
+                    <a href={`https://www.gbif.org/species/${plant.gbifId}`} target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-xs font-mono hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors">
+                      <span className="font-semibold not-italic">GBIF</span>
+                      <span>{plant.gbifId}</span>
+                      <ExternalLink className="h-2.5 w-2.5 opacity-60" />
+                    </a>
+                  )}
+                  {plant.powId && (
+                    <a href={`https://powo.science.kew.org/taxon/urn:lsid:ipni.org:names:${plant.powId}`} target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 text-xs font-mono hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors">
+                      <span className="font-semibold not-italic">POWO</span>
+                      <span>{plant.powId}</span>
+                      <ExternalLink className="h-2.5 w-2.5 opacity-60" />
+                    </a>
+                  )}
+                  {plant.ncbiTaxId && (
+                    <a href={`https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?id=${plant.ncbiTaxId}`} target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-400 text-xs font-mono hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors">
+                      <span className="font-semibold not-italic">NCBI</span>
+                      <span>{plant.ncbiTaxId}</span>
+                      <ExternalLink className="h-2.5 w-2.5 opacity-60" />
+                    </a>
+                  )}
+                  {plant.wikidataQid && (
+                    <a href={`https://www.wikidata.org/entity/${plant.wikidataQid}`} target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-400 text-xs font-mono hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors">
+                      <span className="font-semibold not-italic">Wikidata</span>
+                      <span>{plant.wikidataQid}</span>
+                      <ExternalLink className="h-2.5 w-2.5 opacity-60" />
+                    </a>
+                  )}
+                  {plant.itisId && (
+                    <a href={`https://www.itis.gov/servlet/SingleRpt/SingleRpt?search_topic=TSN&search_value=${plant.itisId}`} target="_blank" rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-400 text-xs font-mono hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-colors">
+                      <span className="font-semibold not-italic">ITIS</span>
+                      <span>{plant.itisId}</span>
+                      <ExternalLink className="h-2.5 w-2.5 opacity-60" />
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Grille des liens vers les bases de données */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">Bases de données</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                {gbifUrl && (
+                  <a href={gbifUrl} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
+                    <div className="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                      <Leaf className="h-4 w-4 text-emerald-600" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium group-hover:text-primary">GBIF</p>
+                      <p className="text-xs text-muted-foreground truncate">{plant.gbifId ? `ID: ${plant.gbifId}` : 'Recherche par nom'}</p>
+                    </div>
+                    <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
+                  </a>
+                )}
+                {powUrl && (
+                  <a href={powUrl} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
+                    <div className="w-8 h-8 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0">
+                      <TreeDeciduous className="h-4 w-4 text-green-600" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium group-hover:text-primary">Plants of the World</p>
+                      <p className="text-xs text-muted-foreground truncate">{plant.powId ? `ID: ${plant.powId}` : 'Kew Gardens — POWO'}</p>
+                    </div>
+                    <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
+                  </a>
+                )}
+                {ncbiUrl && (
+                  <a href={ncbiUrl} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
+                    <div className="w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                      <Dna className="h-4 w-4 text-blue-600" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium group-hover:text-primary">NCBI Taxonomy</p>
+                      <p className="text-xs text-muted-foreground truncate">{plant.ncbiTaxId ? `TaxID: ${plant.ncbiTaxId}` : 'National Center for Biotechnology'}</p>
+                    </div>
+                    <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
+                  </a>
+                )}
+                {itisUrl && (
+                  <a href={itisUrl} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
+                    <div className="w-8 h-8 rounded-full bg-orange-500/10 flex items-center justify-center flex-shrink-0">
+                      <BookOpen className="h-4 w-4 text-orange-600" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium group-hover:text-primary">ITIS</p>
+                      <p className="text-xs text-muted-foreground truncate">{plant.itisId ? `TSN: ${plant.itisId}` : 'Integrated Taxonomic Information'}</p>
+                    </div>
+                    <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
+                  </a>
+                )}
+                {wikidataUrl && (
+                  <a href={wikidataUrl} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-lg border border-purple-200 dark:border-purple-800 hover:bg-purple-50 dark:hover:bg-purple-950/30 transition-colors group">
+                    <div className="w-8 h-8 rounded-full bg-purple-500/10 flex items-center justify-center flex-shrink-0">
+                      <Globe className="h-4 w-4 text-purple-600" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium group-hover:text-purple-600">Wikidata</p>
+                      <p className="text-xs text-muted-foreground truncate font-mono">{plant.wikidataQid}</p>
+                    </div>
+                    <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
+                  </a>
+                )}
+                {wikiUrl && (
+                  <a href={wikiUrl} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
+                    <div className="w-8 h-8 rounded-full bg-gray-500/10 flex items-center justify-center flex-shrink-0">
+                      <FileText className="h-4 w-4 text-gray-600" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium group-hover:text-primary">Wikipédia</p>
+                      <p className="text-xs text-muted-foreground truncate">Encyclopédie libre</p>
+                    </div>
+                    <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
+                  </a>
+                )}
+                {tplUrl && (
+                  <a href={tplUrl} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center gap-3 p-3 rounded-lg border border-border hover:bg-accent transition-colors group">
+                    <div className="w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                      <BookOpen className="h-4 w-4 text-amber-600" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium group-hover:text-primary">The Plant List</p>
+                      <p className="text-xs text-muted-foreground truncate">Nomenclature de référence</p>
+                    </div>
+                    <ExternalLink className="h-3 w-3 text-muted-foreground ml-auto flex-shrink-0" />
+                  </a>
+                )}
+              </div>
             </div>
           </CardContent>
         </Card>

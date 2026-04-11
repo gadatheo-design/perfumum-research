@@ -140,7 +140,7 @@ export const lotusRouter = router({
       if (!plant?.latinName) return { plant: null, molecules: [], error: "Plante sans nom latin" };
 
       try {
-        const lotusMolecules = await fetchMoleculesForPlant(plant.latinName);
+        const lotusMolecules = await fetchMoleculesForPlant(plant.latinName ?? "");
         
         // Pour chaque molécule LOTUS, vérifier si elle est déjà en DB
         const enriched = await Promise.all(lotusMolecules.slice(0, 50).map(async (m) => {
@@ -195,7 +195,7 @@ export const lotusRouter = router({
       const [plant] = await db.select().from(plants).where(eq(plants.id, input.plantId)).limit(1);
       if (!plant?.latinName) return { success: false, message: "Plante sans nom latin", created: 0 };
 
-      const lotusMolecules = await fetchMoleculesForPlant(plant.latinName);
+      const lotusMolecules = await fetchMoleculesForPlant(plant.latinName ?? "");
       
       let created = 0;
       let skipped = 0;

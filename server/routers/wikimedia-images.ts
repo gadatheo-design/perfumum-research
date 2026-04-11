@@ -81,7 +81,7 @@ export const wikimediaImagesRouter = router({
       const results: Array<{
         plantId: number;
         plantName: string;
-        latinName: string;
+        latinName: string | null;
         status: "success" | "not_found" | "error" | "skipped";
         message: string;
         imageUrl?: string;

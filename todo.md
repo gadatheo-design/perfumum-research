@@ -4011,3 +4011,10 @@ npm run dev
 - [x] Routeur phylo-batch.ts : batchByGenus (5 APIs en parallèle par genre) + syncCrossIds + syncBatchResults
 - [x] Colonne ncbiTaxId ajoutée dans la table plants
 - [x] Page /admin/phylo-enrichment : onglet "Batch par Genre" avec sélecteur de genre, rapport de couverture avant/après, bouton Appliquer en base
+- [x] Correction des erreurs TypeScript nullable (string | null) dans 11 routeurs serveur
+
+- [x] Routeur apiCoverage.ts : getGlobalCoverage (filtres API, genre, catégorie) + getGenraCoverage (couverture par genre)
+- [x] Page /admin/api-coverage : dashboard de couverture des APIs (GBIF, POWO, NCBI, Wikidata, ITIS) avec score de complétude, filtres, onglet par genre
+- [x] Ajout de /admin/api-coverage dans navigationConfig.ts et Admin.tsx
+- [x] Composant NavigationProgressBar.tsx : barre de progression NProgress-style à chaque changement de route
+- [x] Page 404 narrative et esthétique : texte poétique, particules canvas, 5 points d'entrée, signature PERFUMUM

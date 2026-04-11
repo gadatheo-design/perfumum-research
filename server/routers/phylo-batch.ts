@@ -254,11 +254,11 @@ export const phyloBatchRouter = router({
 
         // Lancer les APIs sélectionnées en parallèle
         const [gbifResult, powoResult, ncbiResult, wikidataResult, tropicosResult] = await Promise.allSettled([
-          input.apis.includes("gbif") ? gbifSearch(plant.latinName) : Promise.resolve(null),
-          input.apis.includes("powo") ? powoSearch(plant.latinName) : Promise.resolve(null),
-          input.apis.includes("ncbi") ? ncbiSearch(plant.latinName) : Promise.resolve(null),
-          input.apis.includes("wikidata") ? wikidataCrossIds(plant.latinName) : Promise.resolve(null),
-          input.apis.includes("tropicos") ? tropicosSearch(plant.latinName) : Promise.resolve(null),
+          input.apis.includes("gbif") ? gbifSearch(plant.latinName ?? "") : Promise.resolve(null),
+          input.apis.includes("powo") ? powoSearch(plant.latinName ?? "") : Promise.resolve(null),
+          input.apis.includes("ncbi") ? ncbiSearch(plant.latinName ?? "") : Promise.resolve(null),
+          input.apis.includes("wikidata") ? wikidataCrossIds(plant.latinName ?? "") : Promise.resolve(null),
+          input.apis.includes("tropicos") ? tropicosSearch(plant.latinName ?? "") : Promise.resolve(null),
         ]);
 
         const gbif = gbifResult.status === "fulfilled" ? gbifResult.value : null;

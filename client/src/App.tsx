@@ -32,6 +32,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
 import { GoogleAnalytics } from "./components/GoogleAnalytics";
 import { PageTransition } from "./components/PageTransition";
+import { NavigationProgressBar } from "./components/NavigationProgressBar";
 import { LegacyRedirect, SimpleRedirect } from "./components/LegacyRedirect";
 // Guided navigation
 import { GuidedNavigationProvider } from "./contexts/GuidedNavigationContext";
@@ -471,6 +472,7 @@ const LotusBatchGenus = React.lazy(() => import('./pages/admin/LotusBatchGenus')
 const COCONUTEnrichment = React.lazy(() => import('./pages/admin/COCONUTEnrichment'));
 const IUCNEnrichment = React.lazy(() => import('./pages/admin/IUCNEnrichment'));
 const PhyloEnrichment = React.lazy(() => import('./pages/admin/PhyloEnrichment'));
+const ApiCoverage = React.lazy(() => import('./pages/admin/ApiCoverage'));
 
 
 
@@ -1127,6 +1129,7 @@ function Router() {
       <LazyRouteRaw path="/admin/coconut-enrichment" component={COCONUTEnrichment} />
       <LazyRouteRaw path="/admin/iucn-enrichment" component={IUCNEnrichment} />
       <LazyRouteRaw path="/admin/phylo-enrichment" component={PhyloEnrichment} />
+      <LazyRouteRaw path="/admin/api-coverage" component={ApiCoverage} />
       
       {/* === ERREURS === */}
       <Route path="/404" component={NotFound} />
@@ -1148,6 +1151,7 @@ function App() {
       <ThemeProvider defaultTheme="light" switchable={true}>
         <GuidedNavigationProvider>
           <TooltipProvider>
+            <NavigationProgressBar />
             <Toaster />
             <GoogleAnalytics />
             <GlobalSearchAdvanced />

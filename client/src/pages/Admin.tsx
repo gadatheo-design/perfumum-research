@@ -457,6 +457,14 @@ export default function Admin() {
       color: "text-violet-700",
       bgColor: "bg-violet-50",
     },
+    {
+      title: "Couverture APIs — Dashboard",
+      description: "Visualiser pour chaque plante quelles APIs ont retourné des données (GBIF, POWO, NCBI, Wikidata, ITIS) avec score de complétude, filtres par genre et export.",
+      icon: Database,
+      href: "/admin/api-coverage",
+      color: "text-indigo-700",
+      bgColor: "bg-indigo-50",
+    },
   ];
 
   return (

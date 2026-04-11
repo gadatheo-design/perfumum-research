@@ -94,6 +94,7 @@ import { ncbiTaxonomyRouter } from './routers/ncbi-taxonomy';
 import { powoKewRouter } from './routers/powo-kew';
 import { wikidataPhyloRouter } from './routers/wikidata-phylo';
 import { phyloBatchRouter } from './routers/phylo-batch';
+import { apiCoverageRouter } from './routers/api-coverage';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -12546,6 +12547,8 @@ Familles olfactives disponibles:
   wikidataPhylo: wikidataPhyloRouter,
   // Phylo Batch — Batch enrichment by genus with 5 APIs in parallel
   phyloBatch: phyloBatchRouter,
+  // API Coverage — Dashboard de couverture des APIs pour chaque plante
+  apiCoverage: apiCoverageRouter,
 });
 export type AppRouter = typeof appRouter;
 

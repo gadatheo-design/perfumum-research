@@ -308,13 +308,13 @@ export const gbifEnrichmentRouter = router({
       const results = await db
         .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
         .from(plants)
-        .where(like(plants.latinName, `%${input.latinName}%`))
+        .where(like(plants.latinName, `%${input.latinName ?? ""}%`))
         .limit(5);
 
       if (results.length === 0) {
         return {
           success: false,
-          message: `Aucune plante trouvée avec le nom latin "${input.latinName}".`,
+          message: `Aucune plante trouvée avec le nom latin "${input.latinName ?? ""}".`,
           matches: [],
         };
       }
@@ -322,7 +322,7 @@ export const gbifEnrichmentRouter = router({
       if (results.length > 1) {
         return {
           success: false,
-          message: `Plusieurs plantes correspondent à "${input.latinName}". Précisez le nom.`,
+          message: `Plusieurs plantes correspondent à "${input.latinName ?? ""}". Précisez le nom.`,
           matches: results.map((r) => ({ id: r.id, name: r.name, latinName: r.latinName })),
         };
       }
@@ -350,7 +350,7 @@ export const gbifEnrichmentRouter = router({
 
       return {
         success: true,
-        message: `Données GBIF importées pour ${plant.name} (${plant.latinName}).`,
+        message: `Données GBIF importées pour ${plant.name} (${plant.latinName ?? ""}).`,
         plantId: plant.id,
         plantName: plant.name,
         gbifKey: input.gbifKey,

@@ -259,7 +259,7 @@ export const ncbiTaxonomyRouter = router({
 
       for (const plant of plantsToEnrich) {
         await sleep(DELAY_MS);
-        const ids = await ncbiEsearch(`${plant.latinName}[Scientific Name]`);
+        const ids = await ncbiEsearch(`${plant.latinName ?? ""}[Scientific Name]`);
         if (!ids.length) {
           results.push({ id: plant.id, name: plant.name, latinName: plant.latinName, found: false });
           continue;

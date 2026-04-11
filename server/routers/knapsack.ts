@@ -179,7 +179,7 @@ export const knapsackRouter = router({
       if (!plant) throw new Error("Plante introuvable");
       if (!plant.latinName) throw new Error("Nom latin manquant");
       
-      const knapsackMolecules = await fetchKnapsackMolecules(plant.latinName);
+      const knapsackMolecules = await fetchKnapsackMolecules(plant.latinName ?? "");
       
       // Vérifier les liaisons existantes
       const existingLinks = await db
@@ -240,7 +240,7 @@ export const knapsackRouter = router({
       if (!plant) throw new Error("Plante introuvable");
       if (!plant.latinName) throw new Error("Nom latin manquant pour cette plante");
       
-      const knapsackMolecules = await fetchKnapsackMolecules(plant.latinName);
+      const knapsackMolecules = await fetchKnapsackMolecules(plant.latinName ?? "");
       
       if (knapsackMolecules.length === 0) {
         return {
@@ -345,7 +345,7 @@ export const knapsackRouter = router({
             continue;
           }
           
-          const knapsackMolecules = await fetchKnapsackMolecules(plant.latinName);
+          const knapsackMolecules = await fetchKnapsackMolecules(plant.latinName ?? "");
           
           if (knapsackMolecules.length === 0) {
             results.push({ plant: plant.name, latinName: plant.latinName, status: "not_found", knapsackTotal: 0, created: 0 });

@@ -556,7 +556,7 @@ export const lotusEnrichmentRouter = router({
       }
 
       // 3. Group by taxon latin name
-      const byTaxon: Record<string, { latinName: string; compounds: LotusCompound[] }> = {};
+      const byTaxon: Record<string, { latinName: string | null; compounds: LotusCompound[] }> = {};
       for (const b of bindings) {
         const latinName = b.latinName?.value ?? b.taxonLabel?.value ?? "";
         if (!latinName) continue;

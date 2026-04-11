@@ -213,8 +213,8 @@ export const gbifRouter = router({
       const steps: string[] = [];
 
       // 1. GBIF Species Match
-      const match = await gbifMatchSpecies(plant.latinName);
-      if (!match) return { success: false, message: `"${plant.latinName}" non trouvée dans GBIF` };
+      const match = await gbifMatchSpecies(plant.latinName ?? "");
+      if (!match) return { success: false, message: `"${plant.latinName ?? ""}" non trouvée dans GBIF` };
 
       updateData.gbifId = String(match.usageKey);
       if (match.family) updateData.family = match.family;

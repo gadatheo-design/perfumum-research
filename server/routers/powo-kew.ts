@@ -222,7 +222,7 @@ export const powoKewRouter = router({
       });
 
       if (!searchData?.results?.length) {
-        return { success: false, message: `"${plant.latinName}" non trouvée dans POWO` };
+        return { success: false, message: `"${plant.latinName ?? ""}" non trouvée dans POWO` };
       }
 
       // Prendre le premier résultat accepté

@@ -224,7 +224,7 @@ export const p5dataRouter = router({
       }
       
       return {
-        sample: `${plant.name}${plant.latinName ? ` (${plant.latinName})` : ''} — Profil GC-MS`,
+        sample: `${plant.name}${plant.latinName ? ` (${plant.latinName ?? ""})` : ''} — Profil GC-MS`,
         method: "GC-MS simulé (PERFUMUM — basé sur composition moléculaire)",
         source: `PERFUMUM Research Database — ${peaks.length} composés identifiés`,
         plantId: plant.id,

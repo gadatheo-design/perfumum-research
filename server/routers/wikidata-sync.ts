@@ -278,13 +278,13 @@ export const wikidataSyncRouter = router({
       const results = await db
         .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
         .from(plants)
-        .where(like(plants.latinName, `%${input.latinName}%`))
+        .where(like(plants.latinName, `%${input.latinName ?? ""}%`))
         .limit(5);
 
       if (results.length === 0) {
         return {
           success: false,
-          message: `Aucune plante trouvée avec le nom latin "${input.latinName}" dans la base de données.`,
+          message: `Aucune plante trouvée avec le nom latin "${input.latinName ?? ""}" dans la base de données.`,
           matches: [],
         };
       }
@@ -292,7 +292,7 @@ export const wikidataSyncRouter = router({
       if (results.length > 1) {
         return {
           success: false,
-          message: `Plusieurs plantes correspondent à "${input.latinName}". Précisez le nom.`,
+          message: `Plusieurs plantes correspondent à "${input.latinName ?? ""}". Précisez le nom.`,
           matches: results.map(r => ({ id: r.id, name: r.name, latinName: r.latinName })),
         };
       }
@@ -309,7 +309,7 @@ export const wikidataSyncRouter = router({
 
       return {
         success: true,
-        message: `Statut IUCN "${normalizedStatus}" importé pour ${plant.name} (${plant.latinName}).`,
+        message: `Statut IUCN "${normalizedStatus}" importé pour ${plant.name} (${plant.latinName ?? ""}).`,
         plantId: plant.id,
         plantName: plant.name,
         conservationStatus: normalizedStatus,
@@ -335,13 +335,13 @@ export const wikidataSyncRouter = router({
       const results = await db
         .select({ id: plants.id, name: plants.name, latinName: plants.latinName, imageUrl: plants.imageUrl })
         .from(plants)
-        .where(like(plants.latinName, `%${input.latinName}%`))
+        .where(like(plants.latinName, `%${input.latinName ?? ""}%`))
         .limit(5);
 
       if (results.length === 0) {
         return {
           success: false,
-          message: `Aucune plante trouvée avec le nom latin "${input.latinName}".`,
+          message: `Aucune plante trouvée avec le nom latin "${input.latinName ?? ""}".`,
           matches: [],
         };
       }
@@ -401,13 +401,13 @@ export const wikidataSyncRouter = router({
       const results = await db
         .select({ id: plants.id, name: plants.name, latinName: plants.latinName, wikidataQid: plants.wikidataQid })
         .from(plants)
-        .where(like(plants.latinName, `%${input.latinName}%`))
+        .where(like(plants.latinName, `%${input.latinName ?? ""}%`))
         .limit(5);
 
       if (results.length === 0) {
         return {
           success: false,
-          message: `Aucune plante trouvée avec le nom latin "${input.latinName}".`,
+          message: `Aucune plante trouvée avec le nom latin "${input.latinName ?? ""}".`,
           matches: [],
         };
       }
