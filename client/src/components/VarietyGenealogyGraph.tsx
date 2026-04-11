@@ -29,7 +29,7 @@ import 'reactflow/dist/style.css';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import type { VarietyGenealogy, VarietyNode, RelationType } from '@/server/varietyGenealogy';
+import type { VarietyGenealogy, VarietyNode, RelationType } from '@/lib/varietyGenealogy';
 
 interface VarietyGenealogyGraphProps {
   genealogy: VarietyGenealogy;

@@ -27,7 +27,7 @@ export const apiCoverageRouter = router({
     }))
     .query(async ({ input }) => {
       const db = await getDb();
-      if (!db) return { plants: [], total: 0, stats: {} };
+      if (!db) return { plants: [], total: 0, stats: { total: 0, withGbif: 0, withPowo: 0, withNcbi: 0, withWikidata: 0, withItis: 0, fullyEnriched: 0, incomplete: 0, avgScore: 0 } };
 
       // Construire la requête de base
       let query = db.select({

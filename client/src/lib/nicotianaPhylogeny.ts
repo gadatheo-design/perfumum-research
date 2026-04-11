@@ -274,3 +274,13 @@ export const sourceMetadata = {
     'N. rupicola is critically endangered (CR) due to restricted distribution and urbanization/mining threats',
   ]
 };
+
+// ── Helper : aplatir l'arbre en liste de feuilles (espèces) ──────────────────
+export function flattenToSpecies(node: PhylogeneticNode): PhylogeneticNode[] {
+  if (!node.children || node.children.length === 0) {
+    return [node];
+  }
+  return node.children.flatMap(flattenToSpecies);
+}
+
+export const nicotianaSpeciesList: PhylogeneticNode[] = flattenToSpecies(nicotianaPhylogeny);

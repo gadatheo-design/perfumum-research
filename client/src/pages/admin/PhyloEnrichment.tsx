@@ -420,7 +420,7 @@ function NcbiTab({ scientificName }: { scientificName: string }) {
 // ─── Tab: Tropicos ────────────────────────────────────────────────────────────
 
 function TropicosTab({ scientificName }: { scientificName: string }) {
-  const { data, isLoading } = trpc.tropicosEnrichment.searchNames.useQuery(
+  const { data, isLoading } = trpc.tropicosEnrichment.searchName.useQuery(
     { name: scientificName, limit: 3 },
     { enabled: scientificName.length > 2, retry: 1 }
   );
@@ -1021,12 +1021,12 @@ export default function PhyloEnrichment() {
   }, [handleSearch]);
 
   // API status checks
-  const { data: gbifStatus } = trpc.gbif.getApiStatus?.useQuery(undefined, { retry: 0 }) ?? { data: null };
+  const { data: gbifStatus } = trpc.gbif.getStats.useQuery(undefined, { retry: 0 });
   const { data: powoStatus } = trpc.powoKew.getStatus.useQuery(undefined, { retry: 0 });
   const { data: ncbiStatus } = trpc.ncbiTaxonomy.getStatus.useQuery(undefined, { retry: 0 });
 
   const apiSources = [
-    { label: "GBIF", color: "emerald", status: gbifStatus?.status ?? "unknown", coverage: "1.9B occurrences" },
+    { label: "GBIF", color: "emerald", status: (gbifStatus?.total != null ? "online" : "unknown") as "online" | "offline" | "unknown", coverage: "1.9B occurrences" },
     { label: "POWO/Kew", color: "amber", status: powoStatus?.status ?? "unknown", coverage: "1.4M noms" },
     { label: "NCBI", color: "sky", status: ncbiStatus?.status ?? "unknown", coverage: "2M+ espèces" },
     { label: "Tropicos", color: "rose", status: "unknown", coverage: "1.3M noms" },

@@ -4075,18 +4075,18 @@ npm run dev
 
 ## Correction TypeScript — Plan A→D (11 avril 2026)
 
-- [ ] Checkpoint de sécurité avant corrections TS
-- [ ] Nettoyage fichiers .backup (54 fichiers) + .gitignore
-- [ ] Bloc A — Imports manquants VarietyGenealogyPage.tsx (25 erreurs)
-- [ ] Bloc A — Procédures mal nommées PhyloEnrichment.tsx (22 erreurs)
-- [ ] Bloc B — Unions T|{} ApiCoverage.tsx (13 erreurs)
-- [ ] Bloc B — Unions T|{} PhyloEnrichment.tsx (19 erreurs restantes)
-- [ ] Bloc C — Paramètres implicitement any NicotianaPhylogenyInteractive.tsx (7 erreurs)
+- [x] Checkpoint de sécurité avant corrections TS (f289b6d3)
+- [x] Nettoyage fichiers .backup (54 fichiers supprimés) + .gitignore mis à jour
+- [x] Bloc A — Imports manquants VarietyGenealogyPage.tsx (25 erreurs)
+- [x] Bloc A — Procédures mal nommées PhyloEnrichment.tsx (22 erreurs)
+- [x] Bloc B — Unions T|{} ApiCoverage.tsx (13 erreurs)
+- [x] Bloc B — Unions T|{} PhyloEnrichment.tsx (19 erreurs restantes)
+- [x] Bloc C — Paramètres implicitement any NicotianaPhylogenyInteractive.tsx (7 erreurs)
 - [ ] Bloc C — unknown→ReactNode TropicosEnrichment.tsx (10 erreurs)
 - [ ] Bloc C — Type incompatible WikidataSync.tsx (3 erreurs)
 - [ ] Bloc C — Enum extractionMethod ExtractionMethodsAdmin.tsx (4 erreurs)
 - [ ] Bloc D — Références manquantes PlantDetail.tsx (3 erreurs)
-- [ ] Bloc D — Module manquant VarietyGenealogyGraph.tsx (1 erreur)
+- [x] Bloc D — Module manquant VarietyGenealogyGraph.tsx (1 erreur)
 - [ ] Bloc D — Propriétés MatierePremierePage.tsx (5 erreurs)
 - [ ] Bloc D — Fichiers isolés (1 erreur chacun)
 - [ ] Vérification finale pnpm check = 0 erreur

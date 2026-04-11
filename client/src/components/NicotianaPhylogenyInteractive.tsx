@@ -5,7 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { AlertCircle, ChevronRight, Leaf } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { nicotianaPhylogeny } from '@/lib/nicotianaPhylogeny';
+import { nicotianaPhylogeny, nicotianaSpeciesList, type PhylogeneticNode } from '@/lib/nicotianaPhylogeny';
 
 interface SpeciesNode {
   id: string;
@@ -23,16 +23,16 @@ export function NicotianaPhylogenyInteractive() {
   // Grouper les espèces par section
   const speciesBySection: Record<string, SpeciesNode[]> = {};
   
-  nicotianaPhylogeny.species.forEach(species => {
+  nicotianaSpeciesList.forEach(species => {
     const section = species.section || 'Unknown';
     if (!speciesBySection[section]) {
       speciesBySection[section] = [];
     }
     speciesBySection[section].push({
       id: species.id,
-      latinName: species.latinName,
+      latinName: species.latinName ?? species.name,
       section: species.section,
-      isNew: species.isNew,
+      isNew: (species as PhylogeneticNode & { isNew?: boolean }).isNew,
       isCriticallyEndangered: species.conservationStatus === 'CR'
     });
   });
@@ -131,7 +131,7 @@ export function NicotianaPhylogenyInteractive() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div>
               <p className="text-sm text-muted-foreground">Total d'espèces</p>
-              <p className="text-2xl font-bold">{nicotianaPhylogeny.species.length}</p>
+              <p className="text-2xl font-bold">{nicotianaSpeciesList.length}</p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Sections taxonomiques</p>
@@ -140,13 +140,13 @@ export function NicotianaPhylogenyInteractive() {
             <div>
               <p className="text-sm text-muted-foreground">Espèces nouvelles</p>
               <p className="text-2xl font-bold">
-                {nicotianaPhylogeny.species.filter(s => s.isNew).length}
+                {nicotianaSpeciesList.filter(s => (s as PhylogeneticNode & { isNew?: boolean }).isNew).length}
               </p>
             </div>
             <div>
               <p className="text-sm text-muted-foreground">En danger critique</p>
               <p className="text-2xl font-bold">
-                {nicotianaPhylogeny.species.filter(s => s.conservationStatus === 'CR').length}
+                {nicotianaSpeciesList.filter(s => s.conservationStatus === 'CR').length}
               </p>
             </div>
           </div>

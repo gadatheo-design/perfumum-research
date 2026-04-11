@@ -173,7 +173,7 @@ export const phyloBatchRouter = router({
     .input(z.object({ genus: z.string().min(2) }))
     .query(async ({ input }) => {
       const db = await getDb();
-      if (!db) return { plants: [], summary: {} };
+      if (!db) return { plants: [], summary: { total: 0, withGbif: 0, withPowo: 0, withNcbi: 0, withWikidata: 0, fullyEnriched: 0 } };
       const plantsInGenus = await db.select({
         id: plants.id,
         name: plants.name,
@@ -234,7 +234,7 @@ export const phyloBatchRouter = router({
           genus: input.genus,
           total: 0,
           results: [],
-          summary: { before: {}, after: {} },
+          summary: { before: { withGbif: 0, withPowo: 0, withNcbi: 0, withWikidata: 0 }, after: { withGbif: 0, withPowo: 0, withNcbi: 0, withWikidata: 0 } },
         };
       }
 

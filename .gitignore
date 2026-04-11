@@ -122,3 +122,6 @@ client/.vite/
 
 # Webdev artifacts
 .webdev/artifacts/
+
+*.backup
+*.patch
