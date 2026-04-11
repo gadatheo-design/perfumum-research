@@ -1,4 +1,4 @@
-// @ts-nocheck
+// NOTE: @ts-nocheck retiré — types D3 via shared/domain-types.ts
 import { useEffect, useRef, useState, useMemo } from "react";
 import * as d3 from "d3";
 import { Card } from "@/components/ui/card";
@@ -106,13 +106,13 @@ export function PlantTerroirNetworkGraph({
 
     // Force simulation
     const simulation = d3
-      .forceSimulation(nodes as any)
+      .forceSimulation<NetworkNode>(nodes)
       .force(
         "link",
         d3
           .forceLink(links)
-          .id((d: any) => d.id)
-          .distance((d: any) => {
+          .id((d) => d.id)
+          .distance((d) => {
             // Distance plus grande pour les liens plante-terroir
             if (d.type === 'plant-terroir') return 150;
             return 80;
@@ -142,7 +142,7 @@ export function PlantTerroirNetworkGraph({
       .attr("class", "nodes")
       .selectAll("g")
       .data(nodes)
-      .join("g") as any;
+      .join("g");
     
     node.call(
       d3
@@ -222,7 +222,7 @@ export function PlantTerroirNetworkGraph({
       .style("max-width", "250px");
 
     node
-      .on("mouseover", function (this: SVGGElement, event: any, d: NetworkNode) {
+      .on("mouseover", function (this: SVGGElement, event: MouseEvent, d: NetworkNode) {
         tooltip.style("visibility", "visible");
         
         let html = `<strong style="font-size: 13px;">${d.name}</strong><br/>`;
@@ -240,8 +240,8 @@ export function PlantTerroirNetworkGraph({
         // Compter les connexions
         const connectionCount = links.filter(l => 
           l.source === d.id || l.target === d.id ||
-          (typeof l.source === 'object' && (l.source as any).id === d.id) ||
-          (typeof l.target === 'object' && (l.target as any).id === d.id)
+          (typeof l.source === 'object' && l.source.id === d.id) ||
+          (typeof l.target === 'object' && l.target.id === d.id)
         ).length;
         html += `<br/><span style="color: oklch(0.7 0.1 200);">${connectionCount} connexion(s)</span>`;
         
@@ -251,7 +251,7 @@ export function PlantTerroirNetworkGraph({
         d3.select(this).select("circle")
           .transition()
           .duration(200)
-          .attr("r", (d: any) => {
+          .attr("r", (d: NetworkNode) => {
             switch (d.type) {
               case 'terroir': return 20;
               case 'plant': return 16;
@@ -263,23 +263,23 @@ export function PlantTerroirNetworkGraph({
           
         // Highlight connected links
         link
-          .attr("stroke-opacity", (l: any) => {
+          .attr("stroke-opacity", (l: NetworkLink) => {
             const sourceId = typeof l.source === 'object' ? l.source.id : l.source;
             const targetId = typeof l.target === 'object' ? l.target.id : l.target;
             return sourceId === d.id || targetId === d.id ? 0.8 : 0.1;
           })
-          .attr("stroke-width", (l: any) => {
+          .attr("stroke-width", (l: NetworkLink) => {
             const sourceId = typeof l.source === 'object' ? l.source.id : l.source;
             const targetId = typeof l.target === 'object' ? l.target.id : l.target;
             return sourceId === d.id || targetId === d.id ? 4 : 1;
           });
       })
-      .on("mousemove", function (this: SVGGElement, event: any) {
+      .on("mousemove", function (this: SVGGElement, event: MouseEvent) {
         tooltip
           .style("top", event.pageY - 10 + "px")
           .style("left", event.pageX + 15 + "px");
       })
-      .on("mouseout", function (this: SVGGElement, event: any, d: NetworkNode) {
+      .on("mouseout", function (this: SVGGElement, event: MouseEvent, d: NetworkNode) {
         tooltip.style("visibility", "hidden");
         
         d3.select(this).select("circle")
@@ -298,21 +298,21 @@ export function PlantTerroirNetworkGraph({
         // Reset links
         link
           .attr("stroke-opacity", 0.4)
-          .attr("stroke-width", (d: any) => d.value ? Math.sqrt(d.value) + 1 : 2);
+          .attr("stroke-width", (d: NetworkLink) => d.value ? Math.sqrt(d.value) + 1 : 2);
       })
-      .on("click", function (this: SVGGElement, event: any, d: NetworkNode) {
+      .on("click", function (this: SVGGElement, event: MouseEvent, d: NetworkNode) {
         setSelectedNode(d);
       });
 
     // Update positions on tick
     simulation.on("tick", () => {
       link
-        .attr("x1", (d: any) => d.source.x)
-        .attr("y1", (d: any) => d.source.y)
-        .attr("x2", (d: any) => d.target.x)
-        .attr("y2", (d: any) => d.target.y);
+        .attr("x1", (d: NetworkLink) => (typeof d.source === 'object' ? d.source.x ?? 0 : 0))
+        .attr("y1", (d: NetworkLink) => (typeof d.source === 'object' ? d.source.y ?? 0 : 0))
+        .attr("x2", (d: NetworkLink) => (typeof d.target === 'object' ? d.target.x ?? 0 : 0))
+        .attr("y2", (d: NetworkLink) => (typeof d.target === 'object' ? d.target.y ?? 0 : 0));
 
-      node.attr("transform", (d: any) => `translate(${d.x},${d.y})`);
+      node.attr("transform", (d: NetworkNode) => `translate(${d.x ?? 0},${d.y ?? 0})`);
     });
 
     // Drag functions

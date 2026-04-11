@@ -29,6 +29,7 @@ import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 import { useBreadcrumbSegments } from "@/contexts/BreadcrumbContext";
 import type { MoleculeExtended } from "../../../../shared/domain-types";
+import type { MoleculeExtended } from "../../../../shared/domain-types";
 
 // Composant indicateur de statut PubChem
 function PubChemStatusBadge({ hasPubChem, pubchemCid }: { hasPubChem: boolean; pubchemCid?: number }) {
@@ -920,6 +921,8 @@ export default function MoleculeDetail() {
   // ============================================================================
   // Cast typé unique — remplace tous les `(molecule as any).xxx`
   const mol = molecule as unknown as MoleculeExtended;
+  // Cast typé unique — remplace tous les `(molecule as any).xxx`
+  const mol = molecule as unknown as MoleculeExtended;
 
   /** Convertit un champ DB (null | string | string[] | JSON string) en string propre */
   const asString = (val: unknown): string => {
@@ -1195,7 +1198,7 @@ export default function MoleculeDetail() {
                     if (!procede) {
                       const searchText = [
                         molecule.name, molecule.notes, molecule.family, molecule.sourceOrigin,
-                        (molecule as any).botanicalSources, (molecule as any).extractionMethod,
+                        mol.botanicalSources, extractionMethodVal,
                       ].filter(Boolean).join(' ').toLowerCase();
                       if (searchText.includes('distill') || searchText.includes('vapeur')) procede = extractionMethodMap['distillation'];
                       else if (searchText.includes('co2') || searchText.includes('supercritique')) procede = extractionMethodMap['co2_supercritique'];

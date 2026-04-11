@@ -218,15 +218,15 @@ function WikidataPhyloTab({ scientificName }: { scientificName: string }) {
 // ─── Tab: GBIF ────────────────────────────────────────────────────────────────
 
 function GbifTab({ scientificName }: { scientificName: string }) {
-  const { data, isLoading } = trpc.gbif.searchByName.useQuery(
-    { name: scientificName, limit: 3 },
+  const { data, isLoading } = trpc.gbifEnrichment.searchSpecies.useQuery(
+    { query: scientificName, limit: 3 },
     { enabled: scientificName.length > 2, retry: 1 }
   );
 
   if (isLoading) return <div className="flex items-center gap-2 text-zinc-400 py-8"><Loader2 className="w-4 h-4 animate-spin" /> Interrogation de GBIF...</div>;
   if (!data?.results?.length) return <div className="text-zinc-500 py-8 text-sm">Aucun résultat GBIF pour <em>{scientificName}</em>.</div>;
 
-  const best = data.results[0];
+  const best = data.results[0]; // { key, scientificName, canonicalName, rank, family, kingdom, confidence }
 
   return (
     <div className="space-y-6">
@@ -234,7 +234,7 @@ function GbifTab({ scientificName }: { scientificName: string }) {
         <p className="text-xs text-emerald-400 uppercase tracking-widest mb-1">GBIF</p>
         <h3 className="text-lg font-semibold text-zinc-100 italic">{best.scientificName}</h3>
         <div className="flex flex-wrap gap-2 mt-2">
-          <IdentifierBadge label="GBIF Key" value={String(best.usageKey)} href={`https://www.gbif.org/species/${best.usageKey}`} />
+          <IdentifierBadge label="GBIF Key" value={String(best.key)} href={`https://www.gbif.org/species/${best.key}`} />
           {best.family && <Badge variant="outline" className="text-xs border-emerald-700 text-emerald-300">{best.family}</Badge>}
           {best.order && <Badge variant="outline" className="text-xs border-zinc-700 text-zinc-300">{best.order}</Badge>}
           {best.status && <Badge variant="outline" className="text-xs border-zinc-700 text-zinc-400">{best.status}</Badge>}
@@ -271,7 +271,7 @@ function GbifTab({ scientificName }: { scientificName: string }) {
         </div>
       )}
 
-      <a href={`https://www.gbif.org/species/${best.usageKey}`} target="_blank" rel="noopener noreferrer"
+      <a href={`https://www.gbif.org/species/${best.key}`} target="_blank" rel="noopener noreferrer"
         className="inline-flex items-center gap-2 text-sm text-emerald-400 hover:text-emerald-200 transition-colors">
         Voir sur GBIF <ExternalLink className="w-3 h-3" />
       </a>
@@ -290,7 +290,7 @@ function PowoTab({ scientificName }: { scientificName: string }) {
   if (isLoading) return <div className="flex items-center gap-2 text-zinc-400 py-8"><Loader2 className="w-4 h-4 animate-spin" /> Interrogation de POWO/Kew...</div>;
   if (!data?.results?.length) return <div className="text-zinc-500 py-8 text-sm">Aucun résultat POWO pour <em>{scientificName}</em>.</div>;
 
-  const best = data.results.find((r: any) => r.taxonomicStatus === "Accepted") ?? data.results[0];
+  const best = data.results.find((r) => (r as { taxonomicStatus?: string }).taxonomicStatus === "Accepted") ?? data.results[0];
 
   return (
     <div className="space-y-6">

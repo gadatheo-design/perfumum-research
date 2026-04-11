@@ -261,3 +261,60 @@ export function asMoleculeExtended(mol: Record<string, unknown>): MoleculeExtend
 export function asPlantExtended(plant: Record<string, unknown>): PlantExtended {
   return plant as unknown as PlantExtended;
 }
+
+// ─── Interfaces D3 génériques ────────────────────────────────────────────────
+// Ces interfaces couvrent les patterns communs des simulations D3 force-directed.
+
+/**
+ * Nœud générique pour les simulations D3 force-directed.
+ * Étend les propriétés de simulation (x, y, fx, fy, vx, vy, index).
+ */
+export interface D3SimulationNode {
+  id: string;
+  name: string;
+  // Propriétés injectées par D3 lors de la simulation
+  x?: number;
+  y?: number;
+  fx?: number | null;
+  fy?: number | null;
+  vx?: number;
+  vy?: number;
+  index?: number;
+}
+
+/**
+ * Lien générique pour les simulations D3 force-directed.
+ * source et target peuvent être des IDs (string) ou des nœuds résolus (D3SimulationNode).
+ */
+export interface D3SimulationLink<TNode extends D3SimulationNode = D3SimulationNode> {
+  source: string | TNode;
+  target: string | TNode;
+  value?: number;
+}
+
+/**
+ * Type helper pour accéder à l'ID d'un nœud résolu par D3 (source/target après simulation).
+ */
+export type D3ResolvedNode<TNode extends D3SimulationNode = D3SimulationNode> = TNode & {
+  x: number;
+  y: number;
+};
+
+/**
+ * Helper pour extraire l'ID d'un nœud D3 (résolu ou non).
+ */
+export function d3NodeId<TNode extends D3SimulationNode>(nodeOrId: string | TNode): string {
+  return typeof nodeOrId === 'object' ? nodeOrId.id : nodeOrId;
+}
+
+/**
+ * Helper pour extraire les coordonnées x/y d'un nœud D3 résolu.
+ */
+export function d3NodeCoords<TNode extends D3SimulationNode>(
+  nodeOrId: string | TNode
+): { x: number; y: number } {
+  if (typeof nodeOrId === 'object') {
+    return { x: nodeOrId.x ?? 0, y: nodeOrId.y ?? 0 };
+  }
+  return { x: 0, y: 0 };
+}

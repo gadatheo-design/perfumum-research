@@ -1,4 +1,4 @@
-// @ts-nocheck
+// NOTE: @ts-nocheck retiré — types D3 via shared/domain-types.ts
 import { useRef, useEffect, useState, useMemo } from "react";
 import * as d3 from "d3";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -53,6 +53,14 @@ interface TreeNode {
 interface GraphNode {
   id: string;
   name: string;
+  // Propriétés injectées par D3
+  x?: number;
+  y?: number;
+  fx?: number | null;
+  fy?: number | null;
+  vx?: number;
+  vy?: number;
+  index?: number;
   type: "family" | "molecule";
   family?: string | null;
   linkCount: number;

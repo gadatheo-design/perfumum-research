@@ -1176,7 +1176,7 @@ export default function PlantDetail() {
               {plt.sustainableAlternatives && !plt.certifications && (
                 <div className="p-4 border rounded-lg bg-green-50 dark:bg-green-950">
                   <h4 className="text-sm font-medium mb-2 text-green-700 dark:text-green-300">Notes de durabilité</h4>
-                  <p className="text-sm text-green-600 dark:text-green-400">{(plant as any).sustainableAlternatives}</p>
+                  <p className="text-sm text-green-600 dark:text-green-400">{plt.sustainableAlternatives}</p>
                 </div>
               )}
 

@@ -1,4 +1,4 @@
-// @ts-nocheck
+// NOTE: @ts-nocheck retiré — types D3 via shared/domain-types.ts
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { Card } from "@/components/ui/card";
@@ -11,6 +11,14 @@ interface RecipeNode {
   name: string;
   type: "recipe" | "molecule";
   count?: number; // Pour les molécules : nombre de recettes
+  // Propriétés injectées par D3
+  x?: number;
+  y?: number;
+  fx?: number | null;
+  fy?: number | null;
+  vx?: number;
+  vy?: number;
+  index?: number;
 }
 
 interface RecipeLink {
@@ -62,12 +70,12 @@ export function RecipeNetworkGraph({
 
     // Force simulation
     const simulation = d3
-      .forceSimulation(nodes as any)
+      .forceSimulation<RecipeNode>(nodes)
       .force(
         "link",
         d3
           .forceLink(links)
-          .id((d: any) => d.id)
+          .id((d) => d.id)
           .distance(100)
       )
       .force("charge", d3.forceManyBody().strength(-300))
@@ -91,7 +99,7 @@ export function RecipeNetworkGraph({
       .attr("class", "nodes")
       .selectAll("g")
       .data(nodes)
-      .join("g") as any;
+      .join("g");
     
     node.call(
       d3
@@ -143,7 +151,7 @@ export function RecipeNetworkGraph({
       .style("box-shadow", "0 4px 6px rgba(0,0,0,0.3)");
 
     node
-      .on("mouseover", function (this: SVGGElement, event: any, d: RecipeNode) {
+      .on("mouseover", function (this: SVGGElement, event: MouseEvent, d: RecipeNode) {
         tooltip.style("visibility", "visible");
         tooltip.html(
           `<strong>${d.name}</strong><br/>Type: ${d.type === "recipe" ? "Recette" : "Molécule"}${
@@ -152,12 +160,12 @@ export function RecipeNetworkGraph({
         );
         d3.select(this).select("circle").attr("r", d.type === "recipe" ? 16 : 12);
       })
-      .on("mousemove", function (this: SVGGElement, event: any) {
+      .on("mousemove", function (this: SVGGElement, event: MouseEvent) {
         tooltip
           .style("top", event.pageY - 10 + "px")
           .style("left", event.pageX + 10 + "px");
       })
-      .on("mouseout", function (this: SVGGElement, event: any, d: RecipeNode) {
+      .on("mouseout", function (this: SVGGElement, event: MouseEvent, d: RecipeNode) {
         tooltip.style("visibility", "hidden");
         d3.select(this).select("circle").attr("r", d.type === "recipe" ? 12 : 8);
       });
@@ -165,12 +173,12 @@ export function RecipeNetworkGraph({
     // Update positions on tick
     simulation.on("tick", () => {
       link
-        .attr("x1", (d: any) => d.source.x)
-        .attr("y1", (d: any) => d.source.y)
-        .attr("x2", (d: any) => d.target.x)
-        .attr("y2", (d: any) => d.target.y);
+        .attr("x1", (d: RecipeLink) => (typeof d.source === 'object' ? (d.source as RecipeNode).x ?? 0 : 0))
+        .attr("y1", (d: RecipeLink) => (typeof d.source === 'object' ? (d.source as RecipeNode).y ?? 0 : 0))
+        .attr("x2", (d: RecipeLink) => (typeof d.target === 'object' ? (d.target as RecipeNode).x ?? 0 : 0))
+        .attr("y2", (d: RecipeLink) => (typeof d.target === 'object' ? (d.target as RecipeNode).y ?? 0 : 0));
 
-      node.attr("transform", (d: any) => `translate(${d.x},${d.y})`);
+      node.attr("transform", (d: RecipeNode) => `translate(${d.x ?? 0},${d.y ?? 0})`);
     });
 
     // Drag functions

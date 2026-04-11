@@ -1,6 +1,7 @@
-// @ts-nocheck
+// NOTE: @ts-nocheck retiré — types D3 via shared/domain-types.ts
 import { useEffect, useRef, useState, useMemo } from "react";
 import * as d3 from "d3";
+import type { D3SimulationNode, D3SimulationLink, d3NodeId as getNodeId } from "../../../../shared/domain-types";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -222,37 +223,37 @@ export function TerrainPlantMoleculeGraph({
 
     // Force simulation avec disposition hiérarchique
     const simulation = d3
-      .forceSimulation(nodesCopy as any)
+      .forceSimulation<TerrainNode>(nodesCopy)
       .force(
         "link",
         d3
           .forceLink(linksCopy)
-          .id((d: any) => d.id)
-          .distance((d: any) => {
+          .id((d) => d.id)
+          .distance((d) => {
             // Distance plus grande pour les liens terroir-plante
             if (d.type === 'terroir-plant') return 180;
             // Distance basée sur le pourcentage pour plant-molecule
             return d.isSignature ? 100 : 140;
           })
-          .strength((d: any) => {
+          .strength((d) => {
             // Force plus forte pour les molécules signatures
             return d.isSignature ? 0.8 : 0.4;
           })
       )
-      .force("charge", d3.forceManyBody().strength((d: any) => {
+      .force("charge", d3.forceManyBody<TerrainNode>().strength((d) => {
         // Répulsion plus forte pour les terroirs (nœuds centraux)
         if (d.type === 'terroir') return -600;
         if (d.type === 'plant') return -400;
         return -200;
       }))
       .force("center", d3.forceCenter(w / 2, h / 2))
-      .force("collision", d3.forceCollide().radius((d: any) => {
+      .force("collision", d3.forceCollide<TerrainNode>().radius((d) => {
         if (d.type === 'terroir') return 50;
         if (d.type === 'plant') return 35;
         return 25;
       }))
       // Force pour séparer les types verticalement
-      .force("y", d3.forceY((d: any) => {
+      .force("y", d3.forceY<TerrainNode>((d) => {
         if (d.type === 'terroir') return h * 0.2;
         if (d.type === 'plant') return h * 0.5;
         return h * 0.8;
@@ -282,17 +283,17 @@ export function TerrainPlantMoleculeGraph({
       .selectAll("line")
       .data(linksCopy)
       .join("line")
-      .attr("stroke", (d: any) => {
+      .attr("stroke", (d: TerrainLink) => {
         if (d.type === 'terroir-plant') return "url(#gradient-terroir-plant)";
         return "url(#gradient-plant-molecule)";
       })
-      .attr("stroke-opacity", (d: any) => d.isSignature ? 0.7 : 0.4)
-      .attr("stroke-width", (d: any) => {
+      .attr("stroke-opacity", (d: TerrainLink) => d.isSignature ? 0.7 : 0.4)
+      .attr("stroke-width", (d: TerrainLink) => {
         if (d.isSignature) return 3;
         if (d.percentage) return 1 + (d.percentage / 30);
         return 1.5;
       })
-      .attr("stroke-dasharray", (d: any) => d.role === 'trace' ? "4,4" : "none");
+      .attr("stroke-dasharray", (d: TerrainLink) => d.role === 'trace' ? "4,4" : "none");
 
     // Dessiner les nœuds
     const node = g
@@ -301,7 +302,7 @@ export function TerrainPlantMoleculeGraph({
       .selectAll("g")
       .data(nodesCopy)
       .join("g")
-      .attr("cursor", "pointer") as any;
+      .attr("cursor", "pointer");
     
     node.call(
       d3
@@ -392,7 +393,7 @@ export function TerrainPlantMoleculeGraph({
       .style("line-height", "1.5");
 
     node
-      .on("mouseover", function (this: SVGGElement, event: any, d: TerrainNode) {
+      .on("mouseover", function (this: SVGGElement, event: MouseEvent, d: TerrainNode) {
         tooltip.style("visibility", "visible");
         
         let html = `<strong style="font-size: 14px; display: block; margin-bottom: 6px;">${d.name}</strong>`;
@@ -412,8 +413,8 @@ export function TerrainPlantMoleculeGraph({
         
         // Compter les connexions
         const connectionCount = linksCopy.filter(l => {
-          const sourceId = typeof l.source === 'object' ? (l.source as any).id : l.source;
-          const targetId = typeof l.target === 'object' ? (l.target as any).id : l.target;
+          const sourceId = typeof l.source === 'object' ? (typeof l.source === 'object' ? l.source.id : l.source) : l.source;
+          const targetId = typeof l.target === 'object' ? (typeof l.target === 'object' ? l.target.id : l.target) : l.target;
           return sourceId === d.id || targetId === d.id;
         }).length;
         html += `<div style="margin-top: 8px; color: oklch(0.7 0.15 200);">🔗 ${connectionCount} connexion${connectionCount > 1 ? 's' : ''}</div>`;
@@ -424,7 +425,7 @@ export function TerrainPlantMoleculeGraph({
         d3.select(this).select("circle")
           .transition()
           .duration(200)
-          .attr("r", (d: any) => {
+          .attr("r", (d: TerrainNode) => {
             switch (d.type) {
               case 'terroir': return 30;
               case 'plant': return 22;
@@ -437,12 +438,12 @@ export function TerrainPlantMoleculeGraph({
         // Highlight connected links si activé
         if (highlightConnected) {
           link
-            .attr("stroke-opacity", (l: any) => {
+            .attr("stroke-opacity", (l: TerrainLink) => {
               const sourceId = typeof l.source === 'object' ? l.source.id : l.source;
               const targetId = typeof l.target === 'object' ? l.target.id : l.target;
               return sourceId === d.id || targetId === d.id ? 0.9 : 0.1;
             })
-            .attr("stroke-width", (l: any) => {
+            .attr("stroke-width", (l: TerrainLink) => {
               const sourceId = typeof l.source === 'object' ? l.source.id : l.source;
               const targetId = typeof l.target === 'object' ? l.target.id : l.target;
               return sourceId === d.id || targetId === d.id ? 4 : 1;
@@ -450,29 +451,29 @@ export function TerrainPlantMoleculeGraph({
             
           // Dim non-connected nodes
           node.select("circle")
-            .attr("opacity", (n: any) => {
+            .attr("opacity", (n: TerrainNode) => {
               if (n.id === d.id) return 1;
               const isConnected = linksCopy.some(l => {
-                const sourceId = typeof l.source === 'object' ? (l.source as any).id : l.source;
-                const targetId = typeof l.target === 'object' ? (l.target as any).id : l.target;
+                const sourceId = typeof l.source === 'object' ? (l.source as TerrainNode).id : l.source;
+                const targetId = typeof l.target === 'object' ? (l.target as TerrainNode).id : l.target;
                 return (sourceId === d.id && targetId === n.id) || (targetId === d.id && sourceId === n.id);
               });
               return isConnected ? 1 : 0.3;
             });
         }
       })
-      .on("mousemove", function (this: SVGGElement, event: any) {
+      .on("mousemove", function (this: SVGGElement, event: MouseEvent) {
         tooltip
           .style("top", event.pageY - 10 + "px")
           .style("left", event.pageX + 15 + "px");
       })
-      .on("mouseout", function (this: SVGGElement, event: any, d: TerrainNode) {
+      .on("mouseout", function (this: SVGGElement, event: MouseEvent, d: TerrainNode) {
         tooltip.style("visibility", "hidden");
         
         d3.select(this).select("circle")
           .transition()
           .duration(200)
-          .attr("r", (d: any) => {
+          .attr("r", (d: TerrainNode) => {
             switch (d.type) {
               case 'terroir': return 24;
               case 'plant': return 16;
@@ -484,8 +485,8 @@ export function TerrainPlantMoleculeGraph({
           
         // Reset links and nodes
         link
-          .attr("stroke-opacity", (d: any) => d.isSignature ? 0.7 : 0.4)
-          .attr("stroke-width", (d: any) => {
+          .attr("stroke-opacity", (d: TerrainLink) => d.isSignature ? 0.7 : 0.4)
+          .attr("stroke-width", (d: TerrainLink) => {
             if (d.isSignature) return 3;
             if (d.percentage) return 1 + (d.percentage / 30);
             return 1.5;
@@ -493,23 +494,23 @@ export function TerrainPlantMoleculeGraph({
           
         node.select("circle").attr("opacity", 1);
       })
-      .on("click", function (this: SVGGElement, event: any, d: TerrainNode) {
+      .on("click", function (this: SVGGElement, event: MouseEvent, d: TerrainNode) {
         setSelectedNode(d);
       });
 
     // Drag functions
-    function dragstarted(event: any, d: any) {
+    function dragstarted(event: { active: boolean; subject: TerrainNode }, d: TerrainNode) {
       if (!event.active) simulation.alphaTarget(0.3).restart();
       d.fx = d.x;
       d.fy = d.y;
     }
 
-    function dragged(event: any, d: any) {
+    function dragged(event: { x: number; y: number }, d: TerrainNode) {
       d.fx = event.x;
       d.fy = event.y;
     }
 
-    function dragended(event: any, d: any) {
+    function dragended(event: { active: boolean; subject: TerrainNode }, d: TerrainNode) {
       if (!event.active) simulation.alphaTarget(0);
       d.fx = null;
       d.fy = null;
@@ -518,19 +519,19 @@ export function TerrainPlantMoleculeGraph({
     // Update positions on tick
     simulation.on("tick", () => {
       link
-        .attr("x1", (d: any) => d.source.x)
-        .attr("y1", (d: any) => d.source.y)
-        .attr("x2", (d: any) => d.target.x)
-        .attr("y2", (d: any) => d.target.y);
+        .attr("x1", (d: TerrainLink) => (typeof d.source === 'object' ? d.source.x ?? 0 : 0))
+        .attr("y1", (d: TerrainLink) => (typeof d.source === 'object' ? d.source.y ?? 0 : 0))
+        .attr("x2", (d: TerrainLink) => (typeof d.target === 'object' ? d.target.x ?? 0 : 0))
+        .attr("y2", (d: TerrainLink) => (typeof d.target === 'object' ? d.target.y ?? 0 : 0));
 
-      node.attr("transform", (d: any) => `translate(${d.x},${d.y})`);
+      node.attr("transform", (d: TerrainNode) => `translate(${d.x ?? 0},${d.y ?? 0})`);
       
       // Update gradients
       defs.select("#gradient-terroir-plant")
-        .attr("x1", linksCopy.find(l => l.type === 'terroir-plant')?.source as any)
-        .attr("y1", linksCopy.find(l => l.type === 'terroir-plant')?.source as any)
-        .attr("x2", linksCopy.find(l => l.type === 'terroir-plant')?.target as any)
-        .attr("y2", linksCopy.find(l => l.type === 'terroir-plant')?.target as any);
+        .attr("x1", (typeof linksCopy.find(l => l.type === 'terroir-plant')?.source === 'object' ? (linksCopy.find(l => l.type === 'terroir-plant')?.source as TerrainNode)?.x ?? 0 : 0))
+        .attr("y1", (typeof linksCopy.find(l => l.type === 'terroir-plant')?.source === 'object' ? (linksCopy.find(l => l.type === 'terroir-plant')?.source as TerrainNode)?.y ?? 0 : 0))
+        .attr("x2", (typeof linksCopy.find(l => l.type === 'terroir-plant')?.target === 'object' ? (linksCopy.find(l => l.type === 'terroir-plant')?.target as TerrainNode)?.x ?? 0 : 0))
+        .attr("y2", (typeof linksCopy.find(l => l.type === 'terroir-plant')?.target === 'object' ? (linksCopy.find(l => l.type === 'terroir-plant')?.target as TerrainNode)?.y ?? 0 : 0));
     });
 
     // Cleanup
@@ -555,7 +556,7 @@ export function TerrainPlantMoleculeGraph({
     if (svgRef.current) {
       const svg = d3.select(svgRef.current);
       svg.transition().duration(300).call(
-        (d3.zoom() as any).scaleBy, 1.3
+        d3.zoom().scaleBy, 1.3
       );
     }
   };
@@ -564,7 +565,7 @@ export function TerrainPlantMoleculeGraph({
     if (svgRef.current) {
       const svg = d3.select(svgRef.current);
       svg.transition().duration(300).call(
-        (d3.zoom() as any).scaleBy, 0.7
+        d3.zoom().scaleBy, 0.7
       );
     }
   };
@@ -573,7 +574,7 @@ export function TerrainPlantMoleculeGraph({
     if (svgRef.current) {
       const svg = d3.select(svgRef.current);
       svg.transition().duration(500).call(
-        (d3.zoom() as any).transform,
+        d3.zoom().transform,
         d3.zoomIdentity
       );
     }
