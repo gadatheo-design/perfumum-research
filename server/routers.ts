@@ -97,6 +97,7 @@ import { phyloBatchRouter } from './routers/phylo-batch';
 import { apiCoverageRouter } from './routers/api-coverage';
 import { resinMaturationRouter } from './routers/resin-maturation';
 import { extractionProcessesRouter } from './routers/extraction-processes';
+import { resinTobaccoRecipesRouter } from './routers/resin-tobacco-recipes';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -12552,6 +12553,7 @@ Familles olfactives disponibles:
   // API Coverage — Dashboard de couverture des APIs pour chaque plante
   apiCoverage: apiCoverageRouter,
   extractionProcesses: extractionProcessesRouter,
+  resinTobaccoRecipes: resinTobaccoRecipesRouter,
   // Resin Maturation
   resinMaturation: resinMaturationRouter,
 });

@@ -4062,3 +4062,7 @@ npm run dev
 - [x] Focus URL ?focus= dans ExtractionProcesses.tsx
 - [x] Migration DB enum extractionMethod co2_sous_critique + percolation_froide
 - [x] Badge Procedes extraction dans MoleculeDetail.tsx
+- [x] 6 recettes résines-tabac générées et insérées en base (IDs 900001-900006)
+- [x] Routeur resinTobaccoRecipes.ts créé
+- [x] Page /recettes-resines-tabac créée avec fiches, synergies moléculaires et liens
+- [x] Navigation mise à jour avec Recettes Résines & Tabac
