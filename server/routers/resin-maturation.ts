@@ -2,7 +2,7 @@ import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db/core";
 import { molecules, plants } from "../../drizzle/schema";
-import { like, or } from "drizzle-orm";
+import { like, or, eq } from "drizzle-orm";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -1426,6 +1426,7 @@ const RESIN_PROFILES: ResinProfile[] = [
     id: "oud-papouasie",
     name: "Oud de Papouasie",
     latinName: "Aquilaria filaria",
+    dbPlantId: 1950002,
     category: "resine_brute",
     origin: ["Papouasie-Nouvelle-Guinée", "Moluques (Indonésie)"],
     description: "Aquilaria filaria produit un oud aux caractéristiques distinctives par rapport à A. malaccensis : profil plus terreux, notes animales plus prononcées, et une concentration plus élevée en chromones de type 2-(2-phényléthyl). La formation de la résine est déclenchée par une infection fongique (Phialophora parasitica) qui provoque une réponse de défense de l'arbre. Le vieillissement sur plusieurs décennies développe des notes de cuir, de tabac et d'encens.",
@@ -1525,17 +1526,28 @@ export const resinMaturationRouter = router({
       const db = await getDb();
       if (!db) return { molecules: [], plants: [] };
 
-      // Chercher la plante dans la DB
-      const dbPlants = await db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
-        .from(plants)
-        .where(
-          or(
-            like(plants.latinName, `%${profile.latinName.split("/")[0].trim()}%`),
-            like(plants.name, `%${profile.name.split(" ")[0]}%`)
+      // Chercher la plante dans la DB — priorité au dbPlantId si défini
+      let dbPlants;
+      if (profile.dbPlantId) {
+        // Lien direct via ID
+        dbPlants = await db
+          .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+          .from(plants)
+          .where(eq(plants.id, profile.dbPlantId))
+          .limit(1);
+      } else {
+        // Fallback : recherche par nom latin ou nom commun
+        dbPlants = await db
+          .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+          .from(plants)
+          .where(
+            or(
+              like(plants.latinName, `%${profile.latinName.split("/")[0].trim()}%`),
+              like(plants.name, `%${profile.name.split(" ")[0]}%`)
+            )
           )
-        )
-        .limit(3);
+          .limit(3);
+      }
 
       // Chercher les molécules clés dans la DB
       const molNames = [
