@@ -734,7 +734,7 @@ export async function getRawMaterialDetail(id: number) {
     const [plant] = await db.select({
       id: plants.id,
       name: plants.name,
-      latinName: plants.latinName,
+      latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
       family: plants.family,
       origin: plants.origin,
       conservationStatus: plants.conservationStatus,

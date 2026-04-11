@@ -171,7 +171,7 @@ export const knapsackRouter = router({
       if (!db) throw new Error("Base de données indisponible");
       
       const [plant] = await db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+        .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')` })
         .from(plants)
         .where(eq(plants.id, input.plantId))
         .limit(1);
@@ -232,7 +232,7 @@ export const knapsackRouter = router({
       if (!db) throw new Error("Base de données indisponible");
       
       const [plant] = await db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+        .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')` })
         .from(plants)
         .where(eq(plants.id, input.plantId))
         .limit(1);
@@ -321,7 +321,7 @@ export const knapsackRouter = router({
       
       // Récupérer les plantes à traiter
       let query = db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+        .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')` })
         .from(plants);
       
       const allPlants = await query;
@@ -438,7 +438,7 @@ export const knapsackRouter = router({
       if (!db) throw new Error("Base de données indisponible");
       
       const allPlants = await db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+        .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')` })
         .from(plants)
         .limit(input.limit)
         .offset(input.offset);

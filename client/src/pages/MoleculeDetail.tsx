@@ -1,4 +1,5 @@
 // @ts-nocheck
+import React from 'react';
 import { Link, useParams } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ReferencesList } from "@/components/ReferencesList";
@@ -28,7 +29,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 import { useBreadcrumbSegments } from "@/contexts/BreadcrumbContext";
-import type { MoleculeExtended } from "../../../../shared/domain-types";
 import type { MoleculeExtended } from "../../../../shared/domain-types";
 
 // Composant indicateur de statut PubChem
@@ -247,7 +247,7 @@ function PyrolysisSection({ moleculeName }: { moleculeName: string }) {
         
         {hasTransformations ? (
           <div className="space-y-4">
-            {transformations.map((t: any, idx: number) => (
+            {transformations.map((t: unknown, idx: number) => (
               <div key={idx} className="p-4 bg-muted/50 rounded-lg border">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
@@ -351,7 +351,7 @@ function AddPlantSourceModal({ moleculeId, onSuccess }: { moleculeId: number; on
       setIsSignature(false);
       onSuccess();
     },
-    onError: (err: any) => {
+    onError: (err: Error) => {
       toast({ title: 'Erreur', description: err.message, variant: 'destructive' });
     },
   });
@@ -391,14 +391,14 @@ function AddPlantSourceModal({ moleculeId, onSuccess }: { moleculeId: number; on
               <Input
                 placeholder="Nom commun ou latin (min. 2 caractères)..."
                 value={searchQuery}
-                onChange={(e: any) => { setSearchQuery(e.target.value); setSelectedPlant(null); }}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setSearchQuery(e.target.value); setSelectedPlant(null); }}
                 className="pl-9"
               />
             </div>
             {searching && <p className="text-xs text-muted-foreground mt-1">Recherche...</p>}
             {searchResults && searchResults.length > 0 && !selectedPlant && (
               <div className="mt-1 border rounded-md bg-popover shadow-md max-h-48 overflow-y-auto">
-                {searchResults.map((plant: any) => (
+                {searchResults.map((plant: unknown) => (
                   <button
                     key={plant.id}
                     className="w-full text-left px-3 py-2 hover:bg-muted transition-colors text-sm"
@@ -446,7 +446,7 @@ function AddPlantSourceModal({ moleculeId, onSuccess }: { moleculeId: number; on
                 type="number"
                 placeholder="ex: 2.5"
                 value={percentageTypical}
-                onChange={(e: any) => setPercentageTypical(e.target.value)}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPercentageTypical(e.target.value)}
                 min="0" max="100" step="0.1"
               />
               <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">%</span>
@@ -459,7 +459,7 @@ function AddPlantSourceModal({ moleculeId, onSuccess }: { moleculeId: number; on
               type="checkbox"
               id="isSignature"
               checked={isSignature}
-              onChange={(e: any) => setIsSignature(e.target.checked)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setIsSignature(e.target.checked)}
               className="rounded"
             />
             <label htmlFor="isSignature" className="text-sm">Molécule signature de cette plante</label>
@@ -493,7 +493,7 @@ function PlantSourcesSection({ moleculeId }: { moleculeId: number }) {
       toast({ title: 'Liaison supprimée' });
       utils.plantMoleculeLinks.getByMolecule.invalidate({ moleculeId });
     },
-    onError: (err: any) => {
+    onError: (err: Error) => {
       toast({ title: 'Erreur', description: err.message, variant: 'destructive' });
     },
   });
@@ -524,7 +524,7 @@ function PlantSourcesSection({ moleculeId }: { moleculeId: number }) {
         
         {plantSources && plantSources.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {plantSources.map((source: any) => (
+            {plantSources.map((source: unknown) => (
               <div key={source.plant.id} className="relative group">
                 <Link href={`/plants/${source.plant.id}`}>
                   <div className="p-4 bg-muted/50 rounded-lg border hover:border-primary/50 transition-colors cursor-pointer">
@@ -921,8 +921,6 @@ export default function MoleculeDetail() {
   // ============================================================================
   // Cast typé unique — remplace tous les `(molecule as any).xxx`
   const mol = molecule as unknown as MoleculeExtended;
-  // Cast typé unique — remplace tous les `(molecule as any).xxx`
-  const mol = molecule as unknown as MoleculeExtended;
 
   /** Convertit un champ DB (null | string | string[] | JSON string) en string propre */
   const asString = (val: unknown): string => {
@@ -1294,10 +1292,10 @@ export default function MoleculeDetail() {
                   <span className="hidden sm:inline">Publications ({scientificPubs.length})</span>
                 </TabsTrigger>
               )}
-              {moleculeStorylines && (moleculeStorylines as any[]).length > 0 && (
+              {moleculeStorylines && (moleculeStorylines as unknown[]).length > 0 && (
                 <TabsTrigger value="storylines" className="flex items-center gap-1">
                   <BookOpen className="h-3 w-3 text-emerald-600" />
-                  <span className="hidden sm:inline">Fils narratifs ({(moleculeStorylines as any[]).length})</span>
+                  <span className="hidden sm:inline">Fils narratifs ({(moleculeStorylines as unknown[]).length})</span>
                 </TabsTrigger>
               )}
             </TabsList>
@@ -1820,7 +1818,7 @@ export default function MoleculeDetail() {
                           Cette molécule se transforme en...
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          {moleculeTransformations.asSource.map((t: any) => (
+                          {moleculeTransformations.asSource.map((t: unknown) => (
                             <div key={t.id} className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-800">
                               <div className="flex items-center justify-between mb-2">
                                 <div className="flex items-center gap-2">
@@ -1869,7 +1867,7 @@ export default function MoleculeDetail() {
                           Cette molécule est produite à partir de...
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          {moleculeTransformations.asProduct.map((t: any) => (
+                          {moleculeTransformations.asProduct.map((t: unknown) => (
                             <div key={t.id} className="p-4 bg-red-50 dark:bg-red-950/30 rounded-lg border border-red-200 dark:border-red-800">
                               <div className="flex items-center justify-between mb-2">
                                 <div className="flex items-center gap-2">
@@ -1988,16 +1986,16 @@ export default function MoleculeDetail() {
                       <Badge variant="secondary">
                         {tpsGenes.length} gène{tpsGenes.length > 1 ? 's' : ''} TPS identifié{tpsGenes.length > 1 ? 's' : ''}
                       </Badge>
-                      {[...new Set(tpsGenes.map((g: any) => g.species))].filter(Boolean).length > 0 && (
+                      {[...new Set(tpsGenes.map((g: unknown) => (g as { species?: string }).species))].filter(Boolean).length > 0 && (
                         <Badge variant="outline" className="border-green-500 text-green-600">
-                          {[...new Set(tpsGenes.map((g: any) => g.species))].filter(Boolean).length} espèce{[...new Set(tpsGenes.map((g: any) => g.species))].filter(Boolean).length > 1 ? 's' : ''}
+                          {[...new Set(tpsGenes.map((g: unknown) => (g as { species?: string }).species))].filter(Boolean).length} espèce{[...new Set(tpsGenes.map((g: unknown) => (g as { species?: string }).species))].filter(Boolean).length > 1 ? 's' : ''}
                         </Badge>
                       )}
                     </div>
 
                     {/* Liste des gènes TPS */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {tpsGenes.map((gene: any) => (
+                      {tpsGenes.map((gene: unknown) => (
                         <div key={gene.id} className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 rounded-lg border border-green-200 dark:border-green-800">
                           <div className="flex items-start justify-between mb-3">
                             <div>
@@ -2168,7 +2166,7 @@ export default function MoleculeDetail() {
                   </div>
                 ) : moleculeOrigins && moleculeOrigins.length > 0 ? (
                   <div className="space-y-4">
-                    {moleculeOrigins.map((origin: any) => (
+                    {moleculeOrigins.map((origin: unknown) => (
                       <div 
                         key={origin.id} 
                         className={`p-4 rounded-lg border ${origin.isPrimaryOrigin ? 'bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800' : 'bg-muted/50'}`}
@@ -2286,7 +2284,7 @@ export default function MoleculeDetail() {
                   </div>
                 ) : hasIfraRestrictions ? (
                   <div className="space-y-6">
-                    {ifraRestrictions.map((restriction: any) => (
+                    {ifraRestrictions.map((restriction: unknown) => (
                       <div key={restriction.id} className="space-y-4">
                         {/* En-tête de la restriction */}
                         <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
@@ -2475,7 +2473,7 @@ export default function MoleculeDetail() {
                             </tr>
                           </thead>
                           <tbody>
-                            {olfactiveEmissions.emissions.map((e: any) => (
+                            {olfactiveEmissions.emissions.map((e: unknown) => (
                               <tr key={e.id} className="border-b hover:bg-muted/30 transition-colors">
                                 <td className="py-2 pr-4">
                                   {e.plant_id ? (
@@ -2543,7 +2541,7 @@ export default function MoleculeDetail() {
                     <p className="text-sm text-muted-foreground">
                       {scientificPubs.length} publication{scientificPubs.length > 1 ? 's' : ''} scientifique{scientificPubs.length > 1 ? 's' : ''} répertoriée{scientificPubs.length > 1 ? 's' : ''} via OpenAlex
                     </p>
-                    {(scientificPubs as any[]).map((pub: any) => (
+                    {(scientificPubs as unknown[]).map((pub: unknown) => (
                       <Card key={pub.id} className="hover:shadow-sm transition-shadow">
                         <CardContent className="p-4 space-y-1.5">
                           <div className="flex items-start justify-between gap-2">
@@ -2584,7 +2582,7 @@ export default function MoleculeDetail() {
             </TabsContent>
 
           {/* Onglet Fils Narratifs */}
-          {moleculeStorylines && (moleculeStorylines as any[]).length > 0 && (
+          {moleculeStorylines && (moleculeStorylines as unknown[]).length > 0 && (
             <TabsContent value="storylines" className="space-y-4">
               <TabErrorBoundary tabLabel="Fils narratifs">
                 <div className="space-y-4">
@@ -2592,7 +2590,7 @@ export default function MoleculeDetail() {
                     <div>
                       <h3 className="text-base font-semibold">Fils narratifs</h3>
                       <p className="text-sm text-muted-foreground mt-0.5">
-                        Cette molécule apparaît dans {(moleculeStorylines as any[]).length} fil{(moleculeStorylines as any[]).length > 1 ? 's' : ''} narratif{(moleculeStorylines as any[]).length > 1 ? 's' : ''} du projet PERFUMUM.
+                        Cette molécule apparaît dans {(moleculeStorylines as unknown[]).length} fil{(moleculeStorylines as unknown[]).length > 1 ? 's' : ''} narratif{(moleculeStorylines as unknown[]).length > 1 ? 's' : ''} du projet PERFUMUM.
                       </p>
                     </div>
                     <Link href="/admin/storylines">
@@ -2602,7 +2600,7 @@ export default function MoleculeDetail() {
                       </Button>
                     </Link>
                   </div>
-                  {(moleculeStorylines as any[]).map((storyline: any) => (
+                  {(moleculeStorylines as unknown[]).map((storyline: unknown) => (
                     <div key={storyline.id} className="p-4 rounded-lg border hover:shadow-sm transition-shadow">
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex-1 min-w-0">
@@ -2663,7 +2661,7 @@ export default function MoleculeDetail() {
               {
                 label: "Recettes utilisant cette molécule",
                 type: "recette",
-                items: (linkedRecettes || []).map((r: any) => ({
+                items: (linkedRecettes || []).map((r: unknown) => ({
                   id: r.id,
                   label: r.name,
                   sublabel: r.family || r.category || undefined,
@@ -2676,7 +2674,7 @@ export default function MoleculeDetail() {
               {
                 label: "Molécules similaires",
                 type: "molecule",
-                items: (similarMolecules || []).map((m: any) => ({
+                items: (similarMolecules || []).map((m: unknown) => ({
                   id: m.id,
                   label: m.name,
                   sublabel: m.family || m.chemicalClass || undefined,
@@ -3069,13 +3067,13 @@ function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: string; mole
   const isLoading = loadingNamed || loadingDb;
 
   // Filtrer les synergies DB par ID de molécule
-  const filteredDbSynergies = (dbSynergies || []).filter((s: any) =>
+  const filteredDbSynergies = (dbSynergies || []).filter((s: unknown) =>
     s.molecule1Id === moleculeId || s.molecule2Id === moleculeId
   );
 
   // Combiner et dédupliquer
   const allSynergies = [
-    ...(namedSynergies || []).map((s: any) => ({
+    ...(namedSynergies || []).map((s: unknown) => ({
       id: `named-${s.id}`,
       type: s.synergyType || s.type || "potentialisation",
       molecule1: s.molecule1 || moleculeName,
@@ -3087,7 +3085,7 @@ function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: string; mole
       application: s.application || s.olfactiveApplication,
       ratio: s.ratio,
     })),
-    ...filteredDbSynergies.map((s: any) => ({
+    ...filteredDbSynergies.map((s: unknown) => ({
       id: `db-${s.id}`,
       type: s.type || s.synergyType || "potentialisation",
       molecule1: s.molecule1Name || `Molécule #${s.molecule1Id}`,

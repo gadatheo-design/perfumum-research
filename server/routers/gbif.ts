@@ -180,7 +180,7 @@ export const gbifRouter = router({
       const query = db.select({
         id: plants.id,
         name: plants.name,
-        latinName: plants.latinName,
+        latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
         gbifId: plants.gbifId,
         family: plants.family,
         conservationStatus: plants.conservationStatus,

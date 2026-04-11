@@ -33,7 +33,7 @@ export const apiCoverageRouter = router({
       let query = db.select({
         id: plants.id,
         name: plants.name,
-        latinName: plants.latinName,
+        latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
         family: plants.family,
         category: plants.category,
         gbifId: plants.gbifId,
@@ -145,7 +145,7 @@ export const apiCoverageRouter = router({
     if (!db) return [];
 
     const allPlants = await db.select({
-      latinName: plants.latinName,
+      latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
       gbifId: plants.gbifId,
       powId: plants.powId,
       ncbiTaxId: plants.ncbiTaxId,

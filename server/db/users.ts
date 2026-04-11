@@ -933,7 +933,7 @@ export async function searchPlantsForAutocomplete(query: string, limit: number =
   return db.select({
     id: plants.id,
     name: plants.name,
-    latinName: plants.latinName,
+    latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
     family: plants.family,
     category: plants.category,
   }).from(plants)

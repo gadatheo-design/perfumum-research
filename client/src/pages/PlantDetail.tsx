@@ -386,10 +386,10 @@ export default function PlantDetail() {
               <span className="hidden sm:inline">Traçabilité ({plt.certifications!.length})</span>
             </TabsTrigger>
           )}
-          {plantStorylines && (plantStorylines as any[]).length > 0 && (
+          {plantStorylines && (plantStorylines as unknown[]).length > 0 && (
             <TabsTrigger value="storylines" className="flex items-center gap-1">
               <BookOpen className="h-3 w-3 text-emerald-600" />
-              <span className="hidden sm:inline">Fils narratifs ({(plantStorylines as any[]).length})</span>
+              <span className="hidden sm:inline">Fils narratifs ({(plantStorylines as unknown[]).length})</span>
             </TabsTrigger>
           )}
         </TabsList>
@@ -570,7 +570,7 @@ export default function PlantDetail() {
           <TabErrorBoundary tabLabel="Variétés">
           {varieties && varieties.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {varieties.map((variety: any) => (
+              {varieties.map((variety: unknown) => (
                 <Link key={variety.id} href={`/varietes/${variety.id}`}>
                 <Card className="hover:shadow-md hover:border-primary/50 transition-all cursor-pointer group">
                   <CardHeader>
@@ -655,7 +655,7 @@ export default function PlantDetail() {
           <TabErrorBoundary tabLabel="États botaniques">
           {botanicalStates && botanicalStates.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {botanicalStates.map((state: any, idx: number) => (
+              {botanicalStates.map((state: unknown, idx: number) => (
                 <Card key={idx}>
                   <CardHeader>
                     <div className="flex items-center gap-3">
@@ -681,7 +681,7 @@ export default function PlantDetail() {
                           Molécules dominantes
                         </h4>
                         <div className="flex flex-wrap gap-1">
-                          {state.molecules.map((mol: any, molIdx: number) => (
+                          {(state as { molecules?: unknown[] }).molecules?.map((mol: unknown, molIdx: number) => (
                             <Badge key={molIdx} variant="secondary" className="text-xs">
                               {mol}
                             </Badge>
@@ -718,7 +718,7 @@ export default function PlantDetail() {
           <TabErrorBoundary tabLabel="Échantillons">
           {samples && samples.length > 0 ? (
             <div className="space-y-4">
-              {samples.map((sample: any) => (
+              {samples.map((sample: unknown) => (
                 <Card key={sample.id}>
                   <CardHeader>
                     <div className="flex items-start justify-between">
@@ -804,7 +804,7 @@ export default function PlantDetail() {
           <TabErrorBoundary tabLabel="Analyses">
           {analyses && analyses.length > 0 ? (
             <div className="space-y-4">
-              {analyses.map((analysis: any) => (
+              {analyses.map((analysis: unknown) => (
                 <Card key={analysis.id}>
                   <CardHeader>
                     <div className="flex items-start justify-between">
@@ -951,8 +951,8 @@ export default function PlantDetail() {
                     <div className="absolute top-8 left-0 right-0 h-0.5 bg-border" />
                     <div className="relative flex gap-8 overflow-x-auto pb-4">
                       {civilizationalMarkers
-                        .sort((a: any, b: any) => (a.startYear || 0) - (b.startYear || 0))
-                        .map((marker: any) => (
+                        .sort((a: unknown, b: unknown) => ((a as { startYear?: number }).startYear || 0) - ((b as { startYear?: number }).startYear || 0))
+                        .map((marker: unknown) => (
                         <div key={marker.id} className="flex-shrink-0 w-64">
                           <div className="relative">
                             <div className="w-4 h-4 rounded-full bg-primary mx-auto mb-2 relative z-10" />
@@ -981,7 +981,7 @@ export default function PlantDetail() {
                                 {marker.tradeRoutes && marker.tradeRoutes.length > 0 && (
                                   <div className="pt-2 border-t">
                                     <p className="text-xs font-medium mb-1">Routes commerciales</p>
-                                    {marker.tradeRoutes.map((route: any, idx: number) => (
+                                    {(marker as { tradeRoutes?: unknown[] }).tradeRoutes?.map((route: unknown, idx: number) => (
                                       <p key={idx} className="text-xs text-muted-foreground">
                                         {route.route}
                                       </p>
@@ -1113,7 +1113,7 @@ export default function PlantDetail() {
               )}
               
               {/* Alternatives durables */}
-              {(plant as any).sustainableAlternatives && (
+              {plt.sustainableAlternatives && (
                 <div className="p-4 border rounded-lg bg-green-50 dark:bg-green-950">
                   <h4 className="text-sm font-medium mb-2 text-green-700 dark:text-green-300">Alternatives durables</h4>
                   <p className="text-sm text-green-600 dark:text-green-400">{plt.sustainableAlternatives}</p>
@@ -1223,19 +1223,19 @@ export default function PlantDetail() {
                     </div>
                     <div className="text-center">
                       <p className="text-2xl font-bold text-orange-500">
-                        {plantMolecules.filter((pm: any) => pm.ifraRestrictions?.some((r: any) => r.restrictionType === 'restricted')).length}
+                        {plantMolecules.filter((pm: unknown) => pm.ifraRestrictions?.some((r: unknown) => r.restrictionType === 'restricted')).length}
                       </p>
                       <p className="text-xs text-muted-foreground">Avec restrictions</p>
                     </div>
                     <div className="text-center">
                       <p className="text-2xl font-bold text-yellow-500">
-                        {plantMolecules.filter((pm: any) => pm.ifraRestrictions?.some((r: any) => r.restrictionType === 'specification')).length}
+                        {plantMolecules.filter((pm: unknown) => pm.ifraRestrictions?.some((r: unknown) => r.restrictionType === 'specification')).length}
                       </p>
                       <p className="text-xs text-muted-foreground">Spécifications</p>
                     </div>
                     <div className="text-center">
                       <p className="text-2xl font-bold text-green-500">
-                        {plantMolecules.filter((pm: any) => !pm.ifraRestrictions?.length || pm.ifraRestrictions?.some((r: any) => r.restrictionType === 'no_restriction')).length}
+                        {plantMolecules.filter((pm: unknown) => !pm.ifraRestrictions?.length || pm.ifraRestrictions?.some((r: unknown) => r.restrictionType === 'no_restriction')).length}
                       </p>
                       <p className="text-xs text-muted-foreground">Sans restriction</p>
                     </div>
@@ -1244,7 +1244,7 @@ export default function PlantDetail() {
                   {/* Liste des molécules avec leurs restrictions */}
                   <div className="space-y-3">
                     <h4 className="font-medium">Détail par molécule</h4>
-                    {plantMolecules.map((pm: any) => (
+                    {plantMolecules.map((pm: unknown) => (
                       <div key={pm.moleculeId} className="p-4 border rounded-lg">
                         <div className="flex items-start justify-between mb-2">
                           <div>
@@ -1385,7 +1385,7 @@ export default function PlantDetail() {
                         {house}
                       </h3>
                       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                        {perfumes.map((p: any) => (
+                        {perfumes.map((p: unknown) => (
                           <div key={p.id} className="rounded-lg border bg-card p-4 space-y-2">
                             <div className="flex items-start justify-between gap-2">
                               <span className="font-medium text-sm leading-tight">{p.perfume_name}</span>
@@ -1444,7 +1444,7 @@ export default function PlantDetail() {
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Badge variant="outline">{olfactiveEmissions.total} composés identifiés</Badge>
-                      {olfactiveEmissions.emissions.some((e: any) => e.role === 'signature') && (
+                      {olfactiveEmissions.emissions.some((e: React.ChangeEvent<HTMLInputElement>) => e.role === 'signature') && (
                         <Badge className="bg-amber-500/10 text-amber-700 border-amber-300">Molécules signature présentes</Badge>
                       )}
                     </div>
@@ -1461,7 +1461,7 @@ export default function PlantDetail() {
                           </tr>
                         </thead>
                         <tbody>
-                          {olfactiveEmissions.emissions.map((e: any) => (
+                          {olfactiveEmissions.emissions.map((e: React.ChangeEvent<HTMLInputElement>) => (
                             <tr key={e.id} className="border-b hover:bg-muted/30 transition-colors">
                               <td className="py-2 pr-4">
                                 {e.molecule_id ? (
@@ -1641,7 +1641,7 @@ export default function PlantDetail() {
                 <p className="text-sm text-muted-foreground">
                   {scientificPubs.length} publication{scientificPubs.length > 1 ? 's' : ''} scientifique{scientificPubs.length > 1 ? 's' : ''} répertoriée{scientificPubs.length > 1 ? 's' : ''} via OpenAlex
                 </p>
-                {scientificPubs.map((pub: any) => (
+                {scientificPubs.map((pub: unknown) => (
                   <Card key={pub.id} className="hover:shadow-sm transition-shadow">
                     <CardContent className="p-4 space-y-1.5">
                       <div className="flex items-start justify-between gap-2">
@@ -1687,7 +1687,7 @@ export default function PlantDetail() {
         </TabsContent>
 
         {/* Onglet Fils Narratifs */}
-        {plantStorylines && (plantStorylines as any[]).length > 0 && (
+        {plantStorylines && (plantStorylines as unknown[]).length > 0 && (
           <TabsContent value="storylines" className="space-y-4">
             <TabErrorBoundary tabLabel="Fils narratifs">
               <div className="space-y-4">
@@ -1695,7 +1695,7 @@ export default function PlantDetail() {
                   <div>
                     <h3 className="text-base font-semibold">Fils narratifs</h3>
                     <p className="text-sm text-muted-foreground mt-0.5">
-                      Cette plante apparaît dans {(plantStorylines as any[]).length} fil{(plantStorylines as any[]).length > 1 ? 's' : ''} narratif{(plantStorylines as any[]).length > 1 ? 's' : ''} du projet PERFUMUM.
+                      Cette plante apparaît dans {(plantStorylines as unknown[]).length} fil{(plantStorylines as unknown[]).length > 1 ? 's' : ''} narratif{(plantStorylines as unknown[]).length > 1 ? 's' : ''} du projet PERFUMUM.
                     </p>
                   </div>
                   <Link href="/admin/storylines">
@@ -1705,7 +1705,7 @@ export default function PlantDetail() {
                     </Button>
                   </Link>
                 </div>
-                {(plantStorylines as any[]).map((storyline: any) => (
+                {(plantStorylines as unknown[]).map((storyline: unknown) => (
                   <Card key={storyline.id} className="hover:shadow-sm transition-shadow">
                     <CardContent className="p-4">
                       <div className="flex items-start justify-between gap-3">
@@ -1839,14 +1839,14 @@ export default function PlantDetail() {
                 </div>
 
                 {/* Notes de durabilité */}
-                {(plant as any).sustainableAlternatives && (
+                {plt.sustainableAlternatives && (
                   <Card className="bg-green-50 dark:bg-green-950 border-green-200 dark:border-green-800">
                     <CardContent className="p-4">
                       <h4 className="text-sm font-medium text-green-800 dark:text-green-200 mb-2 flex items-center gap-2">
                         <Leaf className="h-4 w-4" />
                         Notes de durabilité
                       </h4>
-                      <p className="text-sm text-green-700 dark:text-green-300">{(plant as any).sustainableAlternatives}</p>
+                      <p className="text-sm text-green-700 dark:text-green-300">{plt.sustainableAlternatives}</p>
                     </CardContent>
                   </Card>
                 )}
@@ -1907,7 +1907,7 @@ export default function PlantDetail() {
           onClose={() => { setContribModalOpen(false); setContribDefaultType(undefined); }}
           plantId={plantId}
           plantName={plantDetails.name}
-          defaultType={contribDefaultType as any}
+          defaultType={contribDefaultType as string}
         />
       )}
 
@@ -1935,7 +1935,7 @@ export default function PlantDetail() {
           {
             label: "Molécules identifiées",
             type: "molecule",
-            items: (plantMolecules || []).slice(0, 10).map((pm: any) => ({
+            items: (plantMolecules || []).slice(0, 10).map((pm: unknown) => ({
               id: pm.moleculeId,
               label: pm.molecule?.name || `Molécule #${pm.moleculeId}`,
               sublabel: pm.molecule?.family || pm.molecule?.chemicalClass || undefined,
@@ -1948,7 +1948,7 @@ export default function PlantDetail() {
           {
             label: "Terroirs d'origine",
             type: "terroir",
-            items: (linkedTerroirs || []).map((t: any) => ({
+            items: (linkedTerroirs || []).map((t: unknown) => ({
               id: t.id,
               label: t.name,
               sublabel: t.region || t.country || undefined,
@@ -1961,7 +1961,7 @@ export default function PlantDetail() {
           {
             label: "Variétés & cultivars",
             type: "variety",
-            items: (varieties || []).map((v: any) => ({
+            items: (varieties || []).map((v: unknown) => ({
               id: v.id,
               label: v.name,
               sublabel: v.type || undefined,
@@ -1980,7 +1980,7 @@ export default function PlantDetail() {
 // ============================================================================
 // COMPOSANT ONGLET NOMENCLATURE
 // ============================================================================
-function NomenclatureTab({ plant }: { plant: any }) {
+function NomenclatureTab({ plant }: { plant: PlantExtended }) {
   const [copied, setCopied] = React.useState<string | null>(null);
 
   const copyToClipboard = (text: string, key: string) => {

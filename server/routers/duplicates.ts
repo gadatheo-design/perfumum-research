@@ -133,7 +133,7 @@ async function analyzePlantDuplicates() {
   // Récupérer toutes les plantes avec les bons noms de colonnes
   const allPlants = await db.select({
     id: plants.id,
-    latinName: plants.latinName,
+    latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
     name: plants.name,
     family: plants.family,
   }).from(plants);

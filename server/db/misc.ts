@@ -1536,7 +1536,7 @@ export async function getPendingContributions() {
   const pendingPlants = await db.select({
     id: plants.id,
     name: plants.name,
-    latinName: plants.latinName,
+    latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
     validationStatus: plants.validationStatus,
     createdAt: plants.createdAt,
     family: plants.family,
@@ -1586,7 +1586,7 @@ export async function getNewContributionsSince(since: Date) {
   const newPlants = await db.select({
     id: plants.id,
     name: plants.name,
-    latinName: plants.latinName,
+    latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
     validationStatus: plants.validationStatus,
     createdAt: plants.createdAt,
   })
@@ -2012,7 +2012,7 @@ export async function getPlantsByTerroir(terroirId: number) {
     .select({
       id: plants.id,
       name: plants.name,
-      latinName: plants.latinName,
+      latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
       family: plants.family,
       category: plants.category,
       localName: plantTerroirs.localName,
@@ -2286,7 +2286,7 @@ export async function suggestEntityLinksForReference(referenceId: number): Promi
   
   // Search plants
   const allPlants = await db
-    .select({ id: plants.id, name: plants.name, latinName: plants.latinName, olfactiveSignature: plants.olfactiveSignature })
+    .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')`, olfactiveSignature: plants.olfactiveSignature })
     .from(plants)
     .limit(500);
   
@@ -2397,7 +2397,7 @@ export async function bulkSuggestEntityLinks(options?: {
     .limit(1000) : [];
   
   const allPlants = entityTypes.includes('plant') ? await db
-    .select({ id: plants.id, name: plants.name, latinName: plants.latinName, olfactiveSignature: plants.olfactiveSignature })
+    .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')`, olfactiveSignature: plants.olfactiveSignature })
     .from(plants)
     .limit(500) : [];
   

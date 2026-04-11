@@ -11,7 +11,7 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db/core";
 import { plants, plantVarieties } from "../../drizzle/schema";
-import { eq, like, or } from "drizzle-orm";
+import { eq, like, or, sql } from 'drizzle-orm';
 import { sparqlQuery } from "../utils/sparql";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -276,7 +276,7 @@ export const wikidataSyncRouter = router({
 
       // Find plant by latin name (partial match)
       const results = await db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+        .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')` })
         .from(plants)
         .where(like(plants.latinName, `%${input.latinName ?? ""}%`))
         .limit(5);
@@ -333,7 +333,7 @@ export const wikidataSyncRouter = router({
       if (!db) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'DB unavailable' });
 
       const results = await db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName, imageUrl: plants.imageUrl })
+        .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')`, imageUrl: plants.imageUrl })
         .from(plants)
         .where(like(plants.latinName, `%${input.latinName ?? ""}%`))
         .limit(5);
@@ -399,7 +399,7 @@ export const wikidataSyncRouter = router({
       if (!db) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'DB unavailable' });
 
       const results = await db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName, wikidataQid: plants.wikidataQid })
+        .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')`, wikidataQid: plants.wikidataQid })
         .from(plants)
         .where(like(plants.latinName, `%${input.latinName ?? ""}%`))
         .limit(5);
@@ -451,7 +451,7 @@ export const wikidataSyncRouter = router({
       const db = await getDb();
       if (!db) return [];
       const results = await db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName, wikidataQid: plants.wikidataQid, conservationStatus: plants.conservationStatus, imageUrl: plants.imageUrl })
+        .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')`, wikidataQid: plants.wikidataQid, conservationStatus: plants.conservationStatus, imageUrl: plants.imageUrl })
         .from(plants)
         .where(or(
           like(plants.latinName, `%${input.query}%`),

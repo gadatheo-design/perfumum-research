@@ -4091,3 +4091,8 @@ npm run dev
 - [ ] Bloc D — Fichiers isolés (1 erreur chacun)
 - [ ] Vérification finale pnpm check = 0 erreur
 - [ ] Checkpoint final post-corrections TS
+
+## Correction TS avancée — Session 3→1 (11 avril 2026)
+- [ ] COALESCE latinName sur tous les routeurs server/routers/*.ts
+- [ ] Supprimer @ts-nocheck dans MoleculeDetail.tsx et PlantDetail.tsx
+- [ ] Typer retours tRPC : molecules.getById, plants.getById, recipes.getById

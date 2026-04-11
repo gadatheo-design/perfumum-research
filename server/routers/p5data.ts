@@ -315,7 +315,7 @@ export const p5dataRouter = router({
         .select({
           id: plants.id,
           name: plants.name,
-          latinName: plants.latinName,
+          latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
           category: plants.category,
           family: plants.family,
         })

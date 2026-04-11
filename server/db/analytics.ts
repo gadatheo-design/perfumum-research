@@ -1318,7 +1318,7 @@ export async function getMegaMenuFeaturedItems() {
 
   // Dernière plante ajoutée
   const [latestPlant] = await db
-    .select({ id: plants.id, name: plants.name, latinName: plants.latinName, createdAt: plants.createdAt })
+    .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')`, createdAt: plants.createdAt })
     .from(plants)
     .orderBy(desc(plants.createdAt))
     .limit(1);

@@ -144,7 +144,7 @@ export const phyloBatchRouter = router({
       const db = await getDb();
       if (!db) return { genera: [] };
       const rows = await db.select({
-        latinName: plants.latinName,
+        latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
       }).from(plants)
         .where(sql`${plants.latinName} IS NOT NULL AND ${plants.latinName} != ''`)
         .limit(2000);
@@ -177,7 +177,7 @@ export const phyloBatchRouter = router({
       const plantsInGenus = await db.select({
         id: plants.id,
         name: plants.name,
-        latinName: plants.latinName,
+        latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
         gbifId: plants.gbifId,
         powId: plants.powId,
         ncbiTaxId: plants.ncbiTaxId,
@@ -215,7 +215,7 @@ export const phyloBatchRouter = router({
       const plantsInGenus = await db.select({
         id: plants.id,
         name: plants.name,
-        latinName: plants.latinName,
+        latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
         gbifId: plants.gbifId,
         powId: plants.powId,
         ncbiTaxId: plants.ncbiTaxId,
@@ -381,7 +381,7 @@ export const phyloBatchRouter = router({
       const [plant] = await db.select({
         id: plants.id,
         name: plants.name,
-        latinName: plants.latinName,
+        latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
         gbifId: plants.gbifId,
         powId: plants.powId,
         ncbiTaxId: plants.ncbiTaxId,

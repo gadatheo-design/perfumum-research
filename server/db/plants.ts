@@ -441,7 +441,7 @@ export async function getAllPlantsForSelect() {
   return db.select({
     id: plants.id,
     name: plants.name,
-    latinName: plants.latinName,
+    latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
     category: plants.category,
   }).from(plants).orderBy(plants.name);
 }
@@ -855,7 +855,7 @@ export async function getMoleculePlantTerroirNetwork() {
   const allPlants = await db.select({
     id: plants.id,
     name: plants.name,
-    latinName: plants.latinName,
+    latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
     family: plants.family,
     category: plants.category,
     origin: plants.origin,
@@ -1404,7 +1404,7 @@ export async function getPlantConservationStatus(plantId: number) {
     .select({
       id: plants.id,
       name: plants.name,
-      latinName: plants.latinName,
+      latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
       conservationStatus: plants.conservationStatus,
       citesAppendix: plants.citesAppendix,
       conservationNotes: plants.conservationNotes,
@@ -2340,7 +2340,7 @@ export async function getPlantsForGhostVarietyLinking(): Promise<{
   return db.select({
     id: plants.id,
     name: plants.name,
-    latinName: plants.latinName,
+    latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
     category: plants.category,
   }).from(plants).orderBy(plants.name);
 }
@@ -2550,7 +2550,7 @@ export async function searchPlantsForGhostVariety(query: string, limit: number =
   return db.select({
     id: plants.id,
     name: plants.name,
-    latinName: plants.latinName,
+    latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
     category: plants.category,
   }).from(plants)
     .where(or(
@@ -2586,7 +2586,7 @@ export async function getGhostVarietyPlantLinks(ghostVarietyId: number): Promise
     const [plant] = await db.select({
       id: plants.id,
       name: plants.name,
-      latinName: plants.latinName,
+      latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
       category: plants.category,
     }).from(plants).where(eq(plants.id, link.plantId));
     return { ...link, plant: plant || null };

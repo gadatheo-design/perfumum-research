@@ -39,7 +39,7 @@ export const wikimediaImagesRouter = router({
       const db = await getDb();
       if (!db) return { plants: [], total: 0 };
       const rows = await db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName, category: plants.category })
+        .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')`, category: plants.category })
         .from(plants)
         .where(sql`(image_url IS NULL OR image_url = '') AND latin_name IS NOT NULL AND latin_name != ''`)
         .limit(input.limit)
@@ -65,7 +65,7 @@ export const wikimediaImagesRouter = router({
       if (!db) throw new Error("Database connection failed");
 
       const toEnrich = await db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+        .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')` })
         .from(plants)
         .where(sql`(image_url IS NULL OR image_url = '') AND latin_name IS NOT NULL AND latin_name != ''`)
         .limit(input.batchSize)

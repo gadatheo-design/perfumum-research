@@ -21,7 +21,7 @@ import { publicProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db/core";
 import { plants, molecules, plantMolecules } from "../../drizzle/schema";
-import { eq, like, and, or, isNull } from "drizzle-orm";
+import { and, eq, isNull, like, or, sql } from 'drizzle-orm';
 import { sparqlQuery } from "../utils/sparql";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -387,7 +387,7 @@ export const lotusEnrichmentRouter = router({
 
       // Find plant
       const plantResults = await db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+        .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')` })
         .from(plants)
         .where(like(plants.latinName, `%${input.plantLatinName}%`))
         .limit(5);
@@ -464,7 +464,7 @@ export const lotusEnrichmentRouter = router({
 
       const genus = input.genus.trim();
       const speciesInDb = await db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+        .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')` })
         .from(plants)
         .where(like(plants.latinName, `${genus} %`))
         .orderBy(plants.latinName);
@@ -509,7 +509,7 @@ export const lotusEnrichmentRouter = router({
 
       // 1. Get species in DB matching this genus
       const speciesInDb = await db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+        .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')` })
         .from(plants)
         .where(like(plants.latinName, `${genus} %`))
         .orderBy(plants.latinName);
@@ -651,7 +651,7 @@ export const lotusEnrichmentRouter = router({
 
       // 1. Get species in DB
       let speciesInDb = await db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+        .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')` })
         .from(plants)
         .where(like(plants.latinName, `${genus} %`))
         .orderBy(plants.latinName);

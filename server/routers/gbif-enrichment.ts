@@ -12,7 +12,7 @@ import { publicProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db/core";
 import { plants } from "../../drizzle/schema";
-import { eq, like } from "drizzle-orm";
+import { eq, like, sql } from 'drizzle-orm';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONSTANTS
@@ -306,7 +306,7 @@ export const gbifEnrichmentRouter = router({
 
       // Find plant by latin name
       const results = await db
-        .select({ id: plants.id, name: plants.name, latinName: plants.latinName })
+        .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')` })
         .from(plants)
         .where(like(plants.latinName, `%${input.latinName ?? ""}%`))
         .limit(5);

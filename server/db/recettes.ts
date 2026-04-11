@@ -1882,7 +1882,7 @@ export async function getCompletudePlants(params: {
     .select({
       id: plants.id,
       name: plants.name,
-      latinName: plants.latinName,
+      latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
       family: plants.family,
       habitat: plants.habitat,
       conservationStatus: plants.conservationStatus,

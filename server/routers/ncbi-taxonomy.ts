@@ -248,7 +248,7 @@ export const ncbiTaxonomyRouter = router({
       const plantsToEnrich = await db.select({
         id: plants.id,
         name: plants.name,
-        latinName: plants.latinName,
+        latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
         notes: plants.notes,
       }).from(plants)
         .where(sql`${plants.latinName} IS NOT NULL AND ${plants.latinName} != ''`)

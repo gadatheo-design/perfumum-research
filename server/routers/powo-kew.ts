@@ -293,7 +293,7 @@ export const powoKewRouter = router({
       const plantsToEnrich = await db.select({
         id: plants.id,
         name: plants.name,
-        latinName: plants.latinName,
+        latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
         powId: plants.powId,
         authorCitation: plants.authorCitation,
         synonyms: plants.synonyms,

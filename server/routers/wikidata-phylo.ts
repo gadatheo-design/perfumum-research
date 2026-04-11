@@ -313,7 +313,7 @@ LIMIT ${input.limit}`;
       const plantsToEnrich = await db.select({
         id: plants.id,
         name: plants.name,
-        latinName: plants.latinName,
+        latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
         wikidataQid: plants.wikidataQid,
         gbifId: plants.gbifId,
         powId: plants.powId,

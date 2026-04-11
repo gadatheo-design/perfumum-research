@@ -126,7 +126,7 @@ export const laboratoireRouter = router({
       const [plant] = await db.select({
         id: plants.id,
         name: plants.name,
-        latinName: plants.latinName,
+        latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
         category: plants.category,
       }).from(plants)
         .where(like(plants.latinName, `%${input.botanicalName.split(' ').slice(0, 2).join(' ')}%`))

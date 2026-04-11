@@ -270,7 +270,7 @@ export const lotusRouter = router({
       const plantsToProcess = await db.select({
         id: plants.id,
         name: plants.name,
-        latinName: plants.latinName,
+        latinName: sql<string>`COALESCE(${plants.latinName}, '')`,
       }).from(plants)
         .where(
           input.onlyWithoutLinks
