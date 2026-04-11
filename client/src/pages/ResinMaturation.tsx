@@ -12,6 +12,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { ArrowRight, FlaskConical, Flame, Leaf, Clock, BookOpen, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
+import ResinTimelineTab from "@/components/ResinTimeline";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -572,6 +573,10 @@ export default function ResinMaturation() {
             <TabsTrigger value="encyclopedie" className="text-xs data-[state=active]:bg-zinc-800">
               Encyclopédie des processus
             </TabsTrigger>
+            <TabsTrigger value="timeline" className="text-xs data-[state=active]:bg-zinc-800">
+              <Clock className="w-3 h-3 mr-1" />
+              Timeline
+            </TabsTrigger>
           </TabsList>
 
           {/* ── Onglet Fiches ─────────────────────────────────────────────── */}
@@ -639,6 +644,11 @@ export default function ResinMaturation() {
                 {profiles && <ComparisonMatrix profiles={profiles} />}
               </CardContent>
             </Card>
+          </TabsContent>
+
+          {/* ── Onglet Timeline ────────────────────────────────────────────── */}
+          <TabsContent value="timeline">
+            {profiles && <ResinTimelineTab profiles={profiles} />}
           </TabsContent>
 
           {/* ── Onglet Encyclopédie ───────────────────────────────────────── */}

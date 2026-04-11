@@ -4035,3 +4035,12 @@ npm run dev
 - [x] Encyclopédie des 9 processus chimiques (isomérisation, oxydation, pyrolyse, fermentation, hydrolyse, distillation, polymérisation, décarboxylation, cyclisation)
 - [x] Connexions dynamiques aux molécules et plantes de la base PERFUMUM
 - [x] Focus hashishène — isomérisation photo-induite dans le cannabis
+
+- [ ] Ajouter 5-10 nouvelles résines dans resin-maturation.ts (oud, pin, mastic, dammar, sandaraque, etc.)
+- [ ] Fiche molécule Hashishène en base (CAS 1000341-93-4, SMILES, propriétés olfactives)
+- [ ] Timeline interactive par résine (axe 0-36 mois, transformations dominantes)
+
+- [x] Ajout de 8 nouvelles résines dans resin-maturation.ts (Oud, Pin, Mastic, Dammar, Sandaraque, Oliban de Somalie, Kyara, Copal Blanc) — total 17 résines
+- [x] Fiche molécule Hashishène créée en base (ID 2143313, CAS 1000341-93-4)
+- [x] Liens plant-molecule Hashishène ↔ Cannabis créés
+- [x] Timeline interactive ajoutée dans ResinMaturation.tsx (onglet Timeline)
