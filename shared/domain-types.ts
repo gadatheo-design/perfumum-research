@@ -382,3 +382,27 @@ export interface PhyloBatchGenus {
   genus: string;
   count: number;
 }
+
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Wikidata Enrichment Recommendations
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Union des types de recommandations Wikidata — partagé serveur + client */
+export type RecommendationType =
+  | 'conservation'
+  | 'images'
+  | 'parents'
+  | 'hybrids'
+  | 'distribution'
+  | 'general'
+  | 'synonyms';
+
+/** Recommandation d'enrichissement générée par buildRecommendations() */
+export interface WikidataRecommendation {
+  type: RecommendationType;
+  title: string;
+  description: string;
+  priority: 'high' | 'medium' | 'low';
+  action?: string;
+}

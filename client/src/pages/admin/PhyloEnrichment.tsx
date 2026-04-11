@@ -656,7 +656,7 @@ function BatchEnrichmentPanel() {
                 </tr>
               </thead>
               <tbody>
-                {(powoMutation.data?.results ?? wikidataMutation.data?.results ?? ncbiMutation.data?.results ?? []).map((r: PhyloBatchPlantResult, i: number) => (
+                {((powoMutation.data?.results ?? wikidataMutation.data?.results ?? ncbiMutation.data?.results ?? []) as PhyloBatchPlantResult[]).map((r, i) => (
                   <tr key={i} className="border-b border-zinc-800/50 hover:bg-zinc-800/20">
                     <td className="py-2 px-3 text-zinc-300">{r.name}</td>
                     <td className="py-2 px-3 text-zinc-400 italic">{r.latinName}</td>
@@ -666,7 +666,7 @@ function BatchEnrichmentPanel() {
                         : <XCircle className="w-3.5 h-3.5 text-red-400" />}
                     </td>
                     <td className="py-2 px-3 text-zinc-500">
-                      {r.fqId ?? r.wikidataQid ?? r.taxId ?? "—"}
+                      {r.apis?.powo?.fqId ?? r.apis?.wikidata?.qid ?? r.apis?.ncbi?.taxId ?? "—"}
                     </td>
                   </tr>
                 ))}
@@ -891,7 +891,7 @@ function BatchByGenusPanel() {
           <div className="flex gap-2">
             <Button
               size="sm"
-              onClick={() => batchMutation.mutate({ genus: selectedGenus, dryRun, apis: selectedApis as string[] })}
+              onClick={() => batchMutation.mutate({ genus: selectedGenus, dryRun, apis: selectedApis as ("gbif" | "wikidata" | "powo" | "ncbi" | "tropicos")[] })}
               disabled={batchMutation.isPending || selectedApis.length === 0}
               className="bg-violet-700 hover:bg-violet-600 text-white"
             >

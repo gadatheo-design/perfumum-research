@@ -13,6 +13,7 @@ import { getDb } from "../db/core";
 import { plants, plantVarieties } from "../../drizzle/schema";
 import { eq, like, or, sql } from 'drizzle-orm';
 import { sparqlQuery } from "../utils/sparql";
+import type { RecommendationType, WikidataRecommendation } from "../../shared/domain-types";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONSTANTS
@@ -24,7 +25,7 @@ import { sparqlQuery } from "../utils/sparql";
 // TYPES
 // ─────────────────────────────────────────────────────────────────────────────
 
-interface WikidataEntity {
+export interface WikidataEntity {
   id: string;
   label: string;
   description: string;
@@ -519,21 +520,15 @@ export const wikidataSyncRouter = router({
 // HELPER: Build structured recommendations
 // ─────────────────────────────────────────────────────────────────────────────
 
-type RecommendationType = 'conservation' | 'images' | 'parents' | 'hybrids' | 'distribution' | 'general' | 'synonyms';
+// RecommendationType est importé depuis shared/domain-types
 
-function buildRecommendations(
+export function buildRecommendations(
   entity: WikidataEntity,
   hybrids: string[],
   distribution: string[],
   speciesLevelOnly: boolean
 ) {
-  const recs: Array<{
-    type: RecommendationType;
-    title: string;
-    description: string;
-    priority: 'high' | 'medium' | 'low';
-    action?: string;
-  }> = [];
+  const recs: WikidataRecommendation[] = [];
 
   if (speciesLevelOnly) {
     recs.push({
