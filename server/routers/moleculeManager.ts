@@ -210,31 +210,57 @@ export const moleculeManagerRouter = router({
     const db = await getDb();
     if (!db) return [];
 
+    // Étape 1 : récupérer les groupes de doublons
     const [rows] = await db.execute(sql`
       SELECT 
         LOWER(TRIM(name)) as nameNormalized,
         COUNT(*) as count,
-        GROUP_CONCAT(id ORDER BY id) as ids,
-        GROUP_CONCAT(name ORDER BY id) as names
+        GROUP_CONCAT(id ORDER BY id) as ids
       FROM molecules
       GROUP BY LOWER(TRIM(name))
       HAVING COUNT(*) > 1
       ORDER BY count DESC
     `) as unknown as [SqlRow[]];
 
-    if (!Array.isArray(rows)) return [];
+    if (!Array.isArray(rows) || rows.length === 0) return [];
 
-    return rows.map((r: SqlRow) => {
+    // Étape 2 : pour chaque groupe, récupérer les détails complets de chaque molécule
+    const result = [];
+    for (const r of rows) {
       const ids = String(r.ids).split(',').map(Number);
-      const names = String(r.names).split(',');
-      
-      return {
-        nameNormalized: r.nameNormalized,
+      const [molRows] = await db.execute(sql`
+        SELECT 
+          m.id,
+          m.name,
+          m.cas_number,
+          m.chemical_class,
+          m.chemical_formula,
+          COUNT(DISTINCT pm.plant_id) as plant_links,
+          COUNT(DISTINCT rm.recipe_id) as recipe_links
+        FROM molecules m
+        LEFT JOIN plant_molecules pm ON pm.molecule_id = m.id
+        LEFT JOIN recipe_molecules rm ON rm.molecule_id = m.id
+        WHERE m.id IN (${sql.raw(ids.join(','))})
+        GROUP BY m.id, m.name, m.cas_number, m.chemical_class, m.chemical_formula
+        ORDER BY m.id ASC
+      `) as unknown as [SqlRow[]];
+      const molecules = Array.isArray(molRows) ? molRows.map((m: SqlRow) => ({
+        id: Number(m.id),
+        name: String(m.name || ''),
+        cas_number: m.cas_number ? String(m.cas_number) : null,
+        chemical_class: m.chemical_class ? String(m.chemical_class) : null,
+        chemical_formula: m.chemical_formula ? String(m.chemical_formula) : null,
+        plant_links: Number(m.plant_links || 0),
+        recipe_links: Number(m.recipe_links || 0),
+      })) : ids.map(id => ({ id, name: '', cas_number: null, chemical_class: null, chemical_formula: null, plant_links: 0, recipe_links: 0 }));
+      result.push({
+        nameNormalized: String(r.nameNormalized),
         count: Number(r.count),
         ids,
-        molecules: ids.map((id, idx) => ({ id, name: names[idx] || '' })),
-      };
-    });
+        molecules,
+      });
+    }
+    return result;
   }),
 
   // Merge duplicate molecules

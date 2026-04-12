@@ -6,6 +6,7 @@
 
 import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo } from "react";
+import { BibliographyEnrichModal } from "@/components/BibliographyEnrichModal";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -390,6 +391,7 @@ export default function Bibliographie() {
   const [selectedType, setSelectedType] = useState<string>("all");
   const [viewMode, setViewMode] = useState<"cards" | "compact" | "byAxis">("cards");
   const [selectedReference, setSelectedReference] = useState<Reference | null>(null);
+  const [enrichModalOpen, setEnrichModalOpen] = useState(false);
   
   // Fetch data
   const { data: references, isLoading: loadingRefs } = trpc.v3References.getAll.useQuery();
@@ -813,7 +815,7 @@ export default function Bibliographie() {
                 </div>
                 
                 {/* Actions */}
-                <div className="flex gap-2 pt-4 border-t">
+                <div className="flex flex-wrap gap-2 pt-4 border-t">
                   {selectedReference.url && (
                     <Button asChild variant="default">
                       <a href={selectedReference.url} target="_blank" rel="noopener noreferrer">
@@ -830,6 +832,15 @@ export default function Bibliographie() {
                       </a>
                     </Button>
                   )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="gap-2 text-primary border-primary/30 hover:bg-primary/5"
+                    onClick={() => setEnrichModalOpen(true)}
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    Enrichir via CrossRef / OpenAlex
+                  </Button>
                 </div>
               </div>
             </>
@@ -837,6 +848,21 @@ export default function Bibliographie() {
         </DialogContent>
       </Dialog>
       
+      {/* Modal d'enrichissement bibliographique */}
+      {selectedReference && (
+        <BibliographyEnrichModal
+          open={enrichModalOpen}
+          onClose={() => setEnrichModalOpen(false)}
+          initialDoi={selectedReference.doi}
+          initialTitle={selectedReference.title}
+          onApply={(data) => {
+            // Afficher les données enrichies dans la console pour l'instant
+            // (l'update DB nécessite une procédure dédiée)
+            console.info('[PERFUMUM] Données enrichies :', data);
+          }}
+        />
+      )}
+
       <Footer />
     </div>
   );

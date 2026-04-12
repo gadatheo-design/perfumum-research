@@ -8640,10 +8640,82 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           results,
         };
       }),
-  }),
 
+    // ─── Enrichissement automatique depuis CrossRef (par DOI) ────────────────
+    enrichFromDOI: publicProcedure
+      .input(z.object({ doi: z.string() }))
+      .query(async ({ input }) => {
+        const doi = input.doi.trim().replace(/^https?:\/\/(dx\.)?doi\.org\//, '');
+        const url = `https://api.crossref.org/works/${encodeURIComponent(doi)}`;
+        const res = await fetch(url, { headers: { 'User-Agent': 'PERFUMUM-Research/1.0 (mailto:research@perfumum.fr)' } });
+        if (!res.ok) throw new Error(`CrossRef: ${res.status} pour DOI ${doi}`);
+        const json = await res.json() as { message: Record<string, unknown> };
+        const m = json.message;
+        const authorsArr = (m.author as Array<{ family?: string; given?: string }> | undefined) || [];
+        const authors = authorsArr.map(a => [a.family, a.given].filter(Boolean).join(', ')).join(' and ');
+        const dateParts = (m['published-print'] || m['published-online'] || m['issued']) as { 'date-parts'?: number[][] } | undefined;
+        const year = dateParts?.['date-parts']?.[0]?.[0] ?? null;
+        const containerTitles = m['container-title'] as string[] | undefined;
+        const journal = containerTitles?.[0] ?? null;
+        const oaLink = (m.link as Array<{ URL: string; 'content-type': string }> | undefined)
+          ?.find(l => l['content-type'] === 'application/pdf')?.URL ?? null;
+        return {
+          title: (m.title as string[] | undefined)?.[0] ?? '',
+          authors,
+          year,
+          journal,
+          publisher: (m.publisher as string | undefined) ?? null,
+          volume: (m.volume as string | undefined) ?? null,
+          issue: (m.issue as string | undefined) ?? null,
+          pages: (m.page as string | undefined) ?? null,
+          doi,
+          issn: (m.ISSN as string[] | undefined)?.[0] ?? null,
+          abstract: (m.abstract as string | undefined)?.replace(/<[^>]+>/g, '') ?? null,
+          url: (m.URL as string | undefined) ?? null,
+          pdfUrl: oaLink,
+          source: 'crossref' as const,
+        };
+      }),
+
+    // ─── Enrichissement automatique depuis OpenAlex (par titre ou DOI) ───────
+    enrichFromTitle: publicProcedure
+      .input(z.object({ title: z.string(), doi: z.string().optional() }))
+      .query(async ({ input }) => {
+        let apiUrl: string;
+        if (input.doi) {
+          const doi = input.doi.trim().replace(/^https?:\/\/(dx\.)?doi\.org\//, '');
+          apiUrl = `https://api.openalex.org/works/https://doi.org/${encodeURIComponent(doi)}?mailto=research@perfumum.fr`;
+        } else {
+          const q = encodeURIComponent(input.title.trim());
+          apiUrl = `https://api.openalex.org/works?search=${q}&per-page=5&mailto=research@perfumum.fr`;
+        }
+        const res = await fetch(apiUrl);
+        if (!res.ok) throw new Error(`OpenAlex: ${res.status}`);
+        const json = await res.json() as Record<string, unknown>;
+        const works: Record<string, unknown>[] = json.results
+          ? (json.results as Record<string, unknown>[])
+          : [json];
+        return works.slice(0, 5).map(w => {
+          const authorships = (w.authorships as Array<{ author: { display_name: string } }> | undefined) || [];
+          const authors = authorships.map(a => a.author.display_name).join(' and ');
+          const oa = w.open_access as { oa_url?: string } | undefined;
+          const doi = w.doi ? String(w.doi).replace('https://doi.org/', '') : null;
+          return {
+            title: String(w.display_name || w.title || ''),
+            authors,
+            year: w.publication_year ? Number(w.publication_year) : null,
+            journal: (w.primary_location as { source?: { display_name?: string } } | undefined)?.source?.display_name ?? null,
+            doi,
+            url: doi ? `https://doi.org/${doi}` : null,
+            pdfUrl: oa?.oa_url ?? null,
+            citationsCount: w.cited_by_count ? Number(w.cited_by_count) : 0,
+            source: 'openalex' as const,
+          };
+        });
+      }),
+  }),
   // ============================================================================
-  // BIBLIOGRAPHY SOURCES (Publications scientifiques OpenAlex)
+  // BIBLIOGRAPHY SOURCES (Publications scientifiques OpenAlex))
   // ============================================================================
   bibliographySources: router({
     // Publications liées à une molécule (toutes sources : OpenAlex, NEZ, etc.)
@@ -8682,6 +8754,42 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
            LIMIT 30`
         ));
         return Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
+      }),
+
+    // Publications PubChem pour une molécule (via API PubChem en temps réel)
+    getPubChemLiterature: publicProcedure
+      .input(z.object({ pubchemCid: z.number() }))
+      .query(async ({ input }) => {
+        const cid = input.pubchemCid;
+        // PubChem PUG REST : récupérer les références bibliographiques
+        const url = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${cid}/xrefs/PubMedID/JSON`;
+        const res = await fetch(url, { signal: AbortSignal.timeout(8000) });
+        if (!res.ok) return { pmids: [], articles: [] };
+        const json = await res.json() as { InformationList?: { Information?: Array<{ PubMedID?: number[] }> } };
+        const pmids = json.InformationList?.Information?.[0]?.PubMedID?.slice(0, 20) || [];
+        if (pmids.length === 0) return { pmids: [], articles: [] };
+        // Récupérer les métadonnées PubMed via E-utilities
+        const idsStr = pmids.join(',');
+        const summaryUrl = `https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi?db=pubmed&id=${idsStr}&retmode=json`;
+        const summaryRes = await fetch(summaryUrl, { signal: AbortSignal.timeout(10000) });
+        if (!summaryRes.ok) return { pmids, articles: [] };
+        const summaryJson = await summaryRes.json() as { result?: Record<string, { title?: string; sortfirstauthor?: string; pubdate?: string; fulljournalname?: string; elocationid?: string; articleids?: Array<{ idtype: string; value: string }> }> };
+        const result = summaryJson.result || {};
+        const articles = pmids.map(pmid => {
+          const r = result[String(pmid)];
+          if (!r) return null;
+          const doi = r.articleids?.find(a => a.idtype === 'doi')?.value || null;
+          return {
+            pmid,
+            title: r.title || '',
+            firstAuthor: r.sortfirstauthor || '',
+            year: r.pubdate ? parseInt(r.pubdate) : null,
+            journal: r.fulljournalname || '',
+            doi,
+            url: doi ? `https://doi.org/${doi}` : `https://pubmed.ncbi.nlm.nih.gov/${pmid}/`,
+          };
+        }).filter(Boolean);
+        return { pmids, articles };
       }),
 
     // Données GBIF d'une plante (occurrences + pays)

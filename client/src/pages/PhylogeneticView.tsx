@@ -476,9 +476,9 @@ function GenreTreeView({ initialGenus = "" }: { initialGenus?: string }) {
             <Select value={selectedSpecies} onValueChange={setSelectedSpecies}>
               <SelectTrigger><SelectValue placeholder="Toutes les espèces" /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Toutes les espèces</SelectItem>
+                <SelectItem value="__all_species__">Toutes les espèces</SelectItem>
                 {speciesList.map((s: any) => (
-                  <SelectItem key={s.latinName} value={s.species ?? ""}>
+                  <SelectItem key={s.latinName} value={s.species || s.latinName || `__sp_${s.varietyCount}__`}>
                     <span className="italic">{s.latinName}</span>
                     <span className="text-muted-foreground ml-2 text-xs">({s.varietyCount} variétés)</span>
                   </SelectItem>

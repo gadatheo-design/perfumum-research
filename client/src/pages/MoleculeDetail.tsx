@@ -724,6 +724,12 @@ export default function MoleculeDetail() {
     { enabled: !!molecule }
   );
 
+  // Publications PubChem en temps réel (via PubMed)
+  const { data: pubchemLiterature, isLoading: loadingPubchemLit } = trpc.bibliographySources.getPubChemLiterature.useQuery(
+    { pubchemCid: molecule?.pubchem_cid ?? 0 },
+    { enabled: !!molecule?.pubchem_cid }
+  );
+
   // Badge Bibliographie — références PERFUMUM liées à cette molécule
   const { data: bibliographyRefs } = trpc.bibliography.getByMolecule.useQuery(
     { moleculeId: id },
@@ -2533,13 +2539,69 @@ export default function MoleculeDetail() {
               </TabErrorBoundary>
             </TabsContent>
 
-            {/* Publications scientifiques — OpenAlex */}
-            <TabsContent value="publications" className="space-y-4 mt-6">
+            {/* Publications scientifiques — OpenAlex + PubChem/PubMed */}
+            <TabsContent value="publications" className="space-y-6 mt-6">
               <TabErrorBoundary tabLabel="Publications scientifiques">
-                {scientificPubs && scientificPubs.length > 0 ? (
+
+                {/* Section PubChem / PubMed */}
+                {molecule?.pubchem_cid && (
                   <div className="space-y-3">
-                    <p className="text-sm text-muted-foreground">
-                      {scientificPubs.length} publication{scientificPubs.length > 1 ? 's' : ''} scientifique{scientificPubs.length > 1 ? 's' : ''} répertoriée{scientificPubs.length > 1 ? 's' : ''} via OpenAlex
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="h-5 w-1 rounded-full bg-blue-500" />
+                      <h3 className="text-sm font-semibold text-foreground">Publications PubChem / PubMed</h3>
+                      <Badge variant="outline" className="text-xs border-blue-300 text-blue-600">Temps réel</Badge>
+                    </div>
+                    {loadingPubchemLit ? (
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground py-4">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Chargement des publications PubChem…
+                      </div>
+                    ) : pubchemLiterature?.articles && pubchemLiterature.articles.length > 0 ? (
+                      <div className="space-y-2">
+                        <p className="text-xs text-muted-foreground">{pubchemLiterature.articles.length} article{pubchemLiterature.articles.length > 1 ? 's' : ''} référencé{pubchemLiterature.articles.length > 1 ? 's' : ''} sur PubMed (CID {molecule.pubchem_cid})</p>
+                        {pubchemLiterature.articles.map((art) => (
+                          <Card key={art.pmid} className="hover:shadow-sm transition-shadow border-blue-100 dark:border-blue-900/30">
+                            <CardContent className="p-4 space-y-1.5">
+                              <div className="flex items-start justify-between gap-2">
+                                <p className="text-sm font-medium leading-snug line-clamp-2">{art.title || 'Sans titre'}</p>
+                                <Badge variant="outline" className="shrink-0 text-xs border-blue-300 text-blue-600">PubMed</Badge>
+                              </div>
+                              {art.firstAuthor && (
+                                <p className="text-xs text-muted-foreground">{art.firstAuthor} et al.</p>
+                              )}
+                              <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                                {art.year && <span>{art.year}</span>}
+                                {art.journal && <span className="italic line-clamp-1">{art.journal}</span>}
+                              </div>
+                              <a
+                                href={art.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 hover:underline mt-1"
+                              >
+                                <ExternalLink className="h-3 w-3" />
+                                {art.doi ? `DOI: ${art.doi}` : `PMID: ${art.pmid}`}
+                              </a>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground italic py-2">Aucune publication PubMed trouvée pour ce composé (CID {molecule.pubchem_cid}).</p>
+                    )}
+                  </div>
+                )}
+
+                {/* Section OpenAlex */}
+                {scientificPubs && scientificPubs.length > 0 && (
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className="h-5 w-1 rounded-full bg-violet-500" />
+                      <h3 className="text-sm font-semibold text-foreground">Publications OpenAlex (PERFUMUM)</h3>
+                      <Badge variant="outline" className="text-xs border-violet-300 text-violet-600">Base locale</Badge>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                      {scientificPubs.length} publication{scientificPubs.length > 1 ? 's' : ''} répertoriée{scientificPubs.length > 1 ? 's' : ''} dans la base PERFUMUM
                     </p>
                     {(scientificPubs as unknown[]).map((pub: unknown) => (
                       <Card key={pub.id} className="hover:shadow-sm transition-shadow">
@@ -2572,12 +2634,17 @@ export default function MoleculeDetail() {
                       </Card>
                     ))}
                   </div>
-                ) : (
+                )}
+
+                {/* État vide */}
+                {(!molecule?.pubchem_cid) && (!scientificPubs || scientificPubs.length === 0) && (
                   <div className="text-center py-8 text-muted-foreground">
                     <BookOpen className="h-8 w-8 mx-auto mb-2 opacity-40" />
                     <p>Aucune publication scientifique répertoriée pour cette molécule.</p>
+                    <p className="text-xs mt-1">Enrichissez la molécule via PubChem pour accéder aux références PubMed.</p>
                   </div>
                 )}
+
               </TabErrorBoundary>
             </TabsContent>
 
