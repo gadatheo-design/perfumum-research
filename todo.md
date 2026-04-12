@@ -4174,3 +4174,8 @@ npm run dev
 - [ ] Auditer et classer les 236 erreurs TypeScript restantes
 - [ ] Corriger les fichiers D3 complexes et pages admin les plus impactés
 - [ ] Réduire le compteur sous 100 erreurs TS
+
+## SESSION TypeScript — Batch 7
+
+- [x] Éliminer les 21 any restants dans server/routers.ts → 0
+- [x] Éliminer les 7 any restants dans server/db/plants.ts → 0

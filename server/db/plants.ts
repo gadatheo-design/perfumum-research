@@ -2431,7 +2431,7 @@ export async function bulkCreateGenomicMoleculeLinks(
         referenceId: link.referenceId,
         moleculeId: link.moleculeId,
         genomicAxis: link.genomicAxis,
-        linkType: (link.linkType as any) || 'characterization',
+        linkType: (link.linkType as 'biosynthesis'|'characterization'|'quantification'|'pathway'|'gene_association'|'regulation'|'evolution'|'application'|'other') || 'characterization',
         relevanceScore: link.relevanceScore || 50,
         confidence: link.confidence || 'medium',
         notes: link.notes,
@@ -2475,7 +2475,7 @@ export async function bulkCreateGenomicPlantLinks(
         referenceId: link.referenceId,
         plantId: link.plantId,
         genomicAxis: link.genomicAxis,
-        linkType: (link.linkType as any) || 'genome_sequencing',
+        linkType: (link.linkType as 'genome_sequencing'|'gene_expression'|'epigenetics'|'transcriptomics'|'proteomics'|'metabolomics'|'phylogenomics'|'other') || 'genome_sequencing',
         relevanceScore: link.relevanceScore || 50,
         confidence: link.confidence || 'medium',
         notes: link.notes,
@@ -2898,14 +2898,14 @@ export async function reviewPlantContribution(
             `SELECT id FROM terroirs WHERE LOWER(name) LIKE LOWER(?) OR LOWER(region) LIKE LOWER(?) LIMIT 1`,
             [`%${contribution.terroir || contribution.region}%`, `%${contribution.region || contribution.terroir}%`]
           ) as Record<string,unknown>[];
-          const terroir = (terroirRows as any[])[0] as Record<string, unknown> | undefined;
+          const terroir = (terroirRows as Record<string,unknown>[])[0] as Record<string, unknown> | undefined;
           if (terroir) {
             // Vérifier si le lien n'existe pas déjà
             const [existingLink] = await conn.execute(
               `SELECT id FROM plant_terroirs WHERE plant_id = ? AND terroir_id = ?`,
               [contribution.plant_id, terroir.id]
             ) as Record<string,unknown>[];
-            if ((existingLink as any[]).length === 0) {
+            if ((existingLink as Record<string,unknown>[]).length === 0) {
               await conn.execute(`
                 INSERT INTO plant_terroirs (plant_id, terroir_id, quality_notes, notes, created_at)
                 VALUES (?, ?, ?, 'Lien créé via contribution utilisateur', NOW())
@@ -2936,7 +2936,7 @@ export async function reviewPlantContribution(
             [contribution.plant_id]
           ) as Record<string,unknown>[];
           const plant = (plantRows as Record<string,unknown>[])[0] as Record<string, unknown>;
-          let uses: any[] = [];
+          let uses: Record<string,unknown>[] = [];
           try { uses = JSON.parse((plant?.ethnobotanical_uses as string) || '[]'); } catch { uses = []; }
           uses.push({ source: 'contribution', date: new Date().toISOString().split('T')[0], content: contribution.note_content, references: contribution.references || null });
           await conn.execute(
@@ -3001,7 +3001,7 @@ export async function getExclusiveMolecules(statuses: string[] = ['EX', 'EW', 'C
   if (!db) return [];
 
   const placeholders = statuses.map(() => '?').join(', ');
-  const [rows] = await (db as any).execute(
+  const [rows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(
     `SELECT
       m.id,
       m.name,
@@ -3027,7 +3027,7 @@ export async function getExclusiveMolecules(statuses: string[] = ['EX', 'EW', 'C
     LIMIT 200`,
     [...statuses, ...statuses]
   );
-  return (rows as any[]).map((r: any) => ({
+  return (rows as Record<string,unknown>[]).map((r: Record<string,unknown>) => ({
     id: Number(r.id),
     name: r.name as string,
     family: r.family as string | null,

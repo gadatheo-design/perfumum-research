@@ -6127,7 +6127,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           await db.updateMoleculeScientificData(input.moleculeId, {
             casNumber: result.casNumber || molecule.casNumber || undefined,
             iupacName: result.iupacName || molecule.iupacName || undefined,
-            chemicalClass: (chemicalClass || molecule.chemicalClass || undefined) as any,
+            chemicalClass: (chemicalClass || molecule.chemicalClass || undefined) as typeof molecules.$inferSelect['chemicalClass'],
           });
           
           // Ajouter une référence PubChem
@@ -6184,7 +6184,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
             await db.updateMoleculeScientificData(moleculeId, {
               casNumber: result.casNumber || molecule.casNumber || undefined,
               iupacName: result.iupacName || molecule.iupacName || undefined,
-              chemicalClass: (chemicalClass || molecule.chemicalClass || undefined) as any,
+              chemicalClass: (chemicalClass || molecule.chemicalClass || undefined) as typeof molecules.$inferSelect['chemicalClass'],
             });
             
             // Ajouter référence PubChem
@@ -6350,7 +6350,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
               await db.updateMoleculeScientificData(molecule.id, {
                 casNumber: result.casNumber || molecule.casNumber || undefined,
                 iupacName: result.iupacName || molecule.iupacName || undefined,
-                chemicalClass: (chemicalClass || molecule.chemicalClass || undefined) as any,
+                chemicalClass: (chemicalClass || molecule.chemicalClass || undefined) as typeof molecules.$inferSelect['chemicalClass'],
               });
               
               // Ajouter référence PubChem
@@ -8555,8 +8555,8 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
 
         for (const ref of unlinked) {
           try {
-            const plantNames = plants.slice(0, 200).map((p: any) => p.name + (p.latin_name ? ` (${p.latin_name})` : '')).join(', ');
-            const molNames = molecules.slice(0, 200).map((m: any) => m.name).join(', ');
+            const plantNames = plants.slice(0, 200).map((p: Record<string,unknown>) => String(p.name) + (p.latin_name ? ` (${p.latin_name})` : '')).join(', ');
+            const molNames = molecules.slice(0, 200).map((m: Record<string,unknown>) => String(m.name)).join(', ');
 
             const llmResponse = await invokeLLM({
               messages: [
@@ -8596,7 +8596,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
 
             // Lier les plantes trouvées
             for (const plantName of (extracted.plants || [])) {
-              const plant = plants.find((p: any) =>
+              const plant = plants.find((p: Record<string,unknown>) =>
                 p.name.toLowerCase() === plantName.toLowerCase() ||
                 (p.latin_name && p.latin_name.toLowerCase().includes(plantName.toLowerCase()))
               );
@@ -8613,7 +8613,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
 
             // Lier les molécules trouvées
             for (const molName of (extracted.molecules || [])) {
-              const mol = molecules.find((m: any) =>
+              const mol = molecules.find((m: Record<string,unknown>) =>
                 m.name.toLowerCase() === molName.toLowerCase()
               );
               if (mol) {
@@ -8629,7 +8629,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
 
             totalLinked += refLinked;
             results.push({ id: ref.id, title: ref.title.substring(0, 60), plants: extracted.plants, molecules: extracted.molecules, linked: refLinked });
-          } catch (err: any) {
+          } catch (err: unknown) {
             results.push({ id: ref.id, title: ref.title?.substring(0, 60), error: err.message });
           }
         }
@@ -8782,7 +8782,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       }))
       .mutation(async ({ input }) => {
         const { id, ...data } = input;
-        return db.updateResearchAxis(id, data as any);
+        return db.updateResearchAxis(id, data);
       }),
     
     // Supprimer un axe
@@ -8933,7 +8933,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       }))
       .mutation(async ({ input }) => {
         const { id, ...data } = input;
-        return db.updateResearchEntry(id, data as any);
+        return db.updateResearchEntry(id, data);
       }),
     
     // Supprimer une entrée
@@ -10298,7 +10298,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         metadata: z.object({}).passthrough().optional(),
       }))
       .mutation(async ({ input }) => {
-        return db.createNotification(input as any);
+        return db.createNotification(input);
       }),
   }),
 
@@ -10520,7 +10520,7 @@ Réponds avec un JSON contenant:
           id: number;
           name: string;
           success: boolean;
-          classification?: any;
+          classification?: Record<string,unknown>;
           error?: string;
         }> = [];
 
@@ -10940,7 +10940,7 @@ Familles olfactives disponibles:
           id: number;
           name: string;
           success: boolean;
-          classification?: any;
+          classification?: Record<string,unknown>;
           applied?: boolean;
           error?: string;
         }> = [];
@@ -11918,26 +11918,26 @@ Familles olfactives disponibles:
           SUM(CASE WHEN pubchem_cid IS NOT NULL THEN 1 ELSE 0 END) as with_pubchem,
           COUNT(DISTINCT family) as distinct_families
         FROM molecules
-      `) as any;
+      `) as [Record<string,unknown>[], unknown];
 
       const [tabRes] = await dbInstance.execute(sql`
         SELECT COUNT(*) as total,
           SUM(CASE WHEN ttl.tabac_id IS NOT NULL THEN 1 ELSE 0 END) as with_terroir
         FROM tabacs t
         LEFT JOIN tabac_terroir_links ttl ON ttl.tabac_id = t.id
-      `) as any;
+      `) as [Record<string,unknown>[], unknown];
 
       const [cigRes] = await dbInstance.execute(sql`
         SELECT COUNT(*) as total,
           SUM(CASE WHEN terpene_profile IS NOT NULL AND terpene_profile != '' THEN 1 ELSE 0 END) as with_terpene
         FROM cigarillo_recipes
-      `) as any;
+      `) as [Record<string,unknown>[], unknown];
 
       const [accordRes] = await dbInstance.execute(sql`
         SELECT COUNT(*) as total,
           SUM(CASE WHEN description IS NOT NULL AND description != '' THEN 1 ELSE 0 END) as with_desc
         FROM accords
-      `) as any;
+      `) as [Record<string,unknown>[], unknown];
 
       const [plantRes] = await dbInstance.execute(sql`
         SELECT COUNT(*) as total,
@@ -11945,21 +11945,21 @@ Familles olfactives disponibles:
           SUM(CASE WHEN family IS NOT NULL AND family != '' THEN 1 ELSE 0 END) as with_family,
           SUM(CASE WHEN validation_status = 'valide' THEN 1 ELSE 0 END) as validated
         FROM plants
-      `) as any;
+      `) as [Record<string,unknown>[], unknown];
 
       const [synRes] = await dbInstance.execute(sql`
         SELECT COUNT(*) as total FROM molecule_synergies
-      `) as any;
+      `) as [Record<string,unknown>[], unknown];
 
       const [pmRes] = await dbInstance.execute(sql`
         SELECT COUNT(*) as total,
           COUNT(DISTINCT plant_id) as plants_with_molecules
         FROM plant_molecules
-      `) as any;
+      `) as [Record<string,unknown>[], unknown];
 
       const [recipeRes] = await dbInstance.execute(sql`
         SELECT COUNT(*) as total FROM recipes
-      `) as any;
+      `) as [Record<string,unknown>[], unknown];
 
       return {
         molecules: molRes[0],
