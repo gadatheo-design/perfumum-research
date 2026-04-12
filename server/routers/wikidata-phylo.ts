@@ -491,13 +491,11 @@ LIMIT 5`;
             name: displayName,
             latinName: taxon.scientificName,
             family: taxon.family ?? null,
-            genus,
-            species,
             wikidataQid: taxon.wikidataId,
             wikidataEnrichedAt: new Date(),
-            category: 'plante',
-            status: 'actif',
-            notes: `Importé depuis Wikidata (${taxon.wikidataId}). Rang : ${taxon.rankName ?? 'inconnu'}.`,
+            category: 'autre',
+            validationStatus: 'brouillon',
+            notes: `Importé depuis Wikidata (${taxon.wikidataId}). Rang : ${taxon.rankName ?? 'inconnu'}. Genre : ${genus}${species ? `, espèce : ${species}` : ''}.`,
           });
 
           created++;
