@@ -11918,26 +11918,26 @@ Familles olfactives disponibles:
           SUM(CASE WHEN pubchem_cid IS NOT NULL THEN 1 ELSE 0 END) as with_pubchem,
           COUNT(DISTINCT family) as distinct_families
         FROM molecules
-      `) as [Record<string,unknown>[], unknown];
+      `) as unknown as [Record<string,unknown>[], unknown];
 
       const [tabRes] = await dbInstance.execute(sql`
         SELECT COUNT(*) as total,
           SUM(CASE WHEN ttl.tabac_id IS NOT NULL THEN 1 ELSE 0 END) as with_terroir
         FROM tabacs t
         LEFT JOIN tabac_terroir_links ttl ON ttl.tabac_id = t.id
-      `) as [Record<string,unknown>[], unknown];
+      `) as unknown as [Record<string,unknown>[], unknown];
 
       const [cigRes] = await dbInstance.execute(sql`
         SELECT COUNT(*) as total,
           SUM(CASE WHEN terpene_profile IS NOT NULL AND terpene_profile != '' THEN 1 ELSE 0 END) as with_terpene
         FROM cigarillo_recipes
-      `) as [Record<string,unknown>[], unknown];
+      `) as unknown as [Record<string,unknown>[], unknown];
 
       const [accordRes] = await dbInstance.execute(sql`
         SELECT COUNT(*) as total,
           SUM(CASE WHEN description IS NOT NULL AND description != '' THEN 1 ELSE 0 END) as with_desc
         FROM accords
-      `) as [Record<string,unknown>[], unknown];
+      `) as unknown as [Record<string,unknown>[], unknown];
 
       const [plantRes] = await dbInstance.execute(sql`
         SELECT COUNT(*) as total,
@@ -11945,21 +11945,21 @@ Familles olfactives disponibles:
           SUM(CASE WHEN family IS NOT NULL AND family != '' THEN 1 ELSE 0 END) as with_family,
           SUM(CASE WHEN validation_status = 'valide' THEN 1 ELSE 0 END) as validated
         FROM plants
-      `) as [Record<string,unknown>[], unknown];
+      `) as unknown as [Record<string,unknown>[], unknown];
 
       const [synRes] = await dbInstance.execute(sql`
         SELECT COUNT(*) as total FROM molecule_synergies
-      `) as [Record<string,unknown>[], unknown];
+      `) as unknown as [Record<string,unknown>[], unknown];
 
       const [pmRes] = await dbInstance.execute(sql`
         SELECT COUNT(*) as total,
           COUNT(DISTINCT plant_id) as plants_with_molecules
         FROM plant_molecules
-      `) as [Record<string,unknown>[], unknown];
+      `) as unknown as [Record<string,unknown>[], unknown];
 
       const [recipeRes] = await dbInstance.execute(sql`
         SELECT COUNT(*) as total FROM recipes
-      `) as [Record<string,unknown>[], unknown];
+      `) as unknown as [Record<string,unknown>[], unknown];
 
       return {
         molecules: molRes[0],
