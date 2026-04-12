@@ -4169,9 +4169,8 @@ npm run dev
 - `server/routers/moleculeManager.ts` — 3 fonctions pures exportées
 - `server/moleculeManager.test.ts` — 17 tests (nouveau fichier)
 
+## SESSION TypeScript — Batch 6 (12 avril 2026)
 
-## SESSION TypeScript — Batch 5 (11 avril 2026 — après-midi)
-
-- [x] Corriger PhyloEnrichment.tsx — 3 erreurs (PhyloBatchPlantResult.wikidataQid, string[] → union)
-- [x] Centraliser RecommendationType dans shared/domain-types.ts
-- [x] Créer server/wikidata-sync.test.ts — 21/21 tests passent
+- [ ] Auditer et classer les 236 erreurs TypeScript restantes
+- [ ] Corriger les fichiers D3 complexes et pages admin les plus impactés
+- [ ] Réduire le compteur sous 100 erreurs TS

@@ -276,7 +276,7 @@ import { expandWithScientificNames, getScientificDictionaryStats } from '../../s
  *   - json() dans Drizzle : references, pubchemSynonyms, coconutOrganisms, coconutCitations, ifraData
  *   - text() contenant parfois du JSON : therapeuticProperties, olfactiveProfile
  */
-export function parseMoleculeJsonFields(mol: Record<string, any>): Record<string, any> {
+export function parseMoleculeJsonFields(mol: Record<string, unknown>): Record<string, unknown> {
   const jsonArrayFields = ['references', 'pubchemSynonyms', 'coconutOrganisms', 'coconutCitations'];
   const jsonObjectFields = ['ifraData'];
   const textJsonArrayFields = ['therapeuticProperties', 'olfactiveProfile'];
@@ -321,8 +321,7 @@ export async function getAllMolecules(): Promise<Molecule[]> {
   const db = await getDb();
   if (!db) return [];
   const rows = await db.select().from(molecules);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return rows.map(r => parseMoleculeJsonFields(r as any)) as Molecule[];
+  return rows.map(r => parseMoleculeJsonFields(r as Record<string, unknown>)) as Molecule[];
 }
 
 export async function getMoleculeById(id: number): Promise<Molecule | undefined> {
@@ -331,8 +330,7 @@ export async function getMoleculeById(id: number): Promise<Molecule | undefined>
   const result = await db.select().from(molecules).where(eq(molecules.id, id)).limit(1);
   const mol = result[0];
   if (!mol) return undefined;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return parseMoleculeJsonFields(mol as any) as Molecule;
+  return parseMoleculeJsonFields(mol as Record<string, unknown>) as Molecule;
 }
 
 
@@ -350,9 +348,7 @@ export async function getMoleculeWithRelations(id: number) {
   // Get molecule
   const moleculesList = await db.select().from(molecules).where(eq(molecules.id, id));
   if (moleculesList.length === 0) return null;
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const mol = parseMoleculeJsonFields(moleculesList[0] as any);
+  const mol = parseMoleculeJsonFields(moleculesList[0] as Record<string, unknown>);
   
   // Get related recettes via molecule_recettes
   const relatedRecettes = await db
@@ -1235,8 +1231,7 @@ export async function createPlantMoleculeLink(data: {
     percentageMax: data.percentageMax,
     percentageTypical: data.percentageTypical,
     isSignature: data.isSignature || 0,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    role: data.role as any,
+    role: data.role as Molecule['role'],
   });
   
   return { id: Number(result[0].insertId), ...data };
@@ -1281,8 +1276,7 @@ export async function updatePlantMoleculeLink(
       ...(data.percentageMax !== undefined && { percentageMax: data.percentageMax ?? null }),
       ...(data.percentageTypical !== undefined && { percentageTypical: data.percentageTypical ?? null }),
       ...(data.isSignature !== undefined && { isSignature: data.isSignature }),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      ...(data.role !== undefined && { role: data.role as any }),
+      ...(data.role !== undefined && { role: data.role as Molecule['role'] }),
       ...(data.source !== undefined && { source: data.source }),
     })
     .where(
@@ -1312,8 +1306,7 @@ export async function updateVarietyConservationStatus(
   
   await db.update(plantVarieties)
     .set({
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      conservationStatus: data.conservationStatus as any,
+      conservationStatus: data.conservationStatus as Molecule['conservationStatus'],
       conservationNotes: data.conservationNotes,
       threatFactors: data.threatFactors,
       conservationEfforts: data.conservationEfforts,
@@ -1472,7 +1465,7 @@ export async function enrichMoleculeFromPubChem(
   const db = await getDb();
   if (!db) throw new Error('Database not initialized');
   
-  const updateData: any = {};
+  const updateData: Partial<InsertMolecule> = {};
   
   if (pubchemData.casNumber) updateData.casNumber = pubchemData.casNumber;
   if (pubchemData.iupacName) updateData.iupacName = pubchemData.iupacName;
@@ -1905,7 +1898,7 @@ export async function getTpsGeneMoleculeLinks(filters?: {
       WHERE 1=1
     `;
     
-    const params: any[] = [];
+    const params: (string | number | null)[] = [];
     
     if (filters?.tpsGeneId) {
       query += ` AND tgm.tps_gene_id = ?`;
@@ -1931,10 +1924,8 @@ export async function getTpsGeneMoleculeLinks(filters?: {
     
     const db = await getDb();
     if (!db) return [];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result = await (db as any).execute(sql.raw(query.replace(/\?/g, (_, i) => `'${String(params[i] || '').replace(/'/g, "''")}'`)));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return (result[0] as unknown) as any[];
+    const result = await (db as unknown as { execute: (q: unknown) => Promise<unknown[]> }).execute(sql.raw(query.replace(/\?/g, (_, i) => `'${String(params[i] || '').replace(/'/g, "''")}'`)));
+    return (result[0] as Record<string, unknown>[]);
   } catch (error: unknown) {
     console.error('Error getting TPS gene-molecule links:', error);
     return [];
@@ -1955,7 +1946,6 @@ export async function createTpsGeneMoleculeLink(data: {
     if (!db) return { success: false, error: 'Database connection failed' };
     const evidenceSource = data.evidenceSource ? `'${data.evidenceSource.replace(/'/g, "''")}'` : 'NULL';
     const notes = data.notes ? `'${data.notes.replace(/'/g, "''")}'` : 'NULL';
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (db as any).execute(sql.raw(`
       INSERT INTO tps_gene_molecules 
         (tps_gene_id, molecule_id, relationship_type, confidence_level, evidence_source, notes)
@@ -1983,7 +1973,7 @@ export async function updateTpsGeneMoleculeLink(
 ) {
   try {
     const updates: string[] = [];
-    const params: any[] = [];
+    const params: (string | number | null)[] = [];
     
     if (data.relationshipType) {
       updates.push('relationship_type = ?');
@@ -2011,7 +2001,6 @@ export async function updateTpsGeneMoleculeLink(
     const db = await getDb();
     if (!db) return { success: false, error: 'Database connection failed' };
     const setClause = updates.map((u, i) => u.replace('?', `'${String(params[i]).replace(/'/g, "''")}'`)).join(', ');
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (db as any).execute(sql.raw(`UPDATE tps_gene_molecules SET ${setClause} WHERE id = ${id}`));
     
     return { success: true };
@@ -2026,7 +2015,6 @@ export async function deleteTpsGeneMoleculeLink(id: number) {
   try {
     const db = await getDb();
     if (!db) return { success: false, error: 'Database connection failed' };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (db as any).execute(sql.raw(`DELETE FROM tps_gene_molecules WHERE id = ${id}`));
     return { success: true };
   } catch (error: unknown) {
@@ -2052,58 +2040,37 @@ export async function getTpsGeneMoleculeLinkStats() {
         moleculeCoverage: 0,
       };
     }
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const totalLinksResult = await (db as any).execute(sql.raw(
       'SELECT COUNT(*) as count FROM tps_gene_molecules'
     ));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const totalLinks = ((totalLinksResult[0] as unknown) as any[])[0]?.count || 0;
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const byRelationshipResult = await (db as any).execute(sql.raw(`
       SELECT relationship_type as type, COUNT(*) as count 
       FROM tps_gene_molecules 
       GROUP BY relationship_type
     `));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const byRelationship = (byRelationshipResult[0] as unknown) as any[];
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const byConfidenceResult = await (db as any).execute(sql.raw(`
       SELECT confidence_level as level, COUNT(*) as count 
       FROM tps_gene_molecules 
       GROUP BY confidence_level
     `));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const byConfidence = (byConfidenceResult[0] as unknown) as any[];
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const linkedGenesResult = await (db as any).execute(sql.raw(`
       SELECT COUNT(DISTINCT tps_gene_id) as count FROM tps_gene_molecules
     `));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const linkedGenes = ((linkedGenesResult[0] as unknown) as any[])[0]?.count || 0;
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const linkedMoleculesResult = await (db as any).execute(sql.raw(`
       SELECT COUNT(DISTINCT molecule_id) as count FROM tps_gene_molecules
     `));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const linkedMolecules = ((linkedMoleculesResult[0] as unknown) as any[])[0]?.count || 0;
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const totalGenesResult = await (db as any).execute(sql.raw(
       'SELECT COUNT(*) as count FROM tps_genes'
     ));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const totalGenesCount = ((totalGenesResult[0] as unknown) as any[])[0]?.count || 0;
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const totalMoleculesResult = await (db as any).execute(sql.raw(
       'SELECT COUNT(*) as count FROM molecules'
     ));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const totalMoleculesCount = ((totalMoleculesResult[0] as unknown) as any[])[0]?.count || 0;
     
     return {
@@ -2142,19 +2109,15 @@ export async function autoLinkTpsGenesToMolecules() {
     }
     
     // Get all TPS genes with their main products
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const genesResult = await (db as any).execute(sql.raw(`
       SELECT id, name, main_product FROM tps_genes
     `));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const genes = (genesResult[0] as unknown) as any[];
     
     // Get all molecules
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const moleculesResult = await (db as any).execute(sql.raw(`
       SELECT id, name FROM molecules
     `));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const moleculesList = (moleculesResult[0] as unknown) as any[];
     
     let linksCreated = 0;
@@ -2201,11 +2164,9 @@ export async function searchMoleculeMatchesForTpsGene(tpsGeneId: number) {
     }
     
     // Get the TPS gene details
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const geneResult = await (db as any).execute(sql.raw(
       `SELECT * FROM tps_genes WHERE id = ${tpsGeneId}`
     ));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const geneRows = (geneResult[0] as unknown) as any[];
     
     const gene = geneRows[0];
@@ -2218,8 +2179,6 @@ export async function searchMoleculeMatchesForTpsGene(tpsGeneId: number) {
     const olfactoryNotes = gene.olfactory_notes || '';
     const searchTerm = mainProduct.toLowerCase().replace(/'/g, "''");
     const olfactoryTerm = (olfactoryNotes.split(',')[0] || '').replace(/'/g, "''");
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const matchesResult = await (db as any).execute(sql.raw(`
       SELECT 
         m.id,
@@ -2234,7 +2193,6 @@ export async function searchMoleculeMatchesForTpsGene(tpsGeneId: number) {
         OR (m.olfactiveProfile IS NOT NULL AND m.olfactiveProfile LIKE '%${olfactoryTerm}%')
       LIMIT 20
     `));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const matches = (matchesResult[0] as unknown) as any[];
     
     return {
@@ -2284,8 +2242,7 @@ export async function getTpsGenesByMolecule(moleculeId: number) {
     
     // Search for TPS genes that produce this molecule
     // Using gene_terpene_links table and matching by terpene_product field
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result = await (db as any).execute(sql.raw(`
+    const result = await (db as unknown as { execute: (q: unknown) => Promise<unknown[]> }).execute(sql.raw(`
       SELECT 
         gtl.id,
         gtl.gene_name,
@@ -2307,11 +2264,7 @@ export async function getTpsGenesByMolecule(moleculeId: number) {
          OR LOWER(gtl.terpene_product) LIKE '%${moleculeName.replace(/'/g, "''").replace(/[\u03b1\u03b2\u03b3\u03b4-]/g, '%')}%'
       ORDER BY gtl.gene_name
     `));
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rows = (result[0] as unknown) as any[];
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return rows.map((row: any) => ({
       id: row.id,
       geneName: row.gene_name,
@@ -2343,8 +2296,7 @@ export async function getAllTpsGenes() {
   if (!db) return [];
   
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result = await (db as any).execute(sql.raw(`
+    const result = await (db as unknown as { execute: (q: unknown) => Promise<unknown[]> }).execute(sql.raw(`
       SELECT 
         gtl.id,
         gtl.gene_name,
@@ -2367,11 +2319,7 @@ export async function getAllTpsGenes() {
       LEFT JOIN molecules m ON LOWER(m.name) LIKE CONCAT('%', LOWER(gtl.terpene_product), '%')
       ORDER BY gtl.gene_name
     `));
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rows = (result[0] as unknown) as any[];
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return rows.map((row: any) => ({
       id: row.id,
       geneName: row.gene_name,
@@ -2404,8 +2352,7 @@ export async function getTpsGeneStats() {
   if (!db) return null;
   
   try {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result = await (db as any).execute(sql.raw(`
+    const result = await (db as unknown as { execute: (q: unknown) => Promise<unknown[]> }).execute(sql.raw(`
       SELECT 
         COUNT(*) as total_genes,
         COUNT(DISTINCT plant_id) as unique_species,
@@ -2414,12 +2361,9 @@ export async function getTpsGeneStats() {
         COUNT(DISTINCT terpene_class) as pathways
       FROM gene_terpene_links
     `));
-    
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const stats = ((result[0] as unknown) as any[])[0];
     
     // Get genes by species
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const speciesResult = await (db as any).execute(sql.raw(`
       SELECT plant_id as species, COUNT(*) as count
       FROM gene_terpene_links
@@ -2429,7 +2373,6 @@ export async function getTpsGeneStats() {
     `));
     
     // Get genes by product type (terpene_class)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const productTypeResult = await (db as any).execute(sql.raw(`
       SELECT terpene_class as product_type, COUNT(*) as count
       FROM gene_terpene_links
@@ -2444,12 +2387,10 @@ export async function getTpsGeneStats() {
       enzymeClasses: stats?.enzyme_classes || 0,
       productTypes: stats?.product_types || 0,
       pathways: stats?.pathways || 0,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       bySpecies: (speciesResult[0] as unknown as any[]).map((r: any) => ({
         species: r.species,
         count: r.count,
       })),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       byProductType: (productTypeResult[0] as unknown as any[]).map((r: any) => ({
         productType: r.product_type,
         count: r.count,
@@ -2487,7 +2428,6 @@ export async function enrichMoleculeFromCOCONUTWithTranslation(moleculeId: numbe
   if (!db) return { success: false, message: 'Database connection failed' };
   
   // Récupérer la molécule
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows] = await (db as any).execute(
     'SELECT id, name, coconut_id FROM molecules WHERE id = ?',
     [moleculeId]
@@ -2497,8 +2437,6 @@ export async function enrichMoleculeFromCOCONUTWithTranslation(moleculeId: numbe
   if (molecules.length === 0) {
     return { success: false, message: 'Molécule non trouvée' };
   }
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const molecule = molecules[0] as any;
   
   // Vérifier si déjà enrichie via COCONUT
@@ -2517,7 +2455,6 @@ export async function enrichMoleculeFromCOCONUTWithTranslation(moleculeId: numbe
   }
   
   // Mettre à jour la base de données
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await (db as any).execute(
     `UPDATE molecules SET 
       coconut_id = ?,
@@ -2558,13 +2495,9 @@ export async function getUnenrichedMoleculesForCOCONUT(limit: number = 50): Prom
 }[]> {
   const db = await getDb();
   if (!db) return [];
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows] = await (db as any).execute(
     'SELECT id, name, cas_number as casNumber, pubchem_cid IS NOT NULL as hasPubChem, chebi_id IS NOT NULL as hasChEBI FROM molecules WHERE coconut_id IS NULL ORDER BY name ASC LIMIT ' + limit
   );
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (rows as any[]).map((r: any) => ({
     id: r.id,
     name: r.name,
@@ -2585,8 +2518,6 @@ export async function getCOCONUTEnrichmentStats(): Promise<{
 }> {
   const db = await getDb();
   if (!db) return { total: 0, enriched: 0, percentage: 0, withOrganisms: 0 };
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows] = await (db as any).execute(
     `SELECT 
       COUNT(*) as total,
@@ -2594,8 +2525,6 @@ export async function getCOCONUTEnrichmentStats(): Promise<{
       SUM(CASE WHEN coconut_organisms IS NOT NULL AND coconut_organisms != '[]' THEN 1 ELSE 0 END) as withOrganisms
     FROM molecules`
   );
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const stats = (rows as any[])[0] as any;
   return {
     total: stats.total || 0,
@@ -2634,8 +2563,6 @@ export async function updateMoleculeCOCONUTData(moleculeId: number, data: {
     (organismsJson ? ", coconut_organisms = '" + organismsJson + "'" : "") +
     (citationsJson ? ", coconut_citations = '" + citationsJson + "'" : "") +
     ", coconut_enriched_at = NOW() WHERE id = " + moleculeId;
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await (db as any).execute(query);
 }
 
@@ -2654,13 +2581,9 @@ export async function getMoleculesWithCOCONUTOrganisms(
 }[]> {
   const db = await getDb();
   if (!db) return [];
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows] = await (db as any).execute(
     "SELECT id, name, coconut_id as coconutId, np_likeness_score as npLikenessScore, coconut_organisms as organisms FROM molecules WHERE coconut_organisms IS NOT NULL AND coconut_organisms != '[]' ORDER BY name ASC LIMIT " + limit + " OFFSET " + offset
   );
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (rows as any[]).map((r: any) => ({
     id: r.id,
     name: r.name,
@@ -2693,8 +2616,6 @@ export async function updateMoleculeFlavornetData(moleculeId: number, data: Flav
   const query = "UPDATE molecules SET flavornet_percepts = '" + perceptsJson + "'" +
     (kovatsJson ? ", flavornet_kovats_ri = '" + kovatsJson + "'" : "") +
     ", flavornet_enriched_at = NOW() WHERE id = " + moleculeId;
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await (db as any).execute(query);
 }
 
@@ -2708,13 +2629,9 @@ export async function getUnenrichedMoleculesForFlavornet(limit: number = 100): P
 }[]> {
   const db = await getDb();
   if (!db) return [];
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows] = await (db as any).execute(
     'SELECT id, name, cas_number as casNumber FROM molecules WHERE flavornet_percepts IS NULL ORDER BY name ASC LIMIT ' + limit
   );
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (rows as any[]).map((r: any) => ({
     id: r.id,
     name: r.name,
@@ -2736,13 +2653,9 @@ export async function getMoleculesWithFlavornetPercepts(
 }[]> {
   const db = await getDb();
   if (!db) return [];
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [rows] = await (db as any).execute(
     "SELECT id, name, flavornet_percepts as percepts, flavornet_kovats_ri as kovatsRI FROM molecules WHERE flavornet_percepts IS NOT NULL AND flavornet_percepts != '[]' ORDER BY name ASC LIMIT " + limit + " OFFSET " + offset
   );
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (rows as any[]).map((r: any) => ({
     id: r.id,
     name: r.name,
@@ -2763,25 +2676,13 @@ export async function getFlavornetEnrichmentStats(): Promise<{
 }> {
   const db = await getDb();
   if (!db) return { total: 0, enriched: 0, percentage: 0, withPercepts: 0, withKovatsRI: 0 };
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [totalRows] = await (db as any).execute('SELECT COUNT(*) as count FROM molecules');
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const total = (totalRows as any[])[0]?.count || 0;
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [enrichedRows] = await (db as any).execute('SELECT COUNT(*) as count FROM molecules WHERE flavornet_percepts IS NOT NULL');
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const enriched = (enrichedRows as any[])[0]?.count || 0;
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [perceptsRows] = await (db as any).execute("SELECT COUNT(*) as count FROM molecules WHERE flavornet_percepts IS NOT NULL AND flavornet_percepts != '[]'");
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const withPercepts = (perceptsRows as any[])[0]?.count || 0;
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [kovatsRows] = await (db as any).execute('SELECT COUNT(*) as count FROM molecules WHERE flavornet_kovats_ri IS NOT NULL');
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const withKovatsRI = (kovatsRows as any[])[0]?.count || 0;
   
   return {
@@ -2840,8 +2741,7 @@ export async function searchMoleculesByName(name: string): Promise<{
 export async function getMoleculePerfumes(moleculeId: number) {
   const db = await getDb();
   if (!db) return [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const result = await (db as any).execute(sql.raw(
+  const result = await (db as unknown as { execute: (q: unknown) => Promise<unknown[]> }).execute(sql.raw(
     `SELECT
        mp.id,
        mp.perfume_name AS perfumeName,
@@ -2855,9 +2755,7 @@ export async function getMoleculePerfumes(moleculeId: number) {
      WHERE mp.molecule_id = ${moleculeId}
      ORDER BY mp.year ASC`
   ));
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const rows: any[] = (result[0] as unknown) as any[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return rows.map((r: any) => ({
     id: r.id as number,
     perfumeName: r.perfumeName as string,
@@ -2885,8 +2783,7 @@ export async function getAllMoleculePerfumeLinks(): Promise<Array<{
   try {
     const db = await getDb();
     if (!db) return [];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const result = await (db as any).execute(sql.raw(
+    const result = await (db as unknown as { execute: (q: unknown) => Promise<unknown[]> }).execute(sql.raw(
       `SELECT
          mp.molecule_id       AS moleculeId,
          m.name               AS moleculeName,
@@ -2901,9 +2798,7 @@ export async function getAllMoleculePerfumeLinks(): Promise<Array<{
        JOIN molecules m ON m.id = mp.molecule_id
        ORDER BY mp.perfume_house, mp.perfume_name, mp.role_in_perfume`
     ));
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rows: any[] = (result[0] as unknown) as any[];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return rows.map((r: any) => ({
       moleculeId: Number(r.moleculeId),
       moleculeName: r.moleculeName as string,

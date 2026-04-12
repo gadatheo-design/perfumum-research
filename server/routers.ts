@@ -284,10 +284,10 @@ export const appRouter = router({
         if (!dbConn) return [];
         const { laboratoire: labTable } = await import('../drizzle/schema');
         const { eq, like, and, or, asc } = await import('drizzle-orm');
-        const conditions: any[] = [];
-        if (input?.type) conditions.push(eq(labTable.type, input.type as any));
-        if (input?.status) conditions.push(eq(labTable.status, input.status as any));
-        if (input?.note) conditions.push(eq(labTable.note, input.note as any));
+        const conditions: ReturnType<typeof eq>[] = [];
+        if (input?.type) conditions.push(eq(labTable.type, input.type!));
+        if (input?.status) conditions.push(eq(labTable.status, input.status!));
+        if (input?.note) conditions.push(eq(labTable.note, input.note!));
         if (input?.search) {
           conditions.push(or(
             like(labTable.name, `%${input.search}%`),
@@ -348,7 +348,7 @@ export const appRouter = router({
     create: publicProcedure
       .input((val: unknown) => {
         if (typeof val !== "object" || val === null) throw new Error("Expected object");
-        return val as any;
+        return val as unknown;
       })
       .mutation(async ({ input }) => {
         const result = await db.createMolecule(input);
@@ -412,7 +412,7 @@ export const appRouter = router({
         const { status, limit = 50, offset = 0 } = input || {};
         if (status && status !== 'all') {
           osmoMolecules = osmoMolecules.filter(m => {
-            const rs = (m as any).regulatoryStatus?.toLowerCase() || '';
+            const rs = (m as Record<string, unknown>).regulatoryStatus?.toLowerCase() || '';
             if (status === 'restricted') return rs.includes('restreint') || rs.includes('restricted');
             if (status === 'banned') return rs.includes('interdit') || rs.includes('banned');
             if (status === 'regulated') return rs.includes('réglementé') || rs.includes('regulated');
@@ -748,15 +748,15 @@ export const appRouter = router({
       .query(async ({ input }) => {
         const all = await db.getAllPyrolysisTransformations();
         if (!input) return all;
-        let result = all as any[];
+        let result = all as Record<string, unknown>[];
         if (input.mechanism) {
-          result = result.filter((t: any) =>
+          result = result.filter((t: Record<string, unknown>) =>
             t.mechanism?.toLowerCase().includes(input.mechanism!.toLowerCase())
           );
         }
         if (input.search) {
           const q = input.search.toLowerCase();
-          result = result.filter((t: any) =>
+          result = result.filter((t: Record<string, unknown>) =>
             t.source_molecule?.toLowerCase().includes(q) ||
             t.product_molecule?.toLowerCase().includes(q) ||
             t.notes?.toLowerCase().includes(q)
@@ -768,7 +768,7 @@ export const appRouter = router({
     // ---- Enrichissement IA par lot ----
     getBatchEnrichStats: publicProcedure.query(async () => {
       const db2 = await db.getDb();
-      const [rows] = await (db2 as any).execute(
+      const [rows] = await (db2 as unknown as { execute: (q: unknown) => Promise<[Record<string, unknown>[], unknown]> }).execute(
         `SELECT COUNT(*) as total, SUM(CASE WHEN (iupac_name IS NULL OR iupac_name = '') THEN 1 ELSE 0 END) as missingIupac, SUM(CASE WHEN (olfactiveProfile IS NULL OR olfactiveProfile = '') THEN 1 ELSE 0 END) as missingOlfactive, SUM(CASE WHEN (therapeuticProperties IS NULL OR therapeuticProperties = '') THEN 1 ELSE 0 END) as missingTherapeutic, SUM(CASE WHEN (family IS NULL OR family = '') THEN 1 ELSE 0 END) as missingFamily FROM molecules`
       );
       const row = rows[0] as any;
@@ -782,8 +782,8 @@ export const appRouter = router({
       if (input.filter === 'missingOlfactive') where = "(olfactiveProfile IS NULL OR olfactiveProfile = '')";
       if (input.filter === 'missingTherapeutic') where = "(therapeuticProperties IS NULL OR therapeuticProperties = '')";
       if (input.filter === 'missingFamily') where = "(family IS NULL OR family = '')";
-      const [rows] = await (db2 as any).execute(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties FROM molecules WHERE ${where} ORDER BY name LIMIT ${input.limit} OFFSET ${input.offset}`);
-      return rows as any[];
+      const [rows] = await (db2 as unknown as { execute: (q: unknown) => Promise<[Record<string, unknown>[], unknown]> }).execute(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties FROM molecules WHERE ${where} ORDER BY name LIMIT ${input.limit} OFFSET ${input.offset}`);
+      return rows as Record<string, unknown>[];
     }),
 
     // Synergies moléculaires : co-occurrences dans les recettes PERFUMUM
@@ -811,7 +811,7 @@ export const appRouter = router({
           LIMIT ?
         `, [input.moleculeId, input.limit]);
         await conn.end();
-        return (rows as any[]).map(r => ({
+        return (rows as Record<string, unknown>[]).map(r => ({
           id: Number(r.id),
           name: r.name as string,
           family: r.family as string,
@@ -843,7 +843,7 @@ export const appRouter = router({
           LIMIT ?
         `, [...likeParams, input.limit]);
         await conn.end();
-        return (rows as any[]).map(r => ({
+        return (rows as Record<string, unknown>[]).map(r => ({
           id: Number(r.id),
           name: r.name as string,
           family: r.family as string | null,
@@ -872,7 +872,7 @@ export const appRouter = router({
         FROM molecules
       `);
       await conn.end();
-      const r = (rows as any[])[0];
+      const r = (rows as Record<string, unknown>[])[0];
       return {
         total: Number(r.total),
         missingIupacHasCas: Number(r.missingIupacHasCas),
@@ -899,7 +899,7 @@ export const appRouter = router({
         await conn.end();
         return {
           molecules: rows as Array<{ id: number; name: string; cas_number: string; formula: string; family: string; iupac_name: string }>,
-          total: Number(((countRows as any[])[0] as any).total),
+          total: Number((countRows as Record<string, unknown>[])[0]?.total ?? 0),
         };
       }),
     fetchAndUpdateIupac: protectedProcedure
@@ -917,7 +917,7 @@ export const appRouter = router({
         try {
           const resp = await fetch(url, { signal: AbortSignal.timeout(10000) });
           if (resp.ok) {
-            const data = await resp.json() as any;
+            const data = await resp.json() as Record<string, unknown>;
             const props = data?.PropertyTable?.Properties?.[0];
             if (props) {
               iupacName = props.IUPACName || null;
@@ -934,7 +934,7 @@ export const appRouter = router({
         const mysql2 = await import('mysql2/promise');
         const conn = await mysql2.createConnection(process.env.DATABASE_URL!);
         const updates: string[] = ['iupac_name = ?'];
-        const values: any[] = [iupacName];
+        const values: (string | number | null)[] = [iupacName];
         if (formula && formula.trim()) { updates.push('formula = ?'); values.push(formula); }
         values.push(input.moleculeId);
         await conn.query(`UPDATE molecules SET ${updates.join(', ')} WHERE id = ?`, values);
@@ -1831,12 +1831,12 @@ export const appRouter = router({
         const allSynergies = await db.getMolecularSynergiesForGenerator();
         
         const terpeneSyn = allSynergies.terpeneSynergies?.find(
-          (s: any) => (s.terpene1Id === input.molecule1Id && s.terpene2Id === input.molecule2Id) ||
+          (s: Record<string, unknown>) => (s.terpene1Id === input.molecule1Id && s.terpene2Id === input.molecule2Id) ||
                (s.terpene2Id === input.molecule1Id && s.terpene1Id === input.molecule2Id)
         );
         
         const molSyn = allSynergies.moleculeSynergies?.find(
-          (s: any) => (s.molecule1Id === input.molecule1Id && s.molecule2Id === input.molecule2Id) ||
+          (s: Record<string, unknown>) => (s.molecule1Id === input.molecule1Id && s.molecule2Id === input.molecule2Id) ||
                (s.molecule2Id === input.molecule1Id && s.molecule1Id === input.molecule2Id)
         );
         
@@ -2149,7 +2149,7 @@ export const appRouter = router({
         eventType: z.enum(['molecule_view', 'recipe_view', 'terpene_view', 'pdf_export', 'favorite_add', 'favorite_remove', 'search_query']),
         entityType: z.string().optional(),
         entityId: z.number().optional(),
-        metadata: z.any().optional(),
+        metadata: z.unknown().optional(),
       }))
       .mutation(async ({ input, ctx }) => {
         await db.trackEvent(
@@ -2251,7 +2251,7 @@ export const appRouter = router({
         const { csvToObjects, parseValue } = await import('./csv-utils');
         
         try {
-          let parsedData: any[] = [];
+          let parsedData: Record<string, unknown>[] = [];
           let errors: string[] = [];
           
           switch (input.entityType) {
@@ -3201,7 +3201,7 @@ export const appRouter = router({
     geocodeBatch: publicProcedure
       .mutation(async () => {
         const origins = await db.getAllGeographicOrigins();
-        const originsWithoutCoords = origins.filter((o: any) => !o.latitude || !o.longitude);
+        const originsWithoutCoords = origins.filter((o: Record<string, unknown>) => !o.latitude || !o.longitude);
         
         const FORGE_API_KEY = process.env.BUILT_IN_FORGE_API_KEY;
         const FORGE_BASE_URL = process.env.BUILT_IN_FORGE_API_URL || 'https://forge.butterfly-effect.dev';
@@ -3432,7 +3432,7 @@ export const appRouter = router({
         const { sql } = await import('drizzle-orm');
         const statuses = input?.status || ['EX', 'CR', 'EN', 'VU', 'NT'];
         const statusList = statuses.map(s => `'${s}'`).join(', ');
-        const result = await (dbConn as any).execute(sql.raw(
+        const result = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
           `SELECT p.id, p.name, p.latin_name, p.family, p.category, p.origin,
                   p.conservation_status, p.iucn_id, p.gbif_id, p.gbif_occurrence_count,
                   p.olfactive_signature,
@@ -3447,7 +3447,7 @@ export const appRouter = router({
                     p.olfactive_signature
            ORDER BY FIELD(p.conservation_status, 'EX', 'CR', 'EN', 'VU', 'NT'), p.name`
         ));
-        return Array.isArray(result) ? result[0] as any[] : [];
+        return Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
       }),
 
     getCertificationStats: publicProcedure.query(async () => {
@@ -3456,16 +3456,16 @@ export const appRouter = router({
       const { sql } = await import('drizzle-orm');
 
       // Statistiques globales
-      const [globalStats] = await (dbConn as any).execute(sql.raw(
+      const [globalStats] = await (dbConn as unknown as { execute: (q: unknown) => Promise<[Record<string, unknown>[], unknown]> }).execute(sql.raw(
         `SELECT
            COUNT(*) as total_plants,
            SUM(CASE WHEN certifications IS NOT NULL AND JSON_LENGTH(certifications) > 0 THEN 1 ELSE 0 END) as total_certified
          FROM plants`
       ));
-      const global = (globalStats as any[])[0];
+      const global = (globalStats as Record<string, unknown>[])[0];
 
       // Plantes certifiées avec leurs certifications
-      const [certRows] = await (dbConn as any).execute(sql.raw(
+      const [certRows] = await (dbConn as unknown as { execute: (q: unknown) => Promise<[Record<string, unknown>[], unknown]> }).execute(sql.raw(
         `SELECT certifications, conservation_status FROM plants
          WHERE certifications IS NOT NULL AND JSON_LENGTH(certifications) > 0`
       ));
@@ -3475,7 +3475,7 @@ export const appRouter = router({
       const byIucn: Record<string, number> = {};
       let totalCertifications = 0;
 
-      for (const row of (certRows as any[])) {
+      for (const row of (certRows as Record<string, unknown>[])) {
         const certs = typeof row.certifications === 'string'
           ? JSON.parse(row.certifications)
           : row.certifications;
@@ -3525,7 +3525,7 @@ export const appRouter = router({
         plantPart: z.enum(['fleur','feuille','fruit','zeste','graine','arille','ecorce','bois','racine','rhizome','bulbe','resine','feuille_tige','plante_entiere','thalle','champignon','autre']).optional(),
       }))
       .mutation(async ({ input }) => {
-        return await db.createPlant(input as any);
+        return await db.createPlant(input);
       }),
     update: publicProcedure
       .input(z.object({
@@ -3568,7 +3568,7 @@ export const appRouter = router({
         }),
       }))
       .mutation(async ({ input }) => {
-        return await db.updatePlant(input.id, input.data as any);
+        return await db.updatePlant(input.id, input.data);
       }),
     delete: publicProcedure
       .input(z.number())
@@ -3642,14 +3642,14 @@ export const appRouter = router({
       return fwc.map(f => ({ name: f.family, count: f.count }));
     }),
     getByFamily: publicProcedure.input(z.string()).query(async ({ input }) => {
-      const allPlants = await (db as any).getAllPlants(); return allPlants.filter((p: any) => p.family === input);
+      const allPlants = await db.getAllPlants(); return allPlants.filter((p) => p.family === input);
     }),
     getByOrigin: publicProcedure
       .input(z.object({ origin: z.string() }))
       .query(async ({ input }) => {
-        const allPlants = await (db as any).getAllPlants();
+        const allPlants = await db.getAllPlants();
         const originLower = input.origin.toLowerCase();
-        return allPlants.filter((p: any) =>
+        return allPlants.filter((p) =>
           (p.origin && p.origin.toLowerCase().includes(originLower)) ||
           (p.notes && p.notes.toLowerCase().includes(originLower))
         );
@@ -3674,8 +3674,8 @@ export const appRouter = router({
           WHERE plant_id = ${plantId}
           ORDER BY FIELD(season, 'printemps', 'ete', 'automne', 'hiver')
         `);
-        const rows = (Array.isArray(result) ? result[0] : (result as any).rows ?? result) as any[];
-        return rows.map((r: any) => ({
+        const rows = (Array.isArray(result) ? result[0] : (result as Record<string, unknown>[] | { rows: Record<string, unknown>[] }).rows ?? result) as Record<string, unknown>[];
+        return rows.map((r: Record<string, unknown>) => ({
           id: r.id as number,
           plantId: r.plant_id as number,
           season: r.season as 'printemps' | 'ete' | 'automne' | 'hiver',
@@ -3714,8 +3714,8 @@ export const appRouter = router({
             ? sql`SELECT id, name, latin_name, category, image_url FROM plants WHERE dominant_molecules LIKE ${searchTerm} AND id != ${input.excludePlantId} ORDER BY name LIMIT ${input.limit}`
             : sql`SELECT id, name, latin_name, category, image_url FROM plants WHERE dominant_molecules LIKE ${searchTerm} ORDER BY name LIMIT ${input.limit}`
         );
-        const rows = (Array.isArray(result) ? result[0] : (result as any).rows ?? result) as any[];
-        return rows.map((r: any) => ({
+        const rows = (Array.isArray(result) ? result[0] : (result as Record<string, unknown>[] | { rows: Record<string, unknown>[] }).rows ?? result) as Record<string, unknown>[];
+        return rows.map((r: Record<string, unknown>) => ({
           id: r.id as number,
           name: r.name as string,
           latinName: r.latin_name as string | null,
@@ -3726,7 +3726,7 @@ export const appRouter = router({
     // ---- Enrichissement IA par lot ----
     getBatchEnrichStats: publicProcedure.query(async () => {
       const db2 = await db.getDb();
-      const [rows] = await (db2 as any).execute(
+      const [rows] = await (db2 as unknown as { execute: (q: unknown) => Promise<[Record<string, unknown>[], unknown]> }).execute(
         `SELECT
           COUNT(*) as total,
           SUM(CASE WHEN (notes IS NULL OR notes = '') THEN 1 ELSE 0 END) as missingDescription,
@@ -3734,7 +3734,7 @@ export const appRouter = router({
           SUM(CASE WHEN (traditional_use IS NULL OR traditional_use = '') THEN 1 ELSE 0 END) as missingTherapeutic
         FROM plants`
       );
-      const r = (rows as any[])[0];
+      const r = (rows as Record<string, unknown>[])[0];
       return {
         total: Number(r.total),
         missingDescription: Number(r.missingDescription),
@@ -3763,8 +3763,8 @@ export const appRouter = router({
         const [countRows] = await conn.query(`SELECT COUNT(*) as total FROM plants WHERE ${where}`);
         await conn.end();
         return {
-          plants: (rows as any[]),
-          total: Number(((countRows as any[])[0] as any).total),
+          plants: (rows as Record<string, unknown>[]),
+          total: Number((countRows as Record<string, unknown>[])[0]?.total ?? 0),
         };
       }),
   }),
@@ -3833,7 +3833,7 @@ export const appRouter = router({
         radarDiffusion: z.number().optional(),
       }))
       .mutation(async ({ input }) => {
-        return await db.createTerpProfile(input as any);
+        return await db.createTerpProfile(input);
       }),
     update: publicProcedure
       .input(z.object({
@@ -3874,7 +3874,7 @@ export const appRouter = router({
         }),
       }))
       .mutation(async ({ input }) => {
-        return await db.updateTerpProfile(input.id, input.data as any);
+        return await db.updateTerpProfile(input.id, input.data);
       }),
     delete: publicProcedure
       .input(z.number())
@@ -3962,7 +3962,7 @@ export const appRouter = router({
         isRadical: z.number().optional(),
       }))
       .mutation(async ({ input }) => {
-        return await db.createFinalRecipe(input as any);
+        return await db.createFinalRecipe(input);
       }),
     update: publicProcedure
       .input(z.object({
@@ -3993,7 +3993,7 @@ export const appRouter = router({
         }),
       }))
       .mutation(async ({ input }) => {
-        return await db.updateFinalRecipe(input.id, input.data as any);
+        return await db.updateFinalRecipe(input.id, input.data);
       }),
     delete: publicProcedure
       .input(z.number())
@@ -4396,7 +4396,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const _connPlant = await _ccPlantUpd(process.env.DATABASE_URL!);
 
         const updates: string[] = [];
-        const params: any[] = [];
+        const params: (string | number | null)[] = [];
 
         if (enriched.olfactiveProfile?.length) {
           updates.push('olfactive_signature = ?');
@@ -4507,7 +4507,7 @@ Réponds UNIQUEMENT avec le JSON.`;
         const _conn = await createConnection(process.env.DATABASE_URL!);
         const [rows] = await _conn.query(`SELECT * FROM raw_materials WHERE id = ?`, [input.rawMaterialId]);
         await _conn.end();
-        const rm = (rows as any[])[0];
+        const rm = (rows as Record<string, unknown>[])[0];
         if (!rm) throw new Error('Matière première non trouvée');
 
         const prompt = `Tu es un expert en parfumerie, chimie olfactive et matières premières naturelles. Enrichis la fiche de cette matière première.
@@ -4584,7 +4584,7 @@ Réponds UNIQUEMENT avec le JSON.`;
         const _conn = await createConnection(process.env.DATABASE_URL!);
         const [rows] = await _conn.query(`SELECT * FROM raw_materials WHERE id = ?`, [input.rawMaterialId]);
         await _conn.end();
-        const rm = (rows as any[])[0];
+        const rm = (rows as Record<string, unknown>[])[0];
         if (!rm) throw new Error('Matière première non trouvée');
 
         const prompt = `Tu es un expert en parfumerie et matières premières naturelles. Enrichis la fiche de cette matière première.
@@ -4751,7 +4751,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const raw = response.choices[0].message.content;
         const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
         const updates: string[] = [];
-        const params: any[] = [];
+        const params: (string | number | null)[] = [];
         // Écrire dans les colonnes JSON standardisées (priorité) ET dans les colonnes text legacy (rétrocompatibilité)
         if (enriched.olfactiveProfile?.length) {
           updates.push("olfactiveProfileJson = ?");
@@ -5072,7 +5072,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         `SELECT COUNT(*) as total, SUM(CASE WHEN (notes IS NULL OR notes = '') THEN 1 ELSE 0 END) as missingDescription, SUM(CASE WHEN (olfactive_profile IS NULL OR olfactive_profile = '') THEN 1 ELSE 0 END) as missingOlfactiveNotes, SUM(CASE WHEN (usage_notes IS NULL OR usage_notes = '') THEN 1 ELSE 0 END) as missingUsages FROM raw_materials`
       );
       await _connRmStats.end();
-      const r = (rows as any[])[0];
+      const r = (rows as Record<string, unknown>[])[0];
       return {
         total: Number(r.total),
         missingDescription: Number(r.missingDescription),
@@ -5101,7 +5101,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         await conn.end();
         return {
           materials: (rows as any[]),
-          total: Number(((countRows as any[])[0] as any).total),
+          total: Number((countRows as Record<string, unknown>[])[0]?.total ?? 0),
         };
       }),
     getThermalMatrix: publicProcedure.query(async () => {
@@ -5119,7 +5119,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         ORDER BY thermal_tri DESC, thermal_sai DESC`
       );
       await _connThermal.end();
-      return rows as any[];
+      return rows as Record<string, unknown>[];
     }),
   }),
   recetteRawMaterials: router({
@@ -8485,7 +8485,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const dbConn = await db.getDb();
         if (!dbConn) return [];
         const { sql } = await import('drizzle-orm');
-        const result = await (dbConn as any).execute(sql.raw(
+        const result = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
           `SELECT be.id, be.entry_key, be.title, be.authors, be.year, be.journal, be.doi, be.url, be.abstract, be.research_domain as researchDomain, be.relevance_score as relevanceScore
            FROM bibliography_entries be
            INNER JOIN bibliography_entity_links bel ON bel.bibliography_id = be.id
@@ -8493,7 +8493,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
            LIMIT 20`
         ));
         // MySQL2 execute returns [rows, fields]
-        return Array.isArray(result) ? result[0] as any[] : [];
+        return Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
       }),
 
     // Obtenir les références liées à une plante
@@ -8503,7 +8503,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const dbConn = await db.getDb();
         if (!dbConn) return [];
         const { sql } = await import('drizzle-orm');
-        const result = await (dbConn as any).execute(sql.raw(
+        const result = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
           `SELECT be.id, be.entry_key, be.title, be.authors, be.year, be.journal, be.doi, be.url, be.abstract, be.research_domain as researchDomain, be.relevance_score as relevanceScore
            FROM bibliography_entries be
            INNER JOIN bibliography_entity_links bel ON bel.bibliography_id = be.id
@@ -8511,7 +8511,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
            LIMIT 20`
         ));
         // MySQL2 execute returns [rows, fields]
-        return Array.isArray(result) ? result[0] as any[] : [];
+        return Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
       }),
 
     // Liaison automatique par LLM — traite un batch de références non liées
@@ -8653,7 +8653,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const dbConn = await db.getDb();
         if (!dbConn) return [];
         const { sql } = await import('drizzle-orm');
-        const result = await (dbConn as any).execute(sql.raw(
+        const result = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
           `SELECT bs.id, bs.title, bs.authors, bs.publication_year as year, bs.journal,
                   bs.doi, bs.url, bs.notes, bs.source_type
            FROM bibliography_sources bs
@@ -8662,7 +8662,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
            ORDER BY bs.publication_year DESC, bs.id DESC
            LIMIT 30`
         ));
-        return Array.isArray(result) ? result[0] as any[] : [];
+        return Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
       }),
 
     // Publications liées à une plante (toutes sources : OpenAlex, NEZ, etc.)
@@ -8672,7 +8672,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const dbConn = await db.getDb();
         if (!dbConn) return [];
         const { sql } = await import('drizzle-orm');
-        const result = await (dbConn as any).execute(sql.raw(
+        const result = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
           `SELECT bs.id, bs.title, bs.authors, bs.publication_year as year, bs.journal,
                   bs.doi, bs.url, bs.notes, bs.source_type
            FROM bibliography_sources bs
@@ -8681,7 +8681,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
            ORDER BY bs.publication_year DESC, bs.id DESC
            LIMIT 30`
         ));
-        return Array.isArray(result) ? result[0] as any[] : [];
+        return Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
       }),
 
     // Données GBIF d'une plante (occurrences + pays)
@@ -8691,12 +8691,12 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const dbConn = await db.getDb();
         if (!dbConn) return null;
         const { sql } = await import('drizzle-orm');
-        const result = await (dbConn as any).execute(sql.raw(
+        const result = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
           `SELECT gbif_id, gbif_occurrence_count, gbif_countries, gbif_enriched_at,
                   iucn_id, conservation_status
            FROM plants WHERE id = ${input.plantId}`
         ));
-        const rows = Array.isArray(result) ? result[0] as any[] : [];
+        const rows = Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
         return rows[0] || null;
       }),
   }),
@@ -12164,7 +12164,7 @@ Familles olfactives disponibles:
           input.status ? [input.moleculeId, input.status] : [input.moleculeId]
         );
         await conn.end();
-        return rows as any[];
+        return rows as Record<string, unknown>[];
       }),
     getAll: protectedProcedure
       .input(z.object({ status: z.enum(['pending','approved','rejected']).optional() }).optional())
@@ -12180,7 +12180,7 @@ Familles olfactives disponibles:
           input?.status ? [input.status] : []
         );
         await conn.end();
-        return rows as any[];
+        return rows as Record<string, unknown>[];
       }),
     review: protectedProcedure
       .input(z.object({ id: z.number(), status: z.enum(['approved','rejected']), adminNotes: z.string().optional() }))
@@ -12257,7 +12257,7 @@ Familles olfactives disponibles:
           input?.status ? [input.status] : []
         );
         await conn.end();
-        return rows as any[];
+        return rows as Record<string, unknown>[];
       }),
     review: protectedProcedure
       .input(z.object({ id: z.number(), status: z.enum(['approved','rejected']), adminNotes: z.string().optional() }))
@@ -12331,7 +12331,7 @@ Familles olfactives disponibles:
           input?.status ? [input.status] : []
         );
         await conn.end();
-        return rows as any[];
+        return rows as Record<string, unknown>[];
       }),
     review: protectedProcedure
       .input(z.object({ id: z.number(), status: z.enum(['approved','rejected']), adminNotes: z.string().optional() }))

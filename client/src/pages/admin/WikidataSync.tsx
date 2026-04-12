@@ -9,7 +9,6 @@
  */
 
 import React, { useState } from 'react';
-import type { WikidataRecommendation } from '../../../../shared/domain-types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -29,8 +28,13 @@ import {
 // TYPES
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** Alias local pour WikidataRecommendation (importé depuis shared/domain-types) */
-type Recommendation = WikidataRecommendation;
+interface Recommendation {
+  type: 'conservation' | 'images' | 'parents' | 'hybrids' | 'distribution' | 'general' | 'synonyms';
+  priority: 'high' | 'medium' | 'low';
+  title: string;
+  description: string;
+  action?: string;
+}
 
 interface ImportResult {
   success: boolean;

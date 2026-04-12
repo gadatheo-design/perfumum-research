@@ -294,8 +294,7 @@ export async function getPlantById(id: number) {
 export async function getPlantsByCategory(category: string) {
   const db = await getDb();
   if (!db) return [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return await db.select().from(plants).where(eq(plants.category, category as any)).orderBy(plants.name);
+  return await db.select().from(plants).where(eq(plants.category, category as Plant['category'])).orderBy(plants.name);
 }
 
 export async function getPlantsWithGPS() {
@@ -314,8 +313,7 @@ export async function getPlantsWithGPSByCategory(category: string) {
   if (!db) return [];
   return await db.select().from(plants)
     .where(and(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      eq(plants.category, category as any),
+      eq(plants.category, category as Plant['category']),
       isNotNull(plants.latitude),
       isNotNull(plants.longitude)
     ))
@@ -1157,18 +1155,15 @@ export async function getPlantVarietiesWithFilters(filters: {
   const conditions: SQL[] = [];
   
   if (filters.plantCategory) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    conditions.push(eq(plants.category, filters.plantCategory as any));
+    conditions.push(eq(plants.category, filters.plantCategory as Plant['category']));
   }
   
   if (filters.varietyType) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    conditions.push(eq(plantVarieties.varietyType, filters.varietyType as any));
+    conditions.push(eq(plantVarieties.varietyType, filters.varietyType as PlantVariety['varietyType']));
   }
   
   if (filters.conservationStatus) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    conditions.push(eq(plantVarieties.conservationStatus, filters.conservationStatus as any));
+    conditions.push(eq(plantVarieties.conservationStatus, filters.conservationStatus as PlantVariety['conservationStatus']));
   }
   
   if (filters.countryOfOrigin) {
@@ -1313,8 +1308,7 @@ export async function getVarietiesByType(varietyType: string) {
   })
     .from(plantVarieties)
     .leftJoin(plants, eq(plantVarieties.plantId, plants.id))
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    .where(eq(plantVarieties.varietyType, varietyType as any))
+    .where(eq(plantVarieties.varietyType, varietyType as PlantVariety['varietyType']))
     .orderBy(plantVarieties.name);
 }
 
@@ -1379,22 +1373,17 @@ export async function listThreatenedPlants(filters: {
   const conditions = [];
   // Par défaut : filtrer sur les statuts menacés (EX, EW, CR, EN, VU, NT, DD)
   if (iucn) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    conditions.push(eq(plants.conservationStatus, iucn as any));
+    conditions.push(eq(plants.conservationStatus, iucn as Plant['conservationStatus']));
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    conditions.push(inArray(plants.conservationStatus, ['EX', 'EW', 'CR', 'EN', 'VU', 'NT', 'DD'] as any[]));
+    conditions.push(inArray(plants.conservationStatus, ['EX', 'EW', 'CR', 'EN', 'VU', 'NT', 'DD'] as Plant['conservationStatus'][]));
   }
   if (cites) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    conditions.push(eq(plants.citesAppendix, cites as any));
+    conditions.push(eq(plants.citesAppendix, cites as Plant['citesAppendix']));
   }
   if (region) {
     conditions.push(like(plants.origin, `%${region}%`));
   }
-  
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return await (query as any).where(and(...conditions));
+  return await (query as ReturnType<typeof db.select>).where(and(...conditions));
 }
 
 export async function getPlantConservationStatus(plantId: number) {
@@ -1422,7 +1411,6 @@ export async function updatePlantConservationStatus(plantId: number, data: {
   conservationStatus?: string;
   citesAppendix?: string;
   conservationNotes?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   threatFactors?: any;
   sustainableAlternatives?: string;
   lastAssessmentYear?: number;
@@ -1430,7 +1418,6 @@ export async function updatePlantConservationStatus(plantId: number, data: {
 }) {
   const db = await getDb();
   if (!db) return null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await db.update(plants).set(data as any).where(eq(plants.id, plantId));
   return getPlantConservationStatus(plantId);
 }
@@ -2444,7 +2431,6 @@ export async function bulkCreateGenomicMoleculeLinks(
         referenceId: link.referenceId,
         moleculeId: link.moleculeId,
         genomicAxis: link.genomicAxis,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         linkType: (link.linkType as any) || 'characterization',
         relevanceScore: link.relevanceScore || 50,
         confidence: link.confidence || 'medium',
@@ -2489,7 +2475,6 @@ export async function bulkCreateGenomicPlantLinks(
         referenceId: link.referenceId,
         plantId: link.plantId,
         genomicAxis: link.genomicAxis,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         linkType: (link.linkType as any) || 'genome_sequencing',
         relevanceScore: link.relevanceScore || 50,
         confidence: link.confidence || 'medium',
@@ -2741,7 +2726,6 @@ export async function submitPlantContribution(data: {
   bibType?: string;
   // GC-MS
   gcmsMethod?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   gcmsMolecules?: any;
   gcmsConditions?: string;
   // Tradition olfactive
