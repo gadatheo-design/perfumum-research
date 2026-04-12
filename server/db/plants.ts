@@ -278,6 +278,62 @@ import { expandWithScientificNames, getScientificDictionaryStats } from '../../s
 
 
 
+
+// ============================================================================
+// FONCTIONS PURES TESTABLES (sans connexion DB)
+// ============================================================================
+
+/** Groupe un tableau d'items par leur statut de conservation */
+export function groupVarietiesByStatus(
+  items: Array<{ variety: { conservationStatus?: string | null }; plant: { category?: string | null } | null }>
+): { status: string; count: number }[] {
+  const result = items.reduce((acc, item) => {
+    const status = item.variety.conservationStatus || 'unknown';
+    const existing = acc.find(s => s.status === status);
+    if (existing) {
+      existing.count++;
+    } else {
+      acc.push({ status, count: 1 });
+    }
+    return acc;
+  }, [] as { status: string; count: number }[]);
+  return result.sort((a, b) => b.count - a.count);
+}
+
+/** Groupe un tableau d'items par la catégorie de leur plante */
+export function groupVarietiesByCategory(
+  items: Array<{ variety: { conservationStatus?: string | null }; plant: { category?: string | null } | null }>
+): { category: string; count: number }[] {
+  const result = items.reduce((acc, item) => {
+    const category = item.plant?.category || 'unknown';
+    const existing = acc.find(c => c.category === category);
+    if (existing) {
+      existing.count++;
+    } else {
+      acc.push({ category, count: 1 });
+    }
+    return acc;
+  }, [] as { category: string; count: number }[]);
+  return result.sort((a, b) => b.count - a.count);
+}
+
+/** Construit les conditions de filtrage pour getPlantVarietiesWithFilters */
+export function buildVarietyFilterConditions(filters: {
+  plantCategory?: string;
+  varietyType?: string;
+  conservationStatus?: string;
+  countryOfOrigin?: string;
+  searchQuery?: string;
+}): string[] {
+  const conditions: string[] = [];
+  if (filters.plantCategory) conditions.push(`category=${filters.plantCategory}`);
+  if (filters.varietyType) conditions.push(`varietyType=${filters.varietyType}`);
+  if (filters.conservationStatus) conditions.push(`conservationStatus=${filters.conservationStatus}`);
+  if (filters.countryOfOrigin) conditions.push(`countryOfOrigin=${filters.countryOfOrigin}`);
+  if (filters.searchQuery) conditions.push(`search=${filters.searchQuery}`);
+  return conditions;
+}
+
 export async function getAllPlants() {
   const db = await getDb();
   if (!db) return [];

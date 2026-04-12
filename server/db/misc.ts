@@ -26,6 +26,8 @@ import {
   absorbeProfiles,
   prototypeChemicalFamilies,
   chemicalFamilies,
+  ChemicalFamily,
+  InsertChemicalFamily,
   moleculeChemicalFamilies,
   accordCivilisations,
   researchTimeline,
@@ -508,7 +510,7 @@ export async function createChemicalFamily(data: {
   
   const result = await db.insert(chemicalFamilies).values({
     name: data.name,
-    type: data.type as any,
+    type: data.type as ChemicalFamily['type'],
     subcategory: data.subcategory || null,
     description: data.description || null,
     olfactiveRole: data.olfactiveRole || null,
@@ -519,7 +521,7 @@ export async function createChemicalFamily(data: {
     exampleMolecules: data.exampleMolecules || null,
   });
   
-  return { id: Number((result as any).insertId || (result as any)[0]?.insertId || 0), ...data };
+  return { id: Number(result[0].insertId), ...data };
 }
 
 // Mettre à jour une famille chimique
@@ -538,9 +540,9 @@ export async function updateChemicalFamily(id: number, data: {
   const db = await getDb();
   if (!db) return null;
   
-  const updateData: any = {};
+  const updateData: Partial<InsertChemicalFamily> = {};
   if (data.name !== undefined) updateData.name = data.name;
-  if (data.type !== undefined) updateData.type = data.type;
+  if (data.type !== undefined) updateData.type = data.type as ChemicalFamily['type'];
   if (data.subcategory !== undefined) updateData.subcategory = data.subcategory;
   if (data.description !== undefined) updateData.description = data.description;
   if (data.olfactiveRole !== undefined) updateData.olfactiveRole = data.olfactiveRole;
@@ -1110,7 +1112,7 @@ export async function getSampleImagesByCategory(category: string) {
   
   return db.select()
     .from(sampleImages)
-    .where(eq(sampleImages.category, category as any))
+    .where(eq(sampleImages.category, category as SampleImage['category']))
     .orderBy(desc(sampleImages.createdAt));
 }
 
@@ -1267,7 +1269,7 @@ export async function getAlternativesByType(alternativeType: string) {
   return await db
     .select()
     .from(sustainableAlternatives)
-    .where(eq(sustainableAlternatives.alternativeType, alternativeType as any))
+    .where(eq(sustainableAlternatives.alternativeType, alternativeType as SustainableAlternative['alternativeType']))
     .orderBy(sustainableAlternatives.threatenedPlantName);
 }
 
@@ -1287,13 +1289,13 @@ export async function searchSustainableAlternatives(filters: {
     conditions.push(eq(sustainableAlternatives.threatenedPlantId, filters.threatenedPlantId));
   }
   if (filters.alternativeType) {
-    conditions.push(eq(sustainableAlternatives.alternativeType, filters.alternativeType as any));
+    conditions.push(eq(sustainableAlternatives.alternativeType, filters.alternativeType as SustainableAlternative['alternativeType']));
   }
   if (filters.availability) {
-    conditions.push(eq(sustainableAlternatives.availability, filters.availability as any));
+    conditions.push(eq(sustainableAlternatives.availability, filters.availability as SustainableAlternative['availability']));
   }
   if (filters.olfactiveSimilarity) {
-    conditions.push(eq(sustainableAlternatives.olfactiveSimilarity, filters.olfactiveSimilarity as any));
+    conditions.push(eq(sustainableAlternatives.olfactiveSimilarity, filters.olfactiveSimilarity as SustainableAlternative['olfactiveSimilarity']));
   }
   if (filters.searchQuery) {
     conditions.push(
@@ -1407,7 +1409,13 @@ export async function createSustainableAlternative(data: {
   const db = await getDb();
   if (!db) return null;
   
-  const [result] = await db.insert(sustainableAlternatives).values(data as any);
+  const [result] = await db.insert(sustainableAlternatives).values({
+    ...data,
+    alternativeType: data.alternativeType as SustainableAlternative['alternativeType'],
+    olfactiveSimilarity: data.olfactiveSimilarity as SustainableAlternative['olfactiveSimilarity'] | undefined,
+    availability: data.availability as SustainableAlternative['availability'] | undefined,
+    priceComparison: data.priceComparison as SustainableAlternative['priceComparison'] | undefined,
+  });
   return getSustainableAlternativeById(result.insertId);
 }
 
@@ -1436,7 +1444,13 @@ export async function updateSustainableAlternative(id: number, data: {
   
   await db
     .update(sustainableAlternatives)
-    .set(data as any)
+    .set({
+      ...data,
+      alternativeType: data.alternativeType as SustainableAlternative['alternativeType'] | undefined,
+      olfactiveSimilarity: data.olfactiveSimilarity as SustainableAlternative['olfactiveSimilarity'] | undefined,
+      availability: data.availability as SustainableAlternative['availability'] | undefined,
+      priceComparison: data.priceComparison as SustainableAlternative['priceComparison'] | undefined,
+    })
     .where(eq(sustainableAlternatives.id, id));
   
   return getSustainableAlternativeById(id);
@@ -3665,7 +3679,7 @@ export async function getResearchPublicationsByFocus(focus: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(researchPublications)
-    .where(eq(researchPublications.researchFocus, focus as any))
+    .where(eq(researchPublications.researchFocus, focus as ResearchPublication['researchFocus']))
     .orderBy(desc(researchPublications.citations));
 }
 
@@ -3673,7 +3687,7 @@ export async function getResearchPublicationsBySubject(subject: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(researchPublications)
-    .where(eq(researchPublications.subjectMatter, subject as any))
+    .where(eq(researchPublications.subjectMatter, subject as ResearchPublication['subjectMatter']))
     .orderBy(desc(researchPublications.citations));
 }
 
@@ -3716,7 +3730,7 @@ export async function getAnalyticalMethodsByCategory(category: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(analyticalMethods)
-    .where(eq(analyticalMethods.category, category as any))
+    .where(eq(analyticalMethods.category, category as AnalyticalMethod['category']))
     .orderBy(desc(analyticalMethods.performanceScore));
 }
 
@@ -3786,7 +3800,7 @@ export async function getResearchersByStatus(status: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(researchers)
-    .where(eq(researchers.status, status as any))
+    .where(eq(researchers.status, status as Researcher['status']))
     .orderBy(desc(researchers.totalCitations));
 }
 
@@ -3829,7 +3843,7 @@ export async function getResearchInstitutionsByType(type: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(researchInstitutions)
-    .where(eq(researchInstitutions.institutionType, type as any))
+    .where(eq(researchInstitutions.institutionType, type as ResearchInstitution['institutionType']))
     .orderBy(desc(researchInstitutions.totalCitations));
 }
 
