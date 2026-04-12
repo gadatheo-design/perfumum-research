@@ -31,6 +31,77 @@ import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 import { useBreadcrumbSegments } from "@/contexts/BreadcrumbContext";
 import type { MoleculeExtended } from "../../../../shared/domain-types";
 
+// Composant carte article PubMed avec bouton d'import dans PERFUMUM
+function PubMedArticleCard({ art, moleculeId, moleculeName }: {
+  art: { pmid: string; title?: string; firstAuthor?: string; year?: number; journal?: string; doi?: string | null; url: string };
+  moleculeId: number;
+  moleculeName: string;
+}) {
+  const { toast } = useToast();
+  const importMutation = trpc.bibliography.importFromPubMed.useMutation({
+    onSuccess: (data) => {
+      toast({
+        title: data.alreadyExisted ? 'Déjà dans PERFUMUM' : 'Importé dans PERFUMUM',
+        description: data.alreadyExisted
+          ? 'Cette référence existe déjà dans la bibliothèque.'
+          : 'Article ajouté à la bibliothèque et lié à la molécule.',
+      });
+    },
+    onError: (err) => {
+      toast({ title: 'Erreur import', description: err.message, variant: 'destructive' });
+    },
+  });
+
+  return (
+    <Card className="hover:shadow-sm transition-shadow border-blue-100 dark:border-blue-900/30">
+      <CardContent className="p-4 space-y-1.5">
+        <div className="flex items-start justify-between gap-2">
+          <p className="text-sm font-medium leading-snug line-clamp-2">{art.title || 'Sans titre'}</p>
+          <Badge variant="outline" className="shrink-0 text-xs border-blue-300 text-blue-600">PubMed</Badge>
+        </div>
+        {art.firstAuthor && (
+          <p className="text-xs text-muted-foreground">{art.firstAuthor} et al.</p>
+        )}
+        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+          {art.year && <span>{art.year}</span>}
+          {art.journal && <span className="italic line-clamp-1">{art.journal}</span>}
+        </div>
+        <div className="flex items-center justify-between mt-2">
+          <a
+            href={art.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 hover:underline"
+          >
+            <ExternalLink className="h-3 w-3" />
+            {art.doi ? `DOI: ${art.doi}` : `PMID: ${art.pmid}`}
+          </a>
+          <Button
+            variant="outline"
+            size="sm"
+            className="h-6 text-xs gap-1 border-green-300 text-green-700 hover:bg-green-50 dark:border-green-700 dark:text-green-400"
+            disabled={importMutation.isPending}
+            onClick={() => importMutation.mutate({
+              pmid: art.pmid,
+              title: art.title || 'Sans titre',
+              firstAuthor: art.firstAuthor,
+              year: art.year,
+              journal: art.journal,
+              doi: art.doi,
+              url: art.url,
+              moleculeId,
+              moleculeName,
+            })}
+          >
+            {importMutation.isPending ? <Loader2 className="h-3 w-3 animate-spin" /> : <Plus className="h-3 w-3" />}
+            Importer dans PERFUMUM
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}
+
 // Composant indicateur de statut PubChem
 function PubChemStatusBadge({ hasPubChem, pubchemCid }: { hasPubChem: boolean; pubchemCid?: number }) {
   if (hasPubChem && pubchemCid) {
@@ -2560,30 +2631,12 @@ export default function MoleculeDetail() {
                       <div className="space-y-2">
                         <p className="text-xs text-muted-foreground">{pubchemLiterature.articles.length} article{pubchemLiterature.articles.length > 1 ? 's' : ''} référencé{pubchemLiterature.articles.length > 1 ? 's' : ''} sur PubMed (CID {molecule.pubchem_cid})</p>
                         {pubchemLiterature.articles.map((art) => (
-                          <Card key={art.pmid} className="hover:shadow-sm transition-shadow border-blue-100 dark:border-blue-900/30">
-                            <CardContent className="p-4 space-y-1.5">
-                              <div className="flex items-start justify-between gap-2">
-                                <p className="text-sm font-medium leading-snug line-clamp-2">{art.title || 'Sans titre'}</p>
-                                <Badge variant="outline" className="shrink-0 text-xs border-blue-300 text-blue-600">PubMed</Badge>
-                              </div>
-                              {art.firstAuthor && (
-                                <p className="text-xs text-muted-foreground">{art.firstAuthor} et al.</p>
-                              )}
-                              <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                                {art.year && <span>{art.year}</span>}
-                                {art.journal && <span className="italic line-clamp-1">{art.journal}</span>}
-                              </div>
-                              <a
-                                href={art.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="inline-flex items-center gap-1 text-xs text-blue-600 hover:text-blue-700 hover:underline mt-1"
-                              >
-                                <ExternalLink className="h-3 w-3" />
-                                {art.doi ? `DOI: ${art.doi}` : `PMID: ${art.pmid}`}
-                              </a>
-                            </CardContent>
-                          </Card>
+                          <PubMedArticleCard
+                            key={art.pmid}
+                            art={art}
+                            moleculeId={mol.id}
+                            moleculeName={mol.name}
+                          />
                         ))}
                       </div>
                     ) : (

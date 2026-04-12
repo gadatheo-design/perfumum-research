@@ -10,8 +10,8 @@ import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db/core";
-import { plants, plantVarieties } from "../../drizzle/schema";
-import { eq, like, or, sql } from 'drizzle-orm';
+import { plants, plantVarieties, varietyImages } from "../../drizzle/schema";
+import { and, eq, like, or, sql } from 'drizzle-orm';
 import { sparqlQuery } from "../utils/sparql";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -326,12 +326,14 @@ export const wikidataSyncRouter = router({
         latinName: z.string().min(1),
         wikidataQid: z.string().min(1),
         imageUrl: z.string().url(),
+        imageType: z.enum(['leaf', 'flower', 'fruit', 'whole_plant', 'other']).optional().default('whole_plant'),
       })
     )
     .mutation(async ({ input }) => {
       const db = await getDb();
       if (!db) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'DB unavailable' });
 
+      // Find plant by latin name
       const results = await db
         .select({ id: plants.id, name: plants.name, latinName: sql<string>`COALESCE(${plants.latinName}, '')`, imageUrl: plants.imageUrl })
         .from(plants)
@@ -345,7 +347,6 @@ export const wikidataSyncRouter = router({
           matches: [],
         };
       }
-
       if (results.length > 1) {
         return {
           success: false,
@@ -355,34 +356,65 @@ export const wikidataSyncRouter = router({
       }
 
       const plant = results[0];
+      // Parse genus and species from latinName
+      const nameParts = (plant.latinName ?? input.latinName).trim().split(/\s+/);
+      const genus = nameParts[0] ?? 'Unknown';
+      const species = nameParts[1] ?? 'sp';
 
-      if (plant.imageUrl) {
-        return {
-          success: false,
-          message: `Cette plante a déjà une image. Utilisez /admin/variety-images pour gérer les images.`,
-          plantId: plant.id,
-          existingImageUrl: plant.imageUrl,
-        };
+      // Download image from Wikidata and upload to S3
+      const { storagePut } = await import('../storage');
+      const imageResponse = await fetch(input.imageUrl, {
+        headers: { 'User-Agent': 'PERFUMUM-Research/1.0 (https://perfumum.manus.space)' },
+      });
+      if (!imageResponse.ok) {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: `Impossible de télécharger l'image Wikidata: ${imageResponse.status}` });
       }
+      const imageBuffer = Buffer.from(await imageResponse.arrayBuffer());
+      const contentType = imageResponse.headers.get('content-type') ?? 'image/jpeg';
+      const ext = contentType.includes('png') ? 'png' : contentType.includes('gif') ? 'gif' : contentType.includes('webp') ? 'webp' : 'jpg';
+      const fileName = `${genus.toLowerCase()}-${species.toLowerCase()}-${input.imageType}-wikidata-${Date.now()}.${ext}`;
+      const fileKey = `variety-images/${fileName}`;
+      const { url: fileUrl } = await storagePut(fileKey, imageBuffer, contentType);
 
-      await db
-        .update(plants)
-        .set({
-          imageUrl: input.imageUrl,
-          wikidataQid: input.wikidataQid,
-          wikidataEnrichedAt: new Date(),
-        })
-        .where(eq(plants.id, plant.id));
+      // Insert into varietyImages
+      await db.insert(varietyImages).values({
+        genus,
+        species,
+        imageType: input.imageType,
+        fileKey,
+        fileUrl,
+        fileName,
+        mimeType: contentType,
+        fileSize: imageBuffer.length,
+        source: `Wikidata (${input.wikidataQid})`,
+        sourceUrl: input.imageUrl,
+        attribution: `Wikimedia Commons via Wikidata ${input.wikidataQid}`,
+        quality: 'medium',
+        isVerified: false,
+      });
+
+      // Update plants.imageUrl if not already set
+      if (!plant.imageUrl) {
+        await db
+          .update(plants)
+          .set({ imageUrl: fileUrl, wikidataQid: input.wikidataQid, wikidataEnrichedAt: new Date() })
+          .where(eq(plants.id, plant.id));
+      } else {
+        await db
+          .update(plants)
+          .set({ wikidataQid: input.wikidataQid, wikidataEnrichedAt: new Date() })
+          .where(eq(plants.id, plant.id));
+      }
 
       return {
         success: true,
-        message: `Image Wikidata importée pour ${plant.name}.`,
+        message: `Image Wikidata ajoutée dans la galerie de ${plant.name} (partie : ${input.imageType}). ${plant.imageUrl ? 'Image principale inchangée.' : 'Définie comme image principale.'}`,
         plantId: plant.id,
         plantName: plant.name,
-        imageUrl: input.imageUrl,
+        imageUrl: fileUrl,
+        addedToVarietyImages: true,
       };
-    }),
-
+     }),
   /**
    * Import Wikidata QID into a plant record (link the plant to Wikidata)
    */

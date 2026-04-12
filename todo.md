@@ -4186,3 +4186,16 @@ npm run dev
 - [ ] Galerie images fiche plante : défilement automatique + catégories (feuille/fleur/tronc/racine)
 - [ ] /admin/variety-images : corriger 0 partout + améliorer lisibilité
 - [ ] Recherche APIs enrichissement bibliographique (CrossRef, OpenAlex, Semantic Scholar, etc.)
+
+## BATCH 10 — Bugs + CrossRef/OpenAlex + PubMed (12 avril 2026)
+- [x] Bug Select.Item vide sur /phylogenetique
+- [x] Fusion doublons molecule-manager (getDuplicateGroups enrichi)
+- [x] Bouton Enrichir CrossRef/OpenAlex sur fiche bibliographique (BibliographyEnrichModal)
+- [x] Onglet Publications fiche molécule enrichi avec PubChem/PubMed temps réel
+
+## BATCH 11 — Sauvegarde enrichissement + Wikidata + Phylo-import (12 avril 2026)
+- [ ] bibliography.applyEnrichment : sauvegarder les données CrossRef/OpenAlex en base
+- [ ] Enrichissement PubChem des molécules sans CID (vérification bouton fiche molécule)
+- [ ] Bouton "Importer dans PERFUMUM" sur les articles PubMed de la fiche molécule
+- [ ] wikidata-sync : import image même si image existante + choix partie de plante
+- [ ] phylo-enrichment : import des taxons enfants en base de données plantes

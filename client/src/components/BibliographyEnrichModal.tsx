@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Loader2, Search, BookOpen, ExternalLink, CheckCircle2, AlertCircle, FileText } from "lucide-react";
+import { Loader2, Search, BookOpen, ExternalLink, CheckCircle2, AlertCircle, FileText, Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface EnrichedData {
@@ -30,16 +30,19 @@ interface EnrichedData {
 interface BibliographyEnrichModalProps {
   open: boolean;
   onClose: () => void;
+  /** ID de la référence bibliographique à enrichir (si fourni, sauvegarde directement en base) */
+  entryId?: number;
   /** Données pré-remplies depuis la fiche existante */
   initialDoi?: string | null;
   initialTitle?: string;
-  /** Callback quand l'utilisateur valide les données enrichies */
-  onApply: (data: Partial<EnrichedData>) => void;
+  /** Callback après application (pour rafraîchir l'UI parente) */
+  onApply?: (data: Partial<EnrichedData>) => void;
 }
 
 export function BibliographyEnrichModal({
   open,
   onClose,
+  entryId,
   initialDoi,
   initialTitle,
   onApply,
@@ -55,8 +58,16 @@ export function BibliographyEnrichModal({
   const [isSearchingOpenAlex, setIsSearchingOpenAlex] = useState(false);
   const [crossrefError, setCrossrefError] = useState<string | null>(null);
   const [openAlexError, setOpenAlexError] = useState<string | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
 
   const utils = trpc.useUtils();
+
+  const applyEnrichmentMutation = trpc.bibliography.applyEnrichment.useMutation({
+    onSuccess: () => {
+      utils.bibliography.list.invalidate();
+      utils.bibliography.getById.invalidate();
+    },
+  });
 
   const searchCrossref = async () => {
     if (!doi.trim()) return;
@@ -99,11 +110,48 @@ export function BibliographyEnrichModal({
     }
   };
 
-  const handleApply = () => {
+  const handleApply = async () => {
     if (!selectedResult) return;
-    onApply(selectedResult);
-    onClose();
-    toast({ title: "Données appliquées", description: `Métadonnées importées depuis ${selectedResult.source === "crossref" ? "CrossRef" : "OpenAlex"}` });
+
+    // Si un entryId est fourni → sauvegarder directement en base
+    if (entryId) {
+      setIsSaving(true);
+      try {
+        await applyEnrichmentMutation.mutateAsync({
+          id: entryId,
+          title: selectedResult.title,
+          authors: selectedResult.authors,
+          year: selectedResult.year,
+          journal: selectedResult.journal,
+          doi: selectedResult.doi,
+          url: selectedResult.url,
+          pdfUrl: selectedResult.pdfUrl,
+          abstract: selectedResult.abstract,
+          citationsCount: selectedResult.citationsCount,
+          publisher: selectedResult.publisher,
+          volume: selectedResult.volume,
+          issue: selectedResult.issue,
+          pages: selectedResult.pages,
+          source: selectedResult.source,
+        });
+        toast({
+          title: "Référence enrichie",
+          description: `Métadonnées sauvegardées depuis ${selectedResult.source === "crossref" ? "CrossRef" : "OpenAlex"}`,
+        });
+        onApply?.(selectedResult);
+        onClose();
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : "Erreur inconnue";
+        toast({ title: "Erreur de sauvegarde", description: msg, variant: "destructive" });
+      } finally {
+        setIsSaving(false);
+      }
+    } else {
+      // Mode sans entryId : retourner les données au parent pour qu'il les applique
+      onApply?.(selectedResult);
+      onClose();
+      toast({ title: "Données transmises", description: `Métadonnées importées depuis ${selectedResult.source === "crossref" ? "CrossRef" : "OpenAlex"}` });
+    }
   };
 
   const ResultCard = ({ result, isSelected, onClick }: { result: EnrichedData; isSelected: boolean; onClick: () => void }) => (
@@ -156,7 +204,8 @@ export function BibliographyEnrichModal({
             Enrichissement bibliographique automatique
           </DialogTitle>
           <DialogDescription>
-            Recherchez les métadonnées via CrossRef (par DOI) ou OpenAlex (par titre ou DOI) pour pré-remplir la fiche.
+            Recherchez les métadonnées via CrossRef (par DOI) ou OpenAlex (par titre ou DOI).
+            {entryId && <span className="text-primary font-medium"> Les données seront sauvegardées directement en base.</span>}
           </DialogDescription>
         </DialogHeader>
 
@@ -245,10 +294,16 @@ export function BibliographyEnrichModal({
         {/* Bouton d'application */}
         {selectedResult && (
           <div className="flex justify-end gap-2 pt-2 border-t">
-            <Button variant="outline" onClick={onClose}>Annuler</Button>
-            <Button onClick={handleApply} className="gap-2">
-              <CheckCircle2 className="w-4 h-4" />
-              Appliquer ces métadonnées
+            <Button variant="outline" onClick={onClose} disabled={isSaving}>Annuler</Button>
+            <Button onClick={handleApply} disabled={isSaving} className="gap-2">
+              {isSaving ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : entryId ? (
+                <Save className="w-4 h-4" />
+              ) : (
+                <CheckCircle2 className="w-4 h-4" />
+              )}
+              {entryId ? "Sauvegarder en base" : "Appliquer ces métadonnées"}
             </Button>
           </div>
         )}

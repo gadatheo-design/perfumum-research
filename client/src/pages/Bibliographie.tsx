@@ -853,12 +853,12 @@ export default function Bibliographie() {
         <BibliographyEnrichModal
           open={enrichModalOpen}
           onClose={() => setEnrichModalOpen(false)}
+          entryId={selectedReference.id}
           initialDoi={selectedReference.doi}
           initialTitle={selectedReference.title}
-          onApply={(data) => {
-            // Afficher les données enrichies dans la console pour l'instant
-            // (l'update DB nécessite une procédure dédiée)
-            console.info('[PERFUMUM] Données enrichies :', data);
+          onApply={() => {
+            // Fermer le dialog de détail et rafraîchir
+            setSelectedReference(null);
           }}
         />
       )}

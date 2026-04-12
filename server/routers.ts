@@ -8641,6 +8641,46 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         };
       }),
 
+    // ─── Appliquer les données enrichies en base (CrossRef / OpenAlex) ────────
+    applyEnrichment: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        title: z.string().optional(),
+        authors: z.string().optional(),
+        year: z.number().nullable().optional(),
+        journal: z.string().nullable().optional(),
+        doi: z.string().nullable().optional(),
+        url: z.string().nullable().optional(),
+        pdfUrl: z.string().nullable().optional(),
+        abstract: z.string().nullable().optional(),
+        citationsCount: z.number().nullable().optional(),
+        publisher: z.string().nullable().optional(),
+        volume: z.string().nullable().optional(),
+        issue: z.string().nullable().optional(),
+        pages: z.string().nullable().optional(),
+        source: z.enum(['crossref', 'openalex']).optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { id, source, pdfUrl, citationsCount, ...fields } = input;
+        const updateData: Record<string, unknown> = {};
+        if (fields.title !== undefined) updateData.title = fields.title;
+        if (fields.authors !== undefined) updateData.authors = fields.authors;
+        if (fields.year !== undefined) updateData.year = fields.year;
+        if (fields.journal !== undefined) updateData.journal = fields.journal;
+        if (fields.doi !== undefined) updateData.doi = fields.doi;
+        // Préférer le PDF open access si disponible
+        if (pdfUrl) updateData.url = pdfUrl;
+        else if (fields.url !== undefined) updateData.url = fields.url;
+        if (fields.abstract !== undefined) updateData.abstract = fields.abstract;
+        if (fields.publisher !== undefined) updateData.publisher = fields.publisher;
+        if (fields.volume !== undefined) updateData.volume = fields.volume;
+        if (fields.issue !== undefined) updateData.issue = fields.issue;
+        if (fields.pages !== undefined) updateData.pages = fields.pages;
+        const sourceLabel = source === 'crossref' ? 'CrossRef' : source === 'openalex' ? 'OpenAlex' : 'API externe';
+        updateData.notes = `Enrichi via ${sourceLabel} le ${new Date().toLocaleDateString('fr-FR')}`;
+        return db.updateBibliographyEntry(id, updateData as Parameters<typeof db.updateBibliographyEntry>[1]);
+      }),
+
     // ─── Enrichissement automatique depuis CrossRef (par DOI) ────────────────
     enrichFromDOI: publicProcedure
       .input(z.object({ doi: z.string() }))
@@ -8712,6 +8752,65 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
             source: 'openalex' as const,
           };
         });
+      }),
+
+    // ─── Importer un article PubMed dans PERFUMUM + lien molécule ──────────────
+    importFromPubMed: protectedProcedure
+      .input(z.object({
+        pmid: z.string(),
+        title: z.string(),
+        firstAuthor: z.string().optional(),
+        year: z.number().nullable().optional(),
+        journal: z.string().optional(),
+        doi: z.string().nullable().optional(),
+        url: z.string(),
+        moleculeId: z.number().optional(),
+        moleculeName: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const { pmid, title, firstAuthor, year, journal, doi, url, moleculeId, moleculeName } = input;
+        // Vérifier si la référence existe déjà (par DOI ou PMID dans notes)
+        const dbConn = await db.getDb();
+        if (!dbConn) throw new Error('DB non disponible');
+        const { sql } = await import('drizzle-orm');
+        const existingResult = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
+          doi
+            ? `SELECT id FROM bibliography_entries WHERE doi = ${JSON.stringify(doi)} LIMIT 1`
+            : `SELECT id FROM bibliography_entries WHERE notes LIKE '%PMID:${pmid}%' LIMIT 1`
+        ));
+        const existingRows = Array.isArray(existingResult) ? existingResult[0] as Record<string, unknown>[] : [];
+        let entryId: number;
+        if (existingRows.length > 0) {
+          entryId = Number(existingRows[0].id);
+        } else {
+          // Créer la référence
+          const newEntry = await db.createBibliographyEntry({
+            entryType: 'article',
+            title,
+            authors: firstAuthor || '',
+            year: year ?? null,
+            journal: journal || null,
+            doi: doi || null,
+            url,
+            notes: `Importé depuis PubMed. PMID:${pmid}${moleculeName ? `. Molécule: ${moleculeName}` : ''}`,
+            tags: JSON.stringify(['pubmed', 'auto-import']),
+            readStatus: 'unread',
+          });
+          entryId = newEntry.id;
+        }
+        // Créer le lien molécule ↔ publication si moleculeId fourni
+        if (moleculeId && entryId) {
+          const linkExists = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
+            `SELECT id FROM bibliography_molecule_links WHERE bibliography_id = ${entryId} AND molecule_id = ${moleculeId} LIMIT 1`
+          ));
+          const linkRows = Array.isArray(linkExists) ? linkExists[0] as Record<string, unknown>[] : [];
+          if (linkRows.length === 0) {
+            await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
+              `INSERT INTO bibliography_molecule_links (bibliography_id, molecule_id, created_at) VALUES (${entryId}, ${moleculeId}, NOW())`
+            ));
+          }
+        }
+        return { success: true, entryId, alreadyExisted: existingRows.length > 0 };
       }),
   }),
   // ============================================================================
