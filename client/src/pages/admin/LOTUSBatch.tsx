@@ -24,6 +24,7 @@ export default function LOTUSBatch() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterMode, setFilterMode] = useState<FilterMode>("all");
   const [page, setPage] = useState(1);
+  const [batchLimit, setBatchLimit] = useState(10);
 
   const { data: stats, refetch: refetchStats } = trpc.lotus.getStats.useQuery();
 
@@ -57,7 +58,7 @@ export default function LOTUSBatch() {
   const handleBatch = () => {
     setBatchRunning(true);
     setBatchResults(null);
-    batchMutation.mutate({ limit: 10, onlyWithoutLinks: true });
+    batchMutation.mutate({ limit: batchLimit, onlyWithoutLinks: true });
   };
 
   const handleEnrich = (plantId: number, dryRun = false) => {
@@ -165,20 +166,40 @@ export default function LOTUSBatch() {
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
               <Play className="h-4 w-4" />
-              Enrichissement batch (10 plantes)
+              Enrichissement batch
             </CardTitle>
             <CardDescription>
-              Traite les 10 prochaines plantes sans liaisons LOTUS. Respecte le rate limit Wikidata (1,2s/requête).
+              Traite les prochaines plantes sans liaisons LOTUS. Respecte le rate limit Wikidata (1,2s/requête).
+              {batchLimit >= 100 && <span className="text-amber-600 font-medium"> ⚠ Batch de {batchLimit} plantes — durée estimée : ~{Math.round(batchLimit * 1.2 / 60)} min.</span>}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Button
-              onClick={handleBatch}
-              disabled={batchRunning}
-              className="bg-emerald-600 hover:bg-emerald-700"
-            >
-              {batchRunning ? "Traitement en cours..." : "Lancer le batch (10 plantes)"}
-            </Button>
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-2">
+                <label className="text-sm text-muted-foreground whitespace-nowrap">Taille du batch :</label>
+                <select
+                  value={batchLimit}
+                  onChange={(e) => setBatchLimit(Number(e.target.value))}
+                  disabled={batchRunning}
+                  className="h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                >
+                  <option value={10}>10 plantes</option>
+                  <option value={25}>25 plantes</option>
+                  <option value={50}>50 plantes</option>
+                  <option value={100}>100 plantes</option>
+                  <option value={250}>250 plantes</option>
+                  <option value={500}>500 plantes</option>
+                  <option value={1000}>1000 plantes</option>
+                </select>
+              </div>
+              <Button
+                onClick={handleBatch}
+                disabled={batchRunning}
+                className="bg-emerald-600 hover:bg-emerald-700"
+              >
+                {batchRunning ? `Traitement en cours (${batchLimit} plantes)...` : `Lancer le batch (${batchLimit} plantes)`}
+              </Button>
+            </div>
 
             {batchResults && (
               <div className="mt-4 p-4 bg-muted rounded-lg space-y-2">

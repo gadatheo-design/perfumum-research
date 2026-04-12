@@ -259,7 +259,7 @@ export const lotusRouter = router({
    */
   enrichBatch: publicProcedure
     .input(z.object({
-      limit: z.number().default(20),
+      limit: z.number().min(1).max(1000).default(20),
       onlyWithoutLinks: z.boolean().default(true),
     }))
     .mutation(async ({ input }) => {

@@ -345,9 +345,9 @@ export default function CompoundSearch() {
                               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                                 <span>Présent dans {compound.landraceCount} landrace(s)</span>
                                 <span>•</span>
-                                <span>Max: {(compound).toFixed(1)} ppm</span>
+                                <span>Max: {Number(compound.maxConcentration ?? 0).toFixed(1)} ppm</span>
                                 <span>•</span>
-                                <span>Moy: {(compound).toFixed(1)} ppm</span>
+                                <span>Moy: {Number(compound.avgConcentration ?? 0).toFixed(1)} ppm</span>
                               </div>
                               <div className="flex flex-wrap gap-1 mt-2">
                                 {compound.landraces.slice(0, 5).map((l: string) => (

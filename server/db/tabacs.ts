@@ -1173,13 +1173,13 @@ export async function getLandracePyrolysisProfile(landraceName: string) {
 export async function getPlantFamiliesWithCategories(): Promise<{family: string; count: number; categories: { category: string; count: number }[]}[]> {
   const db = await getDb();
   if (!db) return [];
-  const [familyResult] = await db.execute(sql`SELECT family, COUNT(*) as count FROM plants WHERE family IS NOT NULL AND family != '' GROUP BY family ORDER BY count DESC`) as unknown as [any[]];
-  const families = (familyResult[0] as unknown as unknown[]).map((r) => ({family: (r as Record<string,unknown>).family as string, count: Number((r as Record<string,unknown>).count)}));
+  const [familyRows] = await db.execute(sql`SELECT family, COUNT(*) as count FROM plants WHERE family IS NOT NULL AND family != '' GROUP BY family ORDER BY count DESC`) as unknown as [Record<string,unknown>[]];
+  const families = familyRows.map((r) => ({family: r.family as string, count: Number(r.count)}));
   const results: {family: string; count: number; categories: { category: string; count: number }[]}[] = [];
   for (const { family, count } of families) {
     const familyVal = family;
-    const [catResult] = await db.execute(sql`SELECT category, COUNT(*) as count FROM plants WHERE family = ${familyVal} GROUP BY category ORDER BY count DESC`) as unknown as [any[]];
-    const categories = (catResult[0] as unknown as unknown[]).map((r) => ({category: (r as Record<string,unknown>).category as string, count: Number((r as Record<string,unknown>).count)}));
+    const [catRows] = await db.execute(sql`SELECT category, COUNT(*) as count FROM plants WHERE family = ${familyVal} GROUP BY category ORDER BY count DESC`) as unknown as [Record<string,unknown>[]];
+    const categories = catRows.map((r) => ({category: r.category as string, count: Number(r.count)}));
     results.push({ family, count, categories });
   }
   return results;
