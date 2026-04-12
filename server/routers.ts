@@ -771,7 +771,7 @@ export const appRouter = router({
       const [rows] = await (db2 as unknown as { execute: (q: unknown) => Promise<[Record<string, unknown>[], unknown]> }).execute(
         `SELECT COUNT(*) as total, SUM(CASE WHEN (iupac_name IS NULL OR iupac_name = '') THEN 1 ELSE 0 END) as missingIupac, SUM(CASE WHEN (olfactiveProfile IS NULL OR olfactiveProfile = '') THEN 1 ELSE 0 END) as missingOlfactive, SUM(CASE WHEN (therapeuticProperties IS NULL OR therapeuticProperties = '') THEN 1 ELSE 0 END) as missingTherapeutic, SUM(CASE WHEN (family IS NULL OR family = '') THEN 1 ELSE 0 END) as missingFamily FROM molecules`
       );
-      const row = rows[0] as any;
+      const row = rows[0] as Record<string,unknown>;
       return { total: Number(row.total), missingIupac: Number(row.missingIupac), missingOlfactive: Number(row.missingOlfactive), missingTherapeutic: Number(row.missingTherapeutic), missingFamily: Number(row.missingFamily) };
     }),
 
@@ -4647,7 +4647,7 @@ Génère un objet JSON :
         const _connMol = await _ccMol(process.env.DATABASE_URL!);
         const [rows] = await _connMol.query(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties, notes FROM molecules WHERE id = ?`, [input.id]);
         await _connMol.end();
-        const mol = (rows as any[])[0];
+        const mol = (rows as Record<string,unknown>[])[0];
         if (!mol) throw new Error('Molécule non trouvée');
         const prompt = `Tu es un expert en chimie olfactive et phytochimie. Enrichis la fiche de cette molécule avec des données scientifiques précises.
 Molécule : ${mol.name}
@@ -4704,7 +4704,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const _connMol = await _ccMol(process.env.DATABASE_URL!);
         const [rows] = await _connMol.query(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties, notes FROM molecules WHERE id = ?`, [input.id]);
         await _connMol.end();
-        const mol = (rows as any[])[0];
+        const mol = (rows as Record<string,unknown>[])[0];
         if (!mol) throw new Error('Molécule non trouvée');
         const prompt = `Tu es un expert en chimie olfactive et phytochimie. Enrichis la fiche de cette molécule avec des données scientifiques précises.
 Molécule : ${mol.name}
@@ -4807,27 +4807,27 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       }),
     getTabacSuppliers: publicProcedure.query(async () => {
       const all = await getAllExtendedSuppliers();
-      return all.filter((s: any) => s.supplierId?.startsWith('TABAC'));
+      return all.filter((s: Record<string,unknown>) => s.supplierId?.startsWith('TABAC'));
     }),
     getCannabisSuppliers: publicProcedure.query(async () => {
       const all = await getAllExtendedSuppliers();
-      return all.filter((s: any) => s.supplierId?.startsWith('CANNA'));
+      return all.filter((s: Record<string,unknown>) => s.supplierId?.startsWith('CANNA'));
     }),
     getByCategory: publicProcedure
       .input(z.object({ category: z.enum(['tabac', 'cannabis', 'parfum', 'botanique', 'all']) }))
       .query(async ({ input }) => {
         const all = await getAllExtendedSuppliers();
-        if (input.category === 'tabac') return all.filter((s: any) => s.supplierId?.startsWith('TABAC'));
-        if (input.category === 'cannabis') return all.filter((s: any) => s.supplierId?.startsWith('CANNA'));
-        if (input.category === 'parfum') return all.filter((s: any) => s.supplierId?.startsWith('PARF'));
-        if (input.category === 'botanique') return all.filter((s: any) => s.supplierId?.startsWith('BOTA'));
+        if (input.category === 'tabac') return all.filter((s: Record<string,unknown>) => s.supplierId?.startsWith('TABAC'));
+        if (input.category === 'cannabis') return all.filter((s: Record<string,unknown>) => s.supplierId?.startsWith('CANNA'));
+        if (input.category === 'parfum') return all.filter((s: Record<string,unknown>) => s.supplierId?.startsWith('PARF'));
+        if (input.category === 'botanique') return all.filter((s: Record<string,unknown>) => s.supplierId?.startsWith('BOTA'));
         return all;
       }),
     getByCountry: publicProcedure
       .input(z.object({ country: z.string() }))
       .query(async ({ input }) => {
         const all = await getAllExtendedSuppliers();
-        return all.filter((s: any) => s.country === input.country);
+        return all.filter((s: Record<string,unknown>) => s.country === input.country);
       }),
   }),
   
@@ -4856,7 +4856,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const allPlants = await db.getAllPlants();
         const q = input.query.toLowerCase();
         return allPlants
-          .filter((p: any) =>
+          .filter((p: Record<string,unknown>) =>
             p.name?.toLowerCase().includes(q) ||
             p.latinName?.toLowerCase().includes(q) ||
             p.latin_name?.toLowerCase().includes(q)
@@ -4963,7 +4963,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         notes: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        return db.createRawMaterial(input as any);
+        return db.createRawMaterial(input);
       }),
     update: protectedProcedure
       .input(z.object({
@@ -4990,7 +4990,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         }),
       }))
       .mutation(async ({ input }) => {
-        return db.updateRawMaterial(input.id, input.data as any);
+        return db.updateRawMaterial(input.id, input.data);
       }),
     delete: protectedProcedure
       .input(z.number())
@@ -5008,7 +5008,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         notes: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        return db.addMoleculeToRawMaterial(input as any);
+        return db.addMoleculeToRawMaterial(input);
       }),
     removeMolecule: protectedProcedure
       .input(z.object({
@@ -5056,7 +5056,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         sortOrder: z.number().optional(),
       }))
       .mutation(async ({ input }) => {
-        return db.addRecetteRawMaterial(input as any);
+        return db.addRecetteRawMaterial(input);
       }),
     removeRecette: protectedProcedure
       .input(z.number())
@@ -5100,7 +5100,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const [countRows] = await conn.query(`SELECT COUNT(*) as total FROM raw_materials WHERE ${where}`);
         await conn.end();
         return {
-          materials: (rows as any[]),
+          materials: (rows as Record<string,unknown>[]),
           total: Number((countRows as Record<string, unknown>[])[0]?.total ?? 0),
         };
       }),
@@ -5145,7 +5145,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         sortOrder: z.number().optional(),
       }))
       .mutation(async ({ input }) => {
-        return db.addRecetteRawMaterial(input as any);
+        return db.addRecetteRawMaterial(input);
       }),
     update: protectedProcedure
       .input(z.object({
@@ -5160,7 +5160,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         }),
       }))
       .mutation(async ({ input }) => {
-        return db.updateRecetteRawMaterial(input.id, input.data as any);
+        return db.updateRecetteRawMaterial(input.id, input.data);
       }),
     remove: protectedProcedure
       .input(z.number())
@@ -5194,7 +5194,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         notes: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        return db.addMoleculePlantSource(input as any);
+        return db.addMoleculePlantSource(input);
       }),
     update: protectedProcedure
       .input(z.object({
@@ -5211,7 +5211,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         }),
       }))
       .mutation(async ({ input }) => {
-        return db.updateMoleculePlantSource(input.id, input.data as any);
+        return db.updateMoleculePlantSource(input.id, input.data);
       }),
     delete: protectedProcedure
       .input(z.number())
@@ -5249,7 +5249,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         notes: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        return db.addTerroirSpecialty(input as any);
+        return db.addTerroirSpecialty(input);
       }),
     update: protectedProcedure
       .input(z.object({
@@ -5265,7 +5265,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         }),
       }))
       .mutation(async ({ input }) => {
-        return db.updateTerroirSpecialty(input.id, input.data as any);
+        return db.updateTerroirSpecialty(input.id, input.data);
       }),
     delete: protectedProcedure
       .input(z.number())
@@ -5697,7 +5697,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
             continue;
           }
           
-          const limit = column ? (restriction.restriction as any)[column] : null;
+          const limit = column ? (restriction.restriction as Record<string,unknown>)[column] : null;
           const limitNum = limit ? parseFloat(limit) : null;
           
           let isCompliant = true;
@@ -5764,7 +5764,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           moleculeId: r.molecule.id,
           moleculeName: r.molecule.name,
           casNumber: r.molecule.casNumber,
-          limit: column ? (r.restriction as any)[column] : null,
+          limit: column ? (r.restriction as Record<string,unknown>)[column] : null,
           restrictionType: r.restriction.restrictionType,
           reason: r.restriction.reasonForRestriction,
         })).filter((r) => r.limit !== null || r.restrictionType === 'prohibited');
@@ -5815,7 +5815,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const locationIndex = headers.indexOf('location');
 
         const validCategories = ['echantillon', 'extraction', 'analyse', 'terrain', 'equipement', 'autre'];
-        const rows: any[] = [];
+        const rows: Record<string,unknown>[] = [];
         let validCount = 0;
 
         for (let i = 1; i < lines.length; i++) {
@@ -6244,7 +6244,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       const allMolecules = await db.getAllMolecules();
       
       // Helper pour parser les références (peut être string JSON ou tableau)
-      const parseRefs = (refs: any): any[] => {
+      const parseRefs = (refs: unknown): Array<Record<string,unknown>> => {
         if (!refs) return [];
         if (Array.isArray(refs)) return refs;
         if (typeof refs === 'string') {
@@ -6265,7 +6265,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         withChemicalClass: allMolecules.filter(m => m.chemicalClass).length,
         withMolecularWeight: allMolecules.filter(m => m.molecularWeight).length,
         withBoilingPoint: allMolecules.filter(m => m.boilingPoint).length,
-        withPubChemRef: allMolecules.filter(m => parseRefs(m.references).some((r: any) => r.type === 'pubchem')).length,
+        withPubChemRef: allMolecules.filter(m => parseRefs(m.references).some((r: Record<string,unknown>) => r.type === 'pubchem')).length,
       };
       
       return {
@@ -6281,7 +6281,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       const allMolecules = await db.getAllMolecules();
       
       // Helper pour parser les références (peut être string JSON ou tableau)
-      const parseRefs = (refs: any): any[] => {
+      const parseRefs = (refs: unknown): Array<Record<string,unknown>> => {
         if (!refs) return [];
         if (Array.isArray(refs)) return refs;
         if (typeof refs === 'string') {
@@ -6297,7 +6297,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       
       // Filtrer les molécules sans CAS ou sans référence PubChem
       const toEnrich = allMolecules.filter(m => 
-        !m.casNumber || m.casNumber === '' || !parseRefs(m.references).some((r: any) => r.type === 'pubchem')
+        !m.casNumber || m.casNumber === '' || !parseRefs(m.references).some((r: Record<string,unknown>) => r.type === 'pubchem')
       );
       
       return {
@@ -6307,7 +6307,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           name: m.name,
           hasCAS: !!(m.casNumber && m.casNumber !== ''),
           hasIUPAC: !!(m.iupacName && m.iupacName !== ''),
-          hasPubChemRef: parseRefs(m.references).some((r: any) => r.type === 'pubchem'),
+          hasPubChemRef: parseRefs(m.references).some((r: Record<string,unknown>) => r.type === 'pubchem'),
         })),
       };
     }),
@@ -7286,7 +7286,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       
       for (const plant of plants) {
         const terroirs = await db.getPlantTerroirs(plant.id);
-        terroirs.forEach((t: any) => {
+        terroirs.forEach((t: Record<string,unknown>) => {
           allRelations.push({
             plantId: plant.id,
             plantName: plant.name,
@@ -7349,7 +7349,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const terroirs = await db.getPlantTerroirs(plant.id);
         if (terroirs.length > 0) {
           plantsWithTerroirs.add(plant.id);
-          terroirs.forEach((t: any) => {
+          terroirs.forEach((t: Record<string,unknown>) => {
             terroirsWithPlants.add(t.terroirId);
             totalRelations++;
           });
@@ -7421,7 +7421,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         id: string;
         name: string;
         type: 'plant' | 'terroir' | 'molecule' | 'rawMaterial';
-        data?: any;
+        data?: Record<string,unknown>;
       }> = [];
       
       const links: Array<{
@@ -7460,7 +7460,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       // Récupérer les terroirs de chaque plante
       for (const plant of allPlants.slice(0, 50)) {
         const plantTerroirs = await db.getPlantTerroirs(plant.id);
-        plantTerroirs.forEach((pt: any) => {
+        plantTerroirs.forEach((pt: Record<string,unknown>) => {
           plantTerroirLinks.push({ plantId: plant.id, terroirId: pt.terroirId });
         });
       }
@@ -7489,7 +7489,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       
       for (const plant of allPlants.slice(0, 50)) {
         const plantMols = await db.getPlantMolecules(plant.id);
-        plantMols.forEach((pm: any) => {
+        plantMols.forEach((pm: Record<string,unknown>) => {
           if (molecules.slice(0, 100).some(m => m.id === pm.molecule.id)) {
             plantMoleculeLinks.push({ 
               plantId: plant.id, 
@@ -7559,7 +7559,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           id: string;
           name: string;
           type: 'plant' | 'terroir' | 'molecule' | 'rawMaterial';
-          data?: any;
+          data?: Record<string,unknown>;
         }> = [];
         
         const links: Array<{
@@ -7624,7 +7624,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           // Récupérer les terroirs de chaque plante
           for (const plantId of Array.from(plantIds)) {
             const plantTerroirs = await db.getPlantTerroirs(plantId);
-            plantTerroirs.forEach((pt: any) => {
+            plantTerroirs.forEach((pt: Record<string,unknown>) => {
               if (terroirIds.has(pt.terroirId)) {
                 links.push({
                   source: `plant-${plantId}`,
@@ -7644,7 +7644,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           // Récupérer les molécules de chaque plante
           for (const plantId of Array.from(plantIds)) {
             const plantMols = await db.getPlantMolecules(plantId);
-            plantMols.forEach((pm: any) => {
+            plantMols.forEach((pm: Record<string,unknown>) => {
               if (moleculeIds.has(pm.molecule.id)) {
                 links.push({
                   source: `plant-${plantId}`,
@@ -7699,7 +7699,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         imageUrl: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        return await db.createOlfactiveArchive(input as any);
+        return await db.createOlfactiveArchive(input);
       }),
     
     update: protectedProcedure
@@ -7719,7 +7719,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       }))
       .mutation(async ({ input }) => {
         const { id, ...data } = input;
-        return await db.updateOlfactiveArchive(id, data as any);
+        return await db.updateOlfactiveArchive(id, data);
       }),
     
     delete: protectedProcedure
@@ -7785,7 +7785,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         primarySources: z.array(z.any()).default([]),
       }))
       .mutation(async ({ input }) => {
-        return await db.createCivilizationalMarker(input as any);
+        return await db.createCivilizationalMarker(input);
       }),
   }),
 
@@ -7827,7 +7827,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         notes: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        return await db.addVarietyRelationship(input as any);
+        return await db.addVarietyRelationship(input);
       }),
     
     updateRelationship: protectedProcedure
@@ -7840,7 +7840,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       }))
       .mutation(async ({ input }) => {
         const { id, ...data } = input;
-        return await db.updateVarietyRelationship(id, data as any);
+        return await db.updateVarietyRelationship(id, data);
       }),
     
     removeRelationship: protectedProcedure
@@ -7881,14 +7881,14 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const dbConn = await db.getDb();
         if (!dbConn) return { parents: [], children: [] };
         const { sql } = await import('drizzle-orm');
-        const [parents] = await (dbConn as any).execute(sql.raw(
+        const [parents] = await (dbConn as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(
           `SELECT vg.id, vg.variety_id, vg.parent_variety_id, vg.relationship_type, vg.cross_date, vg.breeder, vg.notes,
                   p.name as parent_name, p.latin_name as parent_latin_name, p.category as parent_category
            FROM variety_genealogy vg
            JOIN plants p ON vg.parent_variety_id = p.id
            WHERE vg.variety_id = ${input.varietyId}`
         ));
-        const [children] = await (dbConn as any).execute(sql.raw(
+        const [children] = await (dbConn as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(
           `SELECT vg.id, vg.variety_id, vg.parent_variety_id, vg.relationship_type, vg.cross_date, vg.breeder, vg.notes,
                   p.name as child_name, p.latin_name as child_latin_name, p.category as child_category
            FROM variety_genealogy vg
@@ -8051,7 +8051,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         notes: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        return await db.createSustainableAlternative(input as any);
+        return await db.createSustainableAlternative(input);
       }),
     
     // Mettre à jour une alternative (protégé)
@@ -8089,7 +8089,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       }))
       .mutation(async ({ input }) => {
         const { id, ...data } = input;
-        return await db.updateSustainableAlternative(id, data as any);
+        return await db.updateSustainableAlternative(id, data);
       }),
     
     // Supprimer une alternative (protégé)
@@ -8156,7 +8156,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         imageUrl: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        return db.createOlfactiveArchive(input as any);
+        return db.createOlfactiveArchive(input);
       }),
     
     // Mettre à jour une archive (protégé)
@@ -8183,7 +8183,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       }))
       .mutation(async ({ input }) => {
         const { id, ...data } = input;
-        return db.updateOlfactiveArchive(id, data as any);
+        return db.updateOlfactiveArchive(id, data);
       }),
     
     // Supprimer une archive (protégé)
@@ -8248,7 +8248,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
            LIMIT ${limit} OFFSET ${offset}`
         );
         await conn.end();
-        return (rows as any[]) || [];
+        return (rows as Record<string,unknown>[]) || [];
       }),
 
     // Statistiques traditions olfactives
@@ -8262,7 +8262,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
          FROM traditions_olfactives`
       );
       await conn.end();
-      return (rows as any[])[0] || { total: 0, withGetty: 0, withWikidata: 0 };
+      return (rows as Record<string,unknown>[])[0] || { total: 0, withGetty: 0, withWikidata: 0 };
     }),
   }),
 
@@ -8344,7 +8344,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         return db.createBibliographyEntry({
           ...input,
           addedBy: ctx.user?.id,
-        } as any);
+        });
       }),
     
     // Mettre à jour une référence
@@ -8380,7 +8380,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       }))
       .mutation(async ({ input }) => {
         const { id, ...data } = input;
-        return db.updateBibliographyEntry(id, data as any);
+        return db.updateBibliographyEntry(id, data);
       }),
     
     // Supprimer une référence
@@ -8404,7 +8404,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           ...e,
           addedBy: ctx.user?.id,
         }));
-        return db.bulkCreateBibliographyEntries(entriesWithUser as any[]);
+        return db.bulkCreateBibliographyEntries(entriesWithUser);
       }),
     
     // Import en masse (CSV)
@@ -8416,7 +8416,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           ...e,
           addedBy: ctx.user?.id,
         }));
-        return db.bulkCreateBibliographyEntries(entriesWithUser as any[]);
+        return db.bulkCreateBibliographyEntries(entriesWithUser);
       }),
     
     // Export BibTeX
@@ -8426,7 +8426,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const result = await db.getAllBibliographyEntries({});
         const entries = result.entries || [];
         const filteredEntries = input && input.length > 0
-          ? entries.filter((e: any) => input.includes(e.id))
+          ? entries.filter((e: Record<string,unknown>) => input.includes(e.id))
           : entries;
         return db.exportToBibTeX(filteredEntries);
       }),
@@ -8527,7 +8527,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const { sql } = await import('drizzle-orm');
 
         // 1. Récupérer les références sans liaisons
-        const unlinkedResult = await (dbConn as any).execute(sql.raw(
+        const unlinkedResult = await (dbConn as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(
           `SELECT id, title, abstract, research_domain, keywords
            FROM bibliography_entries
            WHERE NOT EXISTS (
@@ -8536,22 +8536,22 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
            ORDER BY id
            LIMIT ${input.batchSize} OFFSET ${input.offset}`
         ));
-        const unlinked: any[] = Array.isArray(unlinkedResult) ? unlinkedResult[0] as any[] : [];
+        const unlinked: Record<string,unknown>[] = Array.isArray(unlinkedResult) ? unlinkedResult[0] as Record<string,unknown>[] : [];
         if (unlinked.length === 0) return { processed: 0, linked: 0, message: 'Aucune référence non liée trouvée' };
 
         // 2. Récupérer les noms de plantes et molécules pour le matching
-        const plantsResult = await (dbConn as any).execute(sql.raw(
+        const plantsResult = await (dbConn as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(
           'SELECT id, name, latin_name FROM plants ORDER BY name LIMIT 500'
         ));
-        const molsResult = await (dbConn as any).execute(sql.raw(
+        const molsResult = await (dbConn as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(
           'SELECT id, name, iupac_name FROM molecules ORDER BY name LIMIT 500'
         ));
-        const plants: any[] = Array.isArray(plantsResult) ? plantsResult[0] as any[] : [];
-        const molecules: any[] = Array.isArray(molsResult) ? molsResult[0] as any[] : [];
+        const plants: Record<string,unknown>[] = Array.isArray(plantsResult) ? plantsResult[0] as Record<string,unknown>[] : [];
+        const molecules: Record<string,unknown>[] = Array.isArray(molsResult) ? molsResult[0] as Record<string,unknown>[] : [];
 
         // 3. Appel LLM pour extraire les entités de chaque référence
         let totalLinked = 0;
-        const results: any[] = [];
+        const results: Record<string,unknown>[] = [];
 
         for (const ref of unlinked) {
           try {
@@ -8602,7 +8602,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
               );
               if (plant) {
                 try {
-                  await (dbConn as any).execute(sql.raw(
+                  await (dbConn as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(
                     `INSERT IGNORE INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, relevance_score, notes, created_at)
                      VALUES (${ref.id}, 'plant', ${plant.id}, 'primary_source', 75, 'Lié automatiquement par LLM', NOW())`
                   ));
@@ -8618,7 +8618,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
               );
               if (mol) {
                 try {
-                  await (dbConn as any).execute(sql.raw(
+                  await (dbConn as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(
                     `INSERT IGNORE INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, relevance_score, notes, created_at)
                      VALUES (${ref.id}, 'molecule', ${mol.id}, 'chemical', 75, 'Lié automatiquement par LLM', NOW())`
                   ));
@@ -8755,7 +8755,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         return db.createResearchAxis({
           ...input,
           createdBy: ctx.user?.id,
-        } as any);
+        });
       }),
     
     // Mettre à jour un axe
@@ -8901,7 +8901,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         return db.createResearchEntry({
           ...input,
           createdBy: ctx.user?.id,
-        } as any);
+        });
       }),
     
     // Mettre à jour une entrée

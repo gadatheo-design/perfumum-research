@@ -1411,14 +1411,14 @@ export async function updatePlantConservationStatus(plantId: number, data: {
   conservationStatus?: string;
   citesAppendix?: string;
   conservationNotes?: string;
-  threatFactors?: any;
+  threatFactors?: Record<string,unknown>;
   sustainableAlternatives?: string;
   lastAssessmentYear?: number;
   historicalStatus?: string;
 }) {
   const db = await getDb();
   if (!db) return null;
-  await db.update(plants).set(data as any).where(eq(plants.id, plantId));
+  await db.update(plants).set(data).where(eq(plants.id, plantId));
   return getPlantConservationStatus(plantId);
 }
 
@@ -2637,7 +2637,7 @@ export async function getPlantContributions(plantId: number, status?: string) {
     const mysql = await import('mysql2/promise');
     const conn = await mysql.createConnection(process.env.DATABASE_URL!);
     let query = `SELECT * FROM plant_contributions WHERE plant_id = ?`;
-    const params: any[] = [plantId];
+    const params: (string | number | null)[] = [plantId];
     if (status) {
       query += ` AND status = ?`;
       params.push(status);
@@ -2681,7 +2681,7 @@ export async function getAllContributionsForAdmin(status?: string) {
       FROM plant_contributions pc
       LEFT JOIN plants p ON pc.plant_id = p.id
     `;
-    const params: any[] = [];
+    const params: (string | number | null)[] = [];
     if (status) {
       query += ` WHERE pc.status = ?`;
       params.push(status);
@@ -2726,7 +2726,7 @@ export async function submitPlantContribution(data: {
   bibType?: string;
   // GC-MS
   gcmsMethod?: string;
-  gcmsMolecules?: any;
+  gcmsMolecules?: Record<string,unknown>;
   gcmsConditions?: string;
   // Tradition olfactive
   traditionPeriod?: string;
@@ -2763,7 +2763,7 @@ export async function submitPlantContribution(data: {
       data.traditionPeriod || null, data.traditionCulture || null, data.traditionUsage || null, data.traditionSources || null,
     ]);
     await conn.end();
-    return { success: true, id: (result as any).insertId };
+    return { success: true, id: (result as Record<string,unknown>).insertId as number };
   } catch (error: unknown) {
     console.error('Error submitting plant contribution:', error);
     throw error;
@@ -2784,7 +2784,7 @@ export async function reviewPlantContribution(
     const [rows] = await conn.execute(
       `SELECT * FROM plant_contributions WHERE id = ?`,
       [contributionId]
-    ) as any[];
+    ) as Record<string,unknown>[];
     const contribution = (rows as unknown[])[0] as Record<string, unknown>;
     if (!contribution) {
       await conn.end();
@@ -2811,8 +2811,8 @@ export async function reviewPlantContribution(
         const [plantRows] = await conn.execute(
           `SELECT id, image_url FROM plants WHERE id = ?`,
           [contribution.plant_id]
-        ) as any[];
-        const plant = (plantRows as any[])[0] as Record<string, unknown> | undefined;
+        ) as Record<string,unknown>[];
+        const plant = (plantRows as Record<string,unknown>[])[0] as Record<string, unknown> | undefined;
         if (plant && !plant.image_url) {
           // Pas d'image principale : définir cette image comme image principale
           await conn.execute(
@@ -2839,8 +2839,8 @@ export async function reviewPlantContribution(
           const [existing] = await conn.execute(
             `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
             [contribution.plant_id, contribution.molecule_id]
-          ) as any[];
-          if ((existing as any[]).length === 0) {
+          ) as Record<string,unknown>[];
+          if ((existing as Record<string,unknown>[]).length === 0) {
             await conn.execute(`
               INSERT INTO plant_molecules
                 (plant_id, molecule_id, source, notes, role, created_at, updated_at)
@@ -2859,14 +2859,14 @@ export async function reviewPlantContribution(
           const [molRows] = await conn.execute(
             `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
             [contribution.molecule_name]
-          ) as any[];
-          const mol = (molRows as any[])[0] as Record<string, unknown> | undefined;
+          ) as Record<string,unknown>[];
+          const mol = (molRows as Record<string,unknown>[])[0] as Record<string, unknown> | undefined;
           if (mol) {
             const [existing] = await conn.execute(
               `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
               [contribution.plant_id, mol.id]
-            ) as any[];
-            if ((existing as any[]).length === 0) {
+            ) as Record<string,unknown>[];
+            if ((existing as Record<string,unknown>[]).length === 0) {
               await conn.execute(`
                 INSERT INTO plant_molecules
                   (plant_id, molecule_id, source, notes, role, created_at, updated_at)
@@ -2897,14 +2897,14 @@ export async function reviewPlantContribution(
           const [terroirRows] = await conn.execute(
             `SELECT id FROM terroirs WHERE LOWER(name) LIKE LOWER(?) OR LOWER(region) LIKE LOWER(?) LIMIT 1`,
             [`%${contribution.terroir || contribution.region}%`, `%${contribution.region || contribution.terroir}%`]
-          ) as any[];
+          ) as Record<string,unknown>[];
           const terroir = (terroirRows as any[])[0] as Record<string, unknown> | undefined;
           if (terroir) {
             // Vérifier si le lien n'existe pas déjà
             const [existingLink] = await conn.execute(
               `SELECT id FROM plant_terroirs WHERE plant_id = ? AND terroir_id = ?`,
               [contribution.plant_id, terroir.id]
-            ) as any[];
+            ) as Record<string,unknown>[];
             if ((existingLink as any[]).length === 0) {
               await conn.execute(`
                 INSERT INTO plant_terroirs (plant_id, terroir_id, quality_notes, notes, created_at)
@@ -2934,8 +2934,8 @@ export async function reviewPlantContribution(
           const [plantRows] = await conn.execute(
             `SELECT ethnobotanical_uses FROM plants WHERE id = ?`,
             [contribution.plant_id]
-          ) as any[];
-          const plant = (plantRows as any[])[0] as Record<string, unknown>;
+          ) as Record<string,unknown>[];
+          const plant = (plantRows as Record<string,unknown>[])[0] as Record<string, unknown>;
           let uses: any[] = [];
           try { uses = JSON.parse((plant?.ethnobotanical_uses as string) || '[]'); } catch { uses = []; }
           uses.push({ source: 'contribution', date: new Date().toISOString().split('T')[0], content: contribution.note_content, references: contribution.references || null });

@@ -1946,14 +1946,14 @@ export async function createTpsGeneMoleculeLink(data: {
     if (!db) return { success: false, error: 'Database connection failed' };
     const evidenceSource = data.evidenceSource ? `'${data.evidenceSource.replace(/'/g, "''")}'` : 'NULL';
     const notes = data.notes ? `'${data.notes.replace(/'/g, "''")}'` : 'NULL';
-    await (db as any).execute(sql.raw(`
+    await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`
       INSERT INTO tps_gene_molecules 
         (tps_gene_id, molecule_id, relationship_type, confidence_level, evidence_source, notes)
        VALUES (${data.tpsGeneId}, ${data.moleculeId}, '${data.relationshipType || 'produces'}', '${data.confidenceLevel || 'inferred'}', ${evidenceSource}, ${notes})
     `));
     return { success: true, id: 0 };
   } catch (error: unknown) {
-    if ((error as any).code === 'ER_DUP_ENTRY') {
+    if ((error as NodeJS.ErrnoException).code === 'ER_DUP_ENTRY') {
       return { success: false, error: 'Cette liaison existe déjà' };
     }
     console.error('Error creating TPS gene-molecule link:', error);
@@ -2001,7 +2001,7 @@ export async function updateTpsGeneMoleculeLink(
     const db = await getDb();
     if (!db) return { success: false, error: 'Database connection failed' };
     const setClause = updates.map((u, i) => u.replace('?', `'${String(params[i]).replace(/'/g, "''")}'`)).join(', ');
-    await (db as any).execute(sql.raw(`UPDATE tps_gene_molecules SET ${setClause} WHERE id = ${id}`));
+    await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`UPDATE tps_gene_molecules SET ${setClause} WHERE id = ${id}`));
     
     return { success: true };
   } catch (error: unknown) {
@@ -2015,7 +2015,7 @@ export async function deleteTpsGeneMoleculeLink(id: number) {
   try {
     const db = await getDb();
     if (!db) return { success: false, error: 'Database connection failed' };
-    await (db as any).execute(sql.raw(`DELETE FROM tps_gene_molecules WHERE id = ${id}`));
+    await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`DELETE FROM tps_gene_molecules WHERE id = ${id}`));
     return { success: true };
   } catch (error: unknown) {
     console.error('Error deleting TPS gene-molecule link:', error);
@@ -2040,38 +2040,38 @@ export async function getTpsGeneMoleculeLinkStats() {
         moleculeCoverage: 0,
       };
     }
-    const totalLinksResult = await (db as any).execute(sql.raw(
+    const totalLinksResult = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(
       'SELECT COUNT(*) as count FROM tps_gene_molecules'
     ));
-    const totalLinks = ((totalLinksResult[0] as unknown) as any[])[0]?.count || 0;
-    const byRelationshipResult = await (db as any).execute(sql.raw(`
+    const totalLinks = ((totalLinksResult[0] as unknown) as Record<string,unknown>[])[0]?.count || 0;
+    const byRelationshipResult = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`
       SELECT relationship_type as type, COUNT(*) as count 
       FROM tps_gene_molecules 
       GROUP BY relationship_type
     `));
-    const byRelationship = (byRelationshipResult[0] as unknown) as any[];
-    const byConfidenceResult = await (db as any).execute(sql.raw(`
+    const byRelationship = (byRelationshipResult[0] as unknown) as Record<string,unknown>[];
+    const byConfidenceResult = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`
       SELECT confidence_level as level, COUNT(*) as count 
       FROM tps_gene_molecules 
       GROUP BY confidence_level
     `));
-    const byConfidence = (byConfidenceResult[0] as unknown) as any[];
-    const linkedGenesResult = await (db as any).execute(sql.raw(`
+    const byConfidence = (byConfidenceResult[0] as unknown) as Record<string,unknown>[];
+    const linkedGenesResult = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`
       SELECT COUNT(DISTINCT tps_gene_id) as count FROM tps_gene_molecules
     `));
-    const linkedGenes = ((linkedGenesResult[0] as unknown) as any[])[0]?.count || 0;
-    const linkedMoleculesResult = await (db as any).execute(sql.raw(`
+    const linkedGenes = ((linkedGenesResult[0] as unknown) as Record<string,unknown>[])[0]?.count || 0;
+    const linkedMoleculesResult = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`
       SELECT COUNT(DISTINCT molecule_id) as count FROM tps_gene_molecules
     `));
-    const linkedMolecules = ((linkedMoleculesResult[0] as unknown) as any[])[0]?.count || 0;
-    const totalGenesResult = await (db as any).execute(sql.raw(
+    const linkedMolecules = ((linkedMoleculesResult[0] as unknown) as Record<string,unknown>[])[0]?.count || 0;
+    const totalGenesResult = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(
       'SELECT COUNT(*) as count FROM tps_genes'
     ));
-    const totalGenesCount = ((totalGenesResult[0] as unknown) as any[])[0]?.count || 0;
-    const totalMoleculesResult = await (db as any).execute(sql.raw(
+    const totalGenesCount = ((totalGenesResult[0] as unknown) as Record<string,unknown>[])[0]?.count || 0;
+    const totalMoleculesResult = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(
       'SELECT COUNT(*) as count FROM molecules'
     ));
-    const totalMoleculesCount = ((totalMoleculesResult[0] as unknown) as any[])[0]?.count || 0;
+    const totalMoleculesCount = ((totalMoleculesResult[0] as unknown) as Record<string,unknown>[])[0]?.count || 0;
     
     return {
       totalLinks,
@@ -2109,16 +2109,16 @@ export async function autoLinkTpsGenesToMolecules() {
     }
     
     // Get all TPS genes with their main products
-    const genesResult = await (db as any).execute(sql.raw(`
+    const genesResult = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`
       SELECT id, name, main_product FROM tps_genes
     `));
-    const genes = (genesResult[0] as unknown) as any[];
+    const genes = (genesResult[0] as unknown) as Record<string,unknown>[];
     
     // Get all molecules
-    const moleculesResult = await (db as any).execute(sql.raw(`
+    const moleculesResult = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`
       SELECT id, name FROM molecules
     `));
-    const moleculesList = (moleculesResult[0] as unknown) as any[];
+    const moleculesList = (moleculesResult[0] as unknown) as Record<string,unknown>[];
     
     let linksCreated = 0;
     
@@ -2164,10 +2164,10 @@ export async function searchMoleculeMatchesForTpsGene(tpsGeneId: number) {
     }
     
     // Get the TPS gene details
-    const geneResult = await (db as any).execute(sql.raw(
+    const geneResult = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(
       `SELECT * FROM tps_genes WHERE id = ${tpsGeneId}`
     ));
-    const geneRows = (geneResult[0] as unknown) as any[];
+    const geneRows = (geneResult[0] as unknown) as Record<string,unknown>[];
     
     const gene = geneRows[0];
     if (!gene) {
@@ -2179,7 +2179,7 @@ export async function searchMoleculeMatchesForTpsGene(tpsGeneId: number) {
     const olfactoryNotes = gene.olfactory_notes || '';
     const searchTerm = mainProduct.toLowerCase().replace(/'/g, "''");
     const olfactoryTerm = (olfactoryNotes.split(',')[0] || '').replace(/'/g, "''");
-    const matchesResult = await (db as any).execute(sql.raw(`
+    const matchesResult = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`
       SELECT 
         m.id,
         m.name,
@@ -2193,7 +2193,7 @@ export async function searchMoleculeMatchesForTpsGene(tpsGeneId: number) {
         OR (m.olfactiveProfile IS NOT NULL AND m.olfactiveProfile LIKE '%${olfactoryTerm}%')
       LIMIT 20
     `));
-    const matches = (matchesResult[0] as unknown) as any[];
+    const matches = (matchesResult[0] as unknown) as Record<string,unknown>[];
     
     return {
       success: true,
@@ -2264,8 +2264,8 @@ export async function getTpsGenesByMolecule(moleculeId: number) {
          OR LOWER(gtl.terpene_product) LIKE '%${moleculeName.replace(/'/g, "''").replace(/[\u03b1\u03b2\u03b3\u03b4-]/g, '%')}%'
       ORDER BY gtl.gene_name
     `));
-    const rows = (result[0] as unknown) as any[];
-    return rows.map((row: any) => ({
+    const rows = (result[0] as unknown) as Record<string,unknown>[];
+    return rows.map((row: Record<string,unknown>) => ({
       id: row.id,
       geneName: row.gene_name,
       geneId: row.gene_id,
@@ -2319,8 +2319,8 @@ export async function getAllTpsGenes() {
       LEFT JOIN molecules m ON LOWER(m.name) LIKE CONCAT('%', LOWER(gtl.terpene_product), '%')
       ORDER BY gtl.gene_name
     `));
-    const rows = (result[0] as unknown) as any[];
-    return rows.map((row: any) => ({
+    const rows = (result[0] as unknown) as Record<string,unknown>[];
+    return rows.map((row: Record<string,unknown>) => ({
       id: row.id,
       geneName: row.gene_name,
       geneId: row.gene_id,
@@ -2361,10 +2361,10 @@ export async function getTpsGeneStats() {
         COUNT(DISTINCT terpene_class) as pathways
       FROM gene_terpene_links
     `));
-    const stats = ((result[0] as unknown) as any[])[0];
+    const stats = (result[0] as unknown as Record<string,unknown>[])[0];
     
     // Get genes by species
-    const speciesResult = await (db as any).execute(sql.raw(`
+    const speciesResult = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`
       SELECT plant_id as species, COUNT(*) as count
       FROM gene_terpene_links
       WHERE plant_id IS NOT NULL
@@ -2373,7 +2373,7 @@ export async function getTpsGeneStats() {
     `));
     
     // Get genes by product type (terpene_class)
-    const productTypeResult = await (db as any).execute(sql.raw(`
+    const productTypeResult = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`
       SELECT terpene_class as product_type, COUNT(*) as count
       FROM gene_terpene_links
       WHERE terpene_class IS NOT NULL
@@ -2387,11 +2387,11 @@ export async function getTpsGeneStats() {
       enzymeClasses: stats?.enzyme_classes || 0,
       productTypes: stats?.product_types || 0,
       pathways: stats?.pathways || 0,
-      bySpecies: (speciesResult[0] as unknown as any[]).map((r: any) => ({
+      bySpecies: (speciesResult[0] as unknown as Record<string,unknown>[]).map((r: Record<string,unknown>) => ({
         species: r.species,
         count: r.count,
       })),
-      byProductType: (productTypeResult[0] as unknown as any[]).map((r: any) => ({
+      byProductType: (productTypeResult[0] as unknown as Record<string,unknown>[]).map((r: Record<string,unknown>) => ({
         productType: r.product_type,
         count: r.count,
       })),
@@ -2428,7 +2428,7 @@ export async function enrichMoleculeFromCOCONUTWithTranslation(moleculeId: numbe
   if (!db) return { success: false, message: 'Database connection failed' };
   
   // Récupérer la molécule
-  const [rows] = await (db as any).execute(
+  const [rows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(
     'SELECT id, name, coconut_id FROM molecules WHERE id = ?',
     [moleculeId]
   );
@@ -2437,7 +2437,7 @@ export async function enrichMoleculeFromCOCONUTWithTranslation(moleculeId: numbe
   if (molecules.length === 0) {
     return { success: false, message: 'Molécule non trouvée' };
   }
-  const molecule = molecules[0] as any;
+  const molecule = molecules[0] as Record<string,unknown>;
   
   // Vérifier si déjà enrichie via COCONUT
   if (molecule.coconut_id) {
@@ -2455,7 +2455,7 @@ export async function enrichMoleculeFromCOCONUTWithTranslation(moleculeId: numbe
   }
   
   // Mettre à jour la base de données
-  await (db as any).execute(
+  await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(
     `UPDATE molecules SET 
       coconut_id = ?,
       np_likeness_score = ?,
@@ -2495,10 +2495,10 @@ export async function getUnenrichedMoleculesForCOCONUT(limit: number = 50): Prom
 }[]> {
   const db = await getDb();
   if (!db) return [];
-  const [rows] = await (db as any).execute(
+  const [rows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(
     'SELECT id, name, cas_number as casNumber, pubchem_cid IS NOT NULL as hasPubChem, chebi_id IS NOT NULL as hasChEBI FROM molecules WHERE coconut_id IS NULL ORDER BY name ASC LIMIT ' + limit
   );
-  return (rows as any[]).map((r: any) => ({
+  return (rows as Record<string,unknown>[]).map((r: Record<string,unknown>) => ({
     id: r.id,
     name: r.name,
     casNumber: r.casNumber || undefined,
@@ -2518,14 +2518,14 @@ export async function getCOCONUTEnrichmentStats(): Promise<{
 }> {
   const db = await getDb();
   if (!db) return { total: 0, enriched: 0, percentage: 0, withOrganisms: 0 };
-  const [rows] = await (db as any).execute(
+  const [rows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(
     `SELECT 
       COUNT(*) as total,
       SUM(CASE WHEN coconut_id IS NOT NULL THEN 1 ELSE 0 END) as enriched,
       SUM(CASE WHEN coconut_organisms IS NOT NULL AND coconut_organisms != '[]' THEN 1 ELSE 0 END) as withOrganisms
     FROM molecules`
   );
-  const stats = (rows as any[])[0] as any;
+  const stats = (rows as Record<string,unknown>[])[0];
   return {
     total: stats.total || 0,
     enriched: stats.enriched || 0,
@@ -2563,7 +2563,7 @@ export async function updateMoleculeCOCONUTData(moleculeId: number, data: {
     (organismsJson ? ", coconut_organisms = '" + organismsJson + "'" : "") +
     (citationsJson ? ", coconut_citations = '" + citationsJson + "'" : "") +
     ", coconut_enriched_at = NOW() WHERE id = " + moleculeId;
-  await (db as any).execute(query);
+  await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(query);
 }
 
 /**
@@ -2581,10 +2581,10 @@ export async function getMoleculesWithCOCONUTOrganisms(
 }[]> {
   const db = await getDb();
   if (!db) return [];
-  const [rows] = await (db as any).execute(
+  const [rows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(
     "SELECT id, name, coconut_id as coconutId, np_likeness_score as npLikenessScore, coconut_organisms as organisms FROM molecules WHERE coconut_organisms IS NOT NULL AND coconut_organisms != '[]' ORDER BY name ASC LIMIT " + limit + " OFFSET " + offset
   );
-  return (rows as any[]).map((r: any) => ({
+  return (rows as Record<string,unknown>[]).map((r: Record<string,unknown>) => ({
     id: r.id,
     name: r.name,
     coconutId: r.coconutId,
@@ -2616,7 +2616,7 @@ export async function updateMoleculeFlavornetData(moleculeId: number, data: Flav
   const query = "UPDATE molecules SET flavornet_percepts = '" + perceptsJson + "'" +
     (kovatsJson ? ", flavornet_kovats_ri = '" + kovatsJson + "'" : "") +
     ", flavornet_enriched_at = NOW() WHERE id = " + moleculeId;
-  await (db as any).execute(query);
+  await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(query);
 }
 
 /**
@@ -2629,10 +2629,10 @@ export async function getUnenrichedMoleculesForFlavornet(limit: number = 100): P
 }[]> {
   const db = await getDb();
   if (!db) return [];
-  const [rows] = await (db as any).execute(
+  const [rows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(
     'SELECT id, name, cas_number as casNumber FROM molecules WHERE flavornet_percepts IS NULL ORDER BY name ASC LIMIT ' + limit
   );
-  return (rows as any[]).map((r: any) => ({
+  return (rows as Record<string,unknown>[]).map((r: Record<string,unknown>) => ({
     id: r.id,
     name: r.name,
     casNumber: r.casNumber,
@@ -2653,10 +2653,10 @@ export async function getMoleculesWithFlavornetPercepts(
 }[]> {
   const db = await getDb();
   if (!db) return [];
-  const [rows] = await (db as any).execute(
+  const [rows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(
     "SELECT id, name, flavornet_percepts as percepts, flavornet_kovats_ri as kovatsRI FROM molecules WHERE flavornet_percepts IS NOT NULL AND flavornet_percepts != '[]' ORDER BY name ASC LIMIT " + limit + " OFFSET " + offset
   );
-  return (rows as any[]).map((r: any) => ({
+  return (rows as Record<string,unknown>[]).map((r: Record<string,unknown>) => ({
     id: r.id,
     name: r.name,
     percepts: r.percepts ? (typeof r.percepts === 'string' ? JSON.parse(r.percepts) : r.percepts) : [],
@@ -2676,14 +2676,14 @@ export async function getFlavornetEnrichmentStats(): Promise<{
 }> {
   const db = await getDb();
   if (!db) return { total: 0, enriched: 0, percentage: 0, withPercepts: 0, withKovatsRI: 0 };
-  const [totalRows] = await (db as any).execute('SELECT COUNT(*) as count FROM molecules');
-  const total = (totalRows as any[])[0]?.count || 0;
-  const [enrichedRows] = await (db as any).execute('SELECT COUNT(*) as count FROM molecules WHERE flavornet_percepts IS NOT NULL');
-  const enriched = (enrichedRows as any[])[0]?.count || 0;
-  const [perceptsRows] = await (db as any).execute("SELECT COUNT(*) as count FROM molecules WHERE flavornet_percepts IS NOT NULL AND flavornet_percepts != '[]'");
-  const withPercepts = (perceptsRows as any[])[0]?.count || 0;
-  const [kovatsRows] = await (db as any).execute('SELECT COUNT(*) as count FROM molecules WHERE flavornet_kovats_ri IS NOT NULL');
-  const withKovatsRI = (kovatsRows as any[])[0]?.count || 0;
+  const [totalRows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute('SELECT COUNT(*) as count FROM molecules');
+  const total = (totalRows as Record<string,unknown>[])[0]?.count || 0;
+  const [enrichedRows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute('SELECT COUNT(*) as count FROM molecules WHERE flavornet_percepts IS NOT NULL');
+  const enriched = (enrichedRows as Record<string,unknown>[])[0]?.count || 0;
+  const [perceptsRows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute("SELECT COUNT(*) as count FROM molecules WHERE flavornet_percepts IS NOT NULL AND flavornet_percepts != '[]'");
+  const withPercepts = (perceptsRows as Record<string,unknown>[])[0]?.count || 0;
+  const [kovatsRows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute('SELECT COUNT(*) as count FROM molecules WHERE flavornet_kovats_ri IS NOT NULL');
+  const withKovatsRI = (kovatsRows as Record<string,unknown>[])[0]?.count || 0;
   
   return {
     total,
@@ -2755,8 +2755,8 @@ export async function getMoleculePerfumes(moleculeId: number) {
      WHERE mp.molecule_id = ${moleculeId}
      ORDER BY mp.year ASC`
   ));
-  const rows: any[] = (result[0] as unknown) as any[];
-  return rows.map((r: any) => ({
+  const rows: Record<string,unknown>[] = (result[0] as unknown) as Record<string,unknown>[];
+  return rows.map((r: Record<string,unknown>) => ({
     id: r.id as number,
     perfumeName: r.perfumeName as string,
     perfumeHouse: r.perfumeHouse as string,
@@ -2798,8 +2798,8 @@ export async function getAllMoleculePerfumeLinks(): Promise<Array<{
        JOIN molecules m ON m.id = mp.molecule_id
        ORDER BY mp.perfume_house, mp.perfume_name, mp.role_in_perfume`
     ));
-    const rows: any[] = (result[0] as unknown) as any[];
-    return rows.map((r: any) => ({
+    const rows: Record<string,unknown>[] = (result[0] as unknown) as Record<string,unknown>[];
+    return rows.map((r: Record<string,unknown>) => ({
       moleculeId: Number(r.moleculeId),
       moleculeName: r.moleculeName as string,
       perfumeName: r.perfumeName as string,
