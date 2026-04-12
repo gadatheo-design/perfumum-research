@@ -4179,3 +4179,10 @@ npm run dev
 
 - [x] Éliminer les 21 any restants dans server/routers.ts → 0
 - [x] Éliminer les 7 any restants dans server/db/plants.ts → 0
+
+
+## BATCH 9 — Galerie images, variety-images, bibliographie API
+
+- [ ] Galerie images fiche plante : défilement automatique + catégories (feuille/fleur/tronc/racine)
+- [ ] /admin/variety-images : corriger 0 partout + améliorer lisibilité
+- [ ] Recherche APIs enrichissement bibliographique (CrossRef, OpenAlex, Semantic Scholar, etc.)

@@ -37,7 +37,8 @@ import {
   Globe
 } from "lucide-react";
 import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfile";
-import { PlantImageUpload, PlantImageGallery } from "@/components/PlantImageUpload";
+import { PlantImageUpload } from "@/components/PlantImageUpload";
+import { PlantImageGallery } from "@/components/PlantImageGallery";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LinkedMolecules, LinkedTerroirs, SimilarContent } from "@/components/SeeAlso";
 import { SeeAlsoSection } from "@/components/SeeAlsoSection";
@@ -526,7 +527,7 @@ export default function PlantDetail() {
               </div>
               </CardHeader>
             <CardContent>
-              <PlantImageGallery plantId={plantId} />
+              <PlantImageGallery plantId={plantId} latinName={plant.latinName} />
               {/* Lien croisé vers la galerie morphologique */}
               {plant.latinName && (() => {
                 const parts = plant.latinName.trim().split(/\s+/);

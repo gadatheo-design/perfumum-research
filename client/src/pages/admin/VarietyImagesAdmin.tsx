@@ -209,7 +209,7 @@ function ImageCard({ image, onClick, gridSize }: { image: any; onClick: () => vo
 
   return (
     <div
-      className="group relative rounded-xl overflow-hidden border border-zinc-200 hover:border-zinc-400 hover:shadow-lg transition-all duration-200 cursor-pointer bg-zinc-50"
+      className="group relative rounded-xl overflow-hidden border border-border hover:border-primary/50 hover:shadow-lg transition-all duration-200 cursor-pointer bg-card"
       onClick={onClick}
     >
       {/* Image */}
@@ -248,11 +248,11 @@ function ImageCard({ image, onClick, gridSize }: { image: any; onClick: () => vo
 
       {/* Caption */}
       <div className="px-2.5 py-2">
-        <p className="text-xs font-semibold italic text-zinc-700 truncate leading-tight">
+        <p className="text-xs font-semibold italic text-foreground truncate leading-tight">
           {image.genus} {image.species}
         </p>
         {image.cultivar && (
-          <p className="text-[10px] text-zinc-400 truncate mt-0.5">cv. {image.cultivar}</p>
+          <p className="text-[10px] text-muted-foreground truncate mt-0.5">cv. {image.cultivar}</p>
         )}
       </div>
     </div>
@@ -272,17 +272,17 @@ function ImageGallery({
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   if (isLoading) return (
-    <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
+    <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
       <Loader2 className="w-8 h-8 animate-spin mb-3" />
       <p className="text-sm">Chargement des images…</p>
     </div>
   );
 
   if (images.length === 0) return (
-    <div className="flex flex-col items-center justify-center py-20 text-zinc-400">
+    <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
       <ImageIcon className="w-14 h-14 mb-4 opacity-20" />
       <p className="text-sm font-medium">Aucune image correspondante</p>
-      <p className="text-xs mt-1 text-zinc-300">Modifiez les filtres ou uploadez une nouvelle image</p>
+      <p className="text-xs mt-1">Modifiez les filtres ou uploadez une nouvelle image</p>
     </div>
   );
 
@@ -789,18 +789,17 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
 function StatsBar({ stats }: { stats: any }) {
   if (!stats) return null;
   const items = [
-    { label: 'Total', value: stats.total, color: 'text-zinc-800', bg: 'bg-zinc-100' },
-    { label: 'Vérifiées', value: stats.verified, color: 'text-emerald-700', bg: 'bg-emerald-50' },
-    { label: 'En attente', value: stats.unverified, color: 'text-amber-700', bg: 'bg-amber-50' },
-    { label: 'Genres', value: Object.keys(stats.byGenus || {}).length, color: 'text-blue-700', bg: 'bg-blue-50' },
+    { label: 'Total', value: stats.total, color: 'text-foreground', bg: 'bg-muted' },
+    { label: 'V\u00e9rifi\u00e9es', value: stats.verified, color: 'text-emerald-700 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800' },
+    { label: 'En attente', value: stats.unverified, color: 'text-amber-700 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800' },
+    { label: 'Genres', value: Object.keys(stats.byGenus || {}).length, color: 'text-blue-700 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800' },
   ];
-
   return (
-    <div className="grid grid-cols-4 gap-2">
+    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
       {items.map(s => (
-        <div key={s.label} className={`${s.bg} rounded-xl px-4 py-3 text-center`}>
-          <div className={`text-2xl font-bold tabular-nums ${s.color}`}>{s.value}</div>
-          <div className="text-xs text-zinc-500 mt-0.5 font-medium">{s.label}</div>
+        <div key={s.label} className={`${s.bg} rounded-xl px-4 py-4 text-center`}>
+          <div className={`text-3xl font-bold tabular-nums ${s.color}`}>{s.value ?? 0}</div>
+          <div className="text-xs text-muted-foreground mt-1 font-medium uppercase tracking-wide">{s.label}</div>
         </div>
       ))}
     </div>
@@ -1005,20 +1004,20 @@ export default function VarietyImagesAdmin() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-zinc-50/50">
+    <div className="min-h-screen bg-background">
       {/* ── Page header ── */}
-      <div className="bg-white border-b border-zinc-200 px-6 py-5">
+      <div className="bg-card border-b border-border px-6 py-5">
         <div className="max-w-screen-xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h1 className="text-xl font-bold tracking-tight text-zinc-900 flex items-center gap-2">
+            <h1 className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
               <ImageIcon className="w-5 h-5 text-primary" />
               Images morphologiques
             </h1>
-            <p className="text-sm text-zinc-500 mt-0.5">Galerie botanique — feuilles, fleurs, fruits, plantes entières</p>
+            <p className="text-sm text-muted-foreground mt-0.5">Galerie botanique — feuilles, fleurs, fruits, plantes entières</p>
           </div>
           <div className="flex items-center gap-2">
             {/* Grid size toggle */}
-            <div className="flex items-center border border-zinc-200 rounded-lg p-0.5 bg-zinc-50">
+            <div className="flex items-center border border-border rounded-lg p-0.5 bg-muted/50">
               {([
                 { size: 'compact' as GridSize, icon: <Grid3X3 className="w-3.5 h-3.5" />, title: 'Compact' },
                 { size: 'normal' as GridSize, icon: <LayoutGrid className="w-3.5 h-3.5" />, title: 'Normal' },

@@ -116,10 +116,9 @@ export const varietyImagesRouter = router({
       if (input.genus) conditions.push(eq(varietyImages.genus, input.genus));
       if (input.species) conditions.push(eq(varietyImages.species, input.species));
       if (input.imageType) conditions.push(eq(varietyImages.imageType, input.imageType));
+      // Ne filtrer par isVerified que si explicitement demandé
       if (input.isVerified !== undefined) {
         conditions.push(eq(varietyImages.isVerified, input.isVerified));
-      } else {
-        conditions.push(eq(varietyImages.isVerified, true));
       }
       return db.select().from(varietyImages)
         .where(conditions.length > 0 ? and(...conditions) : undefined)
