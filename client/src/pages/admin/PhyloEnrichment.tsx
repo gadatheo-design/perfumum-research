@@ -79,13 +79,17 @@ function SectionTitle({ icon: Icon, title, subtitle }: { icon: React.ComponentTy
 
 // ─── Tab: Profil Wikidata Phylo ───────────────────────────────────────────────
 
+type ChildTaxon = { qid: string; name: string; rank: string; rankName: string; wikidataUrl: string };
+type ImportStatus = 'idle' | 'pending' | 'created' | 'skipped' | 'error';
+
 function WikidataPhyloTab({ scientificName }: { scientificName: string }) {
+  const { toast } = useToast();
   const { data, isLoading, error } = trpc.wikidataPhylo.getFullPhyloProfile.useQuery(
     { scientificName },
     { enabled: scientificName.length > 2, retry: 1 }
   );
   const { data: childData, isLoading: childLoading } = trpc.wikidataPhylo.getChildTaxa.useQuery(
-    { scientificName, limit: 20 },
+    { scientificName, limit: 50 },
     { enabled: scientificName.length > 2, retry: 1 }
   );
   const { data: hybridData } = trpc.wikidataPhylo.getHybridParents.useQuery(
@@ -97,10 +101,53 @@ function WikidataPhyloTab({ scientificName }: { scientificName: string }) {
     { enabled: scientificName.length > 2, retry: 1 }
   );
 
+  const [importStatuses, setImportStatuses] = useState<Record<string, ImportStatus>>({});
+  const [importMessages, setImportMessages] = useState<Record<string, string>>({});
+  const [isImportingAll, setIsImportingAll] = useState(false);
+
+  const importMutation = trpc.wikidataPhylo.importChildTaxaToPlants.useMutation({
+    onSuccess: (result) => {
+      const newStatuses: Record<string, ImportStatus> = {};
+      const newMessages: Record<string, string> = {};
+      for (const r of result.results) {
+        newStatuses[r.wikidataId] = r.status;
+        if (r.message) newMessages[r.wikidataId] = r.message;
+      }
+      setImportStatuses((prev) => ({ ...prev, ...newStatuses }));
+      setImportMessages((prev) => ({ ...prev, ...newMessages }));
+      toast({
+        title: 'Import terminé',
+        description: `${result.created} créé(s), ${result.skipped} déjà présent(s)${result.errors.length > 0 ? `, ${result.errors.length} erreur(s)` : ''}`,
+        variant: result.errors.length > 0 ? 'destructive' : 'default',
+      });
+      setIsImportingAll(false);
+    },
+    onError: (err) => {
+      toast({ title: 'Erreur import', description: err.message, variant: 'destructive' });
+      setIsImportingAll(false);
+    },
+  });
+
+  const handleImportOne = (child: ChildTaxon) => {
+    const nameParts = child.name.trim().split(/\s+/);
+    setImportStatuses((prev) => ({ ...prev, [child.qid]: 'pending' }));
+    importMutation.mutate({ taxa: [{ wikidataId: child.qid, scientificName: child.name, genus: nameParts[0], species: nameParts[1], rankName: child.rankName }] });
+  };
+
+  const handleImportAll = () => {
+    if (!childData?.children?.length) return;
+    setIsImportingAll(true);
+    const taxa = (childData.children as ChildTaxon[])
+      .filter((c) => importStatuses[c.qid] !== 'created')
+      .map((c) => { const p = c.name.trim().split(/\s+/); return { wikidataId: c.qid, scientificName: c.name, genus: p[0], species: p[1], rankName: c.rankName }; });
+    if (!taxa.length) { setIsImportingAll(false); return; }
+    importMutation.mutate({ taxa });
+  };
+
   if (isLoading) return <div className="flex items-center gap-2 text-zinc-400 py-8"><Loader2 className="w-4 h-4 animate-spin" /> Interrogation de Wikidata...</div>;
   if (error || !data?.found) return <div className="text-zinc-500 py-8 text-sm">Aucun résultat Wikidata pour <em>{scientificName}</em>.</div>;
 
-  const p = data.profile!;
+  const p = data.profile!
 
   return (
     <div className="space-y-6">
@@ -194,15 +241,38 @@ function WikidataPhyloTab({ scientificName }: { scientificName: string }) {
       {/* Taxons enfants */}
       {childData?.found && (
         <div>
-          <SectionTitle icon={TreePine} title={`Taxons enfants (${childData.total})`} subtitle="Sous-espèces, variétés, cultivars" />
-          <div className="grid grid-cols-2 gap-1.5 max-h-48 overflow-y-auto">
-            {childData.children.map((child, i) => (
-              <a key={i} href={child.wikidataUrl} target="_blank" rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-2 py-1 rounded text-xs bg-zinc-800/40 hover:bg-zinc-800 text-zinc-300 transition-colors">
-                <span className="text-zinc-500 text-[10px]">{child.rankName}</span>
-                <span className="italic truncate">{child.name}</span>
-              </a>
-            ))}
+          <div className="flex items-center justify-between mb-3">
+            <SectionTitle icon={TreePine} title={`Taxons enfants (${childData.total})`} subtitle="Sous-espèces, variétés, cultivars" />
+            <Button size="sm" variant="outline"
+              className="border-violet-700/50 text-violet-300 hover:bg-violet-900/20 text-xs h-7 px-3 flex-shrink-0"
+              onClick={handleImportAll} disabled={isImportingAll || importMutation.isPending}>
+              {isImportingAll ? <Loader2 className="w-3 h-3 animate-spin mr-1.5" /> : <Database className="w-3 h-3 mr-1.5" />}
+              Tout importer ({(childData.children as ChildTaxon[]).filter((c) => importStatuses[c.qid] !== 'created').length})
+            </Button>
+          </div>
+          <div className="space-y-1 max-h-64 overflow-y-auto">
+            {(childData.children as ChildTaxon[]).map((child, i) => {
+              const status = importStatuses[child.qid] ?? 'idle';
+              const msg = importMessages[child.qid];
+              return (
+                <div key={i} className="flex items-center gap-2 px-2 py-1.5 rounded text-xs bg-zinc-800/40 hover:bg-zinc-800/60 transition-colors">
+                  <span className="text-zinc-500 text-[10px] w-16 flex-shrink-0">{child.rankName}</span>
+                  <a href={child.wikidataUrl} target="_blank" rel="noopener noreferrer"
+                    className="italic text-zinc-300 hover:text-violet-300 transition-colors flex-1 truncate">{child.name}</a>
+                  {status === 'created' && <span className="flex items-center gap-1 text-emerald-400 flex-shrink-0"><CheckCircle2 className="w-3 h-3" /> Importé</span>}
+                  {status === 'skipped' && <span className="flex items-center gap-1 text-zinc-500 flex-shrink-0" title={msg}><Info className="w-3 h-3" /> Existant</span>}
+                  {status === 'error' && <span className="flex items-center gap-1 text-red-400 flex-shrink-0" title={msg}><XCircle className="w-3 h-3" /> Erreur</span>}
+                  {status === 'pending' && <Loader2 className="w-3 h-3 animate-spin text-violet-400 flex-shrink-0" />}
+                  {status === 'idle' && (
+                    <Button size="sm" variant="ghost"
+                      className="h-5 px-2 text-[10px] text-violet-400 hover:text-violet-200 hover:bg-violet-900/30 flex-shrink-0"
+                      onClick={() => handleImportOne(child)} disabled={importMutation.isPending}>
+                      + Importer
+                    </Button>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       )}

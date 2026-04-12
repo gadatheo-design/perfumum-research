@@ -445,4 +445,70 @@ LIMIT 5`;
         },
       };
     }),
+
+  importChildTaxaToPlants: publicProcedure
+    .input(z.object({
+      taxa: z.array(z.object({
+        wikidataId: z.string().min(1),
+        scientificName: z.string().min(1),
+        commonName: z.string().optional(),
+        genus: z.string().optional(),
+        species: z.string().optional(),
+        family: z.string().optional(),
+        rankName: z.string().optional(),
+      })).min(1).max(100),
+    }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error('DB non disponible');
+
+      let created = 0;
+      let skipped = 0;
+      const errors: string[] = [];
+      const results: Array<{ wikidataId: string; scientificName: string; status: 'created' | 'skipped' | 'error'; message?: string }> = [];
+
+      for (const taxon of input.taxa) {
+        try {
+          const existing = await db.select({ id: plants.id })
+            .from(plants)
+            .where(
+              sql`(${plants.latinName} = ${taxon.scientificName}) OR (${plants.wikidataQid} = ${taxon.wikidataId})`
+            )
+            .limit(1);
+
+          if (existing.length > 0) {
+            skipped++;
+            results.push({ wikidataId: taxon.wikidataId, scientificName: taxon.scientificName, status: 'skipped', message: `Déjà présente (id=${existing[0].id})` });
+            continue;
+          }
+
+          const nameParts = taxon.scientificName.trim().split(/\s+/);
+          const genus = taxon.genus ?? nameParts[0] ?? 'Unknown';
+          const species = taxon.species ?? nameParts[1] ?? null;
+          const displayName = taxon.commonName ?? taxon.scientificName;
+
+          await db.insert(plants).values({
+            name: displayName,
+            latinName: taxon.scientificName,
+            family: taxon.family ?? null,
+            genus,
+            species,
+            wikidataQid: taxon.wikidataId,
+            wikidataEnrichedAt: new Date(),
+            category: 'plante',
+            status: 'actif',
+            notes: `Importé depuis Wikidata (${taxon.wikidataId}). Rang : ${taxon.rankName ?? 'inconnu'}.`,
+          });
+
+          created++;
+          results.push({ wikidataId: taxon.wikidataId, scientificName: taxon.scientificName, status: 'created' });
+        } catch (err: unknown) {
+          const msg = err instanceof Error ? err.message : String(err);
+          errors.push(`${taxon.scientificName}: ${msg}`);
+          results.push({ wikidataId: taxon.wikidataId, scientificName: taxon.scientificName, status: 'error', message: msg });
+        }
+      }
+
+      return { success: errors.length === 0, created, skipped, errors, results };
+    }),
 });
