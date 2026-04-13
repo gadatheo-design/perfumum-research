@@ -111,8 +111,6 @@ function RecommendationCard({
   const [importResult, setImportResult] = useState<ImportResult | null>(null);
   // Contrôles spécifiques à l'import d'image
   const [imageType, setImageType] = useState<'leaf' | 'flower' | 'fruit' | 'whole_plant' | 'other'>('whole_plant');
-  const [forceOverwrite, setForceOverwrite] = useState(false);
-
   const importConservation = trpc.wikidataSync.importConservationStatus.useMutation();
   const importImage        = trpc.wikidataSync.importWikidataImage.useMutation();
   const linkToWikidata     = trpc.wikidataSync.linkToWikidata.useMutation();
@@ -139,7 +137,6 @@ function RecommendationCard({
           latinName: scientificName, wikidataQid: wikidataEntity.qid ?? '',
           imageUrl: wikidataEntity.imageUrl ?? '',
           imageType,
-          forceOverwrite,
         });
       } else if (rec.type === 'parents') {
         result = await linkToWikidata.mutateAsync({
@@ -212,15 +209,7 @@ function RecommendationCard({
                   <option value="other">Autre</option>
                 </select>
               </div>
-              <label className="flex items-center gap-1 text-xs text-gray-500 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={forceOverwrite}
-                  onChange={e => setForceOverwrite(e.target.checked)}
-                  className="rounded h-3 w-3"
-                />
-                Écraser image existante
-              </label>
+              <p className="text-xs text-muted-foreground italic">L'image sera ajoutée à la galerie sans écraser l'image principale.</p>
             </div>
           )}
         </div>

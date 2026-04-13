@@ -39,6 +39,7 @@ import {
 import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfile";
 import { PlantImageUpload } from "@/components/PlantImageUpload";
 import { PlantImageGallery } from "@/components/PlantImageGallery";
+import { PlantHeaderGallery } from "@/components/PlantHeaderGallery";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LinkedMolecules, LinkedTerroirs, SimilarContent } from "@/components/SeeAlso";
 import { SeeAlsoSection } from "@/components/SeeAlsoSection";
@@ -273,8 +274,16 @@ export default function PlantDetail() {
 
       {/* En-tête de la plante */}
       <div className="mb-8">
-        <div className="flex items-start justify-between">
-          <div>
+        <div className="flex flex-col md:flex-row items-start gap-6">
+          {/* Galerie hero (image principale + varietyImages) */}
+          <PlantHeaderGallery
+            plantId={plantId}
+            plantName={plant.name}
+            latinName={plant.latinName}
+            mainImageUrl={plant.imageUrl}
+          />
+          {/* Infos texte */}
+          <div className="flex-1 min-w-0">
             <div className="flex items-center gap-3 mb-2">
               {categoryIcons[plant.category] || <Leaf className="h-5 w-5" />}
               <Badge variant="outline" className="capitalize">
@@ -308,16 +317,7 @@ export default function PlantDetail() {
                 </Link>
               </div>
             )}
-          </div>
-          <div className="flex flex-col items-end gap-3">
-            {plant.imageUrl && (
-              <img 
-                src={plant.imageUrl} 
-                alt={plant.name}
-                className="w-32 h-32 object-cover rounded-lg border"
-              />
-            )}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mt-4">
               <AIEnrichButton
                 entityType="plant"
                 entityId={plantId}

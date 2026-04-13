@@ -8779,12 +8779,14 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
             : `SELECT id FROM bibliography_entries WHERE notes LIKE '%PMID:${pmid}%' LIMIT 1`
         ));
         const existingRows = Array.isArray(existingResult) ? existingResult[0] as Record<string, unknown>[] : [];
-        let entryId: number;
+        let entryId: number = 0;
         if (existingRows.length > 0) {
           entryId = Number(existingRows[0].id);
         } else {
           // Créer la référence
+          const pmidKey = `pubmed_${pmid}`;
           const newEntry = await db.createBibliographyEntry({
+            entryKey: pmidKey,
             entryType: 'article',
             title,
             authors: firstAuthor || '',

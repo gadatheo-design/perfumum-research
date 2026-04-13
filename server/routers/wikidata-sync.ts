@@ -327,7 +327,6 @@ export const wikidataSyncRouter = router({
         wikidataQid: z.string().min(1),
         imageUrl: z.string().url(),
         imageType: z.enum(['leaf', 'flower', 'fruit', 'whole_plant', 'other']).optional().default('whole_plant'),
-        forceOverwrite: z.boolean().optional().default(false),
       })
     )
     .mutation(async ({ input }) => {
@@ -394,23 +393,24 @@ export const wikidataSyncRouter = router({
         isVerified: false,
       });
 
-      // Update plants.imageUrl : si pas d'image OU si forceOverwrite
-      if (!plant.imageUrl || input.forceOverwrite) {
+      // Ne jamais écraser l'image principale existante — l'image va uniquement dans la galerie (variety_images)
+      if (!plant.imageUrl) {
+        // Seulement si aucune image principale : définir celle-ci
         await db
           .update(plants)
           .set({ imageUrl: fileUrl, wikidataQid: input.wikidataQid, wikidataEnrichedAt: new Date() })
           .where(eq(plants.id, plant.id));
       } else {
+        // Image principale préservée — on met juste à jour le QID
         await db
           .update(plants)
           .set({ wikidataQid: input.wikidataQid, wikidataEnrichedAt: new Date() })
           .where(eq(plants.id, plant.id));
       }
 
-      const overwriteMsg = input.forceOverwrite && plant.imageUrl ? ' Image principale écrasée.' : '';
       return {
         success: true,
-        message: `Image Wikidata ajoutée dans la galerie de ${plant.name} (partie : ${input.imageType}).${overwriteMsg}${!plant.imageUrl ? ' Définie comme image principale.' : ''}`,
+        message: `Image Wikidata ajoutée dans la galerie de ${plant.name} (partie : ${input.imageType}).${!plant.imageUrl ? ' Définie comme image principale (aucune image existante).' : ' Image principale préservée.'}`,
         plantId: plant.id,
         plantName: plant.name,
         imageUrl: fileUrl,
