@@ -284,10 +284,10 @@ export const appRouter = router({
         if (!dbConn) return [];
         const { laboratoire: labTable } = await import('../drizzle/schema');
         const { eq, like, and, or, asc } = await import('drizzle-orm');
-        const conditions: ReturnType<typeof eq>[] = [];
-        if (input?.type) conditions.push(eq(labTable.type, input.type!));
-        if (input?.status) conditions.push(eq(labTable.status, input.status!));
-        if (input?.note) conditions.push(eq(labTable.note, input.note!));
+        const conditions: any[] = [];
+        if (input?.type) conditions.push(eq(labTable.type, input.type! as any));
+        if (input?.status) conditions.push(eq(labTable.status, input.status! as any));
+        if (input?.note) conditions.push(eq(labTable.note, input.note! as any));
         if (input?.search) {
           conditions.push(or(
             like(labTable.name, `%${input.search}%`),
@@ -351,7 +351,7 @@ export const appRouter = router({
         return val as unknown;
       })
       .mutation(async ({ input }) => {
-        const result = await db.createMolecule(input);
+        const result = await db.createMolecule(input as Record<string, unknown>);
         invalidateMoleculeCache(); // Invalider le cache après création
         return result;
       }),
@@ -412,7 +412,7 @@ export const appRouter = router({
         const { status, limit = 50, offset = 0 } = input || {};
         if (status && status !== 'all') {
           osmoMolecules = osmoMolecules.filter(m => {
-            const rs = (m as Record<string, unknown>).regulatoryStatus?.toLowerCase() || '';
+            const rs = String((m as Record<string, unknown>).regulatoryStatus ?? '').toLowerCase();
             if (status === 'restricted') return rs.includes('restreint') || rs.includes('restricted');
             if (status === 'banned') return rs.includes('interdit') || rs.includes('banned');
             if (status === 'regulated') return rs.includes('réglementé') || rs.includes('regulated');
@@ -751,15 +751,15 @@ export const appRouter = router({
         let result = all as Record<string, unknown>[];
         if (input.mechanism) {
           result = result.filter((t: Record<string, unknown>) =>
-            t.mechanism?.toLowerCase().includes(input.mechanism!.toLowerCase())
+            String(t.mechanism ?? '').toLowerCase().includes(input.mechanism!.toLowerCase())
           );
         }
         if (input.search) {
           const q = input.search.toLowerCase();
           result = result.filter((t: Record<string, unknown>) =>
-            t.source_molecule?.toLowerCase().includes(q) ||
-            t.product_molecule?.toLowerCase().includes(q) ||
-            t.notes?.toLowerCase().includes(q)
+            String(t.source_molecule ?? '').toLowerCase().includes(q) ||
+            String(t.product_molecule ?? '').toLowerCase().includes(q) ||
+            String(t.notes ?? '').toLowerCase().includes(q)
           );
         }
         return result;
@@ -918,11 +918,12 @@ export const appRouter = router({
           const resp = await fetch(url, { signal: AbortSignal.timeout(10000) });
           if (resp.ok) {
             const data = await resp.json() as Record<string, unknown>;
-            const props = data?.PropertyTable?.Properties?.[0];
+            const propsArr = (data?.PropertyTable as Record<string,unknown>)?.Properties as Record<string,unknown>[] | undefined;
+            const props = propsArr?.[0];
             if (props) {
-              iupacName = props.IUPACName || null;
-              formula = props.MolecularFormula || null;
-              inchiKey = props.InChIKey || null;
+              iupacName = (props.IUPACName as string) || null;
+              formula = (props.MolecularFormula as string) || null;
+              inchiKey = (props.InChIKey as string) || null;
             }
           }
         } catch (e) {
@@ -2157,7 +2158,7 @@ export const appRouter = router({
           input.entityType,
           input.entityId,
           ctx.user?.id,
-          input.metadata
+          input.metadata as Record<string, any> | undefined
         );
         return { success: true };
       }),
@@ -3486,7 +3487,8 @@ export const appRouter = router({
           }
         }
         if (row.conservation_status && row.conservation_status !== 'NE' && row.conservation_status !== 'DD') {
-          byIucn[row.conservation_status] = (byIucn[row.conservation_status] || 0) + 1;
+          const iucnKey = row.conservation_status as string;
+          byIucn[iucnKey] = (byIucn[iucnKey] || 0) + 1;
         }
       }
 
@@ -3674,7 +3676,8 @@ export const appRouter = router({
           WHERE plant_id = ${plantId}
           ORDER BY FIELD(season, 'printemps', 'ete', 'automne', 'hiver')
         `);
-        const rows = (Array.isArray(result) ? result[0] : (result as Record<string, unknown>[] | { rows: Record<string, unknown>[] }).rows ?? result) as Record<string, unknown>[];
+        const rawResult = result as unknown as Record<string, unknown>[] | { rows: Record<string, unknown>[] };
+        const rows = (Array.isArray(rawResult) ? rawResult[0] : (rawResult as { rows: Record<string, unknown>[] }).rows ?? rawResult) as Record<string, unknown>[];
         return rows.map((r: Record<string, unknown>) => ({
           id: r.id as number,
           plantId: r.plant_id as number,
@@ -3684,7 +3687,7 @@ export const appRouter = router({
           humidityRange: r.humidity_range as string | null,
           notes: r.notes as string | null,
           keyMolecules: typeof r.key_molecules === 'string' ? JSON.parse(r.key_molecules) : (r.key_molecules ?? []),
-          yieldModifier: r.yield_modifier ? parseFloat(r.yield_modifier) : null,
+          yieldModifier: r.yield_modifier ? parseFloat(String(r.yield_modifier)) : null,
           qualityScore: r.quality_score as number | null,
           extractionNotes: r.extraction_notes as string | null,
           createdAt: r.created_at as Date | null,
@@ -3714,7 +3717,8 @@ export const appRouter = router({
             ? sql`SELECT id, name, latin_name, category, image_url FROM plants WHERE dominant_molecules LIKE ${searchTerm} AND id != ${input.excludePlantId} ORDER BY name LIMIT ${input.limit}`
             : sql`SELECT id, name, latin_name, category, image_url FROM plants WHERE dominant_molecules LIKE ${searchTerm} ORDER BY name LIMIT ${input.limit}`
         );
-        const rows = (Array.isArray(result) ? result[0] : (result as Record<string, unknown>[] | { rows: Record<string, unknown>[] }).rows ?? result) as Record<string, unknown>[];
+        const rawResult = result as unknown as Record<string, unknown>[] | { rows: Record<string, unknown>[] };
+        const rows = (Array.isArray(rawResult) ? rawResult[0] : (rawResult as { rows: Record<string, unknown>[] }).rows ?? rawResult) as Record<string, unknown>[];
         return rows.map((r: Record<string, unknown>) => ({
           id: r.id as number,
           name: r.name as string,
@@ -4807,20 +4811,20 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       }),
     getTabacSuppliers: publicProcedure.query(async () => {
       const all = await getAllExtendedSuppliers();
-      return all.filter((s: Record<string,unknown>) => s.supplierId?.startsWith('TABAC'));
+      return all.filter((s: Record<string,unknown>) => String(s.supplierId ?? '').startsWith('TABAC'));
     }),
     getCannabisSuppliers: publicProcedure.query(async () => {
       const all = await getAllExtendedSuppliers();
-      return all.filter((s: Record<string,unknown>) => s.supplierId?.startsWith('CANNA'));
+      return all.filter((s: Record<string,unknown>) => String(s.supplierId ?? '').startsWith('CANNA'));
     }),
     getByCategory: publicProcedure
       .input(z.object({ category: z.enum(['tabac', 'cannabis', 'parfum', 'botanique', 'all']) }))
       .query(async ({ input }) => {
         const all = await getAllExtendedSuppliers();
-        if (input.category === 'tabac') return all.filter((s: Record<string,unknown>) => s.supplierId?.startsWith('TABAC'));
-        if (input.category === 'cannabis') return all.filter((s: Record<string,unknown>) => s.supplierId?.startsWith('CANNA'));
-        if (input.category === 'parfum') return all.filter((s: Record<string,unknown>) => s.supplierId?.startsWith('PARF'));
-        if (input.category === 'botanique') return all.filter((s: Record<string,unknown>) => s.supplierId?.startsWith('BOTA'));
+        if (input.category === 'tabac') return all.filter((s: Record<string,unknown>) => String(s.supplierId ?? '').startsWith('TABAC'));
+        if (input.category === 'cannabis') return all.filter((s: Record<string,unknown>) => String(s.supplierId ?? '').startsWith('CANNA'));
+        if (input.category === 'parfum') return all.filter((s: Record<string,unknown>) => String(s.supplierId ?? '').startsWith('PARF'));
+        if (input.category === 'botanique') return all.filter((s: Record<string,unknown>) => String(s.supplierId ?? '').startsWith('BOTA'));
         return all;
       }),
     getByCountry: publicProcedure
@@ -4857,9 +4861,9 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const q = input.query.toLowerCase();
         return allPlants
           .filter((p: Record<string,unknown>) =>
-            p.name?.toLowerCase().includes(q) ||
-            p.latinName?.toLowerCase().includes(q) ||
-            p.latin_name?.toLowerCase().includes(q)
+            String(p.name ?? '').toLowerCase().includes(q) ||
+            String(p.latinName ?? '').toLowerCase().includes(q) ||
+            String(p.latin_name ?? '').toLowerCase().includes(q)
           )
           .slice(0, 20);
       }),
@@ -4990,7 +4994,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         }),
       }))
       .mutation(async ({ input }) => {
-        return db.updateRawMaterial(input.id, input.data);
+        return db.updateRawMaterial(input.id, input.data as any);
       }),
     delete: protectedProcedure
       .input(z.number())

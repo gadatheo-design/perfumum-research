@@ -1231,7 +1231,7 @@ export async function createPlantMoleculeLink(data: {
     percentageMax: data.percentageMax,
     percentageTypical: data.percentageTypical,
     isSignature: data.isSignature || 0,
-    role: data.role as Molecule['role'],
+    role: data.role as any,
   });
   
   return { id: Number(result[0].insertId), ...data };
@@ -1276,7 +1276,7 @@ export async function updatePlantMoleculeLink(
       ...(data.percentageMax !== undefined && { percentageMax: data.percentageMax ?? null }),
       ...(data.percentageTypical !== undefined && { percentageTypical: data.percentageTypical ?? null }),
       ...(data.isSignature !== undefined && { isSignature: data.isSignature }),
-      ...(data.role !== undefined && { role: data.role as Molecule['role'] }),
+      ...(data.role !== undefined && { role: data.role as any }),
       ...(data.source !== undefined && { source: data.source }),
     })
     .where(
@@ -1306,7 +1306,7 @@ export async function updateVarietyConservationStatus(
   
   await db.update(plantVarieties)
     .set({
-      conservationStatus: data.conservationStatus as Molecule['conservationStatus'],
+      conservationStatus: data.conservationStatus as any,
       conservationNotes: data.conservationNotes,
       threatFactors: data.threatFactors,
       conservationEfforts: data.conservationEfforts,
@@ -1465,7 +1465,7 @@ export async function enrichMoleculeFromPubChem(
   const db = await getDb();
   if (!db) throw new Error('Database not initialized');
   
-  const updateData: Partial<InsertMolecule> = {};
+  const updateData: Partial<Record<string, unknown>> = {};
   
   if (pubchemData.casNumber) updateData.casNumber = pubchemData.casNumber;
   if (pubchemData.iupacName) updateData.iupacName = pubchemData.iupacName;
@@ -2081,8 +2081,8 @@ export async function getTpsGeneMoleculeLinkStats() {
       linkedMolecules,
       totalGenes: totalGenesCount,
       totalMolecules: totalMoleculesCount,
-      geneCoverage: linkedGenes / (totalGenesCount || 1) * 100,
-      moleculeCoverage: linkedMolecules / (totalMoleculesCount || 1) * 100,
+      geneCoverage: Number(linkedGenes) / (Number(totalGenesCount) || 1) * 100,
+      moleculeCoverage: Number(linkedMolecules) / (Number(totalMoleculesCount) || 1) * 100,
     };
   } catch (error: unknown) {
     console.error('Error getting TPS gene-molecule link stats:', error);
@@ -2128,14 +2128,14 @@ export async function autoLinkTpsGenesToMolecules() {
       
       // Find matching molecules
       for (const mol of moleculesList) {
-        const molName = mol.name.toLowerCase();
+        const molName = String(mol.name ?? '').toLowerCase();
         
         // Check for exact or partial match
         if (molName.includes(mainProduct) || mainProduct.includes(molName)) {
           // Try to create link (will fail silently if already exists)
           const result = await createTpsGeneMoleculeLink({
-            tpsGeneId: gene.id,
-            moleculeId: mol.id,
+            tpsGeneId: gene.id as number,
+            moleculeId: mol.id as number,
             relationshipType: 'produces',
             confidenceLevel: 'inferred',
             evidenceSource: 'Auto-link based on product name matching',
@@ -2177,8 +2177,8 @@ export async function searchMoleculeMatchesForTpsGene(tpsGeneId: number) {
     // Search for molecules that might match
     const mainProduct = gene.main_product || '';
     const olfactoryNotes = gene.olfactory_notes || '';
-    const searchTerm = mainProduct.toLowerCase().replace(/'/g, "''");
-    const olfactoryTerm = (olfactoryNotes.split(',')[0] || '').replace(/'/g, "''");
+    const searchTerm = String(mainProduct ?? '').toLowerCase().replace(/'/g, "''");
+    const olfactoryTerm = (String(olfactoryNotes ?? '').split(',')[0] || '').replace(/'/g, "''");
     const matchesResult = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`
       SELECT 
         m.id,
@@ -2445,7 +2445,7 @@ export async function enrichMoleculeFromCOCONUTWithTranslation(moleculeId: numbe
   }
   
   // Enrichir via COCONUT
-  const result = await enrichMoleculeWithTranslationCOCONUT(molecule.name);
+  const result = await enrichMoleculeWithTranslationCOCONUT(molecule.name as string);
   
   if (!result.success || !result.coconut_id) {
     return { 
@@ -2499,9 +2499,9 @@ export async function getUnenrichedMoleculesForCOCONUT(limit: number = 50): Prom
     'SELECT id, name, cas_number as casNumber, pubchem_cid IS NOT NULL as hasPubChem, chebi_id IS NOT NULL as hasChEBI FROM molecules WHERE coconut_id IS NULL ORDER BY name ASC LIMIT ' + limit
   );
   return (rows as Record<string,unknown>[]).map((r: Record<string,unknown>) => ({
-    id: r.id,
-    name: r.name,
-    casNumber: r.casNumber || undefined,
+    id: r.id as number,
+    name: r.name as string,
+    casNumber: (r.casNumber as string | undefined) || undefined,
     hasPubChem: Boolean(r.hasPubChem),
     hasChEBI: Boolean(r.hasChEBI),
   }));
@@ -2529,7 +2529,7 @@ export async function getCOCONUTEnrichmentStats(): Promise<{
   return {
     total: stats.total || 0,
     enriched: stats.enriched || 0,
-    percentage: stats.total > 0 ? Math.round((stats.enriched / stats.total) * 100) : 0,
+    percentage: Number(stats.total) > 0 ? Math.round((Number(stats.enriched) / Number(stats.total)) * 100) : 0,
     withOrganisms: stats.withOrganisms || 0,
   };
 }
