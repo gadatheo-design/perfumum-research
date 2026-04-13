@@ -8839,6 +8839,206 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         }
         return { success: true, entryId, alreadyExisted: existingRows.length > 0 };
       }),
+
+    // ─── Références liées à une recette ─────────────────────────────────────────
+    getByRecette: publicProcedure
+      .input(z.object({ recetteId: z.number() }))
+      .query(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) return [];
+        const { sql } = await import('drizzle-orm');
+        const result = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
+          `SELECT be.id, be.entry_key, be.title, be.authors, be.year, be.journal, be.doi, be.url, be.abstract, be.research_domain as researchDomain, be.relevance_score as relevanceScore
+           FROM bibliography_entries be
+           INNER JOIN bibliography_entity_links bel ON bel.bibliography_id = be.id
+           WHERE bel.entity_type = 'recette' AND bel.entity_id = ${input.recetteId}
+           LIMIT 20`
+        ));
+        return Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
+      }),
+
+    // ─── Références liées à un terroir ──────────────────────────────────────────
+    getByTerroir: publicProcedure
+      .input(z.object({ terroirId: z.number() }))
+      .query(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) return [];
+        const { sql } = await import('drizzle-orm');
+        const result = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
+          `SELECT be.id, be.entry_key, be.title, be.authors, be.year, be.journal, be.doi, be.url, be.abstract, be.research_domain as researchDomain, be.relevance_score as relevanceScore
+           FROM bibliography_entries be
+           INNER JOIN bibliography_entity_links bel ON bel.bibliography_id = be.id
+           WHERE bel.entity_type = 'terroir' AND bel.entity_id = ${input.terroirId}
+           LIMIT 20`
+        ));
+        return Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
+      }),
+
+    // ─── Références liées à un axe de recherche ──────────────────────────────────
+    getByResearchAxis: publicProcedure
+      .input(z.object({ axisId: z.number() }))
+      .query(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) return [];
+        const { sql } = await import('drizzle-orm');
+        const result = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
+          `SELECT be.id, be.entry_key, be.title, be.authors, be.year, be.journal, be.doi, be.url, be.abstract, be.research_domain as researchDomain, be.relevance_score as relevanceScore, bel.relevance as linkRelevance, bel.notes as linkNotes
+           FROM bibliography_entries be
+           INNER JOIN bibliography_axis_links bel ON bel.bibliography_id = be.id
+           WHERE bel.axis_id = ${input.axisId}
+           ORDER BY be.relevance_score DESC
+           LIMIT 50`
+        ));
+        return Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
+      }),
+
+    // ─── Lier une référence à une recette ────────────────────────────────────────
+    linkToRecette: protectedProcedure
+      .input(z.object({
+        bibliographyId: z.number(),
+        recetteId: z.number(),
+        linkType: z.string().optional(),
+        relevanceScore: z.number().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) throw new Error('DB non disponible');
+        const { sql } = await import('drizzle-orm');
+        await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
+          `INSERT IGNORE INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, relevance_score, notes, created_at)
+           VALUES (${input.bibliographyId}, 'recette', ${input.recetteId}, ${JSON.stringify(input.linkType || 'formulation')}, ${input.relevanceScore || 70}, ${JSON.stringify(input.notes || '')}, NOW())`
+        ));
+        return { success: true };
+      }),
+
+    // ─── Lier une référence à un terroir ─────────────────────────────────────────
+    linkToTerroir: protectedProcedure
+      .input(z.object({
+        bibliographyId: z.number(),
+        terroirId: z.number(),
+        linkType: z.string().optional(),
+        relevanceScore: z.number().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) throw new Error('DB non disponible');
+        const { sql } = await import('drizzle-orm');
+        await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
+          `INSERT IGNORE INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, relevance_score, notes, created_at)
+           VALUES (${input.bibliographyId}, 'terroir', ${input.terroirId}, ${JSON.stringify(input.linkType || 'geographic')}, ${input.relevanceScore || 70}, ${JSON.stringify(input.notes || '')}, NOW())`
+        ));
+        return { success: true };
+      }),
+
+    // ─── Lier une référence à une plante (entity_link) ───────────────────────────
+    linkToPlant: protectedProcedure
+      .input(z.object({
+        bibliographyId: z.number(),
+        plantId: z.number(),
+        linkType: z.string().optional(),
+        relevanceScore: z.number().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) throw new Error('DB non disponible');
+        const { sql } = await import('drizzle-orm');
+        await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
+          `INSERT IGNORE INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, relevance_score, notes, created_at)
+           VALUES (${input.bibliographyId}, 'plant', ${input.plantId}, ${JSON.stringify(input.linkType || 'primary_source')}, ${input.relevanceScore || 75}, ${JSON.stringify(input.notes || '')}, NOW())`
+        ));
+        return { success: true };
+      }),
+
+    // ─── Lier une référence à une molécule (entity_link) ─────────────────────────
+    linkToMolecule: protectedProcedure
+      .input(z.object({
+        bibliographyId: z.number(),
+        moleculeId: z.number(),
+        linkType: z.string().optional(),
+        relevanceScore: z.number().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) throw new Error('DB non disponible');
+        const { sql } = await import('drizzle-orm');
+        await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
+          `INSERT IGNORE INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, relevance_score, notes, created_at)
+           VALUES (${input.bibliographyId}, 'molecule', ${input.moleculeId}, ${JSON.stringify(input.linkType || 'chemical')}, ${input.relevanceScore || 75}, ${JSON.stringify(input.notes || '')}, NOW())`
+        ));
+        return { success: true };
+      }),
+
+    // ─── Recherche Semantic Scholar (API gratuite) ────────────────────────────────
+    searchSemanticScholar: publicProcedure
+      .input(z.object({ query: z.string(), limit: z.number().optional() }))
+      .query(async ({ input }) => {
+        const q = encodeURIComponent(input.query.trim());
+        const limit = input.limit || 5;
+        const url = `https://api.semanticscholar.org/graph/v1/paper/search?query=${q}&limit=${limit}&fields=title,authors,year,journal,externalIds,openAccessPdf,citationCount,abstract,url`;
+        const res = await fetch(url, { headers: { 'User-Agent': 'PERFUMUM-Research/1.0' }, signal: AbortSignal.timeout(10000) });
+        if (!res.ok) throw new Error(`Semantic Scholar: ${res.status}`);
+        const json = await res.json() as { data?: Record<string, unknown>[] };
+        return (json.data || []).map((p: Record<string, unknown>) => ({
+          title: String(p.title || ''),
+          authors: ((p.authors as Array<{ name: string }> | undefined) || []).map(a => a.name).join(' and '),
+          year: p.year ? Number(p.year) : null,
+          journal: (p.journal as { name?: string } | undefined)?.name ?? null,
+          doi: (p.externalIds as Record<string, string> | undefined)?.DOI ?? null,
+          pmid: (p.externalIds as Record<string, string> | undefined)?.PubMed ?? null,
+          pdfUrl: (p.openAccessPdf as { url?: string } | undefined)?.url ?? null,
+          citationsCount: p.citationCount ? Number(p.citationCount) : 0,
+          abstract: (p.abstract as string | undefined) ?? null,
+          url: (p.url as string | undefined) ?? null,
+          source: 'semanticscholar' as const,
+        }));
+      }),
+
+    // ─── Recherche Europe PMC (accès libre) ──────────────────────────────────────
+    searchEuropePMC: publicProcedure
+      .input(z.object({ query: z.string(), limit: z.number().optional() }))
+      .query(async ({ input }) => {
+        const q = encodeURIComponent(input.query.trim());
+        const limit = input.limit || 5;
+        const url = `https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=${q}&resultType=core&pageSize=${limit}&format=json`;
+        const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+        if (!res.ok) throw new Error(`Europe PMC: ${res.status}`);
+        const json = await res.json() as { resultList?: { result?: Record<string, unknown>[] } };
+        return (json.resultList?.result || []).map((p: Record<string, unknown>) => ({
+          title: String(p.title || ''),
+          authors: String(p.authorString || ''),
+          year: p.pubYear ? Number(p.pubYear) : null,
+          journal: (p.journalInfo as { journal?: { title?: string } } | undefined)?.journal?.title ?? null,
+          doi: (p.doi as string | undefined) ?? null,
+          pmid: (p.pmid as string | undefined) ?? null,
+          pdfUrl: (p.isOpenAccess === 'Y' && p.fullTextUrlList) ? ((p.fullTextUrlList as { fullTextUrl?: Array<{ url: string; documentStyle: string }> }).fullTextUrl?.find(u => u.documentStyle === 'pdf')?.url ?? null) : null,
+          citationsCount: p.citedByCount ? Number(p.citedByCount) : 0,
+          abstract: (p.abstractText as string | undefined) ?? null,
+          url: p.doi ? `https://doi.org/${p.doi}` : null,
+          source: 'europepmc' as const,
+        }));
+      }),
+
+    // ─── Statistiques des liaisons bibliographiques ───────────────────────────────
+    getLinkStats: publicProcedure.query(async () => {
+        const dbConn = await db.getDb();
+        if (!dbConn) return { total: 0, byType: {} };
+        const { sql } = await import('drizzle-orm');
+        const result = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
+          `SELECT entity_type, COUNT(*) as count FROM bibliography_entity_links GROUP BY entity_type`
+        ));
+        const rows = Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
+        const byType: Record<string, number> = {};
+        let total = 0;
+        for (const row of rows) {
+          byType[String(row.entity_type)] = Number(row.count);
+          total += Number(row.count);
+        }
+        return { total, byType };
+      }),
   }),
   // ============================================================================
   // BIBLIOGRAPHY SOURCES (Publications scientifiques OpenAlex))
