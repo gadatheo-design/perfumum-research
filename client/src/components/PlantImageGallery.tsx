@@ -459,7 +459,6 @@ export function PlantImageGallery({ plantId, latinName, isAdmin = false }: Plant
   const species = parts[1] || "";
 
   const { data: researchImages, isLoading: loadingResearch } = trpc.gallery.list.useQuery({ plantId }, { enabled: !!plantId });
-  const { data: morphImages, isLoading: loadingMorph } = trpc.varietyImages.getByVariety.useQuery({ genus, species }, { enabled: !!genus });
 
   // Requête images morphologiques (varietyImages)
   const { data: morphImages, isLoading: loadingMorph } = trpc.varietyImages.getByVariety.useQuery(
