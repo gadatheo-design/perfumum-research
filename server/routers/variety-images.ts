@@ -270,4 +270,20 @@ export const varietyImagesRouter = router({
       byGenus,
     };
   }),
+
+  reorderImages: protectedProcedure
+    .input(z.object({
+      items: z.array(z.object({
+        id: z.number(),
+        sortOrder: z.number(),
+      })),
+    }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database not initialized");
+      for (const item of input.items) {
+        await db.update(varietyImages).set({ sortOrder: item.sortOrder }).where(eq(varietyImages.id, item.id));
+      }
+      return { success: true, updated: input.items.length };
+    }),
 });

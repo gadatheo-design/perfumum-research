@@ -3589,6 +3589,7 @@ export const sampleImages = mysqlTable("sample_images", {
   // Utilisateur
   uploadedBy: int("uploaded_by").references(() => users.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  sortOrder: int("sort_order").default(0),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({
   leafEconomyIdx: index("sample_images_leaf_economy_idx").on(table.leafEconomyId),
@@ -7156,6 +7157,7 @@ export const varietyImages = mysqlTable("variety_images", {
   verifiedAt: timestamp("verified_at"),
   
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  sortOrder: int("sort_order").default(0),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({
   genusSpeciesIdx: index("variety_images_genus_species_idx").on(table.genus, table.species),

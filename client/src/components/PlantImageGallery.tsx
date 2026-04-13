@@ -1,20 +1,36 @@
-// @ts-nocheck
 /**
  * PlantImageGallery.tsx
  * ─────────────────────────────────────────────────────────────────────────────
  * Galerie d'images enrichie pour la fiche plante :
- *  - Carrousel hero avec défilement automatique (images de recherche + morphologie)
- *  - Onglets par partie de plante (Feuille / Fleur / Fruit / Plante entière / Autre)
- *  - Indicateurs de catégorie visuels
+ *  - Carrousel hero avec défilement automatique
+ *  - Grille réorganisable par glisser-déposer (@dnd-kit) — admins uniquement
+ *  - Onglets par partie de plante
  *  - Lightbox plein écran
  * ─────────────────────────────────────────────────────────────────────────────
  */
 import { useState, useEffect, useCallback, useRef } from "react";
 import { trpc } from "@/lib/trpc";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  rectSortingStrategy,
+  useSortable,
+  arrayMove,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import {
   ChevronLeft,
   ChevronRight,
@@ -32,6 +48,8 @@ import {
   Camera,
   MapPin,
   Calendar,
+  GripVertical,
+  Save,
 } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -46,46 +64,17 @@ interface UnifiedImage {
   location?: string | null;
   capturedAt?: Date | null;
   tags?: string[];
+  sortOrder?: number;
 }
 
 // ─── Config des catégories morphologiques ─────────────────────────────────────
 
 const MORPH_CATEGORIES = [
-  {
-    key: "leaf",
-    label: "Feuille",
-    icon: <Leaf className="w-3.5 h-3.5" />,
-    color: "bg-emerald-50 text-emerald-700 border-emerald-200",
-    dot: "bg-emerald-500",
-  },
-  {
-    key: "flower",
-    label: "Fleur",
-    icon: <Flower2 className="w-3.5 h-3.5" />,
-    color: "bg-rose-50 text-rose-700 border-rose-200",
-    dot: "bg-rose-500",
-  },
-  {
-    key: "fruit",
-    label: "Fruit",
-    icon: <Apple className="w-3.5 h-3.5" />,
-    color: "bg-amber-50 text-amber-700 border-amber-200",
-    dot: "bg-amber-500",
-  },
-  {
-    key: "whole_plant",
-    label: "Plante entière",
-    icon: <TreePine className="w-3.5 h-3.5" />,
-    color: "bg-teal-50 text-teal-700 border-teal-200",
-    dot: "bg-teal-500",
-  },
-  {
-    key: "other",
-    label: "Autre",
-    icon: <MoreHorizontal className="w-3.5 h-3.5" />,
-    color: "bg-slate-50 text-slate-600 border-slate-200",
-    dot: "bg-slate-400",
-  },
+  { key: "leaf", label: "Feuille", icon: <Leaf className="w-3.5 h-3.5" />, color: "bg-emerald-50 text-emerald-700 border-emerald-200" },
+  { key: "flower", label: "Fleur", icon: <Flower2 className="w-3.5 h-3.5" />, color: "bg-rose-50 text-rose-700 border-rose-200" },
+  { key: "fruit", label: "Fruit", icon: <Apple className="w-3.5 h-3.5" />, color: "bg-amber-50 text-amber-700 border-amber-200" },
+  { key: "whole_plant", label: "Plante entière", icon: <TreePine className="w-3.5 h-3.5" />, color: "bg-teal-50 text-teal-700 border-teal-200" },
+  { key: "other", label: "Autre", icon: <MoreHorizontal className="w-3.5 h-3.5" />, color: "bg-slate-50 text-slate-600 border-slate-200" },
 ] as const;
 
 const RESEARCH_CATEGORIES: Record<string, { label: string; color: string }> = {
@@ -97,7 +86,7 @@ const RESEARCH_CATEGORIES: Record<string, { label: string; color: string }> = {
   autre: { label: "Autre", color: "bg-slate-50 text-slate-600 border-slate-200" },
 };
 
-// ─── Composant Hero Carrousel ─────────────────────────────────────────────────
+// ─── Hero Carrousel ───────────────────────────────────────────────────────────
 
 function HeroCarousel({ images }: { images: UnifiedImage[] }) {
   const [current, setCurrent] = useState(0);
@@ -105,173 +94,70 @@ function HeroCarousel({ images }: { images: UnifiedImage[] }) {
   const [lightbox, setLightbox] = useState<UnifiedImage | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  const goTo = useCallback(
-    (idx: number) => {
-      setCurrent(((idx % images.length) + images.length) % images.length);
-    },
-    [images.length]
-  );
-
-  const prev = useCallback(() => goTo(current - 1), [current, goTo]);
-  const next = useCallback(() => goTo(current + 1), [current, goTo]);
+  const goTo = useCallback((idx: number) => {
+    setCurrent(((idx % images.length) + images.length) % images.length);
+  }, [images.length]);
 
   useEffect(() => {
     if (!isPlaying || images.length <= 1) return;
-    intervalRef.current = setInterval(() => {
-      setCurrent((c) => (c + 1) % images.length);
-    }, 4000);
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
+    intervalRef.current = setInterval(() => setCurrent((c) => (c + 1) % images.length), 4500);
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
   }, [isPlaying, images.length]);
 
   if (images.length === 0) return null;
-
   const img = images[current];
-  const morphCat = MORPH_CATEGORIES.find((c) => c.key === img.category);
-  const researchCat = RESEARCH_CATEGORIES[img.category];
 
   return (
     <>
-      <div className="relative w-full overflow-hidden rounded-xl bg-zinc-950 group">
-        {/* Image principale */}
-        <div className="relative aspect-[16/7] md:aspect-[21/9]">
-          <img
-            key={img.id}
-            src={img.url}
-            alt={img.title || "Image botanique"}
-            className="w-full h-full object-cover transition-opacity duration-700"
-            style={{ opacity: 1 }}
-          />
-          {/* Overlay gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+      <div className="relative rounded-xl overflow-hidden bg-zinc-100 aspect-[4/3] group">
+        <img key={img.id} src={img.url} alt={img.title || "Image botanique"} className="w-full h-full object-cover transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
 
-          {/* Infos bas */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 flex items-end justify-between">
-            <div className="space-y-1">
-              {img.title && (
-                <p className="text-white font-semibold text-sm drop-shadow">{img.title}</p>
-              )}
-              <div className="flex items-center gap-2 flex-wrap">
-                {morphCat && (
-                  <span
-                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-xs font-medium ${morphCat.color}`}
-                  >
-                    {morphCat.icon}
-                    {morphCat.label}
-                  </span>
-                )}
-                {!morphCat && researchCat && (
-                  <span
-                    className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-xs font-medium ${researchCat.color}`}
-                  >
-                    <Camera className="w-3 h-3" />
-                    {researchCat.label}
-                  </span>
-                )}
-                {img.location && (
-                  <span className="inline-flex items-center gap-1 text-white/70 text-xs">
-                    <MapPin className="w-3 h-3" />
-                    {img.location}
-                  </span>
-                )}
-                {img.capturedAt && (
-                  <span className="inline-flex items-center gap-1 text-white/70 text-xs">
-                    <Calendar className="w-3 h-3" />
-                    {new Date(img.capturedAt).toLocaleDateString("fr-FR")}
-                  </span>
-                )}
-              </div>
-            </div>
-            {/* Bouton zoom */}
-            <button
-              onClick={() => setLightbox(img)}
-              className="p-2 rounded-full bg-white/10 hover:bg-white/25 backdrop-blur-sm text-white transition-all opacity-0 group-hover:opacity-100"
-              title="Agrandir"
-            >
-              <ZoomIn className="w-4 h-4" />
-            </button>
-          </div>
-
-          {/* Contrôles navigation */}
-          {images.length > 1 && (
-            <>
-              <button
-                onClick={prev}
-                className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 hover:bg-white/25 backdrop-blur-sm text-white transition-all opacity-0 group-hover:opacity-100"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={next}
-                className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-white/10 hover:bg-white/25 backdrop-blur-sm text-white transition-all opacity-0 group-hover:opacity-100"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </>
-          )}
-
-          {/* Bouton play/pause */}
-          {images.length > 1 && (
-            <button
-              onClick={() => setIsPlaying((p) => !p)}
-              className="absolute top-3 right-3 p-1.5 rounded-full bg-white/10 hover:bg-white/25 backdrop-blur-sm text-white transition-all opacity-0 group-hover:opacity-100"
-              title={isPlaying ? "Pause" : "Lecture automatique"}
-            >
-              {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-            </button>
-          )}
+        {/* Badge catégorie */}
+        <div className="absolute top-3 left-3">
+          {(() => {
+            const cat = MORPH_CATEGORIES.find((c) => c.key === img.category);
+            const resCat = RESEARCH_CATEGORIES[img.category];
+            if (cat) return <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full border text-xs font-medium backdrop-blur-sm ${cat.color}`}>{cat.icon} {cat.label}</span>;
+            if (resCat) return <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full border text-xs font-medium backdrop-blur-sm ${resCat.color}`}>{resCat.label}</span>;
+            return null;
+          })()}
         </div>
 
-        {/* Indicateurs (dots) */}
+        <button onClick={() => setLightbox(img)} className="absolute top-3 right-3 p-2 rounded-full bg-black/30 hover:bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity">
+          <ZoomIn className="w-4 h-4" />
+        </button>
+
         {images.length > 1 && (
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex items-center gap-1.5">
-            {images.map((_, i) => {
-              const cat = MORPH_CATEGORIES.find((c) => c.key === images[i].category);
-              return (
-                <button
-                  key={i}
-                  onClick={() => goTo(i)}
-                  className={`rounded-full transition-all ${
-                    i === current
-                      ? `w-5 h-2 ${cat?.dot || "bg-white"}`
-                      : "w-2 h-2 bg-white/40 hover:bg-white/70"
-                  }`}
-                />
-              );
-            })}
+          <>
+            <button onClick={() => goTo(current - 1)} className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 hover:bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity"><ChevronLeft className="w-5 h-5" /></button>
+            <button onClick={() => goTo(current + 1)} className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 hover:bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity"><ChevronRight className="w-5 h-5" /></button>
+          </>
+        )}
+
+        <div className="absolute bottom-0 left-0 right-0 p-4">
+          {img.title && <p className="text-white text-sm font-medium drop-shadow">{img.title}</p>}
+          {img.description && img.description !== img.title && <p className="text-white/70 text-xs mt-0.5 drop-shadow">{img.description}</p>}
+        </div>
+
+        {images.length > 1 && (
+          <div className="absolute bottom-3 right-3 flex items-center gap-2">
+            <span className="text-white/60 text-xs">{current + 1}/{images.length}</span>
+            <button onClick={() => setIsPlaying((p) => !p)} className="p-1.5 rounded-full bg-black/30 hover:bg-black/50 text-white">
+              {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
+            </button>
           </div>
         )}
       </div>
 
       {/* Miniatures */}
       {images.length > 1 && (
-        <div className="flex gap-2 overflow-x-auto pb-1 mt-2 scrollbar-thin">
-          {images.map((img, i) => {
-            const cat = MORPH_CATEGORIES.find((c) => c.key === img.category);
-            return (
-              <button
-                key={img.id}
-                onClick={() => goTo(i)}
-                className={`relative shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${
-                  i === current
-                    ? "border-primary shadow-md scale-105"
-                    : "border-transparent opacity-60 hover:opacity-90"
-                }`}
-              >
-                <img
-                  src={img.url}
-                  alt={img.title || ""}
-                  className="w-full h-full object-cover"
-                />
-                {cat && (
-                  <span
-                    className={`absolute bottom-0.5 right-0.5 w-2.5 h-2.5 rounded-full border border-white ${cat.dot}`}
-                  />
-                )}
-              </button>
-            );
-          })}
+        <div className="flex gap-2 overflow-x-auto pb-1">
+          {images.map((thumb, i) => (
+            <button key={thumb.id} onClick={() => goTo(i)} className={`flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden border-2 transition-all ${i === current ? "border-primary shadow-sm scale-105" : "border-transparent opacity-60 hover:opacity-100"}`}>
+              <img src={thumb.url} alt="" className="w-full h-full object-cover" />
+            </button>
+          ))}
         </div>
       )}
 
@@ -280,23 +166,12 @@ function HeroCarousel({ images }: { images: UnifiedImage[] }) {
         <DialogContent className="max-w-5xl p-0 bg-zinc-950 border-zinc-800">
           {lightbox && (
             <div className="relative">
-              <img
-                src={lightbox.url}
-                alt={lightbox.title || "Image botanique"}
-                className="w-full max-h-[85vh] object-contain"
-              />
-              <button
-                onClick={() => setLightbox(null)}
-                className="absolute top-3 right-3 p-2 rounded-full bg-white/10 hover:bg-white/25 text-white"
-              >
-                <X className="w-4 h-4" />
-              </button>
-              {lightbox.title && (
+              <img src={lightbox.url} alt={lightbox.title || ""} className="w-full max-h-[85vh] object-contain" />
+              <button onClick={() => setLightbox(null)} className="absolute top-3 right-3 p-2 rounded-full bg-white/10 hover:bg-white/25 text-white"><X className="w-4 h-4" /></button>
+              {(lightbox.title || lightbox.description) && (
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                  <p className="text-white font-medium">{lightbox.title}</p>
-                  {lightbox.description && (
-                    <p className="text-white/70 text-sm mt-1">{lightbox.description}</p>
-                  )}
+                  {lightbox.title && <p className="text-white font-medium">{lightbox.title}</p>}
+                  {lightbox.description && <p className="text-white/70 text-sm mt-1">{lightbox.description}</p>}
                 </div>
               )}
             </div>
@@ -307,15 +182,60 @@ function HeroCarousel({ images }: { images: UnifiedImage[] }) {
   );
 }
 
-// ─── Grille d'images par catégorie ────────────────────────────────────────────
+// ─── Carte Sortable ───────────────────────────────────────────────────────────
 
-function ImageGrid({
-  images,
-  onSelect,
-}: {
-  images: UnifiedImage[];
-  onSelect: (img: UnifiedImage) => void;
-}) {
+function SortableImageCard({ image, onSelect, isDragMode }: { image: UnifiedImage; onSelect: (img: UnifiedImage) => void; isDragMode: boolean }) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: image.id });
+  const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1, zIndex: isDragging ? 50 : undefined };
+  const cat = MORPH_CATEGORIES.find((c) => c.key === image.category);
+  const resCat = RESEARCH_CATEGORIES[image.category];
+
+  return (
+    <div ref={setNodeRef} style={style} className={`group relative aspect-square rounded-lg overflow-hidden border border-border transition-all ${isDragMode ? "cursor-grab active:cursor-grabbing" : "cursor-pointer"} ${isDragging ? "shadow-2xl ring-2 ring-primary" : "hover:border-primary/50 hover:shadow-md"}`}>
+      {isDragMode && (
+        <div {...attributes} {...listeners} className="absolute top-2 left-2 z-10 p-1 rounded bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity">
+          <GripVertical className="w-3.5 h-3.5" />
+        </div>
+      )}
+      <img src={image.url} alt={image.title || ""} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onClick={() => !isDragMode && onSelect(image)} />
+      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors pointer-events-none" />
+      <div className="absolute bottom-1.5 left-1.5 pointer-events-none">
+        {cat && <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded border text-[10px] font-medium ${cat.color}`}>{cat.icon} {cat.label}</span>}
+        {!cat && resCat && <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded border text-[10px] font-medium ${resCat.color}`}>{resCat.label}</span>}
+      </div>
+      {!isDragMode && <div className="absolute top-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"><ZoomIn className="w-4 h-4 text-white drop-shadow" /></div>}
+    </div>
+  );
+}
+
+// ─── Grille Sortable ──────────────────────────────────────────────────────────
+
+function SortableImageGrid({ images, onSelect, onReorder, canReorder }: { images: UnifiedImage[]; onSelect: (img: UnifiedImage) => void; onReorder: (newOrder: UnifiedImage[]) => void; canReorder: boolean }) {
+  const [isDragMode, setIsDragMode] = useState(false);
+  const [localImages, setLocalImages] = useState<UnifiedImage[]>(images);
+  const [hasChanges, setHasChanges] = useState(false);
+
+  useEffect(() => { setLocalImages(images); setHasChanges(false); }, [images]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    setLocalImages((items) => {
+      const oldIndex = items.findIndex((i) => i.id === active.id);
+      const newIndex = items.findIndex((i) => i.id === over.id);
+      const newOrder = arrayMove(items, oldIndex, newIndex);
+      setHasChanges(true);
+      return newOrder;
+    });
+  }
+
+  function handleSave() { onReorder(localImages); setHasChanges(false); setIsDragMode(false); }
+
   if (images.length === 0) {
     return (
       <div className="text-center py-10 text-muted-foreground">
@@ -324,83 +244,74 @@ function ImageGrid({
       </div>
     );
   }
+
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-      {images.map((img) => {
-        const cat = MORPH_CATEGORIES.find((c) => c.key === img.category);
-        const resCat = RESEARCH_CATEGORIES[img.category];
-        return (
-          <button
-            key={img.id}
-            onClick={() => onSelect(img)}
-            className="group relative aspect-square rounded-lg overflow-hidden border border-border hover:border-primary/50 hover:shadow-md transition-all"
-          >
-            <img
-              src={img.url}
-              alt={img.title || ""}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-            <div className="absolute bottom-1.5 left-1.5">
-              {cat && (
-                <span
-                  className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded border text-[10px] font-medium ${cat.color}`}
-                >
-                  {cat.icon}
-                  {cat.label}
-                </span>
-              )}
-              {!cat && resCat && (
-                <span
-                  className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded border text-[10px] font-medium ${resCat.color}`}
-                >
-                  {resCat.label}
-                </span>
-              )}
-            </div>
-            <div className="absolute top-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
-              <ZoomIn className="w-4 h-4 text-white drop-shadow" />
-            </div>
-          </button>
-        );
-      })}
+    <div className="space-y-3">
+      {canReorder && (
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-muted-foreground">{isDragMode ? "Glissez les images pour les réorganiser" : `${localImages.length} image${localImages.length > 1 ? "s" : ""}`}</p>
+          <div className="flex items-center gap-2">
+            {isDragMode && hasChanges && (
+              <Button size="sm" variant="default" onClick={handleSave} className="h-7 text-xs gap-1">
+                <Save className="w-3 h-3" /> Sauvegarder l'ordre
+              </Button>
+            )}
+            <Button size="sm" variant={isDragMode ? "secondary" : "outline"} onClick={() => { if (isDragMode && hasChanges) handleSave(); else setIsDragMode((d) => !d); }} className="h-7 text-xs gap-1">
+              <GripVertical className="w-3 h-3" /> {isDragMode ? "Terminer" : "Réorganiser"}
+            </Button>
+          </div>
+        </div>
+      )}
+
+      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+        <SortableContext items={localImages.map((i) => i.id)} strategy={rectSortingStrategy}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            {localImages.map((img) => (
+              <SortableImageCard key={img.id} image={img} onSelect={onSelect} isDragMode={isDragMode} />
+            ))}
+          </div>
+        </SortableContext>
+      </DndContext>
     </div>
   );
 }
 
-// ─── Composant principal PlantImageGallery ────────────────────────────────────
+// ─── Composant principal ──────────────────────────────────────────────────────
 
 interface PlantImageGalleryProps {
   plantId: number;
   latinName?: string | null;
+  isAdmin?: boolean;
 }
 
-export function PlantImageGallery({ plantId, latinName }: PlantImageGalleryProps) {
+export function PlantImageGallery({ plantId, latinName, isAdmin = false }: PlantImageGalleryProps) {
   const [lightbox, setLightbox] = useState<UnifiedImage | null>(null);
   const [activeTab, setActiveTab] = useState<string>("all");
+  const { toast } = useToast();
+  const utils = trpc.useUtils();
 
-  // Extraire genre et espèce depuis le nom latin
   const parts = (latinName || "").trim().split(/\s+/);
   const genus = parts[0] || "";
   const species = parts[1] || "";
 
-  // Requête images de recherche (sampleImages)
-  const { data: researchImages, isLoading: loadingResearch } = trpc.gallery.list.useQuery(
-    { plantId },
-    { enabled: !!plantId }
-  );
+  const { data: researchImages, isLoading: loadingResearch } = trpc.gallery.list.useQuery({ plantId }, { enabled: !!plantId });
+  const { data: morphImages, isLoading: loadingMorph } = trpc.varietyImages.getByVariety.useQuery({ genus, species }, { enabled: !!genus });
 
-  // Requête images morphologiques (varietyImages) — si nom latin disponible
-  const { data: morphImages, isLoading: loadingMorph } = trpc.varietyImages.getByVariety.useQuery(
-    { genus, species },
-    { enabled: !!genus }
-  );
+  const reorderMorphMutation = trpc.varietyImages.reorderImages.useMutation({
+    onSuccess: () => { utils.varietyImages.getByVariety.invalidate({ genus, species }); toast({ title: "Ordre sauvegardé" }); },
+    onError: (err) => toast({ title: "Erreur", description: err.message, variant: "destructive" }),
+  });
+
+  const reorderGalleryMutation = trpc.gallery.reorder.useMutation({
+    onSuccess: () => { utils.gallery.list.invalidate({ plantId }); toast({ title: "Ordre sauvegardé" }); },
+    onError: (err) => toast({ title: "Erreur", description: err.message, variant: "destructive" }),
+  });
 
   const isLoading = loadingResearch || loadingMorph;
 
-  // Unifier les deux sources
-  const allImages: UnifiedImage[] = [
-    ...(morphImages || []).map((img) => ({
+  const morphUnified: UnifiedImage[] = [...(morphImages || [])]
+    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+    .map((img) => ({
       id: img.id,
       url: img.fileUrl,
       title: img.description || `${img.genus} ${img.species}${img.cultivar ? ` cv. ${img.cultivar}` : ""}`,
@@ -409,8 +320,12 @@ export function PlantImageGallery({ plantId, latinName }: PlantImageGalleryProps
       source: "morphology" as const,
       location: null,
       capturedAt: null,
-    })),
-    ...(researchImages || []).map((img) => ({
+      sortOrder: img.sortOrder ?? 0,
+    }));
+
+  const researchUnified: UnifiedImage[] = [...(researchImages || [])]
+    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+    .map((img) => ({
       id: img.id + 100000,
       url: img.url,
       title: img.title,
@@ -420,19 +335,30 @@ export function PlantImageGallery({ plantId, latinName }: PlantImageGalleryProps
       location: img.location,
       capturedAt: img.capturedAt,
       tags: img.tags || [],
-    })),
-  ];
+      sortOrder: img.sortOrder ?? 0,
+    }));
 
-  // Compter par catégorie morphologique
-  const countByCategory = (cat: string) =>
-    allImages.filter((img) => img.category === cat).length;
+  const allImages: UnifiedImage[] = [...morphUnified, ...researchUnified];
+
+  function handleReorderMorph(newOrder: UnifiedImage[]) {
+    reorderMorphMutation.mutate({ items: newOrder.map((img, idx) => ({ id: img.id, sortOrder: idx })) });
+  }
+
+  function handleReorderResearch(newOrder: UnifiedImage[]) {
+    reorderGalleryMutation.mutate({ items: newOrder.map((img, idx) => ({ id: img.id - 100000, sortOrder: idx })) });
+  }
+
+  function handleReorderAll(newOrder: UnifiedImage[]) {
+    const morphItems = newOrder.filter((img) => img.source === "morphology").map((img, idx) => ({ id: img.id, sortOrder: idx }));
+    const researchItems = newOrder.filter((img) => img.source === "research").map((img, idx) => ({ id: img.id - 100000, sortOrder: idx }));
+    if (morphItems.length > 0) reorderMorphMutation.mutate({ items: morphItems });
+    if (researchItems.length > 0) reorderGalleryMutation.mutate({ items: researchItems });
+  }
+
+  const countByCategory = (cat: string) => allImages.filter((img) => img.category === cat).length;
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-      </div>
-    );
+    return <div className="flex items-center justify-center py-12"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
   }
 
   if (allImages.length === 0) {
@@ -440,67 +366,46 @@ export function PlantImageGallery({ plantId, latinName }: PlantImageGalleryProps
       <div className="text-center py-10 text-muted-foreground">
         <ImageIcon className="h-12 w-12 mx-auto mb-4 opacity-30" />
         <p className="font-medium">Aucune image pour cette plante</p>
-        <p className="text-sm mt-1">
-          Utilisez le bouton "Ajouter une image" pour enrichir la fiche.
-        </p>
+        <p className="text-sm mt-1">Utilisez le bouton "Ajouter une image" pour enrichir la fiche.</p>
       </div>
     );
   }
 
   return (
     <div className="space-y-4">
-      {/* Hero carrousel */}
       <HeroCarousel images={allImages} />
 
-      {/* Onglets par partie de plante */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="flex flex-wrap h-auto gap-1 bg-muted/50 p-1 rounded-lg">
-          <TabsTrigger value="all" className="text-xs px-3 py-1.5 rounded-md">
-            Toutes ({allImages.length})
-          </TabsTrigger>
+          <TabsTrigger value="all" className="text-xs px-3 py-1.5 rounded-md">Toutes ({allImages.length})</TabsTrigger>
           {MORPH_CATEGORIES.map((cat) => {
             const count = countByCategory(cat.key);
             if (count === 0) return null;
             return (
-              <TabsTrigger
-                key={cat.key}
-                value={cat.key}
-                className="text-xs px-3 py-1.5 rounded-md flex items-center gap-1"
-              >
-                {cat.icon}
-                {cat.label}
-                <span className="ml-1 text-[10px] opacity-70">({count})</span>
+              <TabsTrigger key={cat.key} value={cat.key} className="text-xs px-3 py-1.5 rounded-md flex items-center gap-1">
+                {cat.icon} {cat.label} <span className="ml-1 text-[10px] opacity-70">({count})</span>
               </TabsTrigger>
             );
           })}
-          {/* Onglet recherche si images de recherche */}
-          {(researchImages || []).length > 0 && (
+          {researchUnified.length > 0 && (
             <TabsTrigger value="research" className="text-xs px-3 py-1.5 rounded-md flex items-center gap-1">
-              <Camera className="w-3 h-3" />
-              Recherche
-              <span className="ml-1 text-[10px] opacity-70">({researchImages?.length || 0})</span>
+              <Camera className="w-3 h-3" /> Recherche <span className="ml-1 text-[10px] opacity-70">({researchUnified.length})</span>
             </TabsTrigger>
           )}
         </TabsList>
 
         <TabsContent value="all" className="mt-3">
-          <ImageGrid images={allImages} onSelect={setLightbox} />
+          <SortableImageGrid images={allImages} onSelect={setLightbox} onReorder={handleReorderAll} canReorder={isAdmin} />
         </TabsContent>
 
         {MORPH_CATEGORIES.map((cat) => (
           <TabsContent key={cat.key} value={cat.key} className="mt-3">
-            <ImageGrid
-              images={allImages.filter((img) => img.category === cat.key)}
-              onSelect={setLightbox}
-            />
+            <SortableImageGrid images={morphUnified.filter((img) => img.category === cat.key)} onSelect={setLightbox} onReorder={handleReorderMorph} canReorder={isAdmin} />
           </TabsContent>
         ))}
 
         <TabsContent value="research" className="mt-3">
-          <ImageGrid
-            images={allImages.filter((img) => img.source === "research")}
-            onSelect={setLightbox}
-          />
+          <SortableImageGrid images={researchUnified} onSelect={setLightbox} onReorder={handleReorderResearch} canReorder={isAdmin} />
         </TabsContent>
       </Tabs>
 
@@ -509,38 +414,15 @@ export function PlantImageGallery({ plantId, latinName }: PlantImageGalleryProps
         <DialogContent className="max-w-5xl p-0 bg-zinc-950 border-zinc-800">
           {lightbox && (
             <div className="relative">
-              <img
-                src={lightbox.url}
-                alt={lightbox.title || "Image botanique"}
-                className="w-full max-h-[85vh] object-contain"
-              />
-              <button
-                onClick={() => setLightbox(null)}
-                className="absolute top-3 right-3 p-2 rounded-full bg-white/10 hover:bg-white/25 text-white"
-              >
-                <X className="w-4 h-4" />
-              </button>
+              <img src={lightbox.url} alt={lightbox.title || "Image botanique"} className="w-full max-h-[85vh] object-contain" />
+              <button onClick={() => setLightbox(null)} className="absolute top-3 right-3 p-2 rounded-full bg-white/10 hover:bg-white/25 text-white"><X className="w-4 h-4" /></button>
               {(lightbox.title || lightbox.description) && (
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                  {lightbox.title && (
-                    <p className="text-white font-medium">{lightbox.title}</p>
-                  )}
-                  {lightbox.description && (
-                    <p className="text-white/70 text-sm mt-1">{lightbox.description}</p>
-                  )}
+                  {lightbox.title && <p className="text-white font-medium">{lightbox.title}</p>}
+                  {lightbox.description && <p className="text-white/70 text-sm mt-1">{lightbox.description}</p>}
                   <div className="flex items-center gap-3 mt-2">
-                    {lightbox.location && (
-                      <span className="text-white/60 text-xs flex items-center gap-1">
-                        <MapPin className="w-3 h-3" />
-                        {lightbox.location}
-                      </span>
-                    )}
-                    {lightbox.capturedAt && (
-                      <span className="text-white/60 text-xs flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
-                        {new Date(lightbox.capturedAt).toLocaleDateString("fr-FR")}
-                      </span>
-                    )}
+                    {lightbox.location && <span className="text-white/60 text-xs flex items-center gap-1"><MapPin className="w-3 h-3" />{lightbox.location}</span>}
+                    {lightbox.capturedAt && <span className="text-white/60 text-xs flex items-center gap-1"><Calendar className="w-3 h-3" />{new Date(lightbox.capturedAt).toLocaleDateString("fr-FR")}</span>}
                   </div>
                 </div>
               )}

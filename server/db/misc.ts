@@ -1192,6 +1192,15 @@ export async function deleteSampleImage(id: number) {
 
 /**
  * Recherche des images par tags
+
+export async function reorderSampleImages(items: Array<{ id: number; sortOrder: number }>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not initialized");
+  for (const item of items) {
+    await db.update(sampleImages).set({ sortOrder: item.sortOrder }).where(eq(sampleImages.id, item.id));
+  }
+  return { success: true, updated: items.length };
+}
  */
 export async function searchSampleImagesByTags(tags: string[]) {
   const db = await getDb();

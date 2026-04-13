@@ -527,7 +527,7 @@ export default function PlantDetail() {
               </div>
               </CardHeader>
             <CardContent>
-              <PlantImageGallery plantId={plantId} latinName={plant.latinName} />
+              <PlantImageGallery plantId={plantId} latinName={plant.latinName} isAdmin={user?.role === 'admin'} />
               {/* Lien croisé vers la galerie morphologique */}
               {plant.latinName && (() => {
                 const parts = plant.latinName.trim().split(/\s+/);

@@ -5632,6 +5632,17 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
     getStats: publicProcedure.query(async () => {
       return db.getSampleImagesStats();
     }),
+
+    reorder: protectedProcedure
+      .input(z.object({
+        items: z.array(z.object({
+          id: z.number(),
+          sortOrder: z.number(),
+        })),
+      }))
+      .mutation(async ({ input }) => {
+        return db.reorderSampleImages(input.items);
+      }),
   }),
 
   // Calculateur de conformité IFRA avancé
