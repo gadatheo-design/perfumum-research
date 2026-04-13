@@ -249,6 +249,27 @@ export const varietyImagesRouter = router({
       };
     }),
 
+  reorderImages: protectedProcedure
+    .input(z.object({
+      items: z.array(z.object({
+        id: z.number(),
+        sortOrder: z.number(),
+      })),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.user?.role !== "admin") {
+        throw new TRPCError({ code: "FORBIDDEN", message: "Only admins can reorder images" });
+      }
+      const db = await requireDb();
+      for (const item of input.items) {
+        await db
+          .update(varietyImages)
+          .set({ sortOrder: item.sortOrder, updatedAt: new Date() })
+          .where(eq(varietyImages.id, item.id));
+      }
+      return { success: true, updated: input.items.length };
+    }),
+
   getStats: publicProcedure.query(async () => {
     const db = await requireDb();
     const allImages = await db.select().from(varietyImages);

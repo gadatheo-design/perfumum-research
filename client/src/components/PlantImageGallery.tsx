@@ -3,7 +3,11 @@
  * ─────────────────────────────────────────────────────────────────────────────
  * Galerie d'images enrichie pour la fiche plante :
  *  - Carrousel hero avec défilement automatique
+<<<<<<< Updated upstream
  *  - Grille réorganisable par glisser-déposer (@dnd-kit) — admins uniquement
+=======
+ *  - Grille réorganisable par glisser-déposer (@dnd-kit)
+>>>>>>> Stashed changes
  *  - Onglets par partie de plante
  *  - Lightbox plein écran
  * ─────────────────────────────────────────────────────────────────────────────
@@ -94,6 +98,7 @@ function HeroCarousel({ images }: { images: UnifiedImage[] }) {
   const [lightbox, setLightbox] = useState<UnifiedImage | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
+<<<<<<< Updated upstream
   const goTo = useCallback((idx: number) => {
     setCurrent(((idx % images.length) + images.length) % images.length);
   }, [images.length]);
@@ -102,6 +107,23 @@ function HeroCarousel({ images }: { images: UnifiedImage[] }) {
     if (!isPlaying || images.length <= 1) return;
     intervalRef.current = setInterval(() => setCurrent((c) => (c + 1) % images.length), 4500);
     return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+=======
+  const goTo = useCallback(
+    (idx: number) => {
+      setCurrent(((idx % images.length) + images.length) % images.length);
+    },
+    [images.length]
+  );
+
+  useEffect(() => {
+    if (!isPlaying || images.length <= 1) return;
+    intervalRef.current = setInterval(() => {
+      setCurrent((c) => (c + 1) % images.length);
+    }, 4500);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+>>>>>>> Stashed changes
   }, [isPlaying, images.length]);
 
   if (images.length === 0) return null;
@@ -110,7 +132,19 @@ function HeroCarousel({ images }: { images: UnifiedImage[] }) {
   return (
     <>
       <div className="relative rounded-xl overflow-hidden bg-zinc-100 aspect-[4/3] group">
+<<<<<<< Updated upstream
         <img key={img.id} src={img.url} alt={img.title || "Image botanique"} className="w-full h-full object-cover transition-opacity duration-500" />
+=======
+        {/* Image principale */}
+        <img
+          key={img.id}
+          src={img.url}
+          alt={img.title || "Image botanique"}
+          className="w-full h-full object-cover transition-opacity duration-500"
+        />
+
+        {/* Overlay gradient bas */}
+>>>>>>> Stashed changes
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
 
         {/* Badge catégorie */}
@@ -118,12 +152,28 @@ function HeroCarousel({ images }: { images: UnifiedImage[] }) {
           {(() => {
             const cat = MORPH_CATEGORIES.find((c) => c.key === img.category);
             const resCat = RESEARCH_CATEGORIES[img.category];
+<<<<<<< Updated upstream
             if (cat) return <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full border text-xs font-medium backdrop-blur-sm ${cat.color}`}>{cat.icon} {cat.label}</span>;
             if (resCat) return <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full border text-xs font-medium backdrop-blur-sm ${resCat.color}`}>{resCat.label}</span>;
+=======
+            if (cat)
+              return (
+                <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full border text-xs font-medium backdrop-blur-sm ${cat.color}`}>
+                  {cat.icon} {cat.label}
+                </span>
+              );
+            if (resCat)
+              return (
+                <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full border text-xs font-medium backdrop-blur-sm ${resCat.color}`}>
+                  {resCat.label}
+                </span>
+              );
+>>>>>>> Stashed changes
             return null;
           })()}
         </div>
 
+<<<<<<< Updated upstream
         <button onClick={() => setLightbox(img)} className="absolute top-3 right-3 p-2 rounded-full bg-black/30 hover:bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity">
           <ZoomIn className="w-4 h-4" />
         </button>
@@ -144,6 +194,54 @@ function HeroCarousel({ images }: { images: UnifiedImage[] }) {
           <div className="absolute bottom-3 right-3 flex items-center gap-2">
             <span className="text-white/60 text-xs">{current + 1}/{images.length}</span>
             <button onClick={() => setIsPlaying((p) => !p)} className="p-1.5 rounded-full bg-black/30 hover:bg-black/50 text-white">
+=======
+        {/* Bouton zoom */}
+        <button
+          onClick={() => setLightbox(img)}
+          className="absolute top-3 right-3 p-2 rounded-full bg-black/30 hover:bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          <ZoomIn className="w-4 h-4" />
+        </button>
+
+        {/* Contrôles navigation */}
+        {images.length > 1 && (
+          <>
+            <button
+              onClick={() => goTo(current - 1)}
+              className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 hover:bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => goTo(current + 1)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/30 hover:bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </>
+        )}
+
+        {/* Légende */}
+        <div className="absolute bottom-0 left-0 right-0 p-4">
+          {img.title && (
+            <p className="text-white text-sm font-medium drop-shadow">{img.title}</p>
+          )}
+          {img.description && img.description !== img.title && (
+            <p className="text-white/70 text-xs mt-0.5 drop-shadow">{img.description}</p>
+          )}
+        </div>
+
+        {/* Contrôle play/pause + compteur */}
+        {images.length > 1 && (
+          <div className="absolute bottom-3 right-3 flex items-center gap-2">
+            <span className="text-white/60 text-xs">
+              {current + 1}/{images.length}
+            </span>
+            <button
+              onClick={() => setIsPlaying((p) => !p)}
+              className="p-1.5 rounded-full bg-black/30 hover:bg-black/50 text-white"
+            >
+>>>>>>> Stashed changes
               {isPlaying ? <Pause className="w-3 h-3" /> : <Play className="w-3 h-3" />}
             </button>
           </div>
@@ -152,9 +250,23 @@ function HeroCarousel({ images }: { images: UnifiedImage[] }) {
 
       {/* Miniatures */}
       {images.length > 1 && (
+<<<<<<< Updated upstream
         <div className="flex gap-2 overflow-x-auto pb-1">
           {images.map((thumb, i) => (
             <button key={thumb.id} onClick={() => goTo(i)} className={`flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden border-2 transition-all ${i === current ? "border-primary shadow-sm scale-105" : "border-transparent opacity-60 hover:opacity-100"}`}>
+=======
+        <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin scrollbar-thumb-border">
+          {images.map((thumb, i) => (
+            <button
+              key={thumb.id}
+              onClick={() => goTo(i)}
+              className={`flex-shrink-0 w-14 h-14 rounded-lg overflow-hidden border-2 transition-all ${
+                i === current
+                  ? "border-primary shadow-sm scale-105"
+                  : "border-transparent opacity-60 hover:opacity-100"
+              }`}
+            >
+>>>>>>> Stashed changes
               <img src={thumb.url} alt="" className="w-full h-full object-cover" />
             </button>
           ))}
@@ -166,12 +278,32 @@ function HeroCarousel({ images }: { images: UnifiedImage[] }) {
         <DialogContent className="max-w-5xl p-0 bg-zinc-950 border-zinc-800">
           {lightbox && (
             <div className="relative">
+<<<<<<< Updated upstream
               <img src={lightbox.url} alt={lightbox.title || ""} className="w-full max-h-[85vh] object-contain" />
               <button onClick={() => setLightbox(null)} className="absolute top-3 right-3 p-2 rounded-full bg-white/10 hover:bg-white/25 text-white"><X className="w-4 h-4" /></button>
               {(lightbox.title || lightbox.description) && (
                 <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
                   {lightbox.title && <p className="text-white font-medium">{lightbox.title}</p>}
                   {lightbox.description && <p className="text-white/70 text-sm mt-1">{lightbox.description}</p>}
+=======
+              <img
+                src={lightbox.url}
+                alt={lightbox.title || "Image botanique"}
+                className="w-full max-h-[85vh] object-contain"
+              />
+              <button
+                onClick={() => setLightbox(null)}
+                className="absolute top-3 right-3 p-2 rounded-full bg-white/10 hover:bg-white/25 text-white"
+              >
+                <X className="w-4 h-4" />
+              </button>
+              {(lightbox.title || lightbox.description) && (
+                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                  {lightbox.title && <p className="text-white font-medium">{lightbox.title}</p>}
+                  {lightbox.description && (
+                    <p className="text-white/70 text-sm mt-1">{lightbox.description}</p>
+                  )}
+>>>>>>> Stashed changes
                 </div>
               )}
             </div>
@@ -182,15 +314,41 @@ function HeroCarousel({ images }: { images: UnifiedImage[] }) {
   );
 }
 
+<<<<<<< Updated upstream
 // ─── Carte Sortable ───────────────────────────────────────────────────────────
 
 function SortableImageCard({ image, onSelect, isDragMode }: { image: UnifiedImage; onSelect: (img: UnifiedImage) => void; isDragMode: boolean }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: image.id });
   const style = { transform: CSS.Transform.toString(transform), transition, opacity: isDragging ? 0.5 : 1, zIndex: isDragging ? 50 : undefined };
+=======
+// ─── Composant Carte Sortable ─────────────────────────────────────────────────
+
+function SortableImageCard({
+  image,
+  onSelect,
+  isDragMode,
+}: {
+  image: UnifiedImage;
+  onSelect: (img: UnifiedImage) => void;
+  isDragMode: boolean;
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: image.id,
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 50 : undefined,
+  };
+
+>>>>>>> Stashed changes
   const cat = MORPH_CATEGORIES.find((c) => c.key === image.category);
   const resCat = RESEARCH_CATEGORIES[image.category];
 
   return (
+<<<<<<< Updated upstream
     <div ref={setNodeRef} style={style} className={`group relative aspect-square rounded-lg overflow-hidden border border-border transition-all ${isDragMode ? "cursor-grab active:cursor-grabbing" : "cursor-pointer"} ${isDragging ? "shadow-2xl ring-2 ring-primary" : "hover:border-primary/50 hover:shadow-md"}`}>
       {isDragMode && (
         <div {...attributes} {...listeners} className="absolute top-2 left-2 z-10 p-1 rounded bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity">
@@ -204,10 +362,59 @@ function SortableImageCard({ image, onSelect, isDragMode }: { image: UnifiedImag
         {!cat && resCat && <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded border text-[10px] font-medium ${resCat.color}`}>{resCat.label}</span>}
       </div>
       {!isDragMode && <div className="absolute top-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"><ZoomIn className="w-4 h-4 text-white drop-shadow" /></div>}
+=======
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`group relative aspect-square rounded-lg overflow-hidden border border-border transition-all ${
+        isDragMode ? "cursor-grab active:cursor-grabbing" : "cursor-pointer"
+      } ${isDragging ? "shadow-2xl ring-2 ring-primary" : "hover:border-primary/50 hover:shadow-md"}`}
+    >
+      {/* Poignée de drag */}
+      {isDragMode && (
+        <div
+          {...attributes}
+          {...listeners}
+          className="absolute top-2 left-2 z-10 p-1 rounded bg-black/40 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          <GripVertical className="w-3.5 h-3.5" />
+        </div>
+      )}
+
+      <img
+        src={image.url}
+        alt={image.title || ""}
+        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        onClick={() => !isDragMode && onSelect(image)}
+      />
+      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors pointer-events-none" />
+
+      {/* Badge catégorie */}
+      <div className="absolute bottom-1.5 left-1.5 pointer-events-none">
+        {cat && (
+          <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded border text-[10px] font-medium ${cat.color}`}>
+            {cat.icon} {cat.label}
+          </span>
+        )}
+        {!cat && resCat && (
+          <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded border text-[10px] font-medium ${resCat.color}`}>
+            {resCat.label}
+          </span>
+        )}
+      </div>
+
+      {/* Icône zoom (mode normal) */}
+      {!isDragMode && (
+        <div className="absolute top-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          <ZoomIn className="w-4 h-4 text-white drop-shadow" />
+        </div>
+      )}
+>>>>>>> Stashed changes
     </div>
   );
 }
 
+<<<<<<< Updated upstream
 // ─── Grille Sortable ──────────────────────────────────────────────────────────
 
 function SortableImageGrid({ images, onSelect, onReorder, canReorder }: { images: UnifiedImage[]; onSelect: (img: UnifiedImage) => void; onReorder: (newOrder: UnifiedImage[]) => void; canReorder: boolean }) {
@@ -236,6 +443,55 @@ function SortableImageGrid({ images, onSelect, onReorder, canReorder }: { images
 
   function handleSave() { onReorder(localImages); setHasChanges(false); setIsDragMode(false); }
 
+=======
+// ─── Grille réorganisable ─────────────────────────────────────────────────────
+
+function SortableImageGrid({
+  images,
+  onSelect,
+  onReorder,
+  canReorder,
+}: {
+  images: UnifiedImage[];
+  onSelect: (img: UnifiedImage) => void;
+  onReorder: (newOrder: UnifiedImage[]) => void;
+  canReorder: boolean;
+}) {
+  const [isDragMode, setIsDragMode] = useState(false);
+  const [localImages, setLocalImages] = useState<UnifiedImage[]>(images);
+  const [hasChanges, setHasChanges] = useState(false);
+
+  // Sync when parent images change
+  useEffect(() => {
+    setLocalImages(images);
+    setHasChanges(false);
+  }, [images]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  );
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    setLocalImages((items) => {
+      const oldIndex = items.findIndex((i) => i.id === active.id);
+      const newIndex = items.findIndex((i) => i.id === over.id);
+      const newOrder = arrayMove(items, oldIndex, newIndex);
+      setHasChanges(true);
+      return newOrder;
+    });
+  }
+
+  function handleSave() {
+    onReorder(localImages);
+    setHasChanges(false);
+    setIsDragMode(false);
+  }
+
+>>>>>>> Stashed changes
   if (images.length === 0) {
     return (
       <div className="text-center py-10 text-muted-foreground">
@@ -247,6 +503,7 @@ function SortableImageGrid({ images, onSelect, onReorder, canReorder }: { images
 
   return (
     <div className="space-y-3">
+<<<<<<< Updated upstream
       {canReorder && (
         <div className="flex items-center justify-between">
           <p className="text-xs text-muted-foreground">{isDragMode ? "Glissez les images pour les réorganiser" : `${localImages.length} image${localImages.length > 1 ? "s" : ""}`}</p>
@@ -258,16 +515,62 @@ function SortableImageGrid({ images, onSelect, onReorder, canReorder }: { images
             )}
             <Button size="sm" variant={isDragMode ? "secondary" : "outline"} onClick={() => { if (isDragMode && hasChanges) handleSave(); else setIsDragMode((d) => !d); }} className="h-7 text-xs gap-1">
               <GripVertical className="w-3 h-3" /> {isDragMode ? "Terminer" : "Réorganiser"}
+=======
+      {/* Barre d'outils drag-and-drop */}
+      {canReorder && (
+        <div className="flex items-center justify-between">
+          <p className="text-xs text-muted-foreground">
+            {isDragMode
+              ? "Glissez les images pour les réorganiser"
+              : `${localImages.length} image${localImages.length > 1 ? "s" : ""}`}
+          </p>
+          <div className="flex items-center gap-2">
+            {isDragMode && hasChanges && (
+              <Button size="sm" variant="default" onClick={handleSave} className="h-7 text-xs gap-1">
+                <Save className="w-3 h-3" />
+                Sauvegarder l'ordre
+              </Button>
+            )}
+            <Button
+              size="sm"
+              variant={isDragMode ? "secondary" : "outline"}
+              onClick={() => {
+                if (isDragMode && hasChanges) handleSave();
+                else setIsDragMode((d) => !d);
+              }}
+              className="h-7 text-xs gap-1"
+            >
+              <GripVertical className="w-3 h-3" />
+              {isDragMode ? "Terminer" : "Réorganiser"}
+>>>>>>> Stashed changes
             </Button>
           </div>
         </div>
       )}
 
+<<<<<<< Updated upstream
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={localImages.map((i) => i.id)} strategy={rectSortingStrategy}>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
             {localImages.map((img) => (
               <SortableImageCard key={img.id} image={img} onSelect={onSelect} isDragMode={isDragMode} />
+=======
+      {/* Grille */}
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext items={localImages.map((i) => i.id)} strategy={rectSortingStrategy}>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+            {localImages.map((img) => (
+              <SortableImageCard
+                key={img.id}
+                image={img}
+                onSelect={onSelect}
+                isDragMode={isDragMode}
+              />
+>>>>>>> Stashed changes
             ))}
           </div>
         </SortableContext>
@@ -297,6 +600,7 @@ export function PlantImageGallery({ plantId, latinName, isAdmin = false }: Plant
   const { data: researchImages, isLoading: loadingResearch } = trpc.gallery.list.useQuery({ plantId }, { enabled: !!plantId });
   const { data: morphImages, isLoading: loadingMorph } = trpc.varietyImages.getByVariety.useQuery({ genus, species }, { enabled: !!genus });
 
+<<<<<<< Updated upstream
   const reorderMorphMutation = trpc.varietyImages.reorderImages.useMutation({
     onSuccess: () => { utils.varietyImages.getByVariety.invalidate({ genus, species }); toast({ title: "Ordre sauvegardé" }); },
     onError: (err) => toast({ title: "Erreur", description: err.message, variant: "destructive" }),
@@ -306,9 +610,41 @@ export function PlantImageGallery({ plantId, latinName, isAdmin = false }: Plant
     onSuccess: () => { utils.gallery.list.invalidate({ plantId }); toast({ title: "Ordre sauvegardé" }); },
     onError: (err) => toast({ title: "Erreur", description: err.message, variant: "destructive" }),
   });
+=======
+  // Requête images morphologiques (varietyImages)
+  const { data: morphImages, isLoading: loadingMorph } = trpc.varietyImages.getByVariety.useQuery(
+    { genus, species },
+    { enabled: !!genus }
+  );
+>>>>>>> Stashed changes
+
+  // Mutations reorder
+  const reorderMorphMutation = trpc.varietyImages.reorderImages.useMutation({
+    onSuccess: () => {
+      utils.varietyImages.getByVariety.invalidate({ genus, species });
+      toast({ title: "Ordre sauvegardé", description: "L'ordre des images morphologiques a été mis à jour." });
+    },
+    onError: (err) => {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    },
+  });
+
+  const reorderGalleryMutation = trpc.gallery.reorder.useMutation({
+    onSuccess: () => {
+      utils.gallery.list.invalidate({ plantId });
+      toast({ title: "Ordre sauvegardé", description: "L'ordre des images de recherche a été mis à jour." });
+    },
+    onError: (err) => {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+    },
+  });
 
   const isLoading = loadingResearch || loadingMorph;
 
+<<<<<<< Updated upstream
+=======
+  // Unifier les deux sources (triées par sortOrder)
+>>>>>>> Stashed changes
   const morphUnified: UnifiedImage[] = [...(morphImages || [])]
     .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
     .map((img) => ({
@@ -340,6 +676,7 @@ export function PlantImageGallery({ plantId, latinName, isAdmin = false }: Plant
 
   const allImages: UnifiedImage[] = [...morphUnified, ...researchUnified];
 
+<<<<<<< Updated upstream
   function handleReorderMorph(newOrder: UnifiedImage[]) {
     reorderMorphMutation.mutate({ items: newOrder.map((img, idx) => ({ id: img.id, sortOrder: idx })) });
   }
@@ -355,6 +692,33 @@ export function PlantImageGallery({ plantId, latinName, isAdmin = false }: Plant
     if (researchItems.length > 0) reorderGalleryMutation.mutate({ items: researchItems });
   }
 
+=======
+  // Handlers reorder
+  function handleReorderMorph(newOrder: UnifiedImage[]) {
+    const items = newOrder.map((img, idx) => ({ id: img.id, sortOrder: idx }));
+    reorderMorphMutation.mutate({ items });
+  }
+
+  function handleReorderResearch(newOrder: UnifiedImage[]) {
+    const items = newOrder.map((img, idx) => ({
+      id: img.id - 100000, // remove offset
+      sortOrder: idx,
+    }));
+    reorderGalleryMutation.mutate({ items });
+  }
+
+  function handleReorderAll(newOrder: UnifiedImage[]) {
+    const morphItems = newOrder
+      .filter((img) => img.source === "morphology")
+      .map((img, idx) => ({ id: img.id, sortOrder: idx }));
+    const researchItems = newOrder
+      .filter((img) => img.source === "research")
+      .map((img, idx) => ({ id: img.id - 100000, sortOrder: idx }));
+    if (morphItems.length > 0) reorderMorphMutation.mutate({ items: morphItems });
+    if (researchItems.length > 0) reorderGalleryMutation.mutate({ items: researchItems });
+  }
+
+>>>>>>> Stashed changes
   const countByCategory = (cat: string) => allImages.filter((img) => img.category === cat).length;
 
   if (isLoading) {
@@ -389,23 +753,56 @@ export function PlantImageGallery({ plantId, latinName, isAdmin = false }: Plant
           })}
           {researchUnified.length > 0 && (
             <TabsTrigger value="research" className="text-xs px-3 py-1.5 rounded-md flex items-center gap-1">
+<<<<<<< Updated upstream
               <Camera className="w-3 h-3" /> Recherche <span className="ml-1 text-[10px] opacity-70">({researchUnified.length})</span>
+=======
+              <Camera className="w-3 h-3" />
+              Recherche
+              <span className="ml-1 text-[10px] opacity-70">({researchUnified.length})</span>
+>>>>>>> Stashed changes
             </TabsTrigger>
           )}
         </TabsList>
 
         <TabsContent value="all" className="mt-3">
+<<<<<<< Updated upstream
           <SortableImageGrid images={allImages} onSelect={setLightbox} onReorder={handleReorderAll} canReorder={isAdmin} />
+=======
+          <SortableImageGrid
+            images={allImages}
+            onSelect={setLightbox}
+            onReorder={handleReorderAll}
+            canReorder={isAdmin}
+          />
+>>>>>>> Stashed changes
         </TabsContent>
 
         {MORPH_CATEGORIES.map((cat) => (
           <TabsContent key={cat.key} value={cat.key} className="mt-3">
+<<<<<<< Updated upstream
             <SortableImageGrid images={morphUnified.filter((img) => img.category === cat.key)} onSelect={setLightbox} onReorder={handleReorderMorph} canReorder={isAdmin} />
+=======
+            <SortableImageGrid
+              images={morphUnified.filter((img) => img.category === cat.key)}
+              onSelect={setLightbox}
+              onReorder={handleReorderMorph}
+              canReorder={isAdmin}
+            />
+>>>>>>> Stashed changes
           </TabsContent>
         ))}
 
         <TabsContent value="research" className="mt-3">
+<<<<<<< Updated upstream
           <SortableImageGrid images={researchUnified} onSelect={setLightbox} onReorder={handleReorderResearch} canReorder={isAdmin} />
+=======
+          <SortableImageGrid
+            images={researchUnified}
+            onSelect={setLightbox}
+            onReorder={handleReorderResearch}
+            canReorder={isAdmin}
+          />
+>>>>>>> Stashed changes
         </TabsContent>
       </Tabs>
 

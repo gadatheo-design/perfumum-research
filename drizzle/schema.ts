@@ -3588,6 +3588,8 @@ export const sampleImages = mysqlTable("sample_images", {
   photographer: varchar("photographer", { length: 255 }),
   // Utilisateur
   uploadedBy: int("uploaded_by").references(() => users.id),
+  // Display order for drag-and-drop reordering
+  sortOrder: int("sort_order").default(0),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   sortOrder: int("sort_order").default(0),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
@@ -3595,6 +3597,7 @@ export const sampleImages = mysqlTable("sample_images", {
   leafEconomyIdx: index("sample_images_leaf_economy_idx").on(table.leafEconomyId),
   plantIdx: index("sample_images_plant_idx").on(table.plantId),
   categoryIdx: index("sample_images_category_idx").on(table.category),
+  sortOrderIdx: index("sample_images_sort_idx").on(table.plantId, table.sortOrder),
 }));
 
 export type SampleImage = typeof sampleImages.$inferSelect;
@@ -7156,6 +7159,9 @@ export const varietyImages = mysqlTable("variety_images", {
   verifiedBy: int("verified_by"),                             // Admin ID who verified
   verifiedAt: timestamp("verified_at"),
   
+  // Display order for drag-and-drop reordering
+  sortOrder: int("sort_order").default(0),
+
   createdAt: timestamp("created_at").defaultNow().notNull(),
   sortOrder: int("sort_order").default(0),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
@@ -7163,6 +7169,7 @@ export const varietyImages = mysqlTable("variety_images", {
   genusSpeciesIdx: index("variety_images_genus_species_idx").on(table.genus, table.species),
   imageTypeIdx: index("variety_images_type_idx").on(table.imageType),
   verifiedIdx: index("variety_images_verified_idx").on(table.isVerified),
+  sortOrderIdx: index("variety_images_sort_idx").on(table.genus, table.species, table.sortOrder),
 }));
 
 export type VarietyImage = typeof varietyImages.$inferSelect;
