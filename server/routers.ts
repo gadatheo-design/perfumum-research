@@ -8625,7 +8625,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
             // Lier les molécules trouvées
             for (const molName of (extracted.molecules || [])) {
               const mol = molecules.find((m: Record<string,unknown>) =>
-                m.name.toLowerCase() === molName.toLowerCase()
+                (m.name as string).toLowerCase() === molName.toLowerCase()
               );
               if (mol) {
                 try {
@@ -8639,9 +8639,9 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
             }
 
             totalLinked += refLinked;
-            results.push({ id: ref.id, title: ref.title.substring(0, 60), plants: extracted.plants, molecules: extracted.molecules, linked: refLinked });
+            results.push({ id: ref.id, title: (ref.title as string).substring(0, 60), plants: extracted.plants, molecules: extracted.molecules, linked: refLinked });
           } catch (err: unknown) {
-            results.push({ id: ref.id, title: ref.title?.substring(0, 60), error: err.message });
+            results.push({ id: ref.id, title: (ref.title as string | undefined)?.substring(0, 60), error: (err as Error).message });
           }
         }
 
