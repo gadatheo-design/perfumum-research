@@ -50,7 +50,18 @@ import {
   Calendar,
   GripVertical,
   Save,
+  Trash2,
 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -257,11 +268,15 @@ function HeroCarousel({ images }: { images: UnifiedImage[] }) {
 function SortableImageCard({
   image,
   onSelect,
+  onDelete,
   isDragMode,
+  canDelete,
 }: {
   image: UnifiedImage;
   onSelect: (img: UnifiedImage) => void;
+  onDelete?: (img: UnifiedImage) => void;
   isDragMode: boolean;
+  canDelete?: boolean;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: image.id,
@@ -324,6 +339,17 @@ function SortableImageCard({
           <ZoomIn className="w-4 h-4 text-white drop-shadow" />
         </div>
       )}
+
+      {/* Bouton suppression (admin, mode normal) */}
+      {canDelete && !isDragMode && onDelete && (
+        <button
+          onClick={(e) => { e.stopPropagation(); onDelete(image); }}
+          className="absolute top-1.5 left-1.5 p-1.5 rounded-full bg-red-600/80 hover:bg-red-600 text-white opacity-0 group-hover:opacity-100 transition-opacity z-10"
+          title="Supprimer cette image"
+        >
+          <Trash2 className="w-3 h-3" />
+        </button>
+      )}
     </div>
   );
 }
@@ -334,12 +360,16 @@ function SortableImageGrid({
   images,
   onSelect,
   onReorder,
+  onDelete,
   canReorder,
+  canDelete,
 }: {
   images: UnifiedImage[];
   onSelect: (img: UnifiedImage) => void;
   onReorder: (newOrder: UnifiedImage[]) => void;
+  onDelete?: (img: UnifiedImage) => void;
   canReorder: boolean;
+  canDelete?: boolean;
 }) {
   const [isDragMode, setIsDragMode] = useState(false);
   const [localImages, setLocalImages] = useState<UnifiedImage[]>(images);
@@ -430,7 +460,9 @@ function SortableImageGrid({
                 key={img.id}
                 image={img}
                 onSelect={onSelect}
+                onDelete={onDelete}
                 isDragMode={isDragMode}
+                canDelete={canDelete}
               />
             ))}
           </div>
@@ -451,6 +483,7 @@ interface PlantImageGalleryProps {
 export function PlantImageGallery({ plantId, latinName, isAdmin = false }: PlantImageGalleryProps) {
   const [lightbox, setLightbox] = useState<UnifiedImage | null>(null);
   const [activeTab, setActiveTab] = useState<string>("all");
+  const [deleteTarget, setDeleteTarget] = useState<UnifiedImage | null>(null);
   const { toast } = useToast();
   const utils = trpc.useUtils();
 
@@ -465,6 +498,41 @@ export function PlantImageGallery({ plantId, latinName, isAdmin = false }: Plant
     { genus, species },
     { enabled: !!genus }
   );
+
+  // Mutations suppression
+  const deleteMorphMutation = trpc.varietyImages.delete.useMutation({
+    onSuccess: () => {
+      utils.varietyImages.getByVariety.invalidate({ genus, species });
+      toast({ title: "Image supprimée", description: "L'image morphologique a été supprimée." });
+      setDeleteTarget(null);
+    },
+    onError: (err) => {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+      setDeleteTarget(null);
+    },
+  });
+
+  const deleteResearchMutation = trpc.gallery.delete.useMutation({
+    onSuccess: () => {
+      utils.gallery.list.invalidate({ plantId });
+      toast({ title: "Image supprimée", description: "L'image de recherche a été supprimée." });
+      setDeleteTarget(null);
+    },
+    onError: (err) => {
+      toast({ title: "Erreur", description: err.message, variant: "destructive" });
+      setDeleteTarget(null);
+    },
+  });
+
+  function handleDeleteConfirm() {
+    if (!deleteTarget) return;
+    if (deleteTarget.source === "morphology") {
+      deleteMorphMutation.mutate({ id: deleteTarget.id });
+    } else {
+      // research images use id offset of 100000
+      deleteResearchMutation.mutate(deleteTarget.id - 100000);
+    }
+  }
 
   // Mutations reorder
   const reorderMorphMutation = trpc.varietyImages.reorderImages.useMutation({
@@ -560,7 +628,9 @@ export function PlantImageGallery({ plantId, latinName, isAdmin = false }: Plant
             images={allImages}
             onSelect={setLightbox}
             onReorder={handleReorderAll}
+            onDelete={isAdmin ? setDeleteTarget : undefined}
             canReorder={isAdmin}
+            canDelete={isAdmin}
           />
         </TabsContent>
 
@@ -570,7 +640,9 @@ export function PlantImageGallery({ plantId, latinName, isAdmin = false }: Plant
               images={morphUnified.filter((img) => img.category === cat.key)}
               onSelect={setLightbox}
               onReorder={handleReorderMorph}
+              onDelete={isAdmin ? setDeleteTarget : undefined}
               canReorder={isAdmin}
+              canDelete={isAdmin}
             />
           </TabsContent>
         ))}
@@ -580,10 +652,39 @@ export function PlantImageGallery({ plantId, latinName, isAdmin = false }: Plant
             images={researchUnified}
             onSelect={setLightbox}
             onReorder={handleReorderResearch}
+            onDelete={isAdmin ? setDeleteTarget : undefined}
             canReorder={isAdmin}
+            canDelete={isAdmin}
           />
         </TabsContent>
       </Tabs>
+
+      {/* Dialog confirmation suppression */}
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => { if (!open) setDeleteTarget(null); }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Supprimer cette image ?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Cette action est irréversible. L'image sera définitivement supprimée de la galerie.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          {deleteTarget && (
+            <div className="my-2 rounded-lg overflow-hidden max-h-40">
+              <img src={deleteTarget.url} alt="" className="w-full h-full object-cover" />
+            </div>
+          )}
+          <AlertDialogFooter>
+            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDeleteConfirm}
+              className="bg-red-600 hover:bg-red-700 text-white"
+              disabled={deleteMorphMutation.isPending || deleteResearchMutation.isPending}
+            >
+              {(deleteMorphMutation.isPending || deleteResearchMutation.isPending) ? "Suppression..." : "Supprimer"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* Lightbox depuis la grille */}
       <Dialog open={!!lightbox} onOpenChange={() => setLightbox(null)}>
