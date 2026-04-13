@@ -3057,7 +3057,7 @@ export async function getExclusiveMolecules(statuses: string[] = ['EX', 'EW', 'C
   if (!db) return [];
 
   const placeholders = statuses.map(() => '?').join(', ');
-  const [rows] = await (db as unknown as {execute:(q:unknown,p?:unknown[])=>Promise<[Record<string,unknown>[],unknown]>}).execute(
+  const [rows] = await (db as any).execute(
     `SELECT
       m.id,
       m.name,

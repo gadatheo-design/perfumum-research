@@ -134,7 +134,7 @@ const WikidataSync = React.lazy(() => import('./pages/admin/WikidataSync'));
 const VarietyImagesAdmin = React.lazy(() => import('./pages/admin/VarietyImagesAdmin'));
 const VarietyGenealogyImport = React.lazy(() => import('./pages/admin/VarietyGenealogyImport'));
 const COCONUTBatch = React.lazy(() => import('./pages/admin/COCONUTBatch'));
-const ExtractionMethodsAdmin = React.lazy(() => import('./pages/admin/ExtractionMethodsAdmin'));
+
 const AdminThermalMatrix = React.lazy(() => import('./pages/AdminThermalMatrix'));
 const AdminNOSE = React.lazy(() => import('./pages/AdminNOSE'));
 const AdminStorylines = React.lazy(() => import('./pages/AdminStorylines'));
@@ -586,7 +586,7 @@ function Router() {
       <Route path="/admin/knapsack-batch" component={KNApSAcKBatch} />
       <Route path="/admin/bundle-visualizer" component={AdminBundleVisualizer} />
       <Route path="/admin/reclassify-molecules" component={AdminReclassifyMolecules} />
-      <Route path="/admin/extraction-methods" component={ExtractionMethodsAdmin} />
+
       <Route path="/admin/thermal-matrix" component={AdminThermalMatrix} />
       <Route path="/admin/nose" component={AdminNOSE} />
       <Route path="/admin/storylines" component={AdminStorylines} />

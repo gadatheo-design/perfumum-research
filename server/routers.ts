@@ -68,6 +68,7 @@ import { dataCleanupRouter } from "./routers/data-cleanup";
 import { smilesEnrichmentRouter } from "./routers/smiles-cas-enrichment";
 import { plantCompositionRouter } from "./routers/plant-composition";
 import { duplicatesRouter } from "./routers/duplicates";
+import { bibliographyExportRouter } from "./routers/bibliography-export";
 import { moleculeManagerRouter } from "./routers/moleculeManager";
 import { correlationsRouter } from "./routers/correlations";
 import { cigarilloMoleculeLinksRouter } from "./routers/cigarilloMoleculeLinks";
