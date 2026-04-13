@@ -8437,7 +8437,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const result = await db.getAllBibliographyEntries({});
         const entries = result.entries || [];
         const filteredEntries = input && input.length > 0
-          ? entries.filter((e: Record<string,unknown>) => input.includes(e.id))
+          ? entries.filter((e: Record<string,unknown>) => input.includes(e.id as number))
           : entries;
         return db.exportToBibTeX(filteredEntries);
       }),
@@ -8608,8 +8608,8 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
             // Lier les plantes trouvées
             for (const plantName of (extracted.plants || [])) {
               const plant = plants.find((p: Record<string,unknown>) =>
-                p.name.toLowerCase() === plantName.toLowerCase() ||
-                (p.latin_name && p.latin_name.toLowerCase().includes(plantName.toLowerCase()))
+                (p.name as string).toLowerCase() === plantName.toLowerCase() ||
+                (p.latin_name && (p.latin_name as string).toLowerCase().includes(plantName.toLowerCase()))
               );
               if (plant) {
                 try {
