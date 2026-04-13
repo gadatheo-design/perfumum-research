@@ -7501,10 +7501,11 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       for (const plant of allPlants.slice(0, 50)) {
         const plantMols = await db.getPlantMolecules(plant.id);
         plantMols.forEach((pm: Record<string,unknown>) => {
-          if (molecules.slice(0, 100).some(m => m.id === pm.molecule.id)) {
+          const pmMol = pm.molecule as Record<string,unknown> | undefined;
+          if (pmMol && molecules.slice(0, 100).some(m => m.id === pmMol.id)) {
             plantMoleculeLinks.push({ 
               plantId: plant.id, 
-              moleculeId: pm.molecule.id,
+              moleculeId: pmMol.id as number,
               percentageTypical: Number(pm.percentageTypical) || 1
             });
           }
@@ -7636,7 +7637,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           for (const plantId of Array.from(plantIds)) {
             const plantTerroirs = await db.getPlantTerroirs(plantId);
             plantTerroirs.forEach((pt: Record<string,unknown>) => {
-              if (terroirIds.has(pt.terroirId)) {
+              if (terroirIds.has(pt.terroirId as number)) {
                 links.push({
                   source: `plant-${plantId}`,
                   target: `terroir-${pt.terroirId}`,
@@ -7656,10 +7657,11 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           for (const plantId of Array.from(plantIds)) {
             const plantMols = await db.getPlantMolecules(plantId);
             plantMols.forEach((pm: Record<string,unknown>) => {
-              if (moleculeIds.has(pm.molecule.id)) {
+              const pmMol2 = pm.molecule as Record<string,unknown> | undefined;
+              if (pmMol2 && moleculeIds.has(pmMol2.id as number)) {
                 links.push({
                   source: `plant-${plantId}`,
-                  target: `molecule-${pm.molecule.id}`,
+                  target: `molecule-${pmMol2.id}`,
                   type: 'plant-molecule',
                   value: Number(pm.percentageTypical) || 1,
                 });
