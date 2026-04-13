@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import {
   BookOpen, Search, Link2, Zap, Database, FlaskConical, Leaf, MapPin,
   GitBranch, ExternalLink, Download, Plus, CheckCircle2,
-  AlertCircle, RefreshCw, ChevronRight, Globe, BookMarked, Beaker
+  AlertCircle, RefreshCw, ChevronRight, Globe, BookMarked, Beaker, BookCopy
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -224,6 +224,50 @@ export default function BibliographicEnrichment() {
   const [llmBatchSize, setLlmBatchSize] = useState("5");
   const [llmOffset, setLlmOffset] = useState("0");
 
+  // ── Onglet Recettes ──
+  const [recetteSearchId, setRecetteSearchId] = useState("");
+  const [recetteIdEnabled, setRecetteIdEnabled] = useState(false);
+  const [recetteIdInput, setRecetteIdInput] = useState(0);
+  const [linkRecetteId, setLinkRecetteId] = useState("");
+  const [linkRecetteBibId, setLinkRecetteBibId] = useState("");
+  const [linkRecetteNotes, setLinkRecetteNotes] = useState("");
+  const [linkRecetteScore, setLinkRecetteScore] = useState("75");
+
+  const { data: recetteBibRefs, isFetching: recetteFetching, refetch: refetchRecetteRefs } =
+    trpc.bibliography.getByRecette.useQuery(
+      { recetteId: recetteIdInput },
+      { enabled: recetteIdEnabled && recetteIdInput > 0, retry: false }
+    );
+  const linkToRecetteMutation = trpc.bibliography.linkToRecette.useMutation();
+
+  const handleRecetteSearch = () => {
+    const id = parseInt(recetteSearchId);
+    if (!id || isNaN(id)) return;
+    setRecetteIdInput(id);
+    setRecetteIdEnabled(true);
+  };
+
+  const handleLinkToRecette = async () => {
+    const recId = parseInt(linkRecetteId);
+    const bibId = parseInt(linkRecetteBibId);
+    if (!recId || !bibId) { toast({ title: "IDs invalides", variant: "destructive" }); return; }
+    try {
+      await linkToRecetteMutation.mutateAsync({
+        bibliographyId: bibId,
+        recetteId: recId,
+        notes: linkRecetteNotes,
+        relevanceScore: parseInt(linkRecetteScore),
+      });
+      toast({ title: "Liaison créée", description: `Référence #${bibId} liée à la recette #${recId}` });
+      setLinkRecetteId("");
+      setLinkRecetteBibId("");
+      setLinkRecetteNotes("");
+      if (recetteIdInput === recId) refetchRecetteRefs();
+    } catch (e: unknown) {
+      toast({ title: "Erreur", description: (e as Error).message, variant: "destructive" });
+    }
+  };
+
   // ── Queries conditionnelles ──
   const [doiEnabled, setDoiEnabled] = useState(false);
   const [titleEnabled, setTitleEnabled] = useState(false);
@@ -373,9 +417,10 @@ export default function BibliographicEnrichment() {
 
         {/* Onglets */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-4 mb-6">
+          <TabsList className="grid w-full grid-cols-5 mb-6">
             <TabsTrigger value="search" className="text-xs"><Search className="w-3 h-3 mr-1" />Recherche</TabsTrigger>
             <TabsTrigger value="doi" className="text-xs"><Globe className="w-3 h-3 mr-1" />DOI / CrossRef</TabsTrigger>
+            <TabsTrigger value="recettes" className="text-xs"><BookCopy className="w-3 h-3 mr-1" />Recettes</TabsTrigger>
             <TabsTrigger value="autolink" className="text-xs"><Zap className="w-3 h-3 mr-1" />Auto-liaison LLM</TabsTrigger>
             <TabsTrigger value="unlinked" className="text-xs"><AlertCircle className="w-3 h-3 mr-1" />Sans liaisons</TabsTrigger>
           </TabsList>
@@ -464,6 +509,109 @@ export default function BibliographicEnrichment() {
                   importing={importingId === (crossrefResult.doi || "")} />
               </div>
             )}
+          </TabsContent>
+
+          {/* ── Recettes ── */}
+          <TabsContent value="recettes" className="space-y-4">
+            {/* Recherche par ID recette */}
+            <Card className="border-border/40">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <BookCopy className="w-4 h-4 text-primary" />Références liées à une recette
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <p className="text-sm text-muted-foreground">Entrez l'ID d'une recette PERFUMUM pour voir toutes les publications scientifiques qui lui sont associées.</p>
+                <div className="flex gap-2">
+                  <Input value={recetteSearchId} onChange={e => setRecetteSearchId(e.target.value)}
+                    onKeyDown={e => e.key === "Enter" && handleRecetteSearch()}
+                    placeholder="ID de la recette (ex: 42)" type="number" className="h-9 flex-1" />
+                  <Button onClick={handleRecetteSearch} disabled={recetteFetching || !recetteSearchId.trim()} className="h-9 px-4">
+                    {recetteFetching ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+                  </Button>
+                </div>
+                {recetteIdEnabled && !recetteFetching && (
+                  <div className="space-y-2 mt-2">
+                    {!recetteBibRefs || (recetteBibRefs as Record<string, unknown>[]).length === 0 ? (
+                      <div className="text-center py-6 text-muted-foreground">
+                        <BookOpen className="w-7 h-7 mx-auto mb-2 opacity-40" />
+                        <p className="text-sm">Aucune référence liée à la recette #{recetteIdInput}</p>
+                      </div>
+                    ) : (
+                      (recetteBibRefs as Record<string, unknown>[]).map((ref, i) => {
+                        const refTitle = String(ref.title ?? "");
+                        const refAuthors = ref.authors ? String(ref.authors) : null;
+                        const refYear = ref.year ? Number(ref.year) : null;
+                        const refJournal = ref.journal ? String(ref.journal) : null;
+                        const refDoi = ref.doi ? String(ref.doi) : null;
+                        const refId = Number(ref.id ?? 0);
+                        return (
+                        <div key={i} className="flex items-start justify-between gap-3 p-3 rounded-lg border border-border/40 hover:bg-muted/20 transition-colors">
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium line-clamp-2">{refTitle}</p>
+                            <div className="flex items-center gap-2 mt-1">
+                              {refAuthors && <span className="text-xs text-muted-foreground line-clamp-1">{refAuthors}</span>}
+                              {refYear && <Badge variant="outline" className="text-xs h-4 px-1">{refYear}</Badge>}
+                              {refJournal && <Badge variant="secondary" className="text-xs h-4 px-1 max-w-24 truncate">{refJournal}</Badge>}
+                            </div>
+                            {refDoi && (
+                              <a href={`https://doi.org/${refDoi}`} target="_blank" rel="noopener noreferrer"
+                                className="text-xs text-primary hover:underline flex items-center gap-1 mt-1">
+                                <ExternalLink className="w-3 h-3" />{refDoi}
+                              </a>
+                            )}
+                          </div>
+                          <Button size="sm" variant="outline" className="h-7 text-xs shrink-0"
+                            onClick={() => setShowLinkPanel({ id: refId, title: refTitle })}>
+                            <Link2 className="w-3 h-3 mr-1" />Lier
+                          </Button>
+                        </div>
+                        );
+                      })
+                    )}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Créer une nouvelle liaison recette ↔ référence */}
+            <Card className="border-border/40">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Plus className="w-4 h-4 text-primary" />Créer une liaison Recette ↔ Référence
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <Label className="text-xs">ID de la recette</Label>
+                    <Input value={linkRecetteId} onChange={e => setLinkRecetteId(e.target.value)}
+                      placeholder="ex: 42" type="number" className="h-8 text-xs mt-1" />
+                  </div>
+                  <div>
+                    <Label className="text-xs">ID de la référence bibliographique</Label>
+                    <Input value={linkRecetteBibId} onChange={e => setLinkRecetteBibId(e.target.value)}
+                      placeholder="ex: 17" type="number" className="h-8 text-xs mt-1" />
+                  </div>
+                </div>
+                <div>
+                  <Label className="text-xs">Score de pertinence (0-100)</Label>
+                  <Input value={linkRecetteScore} onChange={e => setLinkRecetteScore(e.target.value)}
+                    type="number" min="0" max="100" className="h-8 text-xs mt-1" />
+                </div>
+                <div>
+                  <Label className="text-xs">Notes (optionnel)</Label>
+                  <Input value={linkRecetteNotes} onChange={e => setLinkRecetteNotes(e.target.value)}
+                    placeholder="Contexte de la liaison..." className="h-8 text-xs mt-1" />
+                </div>
+                <Button size="sm" onClick={handleLinkToRecette}
+                  disabled={linkToRecetteMutation.isPending || !linkRecetteId || !linkRecetteBibId}
+                  className="w-full h-8 text-xs">
+                  <Link2 className="w-3 h-3 mr-1" />
+                  {linkToRecetteMutation.isPending ? "Liaison en cours..." : "Créer la liaison Recette ↔ Référence"}
+                </Button>
+              </CardContent>
+            </Card>
           </TabsContent>
 
           {/* ── Auto-liaison LLM ── */}
