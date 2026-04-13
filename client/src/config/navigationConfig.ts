@@ -247,6 +247,7 @@ export const NAV_GROUPS: NavGroup[] = [
           { href: "/admin/completude", label: "Tableau de complétude", badge: "ADMIN" },
           { href: "/admin/phylo-enrichment", label: "Enrichissement Phylo", badge: "ADMIN" },
           { href: "/admin/bibliographic-enrichment", label: "Enrichissement Bibliographique", badge: "ADMIN" },
+          { href: "/admin/extraction-methods", label: "Procédés d'Extraction", badge: "ADMIN" },
           { href: "/admin/api-coverage", label: "Couverture APIs", badge: "ADMIN" },
           { href: "/admin", label: "Administration", badge: "ADMIN" },
           { href: "/outils-hub", label: "Hub Outils", badge: "HUB" },
