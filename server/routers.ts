@@ -8411,11 +8411,15 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       .input(z.string())
       .mutation(async ({ input, ctx }) => {
         const entries = db.parseBibTeX(input);
-        const entriesWithUser = entries.map(e => ({
-          ...e,
-          addedBy: ctx.user?.id,
-        }));
-        return db.bulkCreateBibliographyEntries(entriesWithUser);
+        const entriesWithUser = entries
+          .filter((e: Record<string,unknown>) => e.entryKey && e.title)
+          .map((e: Record<string,unknown>) => ({
+            ...e,
+            title: (e.title as string) || 'Sans titre',
+            entryKey: (e.entryKey as string) || `import_${Date.now()}_${Math.random().toString(36).slice(2)}`,
+            addedBy: ctx.user?.id,
+          }));
+        return db.bulkCreateBibliographyEntries(entriesWithUser as any);
       }),
     
     // Import en masse (CSV)
@@ -8423,11 +8427,15 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       .input(z.string())
       .mutation(async ({ input, ctx }) => {
         const entries = db.parseCSVBibliography(input);
-        const entriesWithUser = entries.map(e => ({
-          ...e,
-          addedBy: ctx.user?.id,
-        }));
-        return db.bulkCreateBibliographyEntries(entriesWithUser);
+        const entriesWithUser = entries
+          .filter((e: Record<string,unknown>) => e.entryKey && e.title)
+          .map((e: Record<string,unknown>) => ({
+            ...e,
+            title: (e.title as string) || 'Sans titre',
+            entryKey: (e.entryKey as string) || `csv_${Date.now()}_${Math.random().toString(36).slice(2)}`,
+            addedBy: ctx.user?.id,
+          }));
+        return db.bulkCreateBibliographyEntries(entriesWithUser as any);
       }),
     
     // Export BibTeX
