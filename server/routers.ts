@@ -8793,20 +8793,20 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
             doi: doi || null,
             url,
             notes: `Importé depuis PubMed. PMID:${pmid}${moleculeName ? `. Molécule: ${moleculeName}` : ''}`,
-            tags: JSON.stringify(['pubmed', 'auto-import']),
+            tags: ['pubmed', 'auto-import'],
             readStatus: 'unread',
           });
-          entryId = newEntry.id;
+          if (newEntry) entryId = newEntry.id;
         }
         // Créer le lien molécule ↔ publication si moleculeId fourni
         if (moleculeId && entryId) {
           const linkExists = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
-            `SELECT id FROM bibliography_molecule_links WHERE bibliography_id = ${entryId} AND molecule_id = ${moleculeId} LIMIT 1`
+            `SELECT id FROM bibliography_entity_links WHERE bibliography_id = ${entryId} AND entity_type = 'molecule' AND entity_id = ${moleculeId} LIMIT 1`
           ));
           const linkRows = Array.isArray(linkExists) ? linkExists[0] as Record<string, unknown>[] : [];
           if (linkRows.length === 0) {
             await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
-              `INSERT INTO bibliography_molecule_links (bibliography_id, molecule_id, created_at) VALUES (${entryId}, ${moleculeId}, NOW())`
+              `INSERT INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, link_type, relevance_score, notes, created_at) VALUES (${entryId}, 'molecule', ${moleculeId}, 'chemical', 70, 'Importé depuis PubMed', NOW())`
             ));
           }
         }

@@ -109,6 +109,9 @@ function RecommendationCard({
   const { toast } = useToast();
   const [importing, setImporting] = useState(false);
   const [importResult, setImportResult] = useState<ImportResult | null>(null);
+  // Contrôles spécifiques à l'import d'image
+  const [imageType, setImageType] = useState<'leaf' | 'flower' | 'fruit' | 'whole_plant' | 'other'>('whole_plant');
+  const [forceOverwrite, setForceOverwrite] = useState(false);
 
   const importConservation = trpc.wikidataSync.importConservationStatus.useMutation();
   const importImage        = trpc.wikidataSync.importWikidataImage.useMutation();
@@ -135,6 +138,8 @@ function RecommendationCard({
         result = await importImage.mutateAsync({
           latinName: scientificName, wikidataQid: wikidataEntity.qid ?? '',
           imageUrl: wikidataEntity.imageUrl ?? '',
+          imageType,
+          forceOverwrite,
         });
       } else if (rec.type === 'parents') {
         result = await linkToWikidata.mutateAsync({
@@ -188,6 +193,34 @@ function RecommendationCard({
               {importResult.matches.map(m => (
                 <div key={m.id} className="text-xs text-gray-500 pl-2">• {m.name} — <em>{m.latinName}</em></div>
               ))}
+            </div>
+          )}
+          {/* Contrôles image : visibles uniquement pour les recommandations de type 'images' */}
+          {rec.type === 'images' && canImport && (
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <div className="flex items-center gap-1.5">
+                <label className="text-xs text-gray-500 shrink-0">Partie :</label>
+                <select
+                  value={imageType}
+                  onChange={e => setImageType(e.target.value as typeof imageType)}
+                  className="text-xs border rounded px-1.5 py-0.5 bg-white dark:bg-zinc-900 h-6"
+                >
+                  <option value="whole_plant">Plante entière</option>
+                  <option value="flower">🌸 Fleur</option>
+                  <option value="leaf">🍃 Feuille</option>
+                  <option value="fruit">🍊 Fruit</option>
+                  <option value="other">Autre</option>
+                </select>
+              </div>
+              <label className="flex items-center gap-1 text-xs text-gray-500 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={forceOverwrite}
+                  onChange={e => setForceOverwrite(e.target.checked)}
+                  className="rounded h-3 w-3"
+                />
+                Écraser image existante
+              </label>
             </div>
           )}
         </div>
