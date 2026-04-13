@@ -115,17 +115,17 @@ export default function RecetteDetail() {
 
   // Calculer le profil radar moyen de la recette
   const currentRadar = useMemo(() => {
-    if (!data?.molecules || data.molecules.length === 0) {
+    const molecules = (data?.molecules as RecipeMolecule[] | undefined) || [];
+    if (!molecules || molecules.length === 0) {
       return { intensity: 50, freshness: 50, warmth: 50, sweetness: 50, spiciness: 50, earthiness: 50 };
     }
-    const mols = data.molecules;
     return {
-      intensity: Math.round(mols.reduce((sum, m) => sum + (m.radarIntensity || 50), 0) / mols.length),
-      freshness: Math.round(mols.reduce((sum, m) => sum + (m.radarFreshness || 50), 0) / mols.length),
-      warmth: Math.round(mols.reduce((sum, m) => sum + (m.radarWarmth || 50), 0) / mols.length),
-      sweetness: Math.round(mols.reduce((sum, m) => sum + (m.radarSweetness || 50), 0) / mols.length),
-      spiciness: Math.round(mols.reduce((sum, m) => sum + (m.radarSpiciness || 50), 0) / mols.length),
-      earthiness: Math.round(mols.reduce((sum, m) => sum + (m.radarEarthiness || 50), 0) / mols.length),
+      intensity: Math.round(molecules.reduce((sum, m) => sum + (m.radarIntensity || 50), 0) / molecules.length),
+      freshness: Math.round(molecules.reduce((sum, m) => sum + (m.radarFreshness || 50), 0) / molecules.length),
+      warmth: Math.round(molecules.reduce((sum, m) => sum + (m.radarWarmth || 50), 0) / molecules.length),
+      sweetness: Math.round(molecules.reduce((sum, m) => sum + (m.radarSweetness || 50), 0) / molecules.length),
+      spiciness: Math.round(molecules.reduce((sum, m) => sum + (m.radarSpiciness || 50), 0) / molecules.length),
+      earthiness: Math.round(molecules.reduce((sum, m) => sum + (m.radarEarthiness || 50), 0) / molecules.length),
     };
   }, [data?.molecules]);
 
@@ -165,7 +165,7 @@ export default function RecetteDetail() {
 
   // Recherche de matières premières pour le dialog d'ajout
   const { data: rawMaterialsSearch } = trpc.rawMaterials.getFiltered.useQuery(
-    { search: rmSearch, limit: 20, offset: 0 },
+    { search: rmSearch as string, limit: 20, offset: 0 },
     { enabled: showAddRmDialog }
   );
 
@@ -362,7 +362,8 @@ export default function RecetteDetail() {
     );
   }
 
-  const { recette, molecules, family, accord } = data;
+  const { recette, molecules: moleculesRaw, family, accord } = data;
+  const molecules = (moleculesRaw as RecipeMolecule[] | undefined) || [];
 
   // Status badge color
   const statusColors = {
@@ -954,7 +955,7 @@ export default function RecetteDetail() {
         <CardContent>
           {rawMaterialsLinked && rawMaterialsLinked.length > 0 ? (
             <div className="space-y-2">
-              {rawMaterialsLinked.map((rm: RawMaterialLink) => {
+              {(rawMaterialsLinked as RawMaterialLink[] | undefined)?.map((rm: RawMaterialLink) => {
                 const roleColors: Record<string, string> = {
                   base: 'bg-stone-100 text-stone-700 dark:bg-stone-900/50 dark:text-stone-300',
                   coeur: 'bg-rose-100 text-rose-700 dark:bg-rose-900/50 dark:text-rose-300',

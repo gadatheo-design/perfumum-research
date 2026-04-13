@@ -123,6 +123,7 @@ const GBIFBatch = React.lazy(() => import('./pages/admin/GBIFBatch'));
 const WikimediaBatch = React.lazy(() => import('./pages/admin/WikimediaBatch'));
 const SmilesBatch = React.lazy(() => import('./pages/admin/SmilesBatch'));
 const LOTUSBatch = React.lazy(() => import('./pages/admin/LOTUSBatch'));
+const BibliographicEnrichment = React.lazy(() => import('./pages/admin/BibliographicEnrichment'));
 const WikidataBatch = React.lazy(() => import('./pages/admin/WikidataBatch'));
 const SparqlExplorer = React.lazy(() => import('./pages/admin/SparqlExplorer'));
 const EuropeanaExplorer = React.lazy(() => import('./pages/admin/EuropeanaExplorer'));
@@ -573,6 +574,7 @@ function Router() {
       <Route path="/admin/wikimedia-batch" component={WikimediaBatch} />
       <Route path="/admin/smiles-batch" component={SmilesBatch} />
       <Route path="/admin/lotus-batch" component={LOTUSBatch} />
+      <Route path="/admin/bibliographic-enrichment" component={BibliographicEnrichment} />
       <Route path="/admin/wikidata-batch" component={WikidataBatch} />
       <Route path="/admin/sparql-explorer" component={SparqlExplorer} />
       <Route path="/admin/europeana" component={EuropeanaExplorer} />
