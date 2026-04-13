@@ -5709,7 +5709,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           }
           
           const limit = column ? (restriction.restriction as Record<string,unknown>)[column] : null;
-          const limitNum = limit ? parseFloat(limit) : null;
+          const limitNum = limit ? parseFloat(String(limit)) : null;
           
           let isCompliant = true;
           let margin: number | null = null;
@@ -6138,7 +6138,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           await db.updateMoleculeScientificData(input.moleculeId, {
             casNumber: result.casNumber || molecule.casNumber || undefined,
             iupacName: result.iupacName || molecule.iupacName || undefined,
-            chemicalClass: (chemicalClass || molecule.chemicalClass || undefined) as typeof molecules.$inferSelect['chemicalClass'],
+            chemicalClass: (chemicalClass || molecule.chemicalClass || undefined) as any,
           });
           
           // Ajouter une référence PubChem
@@ -6195,7 +6195,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
             await db.updateMoleculeScientificData(moleculeId, {
               casNumber: result.casNumber || molecule.casNumber || undefined,
               iupacName: result.iupacName || molecule.iupacName || undefined,
-              chemicalClass: (chemicalClass || molecule.chemicalClass || undefined) as typeof molecules.$inferSelect['chemicalClass'],
+              chemicalClass: (chemicalClass || molecule.chemicalClass || undefined) as any,
             });
             
             // Ajouter référence PubChem
@@ -6361,7 +6361,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
               await db.updateMoleculeScientificData(molecule.id, {
                 casNumber: result.casNumber || molecule.casNumber || undefined,
                 iupacName: result.iupacName || molecule.iupacName || undefined,
-                chemicalClass: (chemicalClass || molecule.chemicalClass || undefined) as typeof molecules.$inferSelect['chemicalClass'],
+                chemicalClass: (chemicalClass || molecule.chemicalClass || undefined) as any,
               });
               
               // Ajouter référence PubChem
