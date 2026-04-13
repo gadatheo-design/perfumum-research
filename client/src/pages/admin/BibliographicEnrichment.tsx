@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { EntityAutocomplete } from "@/components/ui/EntityAutocomplete";
 
 // ─── Types locaux ─────────────────────────────────────────────────────────────
 interface SearchResult {
@@ -183,8 +184,14 @@ function LinkEntityPanel({ entryId, entryTitle }: { entryId: number; entryTitle:
           </Select>
         </div>
         <div>
-          <Label className="text-xs">ID de l'entité</Label>
-          <Input value={entityId} onChange={e => setEntityId(e.target.value)} placeholder="ex: 42" className="h-8 text-xs mt-1" type="number" />
+          <Label className="text-xs">Sélectionner l'entité</Label>
+          <EntityAutocomplete
+            entityType={entityType as any}
+            value={entityId ? parseInt(entityId) : null}
+            onChange={(id, label) => setEntityId(id ? String(id) : "")}
+            placeholder="Rechercher..."
+            className="mt-1"
+          />
         </div>
       </div>
       {entityType !== "axis" && (
@@ -521,11 +528,21 @@ export default function BibliographicEnrichment() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <p className="text-sm text-muted-foreground">Entrez l'ID d'une recette PERFUMUM pour voir toutes les publications scientifiques qui lui sont associées.</p>
+                <p className="text-sm text-muted-foreground">Sélectionnez une recette PERFUMUM pour voir toutes les publications scientifiques qui lui sont associées.</p>
                 <div className="flex gap-2">
-                  <Input value={recetteSearchId} onChange={e => setRecetteSearchId(e.target.value)}
-                    onKeyDown={e => e.key === "Enter" && handleRecetteSearch()}
-                    placeholder="ID de la recette (ex: 42)" type="number" className="h-9 flex-1" />
+                  <EntityAutocomplete
+                    entityType="recette"
+                    value={recetteIdInput || null}
+                    onChange={(id, label) => {
+                      if (id) {
+                        setRecetteIdInput(id);
+                        setRecetteSearchId(String(id));
+                        setRecetteIdEnabled(true);
+                      }
+                    }}
+                    placeholder="Rechercher une recette..."
+                    className="flex-1"
+                  />
                   <Button onClick={handleRecetteSearch} disabled={recetteFetching || !recetteSearchId.trim()} className="h-9 px-4">
                     {recetteFetching ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
                   </Button>

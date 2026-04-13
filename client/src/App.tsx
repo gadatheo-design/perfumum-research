@@ -348,7 +348,6 @@ const TerroirDetail = React.lazy(() => import('./pages/TerroirDetail'));
 const ChemotypesExplorer = React.lazy(() => import('./pages/ChemotypesExplorer'));
 const AnalyticalMethodsPage = React.lazy(() => import('./pages/AnalyticalMethodsPage'));
 const OriginesGeographiques = React.lazy(() => import('./pages/OriginesGeographiques'));
-const ExtractionMethods = React.lazy(() => import('./pages/ExtractionMethods'));
 const ComparaisonExtractions = React.lazy(() => import('./pages/ComparaisonExtractions'));
 const Collaborations = React.lazy(() => import('./pages/Collaborations'));
 const Archives = React.lazy(() => import('./pages/Archives'));
