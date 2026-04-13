@@ -53,13 +53,19 @@ interface RecipeMolecule {
 
 interface RawMaterialLink {
   id: number;
-  rawMaterialId: number;
-  rawMaterialName: string;
+  materialId: string;
+  name: string;
+  latinName: string | null;
+  category: string;
+  rawMaterialId?: number;
+  rawMaterialName?: string;
   role?: string | null;
   dosage?: number | null;
   dosageUnit?: string | null;
   percentage?: number | null;
   notes?: string | null;
+  materialCategory?: string;
+  terroirId?: number | null;
 }
 
 interface Transformation {
@@ -69,11 +75,23 @@ interface Transformation {
   transformation_type?: string | null;
   description?: string | null;
   temperature?: number | null;
+  source_molecule_name?: string | null;
+  product_molecule_name?: string | null;
+  temperature_optimal?: number | null;
+  olfactory_change_description?: string | null;
+  olfactory_contribution?: string | null;
 }
 
 interface FormuleReference {
   id: number;
-  name: string;
+  recetteId: number;
+  formuleReferenceName: string;
+  formuleReferenceFamily: string;
+  similarityScore: number;
+  notes: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  name?: string;
   description?: string | null;
   source?: string | null;
 }
@@ -82,6 +100,9 @@ interface TerpProfile {
   id: number;
   name: string;
   profile?: string | null;
+  profileId?: number;
+  climaticAxis?: string | null;
+  matchScore?: number | null;
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -152,20 +173,20 @@ export default function RecetteDetail() {
 
   // Récupérer les transformations moléculaires affectant cette recette
   const { data: transformationsData, isLoading: isLoadingTransformations } = trpc.research.getTransformationsAffectingRecipe.useQuery(
-    id,
+    { recetteId: id },
     { enabled: !!data }
   );
 
   // Récupérer les matières premières directement liées à cette recette
   const utils = trpc.useUtils();
   const { data: rawMaterialsLinked } = trpc.recetteRawMaterials.getByRecette.useQuery(
-    id,
+    { recetteId: id },
     { enabled: !!id && id > 0 }
   );
 
   // Recherche de matières premières pour le dialog d'ajout
   const { data: rawMaterialsSearch } = trpc.rawMaterials.getFiltered.useQuery(
-    { search: rmSearch as string, limit: 20, offset: 0 },
+    { search: rmSearch, limit: 20, offset: 0 },
     { enabled: showAddRmDialog }
   );
 
@@ -955,7 +976,7 @@ export default function RecetteDetail() {
         <CardContent>
           {rawMaterialsLinked && rawMaterialsLinked.length > 0 ? (
             <div className="space-y-2">
-              {(rawMaterialsLinked as RawMaterialLink[] | undefined)?.map((rm: RawMaterialLink) => {
+              {((rawMaterialsLinked as unknown) as RawMaterialLink[] | undefined)?.map((rm: RawMaterialLink) => {
                 const roleColors: Record<string, string> = {
                   base: 'bg-stone-100 text-stone-700 dark:bg-stone-900/50 dark:text-stone-300',
                   coeur: 'bg-rose-100 text-rose-700 dark:bg-rose-900/50 dark:text-rose-300',
@@ -964,18 +985,18 @@ export default function RecetteDetail() {
                   modificateur: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/50 dark:text-emerald-300',
                   autre: 'bg-amber-100 text-amber-700 dark:bg-amber-900/50 dark:text-amber-300',
                 };
-                const roleColor = roleColors[rm.role] || roleColors.autre;
+                const roleColor = roleColors[(rm.role as string) || 'autre'] || roleColors.autre;
                 return (
                   <div key={rm.id} className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40 hover:border-amber-300 dark:hover:border-amber-700 transition-colors group">
                     <div className="flex items-center gap-3 min-w-0">
                       <Link href={`/matieres-premieres/${rm.rawMaterialId}`}>
                         <span className="text-amber-700 dark:text-amber-400 font-medium text-sm hover:underline cursor-pointer truncate">
-                          {rm.materialName}
+                          {rm.name}
                         </span>
                       </Link>
-                      {rm.materialCategory && (
+                      {rm.category && (
                         <Badge variant="outline" className="text-xs border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-400 hidden sm:inline-flex">
-                          {rm.materialCategory.replace(/_/g, ' ')}
+                          {rm.category.replace(/_/g, ' ')}
                         </Badge>
                       )}
                       {rm.role && (
