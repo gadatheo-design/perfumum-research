@@ -2990,7 +2990,7 @@ export async function reviewPlantContribution(
           const [plantRows] = await conn.execute(
             `SELECT ethnobotanical_uses FROM plants WHERE id = ?`,
             [contribution.plant_id]
-          ) as Record<string,unknown>[];
+          ) as unknown as Record<string,unknown>[];
           const plant = (plantRows as Record<string,unknown>[])[0] as Record<string, unknown>;
           let uses: Record<string,unknown>[] = [];
           try { uses = JSON.parse((plant?.ethnobotanical_uses as string) || '[]'); } catch { uses = []; }
