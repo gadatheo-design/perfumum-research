@@ -7301,8 +7301,8 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           allRelations.push({
             plantId: plant.id,
             plantName: plant.name,
-            terroirId: t.terroirId,
-            localName: t.localName,
+            terroirId: t.terroirId as number,
+            localName: t.localName as string | undefined,
           });
         });
       }
@@ -7361,7 +7361,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         if (terroirs.length > 0) {
           plantsWithTerroirs.add(plant.id);
           terroirs.forEach((t: Record<string,unknown>) => {
-            terroirsWithPlants.add(t.terroirId);
+            terroirsWithPlants.add(t.terroirId as number);
             totalRelations++;
           });
         }
@@ -7472,7 +7472,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       for (const plant of allPlants.slice(0, 50)) {
         const plantTerroirs = await db.getPlantTerroirs(plant.id);
         plantTerroirs.forEach((pt: Record<string,unknown>) => {
-          plantTerroirLinks.push({ plantId: plant.id, terroirId: pt.terroirId });
+          plantTerroirLinks.push({ plantId: plant.id, terroirId: pt.terroirId as number });
         });
       }
       
