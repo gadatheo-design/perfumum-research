@@ -198,15 +198,20 @@ export const varietyImagesRouter = router({
       genus: z.string().min(1).max(100),
       species: z.string().min(1).max(100),
       cultivar: z.string().max(255).optional(),
-      imageType: z.enum(["leaf", "flower", "fruit", "whole_plant", "other"]),
+      // imageType global (fallback si non défini par fichier)
+      imageType: z.enum(["leaf", "flower", "fruit", "whole_plant", "other"]).optional(),
       source: z.string().max(255).optional(),
       attribution: z.string().max(255).optional(),
+      // Auto-verify for admin uploads
+      autoVerify: z.boolean().optional().default(false),
       files: z.array(z.object({
         fileData: z.string(),
         fileName: z.string().min(1).max(255),
         mimeType: z.string().min(1).max(50),
         description: z.string().optional(),
-      })).min(1).max(20),
+        // Type par fichier (prioritaire sur le type global)
+        imageType: z.enum(["leaf", "flower", "fruit", "whole_plant", "other"]).optional(),
+      })).min(1).max(50),
     }))
     .mutation(async ({ ctx, input }) => {
       if (ctx.user?.role !== "admin") {
@@ -216,15 +221,17 @@ export const varietyImagesRouter = router({
       const results: { index: number; id: number; fileUrl: string; fileName: string; success: boolean; error?: string }[] = [];
       for (let i = 0; i < input.files.length; i++) {
         const file = input.files[i];
+        // Priorité : type par fichier > type global > 'other'
+        const effectiveType = file.imageType || input.imageType || "other";
         try {
-          const fileKey = generateImageKey(input.genus, input.species, input.imageType, file.fileName);
+          const fileKey = generateImageKey(input.genus, input.species, effectiveType, file.fileName);
           const fileBuffer = base64ToBuffer(file.fileData);
           const { url } = await storagePut(fileKey, fileBuffer, file.mimeType);
           const insertResult = await db.insert(varietyImages).values({
             genus: input.genus,
             species: input.species,
             cultivar: input.cultivar,
-            imageType: input.imageType,
+            imageType: effectiveType as "leaf" | "flower" | "fruit" | "whole_plant" | "other",
             fileKey,
             fileUrl: url,
             fileName: file.fileName,
@@ -234,7 +241,9 @@ export const varietyImagesRouter = router({
             source: input.source,
             attribution: input.attribution,
             uploadedBy: ctx.user.id,
-            isVerified: false,
+            isVerified: input.autoVerify === true,
+            verifiedBy: input.autoVerify ? ctx.user.id : null,
+            verifiedAt: input.autoVerify ? new Date() : null,
           }).$returningId();
           results.push({ index: i, id: insertResult[0].id, fileUrl: url, fileName: file.fileName, success: true });
         } catch (err) {
@@ -292,19 +301,4 @@ export const varietyImagesRouter = router({
     };
   }),
 
-  reorderImages: protectedProcedure
-    .input(z.object({
-      items: z.array(z.object({
-        id: z.number(),
-        sortOrder: z.number(),
-      })),
-    }))
-    .mutation(async ({ input }) => {
-      const db = await getDb();
-      if (!db) throw new Error("Database not initialized");
-      for (const item of input.items) {
-        await db.update(varietyImages).set({ sortOrder: item.sortOrder }).where(eq(varietyImages.id, item.id));
-      }
-      return { success: true, updated: input.items.length };
-    }),
 });

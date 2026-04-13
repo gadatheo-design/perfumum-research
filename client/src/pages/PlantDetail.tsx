@@ -38,6 +38,7 @@ import {
 } from "lucide-react";
 import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfile";
 import { PlantImageUpload } from "@/components/PlantImageUpload";
+import { PlantVarietyImageUpload } from "@/components/PlantVarietyImageUpload";
 import { PlantImageGallery } from "@/components/PlantImageGallery";
 import { PlantHeaderGallery } from "@/components/PlantHeaderGallery";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -520,10 +521,17 @@ export default function PlantDetail() {
                     Photos d'échantillons, de terrain et d'analyses pour {plant.name}
                   </CardDescription>
                 </div>
-                <PlantImageUpload 
-                  plantId={plantId} 
-                  plantName={plant.name}
-                />
+                <div className="flex items-center gap-2">
+                  <PlantVarietyImageUpload
+                    latinName={plant.latinName}
+                    isAdmin={user?.role === 'admin'}
+                    onSuccess={() => {}}
+                  />
+                  <PlantImageUpload 
+                    plantId={plantId} 
+                    plantName={plant.name}
+                  />
+                </div>
               </div>
               </CardHeader>
             <CardContent>

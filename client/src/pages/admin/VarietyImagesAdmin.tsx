@@ -552,17 +552,20 @@ function WikidataImageBrowser({ onImportUrl }: { onImportUrl: (url: string, name
 // ─────────────────────────────────────────────────────────────────────────────
 // BATCH UPLOAD FORM — drag-and-drop multi-images avec barres de progression
 // ─────────────────────────────────────────────────────────────────────────────
+type ImageTypeValue = 'leaf' | 'flower' | 'fruit' | 'whole_plant' | 'other';
 interface BatchFile {
   file: File;
   preview: string;
   status: 'pending' | 'uploading' | 'done' | 'error';
   progress: number;
   error?: string;
+  imageType: ImageTypeValue; // type par fichier
 }
 interface BatchFormState {
   genus: string; species: string; cultivar: string;
-  imageType: 'leaf' | 'flower' | 'fruit' | 'whole_plant' | 'other';
+  defaultImageType: ImageTypeValue; // type par défaut appliqué aux nouveaux fichiers
   source: string; attribution: string;
+  autoVerify: boolean;
 }
 function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string }) {
   const { toast } = useToast();
@@ -572,7 +575,8 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
   const [files, setFiles] = useState<BatchFile[]>([]);
   const [formData, setFormData] = useState<BatchFormState>({
     genus: 'Nicotiana', species: 'tabacum', cultivar: '',
-    imageType: 'leaf', source: '', attribution: '',
+    defaultImageType: 'leaf', source: '', attribution: '',
+    autoVerify: false,
   });
   const [isUploading, setIsUploading] = useState(false);
   const [uploadDone, setUploadDone] = useState(false);
@@ -587,6 +591,7 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
     }
     const newBatch: BatchFile[] = valid.map(f => ({
       file: f, preview: URL.createObjectURL(f), status: 'pending', progress: 0,
+      imageType: formData.defaultImageType,
     }));
     setFiles(prev => [...prev, ...newBatch]);
   }, [files.length, toast]);
@@ -611,9 +616,14 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
     setIsUploading(true);
     setFiles(prev => prev.map(f => ({ ...f, status: 'uploading' as const, progress: 10 })));
     try {
-      const filePayloads = await Promise.all(files.map(bf => new Promise<{ fileData: string; fileName: string; mimeType: string }>((resolve, reject) => {
+      const filePayloads = await Promise.all(files.map(bf => new Promise<{ fileData: string; fileName: string; mimeType: string; imageType: ImageTypeValue }>((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => resolve({ fileData: (reader.result as string).split(',')[1], fileName: bf.file.name, mimeType: bf.file.type });
+        reader.onload = () => resolve({
+          fileData: (reader.result as string).split(',')[1],
+          fileName: bf.file.name,
+          mimeType: bf.file.type,
+          imageType: bf.imageType,
+        });
         reader.onerror = reject;
         reader.readAsDataURL(bf.file);
       })));
@@ -622,8 +632,9 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
       }, 400);
       const result = await batchUploadMutation.mutateAsync({
         genus: formData.genus, species: formData.species,
-        cultivar: formData.cultivar || undefined, imageType: formData.imageType,
+        cultivar: formData.cultivar || undefined,
         source: formData.source || undefined, attribution: formData.attribution || undefined,
+        autoVerify: formData.autoVerify,
         files: filePayloads,
       });
       clearInterval(progressInterval);
@@ -679,8 +690,8 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
               <Input value={formData.cultivar} onChange={e => setFormData(p => ({ ...p, cultivar: e.target.value }))} placeholder="ex: Basma" className="mt-1" disabled={isUploading} />
             </div>
             <div>
-              <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Type d'image *</label>
-              <Select value={formData.imageType} onValueChange={v => setFormData(p => ({ ...p, imageType: v as BatchFormState['imageType'] }))} disabled={isUploading}>
+              <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Type par défaut</label>
+              <Select value={formData.defaultImageType} onValueChange={v => setFormData(p => ({ ...p, defaultImageType: v as ImageTypeValue }))} disabled={isUploading}>
                 <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="leaf">🌿 Feuille</SelectItem>
@@ -690,6 +701,7 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
                   <SelectItem value="other">— Autre</SelectItem>
                 </SelectContent>
               </Select>
+              <p className="text-[10px] text-zinc-400 mt-1">Modifiable par image ci-dessous</p>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
@@ -727,41 +739,77 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
                     className="text-xs text-zinc-400 hover:text-red-500 transition-colors">Tout effacer</button>
                 )}
               </div>
-              {files.map((bf, idx) => (
-                <div key={idx} className="flex items-center gap-3 p-2 rounded-lg bg-zinc-50 border border-zinc-100">
-                  <img src={bf.preview} alt={bf.file.name} className="w-10 h-10 rounded object-cover shrink-0" />
-                  <div className="flex-1 min-w-0">
-                    <p className="text-xs font-medium text-zinc-700 truncate">{bf.file.name}</p>
-                    <p className="text-[10px] text-zinc-400">{(bf.file.size / 1024).toFixed(0)} KB</p>
-                    {bf.status !== 'pending' && (
-                      <div className="mt-1">
-                        <div className="h-1 rounded-full bg-zinc-200 overflow-hidden">
-                          <div
-                            className={`h-full rounded-full transition-all duration-300 ${
-                              bf.status === 'done' ? 'bg-emerald-500' :
-                              bf.status === 'error' ? 'bg-red-400' : 'bg-primary'
-                            }`}
-                            style={{ width: `${bf.progress}%` }}
-                          />
+              {files.map((bf, idx) => {
+                const typeConf = IMAGE_TYPE_CONFIG[bf.imageType] || IMAGE_TYPE_CONFIG.other;
+                return (
+                  <div key={idx} className="flex items-start gap-3 p-2.5 rounded-lg bg-zinc-50 border border-zinc-100">
+                    <img src={bf.preview} alt={bf.file.name} className="w-12 h-12 rounded-lg object-cover shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-medium text-zinc-700 truncate">{bf.file.name}</p>
+                      <p className="text-[10px] text-zinc-400 mb-1.5">{(bf.file.size / 1024).toFixed(0)} KB</p>
+                      {/* Sélecteur de type par image */}
+                      {bf.status === 'pending' && !isUploading && (
+                        <Select
+                          value={bf.imageType}
+                          onValueChange={v => setFiles(prev => prev.map((f, i) => i === idx ? { ...f, imageType: v as ImageTypeValue } : f))}
+                        >
+                          <SelectTrigger className={`h-6 text-[11px] px-2 border rounded-md ${typeConf.color}`}>
+                            <span className="flex items-center gap-1">{typeConf.icon} {typeConf.label}</span>
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="leaf"><span className="flex items-center gap-1.5">🌿 Feuille</span></SelectItem>
+                            <SelectItem value="flower"><span className="flex items-center gap-1.5">🌸 Fleur</span></SelectItem>
+                            <SelectItem value="fruit"><span className="flex items-center gap-1.5">🍎 Fruit</span></SelectItem>
+                            <SelectItem value="whole_plant"><span className="flex items-center gap-1.5">🌳 Plante entière</span></SelectItem>
+                            <SelectItem value="other"><span className="flex items-center gap-1.5">— Autre</span></SelectItem>
+                          </SelectContent>
+                        </Select>
+                      )}
+                      {bf.status !== 'pending' && (
+                        <div className="mt-1">
+                          <div className="h-1 rounded-full bg-zinc-200 overflow-hidden">
+                            <div
+                              className={`h-full rounded-full transition-all duration-300 ${
+                                bf.status === 'done' ? 'bg-emerald-500' :
+                                bf.status === 'error' ? 'bg-red-400' : 'bg-primary'
+                              }`}
+                              style={{ width: `${bf.progress}%` }}
+                            />
+                          </div>
+                          {bf.status === 'done' && <p className="text-[10px] text-emerald-600 mt-0.5 flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> {typeConf.label}</p>}
+                          {bf.status === 'error' && <p className="text-[10px] text-red-500 mt-0.5">{bf.error || 'Erreur'}</p>}
                         </div>
-                        {bf.status === 'error' && <p className="text-[10px] text-red-500 mt-0.5">{bf.error || 'Erreur'}</p>}
-                      </div>
-                    )}
+                      )}
+                    </div>
+                    <div className="shrink-0 pt-0.5">
+                      {bf.status === 'pending' && !isUploading && (
+                        <button type="button" onClick={() => removeFile(idx)} className="text-zinc-300 hover:text-red-400 transition-colors">
+                          <X className="w-4 h-4" />
+                        </button>
+                      )}
+                      {bf.status === 'uploading' && <Loader2 className="w-4 h-4 text-primary animate-spin" />}
+                      {bf.status === 'done' && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
+                      {bf.status === 'error' && <AlertCircle className="w-4 h-4 text-red-400" />}
+                    </div>
                   </div>
-                  <div className="shrink-0">
-                    {bf.status === 'pending' && !isUploading && (
-                      <button type="button" onClick={() => removeFile(idx)} className="text-zinc-300 hover:text-red-400 transition-colors">
-                        <X className="w-4 h-4" />
-                      </button>
-                    )}
-                    {bf.status === 'uploading' && <Loader2 className="w-4 h-4 text-primary animate-spin" />}
-                    {bf.status === 'done' && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
-                    {bf.status === 'error' && <AlertCircle className="w-4 h-4 text-red-400" />}
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           )}
+          {/* Option auto-vérification */}
+          <div className="flex items-center gap-2 pt-1">
+            <input
+              type="checkbox"
+              id="autoVerify"
+              checked={formData.autoVerify}
+              onChange={e => setFormData(p => ({ ...p, autoVerify: e.target.checked }))}
+              disabled={isUploading}
+              className="w-4 h-4 rounded border-zinc-300 accent-primary"
+            />
+            <label htmlFor="autoVerify" className="text-xs text-zinc-600 cursor-pointer">
+              Marquer comme vérifiées automatiquement (admin)
+            </label>
+          </div>
           <div className="flex gap-2 justify-end pt-2 border-t border-zinc-100">
             <Button type="button" variant="outline" onClick={handleClose} disabled={isUploading}>Fermer</Button>
             {!uploadDone ? (
