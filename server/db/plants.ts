@@ -1219,7 +1219,7 @@ export async function getPlantVarietiesWithFilters(filters: {
   }
   
   if (filters.conservationStatus) {
-    conditions.push(eq(plantVarieties.conservationStatus, filters.conservationStatus as PlantVariety['conservationStatus']));
+    conditions.push(eq(plantVarieties.conservationStatus, filters.conservationStatus as any));
   }
   
   if (filters.countryOfOrigin) {
@@ -1429,17 +1429,17 @@ export async function listThreatenedPlants(filters: {
   const conditions = [];
   // Par défaut : filtrer sur les statuts menacés (EX, EW, CR, EN, VU, NT, DD)
   if (iucn) {
-    conditions.push(eq(plants.conservationStatus, iucn as Plant['conservationStatus']));
+    conditions.push(eq(plants.conservationStatus, iucn as any));
   } else {
-    conditions.push(inArray(plants.conservationStatus, ['EX', 'EW', 'CR', 'EN', 'VU', 'NT', 'DD'] as Plant['conservationStatus'][]));
+    conditions.push(inArray(plants.conservationStatus, ['EX', 'EW', 'CR', 'EN', 'VU', 'NT', 'DD'] as any[]));
   }
   if (cites) {
-    conditions.push(eq(plants.citesAppendix, cites as Plant['citesAppendix']));
+    conditions.push(eq(plants.citesAppendix, cites as any));
   }
   if (region) {
     conditions.push(like(plants.origin, `%${region}%`));
   }
-  return await (query as ReturnType<typeof db.select>).where(and(...conditions));
+  return await (query as any).where(and(...conditions));
 }
 
 export async function getPlantConservationStatus(plantId: number) {
@@ -1474,7 +1474,7 @@ export async function updatePlantConservationStatus(plantId: number, data: {
 }) {
   const db = await getDb();
   if (!db) return null;
-  await db.update(plants).set(data).where(eq(plants.id, plantId));
+  await db.update(plants).set(data as any).where(eq(plants.id, plantId));
   return getPlantConservationStatus(plantId);
 }
 
@@ -2531,12 +2531,12 @@ export async function bulkCreateGenomicPlantLinks(
         referenceId: link.referenceId,
         plantId: link.plantId,
         genomicAxis: link.genomicAxis,
-        linkType: (link.linkType as 'genome_sequencing'|'gene_expression'|'epigenetics'|'transcriptomics'|'proteomics'|'metabolomics'|'phylogenomics'|'other') || 'genome_sequencing',
+        linkType: ((link.linkType || 'genome_sequencing') as any),
         relevanceScore: link.relevanceScore || 50,
-        confidence: link.confidence || 'medium',
+        confidence: (link.confidence || 'medium') as any,
         notes: link.notes,
         createdBy,
-      });
+      } as any);
       success++;
     } catch (error: unknown) {
       failed++;
@@ -2819,7 +2819,7 @@ export async function submitPlantContribution(data: {
       data.traditionPeriod || null, data.traditionCulture || null, data.traditionUsage || null, data.traditionSources || null,
     ]);
     await conn.end();
-    return { success: true, id: (result as Record<string,unknown>).insertId as number };
+    return { success: true, id: (result as unknown as Record<string,unknown>).insertId as number };
   } catch (error: unknown) {
     console.error('Error submitting plant contribution:', error);
     throw error;
@@ -2840,8 +2840,8 @@ export async function reviewPlantContribution(
     const [rows] = await conn.execute(
       `SELECT * FROM plant_contributions WHERE id = ?`,
       [contributionId]
-    ) as Record<string,unknown>[];
-    const contribution = (rows as unknown[])[0] as Record<string, unknown>;
+    ) as unknown as Record<string,unknown>[];
+    const contribution = rows[0] as Record<string, unknown>;
     if (!contribution) {
       await conn.end();
       throw new Error(`Contribution #${contributionId} not found`);
@@ -2867,8 +2867,8 @@ export async function reviewPlantContribution(
         const [plantRows] = await conn.execute(
           `SELECT id, image_url FROM plants WHERE id = ?`,
           [contribution.plant_id]
-        ) as Record<string,unknown>[];
-        const plant = (plantRows as Record<string,unknown>[])[0] as Record<string, unknown> | undefined;
+        ) as unknown as Record<string,unknown>[];
+        const plant = plantRows[0] as Record<string, unknown> | undefined;
         if (plant && !plant.image_url) {
           // Pas d'image principale : définir cette image comme image principale
           await conn.execute(
@@ -2895,8 +2895,8 @@ export async function reviewPlantContribution(
           const [existing] = await conn.execute(
             `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
             [contribution.plant_id, contribution.molecule_id]
-          ) as Record<string,unknown>[];
-          if ((existing as Record<string,unknown>[]).length === 0) {
+          ) as unknown as Record<string,unknown>[];
+          if ((existing as unknown as Record<string,unknown>[]).length === 0) {
             await conn.execute(`
               INSERT INTO plant_molecules
                 (plant_id, molecule_id, source, notes, role, created_at, updated_at)
@@ -2915,14 +2915,14 @@ export async function reviewPlantContribution(
           const [molRows] = await conn.execute(
             `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
             [contribution.molecule_name]
-          ) as Record<string,unknown>[];
-          const mol = (molRows as Record<string,unknown>[])[0] as Record<string, unknown> | undefined;
+          ) as unknown as Record<string,unknown>[];
+          const mol = molRows[0] as Record<string, unknown> | undefined;
           if (mol) {
             const [existing] = await conn.execute(
               `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
               [contribution.plant_id, mol.id]
-            ) as Record<string,unknown>[];
-            if ((existing as Record<string,unknown>[]).length === 0) {
+            ) as unknown as Record<string,unknown>[];
+            if ((existing as unknown as Record<string,unknown>[]).length === 0) {
               await conn.execute(`
                 INSERT INTO plant_molecules
                   (plant_id, molecule_id, source, notes, role, created_at, updated_at)
@@ -2953,15 +2953,15 @@ export async function reviewPlantContribution(
           const [terroirRows] = await conn.execute(
             `SELECT id FROM terroirs WHERE LOWER(name) LIKE LOWER(?) OR LOWER(region) LIKE LOWER(?) LIMIT 1`,
             [`%${contribution.terroir || contribution.region}%`, `%${contribution.region || contribution.terroir}%`]
-          ) as Record<string,unknown>[];
-          const terroir = (terroirRows as Record<string,unknown>[])[0] as Record<string, unknown> | undefined;
+          ) as unknown as Record<string,unknown>[];
+          const terroir = terroirRows[0] as Record<string, unknown> | undefined;
           if (terroir) {
             // Vérifier si le lien n'existe pas déjà
             const [existingLink] = await conn.execute(
               `SELECT id FROM plant_terroirs WHERE plant_id = ? AND terroir_id = ?`,
               [contribution.plant_id, terroir.id]
-            ) as Record<string,unknown>[];
-            if ((existingLink as Record<string,unknown>[]).length === 0) {
+            ) as unknown as Record<string,unknown>[];
+            if ((existingLink as unknown as Record<string,unknown>[]).length === 0) {
               await conn.execute(`
                 INSERT INTO plant_terroirs (plant_id, terroir_id, quality_notes, notes, created_at)
                 VALUES (?, ?, ?, 'Lien créé via contribution utilisateur', NOW())
@@ -2991,7 +2991,7 @@ export async function reviewPlantContribution(
             `SELECT ethnobotanical_uses FROM plants WHERE id = ?`,
             [contribution.plant_id]
           ) as unknown as Record<string,unknown>[];
-          const plant = (plantRows as Record<string,unknown>[])[0] as Record<string, unknown>;
+          const plant = plantRows[0] as Record<string, unknown>;
           let uses: Record<string,unknown>[] = [];
           try { uses = JSON.parse((plant?.ethnobotanical_uses as string) || '[]'); } catch { uses = []; }
           uses.push({ source: 'contribution', date: new Date().toISOString().split('T')[0], content: contribution.note_content, references: contribution.references || null });
@@ -3057,7 +3057,7 @@ export async function getExclusiveMolecules(statuses: string[] = ['EX', 'EW', 'C
   if (!db) return [];
 
   const placeholders = statuses.map(() => '?').join(', ');
-  const [rows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(
+  const [rows] = await (db as unknown as {execute:(q:unknown,p?:unknown[])=>Promise<[Record<string,unknown>[],unknown]>}).execute(
     `SELECT
       m.id,
       m.name,

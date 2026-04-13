@@ -6803,6 +6803,35 @@ export const publicationTransformationsRelations = relations(publicationTransfor
 
 
 // ============================================================================
+// PUBLICATION EXTRACTION METHODS (Liaisons publication ↔ procédés d'extraction)
+// ============================================================================
+
+export const publicationExtractionMethods = mysqlTable("publication_extraction_methods", {
+  id: int("id").autoincrement().primaryKey(),
+  publicationId: int("publication_id").notNull().references(() => researchPublications.id, { onDelete: "cascade" }),
+  extractionMethodId: int("extraction_method_id").notNull().references(() => extractionMethods.id, { onDelete: "cascade" }),
+  isKeyFinding: boolean("is_key_finding").default(false),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+}, (table) => ({
+  uniqueLink: uniqueIndex("unique_pub_extraction").on(table.publicationId, table.extractionMethodId),
+}));
+
+export type PublicationExtractionMethod = typeof publicationExtractionMethods.$inferSelect;
+export type InsertPublicationExtractionMethod = typeof publicationExtractionMethods.$inferInsert;
+
+export const publicationExtractionMethodsRelations = relations(publicationExtractionMethods, ({ one }) => ({
+  publication: one(researchPublications, {
+    fields: [publicationExtractionMethods.publicationId],
+    references: [researchPublications.id],
+  }),
+  extractionMethod: one(extractionMethods, {
+    fields: [publicationExtractionMethods.extractionMethodId],
+    references: [extractionMethods.id],
+  }),
+}));
+
+// ============================================================================
 // INVENTORY ENTRIES (Entrées d'inventaire - Suivi des achats)
 // ============================================================================
 

@@ -12,7 +12,7 @@ import { useToast } from "@/hooks/use-toast";
 import {
   BookOpen, Search, Link2, Zap, Database, FlaskConical, Leaf, MapPin,
   GitBranch, ExternalLink, Download, Plus, CheckCircle2,
-  AlertCircle, RefreshCw, ChevronRight, Globe, BookMarked
+  AlertCircle, RefreshCw, ChevronRight, Globe, BookMarked, Beaker
 } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -128,7 +128,7 @@ function ResultCard({
 // ─── Composant liaison entité ─────────────────────────────────────────────────
 function LinkEntityPanel({ entryId, entryTitle }: { entryId: number; entryTitle: string }) {
   const { toast } = useToast();
-  const [entityType, setEntityType] = useState<"molecule" | "plant" | "recette" | "terroir" | "axis">("molecule");
+  const [entityType, setEntityType] = useState<"molecule" | "plant" | "recette" | "terroir" | "axis" | "extraction">("molecule");
   const [entityId, setEntityId] = useState("");
   const [linkNotes, setLinkNotes] = useState("");
   const [linkScore, setLinkScore] = useState("75");
@@ -138,6 +138,8 @@ function LinkEntityPanel({ entryId, entryTitle }: { entryId: number; entryTitle:
   const linkToRecette = trpc.bibliography.linkToRecette.useMutation();
   const linkToTerroir = trpc.bibliography.linkToTerroir.useMutation();
   const linkToAxis = trpc.bibliography.linkToAxis.useMutation();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const linkToExtractionMethod = (trpc.bibliography as any).linkToExtractionMethod.useMutation();
 
   const handleLink = async () => {
     const id = parseInt(entityId);
@@ -148,6 +150,7 @@ function LinkEntityPanel({ entryId, entryTitle }: { entryId: number; entryTitle:
       else if (entityType === "recette") await linkToRecette.mutateAsync({ bibliographyId: entryId, recetteId: id, notes: linkNotes, relevanceScore: parseInt(linkScore) });
       else if (entityType === "terroir") await linkToTerroir.mutateAsync({ bibliographyId: entryId, terroirId: id, notes: linkNotes, relevanceScore: parseInt(linkScore) });
       else if (entityType === "axis") await linkToAxis.mutateAsync({ bibliographyId: entryId, axisId: id, notes: linkNotes });
+      else if (entityType === "extraction") await linkToExtractionMethod.mutateAsync({ publicationId: entryId, extractionMethodId: id, notes: linkNotes });
       toast({ title: "Liaison créée", description: `Référence liée à ${entityType} #${id}` });
       setEntityId("");
       setLinkNotes("");
@@ -156,7 +159,7 @@ function LinkEntityPanel({ entryId, entryTitle }: { entryId: number; entryTitle:
     }
   };
 
-  const isLoading = linkToMolecule.isPending || linkToPlant.isPending || linkToRecette.isPending || linkToTerroir.isPending || linkToAxis.isPending;
+  const isLoading = linkToMolecule.isPending || linkToPlant.isPending || linkToRecette.isPending || linkToTerroir.isPending || linkToAxis.isPending || linkToExtractionMethod.isPending;
 
   return (
     <div className="space-y-3 p-3 bg-muted/30 rounded-lg border border-border/40">
@@ -175,6 +178,7 @@ function LinkEntityPanel({ entryId, entryTitle }: { entryId: number; entryTitle:
               <SelectItem value="recette"><BookMarked className="w-3 h-3 inline mr-1" />Recette</SelectItem>
               <SelectItem value="terroir"><MapPin className="w-3 h-3 inline mr-1" />Terroir</SelectItem>
               <SelectItem value="axis"><GitBranch className="w-3 h-3 inline mr-1" />Axe de recherche</SelectItem>
+              <SelectItem value="extraction"><Beaker className="w-3 h-3 inline mr-1" />Procédé d'extraction</SelectItem>
             </SelectContent>
           </Select>
         </div>

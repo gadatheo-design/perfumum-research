@@ -9118,6 +9118,74 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         return { pmids, articles };
       }),
 
+    // Liaison publication ↔ procédé d'extraction
+    linkToExtractionMethod: protectedProcedure
+      .input(z.object({
+        publicationId: z.number(),
+        extractionMethodId: z.number(),
+        isKeyFinding: z.boolean().optional(),
+        notes: z.string().optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) throw new Error('DB not available');
+        const mysql = await import('mysql2/promise');
+        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        try {
+          await conn.execute(
+            `INSERT INTO publication_extraction_methods (publication_id, extraction_method_id, is_key_finding, notes)
+             VALUES (?, ?, ?, ?)
+             ON DUPLICATE KEY UPDATE is_key_finding = VALUES(is_key_finding), notes = VALUES(notes)`,
+            [input.publicationId, input.extractionMethodId, input.isKeyFinding ?? false, input.notes ?? null]
+          );
+          return { success: true };
+        } finally { await conn.end(); }
+      }),
+
+    // Récupérer les publications liées à un procédé d'extraction
+    getByExtractionMethod: publicProcedure
+      .input(z.object({ extractionMethodId: z.number() }))
+      .query(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) return [];
+        const mysql = await import('mysql2/promise');
+        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        try {
+          const [rows] = await conn.execute(
+            `SELECT rp.id, rp.title, rp.authors, rp.year, rp.doi, rp.url, rp.journal,
+                    pem.is_key_finding, pem.notes as link_notes
+             FROM research_publications rp
+             JOIN publication_extraction_methods pem ON pem.publication_id = rp.id
+             WHERE pem.extraction_method_id = ?
+             ORDER BY rp.year DESC`,
+            [input.extractionMethodId]
+          ) as unknown as Record<string,unknown>[][];
+          return rows as Record<string,unknown>[];
+        } finally { await conn.end(); }
+      }),
+
+    // Récupérer les procédés d'extraction liés à une publication
+    getExtractionMethodsByPublication: publicProcedure
+      .input(z.object({ publicationId: z.number() }))
+      .query(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) return [];
+        const mysql = await import('mysql2/promise');
+        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        try {
+          const [rows] = await conn.execute(
+            `SELECT em.id, em.name, em.type, em.description, em.temperature, em.pressure, em.solvent,
+                    pem.is_key_finding, pem.notes as link_notes
+             FROM extraction_methods em
+             JOIN publication_extraction_methods pem ON pem.extraction_method_id = em.id
+             WHERE pem.publication_id = ?
+             ORDER BY em.name`,
+            [input.publicationId]
+          ) as unknown as Record<string,unknown>[][];
+          return rows as Record<string,unknown>[];
+        } finally { await conn.end(); }
+      }),
+
     // Données GBIF d'une plante (occurrences + pays)
     getGbifData: publicProcedure
       .input(z.object({ plantId: z.number() }))
