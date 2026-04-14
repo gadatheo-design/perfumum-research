@@ -71,7 +71,8 @@ const Admin = React.lazy(() => import('./pages/Admin'));
 // import AdminMolecules from "./pages/AdminMolecules"; // Non utilisé - AdminMoleculesIndex est utilisé à la place
 const AdminMoleculeNew = React.lazy(() => import('./pages/AdminMoleculeNew'));
 const AdminRecettes = React.lazy(() => import('./pages/AdminRecettes'));
-const AdminImportExport = React.lazy(() => import('./pages/AdminImportExport'));
+const AdminImportExport = React.lazy(() => import('./pages/AdminImportExportNew'));
+// const AdminImportExportNew = React.lazy(() => import('./pages/AdminImportExportNew')); // Remplace AdminImportExport
 const ImportExportPlants = React.lazy(() => import('./pages/ImportExportPlants'));
 const ImportCSV = React.lazy(() => import('./pages/ImportCSV'));
 const ImportCSVPreview = React.lazy(() => import('./pages/ImportCSVPreview'));

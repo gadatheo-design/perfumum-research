@@ -4,6 +4,7 @@
 
 import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { z } from "zod";
+import { importMolecules, importRecettes, type ImportResult } from "../import-utils";
 
 // ─── MODÈLES DE FICHIERS ───────────────────────────────────────────────────
 
@@ -230,6 +231,34 @@ function generateJSONTemplate(template: (typeof TEMPLATES)[0]): string {
   );
 }
 
+// ─── PARSERS ──────────────────────────────────────────────────────────────────
+
+function parseCSV(content: string): Record<string, any>[] {
+  const lines = content.split("\n").filter((line) => line.trim());
+  if (lines.length < 2) return [];
+
+  const headers = lines[0].split(",").map((h) => h.trim());
+  const data: Record<string, any>[] = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    const values = lines[i].split(",").map((v) => v.trim().replace(/^"|"$/g, ""));
+    const row: Record<string, any> = {};
+
+    headers.forEach((header, index) => {
+      row[header] = values[index] || "";
+    });
+
+    data.push(row);
+  }
+
+  return data;
+}
+
+function parseJSON(content: string): Record<string, any>[] {
+  const parsed = JSON.parse(content);
+  return Array.isArray(parsed) ? parsed : parsed.data || [];
+}
+
 export const importExportRouter = router({
   // Lister tous les modèles
   listTemplates: publicProcedure.query(() => {
@@ -290,25 +319,52 @@ export const importExportRouter = router({
         throw new Error(`Modèle non trouvé : ${input.entity}`);
       }
 
-      // Validation simple
-      const lines = input.content.split("\n").filter((l) => l.trim());
-      if (lines.length < 2) {
+      try {
+        let data: Record<string, any>[] = [];
+
+        if (input.format === "json" || input.content.trim().startsWith("{")) {
+          data = parseJSON(input.content);
+        } else {
+          data = parseCSV(input.content);
+        }
+
+        const errors: any[] = [];
+        const warnings: any[] = [];
+
+        // Valider les colonnes
+        if (data.length > 0) {
+          const firstRow = data[0];
+          const missingHeaders = template.csvHeaders.filter((h) => !(h in firstRow));
+
+          if (missingHeaders.length > 0) {
+            warnings.push({
+              message: `Colonnes manquantes : ${missingHeaders.join(", ")}`,
+              severity: "warning",
+            });
+          }
+        }
+
+        return {
+          isValid: errors.length === 0,
+          errors,
+          warnings,
+          rowCount: data.length,
+          preview: data.slice(0, 10),
+        };
+      } catch (error) {
         return {
           isValid: false,
-          errors: [{ message: "Fichier vide ou incomplet", severity: "error" as const }],
+          errors: [
+            {
+              message: `Erreur de parsing : ${error instanceof Error ? error.message : String(error)}`,
+              severity: "error",
+            },
+          ],
           warnings: [],
           rowCount: 0,
-          previewData: [],
+          preview: [],
         };
       }
-
-      return {
-        isValid: true,
-        errors: [],
-        warnings: [],
-        rowCount: lines.length - 1,
-        previewData: [],
-      };
     }),
 
   // Aperçu données
@@ -321,14 +377,33 @@ export const importExportRouter = router({
       })
     )
     .query(({ input }) => {
-      return {
-        isValid: true,
-        rowCount: 5,
-        errors: [],
-        warnings: [],
-        preview: [],
-        report: "Aperçu disponible",
-      };
+      try {
+        let data: Record<string, any>[] = [];
+
+        if (input.format === "json" || input.content.trim().startsWith("{")) {
+          data = parseJSON(input.content);
+        } else {
+          data = parseCSV(input.content);
+        }
+
+        return {
+          isValid: true,
+          rowCount: data.length,
+          errors: [],
+          warnings: [],
+          preview: data.slice(0, 10),
+          report: `Aperçu de ${Math.min(10, data.length)} lignes sur ${data.length}`,
+        };
+      } catch (error) {
+        return {
+          isValid: false,
+          rowCount: 0,
+          errors: [{ message: String(error), severity: "error" }],
+          warnings: [],
+          preview: [],
+          report: "Erreur lors de la génération de l'aperçu",
+        };
+      }
     }),
 
   // Import réel (protégé)
@@ -341,17 +416,40 @@ export const importExportRouter = router({
         mode: z.enum(["create", "merge", "replace"]).default("create"),
       })
     )
-    .mutation(async ({ input }) => {
-      return {
-        success: true,
-        entity: input.entity,
-        mode: input.mode,
-        rowsProcessed: 5,
-        rowsCreated: 5,
-        rowsUpdated: 0,
-        rowsFailed: 0,
-        message: "Import réussi : 5 lignes importées",
-      };
+    .mutation(async ({ input, ctx }) => {
+      // Vérifier que l'utilisateur est admin
+      if (ctx.user?.role !== "admin") {
+        throw new Error("Seuls les administrateurs peuvent importer des données");
+      }
+
+      try {
+        let data: Record<string, any>[] = [];
+
+        // Parser le fichier
+        if (input.format === "json" || input.content.trim().startsWith("{")) {
+          data = parseJSON(input.content);
+        } else {
+          data = parseCSV(input.content);
+        }
+
+        // Importer selon l'entité
+        let result: ImportResult;
+
+        switch (input.entity) {
+          case "molecules":
+            result = await importMolecules(data, input.mode);
+            break;
+          case "recettes":
+            result = await importRecettes(data, input.mode);
+            break;
+          default:
+            throw new Error(`Entité non supportée : ${input.entity}`);
+        }
+
+        return result;
+      } catch (error) {
+        throw new Error(`Erreur lors de l'import : ${error instanceof Error ? error.message : String(error)}`);
+      }
     }),
 
   // Statistiques
