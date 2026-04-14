@@ -419,6 +419,39 @@ export const varietyImagesRouter = router({
       return { success: true, imageId: input.imageId, plantId: input.plantId };
     }),
 
+  // ── Bulk link images to plant ────────────────────────────────────────────────
+  bulkLinkPlants: protectedProcedure
+    .input(z.object({
+      imageIds: z.array(z.number()).min(1),
+      plantId: z.number(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.user?.role !== "admin") {
+        throw new TRPCError({ code: "FORBIDDEN", message: "Only admins can link images to plants" });
+      }
+      const db = await requireDb();
+      const results = { succeeded: 0, failed: 0, errors: [] as string[] };
+      for (const imageId of input.imageIds) {
+        try {
+          const image = await db.select().from(varietyImages).where(eq(varietyImages.id, imageId));
+          if (!image.length) {
+            results.failed++;
+            results.errors.push(`Image ${imageId} not found`);
+            continue;
+          }
+          await db
+            .update(varietyImages)
+            .set({ plantId: input.plantId, updatedAt: new Date() })
+            .where(eq(varietyImages.id, imageId));
+          results.succeeded++;
+        } catch (err) {
+          results.failed++;
+          results.errors.push(err instanceof Error ? err.message : `Error linking image ${imageId}`);
+        }
+      }
+      return { success: results.failed === 0, ...results, total: input.imageIds.length };
+    }),
+
   // ── Stats ─────────────────────────────────────────────────────────────────
   getStats: publicProcedure.query(async () => {
     const db = await requireDb();

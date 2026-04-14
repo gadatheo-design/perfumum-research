@@ -52,6 +52,74 @@ type GridSize = 'compact' | 'normal' | 'large';
 type SortKey = 'date_desc' | 'date_asc' | 'genus_asc' | 'genus_desc' | 'type';
 
 // ──────────// ─────────────────────────────────────────────────────────────────
+// BULK LINK BUTTON
+// ─────────────────────────────────────────────────────────────────
+
+function BulkLinkButton({
+  selectedIds, onSuccess,
+}: {
+  selectedIds: Set<number>;
+  onSuccess: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [selectedPlant, setSelectedPlant] = useState<{ id: number; label: string } | null>(null);
+  const { toast } = useToast();
+  const bulkLinkMutation = trpc.varietyImages.bulkLinkPlants.useMutation();
+
+  const handleBulkLink = async () => {
+    if (!selectedPlant || selectedIds.size === 0) return;
+    try {
+      const result = await bulkLinkMutation.mutateAsync({
+        imageIds: Array.from(selectedIds),
+        plantId: selectedPlant.id,
+      });
+      toast({
+        title: 'Succès',
+        description: `${result.succeeded} image(s) liée(s) à la plante${result.failed > 0 ? `, ${result.failed} erreur(s)` : ''}`,
+      });
+      setOpen(false);
+      setSelectedPlant(null);
+      onSuccess();
+    } catch (err) {
+      toast({
+        title: 'Erreur',
+        description: err instanceof Error ? err.message : 'Erreur inconnue',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button size="sm" variant="outline" className="h-8 text-xs text-blue-600 border-blue-200 hover:bg-blue-50">
+          <Link2 className="w-3.5 h-3.5 mr-1.5" /> Lier en lot ({selectedIds.size})
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-sm">
+        <DialogHeader>
+          <DialogTitle>Lier {selectedIds.size} image(s) à une plante</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <PlantAutocomplete
+            value={selectedPlant}
+            onChange={setSelectedPlant}
+          />
+          <Button
+            onClick={handleBulkLink}
+            disabled={!selectedPlant || bulkLinkMutation.isPending}
+            className="w-full bg-blue-600 hover:bg-blue-700"
+          >
+            {bulkLinkMutation.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Link2 className="w-4 h-4 mr-2" />}
+            Lier {selectedIds.size} image(s)
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────
 // PLANT LINK BUTTON
 // ─────────────────────────────────────────────────────────────────
 
@@ -1609,6 +1677,7 @@ function BatchActionsBar({
       <div className="flex items-center gap-2 ml-auto">
         {selectedCount > 0 && (
           <>
+            <BulkLinkButton selectedIds={selectedIds} onSuccess={onExitSelection} />
             <Button size="sm" variant="outline" className="h-8 text-xs text-emerald-700 border-emerald-200 hover:bg-emerald-50"
               onClick={onVerifyAll}>
               <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" /> Vérifier ({selectedCount})
