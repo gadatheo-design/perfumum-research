@@ -227,9 +227,16 @@ export function iNaturalistImportModal({
           </div>
 
           {/* Import button */}
+          {!plantId && (
+            <div className="flex items-center gap-2 p-2 bg-red-50 border border-red-200 rounded text-sm text-red-700">
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
+              Veuillez d'abord sélectionner une plante PERFUMUM cible
+            </div>
+          )}
+
           <Button
             onClick={handleImport}
-            disabled={importMutation.isPending}
+            disabled={importMutation.isPending || !plantId}
             className="w-full bg-blue-600 hover:bg-blue-700"
           >
             {importMutation.isPending ? (

@@ -963,6 +963,22 @@ function INaturalistImageBrowser() {
   const [importModalOpen, setImportModalOpen] = useState(false);
   const [selectedObservation, setSelectedObservation] = useState<any | null>(null);
   const [selectedPlantId, setSelectedPlantId] = useState<number | null>(null);
+  const [selectedPlantName, setSelectedPlantName] = useState<string>('');
+  const [plantSearchQuery, setPlantSearchQuery] = useState<string>('');
+  const [plantSearchResults, setPlantSearchResults] = useState<Array<{id: number; name: string; latinName: string | null}>>([]);
+  const [showPlantDropdown, setShowPlantDropdown] = useState(false);
+
+  const searchPlantsQuery = trpc.varietyImages.searchPlants.useQuery(
+    { query: plantSearchQuery, limit: 10 },
+    { enabled: plantSearchQuery.length >= 2 }
+  );
+
+  useEffect(() => {
+    if (searchPlantsQuery.data) {
+      setPlantSearchResults(searchPlantsQuery.data);
+      setShowPlantDropdown(searchPlantsQuery.data.length > 0);
+    }
+  }, [searchPlantsQuery.data]);
 
   const handleSearch = async () => {
     if (!searchName.trim() || searchName.trim().length < 3) {
@@ -1005,6 +1021,48 @@ function INaturalistImageBrowser() {
 
   return (
     <div className="space-y-5">
+      {/* PERFUMUM Plant selector — required before import */}
+      <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 space-y-2">
+        <div className="flex items-center gap-2 mb-1">
+          <Leaf className="w-4 h-4 text-amber-600" />
+          <p className="text-sm font-semibold text-amber-800">Plante PERFUMUM cible <span className="text-red-500">*</span></p>
+        </div>
+        <p className="text-xs text-amber-600">Sélectionnez la plante PERFUMUM à laquelle lier les images importées</p>
+        <div className="relative">
+          <Input
+            placeholder="Rechercher une plante PERFUMUM (ex: Cannabis, Lavande)..."
+            value={plantSearchQuery}
+            onChange={(e) => { setPlantSearchQuery(e.target.value); setShowPlantDropdown(true); }}
+            onFocus={() => setShowPlantDropdown(plantSearchResults.length > 0)}
+            className="bg-white"
+          />
+          {showPlantDropdown && plantSearchResults.length > 0 && (
+            <div className="absolute z-50 w-full mt-1 bg-white border border-zinc-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+              {plantSearchResults.map((p) => (
+                <div key={p.id}
+                  className="px-3 py-2 hover:bg-zinc-50 cursor-pointer text-sm flex items-center justify-between"
+                  onClick={() => {
+                    setSelectedPlantId(p.id);
+                    setSelectedPlantName(p.name || p.latinName || '');
+                    setPlantSearchQuery(p.name || p.latinName || '');
+                    setShowPlantDropdown(false);
+                  }}>
+                  <span className="font-medium">{p.name}</span>
+                  {p.latinName && <span className="text-xs text-zinc-400 italic">{p.latinName}</span>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+        {selectedPlantId && (
+          <div className="flex items-center gap-2 text-xs text-green-700 bg-green-50 border border-green-200 rounded px-2 py-1">
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            Plante sélectionnée : <strong>{selectedPlantName}</strong> (ID: {selectedPlantId})
+            <button className="ml-auto text-zinc-400 hover:text-zinc-600" onClick={() => { setSelectedPlantId(null); setSelectedPlantName(''); setPlantSearchQuery(''); }}>✕</button>
+          </div>
+        )}
+      </div>
+
       <div className="bg-green-50 border border-green-100 rounded-xl p-4 flex gap-3">
         <Sprout className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
         <div className="text-sm text-green-800">
@@ -1153,14 +1211,14 @@ function INaturalistImageBrowser() {
             license: selectedObservation.photos?.[0]?.license_code || 'CC-BY-NC',
             observationId: selectedObservation.id,
             observerName: selectedObservation.user?.name || 'Anonyme',
-            latitude: selectedObservation.geom?.coordinates?.[1] || 0,
-            longitude: selectedObservation.geom?.coordinates?.[0] || 0,
+            latitude: (() => { const loc = selectedObservation.location; if (loc && typeof loc === 'string') { const [lat] = loc.split(','); return parseFloat(lat) || 0; } return selectedObservation.geojson?.coordinates?.[1] || 0; })(),
+            longitude: (() => { const loc = selectedObservation.location; if (loc && typeof loc === 'string') { const [, lng] = loc.split(','); return parseFloat(lng) || 0; } return selectedObservation.geojson?.coordinates?.[0] || 0; })(),
           }}
-          plantId={selectedPlantId || selectedTaxon?.id || 0}
+          plantId={selectedPlantId || 0}
           onSuccess={() => {
             setImportModalOpen(false);
             setSelectedObservation(null);
-            toast({ title: 'Succès', description: 'Image importée avec succès' });
+            toast({ title: '✅ Image importée', description: `Image liée à ${selectedPlantName || 'la plante sélectionnée'}` });
           }}
         />
       )}
