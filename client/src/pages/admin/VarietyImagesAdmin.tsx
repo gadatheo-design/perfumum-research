@@ -3,16 +3,20 @@
  * ─────────────────────────────────────────────────────────────────────────────
  * Admin page for managing morphological images of plant varieties
  * Design: Swiss Modern — sidebar filters, masonry grid, rich lightbox
+ * v2: + pagination, batch actions, sort, mobile drawer, iNaturalist tab, plant links
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-import React, { useState, useCallback, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import { Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Textarea } from '@/components/ui/textarea';
 import { trpc } from '@/lib/trpc';
 import { useToast } from '@/hooks/use-toast';
@@ -21,7 +25,8 @@ import {
   ExternalLink, ImageIcon, Loader2, X, ChevronLeft, ChevronRight,
   Leaf, Flower2, Apple, TreePine, MoreHorizontal, Link2, Filter,
   SlidersHorizontal, Grid3X3, LayoutGrid, Maximize2, Info, Camera,
-  Tag, Globe, BookOpen, ZoomIn,
+  Tag, Globe, BookOpen, ZoomIn, ArrowUpDown, ArrowUp, ArrowDown,
+  CheckSquare, Square, ChevronDown, Sprout,
 } from 'lucide-react';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -41,7 +46,10 @@ const IMAGE_TYPE_CONFIG: Record<string, {
   other:       { label: 'Autre',          icon: <MoreHorizontal className="w-3 h-3" />,  color: 'bg-slate-50 text-slate-600 border-slate-200',        dot: 'bg-slate-400' },
 };
 
+const PAGE_SIZE = 48;
+
 type GridSize = 'compact' | 'normal' | 'large';
+type SortKey = 'date_desc' | 'date_asc' | 'genus_asc' | 'genus_desc' | 'type';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LIGHTBOX
@@ -58,7 +66,6 @@ function Lightbox({
   if (!image) return null;
   const typeConfig = IMAGE_TYPE_CONFIG[image.imageType] || IMAGE_TYPE_CONFIG.other;
 
-  // Keyboard navigation
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') onPrev();
@@ -68,6 +75,21 @@ function Lightbox({
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   }, [onPrev, onNext, onClose]);
+
+  const handleDownload = async () => {
+    try {
+      const resp = await fetch(image.fileUrl);
+      const blob = await resp.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${image.genus}_${image.species}_${image.imageType}.jpg`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch {
+      window.open(image.fileUrl, '_blank');
+    }
+  };
 
   return (
     <Dialog open onOpenChange={onClose}>
@@ -102,13 +124,21 @@ function Lightbox({
               {currentIndex + 1} / {images.length}
             </div>
 
-            {/* Open full size */}
-            <a href={image.fileUrl} target="_blank" rel="noopener noreferrer"
-              className="absolute top-3 right-3 bg-white/10 hover:bg-white/25 backdrop-blur-sm text-white rounded-full p-2 transition-all">
-              <Maximize2 className="w-4 h-4" />
-            </a>
+            {/* Top actions */}
+            <div className="absolute top-3 right-3 flex items-center gap-1.5">
+              <button onClick={handleDownload}
+                className="bg-white/10 hover:bg-white/25 backdrop-blur-sm text-white rounded-full p-2 transition-all"
+                title="Télécharger">
+                <Download className="w-4 h-4" />
+              </button>
+              <a href={image.fileUrl} target="_blank" rel="noopener noreferrer"
+                className="bg-white/10 hover:bg-white/25 backdrop-blur-sm text-white rounded-full p-2 transition-all"
+                title="Ouvrir en plein écran">
+                <Maximize2 className="w-4 h-4" />
+              </a>
+            </div>
 
-            {/* Verified / unverified pill */}
+            {/* Verified pill */}
             <div className={`absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold backdrop-blur-sm ${
               image.isVerified ? 'bg-emerald-500/90 text-white' : 'bg-amber-500/90 text-white'
             }`}>
@@ -132,6 +162,14 @@ function Lightbox({
                   {typeConfig.icon} {typeConfig.label}
                 </span>
               </div>
+              {/* Link to plant sheet */}
+              {image.plantId && (
+                <Link href={`/plants/${image.plantId}`}
+                  className="inline-flex items-center gap-1.5 mt-3 text-xs text-primary hover:underline font-medium">
+                  <Sprout className="w-3.5 h-3.5" />
+                  Voir la fiche plante
+                </Link>
+              )}
             </div>
 
             {/* Metadata */}
@@ -185,6 +223,12 @@ function Lightbox({
                   <CheckCircle2 className="w-4 h-4 mr-2" /> Marquer comme vérifié
                 </Button>
               )}
+              {image.isVerified && (
+                <Button size="sm" variant="outline" className="w-full text-amber-600 border-amber-200 hover:bg-amber-50"
+                  onClick={() => { onVerify(image.id, false); onClose(); }}>
+                  <AlertCircle className="w-4 h-4 mr-2" /> Retirer la vérification
+                </Button>
+              )}
               <Button size="sm" variant="outline" className="w-full text-red-600 border-red-200 hover:bg-red-50"
                 onClick={() => { if (confirm('Supprimer cette image ?')) { onDelete(image.id); onClose(); } }}>
                 <Trash2 className="w-4 h-4 mr-2" /> Supprimer
@@ -201,23 +245,41 @@ function Lightbox({
 // IMAGE CARD
 // ─────────────────────────────────────────────────────────────────────────────
 
-function ImageCard({ image, onClick, gridSize }: { image: any; onClick: () => void; gridSize: GridSize }) {
+function ImageCard({
+  image, onClick, gridSize, selected, onSelect, selectionMode,
+}: {
+  image: any; onClick: () => void; gridSize: GridSize;
+  selected: boolean; onSelect: (id: number) => void; selectionMode: boolean;
+}) {
   const typeConfig = IMAGE_TYPE_CONFIG[image.imageType] || IMAGE_TYPE_CONFIG.other;
   const [imgError, setImgError] = useState(false);
-
   const heightClass = gridSize === 'compact' ? 'h-28' : gridSize === 'large' ? 'h-52' : 'h-40';
 
   return (
     <div
-      className="group relative rounded-xl overflow-hidden border border-border hover:border-primary/50 hover:shadow-lg transition-all duration-200 cursor-pointer bg-card"
-      onClick={onClick}
+      className={`group relative rounded-xl overflow-hidden border transition-all duration-200 cursor-pointer bg-card ${
+        selected
+          ? 'border-primary ring-2 ring-primary/30 shadow-md'
+          : 'border-border hover:border-primary/50 hover:shadow-lg'
+      }`}
+      onClick={() => selectionMode ? onSelect(image.id) : onClick()}
     >
+      {/* Selection checkbox */}
+      {selectionMode && (
+        <div className="absolute top-2 left-2 z-10" onClick={e => { e.stopPropagation(); onSelect(image.id); }}>
+          <div className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-all ${
+            selected ? 'bg-primary border-primary' : 'bg-white/80 border-zinc-300 backdrop-blur-sm'
+          }`}>
+            {selected && <CheckCircle2 className="w-3 h-3 text-white" />}
+          </div>
+        </div>
+      )}
+
       {/* Image */}
       <div className={`relative ${heightClass} overflow-hidden`}>
         {imgError ? (
           <div className="w-full h-full flex flex-col items-center justify-center bg-zinc-100 text-zinc-400">
             <ImageIcon className="w-8 h-8 mb-1" />
-            <span className="text-xs">Indisponible</span>
           </div>
         ) : (
           <img
@@ -229,11 +291,13 @@ function ImageCard({ image, onClick, gridSize }: { image: any; onClick: () => vo
         )}
 
         {/* Hover overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
-          <div className="bg-white/20 backdrop-blur-sm rounded-full p-2.5">
-            <ZoomIn className="w-5 h-5 text-white" />
+        {!selectionMode && (
+          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+            <div className="bg-white/20 backdrop-blur-sm rounded-full p-2.5">
+              <ZoomIn className="w-5 h-5 text-white" />
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Status dot */}
         <div className={`absolute top-2 right-2 w-2.5 h-2.5 rounded-full border-2 border-white shadow ${
@@ -265,9 +329,11 @@ function ImageCard({ image, onClick, gridSize }: { image: any; onClick: () => vo
 
 function ImageGallery({
   images, onVerify, onDelete, isLoading, gridSize,
+  selectedIds, onSelect, selectionMode,
 }: {
   images: any[]; onVerify: (id: number, v: boolean) => void;
   onDelete: (id: number) => void; isLoading: boolean; gridSize: GridSize;
+  selectedIds: Set<number>; onSelect: (id: number) => void; selectionMode: boolean;
 }) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
@@ -301,6 +367,9 @@ function ImageGallery({
             image={image}
             onClick={() => setLightboxIndex(idx)}
             gridSize={gridSize}
+            selected={selectedIds.has(image.id)}
+            onSelect={onSelect}
+            selectionMode={selectionMode}
           />
         ))}
       </div>
@@ -496,7 +565,6 @@ function WikidataImageBrowser({ onImportUrl }: { onImportUrl: (url: string, name
 
       {entity && (
         <div className="rounded-xl border border-zinc-200 overflow-hidden">
-          {/* Entity header */}
           <div className="p-4 bg-zinc-50 border-b border-zinc-100 flex items-start justify-between gap-4">
             <div>
               <p className="font-semibold text-lg italic text-zinc-800">{entity.scientificName || entity.label}</p>
@@ -513,7 +581,6 @@ function WikidataImageBrowser({ onImportUrl }: { onImportUrl: (url: string, name
             )}
           </div>
 
-          {/* Image */}
           <div className="p-4">
             {entity.imageUrl ? (
               <div className="space-y-3">
@@ -546,12 +613,196 @@ function WikidataImageBrowser({ onImportUrl }: { onImportUrl: (url: string, name
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// iNATURALIST IMAGE BROWSER
+// ─────────────────────────────────────────────────────────────────────────────
+
+function INaturalistImageBrowser() {
+  const { toast } = useToast();
+  const [searchName, setSearchName] = useState('');
+  const [results, setResults] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedTaxon, setSelectedTaxon] = useState<any | null>(null);
+  const [observations, setObservations] = useState<any[]>([]);
+  const [loadingObs, setLoadingObs] = useState(false);
+
+  const handleSearch = async () => {
+    if (!searchName.trim() || searchName.trim().length < 3) {
+      toast({ title: 'Erreur', description: 'Entrez au moins 3 caractères', variant: 'destructive' });
+      return;
+    }
+    setIsLoading(true);
+    setResults([]);
+    setSelectedTaxon(null);
+    setObservations([]);
+    try {
+      const resp = await fetch(
+        `https://api.inaturalist.org/v1/taxa?q=${encodeURIComponent(searchName.trim())}&rank=species,subspecies,variety&per_page=10&locale=fr`
+      );
+      const data = await resp.json();
+      setResults(data.results || []);
+    } catch {
+      toast({ title: 'Erreur', description: 'Impossible de contacter iNaturalist', variant: 'destructive' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleSelectTaxon = async (taxon: any) => {
+    setSelectedTaxon(taxon);
+    setLoadingObs(true);
+    setObservations([]);
+    try {
+      const resp = await fetch(
+        `https://api.inaturalist.org/v1/observations?taxon_id=${taxon.id}&photos=true&per_page=24&order_by=votes&quality_grade=research`
+      );
+      const data = await resp.json();
+      setObservations(data.results || []);
+    } catch {
+      toast({ title: 'Erreur', description: 'Impossible de charger les observations', variant: 'destructive' });
+    } finally {
+      setLoadingObs(false);
+    }
+  };
+
+  return (
+    <div className="space-y-5">
+      <div className="bg-green-50 border border-green-100 rounded-xl p-4 flex gap-3">
+        <Sprout className="w-5 h-5 text-green-600 mt-0.5 shrink-0" />
+        <div className="text-sm text-green-800">
+          <p className="font-semibold mb-0.5">iNaturalist — Observations citoyennes</p>
+          <p className="text-green-600 text-xs">Millions d'observations photographiques vérifiées par la communauté scientifique. Qualité "Research Grade" uniquement.</p>
+        </div>
+      </div>
+
+      <div className="flex gap-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
+          <Input
+            placeholder="ex: Nicotiana tabacum, Cannabis sativa, Lavandula angustifolia"
+            value={searchName}
+            onChange={(e) => setSearchName(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+            className="pl-9"
+          />
+        </div>
+        <Button onClick={handleSearch} disabled={isLoading}>
+          {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+          <span className="ml-2">Rechercher</span>
+        </Button>
+      </div>
+
+      {results.length > 0 && !selectedTaxon && (
+        <div className="space-y-1.5">
+          <p className="text-xs text-zinc-400 font-semibold uppercase tracking-widest">{results.length} taxons trouvés</p>
+          {results.map((taxon: any) => (
+            <div
+              key={taxon.id}
+              className="flex items-center gap-3 p-3 rounded-lg border border-zinc-200 hover:bg-zinc-50 hover:border-zinc-300 cursor-pointer transition-all"
+              onClick={() => handleSelectTaxon(taxon)}
+            >
+              {taxon.default_photo?.square_url ? (
+                <img src={taxon.default_photo.square_url} alt={taxon.name}
+                  className="w-10 h-10 rounded-lg object-cover shrink-0 border border-zinc-100" />
+              ) : (
+                <div className="w-10 h-10 rounded-lg bg-zinc-100 flex items-center justify-center shrink-0">
+                  <Leaf className="w-5 h-5 text-zinc-300" />
+                </div>
+              )}
+              <div className="flex-1 min-w-0">
+                <p className="font-medium italic text-sm text-zinc-800 truncate">{taxon.name}</p>
+                {taxon.preferred_common_name && (
+                  <p className="text-xs text-zinc-500 truncate">{taxon.preferred_common_name}</p>
+                )}
+              </div>
+              <div className="text-right shrink-0">
+                <Badge variant="outline" className="text-xs">{taxon.rank}</Badge>
+                {taxon.observations_count && (
+                  <p className="text-[10px] text-zinc-400 mt-1">{taxon.observations_count.toLocaleString()} obs.</p>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {results.length === 0 && searchName && !isLoading && (
+        <p className="text-center text-zinc-400 py-8 text-sm">Aucun résultat pour « {searchName} » dans iNaturalist</p>
+      )}
+
+      {selectedTaxon && (
+        <div className="space-y-4">
+          <div className="flex items-center gap-3">
+            <button onClick={() => { setSelectedTaxon(null); setObservations([]); }}
+              className="text-xs text-zinc-500 hover:text-zinc-700 flex items-center gap-1">
+              <ChevronLeft className="w-3.5 h-3.5" /> Retour
+            </button>
+            <p className="text-sm font-semibold italic text-zinc-700">
+              {selectedTaxon.name}
+              <span className="not-italic font-normal text-zinc-400 ml-2">
+                — {selectedTaxon.observations_count?.toLocaleString() || 0} observations
+              </span>
+            </p>
+            <a href={`https://www.inaturalist.org/taxa/${selectedTaxon.id}`}
+              target="_blank" rel="noopener noreferrer"
+              className="ml-auto text-xs text-blue-600 hover:underline flex items-center gap-1">
+              <ExternalLink className="w-3 h-3" /> Voir sur iNaturalist
+            </a>
+          </div>
+
+          {loadingObs && (
+            <div className="flex justify-center py-10"><Loader2 className="w-7 h-7 animate-spin text-primary" /></div>
+          )}
+
+          {!loadingObs && observations.length === 0 && (
+            <p className="text-center text-zinc-400 py-8 text-sm">Aucune observation avec photo pour ce taxon</p>
+          )}
+
+          {!loadingObs && observations.length > 0 && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+              {observations.map((obs: any) => {
+                const photo = obs.photos?.[0];
+                if (!photo) return null;
+                const medUrl = photo.url?.replace('square', 'medium');
+                const largeUrl = photo.url?.replace('square', 'large');
+                return (
+                  <div key={obs.id} className="group relative rounded-xl overflow-hidden border border-zinc-200 hover:border-green-400 hover:shadow-md transition-all bg-zinc-50">
+                    <img src={medUrl} alt={obs.species_guess || selectedTaxon.name}
+                      className="w-full h-32 object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                    {obs.place_guess && (
+                      <p className="text-[10px] text-zinc-500 truncate px-2 py-1">{obs.place_guess}</p>
+                    )}
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1.5">
+                      <Button size="sm" variant="secondary" className="text-xs h-7 px-2"
+                        onClick={() => window.open(largeUrl, '_blank')}>
+                        <Eye className="w-3 h-3 mr-1" /> Voir
+                      </Button>
+                      <Button size="sm" className="text-xs h-7 px-2 bg-green-600 hover:bg-green-700"
+                        onClick={() => window.open(`https://www.inaturalist.org/observations/${obs.id}`, '_blank')}>
+                        <ExternalLink className="w-3 h-3 mr-1" /> iNat
+                      </Button>
+                    </div>
+                    {/* CC license badge */}
+                    {photo.license_code && (
+                      <div className="absolute bottom-1 right-1 bg-black/50 text-white text-[9px] px-1 rounded">
+                        {photo.license_code}
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // UPLOAD FORM
 // ─────────────────────────────────────────────────────────────────────────────
 
-// ─────────────────────────────────────────────────────────────────────────────
-// BATCH UPLOAD FORM — drag-and-drop multi-images avec barres de progression
-// ─────────────────────────────────────────────────────────────────────────────
 type ImageTypeValue = 'leaf' | 'flower' | 'fruit' | 'whole_plant' | 'other';
 interface BatchFile {
   file: File;
@@ -559,14 +810,15 @@ interface BatchFile {
   status: 'pending' | 'uploading' | 'done' | 'error';
   progress: number;
   error?: string;
-  imageType: ImageTypeValue; // type par fichier
+  imageType: ImageTypeValue;
 }
 interface BatchFormState {
   genus: string; species: string; cultivar: string;
-  defaultImageType: ImageTypeValue; // type par défaut appliqué aux nouveaux fichiers
+  defaultImageType: ImageTypeValue;
   source: string; attribution: string;
   autoVerify: boolean;
 }
+
 function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string }) {
   const { toast } = useToast();
   const batchUploadMutation = trpc.varietyImages.batchUpload.useMutation();
@@ -594,7 +846,7 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
       imageType: formData.defaultImageType,
     }));
     setFiles(prev => [...prev, ...newBatch]);
-  }, [files.length, toast]);
+  }, [files.length, toast, formData.defaultImageType]);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault(); setIsDragging(false);
@@ -714,6 +966,7 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
               <Input value={formData.attribution} onChange={e => setFormData(p => ({ ...p, attribution: e.target.value }))} placeholder="© Auteur" className="mt-1" disabled={isUploading} />
             </div>
           </div>
+
           {!isUploading && !uploadDone && (
             <div
               onDragOver={e => { e.preventDefault(); setIsDragging(true); }}
@@ -723,105 +976,74 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
                 isDragging ? 'border-primary bg-primary/5 scale-[1.01]' : 'border-zinc-200 hover:border-zinc-300'
               }`}
             >
-              <input type="file" accept="image/*" multiple onChange={handleInputChange}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
-              <Upload className="w-10 h-10 mx-auto text-zinc-300 mb-2" />
-              <p className="text-sm font-medium text-zinc-600">Glissez plusieurs images ou cliquez pour sélectionner</p>
-              <p className="text-xs text-zinc-400 mt-1">JPG, PNG, WebP — max 10 MB par image — max 20 images</p>
+              <input type="file" accept="image/*" multiple className="absolute inset-0 opacity-0 cursor-pointer" onChange={handleInputChange} />
+              <Upload className="w-8 h-8 mx-auto mb-2 text-zinc-300" />
+              <p className="text-sm text-zinc-500">Glissez des images ici ou <span className="text-primary underline cursor-pointer">parcourez</span></p>
+              <p className="text-xs text-zinc-400 mt-1">PNG, JPG, WebP — max 10 MB par fichier — max 20 fichiers</p>
             </div>
           )}
+
           {files.length > 0 && (
-            <div className="space-y-2 max-h-64 overflow-y-auto pr-1">
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">{files.length} fichier{files.length > 1 ? 's' : ''} sélectionné{files.length > 1 ? 's' : ''}</span>
-                {!isUploading && !uploadDone && (
-                  <button type="button" onClick={() => { files.forEach(f => URL.revokeObjectURL(f.preview)); setFiles([]); }}
-                    className="text-xs text-zinc-400 hover:text-red-500 transition-colors">Tout effacer</button>
-                )}
-              </div>
-              {files.map((bf, idx) => {
-                const typeConf = IMAGE_TYPE_CONFIG[bf.imageType] || IMAGE_TYPE_CONFIG.other;
-                return (
-                  <div key={idx} className="flex items-start gap-3 p-2.5 rounded-lg bg-zinc-50 border border-zinc-100">
-                    <img src={bf.preview} alt={bf.file.name} className="w-12 h-12 rounded-lg object-cover shrink-0" />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium text-zinc-700 truncate">{bf.file.name}</p>
-                      <p className="text-[10px] text-zinc-400 mb-1.5">{(bf.file.size / 1024).toFixed(0)} KB</p>
-                      {/* Sélecteur de type par image */}
-                      {bf.status === 'pending' && !isUploading && (
-                        <Select
-                          value={bf.imageType}
-                          onValueChange={v => setFiles(prev => prev.map((f, i) => i === idx ? { ...f, imageType: v as ImageTypeValue } : f))}
-                        >
-                          <SelectTrigger className={`h-6 text-[11px] px-2 border rounded-md ${typeConf.color}`}>
-                            <span className="flex items-center gap-1">{typeConf.icon} {typeConf.label}</span>
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="leaf"><span className="flex items-center gap-1.5">🌿 Feuille</span></SelectItem>
-                            <SelectItem value="flower"><span className="flex items-center gap-1.5">🌸 Fleur</span></SelectItem>
-                            <SelectItem value="fruit"><span className="flex items-center gap-1.5">🍎 Fruit</span></SelectItem>
-                            <SelectItem value="whole_plant"><span className="flex items-center gap-1.5">🌳 Plante entière</span></SelectItem>
-                            <SelectItem value="other"><span className="flex items-center gap-1.5">— Autre</span></SelectItem>
-                          </SelectContent>
-                        </Select>
-                      )}
-                      {bf.status !== 'pending' && (
-                        <div className="mt-1">
-                          <div className="h-1 rounded-full bg-zinc-200 overflow-hidden">
-                            <div
-                              className={`h-full rounded-full transition-all duration-300 ${
-                                bf.status === 'done' ? 'bg-emerald-500' :
-                                bf.status === 'error' ? 'bg-red-400' : 'bg-primary'
-                              }`}
-                              style={{ width: `${bf.progress}%` }}
-                            />
-                          </div>
-                          {bf.status === 'done' && <p className="text-[10px] text-emerald-600 mt-0.5 flex items-center gap-1"><CheckCircle2 className="w-3 h-3" /> {typeConf.label}</p>}
-                          {bf.status === 'error' && <p className="text-[10px] text-red-500 mt-0.5">{bf.error || 'Erreur'}</p>}
+            <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
+              {files.map((bf, idx) => (
+                <div key={idx} className="flex items-center gap-3 p-2.5 rounded-lg border border-zinc-100 bg-zinc-50">
+                  <img src={bf.preview} alt="" className="w-10 h-10 object-cover rounded-md shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-medium text-zinc-700 truncate">{bf.file.name}</p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <Select value={bf.imageType} onValueChange={v => setFiles(prev => prev.map((f, i) => i === idx ? { ...f, imageType: v as ImageTypeValue } : f))} disabled={isUploading}>
+                        <SelectTrigger className="h-6 text-[10px] w-28 px-2"><SelectValue /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="leaf">🌿 Feuille</SelectItem>
+                          <SelectItem value="flower">🌸 Fleur</SelectItem>
+                          <SelectItem value="fruit">🍎 Fruit</SelectItem>
+                          <SelectItem value="whole_plant">🌳 Plante entière</SelectItem>
+                          <SelectItem value="other">— Autre</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      {bf.status === 'uploading' && (
+                        <div className="flex-1 bg-zinc-200 rounded-full h-1.5">
+                          <div className="bg-primary h-1.5 rounded-full transition-all" style={{ width: `${bf.progress}%` }} />
                         </div>
                       )}
-                    </div>
-                    <div className="shrink-0 pt-0.5">
-                      {bf.status === 'pending' && !isUploading && (
-                        <button type="button" onClick={() => removeFile(idx)} className="text-zinc-300 hover:text-red-400 transition-colors">
-                          <X className="w-4 h-4" />
-                        </button>
-                      )}
-                      {bf.status === 'uploading' && <Loader2 className="w-4 h-4 text-primary animate-spin" />}
-                      {bf.status === 'done' && <CheckCircle2 className="w-4 h-4 text-emerald-500" />}
-                      {bf.status === 'error' && <AlertCircle className="w-4 h-4 text-red-400" />}
+                      {bf.status === 'done' && <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />}
+                      {bf.status === 'error' && <AlertCircle className="w-4 h-4 text-red-500 shrink-0" title={bf.error} />}
                     </div>
                   </div>
-                );
-              })}
+                  {!isUploading && bf.status === 'pending' && (
+                    <button type="button" onClick={() => removeFile(idx)} className="text-zinc-400 hover:text-red-500 transition-colors">
+                      <X className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+              ))}
             </div>
           )}
-          {/* Option auto-vérification */}
-          <div className="flex items-center gap-2 pt-1">
-            <input
-              type="checkbox"
+
+          <div className="flex items-center gap-2">
+            <Checkbox
               id="autoVerify"
               checked={formData.autoVerify}
-              onChange={e => setFormData(p => ({ ...p, autoVerify: e.target.checked }))}
+              onCheckedChange={v => setFormData(p => ({ ...p, autoVerify: !!v }))}
               disabled={isUploading}
-              className="w-4 h-4 rounded border-zinc-300 accent-primary"
             />
-            <label htmlFor="autoVerify" className="text-xs text-zinc-600 cursor-pointer">
-              Marquer comme vérifiées automatiquement (admin)
+            <label htmlFor="autoVerify" className="text-sm text-zinc-600 cursor-pointer">
+              Marquer automatiquement comme vérifié
             </label>
           </div>
-          <div className="flex gap-2 justify-end pt-2 border-t border-zinc-100">
-            <Button type="button" variant="outline" onClick={handleClose} disabled={isUploading}>Fermer</Button>
+
+          <div className="flex gap-2 pt-1">
             {!uploadDone ? (
-              <Button type="submit" disabled={isUploading || files.length === 0}>
-                {isUploading
-                  ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Upload en cours…</>
-                  : <><Upload className="w-4 h-4 mr-2" />Uploader {files.length > 0 ? `${files.length} image${files.length > 1 ? 's' : ''}` : ''}</>}
+              <Button type="submit" className="flex-1" disabled={isUploading || files.length === 0}>
+                {isUploading ? <><Loader2 className="w-4 h-4 mr-2 animate-spin" /> Upload en cours…</> : <><Upload className="w-4 h-4 mr-2" /> Uploader {files.length > 0 ? `(${files.length})` : ''}</>}
               </Button>
             ) : (
               <Button type="button" onClick={handleClose} className="bg-emerald-600 hover:bg-emerald-700">
                 <CheckCircle2 className="w-4 h-4 mr-2" /> Terminé
               </Button>
+            )}
+            {!isUploading && (
+              <Button type="button" variant="outline" onClick={handleClose}>Annuler</Button>
             )}
           </div>
         </form>
@@ -838,7 +1060,7 @@ function StatsBar({ stats }: { stats: any }) {
   if (!stats) return null;
   const items = [
     { label: 'Total', value: stats.total, color: 'text-foreground', bg: 'bg-muted' },
-    { label: 'V\u00e9rifi\u00e9es', value: stats.verified, color: 'text-emerald-700 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800' },
+    { label: 'Vérifiées', value: stats.verified, color: 'text-emerald-700 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800' },
     { label: 'En attente', value: stats.unverified, color: 'text-amber-700 dark:text-amber-400', bg: 'bg-amber-50 dark:bg-amber-950/50 border border-amber-200 dark:border-amber-800' },
     { label: 'Genres', value: Object.keys(stats.byGenus || {}).length, color: 'text-blue-700 dark:text-blue-400', bg: 'bg-blue-50 dark:bg-blue-950/50 border border-blue-200 dark:border-blue-800' },
   ];
@@ -855,14 +1077,15 @@ function StatsBar({ stats }: { stats: any }) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// FILTER SIDEBAR
+// FILTER SIDEBAR (desktop) / DRAWER (mobile)
 // ─────────────────────────────────────────────────────────────────────────────
 
-function FilterSidebar({
+function FilterContent({
   searchText, setSearchText,
   filterGenus, setFilterGenus,
   filterType, setFilterType,
   filterVerified, setFilterVerified,
+  sortKey, setSortKey,
   genusOptions, stats,
   onReset, resultCount,
 }: {
@@ -870,13 +1093,14 @@ function FilterSidebar({
   filterGenus: string; setFilterGenus: (v: string) => void;
   filterType: string; setFilterType: (v: string) => void;
   filterVerified: string; setFilterVerified: (v: any) => void;
+  sortKey: SortKey; setSortKey: (v: SortKey) => void;
   genusOptions: string[]; stats: any;
   onReset: () => void; resultCount: number;
 }) {
   const hasFilters = searchText || filterGenus || filterType !== 'all' || filterVerified !== 'all';
 
   return (
-    <aside className="w-56 shrink-0 space-y-5">
+    <div className="space-y-5">
       {/* Search */}
       <div>
         <label className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-2 block">Recherche</label>
@@ -895,6 +1119,33 @@ function FilterSidebar({
             </button>
           )}
         </div>
+      </div>
+
+      {/* Sort */}
+      <div>
+        <label className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-2 block">Tri</label>
+        <Select value={sortKey} onValueChange={v => setSortKey(v as SortKey)}>
+          <SelectTrigger className="h-9 text-sm">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="date_desc">
+              <span className="flex items-center gap-2"><ArrowDown className="w-3 h-3" /> Plus récentes</span>
+            </SelectItem>
+            <SelectItem value="date_asc">
+              <span className="flex items-center gap-2"><ArrowUp className="w-3 h-3" /> Plus anciennes</span>
+            </SelectItem>
+            <SelectItem value="genus_asc">
+              <span className="flex items-center gap-2"><ArrowUpDown className="w-3 h-3" /> Genre A→Z</span>
+            </SelectItem>
+            <SelectItem value="genus_desc">
+              <span className="flex items-center gap-2"><ArrowUpDown className="w-3 h-3" /> Genre Z→A</span>
+            </SelectItem>
+            <SelectItem value="type">
+              <span className="flex items-center gap-2"><Tag className="w-3 h-3" /> Par type</span>
+            </SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Type filter */}
@@ -995,7 +1246,124 @@ function FilterSidebar({
           </Button>
         )}
       </div>
-    </aside>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// BATCH ACTIONS BAR
+// ─────────────────────────────────────────────────────────────────────────────
+
+function BatchActionsBar({
+  selectedCount, totalCount,
+  onSelectAll, onDeselectAll,
+  onVerifyAll, onDeleteAll,
+  onExitSelection,
+}: {
+  selectedCount: number; totalCount: number;
+  onSelectAll: () => void; onDeselectAll: () => void;
+  onVerifyAll: () => void; onDeleteAll: () => void;
+  onExitSelection: () => void;
+}) {
+  return (
+    <div className="flex items-center gap-3 px-4 py-2.5 bg-primary/5 border border-primary/20 rounded-xl">
+      <div className="flex items-center gap-2">
+        <button onClick={selectedCount === totalCount ? onDeselectAll : onSelectAll}
+          className="text-primary hover:text-primary/80 transition-colors">
+          {selectedCount === totalCount
+            ? <CheckSquare className="w-4 h-4" />
+            : <Square className="w-4 h-4" />
+          }
+        </button>
+        <span className="text-sm font-medium text-primary">
+          {selectedCount} sélectionné{selectedCount > 1 ? 's' : ''}
+        </span>
+      </div>
+
+      <div className="flex items-center gap-2 ml-auto">
+        {selectedCount > 0 && (
+          <>
+            <Button size="sm" variant="outline" className="h-8 text-xs text-emerald-700 border-emerald-200 hover:bg-emerald-50"
+              onClick={onVerifyAll}>
+              <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" /> Vérifier ({selectedCount})
+            </Button>
+            <Button size="sm" variant="outline" className="h-8 text-xs text-red-600 border-red-200 hover:bg-red-50"
+              onClick={onDeleteAll}>
+              <Trash2 className="w-3.5 h-3.5 mr-1.5" /> Supprimer ({selectedCount})
+            </Button>
+          </>
+        )}
+        <Button size="sm" variant="ghost" className="h-8 text-xs text-zinc-500" onClick={onExitSelection}>
+          <X className="w-3.5 h-3.5 mr-1" /> Quitter la sélection
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PAGINATION
+// ─────────────────────────────────────────────────────────────────────────────
+
+function Pagination({
+  currentPage, totalPages, totalItems, pageSize,
+  onPageChange,
+}: {
+  currentPage: number; totalPages: number; totalItems: number; pageSize: number;
+  onPageChange: (p: number) => void;
+}) {
+  if (totalPages <= 1) return null;
+  const start = (currentPage - 1) * pageSize + 1;
+  const end = Math.min(currentPage * pageSize, totalItems);
+
+  const pages: (number | '...')[] = [];
+  if (totalPages <= 7) {
+    for (let i = 1; i <= totalPages; i++) pages.push(i);
+  } else {
+    pages.push(1);
+    if (currentPage > 3) pages.push('...');
+    for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) pages.push(i);
+    if (currentPage < totalPages - 2) pages.push('...');
+    pages.push(totalPages);
+  }
+
+  return (
+    <div className="flex items-center justify-between pt-4 border-t border-zinc-100">
+      <p className="text-xs text-zinc-400">
+        {start}–{end} sur <span className="font-semibold text-zinc-600">{totalItems}</span> images
+      </p>
+      <div className="flex items-center gap-1">
+        <button
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="p-1.5 rounded-lg hover:bg-zinc-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+        {pages.map((p, i) => (
+          p === '...'
+            ? <span key={`dots-${i}`} className="px-1 text-zinc-400 text-sm">…</span>
+            : <button
+                key={p}
+                onClick={() => onPageChange(p as number)}
+                className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${
+                  p === currentPage
+                    ? 'bg-primary text-primary-foreground'
+                    : 'hover:bg-zinc-100 text-zinc-600'
+                }`}
+              >
+                {p}
+              </button>
+        ))}
+        <button
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="p-1.5 rounded-lg hover:bg-zinc-100 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
   );
 }
 
@@ -1010,13 +1378,19 @@ export default function VarietyImagesAdmin() {
   const [filterGenus, setFilterGenus] = useState('');
   const [filterType, setFilterType] = useState<string>('all');
   const [filterVerified, setFilterVerified] = useState<'all' | 'verified' | 'unverified'>('all');
+  const [sortKey, setSortKey] = useState<SortKey>('date_desc');
   const [prefillUrl, setPrefillUrl] = useState<string | undefined>();
   const [gridSize, setGridSize] = useState<GridSize>('normal');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Batch selection
+  const [selectionMode, setSelectionMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
 
   const allImagesQuery = trpc.varietyImages.getAll.useQuery({
     isVerified: filterVerified === 'all' ? undefined : filterVerified === 'verified',
     genus: filterGenus || undefined,
-    limit: 100,
+    limit: 500, // Fetch all, paginate client-side
   });
 
   const statsQuery = trpc.varietyImages.getStats.useQuery();
@@ -1029,6 +1403,7 @@ export default function VarietyImagesAdmin() {
     onSuccess: () => { toast({ title: 'Image supprimée' }); allImagesQuery.refetch(); statsQuery.refetch(); },
   });
 
+  // Filter + sort
   const filteredImages = useMemo(() => {
     let imgs = allImagesQuery.data || [];
     if (searchText.trim()) {
@@ -1038,8 +1413,29 @@ export default function VarietyImagesAdmin() {
     if (filterType !== 'all') {
       imgs = imgs.filter(i => i.imageType === filterType);
     }
+    // Sort
+    imgs = [...imgs].sort((a, b) => {
+      switch (sortKey) {
+        case 'date_desc': return (b.createdAt || 0) - (a.createdAt || 0);
+        case 'date_asc': return (a.createdAt || 0) - (b.createdAt || 0);
+        case 'genus_asc': return `${a.genus} ${a.species}`.localeCompare(`${b.genus} ${b.species}`);
+        case 'genus_desc': return `${b.genus} ${b.species}`.localeCompare(`${a.genus} ${a.species}`);
+        case 'type': return (a.imageType || '').localeCompare(b.imageType || '');
+        default: return 0;
+      }
+    });
     return imgs;
-  }, [allImagesQuery.data, searchText, filterType]);
+  }, [allImagesQuery.data, searchText, filterType, sortKey]);
+
+  // Reset page when filters change
+  useEffect(() => { setCurrentPage(1); }, [searchText, filterType, filterVerified, filterGenus, sortKey]);
+
+  // Pagination
+  const totalPages = Math.ceil(filteredImages.length / PAGE_SIZE);
+  const pagedImages = useMemo(() => {
+    const start = (currentPage - 1) * PAGE_SIZE;
+    return filteredImages.slice(start, start + PAGE_SIZE);
+  }, [filteredImages, currentPage]);
 
   const stats = statsQuery.data;
   const genusOptions = useMemo(() => {
@@ -1048,14 +1444,69 @@ export default function VarietyImagesAdmin() {
   }, [stats]);
 
   const handleReset = useCallback(() => {
-    setSearchText(''); setFilterGenus(''); setFilterType('all'); setFilterVerified('all');
+    setSearchText(''); setFilterGenus(''); setFilterType('all'); setFilterVerified('all'); setSortKey('date_desc');
   }, []);
+
+  // Selection handlers
+  const handleSelect = useCallback((id: number) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id); else next.add(id);
+      return next;
+    });
+  }, []);
+
+  const handleSelectAll = useCallback(() => {
+    setSelectedIds(new Set(pagedImages.map(i => i.id)));
+  }, [pagedImages]);
+
+  const handleDeselectAll = useCallback(() => {
+    setSelectedIds(new Set());
+  }, []);
+
+  const handleExitSelection = useCallback(() => {
+    setSelectionMode(false);
+    setSelectedIds(new Set());
+  }, []);
+
+  const handleBatchVerify = useCallback(async () => {
+    if (selectedIds.size === 0) return;
+    if (!confirm(`Vérifier ${selectedIds.size} image(s) ?`)) return;
+    for (const id of selectedIds) {
+      await verifyMutation.mutateAsync({ id, isVerified: true });
+    }
+    toast({ title: `✓ ${selectedIds.size} image(s) vérifiée(s)` });
+    setSelectedIds(new Set());
+    setSelectionMode(false);
+  }, [selectedIds, verifyMutation, toast]);
+
+  const handleBatchDelete = useCallback(async () => {
+    if (selectedIds.size === 0) return;
+    if (!confirm(`Supprimer ${selectedIds.size} image(s) définitivement ?`)) return;
+    for (const id of selectedIds) {
+      await deleteMutation.mutateAsync({ id });
+    }
+    toast({ title: `${selectedIds.size} image(s) supprimée(s)` });
+    setSelectedIds(new Set());
+    setSelectionMode(false);
+  }, [selectedIds, deleteMutation, toast]);
+
+  const filterProps = {
+    searchText, setSearchText,
+    filterGenus, setFilterGenus,
+    filterType, setFilterType,
+    filterVerified, setFilterVerified,
+    sortKey, setSortKey,
+    genusOptions, stats,
+    onReset: handleReset,
+    resultCount: filteredImages.length,
+  };
 
   return (
     <div className="min-h-screen bg-background">
       {/* ── Page header ── */}
-      <div className="bg-card border-b border-border px-6 py-5">
-        <div className="max-w-screen-xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="bg-card border-b border-border px-4 sm:px-6 py-4 sm:py-5">
+        <div className="max-w-screen-xl mx-auto flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div>
             <h1 className="text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
               <ImageIcon className="w-5 h-5 text-primary" />
@@ -1063,7 +1514,7 @@ export default function VarietyImagesAdmin() {
             </h1>
             <p className="text-sm text-muted-foreground mt-0.5">Galerie botanique — feuilles, fleurs, fruits, plantes entières</p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             {/* Grid size toggle */}
             <div className="flex items-center border border-border rounded-lg p-0.5 bg-muted/50">
               {([
@@ -1083,68 +1534,127 @@ export default function VarietyImagesAdmin() {
                 </button>
               ))}
             </div>
+
+            {/* Selection mode toggle */}
+            <Button
+              variant={selectionMode ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => { setSelectionMode(!selectionMode); if (selectionMode) setSelectedIds(new Set()); }}
+              className="gap-1.5"
+            >
+              <CheckSquare className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Sélection</span>
+            </Button>
+
+            {/* Mobile filter drawer */}
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="sm" className="gap-1.5 lg:hidden">
+                  <SlidersHorizontal className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Filtres</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-72 overflow-y-auto">
+                <SheetHeader>
+                  <SheetTitle className="flex items-center gap-2">
+                    <Filter className="w-4 h-4" /> Filtres
+                  </SheetTitle>
+                </SheetHeader>
+                <div className="mt-5">
+                  <FilterContent {...filterProps} />
+                </div>
+              </SheetContent>
+            </Sheet>
+
             <UploadForm onSuccess={() => allImagesQuery.refetch()} prefillUrl={prefillUrl} />
           </div>
         </div>
       </div>
 
-      <div className="max-w-screen-xl mx-auto px-6 py-6 space-y-5">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 py-5 space-y-4">
         {/* Stats */}
         <StatsBar stats={stats} />
 
         {/* Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="bg-white border border-zinc-200 p-1 h-auto rounded-xl">
-            <TabsTrigger value="gallery" className="rounded-lg text-sm px-4 py-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+          <TabsList className="bg-white border border-zinc-200 p-1 h-auto rounded-xl flex-wrap gap-1">
+            <TabsTrigger value="gallery" className="rounded-lg text-sm px-3 py-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <ImageIcon className="w-3.5 h-3.5 mr-1.5" /> Galerie locale
             </TabsTrigger>
-            <TabsTrigger value="tropicos" className="rounded-lg text-sm px-4 py-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <TabsTrigger value="tropicos" className="rounded-lg text-sm px-3 py-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Globe className="w-3.5 h-3.5 mr-1.5" /> Tropicos
             </TabsTrigger>
-            <TabsTrigger value="wikidata" className="rounded-lg text-sm px-4 py-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <TabsTrigger value="wikidata" className="rounded-lg text-sm px-3 py-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               <Link2 className="w-3.5 h-3.5 mr-1.5" /> Wikidata
+            </TabsTrigger>
+            <TabsTrigger value="inaturalist" className="rounded-lg text-sm px-3 py-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+              <Sprout className="w-3.5 h-3.5 mr-1.5" /> iNaturalist
             </TabsTrigger>
           </TabsList>
 
           {/* ── GALLERY TAB ── */}
-          <TabsContent value="gallery" className="mt-5">
-            <div className="flex gap-6">
-              {/* Sidebar */}
-              <FilterSidebar
-                searchText={searchText} setSearchText={setSearchText}
-                filterGenus={filterGenus} setFilterGenus={setFilterGenus}
-                filterType={filterType} setFilterType={setFilterType}
-                filterVerified={filterVerified} setFilterVerified={setFilterVerified}
-                genusOptions={genusOptions} stats={stats}
-                onReset={handleReset} resultCount={filteredImages.length}
-              />
+          <TabsContent value="gallery" className="mt-4">
+            <div className="flex gap-5">
+              {/* Sidebar — desktop only */}
+              <aside className="w-56 shrink-0 space-y-5 hidden lg:block">
+                <FilterContent {...filterProps} />
+              </aside>
 
-              {/* Gallery */}
-              <div className="flex-1 min-w-0">
+              {/* Main content */}
+              <div className="flex-1 min-w-0 space-y-3">
+                {/* Batch actions bar */}
+                {selectionMode && (
+                  <BatchActionsBar
+                    selectedCount={selectedIds.size}
+                    totalCount={pagedImages.length}
+                    onSelectAll={handleSelectAll}
+                    onDeselectAll={handleDeselectAll}
+                    onVerifyAll={handleBatchVerify}
+                    onDeleteAll={handleBatchDelete}
+                    onExitSelection={handleExitSelection}
+                  />
+                )}
+
                 <ImageGallery
-                  images={filteredImages}
+                  images={pagedImages}
                   onVerify={(id, v) => verifyMutation.mutate({ id, isVerified: v })}
                   onDelete={(id) => { if (confirm('Supprimer cette image ?')) deleteMutation.mutate({ id }); }}
                   isLoading={allImagesQuery.isLoading}
                   gridSize={gridSize}
+                  selectedIds={selectedIds}
+                  onSelect={handleSelect}
+                  selectionMode={selectionMode}
+                />
+
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalItems={filteredImages.length}
+                  pageSize={PAGE_SIZE}
+                  onPageChange={setCurrentPage}
                 />
               </div>
             </div>
           </TabsContent>
 
           {/* ── TROPICOS TAB ── */}
-          <TabsContent value="tropicos" className="mt-5">
+          <TabsContent value="tropicos" className="mt-4">
             <TropicosImageBrowser />
           </TabsContent>
 
           {/* ── WIKIDATA TAB ── */}
-          <TabsContent value="wikidata" className="mt-5">
+          <TabsContent value="wikidata" className="mt-4">
             <WikidataImageBrowser
               onImportUrl={(url, name) => {
                 setPrefillUrl(url);
                 setActiveTab('gallery');
               }}
             />
+          </TabsContent>
+
+          {/* ── iNATURALIST TAB ── */}
+          <TabsContent value="inaturalist" className="mt-4">
+            <INaturalistImageBrowser />
           </TabsContent>
         </Tabs>
       </div>
