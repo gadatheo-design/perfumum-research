@@ -7188,11 +7188,17 @@ export const varietyImages = mysqlTable("variety_images", {
   verifiedBy: int("verified_by"),                             // Admin ID who verified
   verifiedAt: timestamp("verified_at"),
   
+  // Link to plant entity (optional — enables "Voir la fiche plante" in lightbox)
+  plantId: int("plant_id"),                                    // FK → plants.id (nullable)
+
+  // Link to terroir/region (optional — enables geographic filtering)
+  terroirId: int("terroir_id"),                                // FK → terroirs.id (nullable)
+  terroirName: varchar("terroir_name", { length: 255 }),       // Denormalized name for fast filtering
+
   // Display order for drag-and-drop reordering
   sortOrder: int("sort_order").default(0),
 
   createdAt: timestamp("created_at").defaultNow().notNull(),
-  sortOrder: int("sort_order").default(0),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({
   genusSpeciesIdx: index("variety_images_genus_species_idx").on(table.genus, table.species),

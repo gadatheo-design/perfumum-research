@@ -52,6 +52,175 @@ type GridSize = 'compact' | 'normal' | 'large';
 type SortKey = 'date_desc' | 'date_asc' | 'genus_asc' | 'genus_desc' | 'type';
 
 // ─────────────────────────────────────────────────────────────────────────────
+// PLANT AUTOCOMPLETE
+// ─────────────────────────────────────────────────────────────────────────────
+
+function PlantAutocomplete({
+  value, onChange, disabled,
+}: {
+  value: { id: number; label: string } | null;
+  onChange: (v: { id: number; label: string } | null) => void;
+  disabled?: boolean;
+}) {
+  const [query, setQuery] = useState('');
+  const [open, setOpen] = useState(false);
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const v = e.target.value;
+    setQuery(v);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setDebouncedQuery(v), 300);
+    if (!v) { onChange(null); setOpen(false); }
+    else setOpen(true);
+  };
+
+  const searchResults = trpc.varietyImages.searchPlants.useQuery(
+    { query: debouncedQuery, limit: 15 },
+    { enabled: debouncedQuery.length >= 2 }
+  );
+
+  const handleSelect = (plant: any) => {
+    const label = plant.latinName ? `${plant.name} (${plant.latinName})` : plant.name;
+    onChange({ id: plant.id, label });
+    setQuery(label);
+    setOpen(false);
+  };
+
+  const handleClear = () => { onChange(null); setQuery(''); setOpen(false); };
+
+  return (
+    <div className="relative">
+      <div className="relative">
+        <Sprout className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-400" />
+        <Input
+          value={value ? value.label : query}
+          onChange={handleInput}
+          onFocus={() => query.length >= 2 && setOpen(true)}
+          placeholder="Rechercher une plante…"
+          className="pl-8 pr-8"
+          disabled={disabled}
+        />
+        {(value || query) && (
+          <button type="button" onClick={handleClear}
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600">
+            <X className="w-3.5 h-3.5" />
+          </button>
+        )}
+      </div>
+      {open && searchResults.data && searchResults.data.length > 0 && (
+        <div className="absolute z-50 top-full mt-1 w-full bg-white border border-zinc-200 rounded-xl shadow-lg max-h-52 overflow-y-auto">
+          {searchResults.data.map((plant: any) => (
+            <button
+              key={plant.id}
+              type="button"
+              className="w-full text-left px-3 py-2 hover:bg-zinc-50 flex items-center gap-2 text-sm"
+              onClick={() => handleSelect(plant)}
+            >
+              <Leaf className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+              <span className="font-medium text-zinc-800">{plant.name}</span>
+              {plant.latinName && <span className="text-zinc-400 text-xs italic truncate">{plant.latinName}</span>}
+            </button>
+          ))}
+        </div>
+      )}
+      {open && debouncedQuery.length >= 2 && searchResults.data?.length === 0 && !searchResults.isLoading && (
+        <div className="absolute z-50 top-full mt-1 w-full bg-white border border-zinc-200 rounded-xl shadow-sm px-3 py-2 text-xs text-zinc-400">
+          Aucune plante trouvée
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TERROIR AUTOCOMPLETE
+// ─────────────────────────────────────────────────────────────────────────────
+
+function TerroirAutocomplete({
+  value, onChange, disabled,
+}: {
+  value: { id: number; label: string } | null;
+  onChange: (v: { id: number; label: string } | null) => void;
+  disabled?: boolean;
+}) {
+  const [query, setQuery] = useState('');
+  const [open, setOpen] = useState(false);
+  const [debouncedQuery, setDebouncedQuery] = useState('');
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const v = e.target.value;
+    setQuery(v);
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => setDebouncedQuery(v), 300);
+    if (!v) { onChange(null); setOpen(false); }
+    else setOpen(true);
+  };
+
+  const searchResults = trpc.varietyImages.searchTerroirs.useQuery(
+    { query: debouncedQuery, limit: 20 },
+    { enabled: true }
+  );
+
+  const handleSelect = (terroir: any) => {
+    const label = [terroir.name, terroir.region, terroir.country].filter(Boolean).join(', ');
+    onChange({ id: terroir.id, label });
+    setQuery(label);
+    setOpen(false);
+  };
+
+  const handleClear = () => { onChange(null); setQuery(''); setOpen(false); };
+
+  const displayedResults = debouncedQuery.length >= 1
+    ? (searchResults.data || []).filter((t: any) =>
+        `${t.name} ${t.region || ''} ${t.country || ''}`.toLowerCase().includes(debouncedQuery.toLowerCase())
+      )
+    : (searchResults.data || []).slice(0, 10);
+
+  return (
+    <div className="relative">
+      <div className="relative">
+        <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-zinc-400" />
+        <Input
+          value={value ? value.label : query}
+          onChange={handleInput}
+          onFocus={() => setOpen(true)}
+          placeholder="Rechercher un terroir…"
+          className="pl-8 pr-8"
+          disabled={disabled}
+        />
+        {(value || query) && (
+          <button type="button" onClick={handleClear}
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-600">
+            <X className="w-3.5 h-3.5" />
+          </button>
+        )}
+      </div>
+      {open && displayedResults.length > 0 && (
+        <div className="absolute z-50 top-full mt-1 w-full bg-white border border-zinc-200 rounded-xl shadow-lg max-h-52 overflow-y-auto">
+          {displayedResults.map((terroir: any) => (
+            <button
+              key={terroir.id}
+              type="button"
+              className="w-full text-left px-3 py-2 hover:bg-zinc-50 flex items-center gap-2 text-sm"
+              onClick={() => handleSelect(terroir)}
+            >
+              <Globe className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+              <span className="text-zinc-800 font-medium">{terroir.name}</span>
+              {(terroir.region || terroir.country) && (
+                <span className="text-zinc-400 text-xs truncate">{[terroir.region, terroir.country].filter(Boolean).join(', ')}</span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // LIGHTBOX
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -204,6 +373,18 @@ function Lightbox({
                     <Camera className="w-3 h-3" /> Attribution
                   </p>
                   <p className="text-zinc-600">{image.attribution}</p>
+                </div>
+              )}
+
+              {/* Terroir */}
+              {image.terroirName && (
+                <div className="space-y-1">
+                  <p className="text-xs font-semibold text-zinc-400 uppercase tracking-widest flex items-center gap-1.5">
+                    <Globe className="w-3 h-3" /> Terroir
+                  </p>
+                  <p className="text-zinc-600 flex items-center gap-1.5">
+                    <span>{image.terroirName}</span>
+                  </p>
                 </div>
               )}
 
@@ -817,6 +998,10 @@ interface BatchFormState {
   defaultImageType: ImageTypeValue;
   source: string; attribution: string;
   autoVerify: boolean;
+  plantId?: number;
+  plantLabel?: string;
+  terroirId?: number;
+  terroirLabel?: string;
 }
 
 function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string }) {
@@ -830,6 +1015,8 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
     defaultImageType: 'leaf', source: '', attribution: '',
     autoVerify: false,
   });
+  const [selectedPlant, setSelectedPlant] = useState<{ id: number; label: string } | null>(null);
+  const [selectedTerroir, setSelectedTerroir] = useState<{ id: number; label: string } | null>(null);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadDone, setUploadDone] = useState(false);
 
@@ -887,6 +1074,9 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
         cultivar: formData.cultivar || undefined,
         source: formData.source || undefined, attribution: formData.attribution || undefined,
         autoVerify: formData.autoVerify,
+        plantId: selectedPlant?.id,
+        terroirId: selectedTerroir?.id,
+        terroirName: selectedTerroir?.label,
         files: filePayloads,
       });
       clearInterval(progressInterval);
@@ -909,6 +1099,7 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
     if (!isUploading) {
       files.forEach(f => URL.revokeObjectURL(f.preview));
       setFiles([]); setUploadDone(false); setIsOpen(false);
+      setSelectedPlant(null); setSelectedTerroir(null);
     }
   };
 
@@ -956,6 +1147,28 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
               <p className="text-[10px] text-zinc-400 mt-1">Modifiable par image ci-dessous</p>
             </div>
           </div>
+          {/* Plant + Terroir linking */}
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
+                <Sprout className="w-3 h-3 text-emerald-500" /> Lier à une plante
+              </label>
+              <div className="mt-1">
+                <PlantAutocomplete value={selectedPlant} onChange={setSelectedPlant} disabled={isUploading} />
+              </div>
+              <p className="text-[10px] text-zinc-400 mt-1">Active le lien vers la fiche plante</p>
+            </div>
+            <div>
+              <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide flex items-center gap-1.5">
+                <Globe className="w-3 h-3 text-blue-400" /> Terroir / Région
+              </label>
+              <div className="mt-1">
+                <TerroirAutocomplete value={selectedTerroir} onChange={setSelectedTerroir} disabled={isUploading} />
+              </div>
+              <p className="text-[10px] text-zinc-400 mt-1">Filtre géographique dans la galerie</p>
+            </div>
+          </div>
+
           <div className="grid grid-cols-2 gap-3">
             <div>
               <label className="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Source</label>
@@ -1085,19 +1298,21 @@ function FilterContent({
   filterGenus, setFilterGenus,
   filterType, setFilterType,
   filterVerified, setFilterVerified,
+  filterTerroir, setFilterTerroir,
   sortKey, setSortKey,
-  genusOptions, stats,
+  genusOptions, terroirOptions, stats,
   onReset, resultCount,
 }: {
   searchText: string; setSearchText: (v: string) => void;
   filterGenus: string; setFilterGenus: (v: string) => void;
   filterType: string; setFilterType: (v: string) => void;
   filterVerified: string; setFilterVerified: (v: any) => void;
+  filterTerroir: number | null; setFilterTerroir: (v: number | null) => void;
   sortKey: SortKey; setSortKey: (v: SortKey) => void;
-  genusOptions: string[]; stats: any;
+  genusOptions: string[]; terroirOptions: { id: number; name: string }[]; stats: any;
   onReset: () => void; resultCount: number;
 }) {
-  const hasFilters = searchText || filterGenus || filterType !== 'all' || filterVerified !== 'all';
+  const hasFilters = searchText || filterGenus || filterType !== 'all' || filterVerified !== 'all' || filterTerroir !== null;
 
   return (
     <div className="space-y-5">
@@ -1228,6 +1443,31 @@ function FilterContent({
                 <SelectItem key={g} value={g}>
                   <span className="italic">{g}</span>
                   <span className="text-zinc-400 ml-2 text-xs not-italic">({stats?.byGenus?.[g] ?? 0})</span>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      )}
+
+      {/* Terroir filter */}
+      {terroirOptions.length > 0 && (
+        <div>
+          <label className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-2 block flex items-center gap-1.5">
+            <Globe className="w-3 h-3" /> Terroir / Région
+          </label>
+          <Select
+            value={filterTerroir !== null ? String(filterTerroir) : 'all'}
+            onValueChange={v => setFilterTerroir(v === 'all' ? null : Number(v))}
+          >
+            <SelectTrigger className="h-9 text-sm">
+              <SelectValue placeholder="Tous les terroirs" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Tous les terroirs</SelectItem>
+              {terroirOptions.map(t => (
+                <SelectItem key={t.id} value={String(t.id)}>
+                  {t.name}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -1384,14 +1624,18 @@ export default function VarietyImagesAdmin() {
   const [currentPage, setCurrentPage] = useState(1);
 
   // Batch selection
+  const [filterTerroir, setFilterTerroir] = useState<number | null>(null);
   const [selectionMode, setSelectionMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
 
   const allImagesQuery = trpc.varietyImages.getAll.useQuery({
     isVerified: filterVerified === 'all' ? undefined : filterVerified === 'verified',
     genus: filterGenus || undefined,
+    terroirId: filterTerroir ?? undefined,
     limit: 500, // Fetch all, paginate client-side
   });
+
+  const terroirsWithImagesQuery = trpc.varietyImages.getTerroirsWithImages.useQuery();
 
   const statsQuery = trpc.varietyImages.getStats.useQuery();
 
@@ -1428,7 +1672,7 @@ export default function VarietyImagesAdmin() {
   }, [allImagesQuery.data, searchText, filterType, sortKey]);
 
   // Reset page when filters change
-  useEffect(() => { setCurrentPage(1); }, [searchText, filterType, filterVerified, filterGenus, sortKey]);
+  useEffect(() => { setCurrentPage(1); }, [searchText, filterType, filterVerified, filterGenus, sortKey, filterTerroir]);
 
   // Pagination
   const totalPages = Math.ceil(filteredImages.length / PAGE_SIZE);
@@ -1444,7 +1688,7 @@ export default function VarietyImagesAdmin() {
   }, [stats]);
 
   const handleReset = useCallback(() => {
-    setSearchText(''); setFilterGenus(''); setFilterType('all'); setFilterVerified('all'); setSortKey('date_desc');
+    setSearchText(''); setFilterGenus(''); setFilterType('all'); setFilterVerified('all'); setSortKey('date_desc'); setFilterTerroir(null);
   }, []);
 
   // Selection handlers
@@ -1491,13 +1735,16 @@ export default function VarietyImagesAdmin() {
     setSelectionMode(false);
   }, [selectedIds, deleteMutation, toast]);
 
+  const terroirOptions = useMemo(() => terroirsWithImagesQuery.data || [], [terroirsWithImagesQuery.data]);
+
   const filterProps = {
     searchText, setSearchText,
     filterGenus, setFilterGenus,
     filterType, setFilterType,
     filterVerified, setFilterVerified,
+    filterTerroir, setFilterTerroir,
     sortKey, setSortKey,
-    genusOptions, stats,
+    genusOptions, terroirOptions, stats,
     onReset: handleReset,
     resultCount: filteredImages.length,
   };

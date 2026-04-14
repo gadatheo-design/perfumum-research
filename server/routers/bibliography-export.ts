@@ -1,13 +1,13 @@
 import { router, publicProcedure } from "../_core/trpc";
 import { z } from "zod";
-import { db } from "../db";
+import { getDb } from "../db";
 
 export const bibliographyExportRouter = router({
-  // ─── Export CSV des liaisons bibliographiques ───────────────────────────────
+  // ─── Export CSV des liaisons bibliographiques ─────────────────────────────────────────────
   exportLinksAsCSV: publicProcedure
     .input(z.object({ entityType: z.string().optional() }).optional())
     .query(async ({ input }) => {
-      const dbConn = await db.getDb();
+      const dbConn = await getDb();
       if (!dbConn) return "";
       const { sql } = await import('drizzle-orm');
       const whereClause = input?.entityType ? `WHERE entity_type = '${input.entityType}'` : '';
