@@ -1,0 +1,52 @@
+# Dependencies - never include in Docker build
+node_modules/
+.pnpm-store/
+
+# Build outputs (rebuilt inside container)
+dist/
+build/
+client/dist/
+
+# Git history
+.git/
+.github/
+
+# Development and local files
+.env
+.env.local
+.env.*
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Manus internal files (DB query cache, logs)
+.manus/
+.manus-logs/
+.wave1-backups/
+
+# Documentation and analysis files (not needed at runtime)
+*.md
+!README.md
+
+# Test files
+**/*.test.ts
+**/*.spec.ts
+coverage/
+
+# Scripts and tools not needed at runtime
+scripts/
+scripts-remediation/
+research/
+research-notes/
+notes/
+patches/
+_archive/
+
+# IDE files
+.vscode/
+.idea/
+
+# TypeScript build info
+*.tsbuildinfo
+tsconfig.tsbuildinfo

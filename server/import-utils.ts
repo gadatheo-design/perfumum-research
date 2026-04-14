@@ -1049,6 +1049,7 @@ export async function linkMoleculesToPlant(
   moleculeIds: number[]
 ): Promise<{ success: boolean; linked: number; failed: number; errors: string[] }> {
   const db = await getDb();
+  if (!db) throw new Error('Database connection unavailable');
   const errors: string[] = [];
   let linked = 0;
   let failed = 0;
@@ -1087,6 +1088,7 @@ export async function linkMoleculesToPlantBatch(
   errors: string[];
 }> {
   const db = await getDb();
+  if (!db) throw new Error('Database connection unavailable');
   const errors: string[] = [];
   let processed = 0;
   let totalLinks = 0;

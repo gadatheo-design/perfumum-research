@@ -42,7 +42,7 @@ export const bibliographyExportRouter = router({
 
   // ─── Statistiques d'enrichissement par type ───────────────────────────────
   getEnrichmentStats: publicProcedure.query(async () => {
-    const dbConn = await db.getDb();
+    const dbConn = await getDb();
     if (!dbConn) return { total: 0, byType: {}, coverage: {} };
     const { sql } = await import('drizzle-orm');
     
