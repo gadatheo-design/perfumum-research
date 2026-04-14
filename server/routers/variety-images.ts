@@ -528,20 +528,30 @@ export const varietyImagesRouter = router({
           'image/jpeg'
         );
         
+        // Get terroir name if provided
+        let terroirName: string | null = null;
+        if (input.terroirId) {
+          const terroirRecord = await db.select().from(terroirs).where(eq(terroirs.id, input.terroirId));
+          terroirName = terroirRecord[0]?.name || null;
+        }
+        
         // Create variety image record
         const result = await db.insert(varietyImages).values({
           genus: plant[0].name?.split(' ')[0] || 'Unknown',
           species: plant[0].latinName || 'sp.',
           imageType: input.imageType,
-          imageUrl: url,
+          fileKey: imageKey,
+          fileUrl: url,
+          fileName: `inat-${input.inatObservationId}.jpg`,
+          mimeType: 'image/jpeg',
+          fileSize: buffer.byteLength,
           source: 'iNaturalist',
+          sourceUrl: `https://www.inaturalist.org/observations/${input.inatObservationId}`,
           attribution: input.inatObserverName,
           isVerified: false,
           plantId: input.plantId,
           terroirId: input.terroirId,
-          terroirName: input.terroirId ? (await db.select().from(terroirs).where(eq(terroirs.id, input.terroirId)))[0]?.name : null,
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          terroirName,
         });
         
         return {
