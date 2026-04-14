@@ -479,7 +479,7 @@ export const varietyImagesRouter = router({
         .map(t => ({
           ...t,
           distanceKm: distance(input.latitude, input.longitude, 
-                              t.latitude || 0, t.longitude || 0)
+                              Number(t.latitude) || 0, Number(t.longitude) || 0)
         }))
         .filter(t => t.distanceKm <= input.maxDistanceKm)
         .sort((a, b) => a.distanceKm - b.distanceKm)

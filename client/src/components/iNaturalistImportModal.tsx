@@ -17,6 +17,7 @@ export interface iNaturalistPhoto {
   observerName: string;
   latitude: number;
   longitude: number;
+  placeGuess?: string;
 }
 
 interface iNaturalistImportModalProps {
@@ -160,12 +161,24 @@ export function iNaturalistImportModal({
               <span className="text-zinc-600">Observateur</span>
               <span className="font-medium">{photo.observerName}</span>
             </div>
+            {photo.placeGuess && (
+              <div className="flex items-center justify-between">
+                <span className="text-zinc-600 flex items-center gap-1">
+                  <Globe className="w-3 h-3" /> Lieu
+                </span>
+                <span className="font-medium text-xs text-right max-w-[60%] truncate" title={photo.placeGuess}>
+                  {photo.placeGuess}
+                </span>
+              </div>
+            )}
             <div className="flex items-center justify-between">
               <span className="text-zinc-600 flex items-center gap-1">
-                <Globe className="w-3 h-3" /> Localisation
+                <Globe className="w-3 h-3" /> Coordonnées GPS
               </span>
-              <span className="font-medium text-xs">
-                {photo.latitude.toFixed(4)}°, {photo.longitude.toFixed(4)}°
+              <span className="font-medium text-xs font-mono">
+                {photo.latitude !== 0 || photo.longitude !== 0
+                  ? `${photo.latitude.toFixed(4)}°, ${photo.longitude.toFixed(4)}°`
+                  : <span className="text-zinc-400 italic">Non disponible</span>}
               </span>
             </div>
           </div>

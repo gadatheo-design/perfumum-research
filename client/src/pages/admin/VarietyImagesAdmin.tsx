@@ -973,10 +973,24 @@ function INaturalistImageBrowser() {
     { enabled: plantSearchQuery.length >= 2 }
   );
 
+  // Auto-select first plant result if it matches the iNaturalist taxon name
+  const [autoSelectPending, setAutoSelectPending] = useState(false);
+
   useEffect(() => {
     if (searchPlantsQuery.data) {
       setPlantSearchResults(searchPlantsQuery.data);
-      setShowPlantDropdown(searchPlantsQuery.data.length > 0);
+      if (autoSelectPending && searchPlantsQuery.data.length > 0 && !selectedPlantId) {
+        // Auto-select first result when triggered by taxon selection
+        const best = searchPlantsQuery.data[0];
+        setSelectedPlantId(best.id);
+        setSelectedPlantName(best.name || best.latinName || '');
+        setPlantSearchQuery(best.name || best.latinName || '');
+        setShowPlantDropdown(false);
+        setAutoSelectPending(false);
+        toast({ title: '🌿 Plante pré-sélectionnée', description: `${best.name || best.latinName} liée automatiquement` });
+      } else {
+        setShowPlantDropdown(searchPlantsQuery.data.length > 0);
+      }
     }
   }, [searchPlantsQuery.data]);
 
@@ -1006,6 +1020,14 @@ function INaturalistImageBrowser() {
     setSelectedTaxon(taxon);
     setLoadingObs(true);
     setObservations([]);
+
+    // Auto-search matching PERFUMUM plant by latin name
+    const latinName = taxon.name || '';
+    if (latinName && !selectedPlantId) {
+      setPlantSearchQuery(latinName);
+      setAutoSelectPending(true);
+    }
+
     try {
       const resp = await fetch(
         `https://api.inaturalist.org/v1/observations?taxon_id=${taxon.id}&photos=true&per_page=24&order_by=votes&quality_grade=research`
@@ -1213,6 +1235,7 @@ function INaturalistImageBrowser() {
             observerName: selectedObservation.user?.name || 'Anonyme',
             latitude: (() => { const loc = selectedObservation.location; if (loc && typeof loc === 'string') { const [lat] = loc.split(','); return parseFloat(lat) || 0; } return selectedObservation.geojson?.coordinates?.[1] || 0; })(),
             longitude: (() => { const loc = selectedObservation.location; if (loc && typeof loc === 'string') { const [, lng] = loc.split(','); return parseFloat(lng) || 0; } return selectedObservation.geojson?.coordinates?.[0] || 0; })(),
+            placeGuess: selectedObservation.place_guess || selectedObservation.place_ids?.[0] || undefined,
           }}
           plantId={selectedPlantId || 0}
           onSuccess={() => {
