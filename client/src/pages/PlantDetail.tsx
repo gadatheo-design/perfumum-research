@@ -40,6 +40,7 @@ import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfi
 import { PlantImageUpload } from "@/components/PlantImageUpload";
 import { PlantVarietyImageUpload } from "@/components/PlantVarietyImageUpload";
 import { PlantImageGallery } from "@/components/PlantImageGallery";
+import { PlantVarietyImageGallery } from "@/components/PlantVarietyImageGallery";
 import { PlantHeaderGallery } from "@/components/PlantHeaderGallery";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { LinkedMolecules, LinkedTerroirs, SimilarContent } from "@/components/SeeAlso";
@@ -535,7 +536,28 @@ export default function PlantDetail() {
               </div>
               </CardHeader>
             <CardContent>
-              <PlantImageGallery plantId={plantId} latinName={plant.latinName} isAdmin={user?.role === 'admin'} />
+              <div className="space-y-6">
+                {/* Galerie des images liées à cette plante (plantId) */}
+                <div>
+                  <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                    <ImageIcon className="w-4 h-4" />
+                    Images morphologiques liées
+                  </h3>
+                  <PlantVarietyImageGallery plantId={plantId} showVerifiedOnly={true} />
+                </div>
+
+                {/* Séparateur */}
+                <Separator />
+
+                {/* Galerie des images de la plante (anciennes images) */}
+                <div>
+                  <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
+                    <ImageIcon className="w-4 h-4" />
+                    Autres images
+                  </h3>
+                  <PlantImageGallery plantId={plantId} latinName={plant.latinName} isAdmin={user?.role === 'admin'} />
+                </div>
+              </div>
               {/* Lien croisé vers la galerie morphologique */}
               {plant.latinName && (() => {
                 const parts = plant.latinName.trim().split(/\s+/);
