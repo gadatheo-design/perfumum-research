@@ -99,6 +99,7 @@ import { apiCoverageRouter } from './routers/api-coverage';
 import { resinMaturationRouter } from './routers/resin-maturation';
 import { extractionProcessesRouter } from './routers/extraction-processes';
 import { resinTobaccoRecipesRouter } from './routers/resin-tobacco-recipes';
+import { importExportRouter } from './routers/import-export';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -110,6 +111,7 @@ import {
 
 export const appRouter = router({
   system: systemRouter,
+  importExport: importExportRouter,
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
