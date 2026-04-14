@@ -7164,7 +7164,7 @@ export const varietyImages = mysqlTable("variety_images", {
   cultivar: varchar("cultivar", { length: 255 }),            // e.g., "Basma", "Samsun", optional
   
   // Image type and metadata
-  imageType: mysqlEnum("imageType", ["leaf", "flower", "fruit", "whole_plant", "other"]).notNull(),
+  imageType: mysqlEnum("imageType", ["leaf", "flower", "fruit", "bark", "whole_plant", "other"]).notNull(),
   
   // S3 storage reference
   fileKey: varchar("file_key", { length: 500 }).notNull(),   // S3 object key (e.g., "variety-images/nicotiana-tabacum-leaf-abc123.jpg")

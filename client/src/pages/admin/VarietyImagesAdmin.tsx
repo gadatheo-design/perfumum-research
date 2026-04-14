@@ -42,12 +42,12 @@ const IMAGE_TYPE_CONFIG: Record<string, {
   leaf:        { label: 'Feuille',        icon: <Leaf className="w-3 h-3" />,           color: 'bg-emerald-50 text-emerald-700 border-emerald-200',  dot: 'bg-emerald-500' },
   flower:      { label: 'Fleur',          icon: <Flower2 className="w-3 h-3" />,         color: 'bg-rose-50 text-rose-700 border-rose-200',           dot: 'bg-rose-500' },
   fruit:       { label: 'Fruit',          icon: <Apple className="w-3 h-3" />,           color: 'bg-amber-50 text-amber-700 border-amber-200',        dot: 'bg-amber-500' },
+  bark:        { label: 'Écorce',         icon: <TreePine className="w-3 h-3" />,        color: 'bg-amber-50 text-amber-700 border-amber-200',        dot: 'bg-amber-600' },
   whole_plant: { label: 'Plante entière', icon: <TreePine className="w-3 h-3" />,        color: 'bg-teal-50 text-teal-700 border-teal-200',           dot: 'bg-teal-500' },
   other:       { label: 'Autre',          icon: <MoreHorizontal className="w-3 h-3" />,  color: 'bg-slate-50 text-slate-600 border-slate-200',        dot: 'bg-slate-400' },
 };
 
 const PAGE_SIZE = 48;
-
 type GridSize = 'compact' | 'normal' | 'large';
 type SortKey = 'date_desc' | 'date_asc' | 'genus_asc' | 'genus_desc' | 'type';
 

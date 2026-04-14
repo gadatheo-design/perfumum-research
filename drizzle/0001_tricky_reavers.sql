@@ -1,0 +1,1 @@
+ALTER TABLE `variety_images` MODIFY COLUMN `imageType` enum('leaf','flower','fruit','bark','whole_plant','other') NOT NULL;
