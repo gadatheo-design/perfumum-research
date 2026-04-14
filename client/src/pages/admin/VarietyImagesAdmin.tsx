@@ -20,6 +20,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Textarea } from '@/components/ui/textarea';
 import { trpc } from '@/lib/trpc';
 import { useToast } from '@/hooks/use-toast';
+import { iNaturalistImportModal as INaturalistImportModal } from '@/components/iNaturalistImportModal';
 import {
   Upload, CheckCircle2, AlertCircle, Trash2, Eye, Download, Search,
   ExternalLink, ImageIcon, Loader2, X, ChevronLeft, ChevronRight,
@@ -959,6 +960,9 @@ function INaturalistImageBrowser() {
   const [selectedTaxon, setSelectedTaxon] = useState<any | null>(null);
   const [observations, setObservations] = useState<any[]>([]);
   const [loadingObs, setLoadingObs] = useState(false);
+  const [importModalOpen, setImportModalOpen] = useState(false);
+  const [selectedObservation, setSelectedObservation] = useState<any | null>(null);
+  const [selectedPlantId, setSelectedPlantId] = useState<number | null>(null);
 
   const handleSearch = async () => {
     if (!searchName.trim() || searchName.trim().length < 3) {
@@ -1113,6 +1117,13 @@ function INaturalistImageBrowser() {
                         <Eye className="w-3 h-3 mr-1" /> Voir
                       </Button>
                       <Button size="sm" className="text-xs h-7 px-2 bg-green-600 hover:bg-green-700"
+                        onClick={() => {
+                          setSelectedObservation(obs);
+                          setImportModalOpen(true);
+                        }}>
+                        <Download className="w-3 h-3 mr-1" /> Importer
+                      </Button>
+                      <Button size="sm" variant="secondary" className="text-xs h-7 px-2"
                         onClick={() => window.open(`https://www.inaturalist.org/observations/${obs.id}`, '_blank')}>
                         <ExternalLink className="w-3 h-3 mr-1" /> iNat
                       </Button>
@@ -1129,6 +1140,29 @@ function INaturalistImageBrowser() {
             </div>
           )}
         </div>
+      )}
+
+      {selectedObservation && (
+        <INaturalistImportModal
+          open={importModalOpen}
+          onOpenChange={setImportModalOpen}
+          photo={{
+            id: selectedObservation.id,
+            url: selectedObservation.photos?.[0]?.url?.replace('square', 'large') || '',
+            attribution: selectedObservation.user?.name || 'Anonyme',
+            license: selectedObservation.photos?.[0]?.license_code || 'CC-BY-NC',
+            observationId: selectedObservation.id,
+            observerName: selectedObservation.user?.name || 'Anonyme',
+            latitude: selectedObservation.geom?.coordinates?.[1] || 0,
+            longitude: selectedObservation.geom?.coordinates?.[0] || 0,
+          }}
+          plantId={selectedPlantId || selectedTaxon?.id || 0}
+          onSuccess={() => {
+            setImportModalOpen(false);
+            setSelectedObservation(null);
+            toast({ title: 'Succès', description: 'Image importée avec succès' });
+          }}
+        />
       )}
     </div>
   );
