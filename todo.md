@@ -4199,3 +4199,39 @@ npm run dev
 - [ ] Bouton "Importer dans PERFUMUM" sur les articles PubMed de la fiche molécule
 - [ ] wikidata-sync : import image même si image existante + choix partie de plante
 - [ ] phylo-enrichment : import des taxons enfants en base de données plantes
+
+
+---
+
+## 🌍 SESSION ACTUELLE — Import iNaturalist Direct
+
+### Phase 1 : Procédure tRPC pour importer une image iNaturalist
+- [ ] Créer la procédure `importInatImage` dans le routeur variety-images
+- [ ] Télécharger l'image iNaturalist et la stocker en S3
+- [ ] Créer l'entrée variety_images avec métadonnées (licence, observateur, localisation)
+- [ ] Lier l'image à la plante et au terroir
+
+### Phase 2 : Mapping GPS vers terroirs existants
+- [ ] Créer une procédure `findTerroirByCoordinates` pour matcher lat/lon aux terroirs
+- [ ] Implémenter le calcul de distance (haversine) pour trouver le terroir le plus proche
+- [ ] Retourner le terroir existant ou proposer la création d'un nouveau
+
+### Phase 3 : Composant iNaturalistImportModal
+- [ ] Créer le modal avec prévisualisation de l'image
+- [ ] Ajouter le dropdown "Partie de la plante" (feuille, fruit, écorce, fleur, plante entière)
+- [ ] Ajouter l'autocomplete "Terroir" avec suggestions GPS
+- [ ] Afficher les métadonnées iNaturalist (licence, observateur, localisation)
+- [ ] Bouton "Importer" avec gestion des erreurs
+
+### Phase 4 : Intégration dans la galerie iNaturalist
+- [ ] Ajouter un bouton "Importer" sur chaque image iNaturalist
+- [ ] Ouvrir le modal au clic
+- [ ] Après import, afficher un toast de confirmation
+- [ ] Retourner à la galerie pour importer l'image suivante
+
+### Phase 5 : Tests et validation
+- [ ] Tester l'import d'une image iNaturalist
+- [ ] Vérifier la liaison plante-image-terroir en base
+- [ ] Tester le mapping GPS vers terroir existant
+- [ ] Adapter pour mobile
+- [ ] Sauvegarder le checkpoint

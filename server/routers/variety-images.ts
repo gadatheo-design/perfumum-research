@@ -452,6 +452,112 @@ export const varietyImagesRouter = router({
       return { success: results.failed === 0, ...results, total: input.imageIds.length };
     }),
 
+  // ── Find terroir by coordinates (for iNaturalist import) ─────────────────
+  findTerroirByCoordinates: publicProcedure
+    .input(z.object({
+      latitude: z.number().min(-90).max(90),
+      longitude: z.number().min(-180).max(180),
+      maxDistanceKm: z.number().min(1).max(500).default(100),
+    }))
+    .query(async ({ input }) => {
+      const db = await requireDb();
+      const allTerroirs = await db.select().from(terroirs);
+      
+      // Haversine distance calculation
+      function distance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+        const R = 6371; // Earth radius in km
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                  Math.sin(dLon/2) * Math.sin(dLon/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return R * c;
+      }
+      
+      const results = allTerroirs
+        .map(t => ({
+          ...t,
+          distanceKm: distance(input.latitude, input.longitude, 
+                              t.latitude || 0, t.longitude || 0)
+        }))
+        .filter(t => t.distanceKm <= input.maxDistanceKm)
+        .sort((a, b) => a.distanceKm - b.distanceKm)
+        .slice(0, 5);
+      
+      return results;
+    }),
+
+  // ── Import image from iNaturalist ────────────────────────────────────────
+  importInatImage: protectedProcedure
+    .input(z.object({
+      inatPhotoUrl: z.string().url(),
+      inatObservationId: z.number(),
+      inatObserverName: z.string(),
+      inatLicense: z.string().default('CC-BY-NC'),
+      latitude: z.number().min(-90).max(90),
+      longitude: z.number().min(-180).max(180),
+      plantId: z.number(),
+      terroirId: z.number().nullable(),
+      imageType: z.enum(['leaf', 'flower', 'fruit', 'bark', 'whole_plant', 'other']),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.user?.role !== 'admin') {
+        throw new TRPCError({ code: 'FORBIDDEN', message: 'Only admins can import iNaturalist images' });
+      }
+      
+      const db = await requireDb();
+      
+      // Verify plant exists
+      const plant = await db.select().from(plants).where(eq(plants.id, input.plantId));
+      if (!plant.length) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Plant not found' });
+      }
+      
+      try {
+        // Download image from iNaturalist
+        const response = await fetch(input.inatPhotoUrl);
+        if (!response.ok) throw new Error('Failed to download image from iNaturalist');
+        const buffer = await response.arrayBuffer();
+        
+        // Upload to S3
+        const imageKey = `variety-images/inat-${input.inatObservationId}-${Date.now()}.jpg`;
+        const { url } = await storagePut(
+          imageKey,
+          Buffer.from(buffer),
+          'image/jpeg'
+        );
+        
+        // Create variety image record
+        const result = await db.insert(varietyImages).values({
+          genus: plant[0].name?.split(' ')[0] || 'Unknown',
+          species: plant[0].latinName || 'sp.',
+          imageType: input.imageType,
+          imageUrl: url,
+          source: 'iNaturalist',
+          attribution: input.inatObserverName,
+          isVerified: false,
+          plantId: input.plantId,
+          terroirId: input.terroirId,
+          terroirName: input.terroirId ? (await db.select().from(terroirs).where(eq(terroirs.id, input.terroirId)))[0]?.name : null,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+        
+        return {
+          success: true,
+          imageId: result[0].insertId,
+          url,
+          message: `Image imported from iNaturalist observation #${input.inatObservationId}`,
+        };
+      } catch (err) {
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: err instanceof Error ? err.message : 'Failed to import iNaturalist image',
+        });
+      }
+    }),
+
   // ── Stats ─────────────────────────────────────────────────────────────────
   getStats: publicProcedure.query(async () => {
     const db = await requireDb();
