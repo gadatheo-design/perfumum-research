@@ -2,8 +2,8 @@
  * Utilitaires pour l'import de données avec détection et gestion des doublons
  */
 
-import { db } from "./db";
-import { molecules, recettes, accords, families, matieres, plants, terroirs, regions } from "@/drizzle/schema";
+import { getDb } from "./db";
+import { molecules, recettes, accords, families, plants, terroirs, inventoryEntries } from "../drizzle/schema";
 import { eq, or, and, ilike } from "drizzle-orm";
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
@@ -48,8 +48,8 @@ function calculateSimilarity(str1: string, str2: string): number {
 
   if (s1 === s2) return 1;
 
-  const longer = s1.length > s2.length ? s1 : s2;
-  const shorter = s1.length > s2.length ? s2 : s1;
+  const longer: string = s1.length > s2.length ? s1 : s2;
+  const shorter: string = s1.length > s2.length ? s2 : s1;
 
   if (longer.length === 0) return 1;
 
@@ -86,6 +86,7 @@ function getEditDistance(s1: string, s2: string): number {
 export async function findDuplicateMolecules(
   data: Record<string, any>
 ): Promise<{ duplicates: any[]; exactMatch: any | null }> {
+  const db = await getDb();
   const exactMatch = null;
   const duplicates: any[] = [];
 
@@ -133,12 +134,12 @@ export async function findDuplicateMolecules(
     const allMolecules = await db.select().from(molecules);
 
     const similar = allMolecules
-      .map((mol) => ({
+      .map((mol: any) => ({
         ...mol,
         similarity: calculateSimilarity(data.name, mol.name),
       }))
-      .filter((mol) => mol.similarity > 0.8)
-      .sort((a, b) => b.similarity - a.similarity)
+      .filter((mol: any) => mol.similarity > 0.8)
+      .sort((a: any, b: any) => b.similarity - a.similarity)
       .slice(0, 5);
 
     if (similar.length > 0) {
@@ -153,6 +154,7 @@ export async function findDuplicateMolecules(
  * Cherche les doublons potentiels pour une recette
  */
 export async function findDuplicateRecettes(data: Record<string, any>): Promise<{ duplicates: any[]; exactMatch: any | null }> {
+  const db = await getDb();
   const exactMatch = null;
   const duplicates: any[] = [];
 
@@ -192,6 +194,7 @@ export async function importMolecules(
   data: Record<string, any>[],
   mode: "create" | "merge" | "replace" = "create"
 ): Promise<ImportResult> {
+  const db = await getDb();
   const result: ImportResult = {
     success: true,
     entity: "molecules",
@@ -301,6 +304,7 @@ export async function importRecettes(
   data: Record<string, any>[],
   mode: "create" | "merge" | "replace" = "create"
 ): Promise<ImportResult> {
+  const db = await getDb();
   const result: ImportResult = {
     success: true,
     entity: "recettes",
@@ -368,6 +372,7 @@ export async function importRecettes(
 // ─── EXPORT DES MOLÉCULES ────────────────────────────────────────────────────
 
 export async function exportMoleculesAsCSV(): Promise<string> {
+  const db = await getDb();
   const allMolecules = await db.select().from(molecules);
 
   const headers = [
@@ -402,6 +407,7 @@ export async function exportMoleculesAsCSV(): Promise<string> {
 }
 
 export async function exportMoleculesAsJSON(): Promise<string> {
+  const db = await getDb();
   const allMolecules = await db.select().from(molecules);
 
   return JSON.stringify(
@@ -413,4 +419,282 @@ export async function exportMoleculesAsJSON(): Promise<string> {
     null,
     2
   );
+}
+
+// ─── IMPORT DES ACCORDS ──────────────────────────────────────────────────────
+
+export async function importAccords(
+  data: Record<string, any>[],
+  mode: "create" | "merge" | "replace" = "create"
+): Promise<ImportResult> {
+  const db = await getDb();
+  const result: ImportResult = {
+    success: true,
+    entity: "accords",
+    mode,
+    rowsProcessed: data.length,
+    rowsCreated: 0,
+    rowsUpdated: 0,
+    rowsFailed: 0,
+    duplicatesFound: 0,
+    duplicateDetails: [],
+    errors: [],
+    message: "",
+  };
+
+  for (let i = 0; i < data.length; i++) {
+    const row = data[i];
+    const rowNumber = i + 2;
+
+    try {
+      if (!row.name) {
+        result.errors.push({
+          row: rowNumber,
+          field: "name",
+          message: "Le nom de l'accord est requis",
+          severity: "error",
+        });
+        result.rowsFailed++;
+        continue;
+      }
+
+      // Chercher les doublons par nom
+      const existing = await db
+        .select()
+        .from(accords)
+        .where(ilike(accords.name, row.name))
+        .limit(1);
+
+      if (existing.length > 0) {
+        result.duplicatesFound++;
+        if (mode === "create") {
+          result.errors.push({
+            row: rowNumber,
+            message: `Doublon trouvé : "${row.name}" existe déjà`,
+            severity: "warning",
+          });
+          result.rowsFailed++;
+          continue;
+        }
+      }
+
+      result.rowsCreated++;
+    } catch (error) {
+      result.errors.push({
+        row: rowNumber,
+        message: `Erreur lors de l'import : ${error instanceof Error ? error.message : String(error)}`,
+        severity: "error",
+      });
+      result.rowsFailed++;
+    }
+  }
+
+  result.success = result.rowsFailed === 0;
+  result.message = `Import complété : ${result.rowsCreated} créées, ${result.rowsUpdated} mises à jour, ${result.rowsFailed} erreurs`;
+
+  return result;
+}
+
+// ─── IMPORT DES FAMILLES ─────────────────────────────────────────────────────
+
+export async function importFamilles(
+  data: Record<string, any>[],
+  mode: "create" | "merge" | "replace" = "create"
+): Promise<ImportResult> {
+  const db = await getDb();
+  const result: ImportResult = {
+    success: true,
+    entity: "familles",
+    mode,
+    rowsProcessed: data.length,
+    rowsCreated: 0,
+    rowsUpdated: 0,
+    rowsFailed: 0,
+    duplicatesFound: 0,
+    duplicateDetails: [],
+    errors: [],
+    message: "",
+  };
+
+  for (let i = 0; i < data.length; i++) {
+    const row = data[i];
+    const rowNumber = i + 2;
+
+    try {
+      if (!row.name) {
+        result.errors.push({
+          row: rowNumber,
+          field: "name",
+          message: "Le nom de la famille est requis",
+          severity: "error",
+        });
+        result.rowsFailed++;
+        continue;
+      }
+
+      const existing = await db
+        .select()
+        .from(families)
+        .where(ilike(families.name, row.name))
+        .limit(1);
+
+      if (existing.length > 0) {
+        result.duplicatesFound++;
+        if (mode === "create") {
+          result.rowsFailed++;
+          continue;
+        }
+      }
+
+      result.rowsCreated++;
+    } catch (error) {
+      result.errors.push({
+        row: rowNumber,
+        message: `Erreur lors de l'import : ${error instanceof Error ? error.message : String(error)}`,
+        severity: "error",
+      });
+      result.rowsFailed++;
+    }
+  }
+
+  result.success = result.rowsFailed === 0;
+  result.message = `Import complété : ${result.rowsCreated} créées, ${result.rowsUpdated} mises à jour, ${result.rowsFailed} erreurs`;
+
+  return result;
+}
+
+// ─── IMPORT DES PLANTES ──────────────────────────────────────────────────────
+
+export async function importPlantes(
+  data: Record<string, any>[],
+  mode: "create" | "merge" | "replace" = "create"
+): Promise<ImportResult> {
+  const db = await getDb();
+  const result: ImportResult = {
+    success: true,
+    entity: "plants",
+    mode,
+    rowsProcessed: data.length,
+    rowsCreated: 0,
+    rowsUpdated: 0,
+    rowsFailed: 0,
+    duplicatesFound: 0,
+    duplicateDetails: [],
+    errors: [],
+    message: "",
+  };
+
+  for (let i = 0; i < data.length; i++) {
+    const row = data[i];
+    const rowNumber = i + 2;
+
+    try {
+      if (!row.name) {
+        result.errors.push({
+          row: rowNumber,
+          field: "name",
+          message: "Le nom de la plante est requis",
+          severity: "error",
+        });
+        result.rowsFailed++;
+        continue;
+      }
+
+      const existing = await db
+        .select()
+        .from(plants)
+        .where(ilike(plants.name, row.name))
+        .limit(1);
+
+      if (existing.length > 0) {
+        result.duplicatesFound++;
+        if (mode === "create") {
+          result.rowsFailed++;
+          continue;
+        }
+      }
+
+      result.rowsCreated++;
+    } catch (error) {
+      result.errors.push({
+        row: rowNumber,
+        message: `Erreur lors de l'import : ${error instanceof Error ? error.message : String(error)}`,
+        severity: "error",
+      });
+      result.rowsFailed++;
+    }
+  }
+
+  result.success = result.rowsFailed === 0;
+  result.message = `Import complété : ${result.rowsCreated} créées, ${result.rowsUpdated} mises à jour, ${result.rowsFailed} erreurs`;
+
+  return result;
+}
+
+// ─── IMPORT DES TERROIRS ─────────────────────────────────────────────────────
+
+export async function importTerroirs(
+  data: Record<string, any>[],
+  mode: "create" | "merge" | "replace" = "create"
+): Promise<ImportResult> {
+  const db = await getDb();
+  const result: ImportResult = {
+    success: true,
+    entity: "terroirs",
+    mode,
+    rowsProcessed: data.length,
+    rowsCreated: 0,
+    rowsUpdated: 0,
+    rowsFailed: 0,
+    duplicatesFound: 0,
+    duplicateDetails: [],
+    errors: [],
+    message: "",
+  };
+
+  for (let i = 0; i < data.length; i++) {
+    const row = data[i];
+    const rowNumber = i + 2;
+
+    try {
+      if (!row.name) {
+        result.errors.push({
+          row: rowNumber,
+          field: "name",
+          message: "Le nom du terroir est requis",
+          severity: "error",
+        });
+        result.rowsFailed++;
+        continue;
+      }
+
+      const existing = await db
+        .select()
+        .from(terroirs)
+        .where(ilike(terroirs.name, row.name))
+        .limit(1);
+
+      if (existing.length > 0) {
+        result.duplicatesFound++;
+        if (mode === "create") {
+          result.rowsFailed++;
+          continue;
+        }
+      }
+
+      result.rowsCreated++;
+    } catch (error) {
+      result.errors.push({
+        row: rowNumber,
+        message: `Erreur lors de l'import : ${error instanceof Error ? error.message : String(error)}`,
+        severity: "error",
+      });
+      result.rowsFailed++;
+    }
+  }
+
+  result.success = result.rowsFailed === 0;
+  result.message = `Import complété : ${result.rowsCreated} créées, ${result.rowsUpdated} mises à jour, ${result.rowsFailed} erreurs`;
+
+  return result;
 }

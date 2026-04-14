@@ -4,7 +4,7 @@
 
 import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { z } from "zod";
-import { importMolecules, importRecettes, type ImportResult } from "../import-utils";
+import { importMolecules, importRecettes, importAccords, importFamilles, importPlantes, importTerroirs, type ImportResult } from "../import-utils";
 
 // ─── MODÈLES DE FICHIERS ───────────────────────────────────────────────────
 
@@ -441,6 +441,18 @@ export const importExportRouter = router({
             break;
           case "recettes":
             result = await importRecettes(data, input.mode);
+            break;
+          case "accords":
+            result = await importAccords(data, input.mode);
+            break;
+          case "familles":
+            result = await importFamilles(data, input.mode);
+            break;
+          case "plants":
+            result = await importPlantes(data, input.mode);
+            break;
+          case "terroirs":
+            result = await importTerroirs(data, input.mode);
             break;
           default:
             throw new Error(`Entité non supportée : ${input.entity}`);
