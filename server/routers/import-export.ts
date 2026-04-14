@@ -4,7 +4,7 @@
 
 import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { z } from "zod";
-import { importMolecules, importRecettes, importAccords, importFamilles, importPlantes, importTerroirs, importMatieresPremières, importRegions, type ImportResult } from "../import-utils";
+import { importMolecules, importRecettes, importAccords, importFamilles, importPlantes, importTerroirs, importMatieresPremières, importRegions, exportMoleculesAsCSVReal, exportMoleculesAsJSONReal, exportPlantesAsCSVReal, exportPlantesAsJSONReal, linkMoleculesToPlantBatch, type ImportResult } from "../import-utils";
 
 // ─── MODÈLES DE FICHIERS ───────────────────────────────────────────────────
 
@@ -517,6 +517,91 @@ export const importExportRouter = router({
         return result;
       } catch (error) {
         throw new Error(`Erreur lors de l'import : ${error instanceof Error ? error.message : String(error)}`);
+      }
+    }),
+
+  // Export réel des molécules
+  exportMoleculesCSV: publicProcedure.query(async () => {
+    try {
+      const csv = await exportMoleculesAsCSVReal();
+      return {
+        success: true,
+        format: "csv",
+        content: csv,
+        filename: `molecules-export-${new Date().toISOString().split("T")[0]}.csv`,
+      };
+    } catch (error) {
+      throw new Error(`Erreur lors de l'export CSV des molécules : ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }),
+
+  exportMoleculesJSON: publicProcedure.query(async () => {
+    try {
+      const json = await exportMoleculesAsJSONReal();
+      return {
+        success: true,
+        format: "json",
+        content: json,
+        filename: `molecules-export-${new Date().toISOString().split("T")[0]}.json`,
+      };
+    } catch (error) {
+      throw new Error(`Erreur lors de l'export JSON des molécules : ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }),
+
+  // Export réel des plantes
+  exportPlantesCSV: publicProcedure.query(async () => {
+    try {
+      const csv = await exportPlantesAsCSVReal();
+      return {
+        success: true,
+        format: "csv",
+        content: csv,
+        filename: `plants-export-${new Date().toISOString().split("T")[0]}.csv`,
+      };
+    } catch (error) {
+      throw new Error(`Erreur lors de l'export CSV des plantes : ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }),
+
+  exportPlantesJSON: publicProcedure.query(async () => {
+    try {
+      const json = await exportPlantesAsJSONReal();
+      return {
+        success: true,
+        format: "json",
+        content: json,
+        filename: `plants-export-${new Date().toISOString().split("T")[0]}.json`,
+      };
+    } catch (error) {
+      throw new Error(`Erreur lors de l'export JSON des plantes : ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }),
+
+  // Liaison molécules-plantes
+  linkMoleculesToPlants: protectedProcedure
+    .input(
+      z.object({
+        data: z.array(
+          z.object({
+            plant_id: z.number().optional(),
+            plant_name: z.string().optional(),
+            molecules: z.union([z.string(), z.array(z.number())]).optional(),
+            molecule_ids: z.union([z.string(), z.array(z.number())]).optional(),
+          })
+        ),
+      })
+    )
+    .mutation(async ({ input, ctx }) => {
+      if (ctx.user?.role !== "admin") {
+        throw new Error("Seuls les administrateurs peuvent créer des liaisons");
+      }
+
+      try {
+        const result = await linkMoleculesToPlantBatch(input.data);
+        return result;
+      } catch (error) {
+        throw new Error(`Erreur lors de la liaison molécules-plantes : ${error instanceof Error ? error.message : String(error)}`);
       }
     }),
 

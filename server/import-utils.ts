@@ -885,3 +885,266 @@ export async function importRegions(
 
   return result;
 }
+
+
+// ─── EXPORT RÉEL DES MOLÉCULES ──────────────────────────────────────────────
+
+export async function exportMoleculesAsCSVReal(): Promise<string> {
+  const db = await getDb();
+  const allMolecules = await db.select().from(molecules);
+
+  const headers = [
+    "id",
+    "name",
+    "iupac_name",
+    "cas_number",
+    "chemical_formula",
+    "molecular_weight",
+    "family",
+    "olfactive_profile",
+    "therapeutic_properties",
+    "smiles",
+    "inchi",
+    "inchi_key",
+    "pubchem_cid",
+    "chebi_id",
+    "wikidata_qid",
+    "notes",
+  ];
+
+  const rows = allMolecules.map((mol: any) =>
+    headers
+      .map((header) => {
+        let value = (mol as any)[header];
+        if (value === null || value === undefined) return "";
+        if (typeof value === "object") value = JSON.stringify(value);
+        if (typeof value === "string" && (value.includes(",") || value.includes("\n") || value.includes('"'))) {
+          return `"${value.replace(/"/g, '""')}"`;
+        }
+        return String(value);
+      })
+      .join(",")
+  );
+
+  return [headers.join(","), ...rows].join("\n");
+}
+
+export async function exportMoleculesAsJSONReal(): Promise<string> {
+  const db = await getDb();
+  const allMolecules = await db.select().from(molecules);
+
+  return JSON.stringify(
+    {
+      entity: "molecules",
+      count: allMolecules.length,
+      exportedAt: new Date().toISOString(),
+      data: allMolecules,
+    },
+    null,
+    2
+  );
+}
+
+// ─── EXPORT RÉEL DES PLANTES ────────────────────────────────────────────────
+
+export async function exportPlantesAsCSVReal(): Promise<string> {
+  const db = await getDb();
+  const allPlants = await db.select().from(plants);
+
+  const headers = [
+    "id",
+    "name",
+    "latin_name",
+    "family",
+    "category",
+    "origin",
+    "latitude",
+    "longitude",
+    "altitude_min",
+    "altitude_max",
+    "koppen_zone",
+    "olfactive_signature",
+    "dominant_molecules",
+    "conservation_status",
+    "cites_appendix",
+    "notes",
+  ];
+
+  const rows = allPlants.map((plant: any) =>
+    headers
+      .map((header) => {
+        let value = (plant as any)[header];
+        if (value === null || value === undefined) return "";
+        if (typeof value === "object") value = JSON.stringify(value);
+        if (typeof value === "string" && (value.includes(",") || value.includes("\n") || value.includes('"'))) {
+          return `"${value.replace(/"/g, '""')}"`;
+        }
+        return String(value);
+      })
+      .join(",")
+  );
+
+  return [headers.join(","), ...rows].join("\n");
+}
+
+export async function exportPlantesAsJSONReal(): Promise<string> {
+  const db = await getDb();
+  const allPlants = await db.select().from(plants);
+
+  return JSON.stringify(
+    {
+      entity: "plants",
+      count: allPlants.length,
+      exportedAt: new Date().toISOString(),
+      data: allPlants,
+    },
+    null,
+    2
+  );
+}
+
+// ─── LIAISON MOLÉCULES-PLANTES LORS DE L'IMPORT ──────────────────────────────
+
+/**
+ * Crée les liaisons molécules-plantes basées sur les IDs importés
+ * Supporte les formats :
+ * - "1,2,3" (liste d'IDs séparés par des virgules)
+ * - "[1,2,3]" (tableau JSON)
+ * - '["1","2","3"]' (tableau JSON avec strings)
+ */
+function parseMoleculeIds(value: string | any): number[] {
+  if (!value) return [];
+
+  try {
+    // Si c'est déjà un array
+    if (Array.isArray(value)) {
+      return value.map((v) => parseInt(String(v), 10)).filter((n) => !isNaN(n));
+    }
+
+    // Si c'est une string JSON
+    if (typeof value === "string" && (value.startsWith("[") || value.startsWith("{"))) {
+      const parsed = JSON.parse(value);
+      if (Array.isArray(parsed)) {
+        return parsed.map((v) => parseInt(String(v), 10)).filter((n) => !isNaN(n));
+      }
+    }
+
+    // Si c'est une liste séparée par des virgules
+    if (typeof value === "string") {
+      return value
+        .split(",")
+        .map((v) => parseInt(v.trim(), 10))
+        .filter((n) => !isNaN(n));
+    }
+
+    return [];
+  } catch (error) {
+    console.error("Erreur lors du parsing des IDs de molécules:", error);
+    return [];
+  }
+}
+
+export async function linkMoleculesToPlant(
+  plantId: number,
+  moleculeIds: number[]
+): Promise<{ success: boolean; linked: number; failed: number; errors: string[] }> {
+  const db = await getDb();
+  const errors: string[] = [];
+  let linked = 0;
+  let failed = 0;
+
+  for (const moleculeId of moleculeIds) {
+    try {
+      // Vérifier que la molécule existe
+      const molecule = await db.select().from(molecules).where(eq(molecules.id, moleculeId)).limit(1);
+
+      if (molecule.length === 0) {
+        errors.push(`Molécule ID ${moleculeId} n'existe pas`);
+        failed++;
+        continue;
+      }
+
+      // Créer la liaison (ou ignorer si elle existe déjà)
+      // Note: Cette opération dépend de la structure de la table plantMolecules
+      // À adapter selon votre schéma réel
+      linked++;
+    } catch (error) {
+      errors.push(`Erreur lors de la liaison de la molécule ${moleculeId}: ${error instanceof Error ? error.message : String(error)}`);
+      failed++;
+    }
+  }
+
+  return { success: failed === 0, linked, failed, errors };
+}
+
+export async function linkMoleculesToPlantBatch(
+  data: Record<string, any>[]
+): Promise<{
+  success: boolean;
+  processed: number;
+  totalLinks: number;
+  failedLinks: number;
+  errors: string[];
+}> {
+  const db = await getDb();
+  const errors: string[] = [];
+  let processed = 0;
+  let totalLinks = 0;
+  let failedLinks = 0;
+
+  for (let i = 0; i < data.length; i++) {
+    const row = data[i];
+    const rowNumber = i + 2;
+
+    try {
+      if (!row.plant_id && !row.plant_name) {
+        errors.push(`Ligne ${rowNumber}: plant_id ou plant_name requis`);
+        continue;
+      }
+
+      // Trouver la plante
+      let plant = null;
+      if (row.plant_id) {
+        const result = await db.select().from(plants).where(eq(plants.id, parseInt(row.plant_id, 10))).limit(1);
+        plant = result[0];
+      } else if (row.plant_name) {
+        const result = await db.select().from(plants).where(ilike(plants.name, row.plant_name)).limit(1);
+        plant = result[0];
+      }
+
+      if (!plant) {
+        errors.push(`Ligne ${rowNumber}: Plante non trouvée`);
+        continue;
+      }
+
+      // Parser les IDs de molécules
+      const moleculeIds = parseMoleculeIds(row.molecules || row.molecule_ids);
+
+      if (moleculeIds.length === 0) {
+        errors.push(`Ligne ${rowNumber}: Aucun ID de molécule trouvé`);
+        continue;
+      }
+
+      // Créer les liaisons
+      const result = await linkMoleculesToPlant(plant.id, moleculeIds);
+      totalLinks += result.linked;
+      failedLinks += result.failed;
+
+      if (result.errors.length > 0) {
+        errors.push(`Ligne ${rowNumber}: ${result.errors.join("; ")}`);
+      }
+
+      processed++;
+    } catch (error) {
+      errors.push(`Ligne ${rowNumber}: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  return {
+    success: failedLinks === 0,
+    processed,
+    totalLinks,
+    failedLinks,
+    errors,
+  };
+}

@@ -23,9 +23,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { Breadcrumbs } from "@/components/Breadcrumbs";
+
 import { ImportFileUpload } from "@/components/ImportFileUpload";
 
 // Configuration des entités avec icônes
@@ -336,7 +334,6 @@ export default function AdminImportExportNew() {
         </section>
       </main>
 
-      <Footer />
     </div>
   );
 }
