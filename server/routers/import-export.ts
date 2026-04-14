@@ -4,7 +4,7 @@
 
 import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { z } from "zod";
-import { importMolecules, importRecettes, importAccords, importFamilles, importPlantes, importTerroirs, type ImportResult } from "../import-utils";
+import { importMolecules, importRecettes, importAccords, importFamilles, importPlantes, importTerroirs, importMatieresPremières, importRegions, type ImportResult } from "../import-utils";
 
 // ─── MODÈLES DE FICHIERS ───────────────────────────────────────────────────
 
@@ -183,20 +183,70 @@ const TEMPLATES = [
     ],
   },
   {
-    entity: "regions",
-    label: "Régions Géographiques",
-    csvHeaders: ["id", "name", "country", "continent", "latitude", "longitude", "climate_zone", "biodiversity_index", "description"],
+    entity: "matieres_premieres",
+    label: "Matières Premières",
+    csvHeaders: [
+      "id",
+      "material_id",
+      "name",
+      "latin_name",
+      "category",
+      "plant_part",
+      "origin_country",
+      "origin_region",
+      "olfactive_family",
+      "olfactive_profile",
+      "top_notes",
+      "heart_notes",
+      "base_notes",
+      "extraction_yield",
+      "notes",
+    ],
     exampleData: [
       {
         id: 1,
-        name: "Amazonie",
-        country: "Brésil",
-        continent: "Amérique du Sud",
-        latitude: -3.5,
-        longitude: -62.2,
-        climate_zone: "Tropical",
-        biodiversity_index: 10,
-        description: "Forêt tropicale humide",
+        material_id: "RM-001",
+        name: "Huile essentielle de lavande",
+        latin_name: "Lavandula angustifolia",
+        category: "huile_essentielle",
+        plant_part: "fleur",
+        origin_country: "France",
+        origin_region: "Provence",
+        olfactive_family: "floral",
+        olfactive_profile: "Floral, herbacé, frais",
+        top_notes: "Citronné, frais",
+        heart_notes: "Floral, herbacé",
+        base_notes: "Boisé, musqué",
+        extraction_yield: "0.5",
+        notes: "Qualité supérieure",
+      },
+    ],
+  },
+  {
+    entity: "regions",
+    label: "Régions Géographiques",
+    csvHeaders: [
+      "id",
+      "name",
+      "region",
+      "zone_type",
+      "coordinates",
+      "threat_level",
+      "conservation_priority",
+      "species_count",
+      "description",
+    ],
+    exampleData: [
+      {
+        id: 1,
+        name: "Amazonie centrale",
+        region: "Brésil",
+        zone_type: "biodiversity_hotspot",
+        coordinates: '[{"lat": -3.5, "lng": -62.2}, {"lat": -4.0, "lng": -63.0}]',
+        threat_level: "high",
+        conservation_priority: "urgent",
+        species_count: 2500,
+        description: "Zone de biodiversité exceptionnelle",
       },
     ],
   },
@@ -453,6 +503,12 @@ export const importExportRouter = router({
             break;
           case "terroirs":
             result = await importTerroirs(data, input.mode);
+            break;
+          case "matieres_premieres":
+            result = await importMatieresPremières(data, input.mode);
+            break;
+          case "regions":
+            result = await importRegions(data, input.mode);
             break;
           default:
             throw new Error(`Entité non supportée : ${input.entity}`);

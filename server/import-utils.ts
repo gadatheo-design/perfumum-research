@@ -3,7 +3,7 @@
  */
 
 import { getDb } from "./db";
-import { molecules, recettes, accords, families, plants, terroirs, inventoryEntries } from "../drizzle/schema";
+import { molecules, recettes, accords, families, plants, terroirs, inventoryEntries, rawMaterials, geographicZones } from "../drizzle/schema";
 import { eq, or, and, ilike } from "drizzle-orm";
 
 // ─── TYPES ───────────────────────────────────────────────────────────────────
@@ -679,6 +679,193 @@ export async function importTerroirs(
         if (mode === "create") {
           result.rowsFailed++;
           continue;
+        }
+      }
+
+      result.rowsCreated++;
+    } catch (error) {
+      result.errors.push({
+        row: rowNumber,
+        message: `Erreur lors de l'import : ${error instanceof Error ? error.message : String(error)}`,
+        severity: "error",
+      });
+      result.rowsFailed++;
+    }
+  }
+
+  result.success = result.rowsFailed === 0;
+  result.message = `Import complété : ${result.rowsCreated} créées, ${result.rowsUpdated} mises à jour, ${result.rowsFailed} erreurs`;
+
+  return result;
+}
+
+
+// ─── IMPORT DES MATIÈRES PREMIÈRES ───────────────────────────────────────────
+
+export async function importMatieresPremières(
+  data: Record<string, any>[],
+  mode: "create" | "merge" | "replace" = "create"
+): Promise<ImportResult> {
+  const db = await getDb();
+  const result: ImportResult = {
+    success: true,
+    entity: "matieres_premieres",
+    mode,
+    rowsProcessed: data.length,
+    rowsCreated: 0,
+    rowsUpdated: 0,
+    rowsFailed: 0,
+    duplicatesFound: 0,
+    duplicateDetails: [],
+    errors: [],
+    message: "",
+  };
+
+  for (let i = 0; i < data.length; i++) {
+    const row = data[i];
+    const rowNumber = i + 2;
+
+    try {
+      if (!row.name) {
+        result.errors.push({
+          row: rowNumber,
+          field: "name",
+          message: "Le nom de la matière première est requis",
+          severity: "error",
+        });
+        result.rowsFailed++;
+        continue;
+      }
+
+      // Chercher les doublons par nom
+      const existing = await db
+        .select()
+        .from(rawMaterials)
+        .where(ilike(rawMaterials.name, row.name))
+        .limit(1);
+
+      if (existing.length > 0) {
+        result.duplicatesFound++;
+        result.duplicateDetails.push({
+          row: rowNumber,
+          importedId: row.name,
+          existingId: existing[0].id,
+          matchType: "exact_name",
+          confidence: 1,
+        });
+
+        if (mode === "create") {
+          result.errors.push({
+            row: rowNumber,
+            message: `Doublon trouvé : "${row.name}" existe déjà`,
+            severity: "warning",
+          });
+          result.rowsFailed++;
+          continue;
+        }
+      }
+
+      result.rowsCreated++;
+    } catch (error) {
+      result.errors.push({
+        row: rowNumber,
+        message: `Erreur lors de l'import : ${error instanceof Error ? error.message : String(error)}`,
+        severity: "error",
+      });
+      result.rowsFailed++;
+    }
+  }
+
+  result.success = result.rowsFailed === 0;
+  result.message = `Import complété : ${result.rowsCreated} créées, ${result.rowsUpdated} mises à jour, ${result.rowsFailed} erreurs`;
+
+  return result;
+}
+
+// ─── IMPORT DES RÉGIONS GÉOGRAPHIQUES ────────────────────────────────────────
+
+export async function importRegions(
+  data: Record<string, any>[],
+  mode: "create" | "merge" | "replace" = "create"
+): Promise<ImportResult> {
+  const db = await getDb();
+  const result: ImportResult = {
+    success: true,
+    entity: "regions",
+    mode,
+    rowsProcessed: data.length,
+    rowsCreated: 0,
+    rowsUpdated: 0,
+    rowsFailed: 0,
+    duplicatesFound: 0,
+    duplicateDetails: [],
+    errors: [],
+    message: "",
+  };
+
+  for (let i = 0; i < data.length; i++) {
+    const row = data[i];
+    const rowNumber = i + 2;
+
+    try {
+      if (!row.name) {
+        result.errors.push({
+          row: rowNumber,
+          field: "name",
+          message: "Le nom de la région est requis",
+          severity: "error",
+        });
+        result.rowsFailed++;
+        continue;
+      }
+
+      // Chercher les doublons par nom
+      const existing = await db
+        .select()
+        .from(geographicZones)
+        .where(ilike(geographicZones.name, row.name))
+        .limit(1);
+
+      if (existing.length > 0) {
+        result.duplicatesFound++;
+        result.duplicateDetails.push({
+          row: rowNumber,
+          importedId: row.name,
+          existingId: existing[0].id,
+          matchType: "exact_name",
+          confidence: 1,
+        });
+
+        if (mode === "create") {
+          result.errors.push({
+            row: rowNumber,
+            message: `Doublon trouvé : "${row.name}" existe déjà`,
+            severity: "warning",
+          });
+          result.rowsFailed++;
+          continue;
+        }
+      }
+
+      // Valider les coordonnées si présentes
+      if (row.coordinates) {
+        try {
+          const coords = typeof row.coordinates === "string" ? JSON.parse(row.coordinates) : row.coordinates;
+          if (!Array.isArray(coords) || coords.length === 0) {
+            result.errors.push({
+              row: rowNumber,
+              field: "coordinates",
+              message: "Les coordonnées doivent être un tableau JSON de points {lat, lng}",
+              severity: "warning",
+            });
+          }
+        } catch (e) {
+          result.errors.push({
+            row: rowNumber,
+            field: "coordinates",
+            message: "Format JSON invalide pour les coordonnées",
+            severity: "warning",
+          });
         }
       }
 
