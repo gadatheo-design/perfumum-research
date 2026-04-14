@@ -399,6 +399,26 @@ export const varietyImagesRouter = router({
       return { success: true, updated: input.items.length };
     }),
 
+  // ── Update plant link ────────────────────────────────────────────────────────
+  updateImagePlant: protectedProcedure
+    .input(z.object({
+      imageId: z.number(),
+      plantId: z.number().nullable(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      if (ctx.user?.role !== "admin") {
+        throw new TRPCError({ code: "FORBIDDEN", message: "Only admins can link images to plants" });
+      }
+      const db = await requireDb();
+      const image = await db.select().from(varietyImages).where(eq(varietyImages.id, input.imageId));
+      if (!image.length) throw new TRPCError({ code: "NOT_FOUND", message: "Image not found" });
+      await db
+        .update(varietyImages)
+        .set({ plantId: input.plantId, updatedAt: new Date() })
+        .where(eq(varietyImages.id, input.imageId));
+      return { success: true, imageId: input.imageId, plantId: input.plantId };
+    }),
+
   // ── Stats ─────────────────────────────────────────────────────────────────
   getStats: publicProcedure.query(async () => {
     const db = await requireDb();

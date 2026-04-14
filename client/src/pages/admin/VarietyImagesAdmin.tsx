@@ -51,9 +51,94 @@ const PAGE_SIZE = 48;
 type GridSize = 'compact' | 'normal' | 'large';
 type SortKey = 'date_desc' | 'date_asc' | 'genus_asc' | 'genus_desc' | 'type';
 
-// ─────────────────────────────────────────────────────────────────────────────
+// ──────────// ─────────────────────────────────────────────────────────────────
+// PLANT LINK BUTTON
+// ─────────────────────────────────────────────────────────────────
+
+function PlantLinkButton({
+  imageId, currentPlantId, onSuccess,
+}: {
+  imageId: number;
+  currentPlantId: number | null | undefined;
+  onSuccess: () => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const [selectedPlant, setSelectedPlant] = useState<{ id: number; label: string } | null>(
+    currentPlantId ? { id: currentPlantId, label: 'Plante liée' } : null
+  );
+  const { toast } = useToast();
+  const updatePlantMutation = trpc.varietyImages.updateImagePlant.useMutation();
+
+  const handleLink = async () => {
+    if (!selectedPlant) return;
+    try {
+      await updatePlantMutation.mutateAsync({ imageId, plantId: selectedPlant.id });
+      toast({ title: 'Succès', description: 'Image liée à la plante' });
+      setOpen(false);
+      onSuccess();
+    } catch (err) {
+      toast({ title: 'Erreur', description: err instanceof Error ? err.message : 'Erreur inconnue', variant: 'destructive' });
+    }
+  };
+
+  const handleUnlink = async () => {
+    try {
+      await updatePlantMutation.mutateAsync({ imageId, plantId: null });
+      toast({ title: 'Succès', description: 'Image déliée de la plante' });
+      setSelectedPlant(null);
+      onSuccess();
+    } catch (err) {
+      toast({ title: 'Erreur', description: err instanceof Error ? err.message : 'Erreur inconnue', variant: 'destructive' });
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button size="sm" variant="outline" className="w-full text-blue-600 border-blue-200 hover:bg-blue-50">
+          <Link2 className="w-4 h-4 mr-2" />
+          {currentPlantId ? 'Changer la plante' : 'Lier à une plante'}
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="max-w-sm">
+        <DialogHeader>
+          <DialogTitle>Lier l'image à une plante</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <PlantAutocomplete
+            value={selectedPlant}
+            onChange={setSelectedPlant}
+          />
+          <div className="flex gap-2">
+            <Button
+              onClick={handleLink}
+              disabled={!selectedPlant || updatePlantMutation.isPending}
+              className="flex-1 bg-blue-600 hover:bg-blue-700"
+            >
+              {updatePlantMutation.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Link2 className="w-4 h-4 mr-2" />}
+              Lier
+            </Button>
+            {currentPlantId && (
+              <Button
+                onClick={handleUnlink}
+                disabled={updatePlantMutation.isPending}
+                variant="outline"
+                className="flex-1 text-red-600 border-red-200 hover:bg-red-50"
+              >
+                {updatePlantMutation.isPending ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <X className="w-4 h-4 mr-2" />}
+                Délier
+              </Button>
+            )}
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────
 // PLANT AUTOCOMPLETE
-// ─────────────────────────────────────────────────────────────────────────────
+// ────────────────────────────────────────────────────────────────────────────
 
 function PlantAutocomplete({
   value, onChange, disabled,
@@ -398,6 +483,7 @@ function Lightbox({
 
             {/* Actions */}
             <div className="p-4 border-t border-zinc-100 space-y-2">
+              <PlantLinkButton imageId={image.id} currentPlantId={image.plantId} onSuccess={() => onClose()} />
               {!image.isVerified && (
                 <Button size="sm" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white"
                   onClick={() => { onVerify(image.id, true); onClose(); }}>

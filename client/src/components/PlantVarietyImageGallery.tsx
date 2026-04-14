@@ -3,6 +3,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  * Scrollable gallery of morphological images linked to a plant via plantId
  * Displays leaf, flower, fruit, whole_plant images with lightbox and metadata
+ * Features: badges terroir, grouping by type, lightbox with full metadata
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
@@ -116,6 +117,16 @@ export function PlantVarietyImageGallery({ plantId, showVerifiedOnly = true }: P
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
+                      
+                      {/* Badge terroir */}
+                      {img.terroirName && (
+                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-1.5">
+                          <p className="text-xs font-medium text-white truncate flex items-center gap-1">
+                            <Globe className="w-2.5 h-2.5 flex-shrink-0" />
+                            {img.terroirName}
+                          </p>
+                        </div>
+                      )}
                     </button>
                   ))}
                 </div>
