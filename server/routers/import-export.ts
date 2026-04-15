@@ -363,7 +363,7 @@ export const importExportRouter = router({
         format: z.enum(["csv", "json"]).optional(),
       })
     )
-    .query(({ input }) => {
+    .mutation(({ input }) => {
       const template = TEMPLATES.find((t) => t.entity === input.entity);
       if (!template) {
         throw new Error(`Modèle non trouvé : ${input.entity}`);
@@ -426,7 +426,7 @@ export const importExportRouter = router({
         format: z.enum(["csv", "json"]).optional(),
       })
     )
-    .query(({ input }) => {
+    .mutation(({ input }) => {
       try {
         let data: Record<string, any>[] = [];
 
