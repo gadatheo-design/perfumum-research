@@ -25,7 +25,7 @@ import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import { Header } from "@/components/layout/Header";
 import { ImportFileUpload } from "@/components/ImportFileUpload";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 const ENTITIES = [
   {
@@ -193,7 +193,7 @@ export default function AdminImportExportNew() {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(blobUrl);
-      toast.success(`Export ${format.toUpperCase()} téléchargé : ${result.filename}`);
+      toast.success(`Export ${format.toUpperCase()} téléchargé : ${filename}`);
     } catch (error) {
       toast.error(`Erreur : ${error instanceof Error ? error.message : String(error)}`);
     } finally {
