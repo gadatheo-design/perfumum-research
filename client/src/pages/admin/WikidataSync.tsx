@@ -619,7 +619,7 @@ export default function WikidataSync() {
                       genus: recGenus.trim(), species: recSpecies.trim(),
                       cultivar: recCultivar.trim() || undefined,
                     });
-                    setRecommendations(result);
+                    setRecommendations(result as any);
                   } catch {
                     toast({ title: 'Erreur', description: 'Impossible de générer les recommandations', variant: 'destructive' });
                   } finally {

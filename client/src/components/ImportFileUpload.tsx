@@ -29,12 +29,12 @@ export function ImportFileUpload({ entity, entityLabel, onImportSuccess }: Impor
   const [showPreview, setShowPreview] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const validateMutation = trpc.importExport.validateImportFile.useMutation();
-  const previewMutation = trpc.importExport.previewImportData.useMutation();
+  const validateMutation = (trpc.importExport as any).validateImportFile.useMutation();
+  const previewMutation = (trpc.importExport as any).previewImportData.useMutation();
   const importMutation = trpc.importExport.importData.useMutation();
 
-  const downloadTemplateMutation = trpc.importExport.downloadTemplateCSV.useMutation();
-  const downloadTemplateJSONMutation = trpc.importExport.downloadTemplateJSON.useMutation();
+  const downloadTemplateMutation = (trpc.importExport as any).downloadTemplateCSV.useMutation();
+  const downloadTemplateJSONMutation = (trpc.importExport as any).downloadTemplateJSON.useMutation();
 
   // ─── GESTION DES FICHIERS ───────────────────────────────────────────────
 

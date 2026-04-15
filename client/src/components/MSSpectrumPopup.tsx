@@ -151,10 +151,11 @@ function MSSpectrumChart({ spectrumData, compoundName, basePeakMz }: {
 }
 
 export default function MSSpectrumPopup({ compoundName, casNumber, onClose }: MSSpectrumPopupProps) {
-  const { data: spectrum, isLoading, error } = trpc.tobacco.getMsSpectrumByCompound.useQuery(
+  const { data: spectrumRaw, isLoading, error } = trpc.tobacco.getMsSpectrumByCompound.useQuery(
     { compoundName: compoundName || '' },
     { enabled: !!compoundName }
   );
+  const spectrum = spectrumRaw as any;
   
   if (!compoundName) return null;
   

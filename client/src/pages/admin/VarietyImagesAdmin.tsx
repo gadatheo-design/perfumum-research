@@ -1489,7 +1489,7 @@ function UploadForm({ onSuccess }: { onSuccess: () => void; prefillUrl?: string 
                         </div>
                       )}
                       {bf.status === 'done' && <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />}
-                      {bf.status === 'error' && <AlertCircle className="w-4 h-4 text-red-500 shrink-0" title={bf.error} />}
+                      {bf.status === 'error' && <span title={bf.error}><AlertCircle className="w-4 h-4 text-red-500 shrink-0" /></span>}
                     </div>
                   </div>
                   {!isUploading && bf.status === 'pending' && (
@@ -1765,11 +1765,13 @@ function FilterContent({
 
 function BatchActionsBar({
   selectedCount, totalCount,
+  selectedIds,
   onSelectAll, onDeselectAll,
   onVerifyAll, onDeleteAll,
   onExitSelection,
 }: {
   selectedCount: number; totalCount: number;
+  selectedIds: Set<number>;
   onSelectAll: () => void; onDeselectAll: () => void;
   onVerifyAll: () => void; onDeleteAll: () => void;
   onExitSelection: () => void;
@@ -1930,8 +1932,8 @@ export default function VarietyImagesAdmin() {
     // Sort
     imgs = [...imgs].sort((a, b) => {
       switch (sortKey) {
-        case 'date_desc': return (b.createdAt || 0) - (a.createdAt || 0);
-        case 'date_asc': return (a.createdAt || 0) - (b.createdAt || 0);
+        case 'date_desc': return (Number(b.createdAt) || 0) - (Number(a.createdAt) || 0);
+        case 'date_asc': return (Number(a.createdAt) || 0) - (Number(b.createdAt) || 0);
         case 'genus_asc': return `${a.genus} ${a.species}`.localeCompare(`${b.genus} ${b.species}`);
         case 'genus_desc': return `${b.genus} ${b.species}`.localeCompare(`${a.genus} ${a.species}`);
         case 'type': return (a.imageType || '').localeCompare(b.imageType || '');
@@ -2124,6 +2126,7 @@ export default function VarietyImagesAdmin() {
                   <BatchActionsBar
                     selectedCount={selectedIds.size}
                     totalCount={pagedImages.length}
+                    selectedIds={selectedIds}
                     onSelectAll={handleSelectAll}
                     onDeselectAll={handleDeselectAll}
                     onVerifyAll={handleBatchVerify}

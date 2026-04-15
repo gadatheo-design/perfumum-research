@@ -582,6 +582,33 @@ export function PlantImageGallery({ plantId, latinName, isAdmin = false }: Plant
     if (researchItems.length > 0) reorderGalleryMutation.mutate({ items: researchItems });
   }
 
+  // Unify morphology and research images
+  const morphUnified: UnifiedImage[] = (morphImages || []).map((img: any) => ({
+    id: img.id,
+    url: img.url,
+    thumbnailUrl: img.thumbnailUrl || img.url,
+    caption: img.caption || '',
+    category: img.category || 'morphology',
+    source: 'morphology' as const,
+    sortOrder: img.sortOrder || 0,
+    createdAt: img.createdAt,
+  }));
+
+  const researchUnified: UnifiedImage[] = (researchImages || []).map((img: any) => ({
+    id: img.id + 100000,
+    url: img.url,
+    thumbnailUrl: img.thumbnailUrl || img.url,
+    caption: img.caption || '',
+    category: img.category || 'research',
+    source: 'research' as const,
+    sortOrder: img.sortOrder || 0,
+    createdAt: img.createdAt,
+  }));
+
+  const allImages: UnifiedImage[] = [...morphUnified, ...researchUnified].sort(
+    (a, b) => (a.sortOrder || 0) - (b.sortOrder || 0)
+  );
+
   const countByCategory = (cat: string) => allImages.filter((img) => img.category === cat).length;
 
   if (isLoading) {

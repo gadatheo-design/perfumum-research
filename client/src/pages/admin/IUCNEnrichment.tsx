@@ -10,8 +10,8 @@ export default function IUCNEnrichment() {
   const [searchQuery, setSearchQuery] = useState('');
   const [batchNames, setBatchNames] = useState('');
   
-  const searchMutation = trpc.iucnEnrichment.searchSpecies.useMutation();
-  const batchMutation = trpc.iucnEnrichment.batchSearchSpecies.useMutation();
+  const searchMutation = (trpc.iucnEnrichment as any).searchSpecies.useMutation();
+  const batchMutation = (trpc.iucnEnrichment as any).batchSearchSpecies.useMutation();
   const statsMutation = trpc.iucnEnrichment.getStats.useQuery();
 
   const handleSearch = async () => {

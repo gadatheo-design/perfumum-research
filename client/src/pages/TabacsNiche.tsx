@@ -302,7 +302,7 @@ function VarietyCard({ variety, dbTabac }: { variety: any; dbTabac: any }) {
     // String JSON
     try {
       const parsed = safeJsonParse(raw, null);
-      if (Array.isArray(parsed)) return parsed.map(String);
+      if (Array.isArray(parsed)) return (parsed as any[]).map(String);
       if (parsed && typeof parsed === 'object') return Object.values(parsed).map(String);
       return [String(parsed ?? raw)];
     } catch {

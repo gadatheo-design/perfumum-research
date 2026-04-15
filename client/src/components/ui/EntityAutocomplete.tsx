@@ -39,32 +39,32 @@ export function EntityAutocomplete({
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Récupérer les résultats de recherche selon le type d'entité
-  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes.getFiltered.useQuery(
+  const { data: recettes, isLoading: loadingRecettes } = (trpc.recettes as any).getFiltered.useQuery(
     { search, limit: 10 },
     { enabled: entityType === "recette" && search.length > 0 }
   );
 
-  const { data: plantes, isLoading: loadingPlantes } = trpc.plants.getFiltered.useQuery(
+  const { data: plantes, isLoading: loadingPlantes } = (trpc.plants as any).getFiltered.useQuery(
     { search, limit: 10 },
     { enabled: entityType === "plante" && search.length > 0 }
   );
 
-  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.getFiltered.useQuery(
+  const { data: molecules, isLoading: loadingMolecules } = (trpc.molecules as any).getFiltered.useQuery(
     { search, limit: 10 },
     { enabled: entityType === "molecule" && search.length > 0 }
   );
 
-  const { data: terroirs, isLoading: loadingTerroirs } = trpc.terroirs.getFiltered.useQuery(
+  const { data: terroirs, isLoading: loadingTerroirs } = (trpc.terroirs as any).getFiltered.useQuery(
     { search, limit: 10 },
     { enabled: entityType === "terroir" && search.length > 0 }
   );
 
-  const { data: axes, isLoading: loadingAxes } = trpc.researchAxes.getFiltered.useQuery(
+  const { data: axes, isLoading: loadingAxes } = (trpc.researchAxes as any).getFiltered.useQuery(
     { search, limit: 10 },
     { enabled: entityType === "axis" && search.length > 0 }
   );
 
-  const { data: methods, isLoading: loadingMethods } = trpc.extractionMethods.getFiltered.useQuery(
+  const { data: methods, isLoading: loadingMethods } = (trpc.extractionMethods as any).getFiltered.useQuery(
     { search, limit: 10 },
     { enabled: entityType === "extractionMethod" && search.length > 0 }
   );

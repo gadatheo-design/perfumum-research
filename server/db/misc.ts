@@ -1112,7 +1112,7 @@ export async function getSampleImagesByCategory(category: string) {
   
   return db.select()
     .from(sampleImages)
-    .where(eq(sampleImages.category, category as SampleImage['category']))
+    .where(sql`${sampleImages.category} = ${category}`)
     .orderBy(desc(sampleImages.createdAt));
 }
 
@@ -1313,10 +1313,10 @@ export async function searchSustainableAlternatives(filters: {
     conditions.push(eq(sustainableAlternatives.alternativeType, filters.alternativeType as SustainableAlternative['alternativeType']));
   }
   if (filters.availability) {
-    conditions.push(eq(sustainableAlternatives.availability, filters.availability as SustainableAlternative['availability']));
+    conditions.push(sql`${sustainableAlternatives.availability} = ${filters.availability}`);
   }
   if (filters.olfactiveSimilarity) {
-    conditions.push(eq(sustainableAlternatives.olfactiveSimilarity, filters.olfactiveSimilarity as SustainableAlternative['olfactiveSimilarity']));
+    conditions.push(sql`${sustainableAlternatives.olfactiveSimilarity} = ${filters.olfactiveSimilarity}`);
   }
   if (filters.searchQuery) {
     conditions.push(
@@ -1424,7 +1424,7 @@ export async function createSustainableAlternative(data: {
   suppliers?: string[];
   usageRecommendations?: string;
   keyMolecules?: { name: string; percentage?: number; note?: string }[];
-  references?: { title: string; author?: string; year?: number; url?: string; type: string }[];
+  references?: { title: string; author?: string; year?: number; url?: string; type: 'academic' | 'supplier' | 'industry' | 'other' }[];
   notes?: string;
 }) {
   const db = await getDb();
@@ -1455,7 +1455,7 @@ export async function updateSustainableAlternative(id: number, data: {
   suppliers?: string[];
   usageRecommendations?: string;
   keyMolecules?: { name: string; percentage?: number; note?: string }[];
-  references?: { title: string; author?: string; year?: number; url?: string; type: string }[];
+  references?: { title: string; author?: string; year?: number; url?: string; type: 'academic' | 'supplier' | 'industry' | 'other' }[];
   notes?: string;
   verified?: boolean;
   verifiedBy?: string;
@@ -3700,7 +3700,7 @@ export async function getResearchPublicationsByFocus(focus: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(researchPublications)
-    .where(eq(researchPublications.researchFocus, focus as ResearchPublication['researchFocus']))
+    .where(sql`${researchPublications.researchFocus} = ${focus}`)
     .orderBy(desc(researchPublications.citations));
 }
 
@@ -3708,7 +3708,7 @@ export async function getResearchPublicationsBySubject(subject: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(researchPublications)
-    .where(eq(researchPublications.subjectMatter, subject as ResearchPublication['subjectMatter']))
+    .where(sql`${researchPublications.subjectMatter} = ${subject}`)
     .orderBy(desc(researchPublications.citations));
 }
 
@@ -3751,7 +3751,7 @@ export async function getAnalyticalMethodsByCategory(category: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(analyticalMethods)
-    .where(eq(analyticalMethods.category, category as AnalyticalMethod['category']))
+    .where(sql`${analyticalMethods.category} = ${category}`)
     .orderBy(desc(analyticalMethods.performanceScore));
 }
 
@@ -3821,7 +3821,7 @@ export async function getResearchersByStatus(status: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(researchers)
-    .where(eq(researchers.status, status as Researcher['status']))
+    .where(sql`${researchers.status} = ${status}`)
     .orderBy(desc(researchers.totalCitations));
 }
 
@@ -3864,7 +3864,7 @@ export async function getResearchInstitutionsByType(type: string) {
   const db = await getDb();
   if (!db) return [];
   return await db.select().from(researchInstitutions)
-    .where(eq(researchInstitutions.institutionType, type as ResearchInstitution['institutionType']))
+    .where(sql`${researchInstitutions.institutionType} = ${type}`)
     .orderBy(desc(researchInstitutions.totalCitations));
 }
 

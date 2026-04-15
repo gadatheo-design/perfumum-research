@@ -38,13 +38,13 @@ export default function HistoricCigarettes() {
 
   const countries = useMemo(() => {
     if (!cigarettes) return [];
-    const uniqueCountries = Array.from(new Set((cigarettes as HistoricCigarette[]).map(c => c.country)));
+    const uniqueCountries = Array.from(new Set((cigarettes as unknown as HistoricCigarette[]).map(c => c.country)));
     return uniqueCountries.sort();
   }, [cigarettes]);
 
   const filteredCigarettes = useMemo(() => {
     if (!cigarettes) return [];
-    return (cigarettes as HistoricCigarette[]).filter(cig => {
+    return (cigarettes as unknown as HistoricCigarette[]).filter(cig => {
       const matchesSearch = searchTerm === "" || 
         cig.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         (cig.name_original && cig.name_original.toLowerCase().includes(searchTerm.toLowerCase())) ||

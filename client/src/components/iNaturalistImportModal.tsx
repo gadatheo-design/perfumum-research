@@ -51,7 +51,7 @@ export function iNaturalistImportModal({
   const { toast } = useToast();
   
   const importMutation = trpc.varietyImages.importInatImage.useMutation();
-  const findTerroirMutation = trpc.varietyImages.findTerroirByCoordinates.useMutation();
+  const findTerroirMutation = (trpc.varietyImages as any).findTerroirByCoordinates.useMutation();
 
   // Load terroirs when modal opens
   useEffect(() => {
@@ -64,8 +64,8 @@ export function iNaturalistImportModal({
           maxDistanceKm: 100,
         },
         {
-          onSuccess: (data) => {
-            setTerroirs(data.map(t => ({
+          onSuccess: (data: any[]) => {
+            setTerroirs(data.map((t: any) => ({
               id: t.id,
               name: t.name,
               distanceKm: (t as any).distanceKm || 0,

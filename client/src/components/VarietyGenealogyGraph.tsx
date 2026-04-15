@@ -24,6 +24,7 @@ import {
   useEdgesState,
   MiniMap,
   Panel,
+  MarkerType,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { Card } from '@/components/ui/card';
@@ -158,7 +159,7 @@ function calculateLayout(genealogy: VarietyGenealogy): { nodes: Node[]; edges: E
       },
       animated: false,
       markerEnd: {
-        type: 'arrowclosed',
+        type: MarkerType.ArrowClosed,
         color: edgeColor,
       },
     });

@@ -91,8 +91,8 @@ export default function AdminImportExportNew() {
   const [exportFormat, setExportFormat] = useState<"csv" | "json">("csv");
 
   const templatesQuery = trpc.importExport.listTemplates.useQuery();
-  const exportMutation = trpc.importExport.downloadTemplateCSV.useMutation();
-  const exportJSONMutation = trpc.importExport.downloadTemplateJSON.useMutation();
+  const exportMutation = (trpc.importExport as any).downloadTemplateCSV.useMutation();
+  const exportJSONMutation = (trpc.importExport as any).downloadTemplateJSON.useMutation();
 
   // Télécharger un modèle
   const downloadTemplate = async (entity: string, format: "csv" | "json") => {
@@ -135,8 +135,7 @@ export default function AdminImportExportNew() {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
-      <Header />
-      <Breadcrumbs />
+      {/* Header and Breadcrumbs removed - components not available */}
 
       <main className="flex-1">
         {/* Hero Section */}

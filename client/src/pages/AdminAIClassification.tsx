@@ -75,7 +75,7 @@ export default function AdminAIClassification() {
   const classifyAllMutation = trpc.ai.classifyAllUnclassified.useMutation({
     onSuccess: (data) => {
       setIsRunning(false);
-      setResults(data.results || []);
+      setResults((data.results || []) as any);
       toast({
         title: "Classification terminée",
         description: data.message,

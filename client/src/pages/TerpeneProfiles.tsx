@@ -293,7 +293,8 @@ export default function TerpeneProfiles() {
   const [activeTab, setActiveTab] = useState("radar");
 
   // Récupérer les profils terpéniques
-  const { data: profiles, isLoading } = trpc.tobacco.getTerpeneProfiles.useQuery();
+  const { data: profilesRaw, isLoading } = trpc.tobacco.getTerpeneProfiles.useQuery();
+  const profiles = profilesRaw as unknown as TerpeneProfile[] | undefined;
 
   // Filtrer par catégorie
   const filteredProfiles = profiles?.filter(p => {

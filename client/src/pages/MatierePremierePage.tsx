@@ -802,7 +802,7 @@ export default function MatierePremierePage() {
             )}
 
             {/* Méthode d'extraction */}
-            {(material.extractionMethodId || material.extractionYield || material.plantPart || material.extractionMethod) && (
+            {(material.extractionMethodId || material.extractionYield || material.plantPart || (material as any).extractionMethod) && (
               <Card className="bg-[#16161a] border-zinc-800">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wider">
@@ -823,18 +823,18 @@ export default function MatierePremierePage() {
                     </div>
                   )}
                   {/* Badge procédé cliquable — lien vers /extraction-procedes */}
-                  {material.extractionMethod && EXTRACTION_METHOD_TO_PROCESS[material.extractionMethod] && (
+                  {(material as any).extractionMethod && EXTRACTION_METHOD_TO_PROCESS[(material as any).extractionMethod] && (
                     <div className="pt-1">
                       <span className="text-zinc-500 text-xs">Procédé documenté : </span>
                       <Link
-                        href={`/extraction-procedes?focus=${EXTRACTION_METHOD_TO_PROCESS[material.extractionMethod].id}`}
+                        href={`/extraction-procedes?focus=${EXTRACTION_METHOD_TO_PROCESS[(material as any).extractionMethod].id}`}
                         className="inline-flex items-center gap-1 mt-1"
                       >
                         <Badge
                           variant="outline"
                           className="text-xs border-violet-700 text-violet-300 bg-violet-900/20 hover:bg-violet-900/40 cursor-pointer transition-colors"
                         >
-                          🔬 {EXTRACTION_METHOD_TO_PROCESS[material.extractionMethod].label}
+                          🔬 {EXTRACTION_METHOD_TO_PROCESS[(material as any).extractionMethod].label}
                           <ExternalLink className="h-2.5 w-2.5 ml-1 opacity-60" />
                         </Badge>
                       </Link>

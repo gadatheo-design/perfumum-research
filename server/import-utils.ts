@@ -87,6 +87,7 @@ export async function findDuplicateMolecules(
   data: Record<string, any>
 ): Promise<{ duplicates: any[]; exactMatch: any | null }> {
   const db = await getDb();
+  if (!db) return { duplicates: [], exactMatch: null };
   const exactMatch = null;
   const duplicates: any[] = [];
 
@@ -155,6 +156,7 @@ export async function findDuplicateMolecules(
  */
 export async function findDuplicateRecettes(data: Record<string, any>): Promise<{ duplicates: any[]; exactMatch: any | null }> {
   const db = await getDb();
+  if (!db) return null as any;
   const exactMatch = null;
   const duplicates: any[] = [];
 
@@ -195,6 +197,7 @@ export async function importMolecules(
   mode: "create" | "merge" | "replace" = "create"
 ): Promise<ImportResult> {
   const db = await getDb();
+  if (!db) return null as any;
   const result: ImportResult = {
     success: true,
     entity: "molecules",
@@ -305,6 +308,7 @@ export async function importRecettes(
   mode: "create" | "merge" | "replace" = "create"
 ): Promise<ImportResult> {
   const db = await getDb();
+  if (!db) return null as any;
   const result: ImportResult = {
     success: true,
     entity: "recettes",
@@ -373,6 +377,7 @@ export async function importRecettes(
 
 export async function exportMoleculesAsCSV(): Promise<string> {
   const db = await getDb();
+  if (!db) return null as any;
   const allMolecules = await db.select().from(molecules);
 
   const headers = [
@@ -408,6 +413,7 @@ export async function exportMoleculesAsCSV(): Promise<string> {
 
 export async function exportMoleculesAsJSON(): Promise<string> {
   const db = await getDb();
+  if (!db) return null as any;
   const allMolecules = await db.select().from(molecules);
 
   return JSON.stringify(
@@ -428,6 +434,7 @@ export async function importAccords(
   mode: "create" | "merge" | "replace" = "create"
 ): Promise<ImportResult> {
   const db = await getDb();
+  if (!db) return null as any;
   const result: ImportResult = {
     success: true,
     entity: "accords",
@@ -502,6 +509,7 @@ export async function importFamilles(
   mode: "create" | "merge" | "replace" = "create"
 ): Promise<ImportResult> {
   const db = await getDb();
+  if (!db) return null as any;
   const result: ImportResult = {
     success: true,
     entity: "familles",
@@ -570,6 +578,7 @@ export async function importPlantes(
   mode: "create" | "merge" | "replace" = "create"
 ): Promise<ImportResult> {
   const db = await getDb();
+  if (!db) return null as any;
   const result: ImportResult = {
     success: true,
     entity: "plants",
@@ -638,6 +647,7 @@ export async function importTerroirs(
   mode: "create" | "merge" | "replace" = "create"
 ): Promise<ImportResult> {
   const db = await getDb();
+  if (!db) return null as any;
   const result: ImportResult = {
     success: true,
     entity: "terroirs",
@@ -707,6 +717,7 @@ export async function importMatieresPremières(
   mode: "create" | "merge" | "replace" = "create"
 ): Promise<ImportResult> {
   const db = await getDb();
+  if (!db) return null as any;
   const result: ImportResult = {
     success: true,
     entity: "matieres_premieres",
@@ -789,6 +800,7 @@ export async function importRegions(
   mode: "create" | "merge" | "replace" = "create"
 ): Promise<ImportResult> {
   const db = await getDb();
+  if (!db) return null as any;
   const result: ImportResult = {
     success: true,
     entity: "regions",
@@ -891,6 +903,7 @@ export async function importRegions(
 
 export async function exportMoleculesAsCSVReal(): Promise<string> {
   const db = await getDb();
+  if (!db) return null as any;
   const allMolecules = await db.select().from(molecules);
 
   const headers = [
@@ -931,6 +944,7 @@ export async function exportMoleculesAsCSVReal(): Promise<string> {
 
 export async function exportMoleculesAsJSONReal(): Promise<string> {
   const db = await getDb();
+  if (!db) return null as any;
   const allMolecules = await db.select().from(molecules);
 
   return JSON.stringify(
@@ -949,6 +963,7 @@ export async function exportMoleculesAsJSONReal(): Promise<string> {
 
 export async function exportPlantesAsCSVReal(): Promise<string> {
   const db = await getDb();
+  if (!db) return null as any;
   const allPlants = await db.select().from(plants);
 
   const headers = [
@@ -989,6 +1004,7 @@ export async function exportPlantesAsCSVReal(): Promise<string> {
 
 export async function exportPlantesAsJSONReal(): Promise<string> {
   const db = await getDb();
+  if (!db) return null as any;
   const allPlants = await db.select().from(plants);
 
   return JSON.stringify(

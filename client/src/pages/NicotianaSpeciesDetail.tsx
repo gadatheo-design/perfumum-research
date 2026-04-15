@@ -221,7 +221,7 @@ export default function NicotianaSpeciesDetail() {
 
         {/* Molecules Tab */}
         <TabsContent value="molecules" className="space-y-4">
-          <NicotianaGCMSProfile speciesId={speciesId} />
+          <NicotianaGCMSProfile speciesId={speciesId!} />
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">

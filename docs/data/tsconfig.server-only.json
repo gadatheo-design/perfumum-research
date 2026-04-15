@@ -1,0 +1,37 @@
+{
+  "include": [
+    "server/_core/**/*",
+    "server/routers.ts",
+    "server/db.ts",
+    "shared/**/*",
+    "drizzle/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+    "dist",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "server/routers/**/*",
+    "server/**/*.test.ts"
+  ],
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": "./node_modules/typescript/tsbuildinfo-server",
+    "noEmit": true,
+    "module": "ESNext",
+    "strict": true,
+    "lib": ["esnext"],
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "bundler",
+    "baseUrl": ".",
+    "types": ["node"],
+    "paths": {
+      "@shared/*": ["./shared/*"]
+    },
+    "target": "ES2022"
+  }
+}

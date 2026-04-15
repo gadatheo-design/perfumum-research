@@ -143,8 +143,8 @@ export function VarietyGenealogyTree({ varietyId, varietyName, latinName }: Prop
   const { initialNodes, initialEdges } = useMemo(() => {
     if (!data) return { initialNodes: [], initialEdges: [] };
 
-    const parents = (data.parents ?? []) as GenealogyRelation[];
-    const children = (data.children ?? []) as GenealogyRelation[];
+    const parents = (data.parents ?? []) as unknown as GenealogyRelation[];
+    const children = (data.children ?? []) as unknown as GenealogyRelation[];
 
     const nodes: Node[] = [];
     const edges: Edge[] = [];
@@ -264,8 +264,8 @@ export function VarietyGenealogyTree({ varietyId, varietyName, latinName }: Prop
     );
   }
 
-  const parents = (data?.parents ?? []) as GenealogyRelation[];
-  const children = (data?.children ?? []) as GenealogyRelation[];
+  const parents = (data?.parents ?? []) as unknown as GenealogyRelation[];
+  const children = (data?.children ?? []) as unknown as GenealogyRelation[];
   const hasData = parents.length > 0 || children.length > 0;
 
   if (!hasData) {

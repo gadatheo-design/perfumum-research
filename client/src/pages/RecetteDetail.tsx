@@ -116,14 +116,14 @@ export default function RecetteDetail() {
   const [showAddRmDialog, setShowAddRmDialog] = useState(false);
   const [rmSearch, setRmSearch] = useState("");
   const [selectedRmId, setSelectedRmId] = useState<number | null>(null);
-  const [rmRole, setRmRole] = useState("autre");
+  const [rmRole, setRmRole] = useState<"autre" | "tete" | "coeur" | "base" | "fixateur" | "modificateur">("autre");
   const [rmDosage, setRmDosage] = useState("");
   const [rmDosageUnit, setRmDosageUnit] = useState("g");
   const [rmPercentage, setRmPercentage] = useState("");
   const [rmNotes, setRmNotes] = useState("");
   // Dialog d'édition d'une liaison existante
   const [editingRm, setEditingRm] = useState<RawMaterialLink | null>(null);
-  const [editRmRole, setEditRmRole] = useState("autre");
+  const [editRmRole, setEditRmRole] = useState<"autre" | "tete" | "coeur" | "base" | "fixateur" | "modificateur">("autre");
   const [editRmDosage, setEditRmDosage] = useState("");
   const [editRmDosageUnit, setEditRmDosageUnit] = useState("g");
   const [editRmPercentage, setEditRmPercentage] = useState("");
@@ -173,20 +173,20 @@ export default function RecetteDetail() {
 
   // Récupérer les transformations moléculaires affectant cette recette
   const { data: transformationsData, isLoading: isLoadingTransformations } = trpc.research.getTransformationsAffectingRecipe.useQuery(
-    { recetteId: id },
+    id,
     { enabled: !!data }
   );
 
   // Récupérer les matières premières directement liées à cette recette
   const utils = trpc.useUtils();
   const { data: rawMaterialsLinked } = trpc.recetteRawMaterials.getByRecette.useQuery(
-    { recetteId: id },
+    id,
     { enabled: !!id && id > 0 }
   );
 
   // Recherche de matières premières pour le dialog d'ajout
   const { data: rawMaterialsSearch } = trpc.rawMaterials.getFiltered.useQuery(
-    { search: rmSearch, limit: 20, offset: 0 },
+    { search: rmSearch, limit: 20, page: 1 },
     { enabled: showAddRmDialog }
   );
 
@@ -1020,10 +1020,10 @@ export default function RecetteDetail() {
                             className="h-6 w-6 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-foreground hover:bg-muted"
                             onClick={() => {
                               setEditingRm(rm);
-                              setEditRmRole(rm.role || 'autre');
-                              setEditRmDosage(rm.dosage || '');
+                              setEditRmRole((rm.role || 'autre') as "autre" | "tete" | "coeur" | "base" | "fixateur" | "modificateur");
+                              setEditRmDosage(String(rm.dosage || ''));
                               setEditRmDosageUnit(rm.dosageUnit || 'g');
-                              setEditRmPercentage(rm.percentage || '');
+                              setEditRmPercentage(String(rm.percentage || ''));
                               setEditRmNotes(rm.notes || '');
                             }}
                           >
@@ -1112,7 +1112,7 @@ export default function RecetteDetail() {
             {/* Rôle */}
             <div className="space-y-1.5">
               <Label>Rôle dans la formulation</Label>
-              <Select value={rmRole} onValueChange={setRmRole}>
+              <Select value={rmRole} onValueChange={(v) => setRmRole(v as "autre" | "tete" | "coeur" | "base" | "fixateur" | "modificateur")}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -1201,14 +1201,14 @@ export default function RecetteDetail() {
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Package className="h-5 w-5 text-amber-600" />
-              Modifier la liaison — {editingRm?.materialName}
+              Modifier la liaison — {editingRm?.rawMaterialName}
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
             {/* Rôle */}
             <div className="space-y-1.5">
               <Label>Rôle dans la formulation</Label>
-              <Select value={editRmRole} onValueChange={setEditRmRole}>
+              <Select value={editRmRole} onValueChange={(v) => setEditRmRole(v as "autre" | "tete" | "coeur" | "base" | "fixateur" | "modificateur")}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -1378,7 +1378,7 @@ export default function RecetteDetail() {
               Fiches analytiques partageant des molécules avec cette recette
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
-              {linkedTerpProfiles.map((profile: TerpProfile) => (
+              {(linkedTerpProfiles as any[]).map((profile: TerpProfile) => (
                 <Link key={profile.id} href={`/terp-profiles/${profile.profileId}`}>
                   <Card className="hover:shadow-md transition-shadow cursor-pointer border-sky-200 hover:border-sky-400 h-full">
                     <CardContent className="p-3 md:p-4">
@@ -1441,14 +1441,14 @@ export default function RecetteDetail() {
             {/* Liste des transformations par type d'impact */}
             <div className="space-y-4">
               {/* Impacts majeurs */}
-              {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'major').length > 0 && (
+              {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'major').length > 0 && (
                 <div className="bg-red-50 dark:bg-red-950/30 p-4 rounded-lg border border-red-200 dark:border-red-800">
                   <h4 className="text-sm font-semibold text-red-800 dark:text-red-300 mb-3 flex items-center gap-2">
                     <Zap className="h-4 w-4" />
-                    Impacts Majeurs ({transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'major').length})
+                    Impacts Majeurs ({(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'major').length})
                   </h4>
                   <div className="space-y-3">
-                    {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'major').map((t: Transformation) => (
+                    {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'major').map((t: Transformation) => (
                       <TransformationCard key={t.id} transformation={t} />
                     ))}
                   </div>
@@ -1456,19 +1456,19 @@ export default function RecetteDetail() {
               )}
               
               {/* Impacts modérés */}
-              {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'moderate').length > 0 && (
+              {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'moderate').length > 0 && (
                 <div className="bg-orange-50 dark:bg-orange-950/30 p-4 rounded-lg border border-orange-200 dark:border-orange-800">
                   <h4 className="text-sm font-semibold text-orange-800 dark:text-orange-300 mb-3 flex items-center gap-2">
                     <Flame className="h-4 w-4" />
-                    Impacts Modérés ({transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'moderate').length})
+                    Impacts Modérés ({(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'moderate').length})
                   </h4>
                   <div className="space-y-3">
-                    {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'moderate').slice(0, 5).map((t: Transformation) => (
+                    {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'moderate').slice(0, 5).map((t: Transformation) => (
                       <TransformationCard key={t.id} transformation={t} />
                     ))}
-                    {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'moderate').length > 5 && (
+                    {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'moderate').length > 5 && (
                       <p className="text-xs text-muted-foreground text-center">
-                        +{transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'moderate').length - 5} autres transformations modérées
+                        +{(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'moderate').length - 5} autres transformations modérées
                       </p>
                     )}
                   </div>
@@ -1476,21 +1476,21 @@ export default function RecetteDetail() {
               )}
               
               {/* Impacts mineurs */}
-              {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'minor').length > 0 && (
+              {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'minor').length > 0 && (
                 <div className="bg-yellow-50 dark:bg-yellow-950/30 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
                   <h4 className="text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-3 flex items-center gap-2">
                     <Droplets className="h-4 w-4" />
-                    Impacts Mineurs ({transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'minor').length})
+                    Impacts Mineurs ({(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'minor').length})
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'minor').slice(0, 10).map((t: Transformation) => (
+                    {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'minor').slice(0, 10).map((t: Transformation) => (
                       <Badge key={t.id} variant="outline" className="text-xs">
                         {t.source_molecule_name} → {t.product_molecule_name}
                       </Badge>
                     ))}
-                    {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'minor').length > 10 && (
+                    {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'minor').length > 10 && (
                       <Badge variant="secondary" className="text-xs">
-                        +{transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'minor').length - 10} autres
+                        +{(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'minor').length - 10} autres
                       </Badge>
                     )}
                   </div>
@@ -1498,13 +1498,13 @@ export default function RecetteDetail() {
               )}
               
               {/* Traces */}
-              {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'trace').length > 0 && (
+              {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'trace').length > 0 && (
                 <div className="bg-gray-50 dark:bg-gray-950/30 p-4 rounded-lg border border-gray-200 dark:border-gray-800">
                   <h4 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">
-                    Traces ({transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'trace').length})
+                    Traces ({(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'trace').length})
                   </h4>
                   <p className="text-xs text-muted-foreground">
-                    {transformationsData.transformations.filter((t: Transformation) => t.impact_type === 'trace').length} transformations à impact négligeable
+                    {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'trace').length} transformations à impact négligeable
                   </p>
                 </div>
               )}
@@ -1601,13 +1601,13 @@ export default function RecetteDetail() {
             {
               label: "Matières premières utilisées",
               type: "rawMaterial",
-              items: (rawMaterialsLinked || []).map((rm: RawMaterialLink) => ({
-                id: rm.rawMaterialId,
-                label: rm.rawMaterial?.name || `MP #${rm.rawMaterialId}`,
-                sublabel: rm.role ? `Rôle : ${rm.role}` : (rm.rawMaterial?.category || undefined),
-                href: `/matieres-premieres/${rm.rawMaterialId}`,
+              items: (rawMaterialsLinked || []).map((rm) => ({
+                id: (rm as any).rawMaterialId as number,
+                label: (rm as any).rawMaterialName || `MP #${(rm as any).rawMaterialId}`,
+                sublabel: (rm as any).role ? `Rôle : ${(rm as any).role}` : undefined,
+                href: `/matieres-premieres/${(rm as any).rawMaterialId}`,
                 type: "rawMaterial" as const,
-              })),
+              })) as any[],
               viewAllHref: "/matieres-premieres",
               viewAllLabel: "Toutes les matières premières",
             },
@@ -1630,7 +1630,7 @@ export default function RecetteDetail() {
               items: (similarRecettes || []).map((r: { id: number; name: string; family?: string | null; accord?: string | null; moleculeCount?: number }) => ({
                 id: r.id,
                 label: r.name,
-                sublabel: r.family || r.category || undefined,
+                sublabel: r.family || undefined,
                 href: `/recettes/${r.id}`,
                 type: "recette" as const,
               })),
@@ -1661,19 +1661,19 @@ function TransformationCard({ transformation }: { transformation: Transformation
     other: { label: "Autre", color: "bg-slate-500" },
   };
 
-  const typeInfo = transformationTypeLabels[transformation.transformation_type] || transformationTypeLabels.other;
+  const typeInfo = (transformation.transformation_type ? transformationTypeLabels[transformation.transformation_type] : null) || transformationTypeLabels.other;
 
   return (
     <div className="bg-white dark:bg-gray-900 p-3 rounded-lg border shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-center justify-between gap-2 mb-2">
         <div className="flex items-center gap-2 flex-1 min-w-0">
-          <Link href={`/molecular-transformations?molecule=${encodeURIComponent(transformation.source_molecule_name)}&mode=cascade`}>
+          <Link href={`/molecular-transformations?molecule=${encodeURIComponent(transformation.source_molecule_name ?? '')}&mode=cascade`}>
             <Badge variant="outline" className="cursor-pointer hover:bg-green-50 dark:hover:bg-green-950/50 transition-colors">
               {transformation.source_molecule_name}
             </Badge>
           </Link>
           <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0" />
-          <Link href={`/molecular-transformations?molecule=${encodeURIComponent(transformation.product_molecule_name)}&mode=cascade`}>
+          <Link href={`/molecular-transformations?molecule=${encodeURIComponent(transformation.product_molecule_name ?? '')}&mode=cascade`}>
             <Badge variant="outline" className="cursor-pointer hover:bg-red-50 dark:hover:bg-red-950/50 transition-colors">
               {transformation.product_molecule_name}
             </Badge>

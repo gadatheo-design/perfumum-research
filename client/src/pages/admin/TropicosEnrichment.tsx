@@ -229,26 +229,26 @@ export default function TropicosEnrichment() {
                         >
                           <div className="flex items-start justify-between gap-2">
                             <div>
-                              <span className="font-medium italic">{r.scientificName as string}</span>
-                              {r.author && (
-                                <span className="text-sm text-muted-foreground ml-2">{r.author as string}</span>
+                              <span className="font-medium italic">{String((r as any).scientificName ?? '')}</span>
+                              {(r as any).author && (
+                                <span className="text-sm text-muted-foreground ml-2">{String((r as any).author)}</span>
                               )}
                               <div className="flex gap-2 mt-1 flex-wrap">
-                                {r.family && <Badge variant="outline" className="text-xs">{String(r.family)}</Badge>}
-                                {r.rank && <Badge variant="outline" className="text-xs">{String(r.rank)}</Badge>}
-                                {r.nomenclatureStatus && (
+                                {(r as any).family && <Badge variant="outline" className="text-xs">{String((r as any).family)}</Badge>}
+                                {(r as any).rank && <Badge variant="outline" className="text-xs">{String((r as any).rank)}</Badge>}
+                                {(r as any).nomenclatureStatus && (
                                   <Badge
-                                    variant={(r.nomenclatureStatus as string) === "Legitimate" ? "default" : "secondary"}
+                                    variant={String((r as any).nomenclatureStatus) === "Legitimate" ? "default" : "secondary"}
                                     className="text-xs"
                                   >
-                                    {String(r.nomenclatureStatus)}
+                                    {String((r as any).nomenclatureStatus)}
                                   </Badge>
                                 )}
                               </div>
                             </div>
-                            {r.url && (
+                            {(r as any).url && (
                               <a
-                                href={r.url as string}
+                                href={String((r as any).url)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={(e) => e.stopPropagation()}
@@ -322,8 +322,8 @@ export default function TropicosEnrichment() {
                           <li key={i} className="text-sm flex items-center gap-2">
                             <Globe className="w-3 h-3 text-muted-foreground shrink-0" />
                             {String(d.country)}
-                            {d.nativeStatus && (
-                              <Badge variant="outline" className="text-xs">{String(d.nativeStatus)}</Badge>
+                            {(d as any).nativeStatus && (
+                              <Badge variant="outline" className="text-xs">{String((d as any).nativeStatus)}</Badge>
                             )}
                           </li>
                         ))}

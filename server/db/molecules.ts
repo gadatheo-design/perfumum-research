@@ -2124,7 +2124,7 @@ export async function autoLinkTpsGenesToMolecules() {
     
     for (const gene of genes) {
       if (!gene.main_product) continue;
-      const mainProduct = gene.main_product.toLowerCase();
+      const mainProduct = String(gene.main_product).toLowerCase();
       
       // Find matching molecules
       for (const mol of moleculesList) {
@@ -2429,8 +2429,7 @@ export async function enrichMoleculeFromCOCONUTWithTranslation(moleculeId: numbe
   
   // Récupérer la molécule
   const [rows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(
-    'SELECT id, name, coconut_id FROM molecules WHERE id = ?',
-    [moleculeId]
+    `SELECT id, name, coconut_id FROM molecules WHERE id = ${moleculeId}`
   );
   
   const molecules = rows as unknown[];
@@ -2455,21 +2454,18 @@ export async function enrichMoleculeFromCOCONUTWithTranslation(moleculeId: numbe
   }
   
   // Mettre à jour la base de données
+  const coconutId = result.coconut_id;
+  const npScore = result.np_likeness_score || null;
+  const organisms = result.organisms ? JSON.stringify(result.organisms).replace(/'/g, "''") : null;
+  const citations = result.citations ? JSON.stringify(result.citations).replace(/'/g, "''") : null;
   await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(
     `UPDATE molecules SET 
-      coconut_id = ?,
-      np_likeness_score = ?,
-      coconut_organisms = ?,
-      coconut_citations = ?,
+      coconut_id = '${coconutId}',
+      np_likeness_score = ${npScore !== null ? npScore : 'NULL'},
+      coconut_organisms = ${organisms !== null ? `'${organisms}'` : 'NULL'},
+      coconut_citations = ${citations !== null ? `'${citations}'` : 'NULL'},
       coconut_enriched_at = NOW()
-    WHERE id = ?`,
-    [
-      result.coconut_id,
-      result.np_likeness_score || null,
-      result.organisms ? JSON.stringify(result.organisms) : null,
-      result.citations ? JSON.stringify(result.citations) : null,
-      moleculeId
-    ]
+    WHERE id = ${moleculeId}`
   );
   
   return {
@@ -2527,10 +2523,10 @@ export async function getCOCONUTEnrichmentStats(): Promise<{
   );
   const stats = (rows as Record<string,unknown>[])[0];
   return {
-    total: stats.total || 0,
-    enriched: stats.enriched || 0,
+    total: Number(stats.total) || 0,
+    enriched: Number(stats.enriched) || 0,
     percentage: Number(stats.total) > 0 ? Math.round((Number(stats.enriched) / Number(stats.total)) * 100) : 0,
-    withOrganisms: stats.withOrganisms || 0,
+    withOrganisms: Number(stats.withOrganisms) || 0,
   };
 }
 
@@ -2585,10 +2581,10 @@ export async function getMoleculesWithCOCONUTOrganisms(
     "SELECT id, name, coconut_id as coconutId, np_likeness_score as npLikenessScore, coconut_organisms as organisms FROM molecules WHERE coconut_organisms IS NOT NULL AND coconut_organisms != '[]' ORDER BY name ASC LIMIT " + limit + " OFFSET " + offset
   );
   return (rows as Record<string,unknown>[]).map((r: Record<string,unknown>) => ({
-    id: r.id,
-    name: r.name,
-    coconutId: r.coconutId,
-    npLikenessScore: r.npLikenessScore,
+    id: r.id as number,
+    name: r.name as string,
+    coconutId: r.coconutId as string,
+    npLikenessScore: r.npLikenessScore != null ? Number(r.npLikenessScore) : null,
     organisms: r.organisms ? (typeof r.organisms === 'string' ? JSON.parse(r.organisms) : r.organisms) : [],
   }));
 }
@@ -2633,9 +2629,9 @@ export async function getUnenrichedMoleculesForFlavornet(limit: number = 100): P
     'SELECT id, name, cas_number as casNumber FROM molecules WHERE flavornet_percepts IS NULL ORDER BY name ASC LIMIT ' + limit
   );
   return (rows as Record<string,unknown>[]).map((r: Record<string,unknown>) => ({
-    id: r.id,
-    name: r.name,
-    casNumber: r.casNumber,
+    id: r.id as number,
+    name: r.name as string,
+    casNumber: (r.casNumber as string | null) ?? null,
   }));
 }
 
@@ -2657,10 +2653,10 @@ export async function getMoleculesWithFlavornetPercepts(
     "SELECT id, name, flavornet_percepts as percepts, flavornet_kovats_ri as kovatsRI FROM molecules WHERE flavornet_percepts IS NOT NULL AND flavornet_percepts != '[]' ORDER BY name ASC LIMIT " + limit + " OFFSET " + offset
   );
   return (rows as Record<string,unknown>[]).map((r: Record<string,unknown>) => ({
-    id: r.id,
-    name: r.name,
-    percepts: r.percepts ? (typeof r.percepts === 'string' ? JSON.parse(r.percepts) : r.percepts) : [],
-    kovatsRI: r.kovatsRI ? (typeof r.kovatsRI === 'string' ? JSON.parse(r.kovatsRI) : r.kovatsRI) : null,
+    id: r.id as number,
+    name: r.name as string,
+    percepts: r.percepts ? (typeof r.percepts === 'string' ? JSON.parse(r.percepts) : r.percepts as string[]) : [],
+    kovatsRI: r.kovatsRI ? (typeof r.kovatsRI === 'string' ? JSON.parse(r.kovatsRI) : r.kovatsRI as Record<string, number>) : null,
   }));
 }
 
@@ -2677,13 +2673,13 @@ export async function getFlavornetEnrichmentStats(): Promise<{
   const db = await getDb();
   if (!db) return { total: 0, enriched: 0, percentage: 0, withPercepts: 0, withKovatsRI: 0 };
   const [totalRows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute('SELECT COUNT(*) as count FROM molecules');
-  const total = (totalRows as Record<string,unknown>[])[0]?.count || 0;
+  const total = Number((totalRows as Record<string,unknown>[])[0]?.count) || 0;
   const [enrichedRows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute('SELECT COUNT(*) as count FROM molecules WHERE flavornet_percepts IS NOT NULL');
-  const enriched = (enrichedRows as Record<string,unknown>[])[0]?.count || 0;
+  const enriched = Number((enrichedRows as Record<string,unknown>[])[0]?.count) || 0;
   const [perceptsRows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute("SELECT COUNT(*) as count FROM molecules WHERE flavornet_percepts IS NOT NULL AND flavornet_percepts != '[]'");
-  const withPercepts = (perceptsRows as Record<string,unknown>[])[0]?.count || 0;
+  const withPercepts = Number((perceptsRows as Record<string,unknown>[])[0]?.count) || 0;
   const [kovatsRows] = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute('SELECT COUNT(*) as count FROM molecules WHERE flavornet_kovats_ri IS NOT NULL');
-  const withKovatsRI = (kovatsRows as Record<string,unknown>[])[0]?.count || 0;
+  const withKovatsRI = Number((kovatsRows as Record<string,unknown>[])[0]?.count) || 0;
   
   return {
     total,

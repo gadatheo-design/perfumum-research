@@ -114,8 +114,8 @@ scripts/
 /data/
 /data-import/
 
-# Documentation archive
-docs/
+# Documentation archive (tracked in git for research notes)
+# docs/
 
 # Vite dev cache
 client/.vite/

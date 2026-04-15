@@ -8,5 +8,8 @@ export type {
   VarietyGenealogy,
   VarietyNode,
   RelationType,
-  GenealogyData,
 } from "../../../server/varietyGenealogy";
+
+import type { VarietyGenealogy } from "../../../server/varietyGenealogy";
+// GenealogyData n'existe pas dans server/varietyGenealogy.ts - définition locale
+export type GenealogyData = VarietyGenealogy;

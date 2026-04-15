@@ -335,7 +335,7 @@ export function ChemicalFamilyHierarchyGraph({
       .data(networkData.nodes)
       .join("g")
       .attr("cursor", "pointer")
-      .call(d3.drag<SVGGElement, GraphNode>()
+      .call((d3.drag<SVGGElement, GraphNode>()
         .on("start", (event: d3.D3DragEvent<SVGGElement, GraphNode, GraphNode>, d: GraphNode) => {
           if (!event.active) simulation.alphaTarget(0.3).restart();
           d.fx = d.x;
@@ -349,7 +349,7 @@ export function ChemicalFamilyHierarchyGraph({
           if (!event.active) simulation.alphaTarget(0);
           d.fx = null;
           d.fy = null;
-        })
+        })) as any
       );
     
     // Cercles

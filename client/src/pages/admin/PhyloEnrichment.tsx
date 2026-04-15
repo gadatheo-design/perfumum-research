@@ -369,7 +369,7 @@ function PowoTab({ scientificName }: { scientificName: string }) {
   if (isLoading) return <div className="flex items-center gap-2 text-zinc-400 py-8"><Loader2 className="w-4 h-4 animate-spin" /> Interrogation de POWO/Kew...</div>;
   if (!data?.results?.length) return <div className="text-zinc-500 py-8 text-sm">Aucun résultat POWO pour <em>{scientificName}</em>.</div>;
 
-  const best = data.results.find((r) => (r as { taxonomicStatus?: string }).taxonomicStatus === "Accepted") ?? data.results[0];
+  const best = data.results.find((r: any) => (r as { taxonomicStatus?: string }).taxonomicStatus === "Accepted") ?? data.results[0];
 
   return (
     <div className="space-y-6">
@@ -402,11 +402,11 @@ function PowoTab({ scientificName }: { scientificName: string }) {
         <div>
           <SectionTitle icon={BookOpen} title="Autres résultats POWO" />
           <div className="space-y-1.5">
-            {data.results.slice(1).map((r: GbifSpeciesResult, i: number) => (
-              <a key={i} href={r.powoUrl} target="_blank" rel="noopener noreferrer"
+            {data.results.slice(1).map((r: any, i: number) => (
+              <a key={i} href={r.powoUrl || r.fqId} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-800/30 hover:bg-zinc-800 text-sm text-zinc-300 transition-colors">
-                <span className="italic">{r.name}</span>
-                <span className="text-xs text-zinc-500 ml-auto">{r.taxonomicStatus}</span>
+                <span className="italic">{r.name || r.canonicalName || r.scientificName}</span>
+                <span className="text-xs text-zinc-500 ml-auto">{r.taxonomicStatus || r.status}</span>
                 <ExternalLink className="w-3 h-3 text-zinc-500" />
               </a>
             ))}
@@ -507,25 +507,26 @@ function TropicosTab({ scientificName }: { scientificName: string }) {
   if (isLoading) return <div className="flex items-center gap-2 text-zinc-400 py-8"><Loader2 className="w-4 h-4 animate-spin" /> Interrogation de Tropicos...</div>;
   if (!data?.results?.length) return <div className="text-zinc-500 py-8 text-sm">Aucun résultat Tropicos pour <em>{scientificName}</em>.</div>;
 
-  const best = data.results[0];
+  const bestRaw = data.results[0];
+  const best = bestRaw as any;
 
   return (
     <div className="space-y-6">
       <div className="p-4 rounded-xl border border-rose-800/30 bg-rose-950/20">
         <p className="text-xs text-rose-400 uppercase tracking-widest mb-1">Tropicos — Missouri Botanical Garden</p>
-        <h3 className="text-lg font-semibold text-zinc-100 italic">{best.scientificName}</h3>
-        {best.author && <p className="text-xs text-zinc-400 mt-1">{best.author}</p>}
+        <h3 className="text-lg font-semibold text-zinc-100 italic">{String(best.scientificName ?? '')}</h3>
+        {best.author && <p className="text-xs text-zinc-400 mt-1">{String(best.author)}</p>}
         <div className="flex flex-wrap gap-2 mt-2">
-          <IdentifierBadge label="Tropicos ID" value={String(best.nameId)} href={best.url} />
-          {best.family && <Badge variant="outline" className="text-xs border-rose-700 text-rose-300">{best.family}</Badge>}
-          {best.nomenclatureStatus && <Badge variant="outline" className="text-xs border-zinc-700 text-zinc-300">{best.nomenclatureStatus}</Badge>}
+          <IdentifierBadge label="Tropicos ID" value={String(best.nameId ?? '')} href={best.url ? String(best.url) : undefined} />
+          {best.family && <Badge variant="outline" className="text-xs border-rose-700 text-rose-300">{String(best.family)}</Badge>}
+          {best.nomenclatureStatus && <Badge variant="outline" className="text-xs border-zinc-700 text-zinc-300">{String(best.nomenclatureStatus)}</Badge>}
         </div>
       </div>
 
       {best.year && (
         <div className="flex items-center gap-2 text-sm text-zinc-400">
           <Info className="w-3.5 h-3.5" />
-          Année de publication : <span className="text-zinc-200">{best.year}</span>
+          Année de publication : <span className="text-zinc-200">{String(best.year)}</span>
         </div>
       )}
 
@@ -533,11 +534,11 @@ function TropicosTab({ scientificName }: { scientificName: string }) {
         <div>
           <SectionTitle icon={BookOpen} title="Autres résultats Tropicos" />
           <div className="space-y-1.5">
-            {data.results.slice(1).map((r: TropicosSearchResult, i: number) => (
-              <a key={i} href={r.url} target="_blank" rel="noopener noreferrer"
+            {data.results.slice(1).map((r: any, i: number) => (
+              <a key={i} href={r.url ? String(r.url) : '#'} target="_blank" rel="noopener noreferrer"
                 className="flex items-center gap-2 px-3 py-2 rounded-lg bg-zinc-800/30 hover:bg-zinc-800 text-sm text-zinc-300 transition-colors">
-                <span className="italic">{r.scientificName}</span>
-                <span className="text-xs text-zinc-500 ml-auto">{r.nomenclatureStatus}</span>
+                <span className="italic">{String(r.scientificName ?? '')}</span>
+                <span className="text-xs text-zinc-500 ml-auto">{String(r.nomenclatureStatus ?? '')}</span>
                 <ExternalLink className="w-3 h-3 text-zinc-500" />
               </a>
             ))}
@@ -546,7 +547,7 @@ function TropicosTab({ scientificName }: { scientificName: string }) {
       )}
 
       {best.url && (
-        <a href={best.url} target="_blank" rel="noopener noreferrer"
+        <a href={String(best.url)} target="_blank" rel="noopener noreferrer"
           className="inline-flex items-center gap-2 text-sm text-rose-400 hover:text-rose-200 transition-colors">
           Voir sur Tropicos <ExternalLink className="w-3 h-3" />
         </a>
@@ -726,7 +727,7 @@ function BatchEnrichmentPanel() {
                 </tr>
               </thead>
               <tbody>
-                {(powoMutation.data?.results ?? wikidataMutation.data?.results ?? ncbiMutation.data?.results ?? []).map((r: PhyloBatchPlantResult, i: number) => (
+                {(powoMutation.data?.results ?? wikidataMutation.data?.results ?? ncbiMutation.data?.results ?? [] as any[]).map((r: PhyloBatchPlantResult, i: number) => (
                   <tr key={i} className="border-b border-zinc-800/50 hover:bg-zinc-800/20">
                     <td className="py-2 px-3 text-zinc-300">{r.name}</td>
                     <td className="py-2 px-3 text-zinc-400 italic">{r.latinName}</td>
@@ -736,7 +737,7 @@ function BatchEnrichmentPanel() {
                         : <XCircle className="w-3.5 h-3.5 text-red-400" />}
                     </td>
                     <td className="py-2 px-3 text-zinc-500">
-                      {r.fqId ?? r.wikidataQid ?? r.taxId ?? "—"}
+                      {(r as any).fqId ?? (r as any).wikidataQid ?? (r as any).taxId ?? "—"}
                     </td>
                   </tr>
                 ))}
@@ -961,7 +962,7 @@ function BatchByGenusPanel() {
           <div className="flex gap-2">
             <Button
               size="sm"
-              onClick={() => batchMutation.mutate({ genus: selectedGenus, dryRun, apis: selectedApis as string[] })}
+              onClick={() => batchMutation.mutate({ genus: selectedGenus, dryRun, apis: selectedApis as ("gbif" | "wikidata" | "powo" | "ncbi" | "tropicos")[] })}
               disabled={batchMutation.isPending || selectedApis.length === 0}
               className="bg-violet-700 hover:bg-violet-600 text-white"
             >

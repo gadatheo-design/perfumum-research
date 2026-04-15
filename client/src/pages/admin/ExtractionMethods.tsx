@@ -23,7 +23,7 @@ export default function ExtractionMethods() {
 
   // Récupérer les publications liées au procédé sélectionné
   const { data: linkedPublications, isLoading: isLoadingPublications } = 
-    trpc.bibliography.getByExtractionMethod.useQuery(
+    (trpc.bibliography as any).getByExtractionMethod.useQuery(
       { methodId: selectedMethod?.id },
       { enabled: !!selectedMethod?.id }
     );

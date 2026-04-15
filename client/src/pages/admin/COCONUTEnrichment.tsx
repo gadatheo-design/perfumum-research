@@ -10,8 +10,8 @@ export default function COCONUTEnrichment() {
   const [searchQuery, setSearchQuery] = useState('');
   const [batchQueries, setBatchQueries] = useState('');
   
-  const searchMutation = trpc.coconutEnrichment.searchCompound.useMutation();
-  const batchMutation = trpc.coconutEnrichment.batchSearchCompounds.useMutation();
+  const searchMutation = (trpc.coconutEnrichment as any).searchCompound.useMutation();
+  const batchMutation = (trpc.coconutEnrichment as any).batchSearchCompounds.useMutation();
   const statsMutation = trpc.coconutEnrichment.getStats.useQuery();
 
   const handleSearch = async () => {

@@ -3591,7 +3591,6 @@ export const sampleImages = mysqlTable("sample_images", {
   // Display order for drag-and-drop reordering
   sortOrder: int("sort_order").default(0),
   createdAt: timestamp("created_at").defaultNow().notNull(),
-  sortOrder: int("sort_order").default(0),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({
   leafEconomyIdx: index("sample_images_leaf_economy_idx").on(table.leafEconomyId),

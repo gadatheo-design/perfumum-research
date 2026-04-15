@@ -331,7 +331,8 @@ export default function PeriqueFermentation() {
   const [activeTab, setActiveTab] = useState("timeline");
 
   // Récupérer les stages de fermentation
-  const { data: stages, isLoading } = trpc.tobacco.getPeriqueFermentationStages.useQuery();
+  const { data: stagesRaw, isLoading } = trpc.tobacco.getPeriqueFermentationStages.useQuery();
+  const stages = stagesRaw as unknown as FermentationStage[] | undefined;
 
   // Animation automatique
   useEffect(() => {
@@ -350,7 +351,7 @@ export default function PeriqueFermentation() {
     return () => clearInterval(interval);
   }, [isPlaying, stages]);
 
-  const currentStageData = stages?.find(s => s.stage_number === currentStage);
+  const currentStageData = stages?.find((s: FermentationStage) => s.stage_number === currentStage) as FermentationStage | undefined;
 
   const handlePrevious = () => {
     setCurrentStage(prev => Math.max(1, prev - 1));

@@ -510,9 +510,9 @@ function GenreTreeView({ initialGenus = "" }: { initialGenus?: string }) {
           {treeData && (
             <div className="space-y-4">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <Card className="p-3 bg-primary/10 border-primary/20"><p className="text-xs text-muted-foreground">Variétés</p><p className="text-2xl font-bold">{treeData.stats.totalVarieties}</p></Card>
-                <Card className="p-3 bg-blue-500/10 border-blue-500/20"><p className="text-xs text-muted-foreground">Espèces</p><p className="text-2xl font-bold">{treeData.stats.totalSpecies}</p></Card>
-                <Card className="p-3 bg-amber-500/10 border-amber-500/20"><p className="text-xs text-muted-foreground">Profondeur max</p><p className="text-2xl font-bold">{treeData.stats.maxDepth}</p></Card>
+                <Card className="p-3 bg-primary/10 border-primary/20"><p className="text-xs text-muted-foreground">Variétés</p><p className="text-2xl font-bold">{(treeData.stats as any).totalVarieties}</p></Card>
+                <Card className="p-3 bg-blue-500/10 border-blue-500/20"><p className="text-xs text-muted-foreground">Espèces</p><p className="text-2xl font-bold">{(treeData.stats as any).totalSpecies}</p></Card>
+                <Card className="p-3 bg-amber-500/10 border-amber-500/20"><p className="text-xs text-muted-foreground">Profondeur max</p><p className="text-2xl font-bold">{(treeData.stats as any).maxDepth}</p></Card>
                 <Card className="p-3 bg-red-500/10 border-red-500/20"><p className="text-xs text-muted-foreground">Critiques</p><p className="text-2xl font-bold">{treeData.stats.conservationCritical}</p></Card>
               </div>
               {treeData.rootNodes.length === 0 ? (

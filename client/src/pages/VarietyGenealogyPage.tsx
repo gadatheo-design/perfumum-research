@@ -15,16 +15,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { VarietyGenealogyViewer } from '@/components/VarietyGenealogyGraph';
 import { trpc } from '@/lib/trpc';
 import { Loader2, Search, ArrowLeft } from 'lucide-react';
-import {
-  nicotianaVarietyGenealogy,
-  cannabisVarietyGenealogy,
-  citrusVarietyGenealogy,
-} from '@/lib/nicotianaPhylogeny';
-
 // Données de généalogie temporaires (à remplacer par tRPC)
-const nicotianaVarietyGenealogy = { varieties: [], relationships: [] };
-const cannabisVarietyGenealogy = { varieties: [], relationships: [] };
-const citrusVarietyGenealogy = { varieties: [], relationships: [] };
+const nicotianaVarietyGenealogy = { varieties: [] as any[], relationships: [] as any[], nodes: [] as any[], relations: [] as any[], rootVariety: { species: 'Nicotiana tabacum' }, totalVarieties: 0, depth: 0 };
+const cannabisVarietyGenealogy = { varieties: [] as any[], relationships: [] as any[], nodes: [] as any[], relations: [] as any[], rootVariety: { species: 'Cannabis sativa' }, totalVarieties: 0, depth: 0 };
+const citrusVarietyGenealogy = { varieties: [] as any[], relationships: [] as any[], nodes: [] as any[], relations: [] as any[], rootVariety: { species: 'Citrus sinensis' }, totalVarieties: 0, depth: 0 };
 
 // ── Mapping des généalogies ──────────────────────────────────────────────────
 
@@ -118,7 +112,7 @@ export function VarietyGenealogyPage() {
         {/* Onglet : Arbre généalogique */}
         <TabsContent value="graph" className="mt-6">
           <Card className="p-6">
-            <VarietyGenealogyViewer genealogy={genealogy} height={700} />
+            <VarietyGenealogyViewer genealogy={genealogy as any} height={700} />
           </Card>
         </TabsContent>
 
@@ -180,7 +174,7 @@ export function VarietyGenealogyPage() {
                           .map(([compound, value]) => (
                             <div key={compound} className="flex justify-between text-xs">
                               <span>{compound}</span>
-                              <span className="font-mono">{value.toFixed(2)}</span>
+                              <span className="font-mono">{typeof value === 'number' ? value.toFixed(2) : String(value)}</span>
                             </div>
                           ))}
                       </div>

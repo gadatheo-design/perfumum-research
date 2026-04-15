@@ -104,7 +104,7 @@ export default function ReseauMoleculePlante() {
     // Filtrer les relations par pourcentage minimum
     const filteredRelations = (networkData.relationships.plantMolecules || []).filter(
       (rel) => {
-        const pct = parseFloat(String(rel.percentageTypical || rel.percentageMax || 0));
+        const pct = parseFloat(String(rel.percentageTypical || (rel as any).percentageMax || 0));
         const passesPercentage = pct >= minPercentage;
         const passesSignature = !showSignatureOnly || rel.isSignature === 1;
         return passesPercentage && passesSignature;
@@ -284,7 +284,7 @@ export default function ReseauMoleculePlante() {
     filteredRelations.forEach((rel, index) => {
       if (!processedPlants.has(rel.plantId) || !processedMolecules.has(rel.moleculeId)) return;
       
-      const percentage = parseFloat(String(rel.percentageTypical || rel.percentageMax || 0));
+      const percentage = parseFloat(String(rel.percentageTypical || (rel as any).percentageMax || 0));
       const strokeWidth = Math.max(1, Math.min(5, percentage / 10));
       const opacity = Math.max(0.3, Math.min(1, percentage / 50));
       

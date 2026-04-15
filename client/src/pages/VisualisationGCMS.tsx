@@ -47,8 +47,8 @@ export default function VisualisationGCMS() {
   const { data: plantsData } = trpc.p5data.molecules.useQuery({});
 
   useEffect(() => {
-    if (plantsData?.plants) {
-      setPlantList(plantsData.plants.slice(0, 50)); // Top 50 plantes
+    if ((plantsData as any)?.plants) {
+      setPlantList((plantsData as any).plants.slice(0, 50)); // Top 50 plantes
     }
   }, [plantsData]);
 
@@ -74,7 +74,7 @@ export default function VisualisationGCMS() {
 
   // Charger le sketch p5.js
   const loadSketch = async () => {
-    if (!canvasRef.current || !window.p5) return;
+    if (!canvasRef.current || !(window as any).p5) return;
 
     const plantName = selectedPlant;
     setIsLoading(true);
