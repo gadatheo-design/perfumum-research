@@ -201,6 +201,7 @@ export default function PubChemIupacBatch() {
                       <SelectItem value="30">30 molécules</SelectItem>
                       <SelectItem value="50">50 molécules</SelectItem>
                       <SelectItem value="100">100 molécules</SelectItem>
+                      <SelectItem value="1000">1000 molécules</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
