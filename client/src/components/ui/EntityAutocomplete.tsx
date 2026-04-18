@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, X, ChevronDown } from "lucide-react";
 
-export type EntityType = "recette" | "plante" | "molecule" | "terroir" | "axis" | "extractionMethod";
+export type EntityType = "recette" | "plante" | "molecule" | "terroir" | "axis" | "extractionMethod" | "extraction";
 
 interface EntityAutocompleteProps {
   entityType: EntityType;
@@ -19,7 +19,6 @@ interface EntityAutocompleteProps {
 interface Entity {
   id: number;
   name: string;
-  label?: string;
   description?: string;
   family?: string;
 }
@@ -38,58 +37,142 @@ export function EntityAutocomplete({
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Récupérer les résultats de recherche selon le type d'entité
-  const { data: recettes, isLoading: loadingRecettes } = (trpc.recettes as any).getFiltered.useQuery(
-    { search, limit: 10 },
-    { enabled: entityType === "recette" && search.length > 0 }
+  // ── Molécules : procédure search dédiée (molecules.search) ───────────────
+  const { data: moleculesData, isLoading: loadingMolecules } = trpc.molecules.search.useQuery(
+    { query: search, limit: 10 },
+    { enabled: entityType === "molecule" && search.length >= 1 }
   );
 
-  const { data: plantes, isLoading: loadingPlantes } = (trpc.plants as any).getFiltered.useQuery(
-    { search, limit: 10 },
-    { enabled: entityType === "plante" && search.length > 0 }
+  // ── Plantes : procédure search dans plantStatistics ───────────────────────
+  const { data: plantesData, isLoading: loadingPlantes } = trpc.plantStatistics.search.useQuery(
+    { query: search },
+    { enabled: entityType === "plante" && search.length >= 1 }
   );
 
-  const { data: molecules, isLoading: loadingMolecules } = (trpc.molecules as any).getFiltered.useQuery(
-    { search, limit: 10 },
-    { enabled: entityType === "molecule" && search.length > 0 }
+  // ── Recettes : liste complète + filtre côté client ───────────────────────
+  const { data: recettesAll, isLoading: loadingRecettes } = trpc.recettes.list.useQuery(
+    undefined,
+    { enabled: entityType === "recette" }
   );
 
-  const { data: terroirs, isLoading: loadingTerroirs } = (trpc.terroirs as any).getFiltered.useQuery(
-    { search, limit: 10 },
-    { enabled: entityType === "terroir" && search.length > 0 }
+  // ── Terroirs : liste complète + filtre côté client ───────────────────────
+  const { data: terroirsAll, isLoading: loadingTerroirs } = trpc.terroirs.getAll.useQuery(
+    undefined,
+    { enabled: entityType === "terroir" }
   );
 
-  const { data: axes, isLoading: loadingAxes } = (trpc.researchAxes as any).getFiltered.useQuery(
-    { search, limit: 10 },
-    { enabled: entityType === "axis" && search.length > 0 }
+  // ── Axes thématiques : liste complète + filtre côté client ───────────────
+  const { data: axesAll, isLoading: loadingAxes } = trpc.thematicAxes.list.useQuery(
+    undefined,
+    { enabled: entityType === "axis" }
   );
 
-  const { data: methods, isLoading: loadingMethods } = (trpc.extractionMethods as any).getFiltered.useQuery(
-    { search, limit: 10 },
-    { enabled: entityType === "extractionMethod" && search.length > 0 }
+  // ── Méthodes d'extraction : liste complète + filtre côté client ──────────
+  const { data: methodsAll, isLoading: loadingMethods } = trpc.extractionMethods.getAll.useQuery(
+    undefined,
+    { enabled: entityType === "extractionMethod" || entityType === "extraction" }
   );
 
-  // Déterminer les données et le statut de chargement selon le type
-  const getDataAndLoading = () => {
+  // ── Normalisation et filtrage côté client ────────────────────────────────
+  const items: Entity[] = useMemo(() => {
+    const q = search.toLowerCase();
+
     switch (entityType) {
-      case "recette":
-        return { data: recettes || [], loading: loadingRecettes };
-      case "plante":
-        return { data: plantes || [], loading: loadingPlantes };
-      case "molecule":
-        return { data: molecules || [], loading: loadingMolecules };
-      case "terroir":
-        return { data: terroirs || [], loading: loadingTerroirs };
-      case "axis":
-        return { data: axes || [], loading: loadingAxes };
-      case "extractionMethod":
-        return { data: methods || [], loading: loadingMethods };
-      default:
-        return { data: [], loading: false };
-    }
-  };
+      case "molecule": {
+        const mols = moleculesData?.molecules ?? [];
+        return (mols as Record<string, unknown>[]).map((m) => ({
+          id: m.id as number,
+          name: m.name as string,
+          family: m.family as string | undefined,
+        }));
+      }
 
-  const { data: items, loading } = getDataAndLoading();
+      case "plante": {
+        const plants = Array.isArray(plantesData) ? (plantesData as Record<string, unknown>[]) : [];
+        return plants.slice(0, 10).map((p) => ({
+          id: p.id as number,
+          name: (p.name ?? p.latin_name ?? p.latinName) as string,
+          description: (p.latinName ?? p.latin_name) as string | undefined,
+        }));
+      }
+
+      case "recette": {
+        const all = Array.isArray(recettesAll) ? (recettesAll as Record<string, unknown>[]) : [];
+        const filtered = q
+          ? all.filter((r) => String(r.name ?? "").toLowerCase().includes(q))
+          : all;
+        return filtered.slice(0, 10).map((r) => ({
+          id: r.id as number,
+          name: r.name as string,
+          description: r.category as string | undefined,
+        }));
+      }
+
+      case "terroir": {
+        const all = Array.isArray(terroirsAll) ? (terroirsAll as Record<string, unknown>[]) : [];
+        const filtered = q
+          ? all.filter((t) =>
+              String(t.name ?? "").toLowerCase().includes(q) ||
+              String(t.country ?? "").toLowerCase().includes(q) ||
+              String(t.region ?? "").toLowerCase().includes(q)
+            )
+          : all;
+        return filtered.slice(0, 10).map((t) => ({
+          id: t.id as number,
+          name: t.name as string,
+          description: [t.region, t.country].filter(Boolean).join(", ") || undefined,
+        }));
+      }
+
+      case "axis": {
+        const all = Array.isArray(axesAll) ? (axesAll as Record<string, unknown>[]) : [];
+        const filtered = q
+          ? all.filter((a) =>
+              String(a.name ?? "").toLowerCase().includes(q) ||
+              String(a.axisCode ?? "").toLowerCase().includes(q) ||
+              String(a.description ?? "").toLowerCase().includes(q)
+            )
+          : all;
+        return filtered.slice(0, 10).map((a) => ({
+          id: a.id as number,
+          name: `${a.axisCode} — ${a.name}`,
+          description: a.description as string | undefined,
+        }));
+      }
+
+      case "extractionMethod":
+      case "extraction": {
+        const all = Array.isArray(methodsAll) ? (methodsAll as Record<string, unknown>[]) : [];
+        const filtered = q
+          ? all.filter((m) =>
+              String(m.name ?? "").toLowerCase().includes(q) ||
+              String(m.shortName ?? "").toLowerCase().includes(q) ||
+              String(m.category ?? "").toLowerCase().includes(q)
+            )
+          : all;
+        return filtered.slice(0, 10).map((m) => ({
+          id: m.id as number,
+          name: m.name as string,
+          description: m.category as string | undefined,
+        }));
+      }
+
+      default:
+        return [];
+    }
+  }, [
+    entityType, search,
+    moleculesData, plantesData,
+    recettesAll, terroirsAll, axesAll, methodsAll,
+  ]);
+
+  const loading =
+    (entityType === "molecule" && loadingMolecules) ||
+    (entityType === "plante" && loadingPlantes) ||
+    (entityType === "recette" && loadingRecettes) ||
+    (entityType === "terroir" && loadingTerroirs) ||
+    (entityType === "axis" && loadingAxes) ||
+    ((entityType === "extractionMethod" || entityType === "extraction") && loadingMethods);
 
   // Fermer le dropdown quand on clique en dehors
   useEffect(() => {
@@ -113,17 +196,6 @@ export function EntityAutocomplete({
     onChange(null, "");
     setSelectedLabel("");
     setSearch("");
-  };
-
-  const getItemLabel = (item: Entity) => {
-    switch (entityType) {
-      case "molecule":
-        return `${item.name}${item.family ? ` (${item.family})` : ""}`;
-      case "plante":
-        return `${item.name}${item.description ? ` - ${item.description}` : ""}`;
-      default:
-        return item.name;
-    }
   };
 
   return (
@@ -169,7 +241,7 @@ export function EntityAutocomplete({
             <div className="p-3 text-center">
               <p className="text-xs text-muted-foreground">Aucun résultat trouvé</p>
             </div>
-          ) : items.length === 0 && search.length === 0 ? (
+          ) : items.length === 0 ? (
             <div className="p-3 text-center">
               <p className="text-xs text-muted-foreground">Tapez pour rechercher...</p>
             </div>
@@ -186,9 +258,9 @@ export function EntityAutocomplete({
                       <p className="font-medium text-slate-900 dark:text-slate-100 truncate">
                         {item.name}
                       </p>
-                      {item.family && (
+                      {(item.description || item.family) && (
                         <p className="text-xs text-muted-foreground truncate">
-                          {item.family}
+                          {item.description ?? item.family}
                         </p>
                       )}
                     </div>
