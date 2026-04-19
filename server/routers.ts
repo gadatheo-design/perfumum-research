@@ -4761,13 +4761,13 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         const params: (string | number | null)[] = [];
         // Écrire dans les colonnes JSON standardisées (priorité) ET dans les colonnes text legacy (rétrocompatibilité)
         if (enriched.olfactiveProfile?.length) {
-          updates.push("olfactiveProfileJson = ?");
+          updates.push("olfactive_profile_json = ?");
           params.push(JSON.stringify(enriched.olfactiveProfile));
           updates.push("olfactiveProfile = ?");
           params.push(enriched.olfactiveProfile.join(', '));
         }
         if (enriched.therapeuticProperties?.length) {
-          updates.push("therapeuticPropertiesJson = ?");
+          updates.push("therapeutic_properties_json = ?");
           params.push(JSON.stringify(enriched.therapeuticProperties));
           updates.push("therapeuticProperties = ?");
           params.push(enriched.therapeuticProperties.join(', '));
