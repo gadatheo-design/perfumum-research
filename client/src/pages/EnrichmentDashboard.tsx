@@ -201,7 +201,7 @@ export default function EnrichmentDashboard() {
               <div className="text-center py-4">
                 <p className="text-muted-foreground mb-4">Connectez-vous pour lancer l'enrichissement</p>
                 <Button variant="outline" asChild>
-                  <Link href="/api/oauth/login">Se connecter</Link>
+                  <a href="/api/oauth/login">Se connecter</a>
                 </Button>
               </div>
             ) : (
