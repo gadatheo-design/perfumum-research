@@ -119,7 +119,7 @@ export function EntityConnectionMap() {
               Six entités, un réseau vivant
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              PERFUMUM organise la connaissance olfactive autour de six entités interconnectées.
+              PERFUMUM s'organise autour de six entités interconnectées.
               Chaque molécule, plante, terroir, matière première, recette et accord enrichit le réseau.
             </p>
           </div>

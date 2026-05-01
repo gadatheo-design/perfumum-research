@@ -46,15 +46,15 @@ export default function Home() {
               </h1>
               {/* Sous-titre violet */}
               <p className="text-primary font-semibold text-base md:text-lg mb-6 animate-fadeInUp" style={{animationDelay: '0.08s'}}>
-                <Link href="/methodologie/absorbe" className="hover:underline">ABSORBE</Link> &mdash; laboratoire atmosphérique olfactif basé à Berne
+                Laboratoire olfactif
               </p>
               {/* Description italique */}
               <p className="text-muted-foreground italic text-sm md:text-base mb-8 animate-fadeInUp" style={{animationDelay: '0.12s'}}>
-                Laboratoire de recherche olfactive expérimentale<br />&mdash; 10 ans d'exploration moléculaire et artistique
+
               </p>
               {/* Paragraphe descriptif */}
               <p className="text-muted-foreground max-w-2xl mx-auto mb-12 text-sm md:text-base leading-relaxed animate-fadeInUp" style={{animationDelay: '0.16s'}}>
-                PERFUMUM est une plateforme de recherche olfactive expérimentale développée sur 10 ans (2025-2035). Explorez <strong className="text-foreground font-semibold">{stats?.molecules || '808'} molécules documentées</strong>, <strong className="text-foreground font-semibold">{stats?.recettes || '476'} recettes olfactives</strong> et des méthodologies scientifiques (GC-MS, synergies moléculaires). Les accords créés sont utilisés dans des projets artistiques site-specific et archivés selon la méthodologie ABSORBE.
+                Explorez <strong className="text-foreground font-semibold">{stats?.molecules || '808'} molécules documentées</strong>, <strong className="text-foreground font-semibold">{stats?.recettes || '476'} recettes olfactives</strong> et des méthodologies scientifiques (GC-MS, synergies moléculaires).
               </p>
               {/* CTA */}
               <div className="flex flex-wrap gap-4 justify-center animate-fadeInUp" style={{animationDelay: '0.22s'}}>
@@ -80,7 +80,7 @@ export default function Home() {
           <div className="container">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-10">
-                <p className="text-[10px] font-medium uppercase tracking-[0.4em] text-primary/60 mb-3">Architecture Mnemosyne</p>
+                <p className="text-[10px] font-medium uppercase tracking-[0.4em] text-primary/60 mb-3"></p>
                 <h2 className="mb-3 text-foreground">Cinq portes d'entrée dans PERFUMUM</h2>
                 <p className="text-muted-foreground max-w-2xl mx-auto text-sm md:text-base">
                   Chaque contenu est accessible par plusieurs chemins. L'odorat fonctionne par associations multiples : la navigation de PERFUMUM aussi.
@@ -170,10 +170,7 @@ export default function Home() {
                 </Link>
               </div>
               {/* Citation Odeuropa */}
-              <blockquote className="mt-8 text-center text-xs text-muted-foreground/60 italic border-t border-border/30 pt-6">
-                « Un même contenu peut être atteint par plusieurs chemins — par la plante, par la molécule, par l'image, par la géographie, par l'émotion. »
-                <span className="block mt-1 not-italic">Architecture Mnemosyne × Odeuropa</span>
-              </blockquote>
+
             </div>
           </div>
         </section>
