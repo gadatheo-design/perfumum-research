@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { useState } from "react";
 import { 
@@ -203,7 +204,7 @@ export default function EnrichmentDashboard() {
               <div className="text-center py-4">
                 <p className="text-muted-foreground mb-4">Connectez-vous pour lancer l'enrichissement</p>
                 <Button variant="outline" asChild>
-                  <Link href="/login">Se connecter</Link>
+                  <a href={getLoginUrl()}>Se connecter</a>
                 </Button>
               </div>
             ) : (

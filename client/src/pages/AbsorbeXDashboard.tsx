@@ -44,7 +44,7 @@ const researchAxes: ResearchAxis[] = [
     application: "Modulation de la perception olfactive en temps réel",
     icon: <Brain className="h-6 w-6" />,
     color: "from-pink-500 to-rose-600",
-    href: "/absorbe-x/neuro"
+    href: "/absorbe-x/neuro-olfaction"
   },
   {
     id: "nano",
@@ -74,7 +74,7 @@ const researchAxes: ResearchAxis[] = [
     application: "Manipulation et consolidation de la mémoire pendant le sommeil",
     icon: <Heart className="h-6 w-6" />,
     color: "from-orange-500 to-red-600",
-    href: "/absorbe-x/neuro"
+    href: "/absorbe-x/neuro-olfaction"
   }
 ];
 

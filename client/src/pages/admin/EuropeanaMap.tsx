@@ -161,7 +161,7 @@ export default function EuropeanaMap() {
             </div>
             ${institutionsHtml}
             <div style="margin-top:8px;">
-              <a href="/europeana" style="font-size:11px;color:#6366f1;text-decoration:none;">
+              <a href="/admin/europeana" style="font-size:11px;color:#6366f1;text-decoration:none;">
                 → Voir dans l'Explorateur
               </a>
             </div>
@@ -217,7 +217,7 @@ export default function EuropeanaMap() {
       {/* En-tête */}
       <div>
         <div className="flex items-center gap-3 mb-1 flex-wrap">
-          <Link href="/europeana">
+          <Link href="/admin/europeana">
             <Button variant="ghost" size="sm" className="gap-1 text-muted-foreground h-7 px-2">
               <ArrowLeft className="h-3.5 w-3.5" />
               Explorateur
@@ -334,7 +334,7 @@ export default function EuropeanaMap() {
                 {currentThemeConfig?.label || selectedTheme}
                 {isLoading && <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground" />}
               </CardTitle>
-              <Link href="/europeana">
+              <Link href="/admin/europeana">
                 <Button variant="ghost" size="sm" className="h-7 text-xs gap-1">
                   <ExternalLink className="h-3 w-3" />
                   Voir les œuvres
@@ -442,7 +442,7 @@ export default function EuropeanaMap() {
               <p className="text-xs text-muted-foreground">
                 Cliquez sur un marqueur puis "Voir dans l'Explorateur" pour accéder aux œuvres du pays sélectionné.
               </p>
-              <Link href="/europeana">
+              <Link href="/admin/europeana">
                 <Button variant="outline" size="sm" className="w-full text-xs gap-1.5 mt-1">
                   <Globe className="h-3.5 w-3.5" />
                   Ouvrir l'Explorateur Europeana

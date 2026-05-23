@@ -339,7 +339,7 @@ export default function SourcingCannabis() {
               </CardContent>
             </Card>
           </Link>
-          <Link href="/correlations-parfum-tabac-cannabis">
+          <Link href="/correlations">
             <Card className="bg-zinc-900/50 border-zinc-800 hover:border-purple-500/30 transition-colors cursor-pointer">
               <CardContent className="p-4 flex items-center gap-3">
                 <div className="w-8 h-8 rounded bg-purple-500/20 flex items-center justify-center">

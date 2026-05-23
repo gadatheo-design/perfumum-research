@@ -12,7 +12,7 @@ export default function Laboratoire() {
       title: "Matières Premières",
       description: "Base de données complète des huiles essentielles, absolus, résinoïdes et autres matières utilisées",
       icon: Droplet,
-      href: "/laboratoire/matieres",
+      href: "/matieres-premieres",
       stats: "100+ matières",
       color: "text-blue-600",
       bgColor: "bg-blue-50",

@@ -36,7 +36,7 @@ export default function SynergiesContent() {
       icon: GitBranch,
       title: "Heatmap de Corrélation",
       description: "Carte de chaleur des corrélations entre profils radar. Identifiez les patterns et les groupes de molécules similaires.",
-      href: "/radar-correlation-heatmap",
+      href: "/heatmap-correlations",
       features: ["Heatmap", "Clustering", "Analyse statistique"],
       color: "text-rose-600 dark:text-rose-400",
       bgGradient: "from-rose-500/10 to-pink-500/10"

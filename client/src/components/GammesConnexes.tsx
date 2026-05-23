@@ -35,7 +35,7 @@ const gammes: Record<GammeType, GammeInfo> = {
   },
   civilisations: {
     name: "Traditions Olfactives",
-    href: "/gammes/civilisations/mossi",
+    href: "/gammes/mossi",
     icon: Globe2,
     iconBg: "bg-amber-50",
     iconColor: "text-amber-600",
@@ -80,7 +80,7 @@ const gammes: Record<GammeType, GammeInfo> = {
   },
   traditions: {
     name: "Traditions",
-    href: "/gammes/civilisations/mossi",
+    href: "/gammes/mossi",
     icon: Globe2,
     iconBg: "bg-amber-50",
     iconColor: "text-amber-600",

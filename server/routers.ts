@@ -4368,36 +4368,40 @@ Génère un objet JSON avec les champs suivants (uniquement les champs que tu pe
 
 Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
 
-        const response = await invokeLLM({
-          messages: [
-            { role: 'system', content: 'Tu es un expert en botanique et chimie olfactive. Réponds uniquement en JSON valide.' },
-            { role: 'user', content: prompt }
-          ],
-          response_format: {
-            type: 'json_schema',
-            json_schema: {
-              name: 'plant_enrichment',
-              strict: true,
-              schema: {
-                type: 'object',
-                properties: {
-                  olfactiveProfile: { type: 'array', items: { type: 'string' }, description: 'Notes olfactives principales' },
-                  therapeuticProperties: { type: 'array', items: { type: 'string' }, description: 'Propriétés thérapeutiques documentées' },
-                  dominantMolecules: { type: 'array', items: { type: 'string' }, description: 'Molécules dominantes' },
-                  traditionalUse: { type: 'string', description: 'Usage traditionnel' },
-                  habitat: { type: 'string', description: 'Habitat naturel' },
-                  description: { type: 'string', description: 'Description scientifique' },
+        let enriched: any;
+        try {
+          const response = await invokeLLM({
+            messages: [
+              { role: 'system', content: 'Tu es un expert en botanique et chimie olfactive. Réponds uniquement en JSON valide.' },
+              { role: 'user', content: prompt }
+            ],
+            response_format: {
+              type: 'json_schema',
+              json_schema: {
+                name: 'plant_enrichment',
+                strict: true,
+                schema: {
+                  type: 'object',
+                  properties: {
+                    olfactiveProfile: { type: 'array', items: { type: 'string' }, description: 'Notes olfactives principales' },
+                    therapeuticProperties: { type: 'array', items: { type: 'string' }, description: 'Propriétés thérapeutiques documentées' },
+                    dominantMolecules: { type: 'array', items: { type: 'string' }, description: 'Molécules dominantes' },
+                    traditionalUse: { type: 'string', description: 'Usage traditionnel' },
+                    habitat: { type: 'string', description: 'Habitat naturel' },
+                    description: { type: 'string', description: 'Description scientifique' },
+                  },
+                  required: ['olfactiveProfile', 'therapeuticProperties', 'dominantMolecules', 'traditionalUse', 'habitat', 'description'],
+                  additionalProperties: false,
                 },
-                required: ['olfactiveProfile', 'therapeuticProperties', 'dominantMolecules', 'traditionalUse', 'habitat', 'description'],
-                additionalProperties: false,
               },
             },
-          },
-        });
-
-        const raw = response?.choices?.[0]?.message?.content;
-        if (!raw) throw new Error('Réponse LLM vide');
-        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+          });
+          const raw = response?.choices?.[0]?.message?.content;
+          if (!raw) throw new Error('Réponse LLM vide');
+          enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        } catch (err: any) {
+          throw new Error(`Erreur IA enrichissement plante "${plant.name}": ${err?.message || 'Échec appel LLM'}`);
+        }
 
         const { createConnection: _ccPlantUpd } = await import('mysql2/promise');
         const _connPlant = await _ccPlantUpd(process.env.DATABASE_URL!);
@@ -4466,37 +4470,40 @@ Génère un objet JSON avec les champs suivants :
 }
 
 Réponds UNIQUEMENT avec le JSON.`;
-
-        const response = await invokeLLM({
-          messages: [
-            { role: 'system', content: 'Tu es un expert en botanique et chimie olfactive. Réponds uniquement en JSON valide.' },
-            { role: 'user', content: prompt }
-          ],
-          response_format: {
-            type: 'json_schema',
-            json_schema: {
-              name: 'plant_enrichment',
-              strict: true,
-              schema: {
-                type: 'object',
-                properties: {
-                  olfactiveProfile: { type: 'array', items: { type: 'string' } },
-                  therapeuticProperties: { type: 'array', items: { type: 'string' } },
-                  dominantMolecules: { type: 'array', items: { type: 'string' } },
-                  traditionalUse: { type: 'string' },
-                  habitat: { type: 'string' },
-                  description: { type: 'string' },
+        let enriched: any;
+        try {
+          const response = await invokeLLM({
+            messages: [
+              { role: 'system', content: 'Tu es un expert en botanique et chimie olfactive. Réponds uniquement en JSON valide.' },
+              { role: 'user', content: prompt }
+            ],
+            response_format: {
+              type: 'json_schema',
+              json_schema: {
+                name: 'plant_enrichment',
+                strict: true,
+                schema: {
+                  type: 'object',
+                  properties: {
+                    olfactiveProfile: { type: 'array', items: { type: 'string' } },
+                    therapeuticProperties: { type: 'array', items: { type: 'string' } },
+                    dominantMolecules: { type: 'array', items: { type: 'string' } },
+                    traditionalUse: { type: 'string' },
+                    habitat: { type: 'string' },
+                    description: { type: 'string' },
+                  },
+                  required: ['olfactiveProfile', 'therapeuticProperties', 'dominantMolecules', 'traditionalUse', 'habitat', 'description'],
+                  additionalProperties: false,
                 },
-                required: ['olfactiveProfile', 'therapeuticProperties', 'dominantMolecules', 'traditionalUse', 'habitat', 'description'],
-                additionalProperties: false,
               },
             },
-          },
-        });
-
-        const raw = response?.choices?.[0]?.message?.content;
-        if (!raw) throw new Error('Réponse LLM vide');
-        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+          });
+          const raw = response?.choices?.[0]?.message?.content;
+          if (!raw) throw new Error('Réponse LLM vide');
+          enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        } catch (err: any) {
+          throw new Error(`Erreur IA preview plante "${plant.name}": ${err?.message || 'Échec appel LLM'}`);
+        }
         return { success: true, enriched, plantName: plant.name };
       }),
   }),
@@ -4537,38 +4544,40 @@ Génère un objet JSON avec les champs suivants :
 }
 
 Réponds UNIQUEMENT avec le JSON.`;
-
-        const response = await invokeLLM({
-          messages: [
-            { role: 'system', content: 'Tu es un expert en parfumerie et chimie olfactive. Réponds uniquement en JSON valide.' },
-            { role: 'user', content: prompt }
-          ],
-          response_format: {
-            type: 'json_schema',
-            json_schema: {
-              name: 'raw_material_enrichment',
-              strict: true,
-              schema: {
-                type: 'object',
-                properties: {
-                  description: { type: 'string' },
-                  olfactiveNotes: { type: 'array', items: { type: 'string' } },
-                  keyMolecules: { type: 'array', items: { type: 'string' } },
-                  usagesInPerfumery: { type: 'string' },
-                  extractionDetails: { type: 'string' },
-                  qualityMarkers: { type: 'array', items: { type: 'string' } },
+        let enriched: any;
+        try {
+          const response = await invokeLLM({
+            messages: [
+              { role: 'system', content: 'Tu es un expert en parfumerie et chimie olfactive. Réponds uniquement en JSON valide.' },
+              { role: 'user', content: prompt }
+            ],
+            response_format: {
+              type: 'json_schema',
+              json_schema: {
+                name: 'raw_material_enrichment',
+                strict: true,
+                schema: {
+                  type: 'object',
+                  properties: {
+                    description: { type: 'string' },
+                    olfactiveNotes: { type: 'array', items: { type: 'string' } },
+                    keyMolecules: { type: 'array', items: { type: 'string' } },
+                    usagesInPerfumery: { type: 'string' },
+                    extractionDetails: { type: 'string' },
+                    qualityMarkers: { type: 'array', items: { type: 'string' } },
+                  },
+                  required: ['description', 'olfactiveNotes', 'keyMolecules', 'usagesInPerfumery', 'extractionDetails', 'qualityMarkers'],
+                  additionalProperties: false,
                 },
-                required: ['description', 'olfactiveNotes', 'keyMolecules', 'usagesInPerfumery', 'extractionDetails', 'qualityMarkers'],
-                additionalProperties: false,
               },
             },
-          },
-        });
-
-        const raw = response?.choices?.[0]?.message?.content;
-        if (!raw) throw new Error('Réponse LLM vide');
-        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
-
+          });
+          const raw = response?.choices?.[0]?.message?.content;
+          if (!raw) throw new Error('Réponse LLM vide');
+          enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        } catch (err: any) {
+          throw new Error(`Erreur IA enrichissement matière "${rm.name}": ${err?.message || 'Échec appel LLM'}`);
+        }
         if (enriched.description) {
           const { createConnection: _cc } = await import('mysql2/promise');
           const _connUpd = await _cc(process.env.DATABASE_URL!);
@@ -4609,38 +4618,41 @@ Génère un objet JSON :
   "usagesInPerfumery": "usages en parfumerie",
   "extractionDetails": "détails extraction",
   "qualityMarkers": ["marqueur1", "marqueur2"]
-}`;
-
-        const response = await invokeLLM({
-          messages: [
-            { role: 'system', content: 'Tu es un expert en parfumerie. Réponds uniquement en JSON valide.' },
-            { role: 'user', content: prompt }
-          ],
-          response_format: {
-            type: 'json_schema',
-            json_schema: {
-              name: 'raw_material_enrichment',
-              strict: true,
-              schema: {
-                type: 'object',
-                properties: {
-                  description: { type: 'string' },
-                  olfactiveNotes: { type: 'array', items: { type: 'string' } },
-                  keyMolecules: { type: 'array', items: { type: 'string' } },
-                  usagesInPerfumery: { type: 'string' },
-                  extractionDetails: { type: 'string' },
-                  qualityMarkers: { type: 'array', items: { type: 'string' } },
+}"`;
+        let enriched: any;
+        try {
+          const response = await invokeLLM({
+            messages: [
+              { role: 'system', content: 'Tu es un expert en parfumerie. Réponds uniquement en JSON valide.' },
+              { role: 'user', content: prompt }
+            ],
+            response_format: {
+              type: 'json_schema',
+              json_schema: {
+                name: 'raw_material_enrichment',
+                strict: true,
+                schema: {
+                  type: 'object',
+                  properties: {
+                    description: { type: 'string' },
+                    olfactiveNotes: { type: 'array', items: { type: 'string' } },
+                    keyMolecules: { type: 'array', items: { type: 'string' } },
+                    usagesInPerfumery: { type: 'string' },
+                    extractionDetails: { type: 'string' },
+                    qualityMarkers: { type: 'array', items: { type: 'string' } },
+                  },
+                  required: ['description', 'olfactiveNotes', 'keyMolecules', 'usagesInPerfumery', 'extractionDetails', 'qualityMarkers'],
+                  additionalProperties: false,
                 },
-                required: ['description', 'olfactiveNotes', 'keyMolecules', 'usagesInPerfumery', 'extractionDetails', 'qualityMarkers'],
-                additionalProperties: false,
               },
             },
-          },
-        });
-
-        const raw = response?.choices?.[0]?.message?.content;
-        if (!raw) throw new Error('Réponse LLM vide');
-        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+          });
+          const raw = response?.choices?.[0]?.message?.content;
+          if (!raw) throw new Error('Réponse LLM vide');
+          enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        } catch (err: any) {
+          throw new Error(`Erreur IA preview matière "${rm.name}": ${err?.message || 'Échec appel LLM'}`);
+        }
         return { success: true, enriched, materialName: rm.name };
       }),
   }),
@@ -4673,33 +4685,38 @@ Génère un objet JSON avec les champs suivants (uniquement ceux que tu peux enr
   "notes": "description scientifique enrichie (2-3 phrases)"
 }
 Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
-        const response = await invokeLLM({
-          messages: [
-            { role: 'system', content: 'Tu es un expert en chimie olfactive. Réponds uniquement en JSON valide.' },
-            { role: 'user', content: prompt }
-          ],
-          response_format: {
-            type: 'json_schema',
-            json_schema: {
-              name: 'molecule_enrichment',
-              strict: true,
-              schema: {
-                type: 'object',
-                properties: {
-                  olfactiveProfile: { type: 'array', items: { type: 'string' } },
-                  therapeuticProperties: { type: 'array', items: { type: 'string' } },
-                  family: { type: 'string' },
-                  iupac_name: { type: 'string' },
-                  notes: { type: 'string' }
-                },
-                required: ['olfactiveProfile', 'therapeuticProperties', 'family', 'iupac_name', 'notes'],
-                additionalProperties: false
+        let enriched: any;
+        try {
+          const response = await invokeLLM({
+            messages: [
+              { role: 'system', content: 'Tu es un expert en chimie olfactive. Réponds uniquement en JSON valide.' },
+              { role: 'user', content: prompt }
+            ],
+            response_format: {
+              type: 'json_schema',
+              json_schema: {
+                name: 'molecule_enrichment',
+                strict: true,
+                schema: {
+                  type: 'object',
+                  properties: {
+                    olfactiveProfile: { type: 'array', items: { type: 'string' } },
+                    therapeuticProperties: { type: 'array', items: { type: 'string' } },
+                    family: { type: 'string' },
+                    iupac_name: { type: 'string' },
+                    notes: { type: 'string' }
+                  },
+                  required: ['olfactiveProfile', 'therapeuticProperties', 'family', 'iupac_name', 'notes'],
+                  additionalProperties: false
+                }
               }
             }
-          }
-        });
-        const raw = response.choices[0].message.content;
-        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+          });
+          const raw = response.choices[0].message.content;
+          enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        } catch (err: any) {
+          throw new Error(`Erreur IA preview molécule "${mol.name}": ${err?.message || 'Échec appel LLM'}`);
+        }
         return { molecule: mol, enriched };
       }),
 
@@ -4730,33 +4747,38 @@ Génère un objet JSON avec les champs suivants :
   "notes": "description scientifique enrichie (2-3 phrases)"
 }
 Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
-        const response = await invokeLLM({
-          messages: [
-            { role: 'system', content: 'Tu es un expert en chimie olfactive. Réponds uniquement en JSON valide.' },
-            { role: 'user', content: prompt }
-          ],
-          response_format: {
-            type: 'json_schema',
-            json_schema: {
-              name: 'molecule_enrichment',
-              strict: true,
-              schema: {
-                type: 'object',
-                properties: {
-                  olfactiveProfile: { type: 'array', items: { type: 'string' } },
-                  therapeuticProperties: { type: 'array', items: { type: 'string' } },
-                  family: { type: 'string' },
-                  iupac_name: { type: 'string' },
-                  notes: { type: 'string' }
-                },
-                required: ['olfactiveProfile', 'therapeuticProperties', 'family', 'iupac_name', 'notes'],
-                additionalProperties: false
+        let enriched: any;
+        try {
+          const response = await invokeLLM({
+            messages: [
+              { role: 'system', content: 'Tu es un expert en chimie olfactive. Réponds uniquement en JSON valide.' },
+              { role: 'user', content: prompt }
+            ],
+            response_format: {
+              type: 'json_schema',
+              json_schema: {
+                name: 'molecule_enrichment',
+                strict: true,
+                schema: {
+                  type: 'object',
+                  properties: {
+                    olfactiveProfile: { type: 'array', items: { type: 'string' } },
+                    therapeuticProperties: { type: 'array', items: { type: 'string' } },
+                    family: { type: 'string' },
+                    iupac_name: { type: 'string' },
+                    notes: { type: 'string' }
+                  },
+                  required: ['olfactiveProfile', 'therapeuticProperties', 'family', 'iupac_name', 'notes'],
+                  additionalProperties: false
+                }
               }
             }
-          }
-        });
-        const raw = response.choices[0].message.content;
-        const enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+          });
+          const raw = response.choices[0].message.content;
+          enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
+        } catch (err: any) {
+          throw new Error(`Erreur IA enrichissement molécule "${mol.name}": ${err?.message || 'Échec appel LLM'}`);
+        }
         const updates: string[] = [];
         const params: (string | number | null)[] = [];
         // Écrire dans les colonnes JSON standardisées (priorité) ET dans les colonnes text legacy (rétrocompatibilité)

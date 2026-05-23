@@ -919,7 +919,7 @@ Concentration: ${concentration}%
                       <div className="text-sm text-muted-foreground">Créer des formules complètes</div>
                     </div>
                   </Link>
-                  <Link href="/generateur-formules">
+                  <Link href="/outils/generateur-formules">
                     <div className="group p-4 bg-background rounded-lg border border-border/50 hover:border-primary/40 hover:shadow-md transition-all cursor-pointer">
                       <div className="font-medium flex items-center gap-2 mb-1 text-foreground">
                         <Sparkles className="w-4 h-4 text-primary" />
@@ -929,7 +929,7 @@ Concentration: ${concentration}%
                       <div className="text-sm text-muted-foreground">Suggestions intelligentes</div>
                     </div>
                   </Link>
-                  <Link href="/outils/dilution-calculator">
+                  <Link href="/outils/dilution">
                     <div className="group p-4 bg-background rounded-lg border border-border/50 hover:border-primary/40 hover:shadow-md transition-all cursor-pointer">
                       <div className="font-medium flex items-center gap-2 mb-1 text-foreground">
                         <Scale className="w-4 h-4 text-primary" />

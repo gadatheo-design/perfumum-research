@@ -33,7 +33,7 @@ export default function OutilsOverviewContent() {
       icon: Scale,
       title: "Calculateur IFRA",
       description: "Vérification de la conformité aux normes IFRA pour vos formulations",
-      href: "/calculateur-ifra",
+      href: "/ifra",
       status: "Actif",
       color: "text-red-600 dark:text-red-400",
       bgColor: "bg-red-50 dark:bg-red-950/40",

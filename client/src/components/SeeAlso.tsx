@@ -24,13 +24,13 @@ const typeConfig: Record<ItemType, {
 }> = {
   molecule: { 
     icon: <Atom className="h-4 w-4" />, 
-    path: "/molecule", 
+    path: "/molecules", 
     color: "text-purple-500",
     label: "Molécule"
   },
   recette: { 
     icon: <FlaskConical className="h-4 w-4" />, 
-    path: "/recette", 
+    path: "/recettes", 
     color: "text-green-500",
     label: "Recette"
   },

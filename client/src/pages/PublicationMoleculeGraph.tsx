@@ -450,7 +450,7 @@ export default function PublicationMoleculeGraph() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-3">
-            <Link href="/research-publications">
+            <Link href="/bibliographie">
               <Button variant="outline" size="sm">
                 <BookOpen className="h-4 w-4 mr-1" />
                 Publications scientifiques

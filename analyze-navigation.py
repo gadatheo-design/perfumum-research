@@ -62,7 +62,7 @@ def should_ignore_link(link: str) -> bool:
 def extract_routes_from_app() -> dict[str, str]:
     """Extrait toutes les routes déclarées via Route/LazyRoute dans App.tsx."""
     content = APP_TSX_PATH.read_text(encoding="utf-8")
-    pattern = r'<(?:Route|LazyRoute)\s+path=["\']([^"\']+)["\']'
+    pattern = r'<(?:Route|LazyRoute|LazyRouteRaw)\s+path=["\']([^"\' ]+)["\']'
     routes: dict[str, str] = {}
     for route in re.findall(pattern, content):
         routes[normalize_link(route)] = "Route"

@@ -3355,7 +3355,7 @@ function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: string; mole
             Elles seront ajoutées au fur et à mesure des recherches.
           </p>
           <div className="mt-4">
-            <Link href="/synergies-moleculaires">
+            <Link href="/recherche-scientifique/synergies-moleculaires">
               <Button variant="outline" size="sm">
                 Voir toutes les synergies →
               </Button>
@@ -3455,7 +3455,7 @@ function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: string; mole
           <div className="font-medium text-sm">Explorer toutes les synergies</div>
           <div className="text-xs text-muted-foreground">Heatmap interactive et graphe de corrélations</div>
         </div>
-        <Link href="/synergies-moleculaires">
+        <Link href="/recherche-scientifique/synergies-moleculaires">
           <Button variant="outline" size="sm">
             Voir la carte des synergies →
           </Button>

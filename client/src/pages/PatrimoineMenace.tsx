@@ -649,7 +649,7 @@ export default function PatrimoineMenace() {
                   l'épicéa noir parfume encore les forêts boréales canadiennes. Documenter leur chimie, c'est préserver une mémoire olfactive que le marché mondial est en train d'effacer.
                 </p>
                 <div className="flex gap-2 mt-2">
-                  <Link href="/bibliography">
+                  <Link href="/bibliographie">
                     <Button variant="ghost" size="sm" className="text-xs text-emerald-700 hover:text-emerald-900 p-0 h-auto">
                       Sources scientifiques →
                     </Button>

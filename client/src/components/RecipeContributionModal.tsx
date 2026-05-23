@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2, FlaskConical, Shuffle, Image, FileText, AlertCircle, LogIn } from "lucide-react";
 import { Link } from "wouter";
+import { getLoginUrl } from "@/const";
 
 type ContribType = 'ingredient' | 'variant' | 'note' | 'image' | 'correction';
 
@@ -97,7 +98,7 @@ export function RecipeContributionModal({ open, onClose, recipeId, recipeName, d
         {!user ? (
           <div className="py-6 text-center space-y-3">
             <p className="text-muted-foreground text-sm">Vous devez être connecté pour contribuer.</p>
-            <Link href="/login"><Button size="sm"><LogIn className="w-4 h-4 mr-2" />Se connecter</Button></Link>
+            <a href={getLoginUrl()}><Button size="sm"><LogIn className="w-4 h-4 mr-2" />Se connecter</Button></a>
           </div>
         ) : (
           <div className="space-y-5 pt-2">

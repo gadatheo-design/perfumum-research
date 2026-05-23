@@ -130,7 +130,7 @@ export default function PerceptSearch() {
       <Breadcrumbs
         items={[
           { label: "Accueil", href: "/" },
-          { label: "Analyse", href: "/analysis" },
+          { label: "Analyse", href: "/analysis-hub" },
           { label: "Recherche par Percept" },
         ]}
       />

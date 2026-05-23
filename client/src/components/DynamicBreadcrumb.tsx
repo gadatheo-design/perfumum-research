@@ -124,7 +124,6 @@ const routeConfig: Record<string, { label: string; parent?: string }> = {
   
   // Recherche scientifique
   "/recherche-scientifique": { label: "Recherche Scientifique" },
-  "/synergies-moleculaires": { label: "Synergies Moléculaires" },
   "/pyrolyse-combustion": { label: "Pyrolyse & Combustion" },
   "/courbes-volatilite": { label: "Courbes de Volatilité" },
   "/degradation-terpenes": { label: "Dégradation Terpènes" },
@@ -143,7 +142,6 @@ const routeConfig: Record<string, { label: string; parent?: string }> = {
   "/methode-absorbe": { label: "Méthode ABSORBE" },
   "/methodologie/absorbe": { label: "Méthodologie ABSORBE" },
   "/methodologie-recherche": { label: "Méthodologie de Recherche" },
-  "/generateur-formules": { label: "Générateur de Formules" },
   "/historique-formules": { label: "Historique Formules" },
   "/methodologie/echelle-absorbe": { label: "Échelle ABSORBE" },
   "/methodologie/pyrolyse": { label: "Pyrolyse" },

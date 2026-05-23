@@ -11,6 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Loader2, FlaskConical, BookOpen, Stethoscope, Tag, Image, FileText, LogIn } from "lucide-react";
 import { Link } from "wouter";
+import { getLoginUrl } from "@/const";
 
 type ContribType = 'source' | 'therapeutic' | 'usage' | 'synonym' | 'image' | 'note';
 
@@ -145,7 +146,7 @@ export function MoleculeContributionModal({ open, onClose, moleculeId, moleculeN
         {!user ? (
           <div className="py-6 text-center space-y-3">
             <p className="text-muted-foreground text-sm">Vous devez être connecté pour contribuer.</p>
-            <Link href="/login"><Button size="sm"><LogIn className="w-4 h-4 mr-2" />Se connecter</Button></Link>
+            <a href={getLoginUrl()}><Button size="sm"><LogIn className="w-4 h-4 mr-2" />Se connecter</Button></a>
           </div>
         ) : (
           <div className="space-y-5 pt-2">

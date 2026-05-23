@@ -18,7 +18,7 @@ export default function CalculateurContent() {
       icon: Scale,
       title: "Calculateur IFRA",
       description: "Vérification de la conformité aux normes IFRA (International Fragrance Association) pour vos formulations. Calcul automatique des limites par catégorie de produit.",
-      href: "/calculateur-ifra",
+      href: "/ifra",
       features: ["11 catégories IFRA", "Limites automatiques", "Alertes de dépassement"],
       color: "text-red-600 dark:text-red-400",
       bgGradient: "from-red-500/10 to-orange-500/10"
