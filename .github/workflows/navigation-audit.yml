@@ -1,0 +1,42 @@
+name: Navigation Audit
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  audit-navigation:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run navigation audit
+        run: python3 analyze-navigation.py
+
+      - name: Fail if broken links are found
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path('navigation-audit-report.json').read_text(encoding='utf-8'))
+          broken = report.get('broken_links', [])
+          print(f"broken_links={len(broken)}")
+          if broken:
+              print('Broken links detected:')
+              for link, sources in broken[:20]:
+                  print(f"- {link}")
+                  for src in sources[:3]:
+                      print(f"  -> {src}")
+              raise SystemExit(1)
+          PY

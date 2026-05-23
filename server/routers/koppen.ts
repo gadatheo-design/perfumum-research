@@ -1,4 +1,4 @@
-import { publicProcedure, router } from "../_core/trpc";
+import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { plants } from "../../drizzle/schema";
 import { isNull, or, eq } from "drizzle-orm";
@@ -148,7 +148,7 @@ export const koppenRouter = {
   /**
    * Enrich Köppen data for all plants
    */
-  enrichKoppenData: publicProcedure.mutation(async () => {
+  enrichKoppenData: protectedProcedure.mutation(async () => {
     const db = await getDb();
     if (!db) throw new Error("Database not available");
 

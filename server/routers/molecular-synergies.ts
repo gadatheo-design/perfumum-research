@@ -1,7 +1,7 @@
 /**
  * Router tRPC pour les synergies moléculaires
  */
-import { router, publicProcedure } from "../_core/trpc";
+import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { z } from "zod";
 import { 
   getAllSynergies, 
@@ -127,7 +127,7 @@ export const molecularSynergiesRouter = router({
   }),
   
   // Importer les synergies locales dans la base de données
-  importToDatabase: publicProcedure.mutation(async () => {
+  importToDatabase: protectedProcedure.mutation(async () => {
     const db = await getDb();
     if (!db) return { success: false, message: 'Database not available' };
     

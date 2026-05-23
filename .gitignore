@@ -125,3 +125,5 @@ client/.vite/
 
 *.backup
 *.patch
+# Navigation audit report
+navigation-audit-report.json

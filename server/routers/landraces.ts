@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { sql } from "drizzle-orm";
-import { publicProcedure, router } from "../_core/trpc";
+import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 
 export const landracesRouter = router({
@@ -105,7 +105,7 @@ export const landracesRouter = router({
     };
   }),
 
-  enrichTerpenes: publicProcedure.mutation(async () => {
+  enrichTerpenes: protectedProcedure.mutation(async () => {
     const { enrichLandraceTerpenes } = await import('../terpene-enrichment');
     return await enrichLandraceTerpenes();
   }),

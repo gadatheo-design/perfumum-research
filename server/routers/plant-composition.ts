@@ -2,7 +2,7 @@
  * Router tRPC pour l'enrichissement des compositions chimiques des plantes
  */
 
-import { router, publicProcedure } from "../_core/trpc";
+import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import {
   previewEnrichment,
   executeEnrichment,
@@ -18,7 +18,7 @@ export const plantCompositionRouter = router({
   }),
 
   // Exécuter l'enrichissement
-  execute: publicProcedure.mutation(async () => {
+  execute: protectedProcedure.mutation(async () => {
     return await executeEnrichment();
   }),
 

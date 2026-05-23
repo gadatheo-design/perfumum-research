@@ -3,7 +3,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, router } from "../_core/trpc";
+import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { 
   getTherapeuticData, 
   getTherapeuticStats, 
@@ -64,7 +64,7 @@ export const therapeuticRouter = router({
     }),
 
   // Enrichir toutes les molécules sans propriétés thérapeutiques
-  enrichBatch: publicProcedure.mutation(async () => {
+  enrichBatch: protectedProcedure.mutation(async () => {
     const db = await getDb();
     if (!db) return { total: 0, enriched: 0, details: [] };
     

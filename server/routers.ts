@@ -1415,7 +1415,7 @@ export const appRouter = router({
     getStats: publicProcedure.query(async () => {
       return await db.getAdminStats();
     }),
-    enrichMoleculeData: publicProcedure.mutation(async () => {
+    enrichMoleculeData: protectedProcedure.mutation(async () => {
       return await db.enrichMoleculeData();
     }),
     getBundleStats: publicProcedure.query(async () => {

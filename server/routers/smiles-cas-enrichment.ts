@@ -2,7 +2,7 @@
  * Router tRPC pour l'enrichissement SMILES et CAS
  * Feature 4.6 — Enrichissement SMILES via PubChem CID
  */
-import { router, publicProcedure } from "../_core/trpc";
+import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { z } from "zod";
 import { 
   previewSmilesAndCasEnrichment, 
@@ -20,7 +20,7 @@ export const smilesEnrichmentRouter = router({
   }),
   
   // Exécuter l'enrichissement (base locale)
-  execute: publicProcedure.mutation(async () => {
+  execute: protectedProcedure.mutation(async () => {
     return executeSmilesAndCasEnrichment();
   }),
   

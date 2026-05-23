@@ -3,7 +3,7 @@
  * Provides tRPC procedures for research claims and sources
  */
 
-import { router, publicProcedure } from "../_core/trpc";
+import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { z } from "zod";
 import { getDb } from "../db";
 import { sql } from "drizzle-orm";
@@ -656,7 +656,7 @@ export const researchRouter = router({
   /**
    * Auto-link TPS genes to molecules based on product name matching
    */
-  autoLinkTpsGenesToMolecules: publicProcedure.mutation(async () => {
+  autoLinkTpsGenesToMolecules: protectedProcedure.mutation(async () => {
     try {
       const db = await getDb();
       if (!db) return { success: false, error: "Database connection failed", linksCreated: 0 };
