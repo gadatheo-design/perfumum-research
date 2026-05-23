@@ -5,7 +5,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ReferencesList } from "@/components/ReferencesList";
 import { trpc } from "@/lib/trpc";
 import { useEffect, useCallback } from "react";
-import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box, Flame, ArrowRight, GitBranch, Dna, Download, RefreshCw, Star, Wine, Plus, Trash2, Search, BookOpen, Copy, Check } from "lucide-react";
+import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box, Flame, ArrowRight, GitBranch, Dna, Download, RefreshCw, Star, Wine, Plus, Trash2, Search, BookOpen, Copy, Check, FlaskConical } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { MoleculeDetailSkeleton } from "@/components/skeletons";
 import { Button } from "@/components/ui/button";
@@ -1375,6 +1375,10 @@ export default function MoleculeDetail() {
                   <span className="hidden sm:inline">Fils narratifs ({(moleculeStorylines as unknown[]).length})</span>
                 </TabsTrigger>
               )}
+              <TabsTrigger value="pyrfume" className="flex items-center gap-1">
+                <FlaskConical className="h-3 w-3 text-purple-600" />
+                <span className="hidden sm:inline">Pyrfume</span>
+              </TabsTrigger>
             </TabsList>
 
             {/* Onglet Nomenclature */}
@@ -2770,6 +2774,12 @@ export default function MoleculeDetail() {
             </TabsContent>
           )}
 
+            <TabsContent value="pyrfume" className="space-y-4 mt-6">
+              <TabErrorBoundary tabLabel="Pyrfume">
+                <PyrfumeSection moleculeId={molecule.id} />
+              </TabErrorBoundary>
+            </TabsContent>
+
           </Tabs>
         </div>
 
@@ -3527,6 +3537,110 @@ function RecetteSynergiesSection({ moleculeId, moleculeName }: { moleculeId: num
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+
+// ============================================================================
+// PYRFUME SECTION — Descripteurs olfactifs open-source
+// ============================================================================
+function PyrfumeSection({ moleculeId }: { moleculeId: number }) {
+  const mapping = trpc.pyrfume.getMappingForMolecule.useQuery({ moleculeId });
+  const descriptors = trpc.pyrfume.getDescriptorsForMolecule.useQuery({ moleculeId });
+  const ifra = trpc.pyrfume.getIfraForMolecule.useQuery({ moleculeId });
+
+  if (mapping.isLoading) {
+    return <div className="flex items-center gap-2 text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin" /> Chargement des données Pyrfume...</div>;
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Mapping Status */}
+      <div className="bg-card p-4 rounded-lg border">
+        <h3 className="font-semibold flex items-center gap-2 mb-3">
+          <FlaskConical className="h-4 w-4 text-purple-500" />
+          Intégration Pyrfume
+        </h3>
+        {mapping.data ? (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+            <div>
+              <span className="text-muted-foreground">Méthode :</span>
+              <span className="ml-1 font-medium">{mapping.data.matchMethod?.toUpperCase()}</span>
+            </div>
+            <div>
+              <span className="text-muted-foreground">CID PubChem :</span>
+              <a href={`https://pubchem.ncbi.nlm.nih.gov/compound/${mapping.data.pyrfumeCid}`} target="_blank" rel="noopener noreferrer" className="ml-1 text-purple-500 hover:underline">
+                {mapping.data.pyrfumeCid}
+              </a>
+            </div>
+            <div>
+              <span className="text-muted-foreground">Confiance :</span>
+              <span className="ml-1 font-medium">{((mapping.data.confidence || 0) * 100).toFixed(0)}%</span>
+            </div>
+            {mapping.data.pyrfumeMw && (
+              <div>
+                <span className="text-muted-foreground">MW :</span>
+                <span className="ml-1">{mapping.data.pyrfumeMw.toFixed(2)} g/mol</span>
+              </div>
+            )}
+          </div>
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            Cette molécule n'est pas encore mappée dans Pyrfume. 
+            <a href="/sources/pyrfume" className="text-purple-500 hover:underline ml-1">Lancer le matching →</a>
+          </p>
+        )}
+      </div>
+
+      {/* Olfactory Descriptors */}
+      {descriptors.data && descriptors.data.length > 0 && (
+        <div className="bg-card p-4 rounded-lg border">
+          <h3 className="font-semibold mb-3">Descripteurs olfactifs ({descriptors.data.length})</h3>
+          <div className="flex flex-wrap gap-2">
+            {descriptors.data.map((d, i) => (
+              <span key={i} className="inline-flex items-center gap-1 px-2 py-1 bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 rounded text-xs">
+                {d.descriptor}
+                {d.value != null && <span className="opacity-60">({d.value.toFixed(1)})</span>}
+              </span>
+            ))}
+          </div>
+          <p className="text-xs text-muted-foreground mt-2">
+            Sources : {[...new Set(descriptors.data.map(d => d.dataset))].join(", ")}
+          </p>
+        </div>
+      )}
+
+      {/* IFRA Restrictions */}
+      {ifra.data && ifra.data.length > 0 && (
+        <div className="bg-card p-4 rounded-lg border border-amber-200 dark:border-amber-800">
+          <h3 className="font-semibold mb-3 flex items-center gap-2">
+            <Shield className="h-4 w-4 text-amber-500" />
+            Restrictions IFRA ({ifra.data.length})
+          </h3>
+          <div className="space-y-2">
+            {ifra.data.map((r, i) => (
+              <div key={i} className="flex items-center justify-between text-sm border-b pb-1">
+                <span>{r.restrictionType} — {r.applicationCategory}</span>
+                {r.maxConcentration != null && (
+                  <span className="font-medium text-amber-600">{r.maxConcentration}% max</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Empty state */}
+      {!mapping.data && (!descriptors.data || descriptors.data.length === 0) && (
+        <div className="text-center py-6 text-muted-foreground">
+          <FlaskConical className="h-8 w-8 mx-auto mb-2 opacity-50" />
+          <p>Aucune donnée Pyrfume disponible pour cette molécule.</p>
+          <a href="/sources/pyrfume" className="text-purple-500 hover:underline text-sm">
+            Accéder au hub d'intégration Pyrfume →
+          </a>
+        </div>
+      )}
     </div>
   );
 }

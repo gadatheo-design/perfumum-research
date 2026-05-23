@@ -1,4 +1,4 @@
-import { mysqlTable, int, varchar, text, timestamp, mysqlEnum, uniqueIndex, index, json, decimal, unique, foreignKey, boolean } from "drizzle-orm/mysql-core";
+import { mysqlTable, int, varchar, text, timestamp, mysqlEnum, uniqueIndex, index, json, decimal, unique, foreignKey, boolean, float } from "drizzle-orm/mysql-core";
 import { relations } from "drizzle-orm";
 
 /**
@@ -7208,3 +7208,106 @@ export const varietyImages = mysqlTable("variety_images", {
 
 export type VarietyImage = typeof varietyImages.$inferSelect;
 export type InsertVarietyImage = typeof varietyImages.$inferInsert;
+
+// ============================================================================
+// PYRFUME INTEGRATION TABLES
+// Source: https://github.com/pyrfume/pyrfume-data (MIT License)
+// 10 300+ molécules, 60+ datasets de perception olfactive
+// ============================================================================
+
+// Table de mapping entre molécules PERFUMUM et Pyrfume (via CID PubChem)
+export const pyrfumeMoleculeMapping = mysqlTable("pyrfume_molecule_mapping", {
+  id: int("id").autoincrement().primaryKey(),
+  moleculeId: int("molecule_id").notNull(), // FK → molecules.id
+  pyrfumeCid: int("pyrfume_cid").notNull(), // CID PubChem dans Pyrfume
+  matchMethod: mysqlEnum("match_method", ["cid", "cas", "smiles", "name"]).notNull(),
+  confidence: float("confidence").default(1.0),
+  pyrfumeName: varchar("pyrfume_name", { length: 500 }),
+  pyrfumeSmiles: text("pyrfume_smiles"),
+  pyrfumeIupac: text("pyrfume_iupac"),
+  pyrfumeMw: float("pyrfume_mw"), // Molecular weight from Pyrfume
+  matchedAt: timestamp("matched_at").defaultNow().notNull(),
+}, (table) => ({
+  moleculeIdx: index("pyrfume_mapping_molecule_idx").on(table.moleculeId),
+  cidIdx: index("pyrfume_mapping_cid_idx").on(table.pyrfumeCid),
+  uniqueMapping: index("pyrfume_mapping_unique_idx").on(table.moleculeId, table.pyrfumeCid),
+}));
+export type PyrfumeMoleculeMapping = typeof pyrfumeMoleculeMapping.$inferSelect;
+export type InsertPyrfumeMoleculeMapping = typeof pyrfumeMoleculeMapping.$inferInsert;
+
+// Table des descripteurs olfactifs Pyrfume (Dravnieks, Leffingwell, Good Scents, etc.)
+export const pyrfumeOlfactoryDescriptors = mysqlTable("pyrfume_olfactory_descriptors", {
+  id: int("id").autoincrement().primaryKey(),
+  moleculeId: int("molecule_id").notNull(), // FK → molecules.id
+  dataset: varchar("dataset", { length: 50 }).notNull(), // 'dravnieks_1985', 'leffingwell', 'goodscents', 'keller_2016', etc.
+  descriptor: varchar("descriptor", { length: 200 }).notNull(), // Nom du descripteur olfactif
+  value: float("value"), // Valeur numérique normalisée (0-5 pour Dravnieks, etc.)
+  rawValue: text("raw_value"), // Valeur brute originale
+  sourceUrl: varchar("source_url", { length: 500 }), // URL vers le dataset source
+  importedAt: timestamp("imported_at").defaultNow().notNull(),
+}, (table) => ({
+  moleculeIdx: index("pyrfume_descriptors_molecule_idx").on(table.moleculeId),
+  datasetIdx: index("pyrfume_descriptors_dataset_idx").on(table.dataset),
+  descriptorIdx: index("pyrfume_descriptors_descriptor_idx").on(table.descriptor),
+  moleculeDatasetIdx: index("pyrfume_descriptors_mol_dataset_idx").on(table.moleculeId, table.dataset),
+}));
+export type PyrfumeOlfactoryDescriptor = typeof pyrfumeOlfactoryDescriptors.$inferSelect;
+export type InsertPyrfumeOlfactoryDescriptor = typeof pyrfumeOlfactoryDescriptors.$inferInsert;
+
+// Table des embeddings moléculaires (Morgan fingerprints, Mordred descriptors)
+export const pyrfumeEmbeddings = mysqlTable("pyrfume_embeddings", {
+  id: int("id").autoincrement().primaryKey(),
+  moleculeId: int("molecule_id").notNull(), // FK → molecules.id
+  embeddingType: mysqlEnum("embedding_type", ["morgan", "mordred"]).notNull(),
+  embeddingVector: json("embedding_vector").notNull(), // JSON array of numbers
+  dimensions: int("dimensions"), // 2048 for Morgan, 1826 for Mordred
+  importedAt: timestamp("imported_at").defaultNow().notNull(),
+}, (table) => ({
+  moleculeIdx: index("pyrfume_embeddings_molecule_idx").on(table.moleculeId),
+  typeIdx: index("pyrfume_embeddings_type_idx").on(table.embeddingType),
+  moleculeTypeIdx: index("pyrfume_embeddings_mol_type_idx").on(table.moleculeId, table.embeddingType),
+}));
+export type PyrfumeEmbedding = typeof pyrfumeEmbeddings.$inferSelect;
+export type InsertPyrfumeEmbedding = typeof pyrfumeEmbeddings.$inferInsert;
+
+// Table des restrictions IFRA (International Fragrance Association)
+export const pyrfumeIfraRestrictions = mysqlTable("pyrfume_ifra_restrictions", {
+  id: int("id").autoincrement().primaryKey(),
+  moleculeId: int("molecule_id").notNull(), // FK → molecules.id
+  restrictionType: varchar("restriction_type", { length: 50 }), // 'prohibition', 'restriction', 'specification'
+  maxConcentration: float("max_concentration"), // Concentration max autorisée (%)
+  applicationCategory: varchar("application_category", { length: 100 }), // Catégorie d'application IFRA
+  ifraAmendment: varchar("ifra_amendment", { length: 20 }), // Ex: '49th', '50th'
+  notes: text("notes"),
+  sourceUrl: varchar("source_url", { length: 500 }),
+  importedAt: timestamp("imported_at").defaultNow().notNull(),
+}, (table) => ({
+  moleculeIdx: index("pyrfume_ifra_molecule_idx").on(table.moleculeId),
+  restrictionIdx: index("pyrfume_ifra_restriction_idx").on(table.restrictionType),
+  categoryIdx: index("pyrfume_ifra_category_idx").on(table.applicationCategory),
+}));
+export type PyrfumeIfraRestriction = typeof pyrfumeIfraRestrictions.$inferSelect;
+export type InsertPyrfumeIfraRestriction = typeof pyrfumeIfraRestrictions.$inferInsert;
+
+// Table de métadonnées des datasets Pyrfume importés
+export const pyrfumeDatasets = mysqlTable("pyrfume_datasets", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 100 }).notNull(), // 'dravnieks_1985', 'leffingwell', etc.
+  displayName: varchar("display_name", { length: 200 }).notNull(),
+  author: varchar("author", { length: 200 }),
+  year: int("year"),
+  description: text("description"),
+  moleculeCount: int("molecule_count").default(0), // Nombre de molécules dans ce dataset
+  matchedCount: int("matched_count").default(0), // Nombre matchées avec PERFUMUM
+  sourceUrl: varchar("source_url", { length: 500 }),
+  citation: text("citation"), // Citation académique complète
+  license: varchar("license", { length: 50 }).default("MIT"),
+  importStatus: mysqlEnum("import_status", ["pending", "importing", "completed", "error"]).default("pending"),
+  lastImportedAt: timestamp("last_imported_at"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  nameIdx: index("pyrfume_datasets_name_idx").on(table.name),
+  statusIdx: index("pyrfume_datasets_status_idx").on(table.importStatus),
+}));
+export type PyrfumeDataset = typeof pyrfumeDatasets.$inferSelect;
+export type InsertPyrfumeDataset = typeof pyrfumeDatasets.$inferInsert;

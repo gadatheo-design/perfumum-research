@@ -20,3 +20,22 @@
 - [x] Navigation mobile/sidebar : /comparateur et /imports ajoutés dans navigationConfig.ts (section Analyse & Sourcing) — propagation automatique vers MegaMenu, menu mobile et toute navigation basée sur cette config
 - [x] Création ImportsHub.tsx — hub de navigation vers les 10 outils d'import (Import/Export général, Références bibliographiques, Molécules & Recettes, Plantes & Terroirs, Analyses & Spectres, Import CSV Admin), avec badges Collaborateur/Admin, formats acceptés et guide rapide
 - [x] Audit pages admin orphelines — 18 pages auditées : toutes compilent sans erreur, tous les routeurs tRPC correspondants existent dans server/routers.ts. Pages fonctionnelles confirmées : AdminAIClassification, AIClassificationBatch, ClassificationReviewQueue, AdminCompletude, LOTUSBatch, BibliographicEnrichment, EuropeanaExplorer, EuropeanaMap, EuropeanaQidBatch, COCONUTBatch, AdminDuplicates, LOTUSEnrichment, LotusPlantLinker, LotusBatchGenus, COCONUTEnrichment, IUCNEnrichment, PhyloEnrichment, ApiCoverage
+
+## Rapport 2 — GitHub Distant (Mai 2026)
+
+- [x] Vérification : navigation-audit.yml et analyze-navigation.py déjà présents sur main
+- [x] Vérification : 4 corrections de routes (branche codex) déjà mergées sur main
+- [x] Vérification : mutations protégées (data-cleanup, koppen, molecular-synergies, research) — déjà en protectedProcedure
+- [x] Correction : enrichMolecule, enrichBatch, geocodeBatch — passage de publicProcedure à protectedProcedure
+
+## Rapport 3 — Intégration Pyrfume (Mai 2026)
+
+- [x] Phase 1 DB : Création de 5 tables Pyrfume (pyrfume_molecule_mapping, pyrfume_olfactory_descriptors, pyrfume_embeddings, pyrfume_ifra_restrictions, pyrfume_datasets)
+- [x] Phase 1 Schema : Ajout des tables dans drizzle/schema.ts avec types et indexes
+- [x] Phase 1 Backend : Routeur tRPC pyrfume avec 12 procédures (getStats, getDatasets, getKnownDatasets, runCidMatching, runCasMatching, importDataset, seedDatasets, getDescriptorsForMolecule, getMappingForMolecule, getIfraForMolecule, searchByDescriptor, getTopDescriptors, getUnmappedMolecules)
+- [x] Phase 4 Frontend : Page /sources/pyrfume — dashboard d'intégration avec stats, matching CID, seed datasets, recherche par descripteur, références bibliographiques
+- [x] Phase 4 Frontend : Onglet "Pyrfume" ajouté dans MoleculeDetail.tsx — affiche mapping, descripteurs olfactifs, restrictions IFRA
+- [x] Phase 4 Navigation : Lien "Pyrfume (Open Data)" ajouté dans MegaMenu (section Recherche)
+- [ ] Phase 2 (à venir) : Import effectif des datasets Pyrfume depuis GitHub (leffingwell, dravnieks, goodscents, keller)
+- [ ] Phase 3 (à venir) : Enrichissement des embeddings moléculaires (Morgan fingerprints, Mordred descriptors)
+- [ ] Phase 5 (à venir) : Visualisation radar des profils olfactifs Pyrfume dans les fiches molécules

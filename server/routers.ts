@@ -100,6 +100,7 @@ import { resinMaturationRouter } from './routers/resin-maturation';
 import { extractionProcessesRouter } from './routers/extraction-processes';
 import { resinTobaccoRecipesRouter } from './routers/resin-tobacco-recipes';
 import { importExportRouter } from './routers/import-export';
+import { pyrfumeRouter } from './routers/pyrfume';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -112,6 +113,7 @@ import {
 export const appRouter = router({
   system: systemRouter,
   importExport: importExportRouter,
+  pyrfume: pyrfumeRouter,
   
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
@@ -3202,7 +3204,7 @@ export const appRouter = router({
         };
       }),
     // Géocodage en masse de tous les terroirs sans coordonnées
-    geocodeBatch: publicProcedure
+    geocodeBatch: protectedProcedure
       .mutation(async () => {
         const origins = await db.getAllGeographicOrigins();
         const originsWithoutCoords = origins.filter((o: Record<string, unknown>) => !o.latitude || !o.longitude);
@@ -6144,7 +6146,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
   // ====================================================================================
   pubchem: router({
     // Enrichir une seule molécule
-    enrichMolecule: publicProcedure
+    enrichMolecule: protectedProcedure
       .input(z.object({
         moleculeId: z.number(),
       }))
@@ -6188,7 +6190,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       }),
     
     // Enrichir plusieurs molécules en lot
-    enrichBatch: publicProcedure
+    enrichBatch: protectedProcedure
       .input(z.object({
         moleculeIds: z.array(z.number()),
       }))

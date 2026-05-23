@@ -220,6 +220,7 @@ const ComparePlants = React.lazy(() => import('./pages/ComparePlants'));
 const ComparateurAvance = React.lazy(() => import('@/pages/ComparateurAvance'));
 const ComparateurHub = React.lazy(() => import('./pages/ComparateurHub'));
 const ImportsHub = React.lazy(() => import('./pages/ImportsHub'));
+const PyrfumeIntegration = React.lazy(() => import('./pages/PyrfumeIntegration'));
 const MatriceSynergies = React.lazy(() => import('./pages/MatriceSynergies'));
 const GrapheMoleculesRecettes = lazy(() => import("@/pages/GrapheMoleculesRecettes"));
 const GraphePlanteMolecule = lazy(() => import("@/pages/GraphePlanteMolecule"));
@@ -808,6 +809,7 @@ function Router() {
       {/* === COMPARAISON & VISUALISATION === */}
       <LazyRoute path="/comparateur" component={ComparateurHub} />
       <LazyRoute path="/imports" component={ImportsHub} />
+      <LazyRoute path="/sources/pyrfume" component={PyrfumeIntegration} />
       <LazyRoute path="/compare" component={Compare} />
       <LazyRoute path="/compare-terpenes" component={CompareTerpenes} />
       <LazyRoute path="/compare-radar" component={CompareRadar} />

@@ -831,6 +831,13 @@ export function MegaMenu() {
           description: "BibTeX, RIS, EndNote",
         },
         {
+          label: "Pyrfume (Open Data)",
+          path: "/sources/pyrfume",
+          icon: <FlaskConical className="h-4 w-4" />,
+          description: "10 300+ mol\u00e9cules \u00b7 60+ datasets olfactifs",
+          badge: "NEW",
+        },
+        {
           label: "Conservation",
           path: "/conservation",
           icon: <ShieldAlert className="h-4 w-4" />,
