@@ -48,6 +48,7 @@ import {
   LayoutGrid,
   ExternalLink,
   ShieldAlert,
+  GitCompare,
 } from "lucide-react";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -640,6 +641,13 @@ export function MegaMenu() {
           icon: <Database className="h-4 w-4" />,
           description: "Données moléculaires",
           badge: "NEW",
+        },
+        {
+          label: "Hub Comparateur",
+          path: "/comparateur",
+          icon: <GitCompare className="h-4 w-4" />,
+          description: "Tous les outils de comparaison",
+          badge: "HUB",
         },
       ],
     },

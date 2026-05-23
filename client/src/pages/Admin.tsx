@@ -26,7 +26,17 @@ import {
   Link2,
   PackageOpen,
   ArrowRightLeft,
-  Image
+  Image,
+  Brain,
+  FileSearch,
+  CheckSquare,
+  AlertTriangle,
+  Map,
+  Shield,
+  Network,
+  FileInput,
+  FileStack,
+  TrendingUp
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -465,7 +475,48 @@ export default function Admin() {
       color: "text-indigo-700",
       bgColor: "bg-indigo-50",
     },
+    {
+      title: "Hub Comparateur",
+      description: "Tous les outils de comparaison PERFUMUM réunis : molécules, terpènes, plantes, recettes, extractions et spectres.",
+      icon: ArrowRightLeft,
+      href: "/comparateur",
+      color: "text-sky-600",
+      bgColor: "bg-sky-50",
+    },
   ];
+
+  const adminAdvancedTools = [
+    // Classification & Revue
+    { category: "Classification & Revue", title: "Classification IA — Manuelle", description: "Classer manuellement les molécules via l'IA : famille chimique, profil olfactif, propriétés thérapeutiques.", icon: Brain, href: "/admin/ai-classification", color: "text-purple-600", bgColor: "bg-purple-50" },
+    { category: "Classification & Revue", title: "Classification IA — Par lot", description: "Classer automatiquement en masse les molécules non classifiées via l'IA.", icon: Brain, href: "/admin/ai-classification-batch", color: "text-purple-700", bgColor: "bg-purple-50" },
+    { category: "Classification & Revue", title: "Revue des Classifications", description: "Valider, corriger ou rejeter les classifications IA en attente de revue humaine.", icon: CheckSquare, href: "/admin/classification-review", color: "text-indigo-600", bgColor: "bg-indigo-50" },
+    { category: "Classification & Revue", title: "Familles Chimiques — Liaison", description: "Lier manuellement les molécules à leurs familles chimiques (terpènes, phénols, esters…).", icon: Network, href: "/admin/chemical-family-linking", color: "text-blue-600", bgColor: "bg-blue-50" },
+    // Qualité & Doublons
+    { category: "Qualité & Doublons", title: "Molécules Orphelines", description: "Identifier et traiter les molécules sans liaison plante, recette ou famille chimique.", icon: AlertTriangle, href: "/admin/orphan-molecules", color: "text-amber-600", bgColor: "bg-amber-50" },
+    { category: "Qualité & Doublons", title: "Gestion des Doublons", description: "Détecter et fusionner les entrées dupliquées dans la base de données.", icon: CheckSquare, href: "/admin/duplicates", color: "text-orange-600", bgColor: "bg-orange-50" },
+    { category: "Qualité & Doublons", title: "Rapport de Progression", description: "Tableau de bord global de l'avancement de l'enrichissement et de la qualité des données.", icon: TrendingUp, href: "/admin/progress-report", color: "text-teal-600", bgColor: "bg-teal-50" },
+    { category: "Qualité & Doublons", title: "Synergies — Admin", description: "Gérer et valider les synergies moléculaires détectées automatiquement.", icon: Network, href: "/admin/synergies", color: "text-violet-600", bgColor: "bg-violet-50" },
+    // Bibliographie & Liaisons
+    { category: "Bibliographie & Liaisons", title: "Enrichissement Bibliographique", description: "Lier les références bibliographiques aux molécules, plantes, recettes et terroirs.", icon: FileSearch, href: "/admin/bibliographic-enrichment", color: "text-rose-600", bgColor: "bg-rose-50" },
+    { category: "Bibliographie & Liaisons", title: "Liaison Plantes de Niche", description: "Associer les plantes de niche (rares, endémiques) à leurs molécules et terroirs.", icon: Leaf, href: "/admin/niche-plant-linking", color: "text-green-600", bgColor: "bg-green-50" },
+    // Imports
+    { category: "Imports", title: "Import par Lot", description: "Importer des données en masse depuis des fichiers structurés (JSON, CSV).", icon: FileInput, href: "/batch-import", color: "text-cyan-600", bgColor: "bg-cyan-50" },
+    { category: "Imports", title: "Import Références en Masse", description: "Importer des références bibliographiques en masse depuis BibTeX, RIS ou CSV.", icon: FileStack, href: "/bulk-import-references", color: "text-indigo-600", bgColor: "bg-indigo-50" },
+    { category: "Imports", title: "Validation & Import CSV", description: "Valider la structure d'un fichier CSV avant import avec rapport d'erreurs détaillé.", icon: CheckSquare, href: "/csv-validation-import", color: "text-emerald-600", bgColor: "bg-emerald-50" },
+    // Europeana & IUCN
+    { category: "Europeana & IUCN", title: "Carte Europeana", description: "Visualiser les œuvres Europeana liées aux plantes et molécules sur une carte interactive.", icon: Map, href: "/admin/europeana-map", color: "text-blue-600", bgColor: "bg-blue-50" },
+    { category: "Europeana & IUCN", title: "Europeana QID — Batch", description: "Enrichir en masse les entités PERFUMUM avec les identifiants Europeana QID.", icon: Globe, href: "/admin/europeana-qid-batch", color: "text-blue-700", bgColor: "bg-blue-50" },
+    { category: "Europeana & IUCN", title: "IUCN — Enrichissement", description: "Récupérer les statuts de conservation IUCN (EN, VU, CR, EX) pour les plantes PERFUMUM.", icon: Shield, href: "/admin/iucn-enrichment", color: "text-red-600", bgColor: "bg-red-50" },
+    // Enrichissement COCONUT
+    { category: "Enrichissement COCONUT & Phylogénie", title: "COCONUT — Enrichissement", description: "Enrichir les molécules avec les données COCONUT (NP-likeness, organismes sources).", icon: Database, href: "/admin/coconut-enrichment", color: "text-emerald-600", bgColor: "bg-emerald-50" },
+    { category: "Enrichissement COCONUT & Phylogénie", title: "Phylogénie — Enrichissement", description: "Enrichir les données phylogénétiques des plantes (Tropicos, NCBI, GBIF).", icon: Leaf, href: "/admin/phylo-enrichment", color: "text-green-700", bgColor: "bg-green-50" },
+  ];
+
+  const advancedCategories = adminAdvancedTools.reduce((acc, tool) => {
+    if (!acc[tool.category]) acc[tool.category] = [];
+    acc[tool.category].push(tool);
+    return acc;
+  }, {} as Record<string, typeof adminAdvancedTools>);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -625,6 +676,52 @@ export default function Admin() {
                   );
                 })}
               </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Outils Avancés & Enrichissement */}
+        <section className="py-16">
+          <div className="container">
+            <div className="max-w-5xl mx-auto">
+              <div className="flex items-center gap-3 mb-2">
+                <Brain className="w-7 h-7 text-purple-600" />
+                <h2 className="text-3xl font-bold">Outils avancés &amp; Enrichissement</h2>
+              </div>
+              <p className="text-muted-foreground mb-10">
+                Classification IA, qualité des données, imports, enrichissement bibliographique et patrimonial.
+              </p>
+              {Object.entries(advancedCategories).map(([category, tools]) => (
+                <div key={category} className="mb-10">
+                  <h3 className="text-lg font-semibold mb-4 text-muted-foreground border-b pb-2">{category}</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {tools.map((tool, index) => {
+                      const Icon = tool.icon;
+                      return (
+                        <Card key={index} className="transition-all hover:shadow-lg hover:-translate-y-1 duration-300">
+                          <CardHeader>
+                            <div className="flex items-start gap-4">
+                              <div className={`p-3 rounded-lg ${tool.bgColor}`}>
+                                <Icon className={`w-6 h-6 ${tool.color}`} />
+                              </div>
+                            </div>
+                            <CardTitle className="text-xl mt-4">{tool.title}</CardTitle>
+                            <CardDescription>{tool.description}</CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <Link href={tool.href}>
+                              <Button className="w-full btn-enhanced" variant="outline">
+                                <Plus className="w-4 h-4 mr-2" />
+                                Accéder
+                              </Button>
+                            </Link>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>

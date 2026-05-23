@@ -127,3 +127,4 @@ client/.vite/
 *.patch
 # Navigation audit report
 navigation-audit-report.json
+.project-config.json
