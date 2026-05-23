@@ -67,6 +67,8 @@ export const NAV_GROUPS: NavGroup[] = [
         viewAllHref: "/analysis-hub",
         items: [
           { href: "/analysis-hub", label: "Hub Analyse", badge: "HUB" },
+          { href: "/comparateur", label: "Hub Comparateur", badge: "HUB" },
+          { href: "/imports", label: "Hub Imports", badge: "HUB" },
           { href: "/synergies", label: "Synergies Moléculaires" },
           { href: "/terp-profiles", label: "Profils Terpéniques" },
           { href: "/ifra", label: "Conformité IFRA" },
