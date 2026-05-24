@@ -172,10 +172,22 @@ export const gbifRouter = router({
     .input(z.object({
       limit: z.number().default(9999), // 9999 = toutes les plantes
       onlyMissing: z.boolean().default(false), // false = afficher toutes par défaut
+      includeClimate: z.boolean().default(false), // true = inclure les plantes sans données climat
     }))
     .query(async ({ input }) => {
       const db = await getDb();
       if (!db) throw new Error("DB non disponible");
+
+      let whereCondition;
+      if (input.onlyMissing && input.includeClimate) {
+        // Cibler les plantes sans données GBIF OU sans données climat
+        whereCondition = sql`${plants.latinName} IS NOT NULL AND ${plants.latinName} != '' AND (${plants.gbifId} IS NULL OR ${plants.family} IS NULL OR ${plants.conservationStatus} IS NULL OR ${plants.koppenZone} IS NULL OR ${plants.temperatureMin} IS NULL)`;
+      } else if (input.onlyMissing) {
+        // Uniquement les plantes sans données GBIF taxonomiques
+        whereCondition = sql`${plants.latinName} IS NOT NULL AND ${plants.latinName} != '' AND (${plants.gbifId} IS NULL OR ${plants.family} IS NULL OR ${plants.conservationStatus} IS NULL)`;
+      } else {
+        whereCondition = sql`${plants.latinName} IS NOT NULL AND ${plants.latinName} != ''`;
+      }
 
       const query = db.select({
         id: plants.id,
@@ -184,11 +196,7 @@ export const gbifRouter = router({
         gbifId: plants.gbifId,
         family: plants.family,
         conservationStatus: plants.conservationStatus,
-      }).from(plants).where(
-        input.onlyMissing
-          ? sql`${plants.latinName} IS NOT NULL AND ${plants.latinName} != '' AND (${plants.gbifId} IS NULL OR ${plants.family} IS NULL OR ${plants.conservationStatus} IS NULL)`
-          : sql`${plants.latinName} IS NOT NULL AND ${plants.latinName} != ''`
-      ).orderBy(plants.name).limit(input.limit);
+      }).from(plants).where(whereCondition).orderBy(plants.name).limit(input.limit);
 
       return query;
     }),

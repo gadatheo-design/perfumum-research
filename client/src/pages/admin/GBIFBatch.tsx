@@ -45,7 +45,7 @@ export default function GBIFBatch() {
 
   const statsQuery = trpc.gbif.getStats.useQuery();
   const plantsQuery = trpc.gbif.getPlantsToEnrich.useQuery(
-    { limit: batchSize, onlyMissing: true },
+    { limit: batchSize, onlyMissing: true, includeClimate },
     { enabled: false }
   );
   const enrichMutation = trpc.gbif.enrichPlant.useMutation();
