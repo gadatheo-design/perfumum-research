@@ -13,9 +13,9 @@ const ExtractionMethodInput = z.object({
     'percolation', 'other'
   ]),
   description: z.string().optional(),
-  costLevel: z.enum(['faible', 'moyen', 'eleve', 'tres_eleve']).optional(),
-  complexityLevel: z.enum(['simple', 'modere', 'complexe', 'expert']).optional(),
-  yieldQuality: z.enum(['faible', 'moyen', 'bon', 'excellent']).optional(),
+  costLevel: z.enum(['low', 'medium', 'high', 'very_high']).optional(),
+  complexityLevel: z.enum(['simple', 'moderate', 'complex', 'expert']).optional(),
+  yieldQuality: z.enum(['low', 'medium', 'high', 'very_high']).optional(),
   bestFor: z.array(z.string()).optional(),
   notRecommendedFor: z.array(z.string()).optional(),
   parameters: z.record(z.string(), z.any()).optional(),

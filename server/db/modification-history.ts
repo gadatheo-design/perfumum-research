@@ -2,10 +2,10 @@
  * Extracted from server/db/misc.ts
  * Module: Modification History
  */
-import { db } from "../_core/db";
 import { getDb } from "./core";
 import { eq, and, or, desc, asc, sql, like, inArray, isNull, isNotNull, count, SQL, between, ne, gt, lt, gte, lte, notInArray, exists } from "drizzle-orm";
 import * as schema from "../../drizzle/schema";
+import { accords, families } from '../../drizzle/schema';
 
 const { modificationHistory } = schema;
 

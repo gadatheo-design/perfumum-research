@@ -164,7 +164,7 @@ export default function CannabisExplorer() {
                 <PhylogeneticTreeCollapsible
                   data={treeData}
                   layout={layout}
-                  onNodeSelect={setSelectedVariety}
+                  onNodeSelect={(node) => setSelectedVariety(node.varietyId)}
                 />
               )}
             </CardContent>

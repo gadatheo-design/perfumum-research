@@ -22,7 +22,7 @@ type Category =
   | "distillation" | "expression" | "extraction_solvant" | "co2_supercritique"
   | "enfleurage" | "maceration" | "hydrodistillation" | "percolation" | "other";
 
-type CostLevel = "faible" | "moyen" | "eleve" | "tres_eleve";
+type CostLevel = "low" | "medium" | "high" | "very_high";
 type ComplexityLevel = "simple" | "moderate" | "complex" | "expert";
 
 interface ExtractionMethod {
@@ -187,26 +187,21 @@ export default function ExtractionMethodsAdmin() {
     const payload = {
       methodId: form.method_id!,
       name: form.name!,
-      shortName: form.short_name,
-      category: form.category as Category,
+      category: form.category as "distillation" | "expression" | "extraction_solvant" | "co2_supercritique" | "enfleurage" | "maceration" | "hydrodistillation" | "percolation" | "fermentation" | "pyrolyse" | "other",
       description: form.description,
-      principle: form.principle,
-      molecularImpact: form.molecular_impact,
-      advantages: form.advantages,
-      disadvantages: form.disadvantages,
       bestFor: form.best_for,
       notRecommendedFor: form.not_recommended_for,
       preservedMolecules: form.preserved_molecules,
       degradedMolecules: form.degraded_molecules,
       equipment: form.equipment,
-      costLevel: form.cost_level as CostLevel,
-      complexityLevel: form.complexity_level as ComplexityLevel,
+      costLevel: (form.cost_level || undefined) as "low" | "medium" | "high" | "very_high" | undefined,
+      complexityLevel: (form.complexity_level || undefined) as "simple" | "moderate" | "complex" | "expert" | undefined,
       notes: form.notes,
-      references: form.references,
     };
 
     if (editingMethod) {
-      updateMutation.mutate({ ...payload, originalMethodId: editingMethod.method_id });
+      // For update, methodId is the target method to update
+      updateMutation.mutate({ ...payload, methodId: editingMethod.method_id });
     } else {
       createMutation.mutate(payload);
     }

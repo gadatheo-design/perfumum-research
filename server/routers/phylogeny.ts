@@ -403,7 +403,8 @@ export const phylogenyRouter = router({
           .from(plantVarieties)
           .where(eq(plantVarieties.plantId, plantQuery[0].id));
 
-        const stats = {
+        // Conservation status breakdown
+        const conservationStatus = {
           critical: varieties.filter((v) => v.conservationStatus === "critical").length,
           endangered: varieties.filter((v) => v.conservationStatus === "endangered").length,
           vulnerable: varieties.filter((v) => v.conservationStatus === "vulnerable").length,
@@ -413,7 +414,34 @@ export const phylogenyRouter = router({
           unknown: varieties.filter((v) => v.conservationStatus === "unknown").length,
         };
 
-        return stats;
+        // Type breakdown
+        const totalVarieties = varieties.length;
+        const cultivars = varieties.filter((v) => v.varietyType === "cultivar").length;
+        const hybrids = varieties.filter((v) => v.varietyType === "hybrid").length;
+        const landraces = varieties.filter((v) => v.varietyType === "landrace").length;
+
+        // Coverage metrics (percentage)
+        const parentDocumentation = totalVarieties > 0
+          ? Math.round((varieties.filter((v) => v.parentVarieties && v.parentVarieties.length > 0).length / totalVarieties) * 100)
+          : 0;
+        const molecularCoverage = totalVarieties > 0
+          ? Math.round((varieties.filter((v) => v.dominantMolecules && (v.dominantMolecules as unknown[]).length > 0).length / totalVarieties) * 100)
+          : 0;
+        const geographicCoverage = totalVarieties > 0
+          ? Math.round((varieties.filter((v) => v.countryOfOrigin !== null).length / totalVarieties) * 100)
+          : 0;
+
+        return {
+          ...conservationStatus,
+          conservationStatus,
+          totalVarieties,
+          cultivars,
+          hybrids,
+          landraces,
+          parentDocumentation,
+          molecularCoverage,
+          geographicCoverage,
+        };
       } catch (error) {
         if (error instanceof TRPCError) throw error;
         throw new TRPCError({

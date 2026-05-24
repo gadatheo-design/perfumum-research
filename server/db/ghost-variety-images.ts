@@ -2,12 +2,15 @@
  * Extracted from server/db/misc.ts
  * Module: Ghost Variety Images
  */
-import { db } from "../_core/db";
 import { getDb } from "./core";
 import { eq, and, or, desc, asc, sql, like, inArray, isNull, isNotNull, count, SQL, between, ne, gt, lt, gte, lte, notInArray, exists } from "drizzle-orm";
 import * as schema from "../../drizzle/schema";
+import { getGhostVarietyById } from './genealogy';
+import { getGhostVarietyMoleculeLinks } from './molecules';
+import { getGhostVarietyPlantLinks } from './plants-varieties';
 
-const { GhostVarietyImage, InsertGhostVarietyImage, ghostVarieties, ghostVarietyImages, ghostVarietyMoleculeLinks, ghostVarietyPlantLinks, molecules, plants } = schema;
+import { type GhostVarietyImage, type InsertGhostVarietyImage, type GhostVariety, type GhostVarietyMoleculeLink, type GhostVarietyPlantLink } from "../../drizzle/schema";
+const { ghostVarieties, ghostVarietyImages, ghostVarietyMoleculeLinks, ghostVarietyPlantLinks, molecules, plants } = schema;
 
 
 

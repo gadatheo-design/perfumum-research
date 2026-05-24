@@ -2,10 +2,13 @@
  * Extracted from server/db/misc.ts
  * Module: Classification Snapshots
  */
-import { db } from "../_core/db";
 import { getDb } from "./core";
 import { eq, and, or, desc, asc, sql, like, inArray, isNull, isNotNull, count, SQL, between, ne, gt, lt, gte, lte, notInArray, exists } from "drizzle-orm";
 import * as schema from "../../drizzle/schema";
+import { getOrphanMoleculeStats } from './molecules-orphans';
+import { getLinkingCoverageStats } from './recettes';
+import { createNotification } from './users';
+import { type ClassificationSnapshot, type InsertClassificationSnapshot } from "../../drizzle/schema";
 
 const { accords, classificationSnapshots, notifications, plants, recettes, terroirs } = schema;
 

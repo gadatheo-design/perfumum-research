@@ -235,9 +235,9 @@ export default function CalculateurCout() {
     const headers = ["Molécule", "Proportion (%)", "Prix/kg ($)", "Coût ($)", "Catégorie"];
     const rows = calculs.details.map(d => [
       d.molecule,
-      typeof d.proportion === 'number' ? (d).toFixed(1) : '0.0',
-      typeof d.prixKg === 'number' ? (d).toFixed(2) : '0.00',
-      typeof d.cout === 'number' ? (d).toFixed(2) : '0.00',
+      typeof d.proportion === 'number' ? d.proportion.toFixed(1) : '0.0',
+      typeof d.prixKg === 'number' ? d.prixKg.toFixed(2) : '0.00',
+      typeof d.cout === 'number' ? d.cout.toFixed(2) : '0.00',
       d.categorie
     ]);
     
@@ -257,10 +257,10 @@ export default function CalculateurCout() {
     const summary = `
 Formulation PERFUMUM
 ====================
-${calculs.details.map(d => `${d.molecule}: ${d.proportion}% ($${typeof d.cout === 'number' ? (d).toFixed(2) : '0.00'})`).join("\n")}
+${calculs.details.map(d => `${d.molecule}: ${d.proportion}% ($${typeof d.cout === 'number' ? d.cout.toFixed(2) : '0.00'})`).join("\n")}
 
-Total: $${typeof calculs.coutProduitFinal === 'number' ? (calculs).toFixed(2) : '0.00'} pour ${typeof calculs.volumeMl === 'number' ? (calculs).toFixed(0) : '0'}ml
-Prix/100ml: $${typeof calculs.prixPour100ml === 'number' ? (calculs).toFixed(2) : '0.00'}
+Total: $${typeof calculs.coutProduitFinal === 'number' ? calculs.coutProduitFinal.toFixed(2) : '0.00'} pour ${typeof calculs.volumeMl === 'number' ? calculs.volumeMl.toFixed(0) : '0'}ml
+Prix/100ml: $${typeof calculs.prixPour100ml === 'number' ? calculs.prixPour100ml.toFixed(2) : '0.00'}
 Concentration: ${concentration}%
     `.trim();
     
@@ -607,14 +607,14 @@ Concentration: ${concentration}%
                         className="flex items-center gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm"
                       >
                         <AlertTriangle className="w-4 h-4 flex-shrink-0" />
-                        La somme des proportions dépasse 100% ({typeof calculs.proportionTotale === 'number' ? (calculs).toFixed(1) : '0.0'}%)
+                        La somme des proportions dépasse 100% ({typeof calculs.proportionTotale === 'number' ? calculs.proportionTotale.toFixed(1) : '0.0'}%)
                       </motion.div>
                     )}
 
                     {calculs.proportionTotale < 100 && calculs.proportionTotale > 0 && (
                       <div className="flex items-center gap-2 p-3 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 text-sm">
                         <Info className="w-4 h-4 flex-shrink-0" />
-                        Proportions actuelles: {typeof calculs.proportionTotale === 'number' ? (calculs).toFixed(1) : '0.0'}% — Il reste {typeof calculs.proportionTotale === 'number' ? (100 - calculs.proportionTotale).toFixed(1) : '100.0'}% à attribuer
+                        Proportions actuelles: {typeof calculs.proportionTotale === 'number' ? calculs.proportionTotale.toFixed(1) : '0.0'}% — Il reste {typeof calculs.proportionTotale === 'number' ? (100 - calculs.proportionTotale).toFixed(1) : '100.0'}% à attribuer
                       </div>
                     )}
                   </CardContent>
@@ -670,7 +670,7 @@ Concentration: ${concentration}%
                                 >
                                   <div className="flex items-center justify-between mb-2">
                                     <span className="font-medium">{f.name}</span>
-                                    <Badge variant="outline">${typeof f.coutTotal === 'number' ? (f).toFixed(2) : '0.00'}</Badge>
+                                    <Badge variant="outline">${typeof f.coutTotal === 'number' ? f.coutTotal.toFixed(2) : '0.00'}</Badge>
                                   </div>
                                   <div className="text-sm text-muted-foreground">
                                     {f.ingredients.length} ingrédients • {f.concentration}% • {f.quantiteTotale}g
@@ -729,7 +729,7 @@ Concentration: ${concentration}%
                         </TooltipProvider>
                       </div>
                       <div className="text-2xl font-bold text-foreground">
-                        ${typeof calculs.coutTotal === 'number' ? (calculs).toFixed(2) : '0.00'}
+                        ${typeof calculs.coutTotal === 'number' ? calculs.coutTotal.toFixed(2) : '0.00'}
                       </div>
                       <div className="text-xs text-muted-foreground">
                         pour {typeof quantiteTotale === 'number' ? (quantiteTotale * (concentration / 100)).toFixed(1) : '0.0'}g de concentré
@@ -742,21 +742,21 @@ Concentration: ${concentration}%
                         <span className="text-sm font-medium text-foreground">Coût produit final</span>
                       </div>
                       <div className="text-3xl font-bold text-primary">
-                        ${typeof calculs.coutProduitFinal === 'number' ? (calculs).toFixed(2) : '0.00'}
+                        ${typeof calculs.coutProduitFinal === 'number' ? calculs.coutProduitFinal.toFixed(2) : '0.00'}
                       </div>
                       <div className="text-xs text-muted-foreground">
-                        pour {typeof calculs.volumeMl === 'number' ? (calculs).toFixed(0) : '0'}ml ({concentration}% concentration)
+                        pour {typeof calculs.volumeMl === 'number' ? calculs.volumeMl.toFixed(0) : '0'}ml ({concentration}% concentration)
                       </div>
                     </div>
 
                     {/* Prix au ml */}
                     <div className="grid grid-cols-2 gap-3">
                       <div className="p-3 rounded-lg border border-border/50 text-center">
-                        <div className="text-lg font-bold text-foreground">${typeof calculs.prixParMl === 'number' ? (calculs).toFixed(2) : '0.00'}</div>
+                        <div className="text-lg font-bold text-foreground">${typeof calculs.prixParMl === 'number' ? calculs.prixParMl.toFixed(2) : '0.00'}</div>
                         <div className="text-xs text-muted-foreground">par ml</div>
                       </div>
                       <div className="p-3 rounded-lg border border-border/50 text-center">
-                        <div className="text-lg font-bold text-foreground">${typeof calculs.prixPour100ml === 'number' ? (calculs).toFixed(2) : '0.00'}</div>
+                        <div className="text-lg font-bold text-foreground">${typeof calculs.prixPour100ml === 'number' ? calculs.prixPour100ml.toFixed(2) : '0.00'}</div>
                         <div className="text-xs text-muted-foreground">pour 100ml</div>
                       </div>
                     </div>
@@ -766,10 +766,10 @@ Concentration: ${concentration}%
                       <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/20">
                         <div className="text-sm text-muted-foreground mb-1">Prix de vente conseillé</div>
                         <div className="text-2xl font-bold text-green-600 dark:text-green-400">
-                          ${typeof calculs.prixVenteConseille === 'number' ? (calculs).toFixed(2) : '0.00'}
+                          ${typeof calculs.prixVenteConseille === 'number' ? calculs.prixVenteConseille.toFixed(2) : '0.00'}
                         </div>
                         <div className="text-xs text-muted-foreground">
-                          Marge nette: ${typeof calculs.margeNette === 'number' ? (calculs).toFixed(2) : '0.00'} ({marginPercent}%)
+                          Marge nette: ${typeof calculs.margeNette === 'number' ? calculs.margeNette.toFixed(2) : '0.00'} ({marginPercent}%)
                         </div>
                       </div>
                     )}
@@ -795,13 +795,13 @@ Concentration: ${concentration}%
                                   </span>
                                 </div>
                                 <span className="font-medium ml-2 text-foreground">
-                                  ${typeof d.cout === 'number' ? (d).toFixed(2) : '0.00'}
+                                  ${typeof d.cout === 'number' ? d.cout.toFixed(2) : '0.00'}
                                 </span>
                               </div>
                             ))}
                           <div className="flex justify-between items-center pt-2 border-t border-border/50">
                             <span className="text-muted-foreground">Solvant (alcool)</span>
-                            <span className="font-medium text-foreground">${typeof calculs.coutSolvant === 'number' ? (calculs).toFixed(2) : '0.00'}</span>
+                            <span className="font-medium text-foreground">${typeof calculs.coutSolvant === 'number' ? calculs.coutSolvant.toFixed(2) : '0.00'}</span>
                           </div>
                         </div>
                       </div>
@@ -823,7 +823,7 @@ Concentration: ${concentration}%
                                 <div key={cat} className="space-y-1">
                                   <div className="flex justify-between text-xs">
                                     <span className={getCategorieColor(cat)}>{getCategorieLabel(cat)}</span>
-                                    <span className="text-muted-foreground">{typeof percent === 'number' ? (percent).toFixed(0) : '0'}%</span>
+                                    <span className="text-muted-foreground">{typeof percent === 'number' ? percent.toFixed(0) : '0'}%</span>
                                   </div>
                                   <div className="h-2 bg-muted rounded-full overflow-hidden">
                                     <div 

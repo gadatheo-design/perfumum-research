@@ -12,8 +12,7 @@
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.test.mjs",
-    "server/**/*.test.ts",
-    "client/src/pages/**/*"
+    "server/**/*.test.ts"
   ],
   "compilerOptions": {
     "incremental": true,

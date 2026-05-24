@@ -116,7 +116,7 @@ export async function getMoleculesWithoutRecettes(limit = 50) {
     LIMIT ${limit}
   `);
   
-  return result[0] as any[];
+  return result[0] as unknown as any[];
 }
 
 /**
@@ -135,7 +135,7 @@ export async function getMoleculesWithoutPlants(limit = 50) {
     LIMIT ${limit}
   `);
   
-  return result[0] as any[];
+  return result[0] as unknown as any[];
 }
 
 /**
@@ -154,5 +154,5 @@ export async function getPlantsWithoutMolecules(limit = 50) {
     LIMIT ${limit}
   `);
   
-  return result[0] as any[];
+  return result[0] as unknown as any[];
 }
