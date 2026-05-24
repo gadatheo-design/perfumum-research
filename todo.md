@@ -52,3 +52,10 @@
 - [x] Corriger research.historicCigarettes.test.ts (même bug extraction corrigé)
 - [x] Corriger session-06jan.test.ts (CAS Anéthole : 104-46-1 = p-Anéthole correct)
 - [x] Corriger recipes-protocols-landraces.test.ts (extraction getStats corrigée)
+
+## Import Dravnieks (Mai 2026)
+- [x] Analyser la structure du dataset Dravnieks (138 molécules, 160 stimuli, 146 descripteurs)
+- [x] Créer le mapping noms commerciaux → CIDs PubChem (136/160 résolus = 85%)
+- [x] Importer 13 240 descripteurs olfactifs Dravnieks (62 molécules PERFUMUM enrichies)
+- [x] Régénérer les embeddings olfactifs (971 molécules, 50 dimensions)
+- [x] Totaux finaux : 19 914 descripteurs, 971 molécules, 515 descripteurs uniques (3 datasets)
