@@ -443,6 +443,118 @@ export const pyrfumeRouter = router({
         .limit(input.limit);
     }),
 
+  // ========================================================================
+  // SIMILARITÉ OLFACTIVE (distance cosinus sur embeddings 50D)
+  // ========================================================================
+
+  // Obtenir les molécules les plus similaires par profil olfactif
+  getSimilarByOlfactiveProfile: publicProcedure
+    .input(z.object({
+      moleculeId: z.number(),
+      limit: z.number().min(1).max(20).default(5),
+    }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+
+      // Récupérer l'embedding de la molécule cible
+      const [targetEmbedding] = await db
+        .select()
+        .from(pyrfumeEmbeddings)
+        .where(eq(pyrfumeEmbeddings.moleculeId, input.moleculeId));
+
+      if (!targetEmbedding || !targetEmbedding.vector) return [];
+
+      // Parser le vecteur cible
+      const targetVector: number[] = JSON.parse(targetEmbedding.vector as string);
+
+      // Récupérer tous les embeddings (sauf la cible)
+      const allEmbeddings = await db
+        .select({
+          moleculeId: pyrfumeEmbeddings.moleculeId,
+          vector: pyrfumeEmbeddings.vector,
+        })
+        .from(pyrfumeEmbeddings);
+
+      // Calculer la distance cosinus pour chaque molécule
+      const similarities: { moleculeId: number; similarity: number }[] = [];
+
+      for (const emb of allEmbeddings) {
+        if (emb.moleculeId === input.moleculeId) continue;
+        const vector: number[] = JSON.parse(emb.vector as string);
+
+        // Distance cosinus : 1 - (A·B / (||A|| * ||B||))
+        let dotProduct = 0;
+        let normA = 0;
+        let normB = 0;
+        for (let i = 0; i < targetVector.length && i < vector.length; i++) {
+          dotProduct += targetVector[i] * vector[i];
+          normA += targetVector[i] * targetVector[i];
+          normB += vector[i] * vector[i];
+        }
+        const denominator = Math.sqrt(normA) * Math.sqrt(normB);
+        const cosineSimilarity = denominator > 0 ? dotProduct / denominator : 0;
+
+        similarities.push({ moleculeId: emb.moleculeId, similarity: cosineSimilarity });
+      }
+
+      // Trier par similarité décroissante et prendre les N premiers
+      similarities.sort((a, b) => b.similarity - a.similarity);
+      const topSimilar = similarities.slice(0, input.limit);
+
+      // Enrichir avec les noms et infos des molécules
+      if (topSimilar.length === 0) return [];
+
+      const moleculeIds = topSimilar.map(s => s.moleculeId);
+      const moleculeInfos = await db
+        .select({
+          id: molecules.id,
+          name: molecules.name,
+          iupacName: molecules.iupacName,
+          casNumber: molecules.casNumber,
+          molecularFormula: molecules.molecularFormula,
+        })
+        .from(molecules)
+        .where(inArray(molecules.id, moleculeIds));
+
+      const infoMap = new Map(moleculeInfos.map(m => [m.id, m]));
+
+      // Récupérer les top descripteurs pour chaque molécule similaire
+      const descriptorsForSimilar = await db
+        .select({
+          moleculeId: pyrfumeOlfactoryDescriptors.moleculeId,
+          descriptor: pyrfumeOlfactoryDescriptors.descriptor,
+          value: pyrfumeOlfactoryDescriptors.value,
+        })
+        .from(pyrfumeOlfactoryDescriptors)
+        .where(inArray(pyrfumeOlfactoryDescriptors.moleculeId, moleculeIds))
+        .orderBy(desc(pyrfumeOlfactoryDescriptors.value));
+
+      // Grouper les descripteurs par molécule (top 3)
+      const descriptorMap = new Map<number, string[]>();
+      for (const d of descriptorsForSimilar) {
+        const existing = descriptorMap.get(d.moleculeId) || [];
+        if (existing.length < 3) {
+          existing.push(d.descriptor);
+          descriptorMap.set(d.moleculeId, existing);
+        }
+      }
+
+      return topSimilar.map(s => {
+        const info = infoMap.get(s.moleculeId);
+        return {
+          moleculeId: s.moleculeId,
+          name: info?.name || "Inconnue",
+          iupacName: info?.iupacName || null,
+          casNumber: info?.casNumber || null,
+          molecularFormula: info?.molecularFormula || null,
+          similarity: Math.round(s.similarity * 1000) / 1000,
+          similarityPercent: Math.round(s.similarity * 100),
+          topDescriptors: descriptorMap.get(s.moleculeId) || [],
+        };
+      });
+    }),
+
   // Obtenir les molécules non encore mappées
   getUnmappedMolecules: publicProcedure
     .input(z.object({ limit: z.number().default(50) }))

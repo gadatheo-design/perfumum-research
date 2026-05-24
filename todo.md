@@ -87,3 +87,17 @@
 - Molécules couvertes : 976
 - Embeddings olfactifs : 976 (50 dimensions, normalisés L2)
 - Datasets importés : 4/7
+
+## Session Mai 2026 — Similarité + Datasets + Refactoring
+- [x] Créer procédure tRPC similarité olfactive (distance cosinus sur embeddings 50D)
+- [x] Ajouter bloc "Molécules similaires" dans MoleculeDetail.tsx (top 5 voisins)
+- [x] Importer datasets IFRA (289 mol, 867 desc), Arctander (502 mol, 1317 desc), Sigma-Aldrich (337 mol, 960 desc)
+- [x] Découper server/routers.ts en modules thématiques (13 090 → 10 228 lignes, 5 fichiers extraits : ai, bibliography, molecules, import, plants)
+- [x] Corriger csv-import.test.ts (2 tests adaptés aux données réelles en base)
+- [x] Supprimer fichiers Keller volumineux (130 Mo libérés)
+
+### Totaux finaux Pyrfume (7 datasets)
+- Descripteurs olfactifs : 28 335
+- Molécules couvertes : 1 042
+- Embeddings olfactifs : 1 042 (50 dimensions, normalisés L2)
+- Datasets importés : 7/7 (Leffingwell, Good Scents, Dravnieks, Keller, IFRA, Arctander, Sigma-Aldrich)

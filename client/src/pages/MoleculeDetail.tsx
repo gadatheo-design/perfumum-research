@@ -3632,6 +3632,9 @@ function PyrfumeSection({ moleculeId }: { moleculeId: number }) {
         </div>
       )}
 
+      {/* Molécules similaires par profil olfactif */}
+      <SimilarMolecules moleculeId={moleculeId} />
+
       {/* Mapping Status */}
       <div className="bg-card p-4 rounded-lg border">
         <h3 className="font-semibold flex items-center gap-2 mb-3">
@@ -3714,6 +3717,78 @@ function PyrfumeSection({ moleculeId }: { moleculeId: number }) {
           </a>
         </div>
       )}
+    </div>
+  );
+}
+
+// Composant Molécules Similaires par profil olfactif
+function SimilarMolecules({ moleculeId }: { moleculeId: number }) {
+  const similar = trpc.pyrfume.getSimilarByOlfactiveProfile.useQuery(
+    { moleculeId, limit: 5 },
+    { enabled: !!moleculeId }
+  );
+
+  if (similar.isLoading) {
+    return (
+      <div className="bg-card p-4 rounded-lg border">
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <Loader2 className="h-4 w-4 animate-spin" />
+          Recherche de molécules similaires...
+        </div>
+      </div>
+    );
+  }
+
+  if (!similar.data || similar.data.length === 0) return null;
+
+  return (
+    <div className="bg-card p-4 rounded-lg border">
+      <h3 className="font-semibold flex items-center gap-2 mb-3">
+        <FlaskConical className="h-4 w-4 text-purple-500" />
+        Molécules au profil olfactif similaire
+      </h3>
+      <div className="space-y-2">
+        {similar.data.map((mol, i) => (
+          <a
+            key={mol.moleculeId}
+            href={`/molecules/${mol.moleculeId}`}
+            className="flex items-center justify-between p-2 rounded hover:bg-muted/50 transition-colors group"
+          >
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-mono text-muted-foreground w-5">{i + 1}.</span>
+              <div>
+                <span className="font-medium group-hover:text-purple-500 transition-colors">{mol.name}</span>
+                {mol.molecularFormula && (
+                  <span className="text-xs text-muted-foreground ml-2">{mol.molecularFormula}</span>
+                )}
+                {mol.topDescriptors.length > 0 && (
+                  <div className="flex gap-1 mt-0.5">
+                    {mol.topDescriptors.map((d, j) => (
+                      <span key={j} className="text-xs px-1.5 py-0.5 bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 rounded">
+                        {d}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-16 h-1.5 bg-muted rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-purple-500 rounded-full"
+                  style={{ width: `${mol.similarityPercent}%` }}
+                />
+              </div>
+              <span className="text-xs font-medium text-purple-500 w-10 text-right">
+                {mol.similarityPercent}%
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+      <p className="text-xs text-muted-foreground mt-3">
+        Similarité calculée par distance cosinus sur les embeddings olfactifs 50D (Pyrfume)
+      </p>
     </div>
   );
 }
