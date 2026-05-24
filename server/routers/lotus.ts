@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * LOTUS (Linked Open Natural Products) Router
  * 
@@ -14,7 +13,7 @@ import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { plants, molecules, plantMolecules } from "../../drizzle/schema";
-import { eq, sql, and, or, like } from "drizzle-orm";
+import { and, count, eq, like, or, sql } from "drizzle-orm";
 import { sparqlQuery } from "../utils/sparql";
 
 const DELAY_MS = 1200; // Délai entre les requêtes batch

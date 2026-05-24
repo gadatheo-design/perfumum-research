@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * GBIF (Global Biodiversity Information Facility) Router
  * 
@@ -13,7 +12,7 @@ import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { plants } from "../../drizzle/schema";
-import { eq, sql } from "drizzle-orm";
+import { avg, count, eq, sql, sum } from "drizzle-orm";
 
 // ─── Helpers GBIF ────────────────────────────────────────────────────────────
 

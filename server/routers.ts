@@ -166,6 +166,18 @@ import { finalRecipesRouter } from "./routers/final-recipes";
 import { ifraRestrictionsRouter } from "./routers/ifra-restrictions";
 import { historyRouter } from "./routers/history";
 import { synergiesRouter } from "./routers/synergies";
+import { recipeContributionsRouter } from "./routers/recipe-contributions";
+import { terroirContributionsRouter } from "./routers/terroir-contributions";
+import { dataQualityRouter } from "./routers/data-quality";
+import { crossLinksRouter } from "./routers/cross-links";
+import { referenceNotesRouter } from "./routers/reference-notes";
+import { referenceTagsRouter } from "./routers/reference-tags";
+import { archivesRouter } from "./routers/archives";
+import { entourageRulesRouter } from "./routers/entourage-rules";
+import { galleryRouter } from "./routers/gallery";
+import { uploadRouter } from "./routers/upload";
+import { plantMoleculeLinksRouter } from "./routers/plant-molecule-links";
+import { formulasRouter } from "./routers/formulas";
 
 // ── Types pour les réponses LLM enrichissement ────────────────────────────────
 interface PlantEnrichmentLLM {
@@ -1051,69 +1063,7 @@ export const appRouter = router({
   }),
 
   // Saved Formulas (Historique des formules générées)
-  formulas: router({
-    save: publicProcedure
-      .input(z.object({
-        radarProfile: z.object({
-          intensity: z.number().min(0).max(100),
-          freshness: z.number().min(0).max(100),
-          warmth: z.number().min(0).max(100),
-          sweetness: z.number().min(0).max(100),
-          spiciness: z.number().min(0).max(100),
-          earthiness: z.number().min(0).max(100),
-        }),
-        suggestions: z.array(z.object({
-          id: z.number(),
-          name: z.string(),
-          compatibilityScore: z.number(),
-          radarIntensity: z.number().optional(),
-          radarFreshness: z.number().optional(),
-          radarWarmth: z.number().optional(),
-          radarSweetness: z.number().optional(),
-          radarSpiciness: z.number().optional(),
-          radarEarthiness: z.number().optional(),
-        })),
-        notes: z.string().optional(),
-      }))
-      .mutation(async ({ input, ctx }) => {
-        if (!ctx.user) throw new Error("Not authenticated");
-        return await db.saveFormula({
-          userId: ctx.user.id,
-          radarProfile: input.radarProfile,
-          suggestions: input.suggestions,
-          notes: input.notes,
-        });
-      }),
-    
-    getHistory: publicProcedure.query(async ({ ctx }) => {
-      if (!ctx.user) throw new Error("Not authenticated");
-      return await db.getFormulaHistory(ctx.user.id);
-    }),
-    
-    getById: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return await db.getFormulaById(input);
-      }),
-    
-    delete: publicProcedure
-      .input(z.number())
-      .mutation(async ({ input, ctx }) => {
-        if (!ctx.user) throw new Error("Not authenticated");
-        await db.deleteFormula(input);
-        return { success: true };
-      }),
-    
-    updateNotes: publicProcedure
-      .input(z.object({
-        id: z.number(),
-        notes: z.string(),
-      }))
-      .mutation(async ({ input, ctx }) => {
-        if (!ctx.user) throw new Error("Not authenticated");
-        return await db.updateFormulaNotes(input.id, input.notes);
-      }),
-  }),
+  formulas: formulasRouter,
 
   // Climate Studies (Études climatiques)
   climateStudies: router({
@@ -1279,67 +1229,7 @@ export const appRouter = router({
   plantVarieties: plantVarietiesRouter,
   
   // Routes pour les liaisons plantes-molécules
-  plantMoleculeLinks: router({
-    getAll: publicProcedure.query(async () => {
-      return db.getAllPlantMoleculeLinks();
-    }),
-    getByPlant: publicProcedure
-      .input(z.object({ plantId: z.number() }))
-      .query(async ({ input }) => {
-        return db.getPlantMolecules(input.plantId);
-      }),
-    getByMolecule: publicProcedure
-      .input(z.object({ moleculeId: z.number() }))
-      .query(async ({ input }) => {
-        return db.getPlantsByMolecule(input.moleculeId);
-      }),
-    getSignatureMolecules: publicProcedure
-      .input(z.object({ plantId: z.number() }))
-      .query(async ({ input }) => {
-        return db.getSignatureMolecules(input.plantId);
-      }),
-    create: publicProcedure
-      .input(z.object({
-        plantId: z.number(),
-        moleculeId: z.number(),
-        percentageMin: z.number().optional(),
-        percentageMax: z.number().optional(),
-        percentageTypical: z.number().optional(),
-        isSignature: z.number().optional(),
-        role: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return db.createPlantMoleculeLink(input);
-      }),
-    delete: publicProcedure
-      .input(z.object({
-        plantId: z.number(),
-        moleculeId: z.number(),
-      }))
-      .mutation(async ({ input }) => {
-        return db.deletePlantMoleculeLink(input.plantId, input.moleculeId);
-      }),
-    update: publicProcedure
-      .input(z.object({
-        plantId: z.number(),
-        moleculeId: z.number(),
-        percentageMin: z.number().nullable().optional(),
-        percentageMax: z.number().nullable().optional(),
-        percentageTypical: z.number().nullable().optional(),
-        isSignature: z.number().optional(),
-        role: z.string().optional(),
-        source: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        const { plantId, moleculeId, ...data } = input;
-        return db.updatePlantMoleculeLink(plantId, moleculeId, data);
-      }),
-    getByPlantWithDetails: publicProcedure
-      .input(z.object({ plantId: z.number() }))
-      .query(async ({ input }) => {
-        return db.getPlantMoleculesWithPercentages(input.plantId);
-      }),
-  }),
+  plantMoleculeLinks: plantMoleculeLinksRouter,
   
   terroirs: router({
     getAll: publicProcedure.query(async () => {
@@ -1796,164 +1686,10 @@ export const appRouter = router({
   }),
 
   // Upload d'images pour les échantillons botaniques
-  upload: router({
-    leafEconomyImage: protectedProcedure
-      .input(z.object({
-        leafEconomyId: z.number(),
-        imageData: z.string(), // Base64 encoded image
-        fileName: z.string(),
-        contentType: z.string(),
-      }))
-      .mutation(async ({ input }) => {
-        const { storagePut } = await import('./storage');
-        
-        // Décoder le base64
-        const base64Data = input.imageData.replace(/^data:image\/\w+;base64,/, '');
-        const buffer = Buffer.from(base64Data, 'base64');
-        
-        // Générer un nom de fichier unique
-        const timestamp = Date.now();
-        const randomSuffix = Math.random().toString(36).substring(2, 8);
-        const extension = input.fileName.split('.').pop() || 'jpg';
-        const fileKey = `leaf-economies/${input.leafEconomyId}/${timestamp}-${randomSuffix}.${extension}`;
-        
-        // Upload vers S3
-        const { url } = await storagePut(fileKey, buffer, input.contentType);
-        
-        // Mettre à jour la base de données
-        await db.updateLeafEconomy(input.leafEconomyId, { imageUrl: url });
-        
-        return { url };
-      }),
-    
-    // Upload générique vers S3 pour la galerie
-    galleryImage: protectedProcedure
-      .input(z.object({
-        imageData: z.string(), // Base64 encoded image
-        fileName: z.string(),
-        contentType: z.string(),
-        title: z.string().optional(),
-        description: z.string().optional(),
-        leafEconomyId: z.number().optional(),
-        plantId: z.number().optional(),
-        category: z.enum(['echantillon', 'extraction', 'analyse', 'terrain', 'equipement', 'autre']).default('echantillon'),
-        tags: z.array(z.string()).optional(),
-        location: z.string().optional(),
-        capturedAt: z.string().optional(),
-      }))
-      .mutation(async ({ input, ctx }) => {
-        const { storagePut } = await import('./storage');
-        
-        // Décoder le base64
-        const base64Data = input.imageData.replace(/^data:image\/\w+;base64,/, '');
-        const buffer = Buffer.from(base64Data, 'base64');
-        
-        // Générer un nom de fichier unique
-        const timestamp = Date.now();
-        const randomSuffix = Math.random().toString(36).substring(2, 8);
-        const extension = input.fileName.split('.').pop() || 'jpg';
-        const fileKey = `gallery/${input.category}/${timestamp}-${randomSuffix}.${extension}`;
-        
-        // Upload vers S3
-        const { url } = await storagePut(fileKey, buffer, input.contentType);
-        
-        // Créer l'entrée dans la base de données
-        const imageData = await db.createSampleImage({
-          url,
-          fileKey,
-          fileName: input.fileName,
-          mimeType: input.contentType,
-          fileSize: buffer.length,
-          title: input.title,
-          description: input.description,
-          leafEconomyId: input.leafEconomyId,
-          plantId: input.plantId,
-          category: input.category,
-          tags: input.tags,
-          location: input.location,
-          capturedAt: input.capturedAt ? new Date(input.capturedAt) : undefined,
-          uploadedBy: ctx.user?.id,
-        });
-        
-        return imageData;
-      }),
-  }),
+  upload: uploadRouter,
 
   // Galerie d'images
-  gallery: router({
-    list: publicProcedure
-      .input(z.object({
-        category: z.string().optional(),
-        leafEconomyId: z.number().optional(),
-        plantId: z.number().optional(),
-        limit: z.number().default(50),
-      }).optional())
-      .query(async ({ input }) => {
-        if (input?.category) {
-          return db.getSampleImagesByCategory(input.category);
-        }
-        if (input?.leafEconomyId) {
-          return db.getSampleImagesByLeafEconomy(input.leafEconomyId);
-        }
-        if (input?.plantId) {
-          return db.getSampleImagesByPlant(input.plantId);
-        }
-        return db.getAllSampleImages();
-      }),
-    
-    getById: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getSampleImageById(input);
-      }),
-    
-    update: protectedProcedure
-      .input(z.object({
-        id: z.number(),
-        data: z.object({
-          title: z.string().optional(),
-          description: z.string().optional(),
-          category: z.enum(['echantillon', 'extraction', 'analyse', 'terrain', 'equipement', 'autre']).optional(),
-          tags: z.array(z.string()).optional(),
-          location: z.string().optional(),
-          capturedAt: z.string().optional(),
-        }),
-      }))
-      .mutation(async ({ input }) => {
-        return db.updateSampleImage(input.id, {
-          ...input.data,
-          capturedAt: input.data.capturedAt ? new Date(input.data.capturedAt) : undefined,
-        });
-      }),
-    
-    delete: protectedProcedure
-      .input(z.number())
-      .mutation(async ({ input }) => {
-        await db.deleteSampleImage(input);
-        return { success: true };
-      }),
-    
-    searchByTags: publicProcedure
-      .input(z.array(z.string()))
-      .query(async ({ input }) => {
-        return db.searchSampleImagesByTags(input);
-      }),
-    
-    getStats: publicProcedure.query(async () => {
-      return db.getSampleImagesStats();
-    }),
-
-    reorder: protectedProcedure
-      .input(z.object({
-        items: z.array(z.object({
-          id: z.number(),
-          sortOrder: z.number(),
-        })),
-      }))
-      .mutation(async ({ input }) => {
-        return db.reorderSampleImages(input.items);
-      }),
-  }),
+  gallery: galleryRouter,
 
   // Calculateur de conformité IFRA avancé
   ifraCalculator: ifraCalculatorRouter,
@@ -2139,79 +1875,7 @@ export const appRouter = router({
   
   formulationTool: formulationToolRouter,
   
-  entourageRules: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllEntourageRules();
-    }),
-    
-    getById: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return await db.getEntourageRuleById(input);
-      }),
-    
-    getByType: publicProcedure
-      .input(z.enum(['entourage', 'potentiation', 'modulation', 'stabilization', 'enhancement', 'contrast']))
-      .query(async ({ input }) => {
-        return await db.getEntourageRulesByType(input);
-      }),
-    
-    create: protectedProcedure
-      .input(z.object({
-        ruleId: z.string(),
-        name: z.string(),
-        ruleType: z.enum(['entourage', 'potentiation', 'modulation', 'stabilization', 'enhancement', 'contrast']),
-        primaryMolecules: z.array(z.object({
-          name: z.string(),
-          role: z.string(),
-        })).optional(),
-        secondaryMolecules: z.array(z.object({
-          name: z.string(),
-          role: z.string(),
-        })).optional(),
-        description: z.string(),
-        mechanism: z.string().optional(),
-        olfactiveResult: z.string().optional(),
-        applicableTo: z.array(z.string()).optional(),
-        scientificBasis: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return await db.createEntourageRule(input);
-      }),
-    
-    update: protectedProcedure
-      .input(z.object({
-        id: z.number(),
-        ruleId: z.string().optional(),
-        name: z.string().optional(),
-        ruleType: z.enum(['entourage', 'potentiation', 'modulation', 'stabilization', 'enhancement', 'contrast']).optional(),
-        primaryMolecules: z.array(z.object({
-          name: z.string(),
-          role: z.string(),
-        })).optional(),
-        secondaryMolecules: z.array(z.object({
-          name: z.string(),
-          role: z.string(),
-        })).optional(),
-        description: z.string().optional(),
-        mechanism: z.string().optional().nullable(),
-        olfactiveResult: z.string().optional().nullable(),
-        applicableTo: z.array(z.string()).optional(),
-        scientificBasis: z.string().optional().nullable(),
-      }))
-      .mutation(async ({ input }) => {
-        const { id, ...data } = input;
-        await db.updateEntourageRule(id, data);
-        return { success: true };
-      }),
-    
-    delete: protectedProcedure
-      .input(z.number())
-      .mutation(async ({ input }) => {
-        await db.deleteEntourageRule(input);
-        return { success: true };
-      }),
-  }),
+  entourageRules: entourageRulesRouter,
 
   // ============================================================================
   // PLANT-TERROIR RELATIONS (Connexions plantes-terroirs pour le graphe)
@@ -2226,79 +1890,7 @@ export const appRouter = router({
   // ============================================================================
   // OLFACTIVE ARCHIVES (Archives historiques)
   // ============================================================================
-  archives: router({
-    list: publicProcedure
-      .input(z.object({
-        civilization: z.string().optional(),
-        type: z.enum(["manuscript","formula","archaeological","botanical_illustration"]).optional(),
-        period: z.string().optional(),
-        q: z.string().optional(),
-        limit: z.number().int().min(1).max(100).default(25),
-        offset: z.number().int().min(0).default(0),
-      }).optional())
-      .query(async ({ input }) => {
-        return await db.listOlfactiveArchives(input ?? {});
-      }),
-    
-    getById: publicProcedure
-      .input(z.object({ id: z.number().int().min(1) }))
-      .query(async ({ input }) => {
-        return await db.getOlfactiveArchiveById(input.id);
-      }),
-    
-    create: protectedProcedure
-      .input(z.object({
-        title: z.string().min(1),
-        type: z.enum(["manuscript","formula","archaeological","botanical_illustration"]),
-        dateCreated: z.string().optional(),
-        civilization: z.string().optional(),
-        plantIds: z.array(z.number()).default([]),
-        moleculeIds: z.array(z.number()).default([]),
-        description: z.string().optional(),
-        provenance: z.string().optional(),
-        authenticityLevel: z.enum(["confirmed","probable","hypothetical"]).default("probable"),
-        references: z.array(z.any()).default([]),
-        imageUrl: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return await db.createOlfactiveArchive(input);
-      }),
-    
-    update: protectedProcedure
-      .input(z.object({
-        id: z.number().int().min(1),
-        title: z.string().min(1).optional(),
-        type: z.enum(["manuscript","formula","archaeological","botanical_illustration"]).optional(),
-        dateCreated: z.string().optional(),
-        civilization: z.string().optional(),
-        plantIds: z.array(z.number()).optional(),
-        moleculeIds: z.array(z.number()).optional(),
-        description: z.string().optional(),
-        provenance: z.string().optional(),
-        authenticityLevel: z.enum(["confirmed","probable","hypothetical"]).optional(),
-        references: z.array(z.any()).optional(),
-        imageUrl: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        const { id, ...data } = input;
-        return await db.updateOlfactiveArchive(id, data);
-      }),
-    
-    delete: protectedProcedure
-      .input(z.object({ id: z.number().int().min(1) }))
-      .mutation(async ({ input }) => {
-        return await db.deleteOlfactiveArchive(input.id);
-      }),
-    
-    search: publicProcedure
-      .input(z.object({ 
-        q: z.string().min(1), 
-        limit: z.number().int().min(1).max(50).default(25) 
-      }))
-      .query(async ({ input }) => {
-        return await db.searchOlfactiveArchives(input.q, input.limit);
-      }),
-  }),
+  archives: archivesRouter,
 
   // ============================================================================
   // CIVILIZATIONAL MARKERS (Marqueurs historiques)
@@ -2469,149 +2061,9 @@ export const appRouter = router({
   
   v3References: v3ReferencesRouter,
   
-  referenceTags: router({
-    // Liste tous les tags
-    list: publicProcedure.query(async () => {
-      return db.getAllReferenceTags();
-    }),
-    
-    // Obtenir les tags par catégorie
-    getByCategory: publicProcedure
-      .input(z.string())
-      .query(async ({ input }) => {
-        return db.getReferenceTagsByCategory(input);
-      }),
-    
-    // Obtenir un tag par slug
-    getBySlug: publicProcedure
-      .input(z.string())
-      .query(async ({ input }) => {
-        return db.getReferenceTagBySlug(input);
-      }),
-    
-    // Créer un tag
-    create: protectedProcedure
-      .input(z.object({
-        name: z.string(),
-        slug: z.string(),
-        category: z.enum(['theme', 'method', 'source_type', 'region', 'period', 'material', 'discipline', 'project', 'custom']).optional(),
-        description: z.string().optional(),
-        color: z.string().optional(),
-        parentId: z.number().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return db.createReferenceTag(input);
-      }),
-    
-    // Mettre à jour un tag
-    update: protectedProcedure
-      .input(z.object({
-        id: z.number(),
-        name: z.string().optional(),
-        description: z.string().optional(),
-        color: z.string().optional(),
-        category: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        const { id, ...data } = input;
-        return db.updateReferenceTag(id, data);
-      }),
-    
-    // Supprimer un tag
-    delete: protectedProcedure
-      .input(z.number())
-      .mutation(async ({ input }) => {
-        return db.deleteReferenceTag(input);
-      }),
-    
-    // Ajouter un tag à une référence
-    addToReference: protectedProcedure
-      .input(z.object({
-        referenceId: z.number(),
-        tagId: z.number(),
-      }))
-      .mutation(async ({ input }) => {
-        return db.addTagToV3Reference(input.referenceId, input.tagId);
-      }),
-    
-    // Retirer un tag d'une référence
-    removeFromReference: protectedProcedure
-      .input(z.object({
-        referenceId: z.number(),
-        tagId: z.number(),
-      }))
-      .mutation(async ({ input }) => {
-        return db.removeTagFromV3Reference(input.referenceId, input.tagId);
-      }),
-    
-    // Obtenir les références par tag
-    getReferences: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getV3ReferencesByTag(input);
-      }),
-  }),
+  referenceTags: referenceTagsRouter,
   
-  referenceNotes: router({
-    // Obtenir une note par ID
-    getById: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getReferenceNoteById(input);
-      }),
-    
-    // Créer une note
-    create: protectedProcedure
-      .input(z.object({
-        referenceId: z.number(),
-        noteType: z.enum(['summary', 'critique', 'quote', 'methodology', 'connection', 'idea', 'question', 'todo', 'general']).optional(),
-        title: z.string().optional(),
-        content: z.string(),
-        pageNumber: z.string().optional(),
-        importance: z.enum(['low', 'medium', 'high', 'critical']).optional(),
-      }))
-      .mutation(async ({ input, ctx }) => {
-        return db.createReferenceNote({
-          ...input,
-          createdBy: ctx.user?.id,
-        });
-      }),
-    
-    // Mettre à jour une note
-    update: protectedProcedure
-      .input(z.object({
-        id: z.number(),
-        noteType: z.enum(['summary', 'critique', 'quote', 'methodology', 'connection', 'idea', 'question', 'todo', 'general']).optional(),
-        title: z.string().optional(),
-        content: z.string().optional(),
-        pageNumber: z.string().optional(),
-        importance: z.enum(['low', 'medium', 'high', 'critical']).optional(),
-        isResolved: z.boolean().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        const { id, ...data } = input;
-        return db.updateReferenceNote(id, data);
-      }),
-    
-    // Supprimer une note
-    delete: protectedProcedure
-      .input(z.number())
-      .mutation(async ({ input }) => {
-        return db.deleteReferenceNote(input);
-      }),
-    
-    // Obtenir les notes par type
-    getByType: publicProcedure
-      .input(z.string())
-      .query(async ({ input }) => {
-        return db.getReferenceNotesByType(input);
-      }),
-    
-    // Obtenir les notes non résolues
-    getUnresolved: publicProcedure.query(async () => {
-      return db.getUnresolvedReferenceNotes();
-    }),
-  }),
+  referenceNotes: referenceNotesRouter,
   
   axisGraph: router({
     // Obtenir les données du graphe
@@ -2743,85 +2195,7 @@ export const appRouter = router({
   // ============================================================================
   // LIENS CROISÉS (CROSS-LINKS)
   // ============================================================================
-  crossLinks: router({
-    // Récupérer les recettes qui utilisent une molécule
-    getRecettesByMolecule: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getRecettesByMolecule(input);
-      }),
-    
-    // Récupérer les molécules similaires (même famille chimique ou profil olfactif proche)
-    getSimilarMolecules: publicProcedure
-      .input(z.object({
-        moleculeId: z.number(),
-        limit: z.number().optional().default(5),
-      }))
-      .query(async ({ input }) => {
-        return db.getSimilarMoleculesByProfile(input.moleculeId, input.limit);
-      }),
-    
-    // Récupérer les recettes similaires
-    getSimilarRecettes: publicProcedure
-      .input(z.object({
-        recetteId: z.number(),
-        limit: z.number().optional().default(5),
-      }))
-      .query(async ({ input }) => {
-        return db.getSimilarRecettesByProfile(input.recetteId, input.limit);
-      }),
-    
-    // Récupérer les plantes similaires
-    getSimilarPlants: publicProcedure
-      .input(z.object({
-        plantId: z.number(),
-        limit: z.number().optional().default(5),
-      }))
-      .query(async ({ input }) => {
-        return db.getSimilarPlantsByProfile(input.plantId, input.limit);
-      }),
-    
-    // Récupérer les terroirs similaires
-    getSimilarTerroirs: publicProcedure
-      .input(z.object({
-        terroirId: z.number(),
-        limit: z.number().optional().default(5),
-      }))
-      .query(async ({ input }) => {
-        return db.getSimilarTerroirsByProfile(input.terroirId, input.limit);
-      }),
-    
-    // Récupérer les matières premières liées à une molécule
-    getRawMaterialsByMolecule: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getRawMaterialsByMolecule(input);
-      }),
-    
-    // Récupérer les terroirs liés à une plante
-    getTerroirsByPlant: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getTerroirsByPlant(input);
-      }),
-    
-    // Récupérer les plantes liées à un terroir
-    getPlantsByTerroir: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getPlantsByTerroir(input);
-      }),
-    
-    // Récupérer les matières premières similaires
-    getSimilarRawMaterials: publicProcedure
-      .input(z.object({
-        rawMaterialId: z.number(),
-        limit: z.number().optional().default(5),
-      }))
-      .query(async ({ input }) => {
-        return db.getSimilarRawMaterialsByProfile(input.rawMaterialId, input.limit);
-      }),
-  }),
+  crossLinks: crossLinksRouter,
 
   // ============================================================================
   // AUTOMATIC ENTITY LINKING (Liaisons automatiques par mots-clés)
@@ -3137,81 +2511,7 @@ export const appRouter = router({
   wikimediaImages: wikimediaImagesRouter,
   extractionMethodsAdmin: extractionMethodsAdminRouter,
   // Data Quality Dashboard
-  dataQuality: router({
-    getMetrics: publicProcedure.query(async () => {
-      const { getDb } = await import("./db");
-      const dbInstance = await getDb();
-      if (!dbInstance) return null;
-      const { sql } = await import("drizzle-orm");
-
-      const [molRes] = await dbInstance.execute(sql`
-        SELECT
-          COUNT(*) as total,
-          SUM(CASE WHEN cas_number IS NOT NULL AND cas_number != '' THEN 1 ELSE 0 END) as with_cas,
-          SUM(CASE WHEN smiles IS NOT NULL AND smiles != '' THEN 1 ELSE 0 END) as with_smiles,
-          SUM(CASE WHEN chemical_class IS NOT NULL AND chemical_class != '' THEN 1 ELSE 0 END) as with_class,
-          SUM(CASE WHEN validation_status = 'valide' THEN 1 ELSE 0 END) as validated,
-          SUM(CASE WHEN validation_status = 'en_revision' THEN 1 ELSE 0 END) as in_review,
-          SUM(CASE WHEN validation_status = 'brouillon' THEN 1 ELSE 0 END) as draft,
-          SUM(CASE WHEN pubchem_cid IS NOT NULL THEN 1 ELSE 0 END) as with_pubchem,
-          COUNT(DISTINCT family) as distinct_families
-        FROM molecules
-      `) as unknown as [Record<string,unknown>[], unknown];
-
-      const [tabRes] = await dbInstance.execute(sql`
-        SELECT COUNT(*) as total,
-          SUM(CASE WHEN ttl.tabac_id IS NOT NULL THEN 1 ELSE 0 END) as with_terroir
-        FROM tabacs t
-        LEFT JOIN tabac_terroir_links ttl ON ttl.tabac_id = t.id
-      `) as unknown as [Record<string,unknown>[], unknown];
-
-      const [cigRes] = await dbInstance.execute(sql`
-        SELECT COUNT(*) as total,
-          SUM(CASE WHEN terpene_profile IS NOT NULL AND terpene_profile != '' THEN 1 ELSE 0 END) as with_terpene
-        FROM cigarillo_recipes
-      `) as unknown as [Record<string,unknown>[], unknown];
-
-      const [accordRes] = await dbInstance.execute(sql`
-        SELECT COUNT(*) as total,
-          SUM(CASE WHEN description IS NOT NULL AND description != '' THEN 1 ELSE 0 END) as with_desc
-        FROM accords
-      `) as unknown as [Record<string,unknown>[], unknown];
-
-      const [plantRes] = await dbInstance.execute(sql`
-        SELECT COUNT(*) as total,
-          SUM(CASE WHEN latin_name IS NOT NULL AND latin_name != '' THEN 1 ELSE 0 END) as with_latin,
-          SUM(CASE WHEN family IS NOT NULL AND family != '' THEN 1 ELSE 0 END) as with_family,
-          SUM(CASE WHEN validation_status = 'valide' THEN 1 ELSE 0 END) as validated
-        FROM plants
-      `) as unknown as [Record<string,unknown>[], unknown];
-
-      const [synRes] = await dbInstance.execute(sql`
-        SELECT COUNT(*) as total FROM molecule_synergies
-      `) as unknown as [Record<string,unknown>[], unknown];
-
-      const [pmRes] = await dbInstance.execute(sql`
-        SELECT COUNT(*) as total,
-          COUNT(DISTINCT plant_id) as plants_with_molecules
-        FROM plant_molecules
-      `) as unknown as [Record<string,unknown>[], unknown];
-
-      const [recipeRes] = await dbInstance.execute(sql`
-        SELECT COUNT(*) as total FROM recipes
-      `) as unknown as [Record<string,unknown>[], unknown];
-
-      return {
-        molecules: molRes[0],
-        tabacs: tabRes[0],
-        cigarillos: cigRes[0],
-        accords: accordRes[0],
-        plants: plantRes[0],
-        synergies: synRes[0],
-        plantMolecules: pmRes[0],
-        recipes: recipeRes[0],
-        generatedAt: new Date().toISOString(),
-      };
-    }),
-  }),
+  dataQuality: dataQualityRouter,
 
   // ============================================================================
   // PLANT CONTRIBUTIONS ROUTER
@@ -3226,153 +2526,12 @@ export const appRouter = router({
   // ============================================================
   // TERROIR CONTRIBUTIONS
   // ============================================================
-  terroirContributions: router({
-    submit: protectedProcedure
-      .input(z.object({
-        terroirId: z.number(),
-        contributionType: z.enum(['image','plant_link','note','production_data','history']),
-        imageUrl: z.string().optional(),
-        imageCaption: z.string().optional(),
-        plantName: z.string().optional(),
-        plantId: z.number().optional(),
-        plantNotes: z.string().optional(),
-        productionYear: z.number().optional(),
-        productionQuantity: z.string().optional(),
-        productionQuality: z.string().optional(),
-        historyPeriod: z.string().optional(),
-        historyContent: z.string().optional(),
-        noteContent: z.string().optional(),
-        noteCategory: z.string().optional(),
-        description: z.string().optional(),
-        bibliographyRefs: z.string().optional(),
-      }))
-      .mutation(async ({ input, ctx }) => {
-        const mysql = await import('mysql2/promise');
-        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
-        await conn.execute(`
-          INSERT INTO terroir_contributions
-            (terroir_id, user_id, user_name, contribution_type,
-             image_url, image_caption, plant_name, plant_id, plant_notes,
-             production_year, production_quantity, production_quality,
-             history_period, history_content,
-             note_content, note_category, description, bibliography_refs)
-          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-        `, [
-          input.terroirId, ctx.user.openId, ctx.user.name || null, input.contributionType,
-          input.imageUrl || null, input.imageCaption || null,
-          input.plantName || null, input.plantId || null, input.plantNotes || null,
-          input.productionYear || null, input.productionQuantity || null, input.productionQuality || null,
-          input.historyPeriod || null, input.historyContent || null,
-          input.noteContent || null, input.noteCategory || null,
-          input.description || null, input.bibliographyRefs || null,
-        ]);
-        await conn.end();
-        return { success: true };
-      }),
-    getAll: protectedProcedure
-      .input(z.object({ status: z.enum(['pending','approved','rejected']).optional() }).optional())
-      .query(async ({ input, ctx }) => {
-        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
-        const mysql = await import('mysql2/promise');
-        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
-        const [rows] = await conn.execute(
-          `SELECT tc.*, t.name as terroir_name FROM terroir_contributions tc
-           LEFT JOIN terroirs t ON tc.terroir_id = t.id
-           ${input?.status ? 'WHERE tc.status = ?' : ''}
-           ORDER BY tc.created_at DESC`,
-          input?.status ? [input.status] : []
-        );
-        await conn.end();
-        return rows as Record<string, unknown>[];
-      }),
-    review: protectedProcedure
-      .input(z.object({ id: z.number(), status: z.enum(['approved','rejected']), adminNotes: z.string().optional() }))
-      .mutation(async ({ input, ctx }) => {
-        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
-        const mysql = await import('mysql2/promise');
-        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
-        await conn.execute(
-          `UPDATE terroir_contributions SET status=?, admin_notes=?, reviewed_by=?, reviewed_at=NOW() WHERE id=?`,
-          [input.status, input.adminNotes || null, ctx.user.name || ctx.user.openId, input.id]
-        );
-        await conn.end();
-        return { success: true };
-      }),
-  }),
+  terroirContributions: terroirContributionsRouter,
 
   // ============================================================
   // RECIPE CONTRIBUTIONS
   // ============================================================
-  recipeContributions: router({
-    submit: protectedProcedure
-      .input(z.object({
-        recipeId: z.number(),
-        contributionType: z.enum(['ingredient','variant','note','image','correction']),
-        ingredientName: z.string().optional(),
-        ingredientQuantity: z.string().optional(),
-        ingredientUnit: z.string().optional(),
-        ingredientNotes: z.string().optional(),
-        variantName: z.string().optional(),
-        variantDescription: z.string().optional(),
-        imageUrl: z.string().optional(),
-        imageCaption: z.string().optional(),
-        noteContent: z.string().optional(),
-        noteCategory: z.string().optional(),
-        description: z.string().optional(),
-        bibliographyRefs: z.string().optional(),
-      }))
-      .mutation(async ({ input, ctx }) => {
-        const mysql = await import('mysql2/promise');
-        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
-        await conn.execute(`
-          INSERT INTO recipe_contributions
-            (recipe_id, user_id, user_name, contribution_type,
-             ingredient_name, ingredient_quantity, ingredient_unit, ingredient_notes,
-             variant_name, variant_description,
-             image_url, image_caption,
-             note_content, note_category, description, bibliography_refs)
-          VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-        `, [
-          input.recipeId, ctx.user.openId, ctx.user.name || null, input.contributionType,
-          input.ingredientName || null, input.ingredientQuantity || null,
-          input.ingredientUnit || null, input.ingredientNotes || null,
-          input.variantName || null, input.variantDescription || null,
-          input.imageUrl || null, input.imageCaption || null,
-          input.noteContent || null, input.noteCategory || null,
-          input.description || null, input.bibliographyRefs || null,
-        ]);
-        await conn.end();
-        return { success: true };
-      }),
-    getAll: protectedProcedure
-      .input(z.object({ status: z.enum(['pending','approved','rejected']).optional() }).optional())
-      .query(async ({ input, ctx }) => {
-        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
-        const mysql = await import('mysql2/promise');
-        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
-        const [rows] = await conn.execute(
-          `SELECT rc.* FROM recipe_contributions rc
-           ${input?.status ? 'WHERE rc.status = ?' : ''}
-           ORDER BY rc.created_at DESC`,
-          input?.status ? [input.status] : []
-        );
-        await conn.end();
-        return rows as Record<string, unknown>[];
-      }),
-    review: protectedProcedure
-      .input(z.object({ id: z.number(), status: z.enum(['approved','rejected']), adminNotes: z.string().optional() }))
-      .mutation(async ({ input, ctx }) => {
-        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
-        const mysql = await import('mysql2/promise');
-        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
-        await conn.execute(
-          `UPDATE recipe_contributions SET status=?, admin_notes=?, reviewed_by=?, reviewed_at=NOW() WHERE id=?`,
-          [input.status, input.adminNotes || null, ctx.user.name || ctx.user.openId, input.id]
-        );
-        await conn.end();
-        return { success: true };
-      }),
-  }),
+  recipeContributions: recipeContributionsRouter,
 
   // ============================================================
   // GC-MS IMPORT — Import de profils moléculaires GC-MS

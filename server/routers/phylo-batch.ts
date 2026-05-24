@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Phylo Batch Router
  * ─────────────────────────────────────────────────────────────────────────────
@@ -16,7 +15,7 @@ import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { plants } from "../../drizzle/schema";
-import { eq, sql, like } from "drizzle-orm";
+import { count, eq, like, sql } from "drizzle-orm";
 
 const DELAY_MS = 600;
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
