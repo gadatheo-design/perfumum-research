@@ -57,6 +57,8 @@ export default function PubChemIupacBatch() {
     { enabled: false }
   );
   const fetchIupac = trpc.pubchemIupac.fetchAndUpdateIupac.useMutation();
+  // Mode batch serveur pour les grands lots (≥200 molécules)
+  const fetchBatchServer = trpc.pubchemIupac.fetchBatchServer.useMutation();
 
   const addLog = useCallback((entry: Omit<LogEntry, "timestamp">) => {
     setLogs(prev => [{ ...entry, timestamp: new Date() }, ...prev].slice(0, 500));
@@ -76,6 +78,42 @@ export default function PubChemIupacBatch() {
     setLogs([]);
     setStartTime(new Date());
 
+    // Pour les grands lots (≥200), utiliser le mode batch serveur
+    // qui évite les timeouts réseau et les connexions DB multiples
+    if (batchSize >= 200) {
+      addLog({ id: 0, name: "—", status: "skipped", message: `Mode batch serveur activé (${batchSize} molécules) — traitement en cours…` });
+      setTotalToProcess(batchSize);
+      try {
+        const res = await fetchBatchServer.mutateAsync({
+          mode,
+          limit: batchSize,
+          delayMs: Math.min(delayMs, 500), // Limiter le délai côté serveur
+        });
+        setProcessed(res.total);
+        setSucceeded(res.succeeded);
+        setNotFound(res.notFound);
+        setFailed(res.failed);
+        setTotalToProcess(res.total);
+        // Afficher les derniers résultats dans le journal
+        for (const r of [...res.results].reverse()) {
+          addLog({
+            id: r.id,
+            name: r.name,
+            status: r.status === 'success' ? 'success' : r.status === 'error' ? 'error' : 'skipped',
+            message: r.message,
+          });
+        }
+        addLog({ id: 0, name: "—", status: "success", message: `Batch terminé : ${res.succeeded} mis à jour, ${res.notFound} non trouvés, ${res.failed} erreurs` });
+      } catch (err: any) {
+        addLog({ id: 0, name: "—", status: "error", message: `Erreur batch serveur : ${err.message}` });
+      }
+      setIsRunning(false);
+      setIsPaused(false);
+      stats.refetch();
+      return;
+    }
+
+    // Mode client pour les petits lots (<200) : traitement molécule par molécule
     const result = await queue.refetch();
     const items = result.data?.molecules || [];
 
@@ -201,7 +239,10 @@ export default function PubChemIupacBatch() {
                       <SelectItem value="30">30 molécules</SelectItem>
                       <SelectItem value="50">50 molécules</SelectItem>
                       <SelectItem value="100">100 molécules</SelectItem>
-                      <SelectItem value="1000">1000 molécules</SelectItem>
+                      <SelectItem value="200">200 molécules (batch serveur)</SelectItem>
+                      <SelectItem value="500">500 molécules (batch serveur)</SelectItem>
+                      <SelectItem value="1000">1000 molécules (batch serveur)</SelectItem>
+                      <SelectItem value="2000">2000 molécules (batch serveur)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
