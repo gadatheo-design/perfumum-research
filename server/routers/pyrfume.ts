@@ -463,16 +463,16 @@ export const pyrfumeRouter = router({
         .from(pyrfumeEmbeddings)
         .where(eq(pyrfumeEmbeddings.moleculeId, input.moleculeId));
 
-      if (!targetEmbedding || !targetEmbedding.vector) return [];
+      if (!targetEmbedding || !targetEmbedding.embeddingVector) return [];
 
       // Parser le vecteur cible
-      const targetVector: number[] = JSON.parse(targetEmbedding.vector as string);
+      const targetVector: number[] = JSON.parse(targetEmbedding.embeddingVector as string);
 
       // Récupérer tous les embeddings (sauf la cible)
       const allEmbeddings = await db
         .select({
           moleculeId: pyrfumeEmbeddings.moleculeId,
-          vector: pyrfumeEmbeddings.vector,
+          embeddingVector: pyrfumeEmbeddings.embeddingVector,
         })
         .from(pyrfumeEmbeddings);
 
@@ -481,7 +481,7 @@ export const pyrfumeRouter = router({
 
       for (const emb of allEmbeddings) {
         if (emb.moleculeId === input.moleculeId) continue;
-        const vector: number[] = JSON.parse(emb.vector as string);
+        const vector: number[] = JSON.parse(emb.embeddingVector as string);
 
         // Distance cosinus : 1 - (A·B / (||A|| * ||B||))
         let dotProduct = 0;
