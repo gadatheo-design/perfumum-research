@@ -1,12 +1,66 @@
-// @ts-nocheck
 import React, { useState, useMemo } from 'react';
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box, Flame, ArrowRight, GitBranch, Dna, Download, RefreshCw, Star, Wine, Plus, Trash2, Search, BookOpen, Copy, Check, FlaskConical } from "lucide-react";
-import { Molecule3DViewer } from "@/components/Molecule3DViewer";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from "recharts";
+import { SYNERGY_TYPE_CONFIG } from './molecule-constants';
+import { RecetteSynergiesSection } from './RecetteSynergiesSection';
+
+
+interface SynergyEntry {
+  id: string;
+  type: string;
+  molecule1: string;
+  molecule2: string;
+  description?: string | null;
+  intensity?: number | null;
+  source?: string | null;
+  mechanism?: string | null;
+  application?: string | null;
+  ratio?: string | null;
+}
+
+interface NamedSynergyRaw {
+  id: number;
+  synergyType?: string | null;
+  type?: string | null;
+  molecule1?: string | null;
+  molecule2?: string | null;
+  partnerMolecule?: string | null;
+  description?: string | null;
+  effect?: string | null;
+  intensity?: number | null;
+  source?: string | null;
+  mechanism?: string | null;
+  chemicalMechanism?: string | null;
+  application?: string | null;
+  olfactiveApplication?: string | null;
+  ratio?: string | null;
+}
+
+interface DbSynergyRaw {
+  id: number;
+  type?: string | null;
+  synergyType?: string | null;
+  molecule1Id?: number | null;
+  molecule2Id?: number | null;
+  molecule1Name?: string | null;
+  molecule2Name?: string | null;
+  description?: string | null;
+  intensity?: number | null;
+  source?: string | null;
+  chemicalMechanism?: string | null;
+  applications?: string | null;
+  olfactiveApplication?: string | null;
+  optimalRatio?: string | null;
+}
+
+interface SynergiesTabProps {
+  moleculeName: string;
+  moleculeId: number;
+}
 
 export function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: string; moleculeId: number }) {
   const [activeFilter, setActiveFilter] = useState<string>("all");
@@ -23,13 +77,13 @@ export function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: strin
   const isLoading = loadingNamed || loadingDb;
 
   // Filtrer les synergies DB par ID de molécule
-  const filteredDbSynergies = (dbSynergies || []).filter((s: unknown) =>
+  const filteredDbSynergies = (dbSynergies as DbSynergyRaw[] || []).filter((s: DbSynergyRaw) =>
     s.molecule1Id === moleculeId || s.molecule2Id === moleculeId
   );
 
   // Combiner et dédupliquer
   const allSynergies = [
-    ...(namedSynergies || []).map((s: unknown) => ({
+    ...(namedSynergies as unknown as NamedSynergyRaw[] || []).map((s: NamedSynergyRaw) => ({
       id: `named-${s.id}`,
       type: s.synergyType || s.type || "potentialisation",
       molecule1: s.molecule1 || moleculeName,
@@ -40,8 +94,8 @@ export function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: strin
       mechanism: s.mechanism || s.chemicalMechanism,
       application: s.application || s.olfactiveApplication,
       ratio: s.ratio,
-    })),
-    ...filteredDbSynergies.map((s: unknown) => ({
+    } as SynergyEntry)),
+    ...filteredDbSynergies.map((s: DbSynergyRaw) => ({
       id: `db-${s.id}`,
       type: s.type || s.synergyType || "potentialisation",
       molecule1: s.molecule1Name || `Molécule #${s.molecule1Id}`,
@@ -52,12 +106,12 @@ export function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: strin
       mechanism: s.chemicalMechanism,
       application: s.applications || s.olfactiveApplication,
       ratio: s.optimalRatio,
-    })),
+    } as SynergyEntry)),
   ];
 
   // Dédupliquer par description
   const seen = new Set<string>();
-  const uniqueSynergies = allSynergies.filter(s => {
+  const uniqueSynergies = allSynergies.filter((s: SynergyEntry) => {
     const key = `${s.molecule1}-${s.molecule2}-${s.type}`;
     if (seen.has(key)) return false;
     seen.add(key);
@@ -96,7 +150,7 @@ export function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: strin
 
         {/* Stats rapides */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-4">
-          {Object.entries(SYNERGY_TYPE_CONFIG).map(([type, config]) => (
+          {(Object.entries(SYNERGY_TYPE_CONFIG) as [string, { label: string; color: string; bg: string; icon: string; description: string }][]).map(([type, config]) => (
             <div
               key={type}
               className={`rounded-lg border p-3 text-center cursor-pointer transition-all ${
@@ -166,7 +220,7 @@ export function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: strin
         >
           Toutes ({uniqueSynergies.length})
         </Button>
-        {Object.entries(SYNERGY_TYPE_CONFIG).map(([type, config]) =>
+        {(Object.entries(SYNERGY_TYPE_CONFIG) as [string, { label: string; color: string; bg: string; icon: string; description: string }][]).map(([type, config]) =>
           (typeCount[type] || 0) > 0 ? (
             <Button
               key={type}
@@ -201,7 +255,7 @@ export function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: strin
       ) : (
         <div className="grid gap-4">
           {filtered.map((synergie) => {
-            const config = SYNERGY_TYPE_CONFIG[synergie.type] || SYNERGY_TYPE_CONFIG.potentialisation;
+            const config = SYNERGY_TYPE_CONFIG[synergie.type] ?? SYNERGY_TYPE_CONFIG['potentialisation'];
             const partnerMolecule = synergie.molecule1 === moleculeName ? synergie.molecule2 : synergie.molecule1;
 
             return (

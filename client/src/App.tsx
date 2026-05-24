@@ -119,6 +119,7 @@ const PubChemBatch = React.lazy(() => import('./pages/admin/PubChemBatch'));
 const AIBatchEnrich = React.lazy(() => import('./pages/admin/AIBatchEnrich'));
 const AIBatchEnrichMolecules = React.lazy(() => import('./pages/admin/AIBatchEnrichMolecules'));
 const ChEBIBatch = React.lazy(() => import('./pages/admin/ChEBIBatch'));
+const GoodScentsImport = React.lazy(() => import('./pages/admin/GoodScentsImport'));
 const PubChemIupacBatch = React.lazy(() => import('./pages/admin/PubChemIupacBatch'));
 const GBIFBatch = React.lazy(() => import('./pages/admin/GBIFBatch'));
 const WikimediaBatch = React.lazy(() => import('./pages/admin/WikimediaBatch'));
@@ -574,6 +575,7 @@ function Router() {
       <Route path="/admin/liaison-cigarillos-molecules" component={CigarilloMoleculeLinking} />
       <Route path="/admin/pubchem-batch" component={PubChemBatch} />
       <Route path="/admin/chebi-batch" component={ChEBIBatch} />
+      <Route path="/admin/goodscents-import" component={GoodScentsImport} />
       <Route path="/admin/gbif-batch" component={GBIFBatch} />
       <Route path="/admin/wikimedia-batch" component={WikimediaBatch} />
       <Route path="/admin/smiles-batch" component={SmilesBatch} />

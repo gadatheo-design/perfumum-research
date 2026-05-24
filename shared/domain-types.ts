@@ -109,6 +109,17 @@ export interface MoleculeExtended {
   imageUrl?: string | null;
   createdAt: Date;
   updatedAt: Date;
+  // Champs olfactifs étendus (enrichis ou calculés, non stockés directement en DB)
+  volatility?: number | null;
+  intensity?: number | null;
+  complexity?: number | null;
+  emotionalResonance?: string | null;
+  functionalEffect?: string | null;
+  sourceOrigin?: string | null;
+  extractionMethod?: string | null;
+  concentration?: string | null;
+  chemicalFormula?: string | null;
+  family?: string | null;
 }
 
 // ─── PlantExtended ───────────────────────────────────────────────────────────

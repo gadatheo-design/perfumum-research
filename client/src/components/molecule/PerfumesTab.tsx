@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * PerfumesTab — Onglet "Parfums emblématiques" de MoleculeDetail
  * Extrait de MoleculeDetail.tsx pour améliorer la maintenabilité
@@ -7,15 +6,36 @@ import React from 'react';
 import { Loader2, Star, Sparkles, Droplet } from "lucide-react";
 import { Wine } from "lucide-react";
 import { trpc } from "@/lib/trpc";
+import { ROLE_LABELS } from './molecule-constants';
 
-const ROLE_LABELS: Record<string, { label: string; color: string }> = {
-  accord_principal: { label: 'Accord principal', color: 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300' },
-  note_coeur: { label: 'Note de cœur', color: 'bg-rose-100 text-rose-800 dark:bg-rose-900/40 dark:text-rose-300' },
-  note_tete: { label: 'Note de tête', color: 'bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-300' },
-  note_fond: { label: 'Note de fond', color: 'bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300' },
-  signature: { label: 'Molécule signature', color: 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300' },
-  ingredient_cle: { label: 'Ingrédient clé', color: 'bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300' },
-};
+
+
+
+// Types de données retournées par getPerfumes
+interface PerfumePerfumer {
+  id: number;
+  name: string;
+  house?: string | null;
+}
+interface PerfumeEntry {
+  id: number;
+  name?: string | null;
+  perfumeName?: string | null;
+  house?: string | null;
+  perfumeHouse?: string | null;
+  year?: number | null;
+  role?: string | null;
+  roleInPerfume?: string | null;
+  concentration?: string | null;
+  notes?: string | null;
+  description?: string | null;
+  perfumer?: PerfumePerfumer | null;
+}
+
+interface PerfumesTabProps {
+  moleculeId: number;
+  moleculeName: string;
+}
 
 export function PerfumesTab({ moleculeId, moleculeName }: { moleculeId: number; moleculeName: string }) {
   const { data: perfumes, isLoading } = trpc.molecules.getPerfumes.useQuery({ moleculeId });
@@ -37,11 +57,12 @@ export function PerfumesTab({ moleculeId, moleculeName }: { moleculeId: number; 
       </div>
     );
   }
-  const byHouse = perfumes?.reduce<Record<string, typeof perfumes>>((acc, p) => {
-    if (!acc[p.perfumeHouse]) acc[p.perfumeHouse] = [];
-    acc[p.perfumeHouse].push(p);
+  const byHouse = (perfumes as unknown as PerfumeEntry[])?.reduce<Record<string, PerfumeEntry[]>>((acc, p) => {
+    const house = p.perfumeHouse ?? p.house ?? 'Maison inconnue';
+    if (!acc[house]) acc[house] = [];
+    acc[house].push(p);
     return acc;
-  }, {});
+  }, {}) ?? {};
   return (
     <div className="space-y-6">
       <div className="bg-gradient-to-r from-amber-50 to-rose-50 dark:from-amber-950/20 dark:to-rose-950/20 rounded-xl p-5 border border-amber-200/60 dark:border-amber-800/40">
@@ -60,7 +81,7 @@ export function PerfumesTab({ moleculeId, moleculeName }: { moleculeId: number; 
         </div>
         <div className="flex flex-wrap gap-2 mt-3">
           {Object.entries(ROLE_LABELS).map(([key, { label, color }]) => {
-            const count = perfumes?.filter(p => p.roleInPerfume === key).length;
+            const count = (perfumes as unknown as PerfumeEntry[])?.filter(p => p.roleInPerfume === key).length ?? 0;
             if (count === 0) return null;
             return (
               <span key={key} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${color}`}>
@@ -75,7 +96,7 @@ export function PerfumesTab({ moleculeId, moleculeName }: { moleculeId: number; 
           <h4 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider border-b pb-1">{house}</h4>
           <div className="grid gap-4 sm:grid-cols-2">
             {items.map(p => {
-              const roleInfo = ROLE_LABELS[p.roleInPerfume] || ROLE_LABELS.ingredient_cle;
+              const roleInfo = ROLE_LABELS[p.roleInPerfume ?? ''] ?? ROLE_LABELS['ingredient_cle'];
               return (
                 <div key={p.id} className="rounded-xl border bg-card p-4 space-y-3 hover:shadow-md transition-shadow">
                   <div className="flex items-start justify-between gap-2">
@@ -90,7 +111,7 @@ export function PerfumesTab({ moleculeId, moleculeName }: { moleculeId: number; 
                   {p.perfumer && (
                     <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                       <Sparkles className="h-3.5 w-3.5" />
-                      <span>Parfumeur : <span className="font-medium text-foreground">{p.perfumer}</span></span>
+                      <span>Parfumeur : <span className="font-medium text-foreground">{typeof p.perfumer === 'object' ? (p.perfumer as PerfumePerfumer).name : String(p.perfumer)}</span></span>
                     </div>
                   )}
                   {p.concentration && (

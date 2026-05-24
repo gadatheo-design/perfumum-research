@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState, useMemo } from 'react';
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -7,6 +6,37 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box, Flame, ArrowRight, GitBranch, Dna, Download, RefreshCw, Star, Wine, Plus, Trash2, Search, BookOpen, Copy, Check, FlaskConical } from "lucide-react";
 import { Molecule3DViewer } from "@/components/Molecule3DViewer";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from "recharts";
+
+
+interface PyrfumeDescriptor {
+  id: number;
+  descriptor: string;
+  value?: number | null;
+  source?: string | null;
+}
+
+interface PyrfumeMappingEntry {
+  id: number;
+  cid?: string | null;
+  iupacName?: string | null;
+  smiles?: string | null;
+  datasets?: string[] | null;
+}
+
+interface PyrfumeIfraEntry {
+  id: number;
+  category?: string | null;
+  maxConcentration?: number | null;
+  notes?: string | null;
+}
+
+interface SimilarMoleculeEntry {
+  id: number;
+  name: string;
+  similarity?: number | null;
+  olfactiveFamily?: string | null;
+  odorProfile?: string | null;
+}
 
 export function PyrfumeSection({ moleculeId }: { moleculeId: number }) {
   const mapping = trpc.pyrfume.getMappingForMolecule.useQuery({ moleculeId });
@@ -22,7 +52,7 @@ export function PyrfumeSection({ moleculeId }: { moleculeId: number }) {
     if (!descriptors.data || descriptors.data.length === 0) return [];
     // Agréger par descripteur (prendre la valeur max si plusieurs sources)
     const descMap = new Map<string, number>();
-    for (const d of descriptors.data) {
+    for (const d of (descriptors.data as PyrfumeDescriptor[])) {
       const current = descMap.get(d.descriptor) || 0;
       descMap.set(d.descriptor, Math.max(current, d.value ?? 1));
     }

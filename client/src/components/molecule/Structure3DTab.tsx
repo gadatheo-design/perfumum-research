@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState, useMemo } from 'react';
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -7,6 +6,15 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box, Flame, ArrowRight, GitBranch, Dna, Download, RefreshCw, Star, Wine, Plus, Trash2, Search, BookOpen, Copy, Check, FlaskConical } from "lucide-react";
 import { Molecule3DViewer } from "@/components/Molecule3DViewer";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from "recharts";
+
+
+interface Structure3DTabProps {
+  moleculeId: number;
+  moleculeName: string;
+  formula?: string | null;
+  smiles?: string | null;
+  pubchemCid?: number | null;
+}
 
 export function Structure3DTab({ moleculeId, moleculeName, formula, smiles, pubchemCid }: Structure3DTabProps) {
   const [viewMode, setViewMode] = useState<"canvas" | "pubchem">("canvas");

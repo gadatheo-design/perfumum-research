@@ -101,6 +101,7 @@ import { extractionProcessesRouter } from './routers/extraction-processes';
 import { resinTobaccoRecipesRouter } from './routers/resin-tobacco-recipes';
 import { importExportRouter } from './routers/import-export';
 import { pyrfumeRouter } from './routers/pyrfume';
+import { goodscentsRouter } from './routers/goodscents';
 import { 
   withCache, 
   CACHE_KEYS, 
@@ -276,6 +277,7 @@ export const appRouter = router({
   system: systemRouter,
   importExport: importExportRouter,
   pyrfume: pyrfumeRouter,
+  goodscents: goodscentsRouter,
   
   auth: authRouter,
 

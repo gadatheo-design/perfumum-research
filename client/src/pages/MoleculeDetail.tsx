@@ -30,7 +30,7 @@ import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 import { useBreadcrumbSegments } from "@/contexts/BreadcrumbContext";
 import type { MoleculeExtended } from "../../../../shared/domain-types";
-import { PerfumesTab, Structure3DTab, SynergiesTab, RecetteSynergiesSection, PyrfumeSection, SimilarMolecules } from '@/components/molecule';
+import { PerfumesTab, Structure3DTab, SynergiesTab, RecetteSynergiesSection, PyrfumeSection, SimilarMolecules, MoleculeNomenclatureTab, MoleculeOverviewTab, MoleculeScientificTab, MoleculeTransformationsTab, MoleculeBiosynthesisTab } from '@/components/molecule';
 
 // Composant carte article PubMed avec bouton d'import dans PERFUMUM
 function PubMedArticleCard({ art, moleculeId, moleculeName }: {
@@ -1383,841 +1383,119 @@ export default function MoleculeDetail() {
             </TabsList>
 
             {/* Onglet Nomenclature */}
-            <TabsContent value="nomenclature" className="space-y-6 mt-6">
-              <TabErrorBoundary tabLabel="Nomenclature">
-              {/* Identités principales */}
-              <div className="bg-card p-6 rounded-lg border shadow-sm">
-                <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-xl font-semibold flex items-center gap-2">
-                    <BookOpen className="h-5 w-5 text-primary" />
-                    Identité Chimique
-                  </h2>
-                  {!mol.pubchem_cid && (
-                    <PubChemEnrichButton moleculeId={id} moleculeName={molecule?.name} />
-                  )}
-                </div>
-
-                <div className="space-y-4">
-                  {/* Nom commun + formule */}
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <div className="bg-muted/50 p-4 rounded-lg">
-                      <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Nom commun</p>
-                      <p className="text-xl font-bold">{molecule?.name}</p>
-                    </div>
-                    {molecule?.chemicalFormula && (
-                      <div className="bg-muted/50 p-4 rounded-lg">
-                        <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Formule moléculaire</p>
-                        <p className="text-xl font-mono font-bold">{molecule?.chemicalFormula}</p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Nom IUPAC */}
-                  {molecule?.iupacName && (
-                    <div className="bg-amber-50 dark:bg-amber-950/30 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
-                      <p className="text-xs text-amber-600 dark:text-amber-400 uppercase tracking-wide font-medium mb-2">Nom IUPAC (nomenclature systématique)</p>
-                      <p className="font-mono text-amber-800 dark:text-amber-200 leading-relaxed">{molecule?.iupacName}</p>
-                    </div>
-                  )}
-
-                  {/* CAS + Poids moléculaire */}
-                  <div className="grid md:grid-cols-2 gap-4">
-                    {molecule?.casNumber && (
-                      <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-                        <p className="text-xs text-blue-600 dark:text-blue-400 uppercase tracking-wide font-medium mb-2">Numéro CAS</p>
-                        <p className="text-2xl font-mono font-bold text-blue-800 dark:text-blue-200 mb-2">{molecule?.casNumber}</p>
-                        <div className="flex gap-2">
-                          <a
-                            href={`https://commonchemistry.cas.org/detail?cas_rn=${molecule?.casNumber}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs text-blue-600 hover:underline flex items-center gap-1"
-                          >
-                            CAS Common Chemistry <ExternalLink className="h-3 w-3" />
-                          </a>
-                          <a
-                            href={`https://www.chemspider.com/Search.aspx?q=${molecule?.casNumber}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs text-blue-600 hover:underline flex items-center gap-1"
-                          >
-                            ChemSpider <ExternalLink className="h-3 w-3" />
-                          </a>
-                        </div>
-                      </div>
-                    )}
-                    {molecule?.molecularWeight && (
-                      <div className="bg-muted/50 p-4 rounded-lg">
-                        <p className="text-xs text-muted-foreground uppercase tracking-wide mb-2">Masse moléculaire</p>
-                        <p className="text-2xl font-bold">{molecule?.molecularWeight} <span className="text-sm font-normal text-muted-foreground">g/mol</span></p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Classe chimique + Famille */}
-                  <div className="grid md:grid-cols-2 gap-4">
-                    {molecule?.chemicalClass && (
-                      <div className="bg-purple-50 dark:bg-purple-950/30 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
-                        <p className="text-xs text-purple-600 dark:text-purple-400 uppercase tracking-wide font-medium mb-2">Classe chimique</p>
-                        <p className="text-lg font-semibold text-purple-800 dark:text-purple-200">
-                          {chemicalClassLabels[molecule?.chemicalClass] || molecule?.chemicalClass}
-                        </p>
-                      </div>
-                    )}
-                    {molecule?.family && (
-                      <div className="bg-primary/5 p-4 rounded-lg border border-primary/20">
-                        <p className="text-xs text-primary/70 uppercase tracking-wide font-medium mb-2">Famille olfactive</p>
-                        <p className="text-lg font-semibold text-primary">{molecule?.family}</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Liens externes */}
-              {(mol.pubchem_cid || molecule?.casNumber || molecule?.chemicalFormula) && (
-                <div className="bg-card p-6 rounded-lg border shadow-sm">
-                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                    <Globe className="h-5 w-5 text-primary" />
-                    Bases de données externes
-                  </h2>
-                  <div className="flex flex-wrap gap-3">
-                    {mol.pubchem_cid && (
-                      <a
-                        href={`https://pubchem.ncbi.nlm.nih.gov/compound/${mol.pubchem_cid}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors text-sm font-medium"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        PubChem CID {mol.pubchem_cid}
-                      </a>
-                    )}
-                    {molecule?.casNumber && (
-                      <a
-                        href={`https://commonchemistry.cas.org/detail?cas_rn=${molecule?.casNumber}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors text-sm font-medium"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        CAS Registry
-                      </a>
-                    )}
-                    {molecule?.chemicalFormula && (
-                      <a
-                        href={`https://www.chemspider.com/Search.aspx?q=${encodeURIComponent(molecule?.chemicalFormula)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-300 hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-colors text-sm font-medium"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        ChemSpider
-                      </a>
-                    )}
-                    {molecule?.name && (
-                      <a
-                        href={
-                          mol.chebi_id
-                            ? `https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${mol.chebi_id}`
-                            : `https://www.ebi.ac.uk/chebi/advancedSearchFT.do?searchString=${encodeURIComponent(molecule?.name)}`
-                        }
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-50 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-800 text-teal-700 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/40 transition-colors text-sm font-medium"
-                        title={mol.chebi_id ? `ChEBI ID: ${mol.chebi_id}` : 'Rechercher dans ChEBI'}
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        ChEBI{mol.chebi_id ? ` · ${mol.chebi_id}` : ''}
-                      </a>
-                    )}
-                    {mol.wikidataQid && (
-                      <a
-                        href={`https://www.wikidata.org/entity/${mol.wikidataQid}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-colors text-sm font-medium"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                        Wikidata {mol.wikidataQid}
-                      </a>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Synonymes PubChem */}
-              {Array.isArray(mol.pubchemSynonyms) && mol.pubchemSynonyms && mol.pubchemSynonyms.length > 0 && (
-                <div className="bg-card p-6 rounded-lg border shadow-sm">
-                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                    <Atom className="h-5 w-5 text-primary" />
-                    Synonymes PubChem
-                    <span className="ml-auto text-sm font-normal text-muted-foreground">
-                      {mol.pubchemSynonyms!.length} synonymes
-                    </span>
-                  </h2>
-                  <div className="flex flex-wrap gap-2">
-                    {mol.pubchemSynonyms!.map((syn, i) => (
-                      <span key={i} className="inline-flex items-center px-2.5 py-1 rounded text-xs bg-secondary text-secondary-foreground border border-border font-mono hover:bg-secondary/80 transition-colors">
-                        {syn}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )}
-              </TabErrorBoundary>
-            </TabsContent>
+            <MoleculeNomenclatureTab
+              mol={mol}
+              molecule={molecule}
+              id={id}
+              normOlfactiveProfile={normOlfactiveProfile}
+              normOlfactiveProfileStr={normOlfactiveProfileStr}
+              normTherapeuticProperties={normTherapeuticProperties}
+              normBotanicalSources={normBotanicalSources}
+              safeReferences={safeReferences}
+              radarData={radarData}
+              hasRadarData={hasRadarData}
+              ifraRestrictions={ifraRestrictions}
+              hasIfraRestrictions={hasIfraRestrictions}
+              primaryRestriction={primaryRestriction}
+              moleculeOrigins={moleculeOrigins}
+              isLoadingOrigins={isLoadingOrigins}
+              moleculeTransformations={moleculeTransformations}
+              isLoadingTransformations={isLoadingTransformations}
+              tpsGenes={tpsGenes}
+              isLoadingTps={isLoadingTps}
+            />
 
             {/* Onglet Vue d'ensemble */}
-            <TabsContent value="overview" className="space-y-6 mt-6">
-              <TabErrorBoundary tabLabel="Vue d'ensemble">
-              {/* Profil Olfactif Section */}
-              <div className="grid md:grid-cols-2 gap-6">
-                {normOlfactiveProfile.length > 0 && (
-                  <div className="bg-card p-6 rounded-lg border shadow-sm">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Sparkles className="h-5 w-5 text-primary" />
-                      <h2 className="text-lg font-semibold">Profil Olfactif</h2>
-                    </div>
-                    {normOlfactiveProfile.length === 1 ? (
-                      <p className="whitespace-pre-wrap text-muted-foreground">{normOlfactiveProfile[0]}</p>
-                    ) : (
-                      <div className="flex flex-wrap gap-2">
-                        {normOlfactiveProfile.map((tag: string, i: number) => (
-                          <span key={i} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary border border-primary/20">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )}
-
-                {molecule?.emotionalResonance && (
-                  <div className="bg-card p-6 rounded-lg border shadow-sm">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Zap className="h-5 w-5 text-primary" />
-                      <h2 className="text-lg font-semibold">Résonance Émotionnelle</h2>
-                    </div>
-                    <p className="whitespace-pre-wrap text-muted-foreground">{molecule?.emotionalResonance}</p>
-                  </div>
-                )}
-
-                {molecule?.functionalEffect && (
-                  <div className="bg-card p-6 rounded-lg border shadow-sm">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Atom className="h-5 w-5 text-primary" />
-                      <h2 className="text-lg font-semibold">Effet Fonctionnel</h2>
-                    </div>
-                    <p className="whitespace-pre-wrap text-muted-foreground">{molecule?.functionalEffect}</p>
-                  </div>
-                )}
-
-                {molecule?.sourceOrigin && (
-                  <div className="bg-card p-6 rounded-lg border shadow-sm">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Leaf className="h-5 w-5 text-primary" />
-                      <h2 className="text-lg font-semibold">Origine</h2>
-                    </div>
-                    <p className="text-muted-foreground">{molecule?.sourceOrigin}</p>
-                  </div>
-                )}
-              </div>
-
-              {/* Profil Radar Olfactif */}
-              {hasRadarData && (
-                <div className="bg-card p-6 rounded-lg border shadow-sm">
-                  <h2 className="text-xl font-semibold mb-4">Profil Radar Olfactif</h2>
-                  <div className="h-96">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <RadarChart data={radarData}>
-                        <PolarGrid stroke="hsl(var(--border))" />
-                        <PolarAngleAxis dataKey="axis" tick={{ fill: "hsl(var(--foreground))", fontSize: 14 }} />
-                        <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "hsl(var(--muted-foreground))" }} />
-                        <Radar
-                          name={molecule?.name}
-                          dataKey="value"
-                          stroke="hsl(var(--primary))"
-                          fill="hsl(var(--primary))"
-                          fillOpacity={0.3}
-                          strokeWidth={2}
-                        />
-                      </RadarChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
-              )}
-
-              {/* Informations Botaniques et Extraction */}
-              <div className="grid md:grid-cols-2 gap-6">
-                {normBotanicalSources && (
-                  <div className="bg-card p-6 rounded-lg border shadow-sm">
-                    <h2 className="text-lg font-semibold mb-3">Sources Botaniques</h2>
-                    <p className="whitespace-pre-wrap text-muted-foreground">{normBotanicalSources}</p>
-                  </div>
-                )}
-
-                {molecule?.extractionMethod && (
-                  <div className="bg-card p-6 rounded-lg border shadow-sm">
-                    <h2 className="text-lg font-semibold mb-3">Méthode d'Extraction</h2>
-                    <p className="whitespace-pre-wrap text-muted-foreground">{molecule?.extractionMethod}</p>
-                  </div>
-                )}
-
-                {normTherapeuticProperties && (
-                  <div className="bg-card p-6 rounded-lg border shadow-sm">
-                    <h2 className="text-lg font-semibold mb-3">Propriétés Thérapeutiques</h2>
-                    <p className="whitespace-pre-wrap text-muted-foreground">{normTherapeuticProperties}</p>
-                  </div>
-                )}
-
-                {molecule?.concentration && (
-                  <div className="bg-card p-6 rounded-lg border shadow-sm">
-                    <div className="flex items-center gap-2 mb-3">
-                      <Droplet className="h-5 w-5 text-primary" />
-                      <h2 className="text-lg font-semibold">Concentration Recommandée</h2>
-                    </div>
-                    <p className="text-2xl font-bold text-primary">{molecule?.concentration}</p>
-                  </div>
-                )}
-              </div>
-
-              {/* Notes de Recherche */}
-              {molecule?.notes && (
-                <div className="bg-card p-6 rounded-lg border shadow-sm">
-                  <h2 className="text-lg font-semibold mb-3">Notes de Recherche</h2>
-                  <p className="whitespace-pre-wrap text-muted-foreground">{molecule?.notes}</p>
-                </div>
-              )}
-
-              {/* Recommandations IA */}
-              {recommendations && recommendations?.length > 0 && (
-                <RecommendationsCard
-                  type="molecules"
-                  recommendations={recommendations}
-                  isLoading={isLoadingRecommendations}
-                />
-              )}
-
-              {/* Références Bibliographiques (PubChem, etc.) */}
-              <div className="bg-card p-6 rounded-lg border shadow-sm">
-                <h2 className="text-lg font-semibold mb-4">Références PubChem</h2>
-                <ReferencesList references={safeReferences} />
-              </div>
-
-              {/* Références Bibliographiques Liées (V3) */}
-              <LinkedReferences 
-                entityType="molecule" 
-                entityId={id} 
-                title="Références Bibliographiques Associées"
-                maxItems={5}
-              />
-
-              {/* Section Voir aussi */}
-              <div className="grid md:grid-cols-2 gap-6">
-                {/* Recettes utilisant cette molécule */}
-                <LinkedRecettes 
-                  recettes={linkedRecettes || []} 
-                  isLoading={isLoadingRecettes}
-                  title="Recettes utilisant cette molécule"
-                />
-
-                {/* Molécules similaires */}
-                <SimilarContent
-                  items={similarMolecules || []}
-                  type="molecule"
-                  isLoading={isLoadingSimilar}
-                  getSubtitle={(m) => m.family || m.chemicalClass || undefined}
-                />
-              </div>
-              </TabErrorBoundary>
-            </TabsContent>
+            <MoleculeOverviewTab
+              mol={mol}
+              molecule={molecule}
+              id={id}
+              normOlfactiveProfile={normOlfactiveProfile}
+              normOlfactiveProfileStr={normOlfactiveProfileStr}
+              normTherapeuticProperties={normTherapeuticProperties}
+              normBotanicalSources={normBotanicalSources}
+              safeReferences={safeReferences}
+              radarData={radarData}
+              hasRadarData={hasRadarData}
+              ifraRestrictions={ifraRestrictions}
+              hasIfraRestrictions={hasIfraRestrictions}
+              primaryRestriction={primaryRestriction}
+              moleculeOrigins={moleculeOrigins}
+              isLoadingOrigins={isLoadingOrigins}
+              moleculeTransformations={moleculeTransformations}
+              isLoadingTransformations={isLoadingTransformations}
+              tpsGenes={tpsGenes}
+              isLoadingTps={isLoadingTps}
+            />
 
             {/* Onglet Données scientifiques */}
-            <TabsContent value="scientific" className="space-y-6 mt-6">
-              <TabErrorBoundary tabLabel="Données scientifiques">
-              {/* Propriétés Scientifiques — voir l'onglet Nomenclature pour IUPAC, CAS, formule, poids */}
-              {(molecule?.molecularWeight || molecule?.boilingPoint || molecule?.logP || molecule?.volatility || molecule?.intensity || molecule?.complexity) && (
-                <div className="bg-card p-6 rounded-lg border shadow-sm">
-                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                    <Thermometer className="h-5 w-5 text-primary" />
-                    Propriétés Physico-chimiques
-                  </h2>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {molecule?.molecularWeight && (
-                      <div className="bg-muted/50 p-4 rounded-lg">
-                        <p className="text-sm text-muted-foreground mb-1">Masse Moléculaire</p>
-                        <p className="text-2xl font-bold">{molecule?.molecularWeight} <span className="text-sm font-normal">g/mol</span></p>
-                      </div>
-                    )}
-                    {molecule?.boilingPoint && (
-                      <div className="bg-muted/50 p-4 rounded-lg">
-                        <p className="text-sm text-muted-foreground mb-1">Point d'Ébullition</p>
-                        <p className="text-2xl font-bold">{molecule?.boilingPoint} <span className="text-sm font-normal">°C</span></p>
-                      </div>
-                    )}
-                    {molecule?.logP && (
-                      <div className="bg-muted/50 p-4 rounded-lg">
-                        <p className="text-sm text-muted-foreground mb-1">LogP (lipophilie)</p>
-                        <p className="text-2xl font-bold">{(molecule?.logP / 100).toFixed(2)}</p>
-                      </div>
-                    )}
-                    {molecule?.volatility && (
-                      <div className="bg-muted/50 p-4 rounded-lg">
-                        <p className="text-sm text-muted-foreground mb-1">Volatilité</p>
-                        <div className="flex items-center gap-2">
-                          <div className="flex-1 bg-background rounded-full h-2">
-                            <div className="bg-primary h-2 rounded-full" style={{ width: `${molecule?.volatility}%` }}></div>
-                          </div>
-                          <span className="text-sm font-semibold">{molecule?.volatility}%</span>
-                        </div>
-                      </div>
-                    )}
-                    {molecule?.intensity && (
-                      <div className="bg-muted/50 p-4 rounded-lg">
-                        <p className="text-sm text-muted-foreground mb-1">Intensité Olfactive</p>
-                        <div className="flex items-center gap-2">
-                          <div className="flex-1 bg-background rounded-full h-2">
-                            <div className="bg-primary h-2 rounded-full" style={{ width: `${molecule?.intensity}%` }}></div>
-                          </div>
-                          <span className="text-sm font-semibold">{molecule?.intensity}%</span>
-                        </div>
-                      </div>
-                    )}
-                    {molecule?.complexity && (
-                      <div className="bg-muted/50 p-4 rounded-lg">
-                        <p className="text-sm text-muted-foreground mb-1">Complexité</p>
-                        <div className="flex items-center gap-2">
-                          <div className="flex-1 bg-background rounded-full h-2">
-                            <div className="bg-primary h-2 rounded-full" style={{ width: `${molecule?.complexity}%` }}></div>
-                          </div>
-                          <span className="text-sm font-semibold">{molecule?.complexity}%</span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
-
-              {/* Visualisation 3D de la molécule */}
-              {molecule?.chemicalFormula && (
-                <div className="bg-card p-6 rounded-lg border shadow-sm">
-                  <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                    <Box className="h-5 w-5 text-primary" />
-                    Structure Moléculaire 3D
-                  </h2>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Visualisation interactive de la structure moléculaire. Utilisez la souris pour faire pivoter le modèle.
-                  </p>
-                  <Molecule3DViewer
-                    moleculeId={id}
-                    moleculeName={molecule?.name}
-                    formula={molecule?.chemicalFormula}
-                    showControls={true}
-                    showInfo={true}
-                    autoRotate={false}
-                    height={400}
-                  />
-                </div>
-              )}
-
-              {/* Famille chimique */}
-              {molecule?.family && (
-                <div className="bg-card p-6 rounded-lg border shadow-sm">
-                  <h2 className="text-xl font-semibold mb-4">Classification Olfactive</h2>
-                  <div className="flex items-center gap-4">
-                    <div className="bg-primary/10 p-4 rounded-lg">
-                      <p className="text-sm text-muted-foreground mb-1">Famille olfactive</p>
-                      <p className="text-xl font-semibold text-primary">{molecule?.family}</p>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Méthodes analytiques utilisées */}
-              <MoleculeAnalyticalMethods moleculeId={id} />
-
-              {/* Classification assistée par IA */}
-              <AIClassificationSuggestion
-                molecule={{
-                  name: molecule?.name,
-                  iupacName: molecule?.iupacName,
-                  casNumber: molecule?.casNumber,
-                  chemicalFormula: molecule?.chemicalFormula,
-                  olfactiveProfile: normOlfactiveProfileStr || undefined,
-                  botanicalSources: normBotanicalSources || undefined,
-                }}
-                currentChemicalClass={molecule?.chemicalClass}
-                currentOlfactiveFamily={molecule?.family}
-                onAcceptChemicalClass={(value) => applyAIClassificationMutation.mutate({ moleculeId: id, chemicalClass: value })}
-                onAcceptOlfactiveFamily={(value) => applyAIClassificationMutation.mutate({ moleculeId: id, olfactiveFamily: value })}
-                onAcceptOlfactiveProfile={(value) => applyAIClassificationMutation.mutate({ moleculeId: id, olfactiveProfile: value })}
-                onAcceptResearcherNotes={(value, appendMode) => applyAINotesMutation.mutate({ moleculeId: id, researcherNotes: value, appendMode })}
-                currentNotes={molecule?.notes}
-              />
-              </TabErrorBoundary>
-            </TabsContent>
+            <MoleculeScientificTab
+              mol={mol}
+              molecule={molecule}
+              id={id}
+              normOlfactiveProfile={normOlfactiveProfile}
+              normOlfactiveProfileStr={normOlfactiveProfileStr}
+              normTherapeuticProperties={normTherapeuticProperties}
+              normBotanicalSources={normBotanicalSources}
+              safeReferences={safeReferences}
+              radarData={radarData}
+              hasRadarData={hasRadarData}
+              ifraRestrictions={ifraRestrictions}
+              hasIfraRestrictions={hasIfraRestrictions}
+              primaryRestriction={primaryRestriction}
+              moleculeOrigins={moleculeOrigins}
+              isLoadingOrigins={isLoadingOrigins}
+              moleculeTransformations={moleculeTransformations}
+              isLoadingTransformations={isLoadingTransformations}
+              tpsGenes={tpsGenes}
+              isLoadingTps={isLoadingTps}
+            />
 
             {/* Onglet Transformations moléculaires */}
-            <TabsContent value="transformations" className="space-y-6 mt-6">
-              <TabErrorBoundary tabLabel="Transformations">
-              <div className="bg-card p-6 rounded-lg border shadow-sm">
-                <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                  <Flame className="h-5 w-5 text-primary" />
-                  Transformations Moléculaires
-                </h2>
-                
-                {isLoadingTransformations ? (
-                  <div className="flex items-center justify-center py-8">
-                    <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                  </div>
-                ) : moleculeTransformations?.success && (moleculeTransformations?.asSource.length > 0 || moleculeTransformations?.asProduct.length > 0) ? (
-                  <div className="space-y-6">
-                    {/* Stats */}
-                    {moleculeTransformations?.stats && (
-                      <div className="flex flex-wrap gap-2">
-                        <Badge variant="secondary">
-                          {moleculeTransformations?.stats.total} transformation{moleculeTransformations?.stats.total > 1 ? 's' : ''}
-                        </Badge>
-                        {moleculeTransformations?.stats.totalAsSource > 0 && (
-                          <Badge variant="outline" className="border-green-500 text-green-600">
-                            {moleculeTransformations?.stats.totalAsSource} en tant que source
-                          </Badge>
-                        )}
-                        {moleculeTransformations?.stats.totalAsProduct > 0 && (
-                          <Badge variant="outline" className="border-red-500 text-red-600">
-                            {moleculeTransformations?.stats.totalAsProduct} en tant que produit
-                          </Badge>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Transformations où cette molécule est source */}
-                    {moleculeTransformations?.asSource.length > 0 && (
-                      <div>
-                        <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
-                          <ArrowRight className="h-4 w-4 text-green-500" />
-                          Cette molécule se transforme en...
-                        </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          {moleculeTransformations?.asSource.map((t: unknown) => (
-                            <div key={t.id} className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-800">
-                              <div className="flex items-center justify-between mb-2">
-                                <div className="flex items-center gap-2">
-                                  <span className="font-medium text-green-700 dark:text-green-300">
-                                    {t.product_molecule_name}
-                                  </span>
-                                  {t.product_db_id && (
-                                    <Link href={`/molecules/${t.product_db_id}`}>
-                                      <Button variant="ghost" size="sm" className="h-6 px-2">
-                                        <ExternalLink className="h-3 w-3" />
-                                      </Button>
-                                    </Link>
-                                  )}
-                                </div>
-                                <Badge variant="outline" className="text-xs capitalize">
-                                  {t.transformation_type?.replace('_', ' ')}
-                                </Badge>
-                              </div>
-                              {t.temperature_optimal && (
-                                <p className="text-xs text-muted-foreground">
-                                  <Thermometer className="h-3 w-3 inline mr-1" />
-                                  {t.temperature_optimal}°C
-                                </p>
-                              )}
-                              {t.olfactory_change_description && (
-                                <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                                  {t.olfactory_change_description}
-                                </p>
-                              )}
-                              {t.relevance_context && (
-                                <Badge variant="secondary" className="text-xs mt-2">
-                                  {t.relevance_context}
-                                </Badge>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Transformations où cette molécule est produit */}
-                    {moleculeTransformations?.asProduct.length > 0 && (
-                      <div>
-                        <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
-                          <ArrowLeft className="h-4 w-4 text-red-500" />
-                          Cette molécule est produite à partir de...
-                        </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          {moleculeTransformations?.asProduct.map((t: unknown) => (
-                            <div key={t.id} className="p-4 bg-red-50 dark:bg-red-950/30 rounded-lg border border-red-200 dark:border-red-800">
-                              <div className="flex items-center justify-between mb-2">
-                                <div className="flex items-center gap-2">
-                                  <span className="font-medium text-red-700 dark:text-red-300">
-                                    {t.source_molecule_name}
-                                  </span>
-                                  {t.source_db_id && (
-                                    <Link href={`/molecules/${t.source_db_id}`}>
-                                      <Button variant="ghost" size="sm" className="h-6 px-2">
-                                        <ExternalLink className="h-3 w-3" />
-                                      </Button>
-                                    </Link>
-                                  )}
-                                </div>
-                                <Badge variant="outline" className="text-xs capitalize">
-                                  {t.transformation_type?.replace('_', ' ')}
-                                </Badge>
-                              </div>
-                              {t.temperature_optimal && (
-                                <p className="text-xs text-muted-foreground">
-                                  <Thermometer className="h-3 w-3 inline mr-1" />
-                                  {t.temperature_optimal}°C
-                                </p>
-                              )}
-                              {t.olfactory_change_description && (
-                                <p className="text-xs text-muted-foreground mt-1 line-clamp-2">
-                                  {t.olfactory_change_description}
-                                </p>
-                              )}
-                              {t.relevance_context && (
-                                <Badge variant="secondary" className="text-xs mt-2">
-                                  {t.relevance_context}
-                                </Badge>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Lien vers le graphe cascade */}
-                    <div className="bg-amber-50 dark:bg-amber-950/30 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center">
-                          <GitBranch className="h-5 w-5 text-amber-600" />
-                        </div>
-                        <div className="flex-1">
-                          <p className="font-medium text-amber-800 dark:text-amber-200">
-                            Visualiser la chaîne de transformation complète
-                          </p>
-                          <p className="text-sm text-amber-600 dark:text-amber-400">
-                            Explorez toutes les transformations en cascade de cette molécule
-                          </p>
-                        </div>
-                        <Link href={`/molecular-transformations?molecule=${encodeURIComponent(molecule?.name)}&mode=cascade`}>
-                          <Button variant="outline" className="border-amber-500 text-amber-700 hover:bg-amber-100 dark:hover:bg-amber-900">
-                            <GitBranch className="h-4 w-4 mr-2" />
-                            Voir la cascade
-                          </Button>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center py-8 text-muted-foreground">
-                    <Flame className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                    <p>Aucune transformation moléculaire documentée pour cette molécule.</p>
-                    <p className="text-sm mt-2">Les transformations (pyrolyse, oxydation, etc.) seront ajoutées progressivement.</p>
-                    <Link href="/molecular-transformations">
-                      <Button variant="outline" className="mt-4">
-                        <Flame className="h-4 w-4 mr-2" />
-                        Explorer toutes les transformations
-                      </Button>
-                    </Link>
-                  </div>
-                )}
-              </div>
-
-              {/* Lien vers la page des transformations */}
-              <div className="bg-muted/50 p-4 rounded-lg border">
-                <p className="text-sm text-muted-foreground">
-                  Explorez toutes les transformations moléculaires documentées dans notre base de données.
-                </p>
-                <Link href="/molecular-transformations">
-                  <Button variant="outline" className="mt-2">
-                    <Flame className="h-4 w-4 mr-2" />
-                    Voir toutes les transformations
-                  </Button>
-                </Link>
-              </div>
-              </TabErrorBoundary>
-            </TabsContent>
+            <MoleculeTransformationsTab
+              mol={mol}
+              molecule={molecule}
+              id={id}
+              normOlfactiveProfile={normOlfactiveProfile}
+              normOlfactiveProfileStr={normOlfactiveProfileStr}
+              normTherapeuticProperties={normTherapeuticProperties}
+              normBotanicalSources={normBotanicalSources}
+              safeReferences={safeReferences}
+              radarData={radarData}
+              hasRadarData={hasRadarData}
+              ifraRestrictions={ifraRestrictions}
+              hasIfraRestrictions={hasIfraRestrictions}
+              primaryRestriction={primaryRestriction}
+              moleculeOrigins={moleculeOrigins}
+              isLoadingOrigins={isLoadingOrigins}
+              moleculeTransformations={moleculeTransformations}
+              isLoadingTransformations={isLoadingTransformations}
+              tpsGenes={tpsGenes}
+              isLoadingTps={isLoadingTps}
+            />
 
             {/* Onglet Biosynthèse - Gènes TPS */}
-            <TabsContent value="biosynthesis" className="space-y-6 mt-6">
-              <TabErrorBoundary tabLabel="Biosynthèse">
-              <div className="bg-card p-6 rounded-lg border shadow-sm">
-                <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
-                  <Dna className="h-5 w-5 text-primary" />
-                  Voie de Biosynthèse - Gènes TPS (Terpene Synthases)
-                </h2>
-                
-                <p className="text-sm text-muted-foreground mb-6">
-                  Les Terpene Synthases (TPS) sont des enzymes clés responsables de la biosynthèse des terpènes à partir de précurseurs isoprénoïdes (GPP, FPP, GGPP).
-                  Cette section présente les gènes TPS connus pour produire cette molécule.
-                </p>
-                
-                {isLoadingTps ? (
-                  <div className="flex items-center justify-center py-8">
-                    <Loader2 className="h-6 w-6 animate-spin text-primary" />
-                  </div>
-                ) : tpsGenes && tpsGenes?.length > 0 ? (
-                  <div className="space-y-6">
-                    {/* Stats */}
-                    <div className="flex flex-wrap gap-2">
-                      <Badge variant="secondary">
-                        {tpsGenes?.length} gène{tpsGenes?.length > 1 ? 's' : ''} TPS identifié{tpsGenes?.length > 1 ? 's' : ''}
-                      </Badge>
-                      {[...new Set(tpsGenes?.map((g: unknown) => (g as { species?: string }).species))].filter(Boolean).length > 0 && (
-                        <Badge variant="outline" className="border-green-500 text-green-600">
-                          {[...new Set(tpsGenes?.map((g: unknown) => (g as { species?: string }).species))].filter(Boolean).length} espèce{[...new Set(tpsGenes?.map((g: unknown) => (g as { species?: string }).species))].filter(Boolean).length > 1 ? 's' : ''}
-                        </Badge>
-                      )}
-                    </div>
-
-                    {/* Liste des gènes TPS */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {tpsGenes?.map((gene: unknown) => (
-                        <div key={gene.id} className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 rounded-lg border border-green-200 dark:border-green-800">
-                          <div className="flex items-start justify-between mb-3">
-                            <div>
-                              <h3 className="font-semibold text-green-700 dark:text-green-300 flex items-center gap-2">
-                                <Dna className="h-4 w-4" />
-                                {gene.geneName}
-                              </h3>
-                              {gene.geneId && (
-                                <p className="text-xs font-mono text-green-600 dark:text-green-400">{gene.geneId}</p>
-                              )}
-                            </div>
-                            {gene.enzymeClass && (
-                              <Badge variant="outline" className="text-xs border-green-500 text-green-600">
-                                {gene.enzymeClass}
-                              </Badge>
-                            )}
-                          </div>
-                          
-                          <div className="grid grid-cols-2 gap-3 text-sm">
-                            {gene.terpeneProduct && (
-                              <div>
-                                <p className="text-xs text-muted-foreground">Produit</p>
-                                <p className="font-medium text-green-800 dark:text-green-200">{gene.terpeneProduct}</p>
-                              </div>
-                            )}
-                            {gene.productType && (
-                              <div>
-                                <p className="text-xs text-muted-foreground">Type</p>
-                                <p className="capitalize">{gene.productType}</p>
-                              </div>
-                            )}
-                            {gene.species && (
-                              <div>
-                                <p className="text-xs text-muted-foreground">Espèce</p>
-                                <p className="italic">{gene.species}</p>
-                              </div>
-                            )}
-                            {gene.pathway && (
-                              <div>
-                                <p className="text-xs text-muted-foreground">Voie</p>
-                                <p>{gene.pathway}</p>
-                              </div>
-                            )}
-                            {gene.expressionTissue && (
-                              <div className="col-span-2">
-                                <p className="text-xs text-muted-foreground">Tissu d'expression</p>
-                                <p>{gene.expressionTissue}</p>
-                              </div>
-                            )}
-                          </div>
-                          
-                          {/* Liens externes */}
-                          <div className="mt-3 pt-3 border-t border-green-200 dark:border-green-700 flex flex-wrap gap-2">
-                            {gene.ncbiGeneId && (
-                              <a 
-                                href={`https://www.ncbi.nlm.nih.gov/gene/${gene.ncbiGeneId}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-xs text-green-600 hover:underline flex items-center gap-1"
-                              >
-                                NCBI Gene <ExternalLink className="h-3 w-3" />
-                              </a>
-                            )}
-                            {gene.uniprotId && (
-                              <a 
-                                href={`https://www.uniprot.org/uniprotkb/${gene.uniprotId}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="text-xs text-green-600 hover:underline flex items-center gap-1"
-                              >
-                                UniProt <ExternalLink className="h-3 w-3" />
-                              </a>
-                            )}
-                          </div>
-                          
-                          {gene.regulationNotes && (
-                            <div className="mt-2 text-xs text-muted-foreground italic">
-                              {gene.regulationNotes}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Schéma de la voie de biosynthèse */}
-                    <div className="p-4 bg-amber-50 dark:bg-amber-950/30 rounded-lg border border-amber-200 dark:border-amber-800">
-                      <h3 className="font-medium text-amber-800 dark:text-amber-200 mb-3 flex items-center gap-2">
-                        <Beaker className="h-4 w-4" />
-                        Voie de biosynthèse des terpènes
-                      </h3>
-                      <div className="flex flex-wrap items-center gap-2 text-sm">
-                        <Badge variant="outline" className="bg-amber-100 dark:bg-amber-900">IPP/DMAPP</Badge>
-                        <ArrowRight className="h-4 w-4 text-amber-600" />
-                        <Badge variant="outline" className="bg-amber-100 dark:bg-amber-900">GPP (C10)</Badge>
-                        <ArrowRight className="h-4 w-4 text-amber-600" />
-                        <Badge variant="outline" className="bg-amber-100 dark:bg-amber-900">FPP (C15)</Badge>
-                        <ArrowRight className="h-4 w-4 text-amber-600" />
-                        <Badge variant="outline" className="bg-amber-100 dark:bg-amber-900">GGPP (C20)</Badge>
-                      </div>
-                      <p className="text-xs text-amber-600 dark:text-amber-400 mt-3">
-                        Les TPS catalysent la conversion de ces précurseurs en terpènes spécifiques via des réactions de cyclisation et réarrangement.
-                      </p>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center py-8 text-muted-foreground">
-                    <Dna className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                    <p>Aucun gène TPS documenté pour cette molécule.</p>
-                    <p className="text-sm mt-2">Les informations génomiques sur la biosynthèse seront ajoutées progressivement.</p>
-                    <p className="text-xs mt-4 text-muted-foreground/70">
-                      Les gènes TPS sont principalement documentés pour les terpènes du cannabis (<em>Cannabis sativa</em>).
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {/* Informations sur les TPS */}
-              <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
-                <h3 className="font-medium text-blue-800 dark:text-blue-200 mb-2">À propos des Terpene Synthases</h3>
-                <p className="text-sm text-blue-700 dark:text-blue-300">
-                  Les Terpene Synthases (TPS) constituent une famille multigénique d'enzymes responsables de la diversité des terpènes dans le règne végétal.
-                  Chez le cannabis, plus de 30 gènes TPS ont été identifiés, chacun produisant un ou plusieurs terpènes spécifiques.
-                </p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <Link href="/varietes">
-                    <Button variant="outline" size="sm" className="border-blue-500 text-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900">
-                      <Leaf className="h-4 w-4 mr-2" />
-                      Voir les variétés
-                    </Button>
-                  </Link>
-                  <Link href="/genealogy">
-                    <Button variant="outline" size="sm" className="border-blue-500 text-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900">
-                      <GitBranch className="h-4 w-4 mr-2" />
-                      Arbre généalogique
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-              </TabErrorBoundary>
-            </TabsContent>
+            <MoleculeBiosynthesisTab
+              mol={mol}
+              molecule={molecule}
+              id={id}
+              normOlfactiveProfile={normOlfactiveProfile}
+              normOlfactiveProfileStr={normOlfactiveProfileStr}
+              normTherapeuticProperties={normTherapeuticProperties}
+              normBotanicalSources={normBotanicalSources}
+              safeReferences={safeReferences}
+              radarData={radarData}
+              hasRadarData={hasRadarData}
+              ifraRestrictions={ifraRestrictions}
+              hasIfraRestrictions={hasIfraRestrictions}
+              primaryRestriction={primaryRestriction}
+              moleculeOrigins={moleculeOrigins}
+              isLoadingOrigins={isLoadingOrigins}
+              moleculeTransformations={moleculeTransformations}
+              isLoadingTransformations={isLoadingTransformations}
+              tpsGenes={tpsGenes}
+              isLoadingTps={isLoadingTps}
+            />
 
             {/* Onglet Pyrolyse - Transformations thermiques */}
             <TabsContent value="pyrolysis" className="space-y-6 mt-6">
