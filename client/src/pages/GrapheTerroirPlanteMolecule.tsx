@@ -435,12 +435,12 @@ export default function GrapheTerroirPlanteMolecule() {
                       <div>
                         <div className="flex items-center justify-between mb-1">
                           <span className="text-sm">Plantes avec terroirs</span>
-                          <span className="text-sm font-medium">{plantTerroirStats.plantsWithTerroirs}</span>
+                          <span className="text-sm font-medium">{plantTerroirStats?.plantsWithTerroirs}</span>
                         </div>
                         <div className="h-2 bg-muted rounded-full overflow-hidden">
                           <div 
                             className="h-full bg-orange-500 rounded-full"
-                            style={{ width: `${Math.min((plantTerroirStats.plantsWithTerroirs / stats.plantCount) * 100, 100)}%` }}
+                            style={{ width: `${Math.min((plantTerroirStats?.plantsWithTerroirs / stats.plantCount) * 100, 100)}%` }}
                           />
                         </div>
                       </div>
@@ -449,12 +449,12 @@ export default function GrapheTerroirPlanteMolecule() {
                       <div>
                         <div className="flex items-center justify-between mb-1">
                           <span className="text-sm">Plantes avec molécules</span>
-                          <span className="text-sm font-medium">{plantMoleculeStats.plantsWithMolecule}</span>
+                          <span className="text-sm font-medium">{plantMoleculeStats?.plantsWithMolecule}</span>
                         </div>
                         <div className="h-2 bg-muted rounded-full overflow-hidden">
                           <div 
                             className="h-full bg-blue-500 rounded-full"
-                            style={{ width: `${Math.min((plantMoleculeStats.plantsWithMolecule / stats.plantCount) * 100, 100)}%` }}
+                            style={{ width: `${Math.min((plantMoleculeStats?.plantsWithMolecule / stats.plantCount) * 100, 100)}%` }}
                           />
                         </div>
                       </div>

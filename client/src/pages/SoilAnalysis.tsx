@@ -496,9 +496,9 @@ export default function SoilAnalysis() {
                 <div className="flex items-center justify-center py-8">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                 </div>
-              ) : soilData?.success && soilData.data.length > 0 ? (
+              ) : soilData?.success && soilData?.data.length > 0 ? (
                 <div className="space-y-4">
-                  {soilData.data.map((soil: any, index: number) => (
+                  {soilData?.data.map((soil: any, index: number) => (
                     <Card key={index} className="bg-muted/30">
                       <CardHeader className="pb-2">
                         <CardTitle className="text-lg flex items-center gap-2">

@@ -137,7 +137,7 @@ function WikidataPhyloTab({ scientificName }: { scientificName: string }) {
   const handleImportAll = () => {
     if (!childData?.children?.length) return;
     setIsImportingAll(true);
-    const taxa = (childData.children as ChildTaxon[])
+    const taxa = (childData?.children as ChildTaxon[])
       .filter((c) => importStatuses[c.qid] !== 'created')
       .map((c) => { const p = c.name.trim().split(/\s+/); return { wikidataId: c.qid, scientificName: c.name, genus: p[0], species: p[1], rankName: c.rankName }; });
     if (!taxa.length) { setIsImportingAll(false); return; }
@@ -203,15 +203,15 @@ function WikidataPhyloTab({ scientificName }: { scientificName: string }) {
         <div>
           <SectionTitle icon={Dna} title="Données chromosomiques" />
           <div className="flex gap-4 text-sm">
-            {chromoData.chromosomeCount && (
+            {chromoData?.chromosomeCount && (
               <div className="p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-center">
-                <p className="text-2xl font-bold text-violet-300">{chromoData.chromosomeCount}</p>
+                <p className="text-2xl font-bold text-violet-300">{chromoData?.chromosomeCount}</p>
                 <p className="text-xs text-zinc-500 mt-1">Chromosomes (2n)</p>
               </div>
             )}
-            {chromoData.ploidy && (
+            {chromoData?.ploidy && (
               <div className="p-3 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-center">
-                <p className="text-lg font-semibold text-violet-300">{chromoData.ploidy}</p>
+                <p className="text-lg font-semibold text-violet-300">{chromoData?.ploidy}</p>
                 <p className="text-xs text-zinc-500 mt-1">Ploïdie</p>
               </div>
             )}
@@ -220,11 +220,11 @@ function WikidataPhyloTab({ scientificName }: { scientificName: string }) {
       )}
 
       {/* Hybrides */}
-      {hybridData?.isHybrid && hybridData.parents.length > 0 && (
+      {hybridData?.isHybrid && hybridData?.parents.length > 0 && (
         <div>
           <SectionTitle icon={Dna} title="Espèces parentales (hybride)" subtitle="Ce taxon est un hybride issu de ces espèces" />
           <div className="space-y-2">
-            {hybridData.parents.map((parent, i) => (
+            {hybridData?.parents.map((parent, i) => (
               <div key={i} className="flex items-center gap-2 text-sm p-2 rounded-lg bg-zinc-800/30">
                 <ChevronRight className="w-3 h-3 text-violet-400" />
                 <span className="italic text-zinc-200">{parent.scientificName ?? parent.name}</span>
@@ -242,16 +242,16 @@ function WikidataPhyloTab({ scientificName }: { scientificName: string }) {
       {childData?.found && (
         <div>
           <div className="flex items-center justify-between mb-3">
-            <SectionTitle icon={TreePine} title={`Taxons enfants (${childData.total})`} subtitle="Sous-espèces, variétés, cultivars" />
+            <SectionTitle icon={TreePine} title={`Taxons enfants (${childData?.total})`} subtitle="Sous-espèces, variétés, cultivars" />
             <Button size="sm" variant="outline"
               className="border-violet-700/50 text-violet-300 hover:bg-violet-900/20 text-xs h-7 px-3 flex-shrink-0"
               onClick={handleImportAll} disabled={isImportingAll || importMutation.isPending}>
               {isImportingAll ? <Loader2 className="w-3 h-3 animate-spin mr-1.5" /> : <Database className="w-3 h-3 mr-1.5" />}
-              Tout importer ({(childData.children as ChildTaxon[]).filter((c) => importStatuses[c.qid] !== 'created').length})
+              Tout importer ({(childData?.children as ChildTaxon[]).filter((c) => importStatuses[c.qid] !== 'created').length})
             </Button>
           </div>
           <div className="space-y-1 max-h-64 overflow-y-auto">
-            {(childData.children as ChildTaxon[]).map((child, i) => {
+            {(childData?.children as ChildTaxon[]).map((child, i) => {
               const status = importStatuses[child.qid] ?? 'idle';
               const msg = importMessages[child.qid];
               return (
@@ -452,14 +452,14 @@ function NcbiTab({ scientificName }: { scientificName: string }) {
       </div>
 
       {/* Lignée phylogénétique */}
-      {lineageData?.found && lineageData.lineage.length > 0 && (
+      {lineageData?.found && lineageData?.lineage.length > 0 && (
         <div>
           <SectionTitle icon={Network} title="Lignée phylogénétique NCBI" subtitle="De la racine jusqu'à l'espèce" />
           <div className="flex flex-wrap items-center gap-1 text-xs">
-            {lineageData.lineage.map((item: NcbiLineageItem, i: number) => (
+            {lineageData?.lineage.map((item: NcbiLineageItem, i: number) => (
               <span key={i} className="flex items-center gap-1">
                 <span className="px-2 py-0.5 rounded bg-zinc-800/50 text-zinc-300">{item.name}</span>
-                {i < lineageData.lineage.length - 1 && <ChevronRight className="w-3 h-3 text-zinc-600" />}
+                {i < lineageData?.lineage.length - 1 && <ChevronRight className="w-3 h-3 text-zinc-600" />}
               </span>
             ))}
           </div>
@@ -887,12 +887,12 @@ function BatchByGenusPanel() {
             <div className="rounded-lg border border-zinc-700/50 bg-zinc-900/50 p-4 space-y-3">
               <div className="grid grid-cols-2 gap-2">
                 {[
-                  { label: "Total", value: coverageData.summary.total, color: "zinc" },
-                  { label: "GBIF", value: `${coverageData.summary.withGbif}/${coverageData.summary.total}`, color: "emerald" },
-                  { label: "POWO", value: `${coverageData.summary.withPowo}/${coverageData.summary.total}`, color: "amber" },
-                  { label: "NCBI", value: `${coverageData.summary.withNcbi}/${coverageData.summary.total}`, color: "sky" },
-                  { label: "Wikidata", value: `${coverageData.summary.withWikidata}/${coverageData.summary.total}`, color: "violet" },
-                  { label: "Complet", value: `${coverageData.summary.fullyEnriched}/${coverageData.summary.total}`, color: "emerald" },
+                  { label: "Total", value: coverageData?.summary.total, color: "zinc" },
+                  { label: "GBIF", value: `${coverageData?.summary.withGbif}/${coverageData?.summary.total}`, color: "emerald" },
+                  { label: "POWO", value: `${coverageData?.summary.withPowo}/${coverageData?.summary.total}`, color: "amber" },
+                  { label: "NCBI", value: `${coverageData?.summary.withNcbi}/${coverageData?.summary.total}`, color: "sky" },
+                  { label: "Wikidata", value: `${coverageData?.summary.withWikidata}/${coverageData?.summary.total}`, color: "violet" },
+                  { label: "Complet", value: `${coverageData?.summary.fullyEnriched}/${coverageData?.summary.total}`, color: "emerald" },
                 ].map((item) => (
                   <div key={item.label} className="flex items-center justify-between px-2 py-1.5 rounded bg-zinc-800/40">
                     <span className="text-xs text-zinc-500">{item.label}</span>
@@ -903,21 +903,21 @@ function BatchByGenusPanel() {
               {/* Progress bars */}
               <div className="space-y-1.5">
                 {[
-                  { label: "GBIF", count: coverageData.summary.withGbif, color: "bg-emerald-500" },
-                  { label: "POWO", count: coverageData.summary.withPowo, color: "bg-amber-500" },
-                  { label: "NCBI", count: coverageData.summary.withNcbi, color: "bg-sky-500" },
-                  { label: "Wikidata", count: coverageData.summary.withWikidata, color: "bg-violet-500" },
+                  { label: "GBIF", count: coverageData?.summary.withGbif, color: "bg-emerald-500" },
+                  { label: "POWO", count: coverageData?.summary.withPowo, color: "bg-amber-500" },
+                  { label: "NCBI", count: coverageData?.summary.withNcbi, color: "bg-sky-500" },
+                  { label: "Wikidata", count: coverageData?.summary.withWikidata, color: "bg-violet-500" },
                 ].map((bar) => (
                   <div key={bar.label} className="flex items-center gap-2">
                     <span className="text-[10px] text-zinc-500 w-14 text-right">{bar.label}</span>
                     <div className="flex-1 h-1.5 bg-zinc-800 rounded-full overflow-hidden">
                       <div
                         className={`h-full ${bar.color} rounded-full transition-all duration-500`}
-                        style={{ width: coverageData.summary.total > 0 ? `${(bar.count / coverageData.summary.total) * 100}%` : "0%" }}
+                        style={{ width: coverageData?.summary.total > 0 ? `${(bar.count / coverageData?.summary.total) * 100}%` : "0%" }}
                       />
                     </div>
                     <span className="text-[10px] text-zinc-500 w-8">
-                      {coverageData.summary.total > 0 ? Math.round((bar.count / coverageData.summary.total) * 100) : 0}%
+                      {coverageData?.summary.total > 0 ? Math.round((bar.count / coverageData?.summary.total) * 100) : 0}%
                     </span>
                   </div>
                 ))}

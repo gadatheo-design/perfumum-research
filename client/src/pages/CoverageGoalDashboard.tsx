@@ -101,7 +101,7 @@ export default function CoverageGoalDashboard() {
   // Filtrage des molécules orphelines
   const filteredOrphanMolecules = useMemo(() => {
     if (!auditStats?.moleculesWithoutPlantList) return [];
-    return auditStats.moleculesWithoutPlantList.filter((m: any) =>
+    return auditStats?.moleculesWithoutPlantList.filter((m: any) =>
       m.name.toLowerCase().includes(searchMolecule.toLowerCase())
     );
   }, [auditStats?.moleculesWithoutPlantList, searchMolecule]);
@@ -109,7 +109,7 @@ export default function CoverageGoalDashboard() {
   // Filtrage des plantes
   const filteredPlants = useMemo(() => {
     if (!allPlants) return [];
-    return allPlants.filter((p: any) =>
+    return allPlants?.filter((p: any) =>
       p.name.toLowerCase().includes(searchPlant.toLowerCase()) ||
       (p.latinName && p.latinName.toLowerCase().includes(searchPlant.toLowerCase()))
     ).slice(0, 20);
@@ -118,7 +118,7 @@ export default function CoverageGoalDashboard() {
   // Calculer le nombre de liaisons nécessaires pour atteindre 10%
   const linksNeeded = useMemo(() => {
     if (!coverageStats?.plantMolecule) return 0;
-    const { totalMolecules, moleculesWithPlant, targetCoverage } = coverageStats.plantMolecule;
+    const { totalMolecules, moleculesWithPlant, targetCoverage } = coverageStats?.plantMolecule;
     const targetCount = Math.ceil(totalMolecules * targetCoverage / 100);
     return Math.max(0, targetCount - moleculesWithPlant);
   }, [coverageStats]);
@@ -126,7 +126,7 @@ export default function CoverageGoalDashboard() {
   // Progression vers l'objectif
   const progressPercentage = useMemo(() => {
     if (!coverageStats?.plantMolecule) return 0;
-    const { coverageMolecules, targetCoverage } = coverageStats.plantMolecule;
+    const { coverageMolecules, targetCoverage } = coverageStats?.plantMolecule;
     return Math.min(100, (coverageMolecules / targetCoverage) * 100);
   }, [coverageStats]);
 
@@ -348,7 +348,7 @@ export default function CoverageGoalDashboard() {
                               <Badge variant="secondary">{plant.moleculeCount} mol.</Badge>
                             </div>
                           ))}
-                          {(!auditStats?.topPlantsByMolecules || auditStats.topPlantsByMolecules.length === 0) && (
+                          {(!auditStats?.topPlantsByMolecules || auditStats?.topPlantsByMolecules.length === 0) && (
                             <p className="text-center text-muted-foreground py-8">Aucune donnée disponible</p>
                           )}
                         </ScrollArea>

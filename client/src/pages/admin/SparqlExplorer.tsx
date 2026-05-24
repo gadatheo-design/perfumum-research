@@ -166,21 +166,21 @@ function NoseStatsTab() {
       </div>
 
       {/* Exemples d'œuvres d'art */}
-      {stats?.sparql.sampleArtworks && stats.sparql.sampleArtworks.length > 0 && (
+      {stats?.sparql.sampleArtworks && stats?.sparql.sampleArtworks.length > 0 && (
         <div>
           <h3 className="text-sm font-semibold mb-3 flex items-center gap-2">
             <Palette className="h-4 w-4 text-amber-600" />
             Exemples d'œuvres d'art liées aux molécules PERFUMUM
           </h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-            {stats.sparql.sampleArtworks.map((artwork, i) => (
+            {stats?.sparql.sampleArtworks.map((artwork, i) => (
               <ArtworkCard key={i} artwork={artwork} />
             ))}
           </div>
         </div>
       )}
 
-      {(!stats?.sparql.sampleArtworks || stats.sparql.sampleArtworks.length === 0) && (
+      {(!stats?.sparql.sampleArtworks || stats?.sparql.sampleArtworks.length === 0) && (
         <Card className="border-dashed">
           <CardContent className="p-8 text-center text-muted-foreground">
             <Sparkles className="h-8 w-8 mx-auto mb-2 opacity-30" />
@@ -659,7 +659,7 @@ function EuropeanaUnifiedTab() {
   );
 
   // Stats Europeana
-  const { data: europeanaStats } = trpc.europeana.stats.useQuery();
+  const { data: europeanaStats } = trpc.europeana.stats?.useQuery();
 
   // Requête SPARQL Wikidata libre
   const freeSparqlMutation = trpc.sparql.freeQuery.useMutation();
@@ -778,7 +778,7 @@ function EuropeanaUnifiedTab() {
           {thematicData && (
             <Badge variant="outline" className="text-xs">
               {(thematicData as any).apiAvailable
-                ? `${thematicData.total.toLocaleString()} œuvres`
+                ? `${thematicData?.total.toLocaleString()} œuvres`
                 : "Démo"}
             </Badge>
           )}
@@ -800,7 +800,7 @@ function EuropeanaUnifiedTab() {
               </div>
             )}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-              {thematicData.items.map((item: any, i: number) => (
+              {thematicData?.items.map((item: any, i: number) => (
                 <a
                   key={`${item.id}-${i}`}
                   href={item.europeanaUrl}
@@ -959,11 +959,11 @@ function EuropeanaSparqlTab({ initialQid = '', initialPlantName = '' }: { initia
         </p>
       </div>
 
-      {templates && templates.length > 0 && (
+      {templates && templates?.length > 0 && (
         <div className="space-y-2">
           <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Templates EDM</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {templates.map((tpl) => (
+            {templates?.map((tpl) => (
               <button
                 key={tpl.id}
                 onClick={() => setQuery(tpl.sparql)}

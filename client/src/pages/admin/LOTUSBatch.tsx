@@ -141,20 +141,20 @@ export default function LOTUSBatch() {
           <div className="grid grid-cols-3 gap-4">
             <Card>
               <CardContent className="pt-4">
-                <div className="text-2xl font-bold text-emerald-600">{stats.totalPlants}</div>
+                <div className="text-2xl font-bold text-emerald-600">{stats?.totalPlants}</div>
                 <div className="text-sm text-muted-foreground">Plantes avec nom latin</div>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="pt-4">
-                <div className="text-2xl font-bold text-blue-600">{stats.plantsWithLotus}</div>
+                <div className="text-2xl font-bold text-blue-600">{stats?.plantsWithLotus}</div>
                 <div className="text-sm text-muted-foreground">Plantes enrichies LOTUS</div>
-                <Progress value={stats.totalPlants > 0 ? (stats.plantsWithLotus / stats.totalPlants) * 100 : 0} className="mt-2 h-1" />
+                <Progress value={stats?.totalPlants > 0 ? (stats?.plantsWithLotus / stats?.totalPlants) * 100 : 0} className="mt-2 h-1" />
               </CardContent>
             </Card>
             <Card>
               <CardContent className="pt-4">
-                <div className="text-2xl font-bold text-violet-600">{stats.totalLotusLinks}</div>
+                <div className="text-2xl font-bold text-violet-600">{stats?.totalLotusLinks}</div>
                 <div className="text-sm text-muted-foreground">Liaisons créées via LOTUS</div>
               </CardContent>
             </Card>

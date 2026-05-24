@@ -129,30 +129,30 @@ export default function CarteTerroirsPlantes() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
   // Récupérer tous les terroirs
-  const { data: terroirs, isLoading: isLoadingTerroirs } = trpc.terroirs.getAll.useQuery();
+  const { data: terroirs, isLoading: isLoadingTerroirs } = trpc.terroirs?.getAll.useQuery();
 
   // Récupérer toutes les connexions plantes-terroirs
-  const { data: plantTerroirs, isLoading: isLoadingConnections } = trpc.plantTerroirs.getAll.useQuery();
+  const { data: plantTerroirs, isLoading: isLoadingConnections } = trpc.plantTerroirs?.getAll.useQuery();
 
   // Récupérer les plantes du terroir sélectionné
-  const { data: terroirPlants, isLoading: isLoadingPlants } = trpc.plantTerroirs.getByTerroir.useQuery(
+  const { data: terroirPlants, isLoading: isLoadingPlants } = trpc.plantTerroirs?.getByTerroir.useQuery(
     selectedTerroir?.id ?? 0,
     { enabled: !!selectedTerroir }
   );
 
   // Statistiques des connexions
-  const { data: networkStats } = trpc.plantTerroirs.getNetworkStats.useQuery();
+  const { data: networkStats } = trpc.plantTerroirs?.getNetworkStats.useQuery();
 
   // Extraire les pays et climats uniques pour les filtres
   const countries = useMemo(() => {
     if (!terroirs) return [];
-    const uniqueCountries = Array.from(new Set(terroirs.map((t: Terroir) => t.country))).filter(Boolean).sort();
+    const uniqueCountries = Array.from(new Set(terroirs?.map((t: Terroir) => t.country))).filter(Boolean).sort();
     return uniqueCountries as string[];
   }, [terroirs]);
 
   const climates = useMemo(() => {
     if (!terroirs) return [];
-    const uniqueClimates = Array.from(new Set(terroirs.map((t: Terroir) => t.climateType).filter(Boolean))).sort();
+    const uniqueClimates = Array.from(new Set(terroirs?.map((t: Terroir) => t.climateType).filter(Boolean))).sort();
     return uniqueClimates as string[];
   }, [terroirs]);
 
@@ -160,7 +160,7 @@ export default function CarteTerroirsPlantes() {
   const plantCountByTerroir = useMemo((): Record<number, number> => {
     if (!plantTerroirs) return {};
     const counts: Record<number, number> = {};
-    plantTerroirs.forEach((pt: any) => {
+    plantTerroirs?.forEach((pt: any) => {
       counts[pt.terroirId] = (counts[pt.terroirId] || 0) + 1;
     });
     return counts;
@@ -169,7 +169,7 @@ export default function CarteTerroirsPlantes() {
   // Filtrer les terroirs
   const filteredTerroirs = useMemo(() => {
     if (!terroirs) return [];
-    return terroirs.filter((terroir: Terroir) => {
+    return terroirs?.filter((terroir: Terroir) => {
       const matchesSearch = searchQuery === "" || 
         terroir.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         terroir.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -539,10 +539,10 @@ export default function CarteTerroirsPlantes() {
                                 <Skeleton className="h-10 w-full" />
                                 <Skeleton className="h-10 w-full" />
                               </div>
-                            ) : terroirPlants && terroirPlants.length > 0 ? (
+                            ) : terroirPlants && terroirPlants?.length > 0 ? (
                               <ScrollArea className="h-[200px]">
                                 <div className="space-y-2">
-                                  {terroirPlants.map((pt: any) => (
+                                  {terroirPlants?.map((pt: any) => (
                                     <Link key={pt.id} href={`/plants/${pt.plantId}`}>
                                       <div className="p-2 rounded-lg border hover:bg-accent/50 transition-colors cursor-pointer">
                                         <div className="flex items-center justify-between">

@@ -302,7 +302,7 @@ function ComparisonTable({ methods }: { methods: any[] }) {
         <thead>
           <tr className="border-b border-border bg-muted/30">
             <th className="text-left p-3 text-xs font-semibold text-muted-foreground w-36">Paramètre</th>
-            {methods.map((m) => {
+            {methods?.map((m) => {
               const cat = CATEGORY_CONFIG[m.category];
               return (
                 <th key={m.id} className="text-center p-3 text-xs font-semibold min-w-32">
@@ -319,7 +319,7 @@ function ComparisonTable({ methods }: { methods: any[] }) {
           {rows.map((row, ri) => (
             <tr key={row.key} className={`border-b border-border/50 ${ri % 2 === 0 ? "bg-background" : "bg-muted/10"}`}>
               <td className="p-3 text-xs font-medium text-muted-foreground">{row.label}</td>
-              {methods.map((m) => (
+              {methods?.map((m) => (
                 <td key={m.id} className="p-3 text-xs text-center font-mono">
                   {row.render(m)}
                 </td>
@@ -357,7 +357,7 @@ function TransformationMatrix({ methods }: { methods: any[] }) {
           </tr>
         </thead>
         <tbody>
-          {methods.map((m, mi) => {
+          {methods?.map((m, mi) => {
             const cat = CATEGORY_CONFIG[m.category];
             return (
               <tr key={m.id} className={`border-b border-border/50 ${mi % 2 === 0 ? "bg-background" : "bg-muted/10"}`}>
@@ -422,13 +422,13 @@ export default function ExtractionProcesses() {
 
   const categories = useMemo(() => {
     if (!methods) return [];
-    const cats = [...new Set(methods.map((m: any) => m.category))];
+    const cats = [...new Set(methods?.map((m: any) => m.category))];
     return cats;
   }, [methods]);
 
   const filteredMethods = useMemo(() => {
     if (!methods) return [];
-    return methods.filter((m: any) => {
+    return methods?.filter((m: any) => {
       const matchCat = activeCategory === "all" || m.category === activeCategory;
       const matchSearch = !searchTerm || 
         m.name.toLowerCase().includes(searchTerm.toLowerCase()) ||

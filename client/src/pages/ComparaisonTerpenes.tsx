@@ -137,7 +137,7 @@ function RadarChart({ profiles, size = 400 }: { profiles: TerpeneProfile[]; size
       </g>
 
       {/* Profils */}
-      {profiles.map((profile, profileIndex) => {
+      {profiles?.map((profile, profileIndex) => {
         const points = getPoints(profile);
         const pathData = points.map((p, i) => 
           `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`
@@ -198,13 +198,13 @@ export default function ComparaisonTerpenes() {
   const filteredProfiles = useMemo(() => {
     if (!profiles) return [];
     if (sourceFilter === "all") return profiles;
-    return profiles.filter(p => p.sourceType === sourceFilter);
+    return profiles?.filter(p => p.sourceType === sourceFilter);
   }, [profiles, sourceFilter]);
 
   // Get selected profile objects
   const selectedProfileObjects = useMemo(() => {
     if (!profiles) return [];
-    return profiles.filter(p => selectedProfiles.includes(p.id));
+    return profiles?.filter(p => selectedProfiles.includes(p.id));
   }, [profiles, selectedProfiles]);
 
   // Toggle profile selection
@@ -466,7 +466,7 @@ export default function ComparaisonTerpenes() {
                           <Badge variant="secondary">{bridge.avgValue}%</Badge>
                         </div>
                         <div className="text-sm text-muted-foreground">
-                          Présent dans: {bridge.profiles.join(', ')}
+                          Présent dans: {bridge.profiles?.join(', ')}
                         </div>
                       </div>
                     ))}

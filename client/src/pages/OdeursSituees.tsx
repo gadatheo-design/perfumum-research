@@ -64,9 +64,9 @@ export default function OdeursSituees() {
                   <Skeleton key={i} className="h-64" />
                 ))}
               </div>
-            ) : smells && smells.length > 0 ? (
+            ) : smells && smells?.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {smells.map((smell) => (
+                {smells?.map((smell) => (
                   <Link key={smell.id} href={`/odeurs-situees/${smell.id}`}>
                     <Card className="h-full hover:shadow-xl transition-all duration-300 cursor-pointer group border-l-4 border-l-purple-500">
                       <CardHeader className="bg-gradient-to-br from-purple-50 to-pink-50 group-hover:from-purple-100 group-hover:to-pink-100 transition-colors">

@@ -301,7 +301,7 @@ function PyrolysisSection({ moleculeName }: { moleculeName: string }) {
     );
   }
 
-  const hasTransformations = transformations && transformations.length > 0;
+  const hasTransformations = transformations && transformations?.length > 0;
 
   return (
     <div className="space-y-6">
@@ -318,7 +318,7 @@ function PyrolysisSection({ moleculeName }: { moleculeName: string }) {
         
         {hasTransformations ? (
           <div className="space-y-4">
-            {transformations.map((t: unknown, idx: number) => (
+            {transformations?.map((t: unknown, idx: number) => (
               <div key={idx} className="p-4 bg-muted/50 rounded-lg border">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
@@ -467,9 +467,9 @@ function AddPlantSourceModal({ moleculeId, onSuccess }: { moleculeId: number; on
               />
             </div>
             {searching && <p className="text-xs text-muted-foreground mt-1">Recherche...</p>}
-            {searchResults && searchResults.length > 0 && !selectedPlant && (
+            {searchResults && searchResults?.length > 0 && !selectedPlant && (
               <div className="mt-1 border rounded-md bg-popover shadow-md max-h-48 overflow-y-auto">
-                {searchResults.map((plant: unknown) => (
+                {searchResults?.map((plant: unknown) => (
                   <button
                     key={plant.id}
                     className="w-full text-left px-3 py-2 hover:bg-muted transition-colors text-sm"
@@ -586,16 +586,16 @@ function PlantSourcesSection({ moleculeId }: { moleculeId: number }) {
           <h2 className="text-xl font-semibold flex items-center gap-2">
             <Leaf className="h-5 w-5 text-primary" />
             Plantes Sources
-            {plantSources && plantSources.length > 0 && (
-              <Badge variant="secondary">{plantSources.length}</Badge>
+            {plantSources && plantSources?.length > 0 && (
+              <Badge variant="secondary">{plantSources?.length}</Badge>
             )}
           </h2>
           <AddPlantSourceModal moleculeId={moleculeId} onSuccess={() => {}} />
         </div>
         
-        {plantSources && plantSources.length > 0 ? (
+        {plantSources && plantSources?.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {plantSources.map((source: unknown) => (
+            {plantSources?.map((source: unknown) => (
               <div key={source.plant.id} className="relative group">
                 <Link href={`/plants/${source.plant.id}`}>
                   <div className="p-4 bg-muted/50 rounded-lg border hover:border-primary/50 transition-colors cursor-pointer">
@@ -708,7 +708,7 @@ export default function MoleculeDetail() {
   useBreadcrumbSegments(
     molecule ? [
       { label: "Molécules", path: "/molecules" },
-      { label: molecule.name, path: `/molecule/${id}` },
+      { label: molecule?.name, path: `/molecule/${id}` },
     ] : null,
     [molecule?.name, id]
   );
@@ -743,17 +743,17 @@ export default function MoleculeDetail() {
   });
 
   // Récupérer les origines géographiques de la molécule
-  const { data: moleculeOrigins, isLoading: isLoadingOrigins } = trpc.moleculeOrigins.getByMolecule.useQuery(id, {
+  const { data: moleculeOrigins, isLoading: isLoadingOrigins } = trpc.moleculeOrigins?.getByMolecule.useQuery(id, {
     enabled: !!molecule,
   });
 
   // Récupérer les restrictions IFRA de la molécule
-  const { data: ifraRestrictions, isLoading: isLoadingIfra } = trpc.ifraRestrictions.getByMolecule.useQuery(id, {
+  const { data: ifraRestrictions, isLoading: isLoadingIfra } = trpc.ifraRestrictions?.getByMolecule.useQuery(id, {
     enabled: !!molecule,
   });
 
   // Récupérer les recommandations
-  const { data: recommendations, isLoading: isLoadingRecommendations } = trpc.recommendations.similarMolecules.useQuery(
+  const { data: recommendations, isLoading: isLoadingRecommendations } = trpc.recommendations?.similarMolecules?.useQuery(
     {
       moleculeId: id,
       limit: 5,
@@ -784,7 +784,7 @@ export default function MoleculeDetail() {
   });
 
   // NOSE Phase 1 — Émissions olfactives GC-MS pour cette molécule
-  const { data: olfactiveEmissions } = trpc.olfactiveEmissions.getByMolecule.useQuery(
+  const { data: olfactiveEmissions } = trpc.olfactiveEmissions?.getByMolecule.useQuery(
     { moleculeId: id, limit: 100 },
     { enabled: !!molecule }
   );
@@ -828,19 +828,19 @@ export default function MoleculeDetail() {
 
       // Generate HTML content for PDF
       const radarValues = [
-        { axis: 'Intensité', value: molecule.radarIntensity || 50 },
-        { axis: 'Fraîcheur', value: molecule.radarFreshness || 50 },
-        { axis: 'Chaleur', value: molecule.radarWarmth || 50 },
-        { axis: 'Douceur', value: molecule.radarSweetness || 50 },
-        { axis: 'Épices', value: molecule.radarSpiciness || 50 },
-        { axis: 'Terreux', value: molecule.radarEarthiness || 50 },
+        { axis: 'Intensité', value: molecule?.radarIntensity || 50 },
+        { axis: 'Fraîcheur', value: molecule?.radarFreshness || 50 },
+        { axis: 'Chaleur', value: molecule?.radarWarmth || 50 },
+        { axis: 'Douceur', value: molecule?.radarSweetness || 50 },
+        { axis: 'Épices', value: molecule?.radarSpiciness || 50 },
+        { axis: 'Terreux', value: molecule?.radarEarthiness || 50 },
       ];
 
       const htmlContent = `
         <!DOCTYPE html>
         <html>
         <head>
-          <title>${molecule.name} - Fiche Molécule PERFUMUM</title>
+          <title>${molecule?.name} - Fiche Molécule PERFUMUM</title>
           <style>
             body { font-family: 'Segoe UI', Arial, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; color: #333; }
             h1 { color: #7c3aed; margin-bottom: 5px; }
@@ -865,36 +865,36 @@ export default function MoleculeDetail() {
           </style>
         </head>
         <body>
-          <h1>${molecule.name}</h1>
-          ${molecule.chemicalFormula ? `<p class="formula">${molecule.chemicalFormula}</p>` : ''}
+          <h1>${molecule?.name}</h1>
+          ${molecule?.chemicalFormula ? `<p class="formula">${molecule?.chemicalFormula}</p>` : ''}
           <div style="margin-bottom: 20px;">
-            ${molecule.family ? `<span class="badge">${molecule.family}</span>` : ''}
-            ${molecule.chemicalClass ? `<span class="badge">${chemicalClassLabels[molecule.chemicalClass] || molecule.chemicalClass}</span>` : ''}
-            ${molecule.casNumber ? `<span class="badge badge-cas">CAS: ${molecule.casNumber}</span>` : ''}
+            ${molecule?.family ? `<span class="badge">${molecule?.family}</span>` : ''}
+            ${molecule?.chemicalClass ? `<span class="badge">${chemicalClassLabels[molecule?.chemicalClass] || molecule?.chemicalClass}</span>` : ''}
+            ${molecule?.casNumber ? `<span class="badge badge-cas">CAS: ${molecule?.casNumber}</span>` : ''}
           </div>
           
-          ${molecule.iupacName ? `
+          ${molecule?.iupacName ? `
             <div class="scientific-info">
-              <strong>Nom IUPAC:</strong> ${molecule.iupacName}
+              <strong>Nom IUPAC:</strong> ${molecule?.iupacName}
             </div>
           ` : ''}
           
-          ${molecule.olfactiveProfile ? `
+          ${molecule?.olfactiveProfile ? `
             <h2>🌿 Profil Olfactif</h2>
-            <p>${molecule.olfactiveProfile}</p>
+            <p>${molecule?.olfactiveProfile}</p>
           ` : ''}
           
-          ${molecule.emotionalResonance ? `
+          ${molecule?.emotionalResonance ? `
             <h2>⚡ Résonance Émotionnelle</h2>
-            <p>${molecule.emotionalResonance}</p>
+            <p>${molecule?.emotionalResonance}</p>
           ` : ''}
           
           <h2>📊 Propriétés Scientifiques</h2>
           <div class="grid">
-            ${molecule.molecularWeight ? `<div class="card"><div class="card-title">Masse Moléculaire</div><div class="card-value">${molecule.molecularWeight} <span class="card-unit">g/mol</span></div></div>` : ''}
-            ${molecule.boilingPoint ? `<div class="card"><div class="card-title">Point d'Ébullition</div><div class="card-value">${molecule.boilingPoint} <span class="card-unit">°C</span></div></div>` : ''}
-            ${molecule.intensity ? `<div class="card"><div class="card-title">Intensité Olfactive</div><div class="card-value">${molecule.intensity}%</div></div>` : ''}
-            ${molecule.volatility ? `<div class="card"><div class="card-title">Volatilité</div><div class="card-value">${molecule.volatility}%</div></div>` : ''}
+            ${molecule?.molecularWeight ? `<div class="card"><div class="card-title">Masse Moléculaire</div><div class="card-value">${molecule?.molecularWeight} <span class="card-unit">g/mol</span></div></div>` : ''}
+            ${molecule?.boilingPoint ? `<div class="card"><div class="card-title">Point d'Ébullition</div><div class="card-value">${molecule?.boilingPoint} <span class="card-unit">°C</span></div></div>` : ''}
+            ${molecule?.intensity ? `<div class="card"><div class="card-title">Intensité Olfactive</div><div class="card-value">${molecule?.intensity}%</div></div>` : ''}
+            ${molecule?.volatility ? `<div class="card"><div class="card-title">Volatilité</div><div class="card-value">${molecule?.volatility}%</div></div>` : ''}
           </div>
           
           <h2>🎯 Profil Radar Olfactif</h2>
@@ -911,19 +911,19 @@ export default function MoleculeDetail() {
             </tbody>
           </table>
           
-          ${molecule.sourceOrigin ? `
+          ${molecule?.sourceOrigin ? `
             <h2>🌱 Origine</h2>
-            <p>${molecule.sourceOrigin}</p>
+            <p>${molecule?.sourceOrigin}</p>
           ` : ''}
           
-          ${molecule.concentration ? `
+          ${molecule?.concentration ? `
             <h2>💧 Concentration Recommandée</h2>
-            <p style="font-size: 1.3em; font-weight: bold; color: #7c3aed;">${molecule.concentration}</p>
+            <p style="font-size: 1.3em; font-weight: bold; color: #7c3aed;">${molecule?.concentration}</p>
           ` : ''}
           
-          ${molecule.notes ? `
+          ${molecule?.notes ? `
             <h2>📝 Notes de Recherche</h2>
-            <p>${molecule.notes}</p>
+            <p>${molecule?.notes}</p>
           ` : ''}
           
           <div class="footer">
@@ -954,11 +954,11 @@ export default function MoleculeDetail() {
     if (molecule) {
       trackEvent.mutate({
         eventType: "molecule_view",
-        entityId: molecule.id,
+        entityId: molecule?.id,
         entityType: "molecule",
         metadata: JSON.stringify({
-          moleculeName: molecule.name,
-          family: molecule.family,
+          moleculeName: molecule?.name,
+          family: molecule?.family,
           source: "molecule_detail",
         }),
       });
@@ -1047,29 +1047,29 @@ export default function MoleculeDetail() {
   })();
 
   // Champs normalisés — priorité aux colonnes JSON standardisées
-  const normOlfactiveProfile = asArray(mol.olfactiveProfileJson ?? molecule.olfactiveProfile);
+  const normOlfactiveProfile = asArray(mol.olfactiveProfileJson ?? molecule?.olfactiveProfile);
   const normTherapeuticProperties = (() => {
     const jsonArr = mol.therapeuticPropertiesJson;
     if (Array.isArray(jsonArr) && jsonArr.length > 0) return jsonArr.join(", ");
-    return asString(molecule.therapeuticProperties);
+    return asString(molecule?.therapeuticProperties);
   })();
-  const normBotanicalSources = asString(molecule.botanicalSources);
+  const normBotanicalSources = asString(molecule?.botanicalSources);
   const normOlfactiveProfileStr = normOlfactiveProfile.join(". ");
 
   // Préparer les données pour le radar chart
   const radarData = [
-    { axis: "Intensité", value: molecule.radarIntensity || 50 },
-    { axis: "Fraîcheur", value: molecule.radarFreshness || 50 },
-    { axis: "Chaleur", value: molecule.radarWarmth || 50 },
-    { axis: "Douceur", value: molecule.radarSweetness || 50 },
-    { axis: "Épices", value: molecule.radarSpiciness || 50 },
-    { axis: "Terreux", value: molecule.radarEarthiness || 50 },
+    { axis: "Intensité", value: molecule?.radarIntensity || 50 },
+    { axis: "Fraîcheur", value: molecule?.radarFreshness || 50 },
+    { axis: "Chaleur", value: molecule?.radarWarmth || 50 },
+    { axis: "Douceur", value: molecule?.radarSweetness || 50 },
+    { axis: "Épices", value: molecule?.radarSpiciness || 50 },
+    { axis: "Terreux", value: molecule?.radarEarthiness || 50 },
   ];
 
   const hasRadarData = radarData.some(d => d.value !== 50);
 
   // Vérifier si la molécule a des restrictions IFRA
-  const hasIfraRestrictions = ifraRestrictions && ifraRestrictions.length > 0;
+  const hasIfraRestrictions = ifraRestrictions && ifraRestrictions?.length > 0;
   const primaryRestriction = hasIfraRestrictions ? ifraRestrictions[0] : null;
 
   return (
@@ -1078,7 +1078,7 @@ export default function MoleculeDetail() {
         <Breadcrumbs 
           customItems={[
             { label: "Molécules", path: "/molecules" },
-            { label: molecule.name }
+            { label: molecule?.name }
           ]} 
         />
         <div className="flex items-center justify-between mb-6">
@@ -1106,27 +1106,27 @@ export default function MoleculeDetail() {
           <div className="bg-gradient-to-r from-primary/10 to-primary/5 p-8 rounded-lg border">
             <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
               <div>
-                <h1 className="text-4xl font-bold mb-2">{molecule.name}</h1>
-                {molecule.chemicalFormula && (
+                <h1 className="text-4xl font-bold mb-2">{molecule?.name}</h1>
+                {molecule?.chemicalFormula && (
                   <p className="text-xl text-muted-foreground font-mono mb-4">
-                    {molecule.chemicalFormula}
+                    {molecule?.chemicalFormula}
                   </p>
                 )}
                 <div className="flex flex-wrap gap-2">
-                  {molecule.family && (
+                  {molecule?.family && (
                     <Badge variant="secondary" className="text-sm">
-                      {molecule.family}
+                      {molecule?.family}
                     </Badge>
                   )}
-                  {molecule.chemicalClass && (
+                  {molecule?.chemicalClass && (
                     <Badge variant="outline" className="text-sm">
                       <Beaker className="h-3 w-3 mr-1" />
-                      {chemicalClassLabels[molecule.chemicalClass] || molecule.chemicalClass}
+                      {chemicalClassLabels[molecule?.chemicalClass] || molecule?.chemicalClass}
                     </Badge>
                   )}
-                  {molecule.casNumber && (
+                  {molecule?.casNumber && (
                     <Badge variant="outline" className="text-sm bg-blue-50 text-blue-700 border-blue-200">
-                      CAS: {molecule.casNumber}
+                      CAS: {molecule?.casNumber}
                     </Badge>
                   )}
                   {hasIfraRestrictions && primaryRestriction?.restrictionType && (
@@ -1172,9 +1172,9 @@ export default function MoleculeDetail() {
                       'Civettone': 'Civettone synthétique (Ruzicka 1926)',
                       'Muscone': 'Muscone synthétique / Habanolide / Exaltolide',
                     };
-                    const matchedKey = citesKeywords.find(k => molecule.name?.toLowerCase().includes(k.toLowerCase()));
+                    const matchedKey = citesKeywords.find(k => molecule?.name?.toLowerCase().includes(k.toLowerCase()));
                     if (!matchedKey) return null;
-                    const altText = Object.keys(synthAlternatives).find(k => molecule.name?.includes(k));
+                    const altText = Object.keys(synthAlternatives).find(k => molecule?.name?.includes(k));
                     return (
                       <TooltipProvider>
                         <Tooltip>
@@ -1233,10 +1233,10 @@ export default function MoleculeDetail() {
                       'incensole', 'boswellique', 'agarofuran', 'hashishene',
                     ];
                     const searchText = [
-                      molecule.name,
-                      molecule.notes,
-                      molecule.family,
-                      molecule.sourceOrigin,
+                      molecule?.name,
+                      molecule?.notes,
+                      molecule?.family,
+                      molecule?.sourceOrigin,
                       mol.botanicalSources,
                     ].filter(Boolean).join(' ').toLowerCase();
                     const isResinMolecule = resinKeywords.some(kw => searchText.includes(kw));
@@ -1272,7 +1272,7 @@ export default function MoleculeDetail() {
                     let procede = extractionMethodVal ? extractionMethodMap[extractionMethodVal] : undefined;
                     if (!procede) {
                       const searchText = [
-                        molecule.name, molecule.notes, molecule.family, molecule.sourceOrigin,
+                        molecule?.name, molecule?.notes, molecule?.family, molecule?.sourceOrigin,
                         mol.botanicalSources, extractionMethodVal,
                       ].filter(Boolean).join(' ').toLowerCase();
                       if (searchText.includes('distill') || searchText.includes('vapeur')) procede = extractionMethodMap['distillation'];
@@ -1297,21 +1297,21 @@ export default function MoleculeDetail() {
                   })()}
 
                   {/* Badge Bibliographie — affiché si des références sont liées à cette molécule */}
-                  {bibliographyRefs && bibliographyRefs.length > 0 && (
+                  {bibliographyRefs && bibliographyRefs?.length > 0 && (
                     <Link href={`/bibliographie?molecule=${id}`}>
                       <Badge
                         variant="outline"
                         className="text-sm bg-violet-950/30 border-violet-700/50 text-violet-400 hover:border-violet-600 hover:bg-violet-950/50 cursor-pointer transition-colors gap-1"
-                        title={`${bibliographyRefs.length} référence${bibliographyRefs.length > 1 ? 's' : ''} bibliographique${bibliographyRefs.length > 1 ? 's' : ''} liée${bibliographyRefs.length > 1 ? 's' : ''}`}
+                        title={`${bibliographyRefs?.length} référence${bibliographyRefs?.length > 1 ? 's' : ''} bibliographique${bibliographyRefs?.length > 1 ? 's' : ''} liée${bibliographyRefs?.length > 1 ? 's' : ''}`}
                       >
                         <BookOpen className="h-3 w-3" />
-                        Bibliographie ({bibliographyRefs.length})
+                        Bibliographie ({bibliographyRefs?.length})
                       </Badge>
                     </Link>
                   )}
 
                   {/* Badge inter-domaines : lien vers la page /correlations */}
-                  <Link href={`/correlations?q=${encodeURIComponent(molecule.name)}`}>
+                  <Link href={`/correlations?q=${encodeURIComponent(molecule?.name)}`}>
                     <Badge
                       variant="outline"
                       className="text-sm bg-gradient-to-r from-emerald-500/10 via-amber-500/10 to-violet-500/10 border-violet-500/30 text-violet-600 dark:text-violet-400 hover:border-violet-500/60 cursor-pointer transition-colors"
@@ -1334,8 +1334,8 @@ export default function MoleculeDetail() {
               <TabsTrigger value="gcms" className="flex items-center gap-1">
                 <Beaker className="h-3 w-3" />
                 <span className="hidden sm:inline">GC-MS</span>
-                {olfactiveEmissions && olfactiveEmissions.total > 0 && (
-                  <Badge variant="secondary" className="ml-1 text-xs px-1">{olfactiveEmissions.total}</Badge>
+                {olfactiveEmissions && olfactiveEmissions?.total > 0 && (
+                  <Badge variant="secondary" className="ml-1 text-xs px-1">{olfactiveEmissions?.total}</Badge>
                 )}
               </TabsTrigger>
               <TabsTrigger value="nomenclature" className="flex items-center gap-1">
@@ -1363,10 +1363,10 @@ export default function MoleculeDetail() {
                 <Globe className="h-3 w-3 text-cyan-600" />
                 <span className="hidden sm:inline">Europeana</span>
               </TabsTrigger>
-              {scientificPubs && scientificPubs.length > 0 && (
+              {scientificPubs && scientificPubs?.length > 0 && (
                 <TabsTrigger value="publications" className="flex items-center gap-1">
                   <BookOpen className="h-3 w-3 text-violet-600" />
-                  <span className="hidden sm:inline">Publications ({scientificPubs.length})</span>
+                  <span className="hidden sm:inline">Publications ({scientificPubs?.length})</span>
                 </TabsTrigger>
               )}
               {moleculeStorylines && (moleculeStorylines as unknown[]).length > 0 && (
@@ -1392,7 +1392,7 @@ export default function MoleculeDetail() {
                     Identité Chimique
                   </h2>
                   {!mol.pubchem_cid && (
-                    <PubChemEnrichButton moleculeId={id} moleculeName={molecule.name} />
+                    <PubChemEnrichButton moleculeId={id} moleculeName={molecule?.name} />
                   )}
                 </div>
 
@@ -1401,33 +1401,33 @@ export default function MoleculeDetail() {
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="bg-muted/50 p-4 rounded-lg">
                       <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Nom commun</p>
-                      <p className="text-xl font-bold">{molecule.name}</p>
+                      <p className="text-xl font-bold">{molecule?.name}</p>
                     </div>
-                    {molecule.chemicalFormula && (
+                    {molecule?.chemicalFormula && (
                       <div className="bg-muted/50 p-4 rounded-lg">
                         <p className="text-xs text-muted-foreground uppercase tracking-wide mb-1">Formule moléculaire</p>
-                        <p className="text-xl font-mono font-bold">{molecule.chemicalFormula}</p>
+                        <p className="text-xl font-mono font-bold">{molecule?.chemicalFormula}</p>
                       </div>
                     )}
                   </div>
 
                   {/* Nom IUPAC */}
-                  {molecule.iupacName && (
+                  {molecule?.iupacName && (
                     <div className="bg-amber-50 dark:bg-amber-950/30 p-4 rounded-lg border border-amber-200 dark:border-amber-800">
                       <p className="text-xs text-amber-600 dark:text-amber-400 uppercase tracking-wide font-medium mb-2">Nom IUPAC (nomenclature systématique)</p>
-                      <p className="font-mono text-amber-800 dark:text-amber-200 leading-relaxed">{molecule.iupacName}</p>
+                      <p className="font-mono text-amber-800 dark:text-amber-200 leading-relaxed">{molecule?.iupacName}</p>
                     </div>
                   )}
 
                   {/* CAS + Poids moléculaire */}
                   <div className="grid md:grid-cols-2 gap-4">
-                    {molecule.casNumber && (
+                    {molecule?.casNumber && (
                       <div className="bg-blue-50 dark:bg-blue-950/30 p-4 rounded-lg border border-blue-200 dark:border-blue-800">
                         <p className="text-xs text-blue-600 dark:text-blue-400 uppercase tracking-wide font-medium mb-2">Numéro CAS</p>
-                        <p className="text-2xl font-mono font-bold text-blue-800 dark:text-blue-200 mb-2">{molecule.casNumber}</p>
+                        <p className="text-2xl font-mono font-bold text-blue-800 dark:text-blue-200 mb-2">{molecule?.casNumber}</p>
                         <div className="flex gap-2">
                           <a
-                            href={`https://commonchemistry.cas.org/detail?cas_rn=${molecule.casNumber}`}
+                            href={`https://commonchemistry.cas.org/detail?cas_rn=${molecule?.casNumber}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-xs text-blue-600 hover:underline flex items-center gap-1"
@@ -1435,7 +1435,7 @@ export default function MoleculeDetail() {
                             CAS Common Chemistry <ExternalLink className="h-3 w-3" />
                           </a>
                           <a
-                            href={`https://www.chemspider.com/Search.aspx?q=${molecule.casNumber}`}
+                            href={`https://www.chemspider.com/Search.aspx?q=${molecule?.casNumber}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-xs text-blue-600 hover:underline flex items-center gap-1"
@@ -1445,28 +1445,28 @@ export default function MoleculeDetail() {
                         </div>
                       </div>
                     )}
-                    {molecule.molecularWeight && (
+                    {molecule?.molecularWeight && (
                       <div className="bg-muted/50 p-4 rounded-lg">
                         <p className="text-xs text-muted-foreground uppercase tracking-wide mb-2">Masse moléculaire</p>
-                        <p className="text-2xl font-bold">{molecule.molecularWeight} <span className="text-sm font-normal text-muted-foreground">g/mol</span></p>
+                        <p className="text-2xl font-bold">{molecule?.molecularWeight} <span className="text-sm font-normal text-muted-foreground">g/mol</span></p>
                       </div>
                     )}
                   </div>
 
                   {/* Classe chimique + Famille */}
                   <div className="grid md:grid-cols-2 gap-4">
-                    {molecule.chemicalClass && (
+                    {molecule?.chemicalClass && (
                       <div className="bg-purple-50 dark:bg-purple-950/30 p-4 rounded-lg border border-purple-200 dark:border-purple-800">
                         <p className="text-xs text-purple-600 dark:text-purple-400 uppercase tracking-wide font-medium mb-2">Classe chimique</p>
                         <p className="text-lg font-semibold text-purple-800 dark:text-purple-200">
-                          {chemicalClassLabels[molecule.chemicalClass] || molecule.chemicalClass}
+                          {chemicalClassLabels[molecule?.chemicalClass] || molecule?.chemicalClass}
                         </p>
                       </div>
                     )}
-                    {molecule.family && (
+                    {molecule?.family && (
                       <div className="bg-primary/5 p-4 rounded-lg border border-primary/20">
                         <p className="text-xs text-primary/70 uppercase tracking-wide font-medium mb-2">Famille olfactive</p>
-                        <p className="text-lg font-semibold text-primary">{molecule.family}</p>
+                        <p className="text-lg font-semibold text-primary">{molecule?.family}</p>
                       </div>
                     )}
                   </div>
@@ -1474,7 +1474,7 @@ export default function MoleculeDetail() {
               </div>
 
               {/* Liens externes */}
-              {(mol.pubchem_cid || molecule.casNumber || molecule.chemicalFormula) && (
+              {(mol.pubchem_cid || molecule?.casNumber || molecule?.chemicalFormula) && (
                 <div className="bg-card p-6 rounded-lg border shadow-sm">
                   <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                     <Globe className="h-5 w-5 text-primary" />
@@ -1492,9 +1492,9 @@ export default function MoleculeDetail() {
                         PubChem CID {mol.pubchem_cid}
                       </a>
                     )}
-                    {molecule.casNumber && (
+                    {molecule?.casNumber && (
                       <a
-                        href={`https://commonchemistry.cas.org/detail?cas_rn=${molecule.casNumber}`}
+                        href={`https://commonchemistry.cas.org/detail?cas_rn=${molecule?.casNumber}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2 rounded-lg bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-300 hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors text-sm font-medium"
@@ -1503,9 +1503,9 @@ export default function MoleculeDetail() {
                         CAS Registry
                       </a>
                     )}
-                    {molecule.chemicalFormula && (
+                    {molecule?.chemicalFormula && (
                       <a
-                        href={`https://www.chemspider.com/Search.aspx?q=${encodeURIComponent(molecule.chemicalFormula)}`}
+                        href={`https://www.chemspider.com/Search.aspx?q=${encodeURIComponent(molecule?.chemicalFormula)}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2 rounded-lg bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-800 text-orange-700 dark:text-orange-300 hover:bg-orange-100 dark:hover:bg-orange-900/40 transition-colors text-sm font-medium"
@@ -1514,12 +1514,12 @@ export default function MoleculeDetail() {
                         ChemSpider
                       </a>
                     )}
-                    {molecule.name && (
+                    {molecule?.name && (
                       <a
                         href={
                           mol.chebi_id
                             ? `https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${mol.chebi_id}`
-                            : `https://www.ebi.ac.uk/chebi/advancedSearchFT.do?searchString=${encodeURIComponent(molecule.name)}`
+                            : `https://www.ebi.ac.uk/chebi/advancedSearchFT.do?searchString=${encodeURIComponent(molecule?.name)}`
                         }
                         target="_blank"
                         rel="noopener noreferrer"
@@ -1592,33 +1592,33 @@ export default function MoleculeDetail() {
                   </div>
                 )}
 
-                {molecule.emotionalResonance && (
+                {molecule?.emotionalResonance && (
                   <div className="bg-card p-6 rounded-lg border shadow-sm">
                     <div className="flex items-center gap-2 mb-3">
                       <Zap className="h-5 w-5 text-primary" />
                       <h2 className="text-lg font-semibold">Résonance Émotionnelle</h2>
                     </div>
-                    <p className="whitespace-pre-wrap text-muted-foreground">{molecule.emotionalResonance}</p>
+                    <p className="whitespace-pre-wrap text-muted-foreground">{molecule?.emotionalResonance}</p>
                   </div>
                 )}
 
-                {molecule.functionalEffect && (
+                {molecule?.functionalEffect && (
                   <div className="bg-card p-6 rounded-lg border shadow-sm">
                     <div className="flex items-center gap-2 mb-3">
                       <Atom className="h-5 w-5 text-primary" />
                       <h2 className="text-lg font-semibold">Effet Fonctionnel</h2>
                     </div>
-                    <p className="whitespace-pre-wrap text-muted-foreground">{molecule.functionalEffect}</p>
+                    <p className="whitespace-pre-wrap text-muted-foreground">{molecule?.functionalEffect}</p>
                   </div>
                 )}
 
-                {molecule.sourceOrigin && (
+                {molecule?.sourceOrigin && (
                   <div className="bg-card p-6 rounded-lg border shadow-sm">
                     <div className="flex items-center gap-2 mb-3">
                       <Leaf className="h-5 w-5 text-primary" />
                       <h2 className="text-lg font-semibold">Origine</h2>
                     </div>
-                    <p className="text-muted-foreground">{molecule.sourceOrigin}</p>
+                    <p className="text-muted-foreground">{molecule?.sourceOrigin}</p>
                   </div>
                 )}
               </div>
@@ -1634,7 +1634,7 @@ export default function MoleculeDetail() {
                         <PolarAngleAxis dataKey="axis" tick={{ fill: "hsl(var(--foreground))", fontSize: 14 }} />
                         <PolarRadiusAxis angle={90} domain={[0, 100]} tick={{ fill: "hsl(var(--muted-foreground))" }} />
                         <Radar
-                          name={molecule.name}
+                          name={molecule?.name}
                           dataKey="value"
                           stroke="hsl(var(--primary))"
                           fill="hsl(var(--primary))"
@@ -1656,10 +1656,10 @@ export default function MoleculeDetail() {
                   </div>
                 )}
 
-                {molecule.extractionMethod && (
+                {molecule?.extractionMethod && (
                   <div className="bg-card p-6 rounded-lg border shadow-sm">
                     <h2 className="text-lg font-semibold mb-3">Méthode d'Extraction</h2>
-                    <p className="whitespace-pre-wrap text-muted-foreground">{molecule.extractionMethod}</p>
+                    <p className="whitespace-pre-wrap text-muted-foreground">{molecule?.extractionMethod}</p>
                   </div>
                 )}
 
@@ -1670,27 +1670,27 @@ export default function MoleculeDetail() {
                   </div>
                 )}
 
-                {molecule.concentration && (
+                {molecule?.concentration && (
                   <div className="bg-card p-6 rounded-lg border shadow-sm">
                     <div className="flex items-center gap-2 mb-3">
                       <Droplet className="h-5 w-5 text-primary" />
                       <h2 className="text-lg font-semibold">Concentration Recommandée</h2>
                     </div>
-                    <p className="text-2xl font-bold text-primary">{molecule.concentration}</p>
+                    <p className="text-2xl font-bold text-primary">{molecule?.concentration}</p>
                   </div>
                 )}
               </div>
 
               {/* Notes de Recherche */}
-              {molecule.notes && (
+              {molecule?.notes && (
                 <div className="bg-card p-6 rounded-lg border shadow-sm">
                   <h2 className="text-lg font-semibold mb-3">Notes de Recherche</h2>
-                  <p className="whitespace-pre-wrap text-muted-foreground">{molecule.notes}</p>
+                  <p className="whitespace-pre-wrap text-muted-foreground">{molecule?.notes}</p>
                 </div>
               )}
 
               {/* Recommandations IA */}
-              {recommendations && recommendations.length > 0 && (
+              {recommendations && recommendations?.length > 0 && (
                 <RecommendationsCard
                   type="molecules"
                   recommendations={recommendations}
@@ -1736,61 +1736,61 @@ export default function MoleculeDetail() {
             <TabsContent value="scientific" className="space-y-6 mt-6">
               <TabErrorBoundary tabLabel="Données scientifiques">
               {/* Propriétés Scientifiques — voir l'onglet Nomenclature pour IUPAC, CAS, formule, poids */}
-              {(molecule.molecularWeight || molecule.boilingPoint || molecule.logP || molecule.volatility || molecule.intensity || molecule.complexity) && (
+              {(molecule?.molecularWeight || molecule?.boilingPoint || molecule?.logP || molecule?.volatility || molecule?.intensity || molecule?.complexity) && (
                 <div className="bg-card p-6 rounded-lg border shadow-sm">
                   <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                     <Thermometer className="h-5 w-5 text-primary" />
                     Propriétés Physico-chimiques
                   </h2>
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {molecule.molecularWeight && (
+                    {molecule?.molecularWeight && (
                       <div className="bg-muted/50 p-4 rounded-lg">
                         <p className="text-sm text-muted-foreground mb-1">Masse Moléculaire</p>
-                        <p className="text-2xl font-bold">{molecule.molecularWeight} <span className="text-sm font-normal">g/mol</span></p>
+                        <p className="text-2xl font-bold">{molecule?.molecularWeight} <span className="text-sm font-normal">g/mol</span></p>
                       </div>
                     )}
-                    {molecule.boilingPoint && (
+                    {molecule?.boilingPoint && (
                       <div className="bg-muted/50 p-4 rounded-lg">
                         <p className="text-sm text-muted-foreground mb-1">Point d'Ébullition</p>
-                        <p className="text-2xl font-bold">{molecule.boilingPoint} <span className="text-sm font-normal">°C</span></p>
+                        <p className="text-2xl font-bold">{molecule?.boilingPoint} <span className="text-sm font-normal">°C</span></p>
                       </div>
                     )}
-                    {molecule.logP && (
+                    {molecule?.logP && (
                       <div className="bg-muted/50 p-4 rounded-lg">
                         <p className="text-sm text-muted-foreground mb-1">LogP (lipophilie)</p>
-                        <p className="text-2xl font-bold">{(molecule.logP / 100).toFixed(2)}</p>
+                        <p className="text-2xl font-bold">{(molecule?.logP / 100).toFixed(2)}</p>
                       </div>
                     )}
-                    {molecule.volatility && (
+                    {molecule?.volatility && (
                       <div className="bg-muted/50 p-4 rounded-lg">
                         <p className="text-sm text-muted-foreground mb-1">Volatilité</p>
                         <div className="flex items-center gap-2">
                           <div className="flex-1 bg-background rounded-full h-2">
-                            <div className="bg-primary h-2 rounded-full" style={{ width: `${molecule.volatility}%` }}></div>
+                            <div className="bg-primary h-2 rounded-full" style={{ width: `${molecule?.volatility}%` }}></div>
                           </div>
-                          <span className="text-sm font-semibold">{molecule.volatility}%</span>
+                          <span className="text-sm font-semibold">{molecule?.volatility}%</span>
                         </div>
                       </div>
                     )}
-                    {molecule.intensity && (
+                    {molecule?.intensity && (
                       <div className="bg-muted/50 p-4 rounded-lg">
                         <p className="text-sm text-muted-foreground mb-1">Intensité Olfactive</p>
                         <div className="flex items-center gap-2">
                           <div className="flex-1 bg-background rounded-full h-2">
-                            <div className="bg-primary h-2 rounded-full" style={{ width: `${molecule.intensity}%` }}></div>
+                            <div className="bg-primary h-2 rounded-full" style={{ width: `${molecule?.intensity}%` }}></div>
                           </div>
-                          <span className="text-sm font-semibold">{molecule.intensity}%</span>
+                          <span className="text-sm font-semibold">{molecule?.intensity}%</span>
                         </div>
                       </div>
                     )}
-                    {molecule.complexity && (
+                    {molecule?.complexity && (
                       <div className="bg-muted/50 p-4 rounded-lg">
                         <p className="text-sm text-muted-foreground mb-1">Complexité</p>
                         <div className="flex items-center gap-2">
                           <div className="flex-1 bg-background rounded-full h-2">
-                            <div className="bg-primary h-2 rounded-full" style={{ width: `${molecule.complexity}%` }}></div>
+                            <div className="bg-primary h-2 rounded-full" style={{ width: `${molecule?.complexity}%` }}></div>
                           </div>
-                          <span className="text-sm font-semibold">{molecule.complexity}%</span>
+                          <span className="text-sm font-semibold">{molecule?.complexity}%</span>
                         </div>
                       </div>
                     )}
@@ -1799,7 +1799,7 @@ export default function MoleculeDetail() {
               )}
 
               {/* Visualisation 3D de la molécule */}
-              {molecule.chemicalFormula && (
+              {molecule?.chemicalFormula && (
                 <div className="bg-card p-6 rounded-lg border shadow-sm">
                   <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                     <Box className="h-5 w-5 text-primary" />
@@ -1810,8 +1810,8 @@ export default function MoleculeDetail() {
                   </p>
                   <Molecule3DViewer
                     moleculeId={id}
-                    moleculeName={molecule.name}
-                    formula={molecule.chemicalFormula}
+                    moleculeName={molecule?.name}
+                    formula={molecule?.chemicalFormula}
                     showControls={true}
                     showInfo={true}
                     autoRotate={false}
@@ -1821,13 +1821,13 @@ export default function MoleculeDetail() {
               )}
 
               {/* Famille chimique */}
-              {molecule.family && (
+              {molecule?.family && (
                 <div className="bg-card p-6 rounded-lg border shadow-sm">
                   <h2 className="text-xl font-semibold mb-4">Classification Olfactive</h2>
                   <div className="flex items-center gap-4">
                     <div className="bg-primary/10 p-4 rounded-lg">
                       <p className="text-sm text-muted-foreground mb-1">Famille olfactive</p>
-                      <p className="text-xl font-semibold text-primary">{molecule.family}</p>
+                      <p className="text-xl font-semibold text-primary">{molecule?.family}</p>
                     </div>
                   </div>
                 </div>
@@ -1839,20 +1839,20 @@ export default function MoleculeDetail() {
               {/* Classification assistée par IA */}
               <AIClassificationSuggestion
                 molecule={{
-                  name: molecule.name,
-                  iupacName: molecule.iupacName,
-                  casNumber: molecule.casNumber,
-                  chemicalFormula: molecule.chemicalFormula,
+                  name: molecule?.name,
+                  iupacName: molecule?.iupacName,
+                  casNumber: molecule?.casNumber,
+                  chemicalFormula: molecule?.chemicalFormula,
                   olfactiveProfile: normOlfactiveProfileStr || undefined,
                   botanicalSources: normBotanicalSources || undefined,
                 }}
-                currentChemicalClass={molecule.chemicalClass}
-                currentOlfactiveFamily={molecule.family}
+                currentChemicalClass={molecule?.chemicalClass}
+                currentOlfactiveFamily={molecule?.family}
                 onAcceptChemicalClass={(value) => applyAIClassificationMutation.mutate({ moleculeId: id, chemicalClass: value })}
                 onAcceptOlfactiveFamily={(value) => applyAIClassificationMutation.mutate({ moleculeId: id, olfactiveFamily: value })}
                 onAcceptOlfactiveProfile={(value) => applyAIClassificationMutation.mutate({ moleculeId: id, olfactiveProfile: value })}
                 onAcceptResearcherNotes={(value, appendMode) => applyAINotesMutation.mutate({ moleculeId: id, researcherNotes: value, appendMode })}
-                currentNotes={molecule.notes}
+                currentNotes={molecule?.notes}
               />
               </TabErrorBoundary>
             </TabsContent>
@@ -1870,36 +1870,36 @@ export default function MoleculeDetail() {
                   <div className="flex items-center justify-center py-8">
                     <Loader2 className="h-6 w-6 animate-spin text-primary" />
                   </div>
-                ) : moleculeTransformations?.success && (moleculeTransformations.asSource.length > 0 || moleculeTransformations.asProduct.length > 0) ? (
+                ) : moleculeTransformations?.success && (moleculeTransformations?.asSource.length > 0 || moleculeTransformations?.asProduct.length > 0) ? (
                   <div className="space-y-6">
                     {/* Stats */}
-                    {moleculeTransformations.stats && (
+                    {moleculeTransformations?.stats && (
                       <div className="flex flex-wrap gap-2">
                         <Badge variant="secondary">
-                          {moleculeTransformations.stats.total} transformation{moleculeTransformations.stats.total > 1 ? 's' : ''}
+                          {moleculeTransformations?.stats.total} transformation{moleculeTransformations?.stats.total > 1 ? 's' : ''}
                         </Badge>
-                        {moleculeTransformations.stats.totalAsSource > 0 && (
+                        {moleculeTransformations?.stats.totalAsSource > 0 && (
                           <Badge variant="outline" className="border-green-500 text-green-600">
-                            {moleculeTransformations.stats.totalAsSource} en tant que source
+                            {moleculeTransformations?.stats.totalAsSource} en tant que source
                           </Badge>
                         )}
-                        {moleculeTransformations.stats.totalAsProduct > 0 && (
+                        {moleculeTransformations?.stats.totalAsProduct > 0 && (
                           <Badge variant="outline" className="border-red-500 text-red-600">
-                            {moleculeTransformations.stats.totalAsProduct} en tant que produit
+                            {moleculeTransformations?.stats.totalAsProduct} en tant que produit
                           </Badge>
                         )}
                       </div>
                     )}
 
                     {/* Transformations où cette molécule est source */}
-                    {moleculeTransformations.asSource.length > 0 && (
+                    {moleculeTransformations?.asSource.length > 0 && (
                       <div>
                         <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
                           <ArrowRight className="h-4 w-4 text-green-500" />
                           Cette molécule se transforme en...
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          {moleculeTransformations.asSource.map((t: unknown) => (
+                          {moleculeTransformations?.asSource.map((t: unknown) => (
                             <div key={t.id} className="p-4 bg-green-50 dark:bg-green-950/30 rounded-lg border border-green-200 dark:border-green-800">
                               <div className="flex items-center justify-between mb-2">
                                 <div className="flex items-center gap-2">
@@ -1941,14 +1941,14 @@ export default function MoleculeDetail() {
                     )}
 
                     {/* Transformations où cette molécule est produit */}
-                    {moleculeTransformations.asProduct.length > 0 && (
+                    {moleculeTransformations?.asProduct.length > 0 && (
                       <div>
                         <h3 className="text-lg font-medium mb-3 flex items-center gap-2">
                           <ArrowLeft className="h-4 w-4 text-red-500" />
                           Cette molécule est produite à partir de...
                         </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                          {moleculeTransformations.asProduct.map((t: unknown) => (
+                          {moleculeTransformations?.asProduct.map((t: unknown) => (
                             <div key={t.id} className="p-4 bg-red-50 dark:bg-red-950/30 rounded-lg border border-red-200 dark:border-red-800">
                               <div className="flex items-center justify-between mb-2">
                                 <div className="flex items-center gap-2">
@@ -2003,7 +2003,7 @@ export default function MoleculeDetail() {
                             Explorez toutes les transformations en cascade de cette molécule
                           </p>
                         </div>
-                        <Link href={`/molecular-transformations?molecule=${encodeURIComponent(molecule.name)}&mode=cascade`}>
+                        <Link href={`/molecular-transformations?molecule=${encodeURIComponent(molecule?.name)}&mode=cascade`}>
                           <Button variant="outline" className="border-amber-500 text-amber-700 hover:bg-amber-100 dark:hover:bg-amber-900">
                             <GitBranch className="h-4 w-4 mr-2" />
                             Voir la cascade
@@ -2060,23 +2060,23 @@ export default function MoleculeDetail() {
                   <div className="flex items-center justify-center py-8">
                     <Loader2 className="h-6 w-6 animate-spin text-primary" />
                   </div>
-                ) : tpsGenes && tpsGenes.length > 0 ? (
+                ) : tpsGenes && tpsGenes?.length > 0 ? (
                   <div className="space-y-6">
                     {/* Stats */}
                     <div className="flex flex-wrap gap-2">
                       <Badge variant="secondary">
-                        {tpsGenes.length} gène{tpsGenes.length > 1 ? 's' : ''} TPS identifié{tpsGenes.length > 1 ? 's' : ''}
+                        {tpsGenes?.length} gène{tpsGenes?.length > 1 ? 's' : ''} TPS identifié{tpsGenes?.length > 1 ? 's' : ''}
                       </Badge>
-                      {[...new Set(tpsGenes.map((g: unknown) => (g as { species?: string }).species))].filter(Boolean).length > 0 && (
+                      {[...new Set(tpsGenes?.map((g: unknown) => (g as { species?: string }).species))].filter(Boolean).length > 0 && (
                         <Badge variant="outline" className="border-green-500 text-green-600">
-                          {[...new Set(tpsGenes.map((g: unknown) => (g as { species?: string }).species))].filter(Boolean).length} espèce{[...new Set(tpsGenes.map((g: unknown) => (g as { species?: string }).species))].filter(Boolean).length > 1 ? 's' : ''}
+                          {[...new Set(tpsGenes?.map((g: unknown) => (g as { species?: string }).species))].filter(Boolean).length} espèce{[...new Set(tpsGenes?.map((g: unknown) => (g as { species?: string }).species))].filter(Boolean).length > 1 ? 's' : ''}
                         </Badge>
                       )}
                     </div>
 
                     {/* Liste des gènes TPS */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {tpsGenes.map((gene: unknown) => (
+                      {tpsGenes?.map((gene: unknown) => (
                         <div key={gene.id} className="p-4 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950/30 dark:to-emerald-950/30 rounded-lg border border-green-200 dark:border-green-800">
                           <div className="flex items-start justify-between mb-3">
                             <div>
@@ -2245,9 +2245,9 @@ export default function MoleculeDetail() {
                   <div className="flex items-center justify-center py-8">
                     <Loader2 className="h-6 w-6 animate-spin text-primary" />
                   </div>
-                ) : moleculeOrigins && moleculeOrigins.length > 0 ? (
+                ) : moleculeOrigins && moleculeOrigins?.length > 0 ? (
                   <div className="space-y-4">
-                    {moleculeOrigins.map((origin: unknown) => (
+                    {moleculeOrigins?.map((origin: unknown) => (
                       <div 
                         key={origin.id} 
                         className={`p-4 rounded-lg border ${origin.isPrimaryOrigin ? 'bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800' : 'bg-muted/50'}`}
@@ -2365,7 +2365,7 @@ export default function MoleculeDetail() {
                   </div>
                 ) : hasIfraRestrictions ? (
                   <div className="space-y-6">
-                    {ifraRestrictions.map((restriction: unknown) => (
+                    {ifraRestrictions?.map((restriction: unknown) => (
                       <div key={restriction.id} className="space-y-4">
                         {/* En-tête de la restriction */}
                         <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
@@ -2496,8 +2496,8 @@ export default function MoleculeDetail() {
             <TabsContent value="therapeutic" className="space-y-6 mt-6">
               <TabErrorBoundary tabLabel="Propriétés thérapeutiques">
               <TherapeuticPropertiesTab
-                moleculeId={molecule.id}
-                moleculeName={molecule.name}
+                moleculeId={molecule?.id}
+                moleculeName={molecule?.name}
                 therapeuticProperties={normTherapeuticProperties || undefined}
                 olfactiveProfile={normOlfactiveProfileStr || undefined}
               />
@@ -2508,9 +2508,9 @@ export default function MoleculeDetail() {
             <TabsContent value="structure3d" className="space-y-6 mt-6">
               <TabErrorBoundary tabLabel="Structure 3D">
               <Structure3DTab
-                moleculeId={molecule.id}
-                moleculeName={molecule.name}
-                formula={molecule.chemicalFormula}
+                moleculeId={molecule?.id}
+                moleculeName={molecule?.name}
+                formula={molecule?.chemicalFormula}
                 smiles={mol.smiles ?? undefined}
                 pubchemCid={mol.pubchem_cid ?? undefined}
               />
@@ -2520,7 +2520,7 @@ export default function MoleculeDetail() {
             {/* Onglet Parfums emblématiques */}
             <TabsContent value="perfumes" className="space-y-6 mt-6">
               <TabErrorBoundary tabLabel="Parfums">
-              <PerfumesTab moleculeId={molecule.id} moleculeName={molecule.name} />
+              <PerfumesTab moleculeId={molecule?.id} moleculeName={molecule?.name} />
               </TabErrorBoundary>
             </TabsContent>
 
@@ -2533,14 +2533,14 @@ export default function MoleculeDetail() {
                     <h3 className="text-lg font-semibold">Présence dans les profils GC-MS</h3>
                     <span className="text-sm text-muted-foreground">(NOSE Phase 1 — od:L12 Smell Emission)</span>
                   </div>
-                  {!olfactiveEmissions || olfactiveEmissions.total === 0 ? (
+                  {!olfactiveEmissions || olfactiveEmissions?.total === 0 ? (
                     <div className="text-center py-8 text-muted-foreground">
                       <Beaker className="h-10 w-10 mx-auto mb-3 opacity-30" />
                       <p>Aucune donnée GC-MS disponible pour cette molécule.</p>
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      <Badge variant="outline">{olfactiveEmissions.total} source{olfactiveEmissions.total > 1 ? 's' : ''} identifiée{olfactiveEmissions.total > 1 ? 's' : ''}</Badge>
+                      <Badge variant="outline">{olfactiveEmissions?.total} source{olfactiveEmissions?.total > 1 ? 's' : ''} identifiée{olfactiveEmissions?.total > 1 ? 's' : ''}</Badge>
                       <div className="overflow-x-auto">
                         <table className="w-full text-sm">
                           <thead>
@@ -2554,7 +2554,7 @@ export default function MoleculeDetail() {
                             </tr>
                           </thead>
                           <tbody>
-                            {olfactiveEmissions.emissions.map((e: unknown) => (
+                            {olfactiveEmissions?.emissions.map((e: unknown) => (
                               <tr key={e.id} className="border-b hover:bg-muted/30 transition-colors">
                                 <td className="py-2 pr-4">
                                   {e.plant_id ? (
@@ -2596,7 +2596,7 @@ export default function MoleculeDetail() {
 
             <TabsContent value="synergies" className="space-y-6 mt-6">
               <TabErrorBoundary tabLabel="Synergies">
-              <SynergiesTab moleculeName={molecule.name} moleculeId={molecule.id} />
+              <SynergiesTab moleculeName={molecule?.name} moleculeId={molecule?.id} />
               </TabErrorBoundary>
             </TabsContent>
 
@@ -2606,8 +2606,8 @@ export default function MoleculeDetail() {
                 <div className="max-w-2xl">
                   <EuropeanaWidget
                     type="molecule"
-                    entityId={molecule.id}
-                    entityName={molecule.name}
+                    entityId={molecule?.id}
+                    entityName={molecule?.name}
                     limit={8}
                   />
                 </div>
@@ -2631,10 +2631,10 @@ export default function MoleculeDetail() {
                         <Loader2 className="h-4 w-4 animate-spin" />
                         Chargement des publications PubChem…
                       </div>
-                    ) : pubchemLiterature?.articles && pubchemLiterature.articles.length > 0 ? (
+                    ) : pubchemLiterature?.articles && pubchemLiterature?.articles.length > 0 ? (
                       <div className="space-y-2">
-                        <p className="text-xs text-muted-foreground">{pubchemLiterature.articles.length} article{pubchemLiterature.articles.length > 1 ? 's' : ''} référencé{pubchemLiterature.articles.length > 1 ? 's' : ''} sur PubMed (CID {molecule.pubchem_cid})</p>
-                        {pubchemLiterature.articles.map((art) => (
+                        <p className="text-xs text-muted-foreground">{pubchemLiterature?.articles.length} article{pubchemLiterature?.articles.length > 1 ? 's' : ''} référencé{pubchemLiterature?.articles.length > 1 ? 's' : ''} sur PubMed (CID {molecule?.pubchem_cid})</p>
+                        {pubchemLiterature?.articles.map((art) => (
                           <PubMedArticleCard
                             key={art.pmid}
                             art={art}
@@ -2644,13 +2644,13 @@ export default function MoleculeDetail() {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-sm text-muted-foreground italic py-2">Aucune publication PubMed trouvée pour ce composé (CID {molecule.pubchem_cid}).</p>
+                      <p className="text-sm text-muted-foreground italic py-2">Aucune publication PubMed trouvée pour ce composé (CID {molecule?.pubchem_cid}).</p>
                     )}
                   </div>
                 )}
 
                 {/* Section OpenAlex */}
-                {scientificPubs && scientificPubs.length > 0 && (
+                {scientificPubs && scientificPubs?.length > 0 && (
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="h-5 w-1 rounded-full bg-violet-500" />
@@ -2658,7 +2658,7 @@ export default function MoleculeDetail() {
                       <Badge variant="outline" className="text-xs border-violet-300 text-violet-600">Base locale</Badge>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      {scientificPubs.length} publication{scientificPubs.length > 1 ? 's' : ''} répertoriée{scientificPubs.length > 1 ? 's' : ''} dans la base PERFUMUM
+                      {scientificPubs?.length} publication{scientificPubs?.length > 1 ? 's' : ''} répertoriée{scientificPubs?.length > 1 ? 's' : ''} dans la base PERFUMUM
                     </p>
                     {(scientificPubs as unknown[]).map((pub: unknown) => (
                       <Card key={pub.id} className="hover:shadow-sm transition-shadow">
@@ -2694,7 +2694,7 @@ export default function MoleculeDetail() {
                 )}
 
                 {/* État vide */}
-                {(!molecule?.pubchem_cid) && (!scientificPubs || scientificPubs.length === 0) && (
+                {(!molecule?.pubchem_cid) && (!scientificPubs || scientificPubs?.length === 0) && (
                   <div className="text-center py-8 text-muted-foreground">
                     <BookOpen className="h-8 w-8 mx-auto mb-2 opacity-40" />
                     <p>Aucune publication scientifique répertoriée pour cette molécule.</p>
@@ -2776,7 +2776,7 @@ export default function MoleculeDetail() {
 
             <TabsContent value="pyrfume" className="space-y-4 mt-6">
               <TabErrorBoundary tabLabel="Pyrfume">
-                <PyrfumeSection moleculeId={molecule.id} />
+                <PyrfumeSection moleculeId={molecule?.id} />
               </TabErrorBoundary>
             </TabsContent>
 
@@ -2846,7 +2846,7 @@ function PerfumesTab({ moleculeId, moleculeName }: { moleculeId: number; molecul
     );
   }
 
-  if (!perfumes || perfumes.length === 0) {
+  if (!perfumes || perfumes?.length === 0) {
     return (
       <div className="text-center py-16 text-muted-foreground">
         <Wine className="h-12 w-12 mx-auto mb-3 opacity-40" />
@@ -2859,7 +2859,7 @@ function PerfumesTab({ moleculeId, moleculeName }: { moleculeId: number; molecul
   }
 
   // Grouper par maison
-  const byHouse = perfumes.reduce<Record<string, typeof perfumes>>((acc, p) => {
+  const byHouse = perfumes?.reduce<Record<string, typeof perfumes>>((acc, p) => {
     if (!acc[p.perfumeHouse]) acc[p.perfumeHouse] = [];
     acc[p.perfumeHouse].push(p);
     return acc;
@@ -2875,7 +2875,7 @@ function PerfumesTab({ moleculeId, moleculeName }: { moleculeId: number; molecul
           </div>
           <div>
             <h3 className="font-semibold text-amber-900 dark:text-amber-100">
-              {perfumes.length} parfum{perfumes.length > 1 ? 's' : ''} emblématique{perfumes.length > 1 ? 's' : ''}
+              {perfumes?.length} parfum{perfumes?.length > 1 ? 's' : ''} emblématique{perfumes?.length > 1 ? 's' : ''}
             </h3>
             <p className="text-sm text-amber-700 dark:text-amber-300">
               {moleculeName} est présent dans ces créations de référence
@@ -2884,7 +2884,7 @@ function PerfumesTab({ moleculeId, moleculeName }: { moleculeId: number; molecul
         </div>
         <div className="flex flex-wrap gap-2 mt-3">
           {Object.entries(ROLE_LABELS).map(([key, { label, color }]) => {
-            const count = perfumes.filter(p => p.roleInPerfume === key).length;
+            const count = perfumes?.filter(p => p.roleInPerfume === key).length;
             if (count === 0) return null;
             return (
               <span key={key} className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${color}`}>
@@ -3192,7 +3192,7 @@ function SynergiesTab({ moleculeName, moleculeId }: { moleculeName: string; mole
   );
 
   // Récupérer les synergies depuis la table molecule_synergies (par ID)
-  const { data: dbSynergies, isLoading: loadingDb } = trpc.synergies.getAllMoleculeSynergies.useQuery();
+  const { data: dbSynergies, isLoading: loadingDb } = trpc.synergies?.getAllMoleculeSynergies.useQuery();
 
   const isLoading = loadingNamed || loadingDb;
 
@@ -3495,7 +3495,7 @@ function RecetteSynergiesSection({ moleculeId, moleculeName }: { moleculeId: num
     );
   }
 
-  if (!synergies || synergies.length === 0) return null;
+  if (!synergies || synergies?.length === 0) return null;
 
   return (
     <div className="bg-card rounded-lg border overflow-hidden">
@@ -3503,14 +3503,14 @@ function RecetteSynergiesSection({ moleculeId, moleculeName }: { moleculeId: num
         <span className="text-base">🧪</span>
         <h3 className="font-semibold text-sm">Co-occurrences dans les recettes PERFUMUM</h3>
         <Badge variant="secondary" className="ml-auto text-xs">
-          {synergies.length} molécule{synergies.length > 1 ? 's' : ''} associée{synergies.length > 1 ? 's' : ''}
+          {synergies?.length} molécule{synergies?.length > 1 ? 's' : ''} associée{synergies?.length > 1 ? 's' : ''}
         </Badge>
       </div>
       <p className="px-5 py-2 text-xs text-muted-foreground border-b">
         Molécules fréquemment utilisées dans les mêmes recettes que <strong>{moleculeName}</strong> — basé sur les {synergies[0]?.recettes ? synergies[0].recettes.split(',').length : ''} recettes PERFUMUM.
       </p>
       <div className="divide-y divide-border/50">
-        {synergies.map((syn, idx) => (
+        {synergies?.map((syn, idx) => (
           <div key={syn.id} className="px-5 py-3 flex items-center gap-4 hover:bg-muted/20 transition-colors">
             <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary shrink-0">
               {idx + 1}

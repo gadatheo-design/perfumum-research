@@ -163,7 +163,7 @@ export function ChemicalFamilies() {
   );
 
   // Filtrer les familles
-  const filteredFamilies = families.filter((family: ChemicalFamily) => {
+  const filteredFamilies = families?.filter((family: ChemicalFamily) => {
     // Filtre de recherche
     const matchesSearch = searchQuery === "" || 
       family.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -180,10 +180,10 @@ export function ChemicalFamilies() {
   });
 
   // Famille sélectionnée
-  const selectedFamily = families.find((f: ChemicalFamily) => f.id === selectedFamilyId);
+  const selectedFamily = families?.find((f: ChemicalFamily) => f.id === selectedFamilyId);
 
   // Stats
-  const totalMolecules = families.reduce((sum: number, f: ChemicalFamily) => sum + Number(f.moleculeCount || 0), 0);
+  const totalMolecules = families?.reduce((sum: number, f: ChemicalFamily) => sum + Number(f.moleculeCount || 0), 0);
 
   if (isLoading) {
     return (
@@ -248,7 +248,7 @@ export function ChemicalFamilies() {
               <Card>
                 <CardHeader className="pb-2">
                   <CardDescription>Familles chimiques</CardDescription>
-                  <CardTitle className="text-3xl">{families.length}</CardTitle>
+                  <CardTitle className="text-3xl">{families?.length}</CardTitle>
                 </CardHeader>
               </Card>
               <Card>
@@ -468,13 +468,13 @@ export function ChemicalFamilies() {
                     </Card>
 
                     {/* Molecules list */}
-                    {molecules.length > 0 && (
+                    {molecules?.length > 0 && (
                       <div>
                         <h3 className="text-xl font-semibold mb-4">
-                          Molécules liées ({molecules.length})
+                          Molécules liées ({molecules?.length})
                         </h3>
                         <div className="grid grid-cols-1 gap-3">
-                          {molecules.map((molecule) => (
+                          {molecules?.map((molecule) => (
                             <Link key={molecule.id} href={`/molecule/${molecule.id}`}>
                               <Card className="shadow-sm hover:shadow-md hover:scale-[1.005] transition-all cursor-pointer">
                                 <CardHeader className="pb-2">
@@ -510,7 +510,7 @@ export function ChemicalFamilies() {
                       </div>
                     )}
 
-                    {molecules.length === 0 && selectedFamily.moleculeCount === 0 && (
+                    {molecules?.length === 0 && selectedFamily.moleculeCount === 0 && (
                       <Card>
                         <CardContent className="text-center py-8">
                           <Atom className="h-12 w-12 text-muted-foreground/50 mx-auto mb-4" />

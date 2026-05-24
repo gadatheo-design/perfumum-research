@@ -198,7 +198,7 @@ export default function GraphePlanteMolecule() {
                       <p className="mt-2 text-muted-foreground">Chargement du graphe...</p>
                     </div>
                   </div>
-                ) : links && links.length > 0 ? (
+                ) : links && links?.length > 0 ? (
                   <PlantMoleculeGraph links={links as PlantMoleculeLink[]} height={600} />
                 ) : (
                   <div className="h-[600px] flex items-center justify-center">
@@ -288,29 +288,29 @@ export default function GraphePlanteMolecule() {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                       <div>
                         <p className="text-sm text-muted-foreground">Total liaisons</p>
-                        <p className="text-xl font-bold">{stats.totalRelations}</p>
+                        <p className="text-xl font-bold">{stats?.totalRelations}</p>
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">Plantes liées</p>
                         <p className="text-xl font-bold">
-                          {stats.plantsWithMolecule}/{stats.totalPlants}
+                          {stats?.plantsWithMolecule}/{stats?.totalPlants}
                           <span className="text-sm text-muted-foreground ml-1">
-                            ({Math.round((stats.plantsWithMolecule / stats.totalPlants) * 100)}%)
+                            ({Math.round((stats?.plantsWithMolecule / stats?.totalPlants) * 100)}%)
                           </span>
                         </p>
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">Molécules liées</p>
                         <p className="text-xl font-bold">
-                          {stats.moleculesWithPlant}/{stats.totalMolecules}
+                          {stats?.moleculesWithPlant}/{stats?.totalMolecules}
                           <span className="text-sm text-muted-foreground ml-1">
-                            ({Math.round((stats.moleculesWithPlant / stats.totalMolecules) * 100)}%)
+                            ({Math.round((stats?.moleculesWithPlant / stats?.totalMolecules) * 100)}%)
                           </span>
                         </p>
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">Plantes orphelines</p>
-                        <p className="text-xl font-bold text-amber-500">{stats.plantsWithoutMolecule}</p>
+                        <p className="text-xl font-bold text-amber-500">{stats?.plantsWithoutMolecule}</p>
                       </div>
                     </div>
                   </CardContent>

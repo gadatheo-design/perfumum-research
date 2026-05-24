@@ -50,7 +50,7 @@ export default function Reseau() {
 
     // 1. Add prototype nodes (top level)
     if (selectedTypes.includes("prototype")) {
-      networkData.entities.prototypes.forEach((proto, index) => {
+      networkData?.entities.prototypes.forEach((proto, index) => {
         nodes.push({
           id: `prototype-${proto.id}`,
           type: "default",
@@ -77,7 +77,7 @@ export default function Reseau() {
 
     // 2. Add accord nodes
     if (selectedTypes.includes("accord")) {
-      networkData.entities.accords.slice(0, 20).forEach((accord, index) => {
+      networkData?.entities.accords.slice(0, 20).forEach((accord, index) => {
         nodes.push({
           id: `accord-${accord.id}`,
           type: "default",
@@ -104,7 +104,7 @@ export default function Reseau() {
 
     // 3. Add molecule nodes
     if (selectedTypes.includes("molecule")) {
-      networkData.entities.molecules.slice(0, 30).forEach((molecule, index) => {
+      networkData?.entities.molecules.slice(0, 30).forEach((molecule, index) => {
         nodes.push({
           id: `molecule-${molecule.id}`,
           type: "default",
@@ -131,7 +131,7 @@ export default function Reseau() {
 
     // 4. Add recette nodes
     if (selectedTypes.includes("recette")) {
-      networkData.entities.recettes.slice(0, 30).forEach((recette, index) => {
+      networkData?.entities.recettes.slice(0, 30).forEach((recette, index) => {
         nodes.push({
           id: `recette-${recette.id}`,
           type: "default",
@@ -158,7 +158,7 @@ export default function Reseau() {
 
     // 5. Add civilisation nodes
     if (selectedTypes.includes("civilisation")) {
-      networkData.entities.civilisations.forEach((civ, index) => {
+      networkData?.entities.civilisations.forEach((civ, index) => {
         nodes.push({
           id: `civilisation-${civ.id}`,
           type: "default",
@@ -184,7 +184,7 @@ export default function Reseau() {
 
     // Create edges from relationships
     // 1. Recettes → Accords
-    networkData.relationships.recetteAccords.forEach((rel) => {
+    networkData?.relationships.recetteAccords.forEach((rel) => {
       if (
         nodes.find((n) => n.id === `recette-${rel.recetteId}`) &&
         nodes.find((n) => n.id === `accord-${rel.accordId}`)
@@ -202,7 +202,7 @@ export default function Reseau() {
     });
 
     // 2. Civilisations → Accords
-    networkData.relationships.civilisationAccords.forEach((rel) => {
+    networkData?.relationships.civilisationAccords.forEach((rel) => {
       if (
         nodes.find((n) => n.id === `civilisation-${rel.civilisationId}`) &&
         nodes.find((n) => n.id === `accord-${rel.accordId}`)
@@ -220,7 +220,7 @@ export default function Reseau() {
     });
 
     // 3. Recettes → Civilisations
-    networkData.relationships.recetteCivilisations.forEach((rel) => {
+    networkData?.relationships.recetteCivilisations.forEach((rel) => {
       if (
         nodes.find((n) => n.id === `recette-${rel.recetteId}`) &&
         nodes.find((n) => n.id === `civilisation-${rel.civilisationId}`)
@@ -299,11 +299,11 @@ export default function Reseau() {
 
   const stats = networkData
     ? {
-        prototypes: networkData.entities.prototypes.length,
-        molecules: networkData.entities.molecules.length,
-        recettes: networkData.entities.recettes.length,
-        civilisations: networkData.entities.civilisations.length,
-        accords: networkData.entities.accords.length,
+        prototypes: networkData?.entities.prototypes.length,
+        molecules: networkData?.entities.molecules.length,
+        recettes: networkData?.entities.recettes.length,
+        civilisations: networkData?.entities.civilisations.length,
+        accords: networkData?.entities.accords.length,
         totalConnections: filteredEdges.length,
       }
     : null;

@@ -101,9 +101,9 @@ export default function AdminProgressReport() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {typeof latestSnapshot?.overallClassificationRate === 'number' ? (latestSnapshot.overallClassificationRate / 100).toFixed(1) : '0.0'}%
+                  {typeof latestSnapshot?.overallClassificationRate === 'number' ? (latestSnapshot?.overallClassificationRate / 100).toFixed(1) : '0.0'}%
                 </div>
-                <Progress value={latestSnapshot.overallClassificationRate / 100} className="mt-2" />
+                <Progress value={latestSnapshot?.overallClassificationRate / 100} className="mt-2" />
                 <p className="text-xs text-muted-foreground mt-2">
                   Objectif: 100%
                 </p>
@@ -117,9 +117,9 @@ export default function AdminProgressReport() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {typeof latestSnapshot?.overallLinkingRate === 'number' ? (latestSnapshot.overallLinkingRate / 100).toFixed(1) : '0.0'}%
+                  {typeof latestSnapshot?.overallLinkingRate === 'number' ? (latestSnapshot?.overallLinkingRate / 100).toFixed(1) : '0.0'}%
                 </div>
-                <Progress value={latestSnapshot.overallLinkingRate / 100} className="mt-2" />
+                <Progress value={latestSnapshot?.overallLinkingRate / 100} className="mt-2" />
                 <p className="text-xs text-muted-foreground mt-2">
                   Objectif: 100%
                 </p>
@@ -132,9 +132,9 @@ export default function AdminProgressReport() {
                 <Sparkles className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{latestSnapshot.totalMolecules}</div>
+                <div className="text-2xl font-bold">{latestSnapshot?.totalMolecules}</div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  {latestSnapshot.moleculesWithFamily} avec famille ({Math.round((latestSnapshot.moleculesWithFamily / latestSnapshot.totalMolecules) * 100)}%)
+                  {latestSnapshot?.moleculesWithFamily} avec famille ({Math.round((latestSnapshot?.moleculesWithFamily / latestSnapshot?.totalMolecules) * 100)}%)
                 </p>
               </CardContent>
             </Card>
@@ -146,10 +146,10 @@ export default function AdminProgressReport() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold">
-                  {formatDistanceToNow(new Date(latestSnapshot.snapshotDate), { locale: fr })}
+                  {formatDistanceToNow(new Date(latestSnapshot?.snapshotDate), { locale: fr })}
                 </div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  {format(new Date(latestSnapshot.snapshotDate), 'dd MMM yyyy HH:mm', { locale: fr })}
+                  {format(new Date(latestSnapshot?.snapshotDate), 'dd MMM yyyy HH:mm', { locale: fr })}
                 </p>
               </CardContent>
             </Card>
@@ -195,17 +195,17 @@ export default function AdminProgressReport() {
                   <CardHeader>
                     <CardTitle>Classification des Molécules</CardTitle>
                     <CardDescription>
-                      Progression depuis le {format(new Date(report.period.start), 'dd MMM yyyy', { locale: fr })}
+                      Progression depuis le {format(new Date(report?.period.start), 'dd MMM yyyy', { locale: fr })}
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    <ProgressIndicator {...report.classification.overall} label="Classification Globale" />
-                    <ProgressIndicator {...report.classification.family} label="Famille Olfactive" />
-                    <ProgressIndicator {...report.classification.chemicalClass} label="Classe Chimique" />
-                    <ProgressIndicator {...report.classification.casNumber} label="Numéro CAS" />
-                    <ProgressIndicator {...report.classification.iupacName} label="Nom IUPAC" />
-                    <ProgressIndicator {...report.classification.formula} label="Formule Chimique" />
-                    <ProgressIndicator {...report.classification.olfactiveProfile} label="Profil Olfactif" />
+                    <ProgressIndicator {...report?.classification.overall} label="Classification Globale" />
+                    <ProgressIndicator {...report?.classification.family} label="Famille Olfactive" />
+                    <ProgressIndicator {...report?.classification.chemicalClass} label="Classe Chimique" />
+                    <ProgressIndicator {...report?.classification.casNumber} label="Numéro CAS" />
+                    <ProgressIndicator {...report?.classification.iupacName} label="Nom IUPAC" />
+                    <ProgressIndicator {...report?.classification.formula} label="Formule Chimique" />
+                    <ProgressIndicator {...report?.classification.olfactiveProfile} label="Profil Olfactif" />
                   </CardContent>
                 </Card>
 
@@ -218,10 +218,10 @@ export default function AdminProgressReport() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    <ProgressIndicator {...report.linking.overall} label="Liaisons Globales" />
-                    <ProgressIndicator {...report.linking.moleculeRecette} label="Molécule → Recette" />
-                    <ProgressIndicator {...report.linking.moleculePlant} label="Molécule → Plante" />
-                    <ProgressIndicator {...report.linking.plantTerroir} label="Plante → Terroir" />
+                    <ProgressIndicator {...report?.linking.overall} label="Liaisons Globales" />
+                    <ProgressIndicator {...report?.linking.moleculeRecette} label="Molécule → Recette" />
+                    <ProgressIndicator {...report?.linking.moleculePlant} label="Molécule → Plante" />
+                    <ProgressIndicator {...report?.linking.plantTerroir} label="Plante → Terroir" />
                   </CardContent>
                 </Card>
 
@@ -236,11 +236,11 @@ export default function AdminProgressReport() {
                   <CardContent>
                     <div className="grid gap-4 md:grid-cols-5">
                       {[
-                        { label: 'Molécules', data: report.entities.molecules, color: 'bg-blue-500' },
-                        { label: 'Recettes', data: report.entities.recettes, color: 'bg-green-500' },
-                        { label: 'Plantes', data: report.entities.plants, color: 'bg-amber-500' },
-                        { label: 'Terroirs', data: report.entities.terroirs, color: 'bg-purple-500' },
-                        { label: 'Accords', data: report.entities.accords, color: 'bg-pink-500' },
+                        { label: 'Molécules', data: report?.entities.molecules, color: 'bg-blue-500' },
+                        { label: 'Recettes', data: report?.entities.recettes, color: 'bg-green-500' },
+                        { label: 'Plantes', data: report?.entities.plants, color: 'bg-amber-500' },
+                        { label: 'Terroirs', data: report?.entities.terroirs, color: 'bg-purple-500' },
+                        { label: 'Accords', data: report?.entities.accords, color: 'bg-pink-500' },
                       ].map((item) => (
                         <div key={item.label} className="text-center p-4 rounded-lg bg-muted/50">
                           <div className={`h-2 w-2 rounded-full ${item.color} mx-auto mb-2`} />
@@ -282,8 +282,8 @@ export default function AdminProgressReport() {
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">Progression quotidienne</span>
                         <span className="font-medium">
-                          {report.projection.dailyProgress >= 0 ? '+' : ''}
-                          {typeof report.projection?.dailyProgress === 'number' ? report.projection.dailyProgress.toFixed(4) : '0.0000'}%/jour
+                          {report?.projection.dailyProgress >= 0 ? '+' : ''}
+                          {typeof report?.projection?.dailyProgress === 'number' ? report?.projection.dailyProgress.toFixed(4) : '0.0000'}%/jour
                         </span>
                       </div>
                     </div>
@@ -292,27 +292,27 @@ export default function AdminProgressReport() {
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">Date de complétion estimée</span>
                         <span className="font-medium">
-                          {report.projection.projectedCompletionDate 
-                            ? format(new Date(report.projection.projectedCompletionDate), 'dd MMM yyyy', { locale: fr })
+                          {report?.projection.projectedCompletionDate 
+                            ? format(new Date(report?.projection.projectedCompletionDate), 'dd MMM yyyy', { locale: fr })
                             : 'Non estimable'
                           }
                         </span>
                       </div>
-                      {report.projection.daysToComplete !== Infinity && (
+                      {report?.projection.daysToComplete !== Infinity && (
                         <p className="text-xs text-muted-foreground">
-                          Dans environ {Math.round(report.projection.daysToComplete / 365)} an(s) et {report.projection.daysToComplete % 365} jours
+                          Dans environ {Math.round(report?.projection.daysToComplete / 365)} an(s) et {report?.projection.daysToComplete % 365} jours
                         </p>
                       )}
                     </div>
 
                     <div className="p-4 rounded-lg bg-primary/10 border border-primary/20">
-                      <h4 className="font-medium mb-2">Projection au {format(new Date(report.projection.tenYearProjection.date), 'dd MMM yyyy', { locale: fr })}</h4>
+                      <h4 className="font-medium mb-2">Projection au {format(new Date(report?.projection.tenYearProjection.date), 'dd MMM yyyy', { locale: fr })}</h4>
                       <div className="flex items-center gap-4">
                         <div className="flex-1">
-                          <Progress value={report.projection.tenYearProjection.estimatedClassificationRate} className="h-3" />
+                          <Progress value={report?.projection.tenYearProjection.estimatedClassificationRate} className="h-3" />
                         </div>
                         <span className="text-lg font-bold">
-                          {typeof report.projection?.tenYearProjection?.estimatedClassificationRate === 'number' ? report.projection.tenYearProjection.estimatedClassificationRate.toFixed(1) : '0.0'}%
+                          {typeof report?.projection?.tenYearProjection?.estimatedClassificationRate === 'number' ? report?.projection.tenYearProjection.estimatedClassificationRate.toFixed(1) : '0.0'}%
                         </span>
                       </div>
                       <p className="text-xs text-muted-foreground mt-2">
@@ -331,27 +331,27 @@ export default function AdminProgressReport() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {report.classification.casNumber.end < 50 && (
+                      {report?.classification.casNumber.end < 50 && (
                         <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
                           <h4 className="font-medium text-amber-700 dark:text-amber-400">Numéros CAS manquants</h4>
                           <p className="text-sm text-muted-foreground mt-1">
-                            Seulement {typeof report.classification?.casNumber?.end === 'number' ? report.classification.casNumber.end.toFixed(0) : '0'}% des molécules ont un numéro CAS. 
+                            Seulement {typeof report?.classification?.casNumber?.end === 'number' ? report?.classification.casNumber.end.toFixed(0) : '0'}% des molécules ont un numéro CAS. 
                             Utilisez PubChem pour enrichir automatiquement ces données.
                           </p>
                         </div>
                       )}
                       
-                      {report.classification.family.end < 50 && (
+                      {report?.classification.family.end < 50 && (
                         <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
                           <h4 className="font-medium text-blue-700 dark:text-blue-400">Classification par famille</h4>
                           <p className="text-sm text-muted-foreground mt-1">
-                            {typeof report.classification?.family?.end === 'number' ? (100 - report.classification.family.end).toFixed(0) : '0'}% des molécules n'ont pas de famille assignée.
+                            {typeof report?.classification?.family?.end === 'number' ? (100 - report?.classification.family.end).toFixed(0) : '0'}% des molécules n'ont pas de famille assignée.
                             Utilisez l'interface de classification en masse.
                           </p>
                         </div>
                       )}
 
-                      {report.linking.moleculeRecette.end < 50 && (
+                      {report?.linking.moleculeRecette.end < 50 && (
                         <div className="p-3 rounded-lg bg-green-500/10 border border-green-500/20">
                           <h4 className="font-medium text-green-700 dark:text-green-400">Liaisons Molécule-Recette</h4>
                           <p className="text-sm text-muted-foreground mt-1">
@@ -446,7 +446,7 @@ export default function AdminProgressReport() {
             </Card>
 
             {/* Timeline Chart Placeholder */}
-            {report?.snapshots && report.snapshots.length > 1 && (
+            {report?.snapshots && report?.snapshots.length > 1 && (
               <Card>
                 <CardHeader>
                   <CardTitle>Évolution dans le Temps</CardTitle>
@@ -456,7 +456,7 @@ export default function AdminProgressReport() {
                 </CardHeader>
                 <CardContent>
                   <div className="h-64 flex items-end gap-1">
-                    {report.snapshots.slice(-30).map((s, i) => (
+                    {report?.snapshots.slice(-30).map((s, i) => (
                       <div 
                         key={i}
                         className="flex-1 bg-primary/80 rounded-t hover:bg-primary transition-colors"
@@ -466,8 +466,8 @@ export default function AdminProgressReport() {
                     ))}
                   </div>
                   <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-                    <span>{format(new Date(report.snapshots[Math.max(0, report.snapshots.length - 30)].date), 'dd/MM/yyyy')}</span>
-                    <span>{format(new Date(report.snapshots[report.snapshots.length - 1].date), 'dd/MM/yyyy')}</span>
+                    <span>{format(new Date(report?.snapshots[Math.max(0, report?.snapshots.length - 30)].date), 'dd/MM/yyyy')}</span>
+                    <span>{format(new Date(report?.snapshots[report?.snapshots.length - 1].date), 'dd/MM/yyyy')}</span>
                   </div>
                 </CardContent>
               </Card>

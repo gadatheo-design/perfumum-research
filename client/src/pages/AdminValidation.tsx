@@ -201,7 +201,7 @@ export default function AdminValidation() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <span className="text-3xl font-bold text-amber-500">{stats.pendingTotal}</span>
+                      <span className="text-3xl font-bold text-amber-500">{stats?.pendingTotal}</span>
                     </CardContent>
                   </Card>
                   <Card>
@@ -212,7 +212,7 @@ export default function AdminValidation() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <span className="text-3xl font-bold">{stats.molecules.brouillon + stats.plants.brouillon}</span>
+                      <span className="text-3xl font-bold">{stats?.molecules.brouillon + stats?.plants.brouillon}</span>
                     </CardContent>
                   </Card>
                   <Card>
@@ -223,7 +223,7 @@ export default function AdminValidation() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <span className="text-3xl font-bold text-blue-500">{stats.molecules.en_revision + stats.plants.en_revision}</span>
+                      <span className="text-3xl font-bold text-blue-500">{stats?.molecules.en_revision + stats?.plants.en_revision}</span>
                     </CardContent>
                   </Card>
                   <Card>
@@ -234,7 +234,7 @@ export default function AdminValidation() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <span className="text-3xl font-bold text-green-500">{stats.molecules.valide + stats.plants.valide}</span>
+                      <span className="text-3xl font-bold text-green-500">{stats?.molecules.valide + stats?.plants.valide}</span>
                     </CardContent>
                   </Card>
                   <Card>
@@ -245,7 +245,7 @@ export default function AdminValidation() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <span className="text-3xl font-bold text-red-500">{stats.molecules.rejete + stats.plants.rejete}</span>
+                      <span className="text-3xl font-bold text-red-500">{stats?.molecules.rejete + stats?.plants.rejete}</span>
                     </CardContent>
                   </Card>
                 </div>
@@ -295,7 +295,7 @@ export default function AdminValidation() {
                         <div className="flex items-center justify-center py-8">
                           <Loader2 className="h-6 w-6 animate-spin" />
                         </div>
-                      ) : pendingMolecules && pendingMolecules.length > 0 ? (
+                      ) : pendingMolecules && pendingMolecules?.length > 0 ? (
                         <Table>
                           <TableHeader>
                             <TableRow>
@@ -307,7 +307,7 @@ export default function AdminValidation() {
                             </TableRow>
                           </TableHeader>
                           <TableBody>
-                            {pendingMolecules.map((molecule) => (
+                            {pendingMolecules?.map((molecule) => (
                               <TableRow key={molecule.id}>
                                 <TableCell className="font-medium">{molecule.name}</TableCell>
                                 <TableCell>{molecule.family || '-'}</TableCell>
@@ -371,7 +371,7 @@ export default function AdminValidation() {
                         <div className="flex items-center justify-center py-8">
                           <Loader2 className="h-6 w-6 animate-spin" />
                         </div>
-                      ) : pendingPlants && pendingPlants.length > 0 ? (
+                      ) : pendingPlants && pendingPlants?.length > 0 ? (
                         <Table>
                           <TableHeader>
                             <TableRow>
@@ -383,7 +383,7 @@ export default function AdminValidation() {
                             </TableRow>
                           </TableHeader>
                           <TableBody>
-                            {pendingPlants.map((plant) => (
+                            {pendingPlants?.map((plant) => (
                               <TableRow key={plant.id}>
                                 <TableCell className="font-medium">{plant.name}</TableCell>
                                 <TableCell>{plant.category}</TableCell>
@@ -482,7 +482,7 @@ function NotifyAdminButton() {
     onSuccess: (data) => {
       if (data.success) {
         toast.success(data.message, {
-          description: data.stats ? `${data.stats.molecules} molécule(s), ${data.stats.plants} plante(s)` : undefined,
+          description: data.stats ? `${data.stats?.molecules} molécule(s), ${data.stats?.plants} plante(s)` : undefined,
         });
       } else {
         toast.error(data.message);

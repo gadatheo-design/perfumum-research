@@ -73,9 +73,9 @@ export default function GenerateurFormules() {
   };
 
   const handleExportCSV = () => {
-    if (!suggestions || suggestions.length === 0) return;
+    if (!suggestions || suggestions?.length === 0) return;
     const headers = ["Rang", "Molécule", "Famille", "Score de compatibilité", "Profil olfactif"];
-    const rows = suggestions.map((s, idx) => [
+    const rows = suggestions?.map((s, idx) => [
       idx + 1,
       s.name,
       s.family || "N/A",
@@ -96,7 +96,7 @@ export default function GenerateurFormules() {
   };
 
   const handleExportPDF = () => {
-    if (!suggestions || suggestions.length === 0) return;
+    if (!suggestions || suggestions?.length === 0) return;
     const printWindow = window.open("", "_blank");
     if (!printWindow) {
       alert("Veuillez autoriser les pop-ups pour exporter le PDF");
@@ -132,11 +132,11 @@ export default function GenerateurFormules() {
           <div class="radar-item"><strong>Épicé</strong>${spiciness}/100</div>
           <div class="radar-item"><strong>Terreux</strong>${earthiness}/100</div>
         </div>
-        <h2>Top ${suggestions.length} Molécules Compatibles</h2>
+        <h2>Top ${suggestions?.length} Molécules Compatibles</h2>
         <table>
           <thead><tr><th>Rang</th><th>Molécule</th><th>Famille</th><th>Score</th><th>Profil Olfactif</th></tr></thead>
           <tbody>
-            ${suggestions.map((s: any, idx: number) => `
+            ${suggestions?.map((s: any, idx: number) => `
               <tr><td>${idx + 1}</td><td><strong>${s.name}</strong></td><td>${s.family || "N/A"}</td><td>${s.compatibilityScore}%</td><td>${s.olfactiveProfile || "N/A"}</td></tr>
             `).join("")}
           </tbody>
@@ -269,13 +269,13 @@ export default function GenerateurFormules() {
                         </span>
                       </div>
                       <div className="flex gap-2">
-                        {suggestions && suggestions.length > 0 && (
+                        {suggestions && suggestions?.length > 0 && (
                           <>
                             <Button 
                               size="sm" 
                               onClick={() => saveFormula.mutate({
                                 radarProfile: { intensity, freshness, warmth, sweetness, spiciness, earthiness },
-                                suggestions: suggestions.map(s => ({
+                                suggestions: suggestions?.map(s => ({
                                   id: s.id,
                                   name: s.name,
                                   compatibilityScore: s.compatibilityScore,
@@ -326,7 +326,7 @@ export default function GenerateurFormules() {
                 )}
 
                 {/* Empty State */}
-                {!isLoading && suggestions && suggestions.length === 0 && (
+                {!isLoading && suggestions && suggestions?.length === 0 && (
                   <Card className="border-border/50">
                     <CardContent className="flex flex-col items-center justify-center py-16 text-center">
                       <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
@@ -339,9 +339,9 @@ export default function GenerateurFormules() {
                 )}
 
                 {/* Results List */}
-                {!isLoading && suggestions && suggestions.length > 0 && (
+                {!isLoading && suggestions && suggestions?.length > 0 && (
                   <div className="space-y-4">
-                    {suggestions.map((molecule: any, index: number) => (
+                    {suggestions?.map((molecule: any, index: number) => (
                       <motion.div
                         key={molecule.id}
                         initial={{ opacity: 0, y: 10 }}
@@ -409,9 +409,9 @@ export default function GenerateurFormules() {
                 )}
 
                 {/* Synergy Suggestions - Nouvelles suggestions basées sur les synergies documentées */}
-                {suggestions && suggestions.length > 0 && (
+                {suggestions && suggestions?.length > 0 && (
                   <SynergySuggestions
-                    selectedMoleculeIds={suggestions.slice(0, 5).map((s: any) => s.id)}
+                    selectedMoleculeIds={suggestions?.slice(0, 5).map((s: any) => s.id)}
                     className="mb-4"
                   />
                 )}

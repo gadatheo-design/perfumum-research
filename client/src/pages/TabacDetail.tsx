@@ -25,7 +25,7 @@ export default function TabacDetail() {
   const { data: tabacWithMolecules, isLoading: loadingMolecules } = trpc.tabacs.getWithMolecules.useQuery(tabacId, {
     enabled: !!tabacId,
   });
-  const { data: synergies } = trpc.synergies.list.useQuery();
+  const { data: synergies } = trpc.synergies?.list.useQuery();
 
   const tabacSynergies = synergies?.filter((s: any) => s.tabacId === tabacId) || [];
 
@@ -33,7 +33,7 @@ export default function TabacDetail() {
   useBreadcrumbSegments(
     tabac ? [
       { label: "Tabacothèque", path: "/tabacotheque" },
-      { label: tabac.name, path: `/tabac/${tabacId}` },
+      { label: tabac?.name, path: `/tabac/${tabacId}` },
     ] : null,
     [tabac?.name, tabacId]
   );
@@ -61,7 +61,7 @@ export default function TabacDetail() {
     );
   }
 
-  const typeInfo = TYPE_LABELS[tabac.type] || { label: tabac.type || "Inconnu", color: "bg-muted text-muted-foreground" };
+  const typeInfo = TYPE_LABELS[tabac?.type] || { label: tabac?.type || "Inconnu", color: "bg-muted text-muted-foreground" };
 
   return (
     <div className="min-h-screen bg-background">
@@ -75,7 +75,7 @@ export default function TabacDetail() {
             </Button>
           </Link>
           <span className="text-muted-foreground">/</span>
-          <span className="font-medium">{tabac.name}</span>
+          <span className="font-medium">{tabac?.name}</span>
         </div>
       </div>
 
@@ -87,13 +87,13 @@ export default function TabacDetail() {
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2 flex-wrap">
-              <h1 className="text-3xl font-bold">{tabac.name}</h1>
+              <h1 className="text-3xl font-bold">{tabac?.name}</h1>
               <Badge className={typeInfo.color}>{typeInfo.label}</Badge>
             </div>
-            {tabac.origin && (
+            {tabac?.origin && (
               <div className="flex items-center gap-1 text-muted-foreground">
                 <MapPin className="h-4 w-4" />
-                <span>{tabac.origin}</span>
+                <span>{tabac?.origin}</span>
               </div>
             )}
           </div>
@@ -103,9 +103,9 @@ export default function TabacDetail() {
           {/* Colonne principale */}
           <div className="md:col-span-2 space-y-6">
             {/* Profil aromatique */}
-            {tabac.aromaticProfile && (() => {
+            {tabac?.aromaticProfile && (() => {
               // Convertir le profil aromatique en tableau de notes
-              const raw = tabac.aromaticProfile;
+              const raw = tabac?.aromaticProfile;
               let notes: string[] = [];
               if (typeof raw === 'string') {
                 try {
@@ -148,7 +148,7 @@ export default function TabacDetail() {
             })()}
 
             {/* Notes internes */}
-            {tabac.internalNotes && (
+            {tabac?.internalNotes && (
               <Card>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base flex items-center gap-2">
@@ -157,24 +157,24 @@ export default function TabacDetail() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{tabac.internalNotes}</p>
+                  <p className="text-muted-foreground leading-relaxed whitespace-pre-line">{tabac?.internalNotes}</p>
                 </CardContent>
               </Card>
             )}
 
             {/* Molécules */}
-            {tabacWithMolecules?.molecules && tabacWithMolecules.molecules.length > 0 && (
+            {tabacWithMolecules?.molecules && tabacWithMolecules?.molecules.length > 0 && (
               <Card>
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base flex items-center gap-2">
                     <Atom className="h-4 w-4 text-blue-500" />
                     Molécules caractéristiques
-                    <Badge variant="secondary" className="ml-auto">{tabacWithMolecules.molecules.length}</Badge>
+                    <Badge variant="secondary" className="ml-auto">{tabacWithMolecules?.molecules.length}</Badge>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    {tabacWithMolecules.molecules.map((mol: any) => (
+                    {tabacWithMolecules?.molecules.map((mol: any) => (
                       <Link key={mol.id} href={`/molecules/${mol.id}`}>
                         <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors cursor-pointer">
                           <div>
@@ -241,31 +241,31 @@ export default function TabacDetail() {
                 <CardTitle className="text-sm text-muted-foreground uppercase tracking-wider">Données techniques</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                {tabac.type && (
+                {tabac?.type && (
                   <div>
                     <p className="text-xs text-muted-foreground mb-1">Type</p>
                     <Badge className={typeInfo.color}>{typeInfo.label}</Badge>
                   </div>
                 )}
-                {tabac.origin && (
+                {tabac?.origin && (
                   <div>
                     <p className="text-xs text-muted-foreground mb-1">Origine</p>
-                    <p className="text-sm font-medium">{tabac.origin}</p>
+                    <p className="text-sm font-medium">{tabac?.origin}</p>
                   </div>
                 )}
-                {tabac.intensity && (
+                {tabac?.intensity && (
                   <div>
                     <p className="text-xs text-muted-foreground mb-1">Intensité</p>
                     <div className="flex items-center gap-2">
                       <Thermometer className="h-4 w-4 text-red-400" />
-                      <span className="text-sm font-medium capitalize">{tabac.intensity}</span>
+                      <span className="text-sm font-medium capitalize">{tabac?.intensity}</span>
                     </div>
                   </div>
                 )}
-                {tabac.idealTemperature && (
+                {tabac?.idealTemperature && (
                   <div>
                     <p className="text-xs text-muted-foreground mb-1">Température idéale</p>
-                    <p className="text-sm font-mono">{tabac.idealTemperature}°C</p>
+                    <p className="text-sm font-mono">{tabac?.idealTemperature}°C</p>
                   </div>
                 )}
               </CardContent>

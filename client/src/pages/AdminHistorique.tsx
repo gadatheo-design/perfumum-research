@@ -156,7 +156,7 @@ export default function AdminHistorique() {
           <div className="text-center py-12">
             <p className="text-muted-foreground">Chargement de l'historique...</p>
           </div>
-        ) : !modifications || modifications.length === 0 ? (
+        ) : !modifications || modifications?.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center">
               <Database className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
@@ -168,7 +168,7 @@ export default function AdminHistorique() {
           </Card>
         ) : (
           <div className="space-y-3">
-            {modifications.map((modification: any) => (
+            {modifications?.map((modification: any) => (
               <Card key={modification.id} className="hover:shadow-md transition-shadow">
                 <CardContent className="py-4">
                   <div className="flex items-start justify-between gap-4">

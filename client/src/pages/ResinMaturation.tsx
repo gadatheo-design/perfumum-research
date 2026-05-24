@@ -336,10 +336,10 @@ function ResinCard({ profile }: { profile: any }) {
         </div>
 
         {/* Lien vers la plante dans la DB */}
-        {resolved?.plants && resolved.plants.length > 0 && (
+        {resolved?.plants && resolved?.plants.length > 0 && (
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-[10px] text-zinc-600">Fiche plante :</span>
-            {resolved.plants.map((p: any) => (
+            {resolved?.plants.map((p: any) => (
               <Link key={p.id} href={`/plantes/${p.id}`}>
                 <Badge variant="outline" className="text-[10px] border-zinc-700 text-zinc-400 hover:border-zinc-500 cursor-pointer">
                   {p.name}
@@ -432,7 +432,7 @@ function ComparisonMatrix({ profiles }: { profiles: any[] }) {
           </tr>
         </thead>
         <tbody>
-          {matrix.map((row: any) => {
+          {matrix?.map((row: any) => {
             const catCfg = CATEGORY_CONFIG[row.category] ?? { label: row.category, color: "text-zinc-400" };
             return (
               <tr key={row.resinId} className="border-b border-zinc-900 hover:bg-zinc-900/50 transition-colors">
@@ -517,7 +517,7 @@ export default function ResinMaturation() {
 
   const filteredProfiles = useMemo(() => {
     if (!profiles) return [];
-    return profiles.filter((p) => {
+    return profiles?.filter((p) => {
       const matchCat = !selectedCategory || p.category === selectedCategory;
       const matchSearch =
         !searchQuery ||
@@ -530,7 +530,7 @@ export default function ResinMaturation() {
 
   const categories = useMemo(() => {
     if (!profiles) return [];
-    return [...new Set(profiles.map((p) => p.category))];
+    return [...new Set(profiles?.map((p) => p.category))];
   }, [profiles]);
 
   return (

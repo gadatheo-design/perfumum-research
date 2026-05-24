@@ -76,9 +76,9 @@ export default function TestsExtraction() {
                   <Skeleton key={i} className="h-64" />
                 ))}
               </div>
-            ) : tests && tests.length > 0 ? (
+            ) : tests && tests?.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {tests.map((test) => (
+                {tests?.map((test) => (
                   <Link key={test.id} href={`/tests-extraction/${test.id}`}>
                     <Card className="h-full hover:shadow-xl transition-all duration-300 cursor-pointer group border-l-4 border-l-blue-500">
                       <CardHeader className="bg-gradient-to-br from-blue-50 to-indigo-50 group-hover:from-blue-100 group-hover:to-indigo-100 transition-colors">

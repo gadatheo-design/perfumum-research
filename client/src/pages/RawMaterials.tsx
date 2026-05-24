@@ -246,8 +246,8 @@ export default function RawMaterials() {
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [selectedOlfactiveFamily, setSelectedOlfactiveFamily] = useState<string>("all");
 
-  const { data: rawMaterials, isLoading } = trpc.rawMaterials.getAll.useQuery();
-  const { data: contentStats } = trpc.contentStats.getAll.useQuery();
+  const { data: rawMaterials, isLoading } = trpc.rawMaterials?.getAll.useQuery();
+  const { data: contentStats } = trpc.contentStats?.getAll.useQuery();
 
   // Filter materials
   const filteredMaterials = rawMaterials?.filter((material: any) => {
@@ -293,9 +293,9 @@ export default function RawMaterials() {
           </p>
           {contentStats && (
             <div className="flex gap-4 mt-4 text-sm text-muted-foreground">
-              <span>{contentStats.rawMaterials || 0} matières premières</span>
+              <span>{contentStats?.rawMaterials || 0} matières premières</span>
               <span>•</span>
-              <span>{contentStats.rawMaterialMoleculeLinks || 0} liaisons moléculaires</span>
+              <span>{contentStats?.rawMaterialMoleculeLinks || 0} liaisons moléculaires</span>
             </div>
           )}
         </div>

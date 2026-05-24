@@ -46,8 +46,8 @@ export default function ProtocolDetail() {
     );
   }
 
-  const equipmentList = safeJsonParse(protocol.equipment_required, null);
-  const steps = safeJsonParse(protocol.steps, null);
+  const equipmentList = safeJsonParse(protocol?.equipment_required, null);
+  const steps = safeJsonParse(protocol?.steps, null);
 
   return (
     <div className="container py-8 max-w-4xl">
@@ -62,62 +62,62 @@ export default function ProtocolDetail() {
       <div className="mb-8">
         <div className="flex flex-wrap items-center gap-3 mb-3">
           <Beaker className="h-8 w-8 text-primary" />
-          <h1 className="text-3xl font-bold text-foreground">{protocol.name}</h1>
+          <h1 className="text-3xl font-bold text-foreground">{protocol?.name}</h1>
         </div>
         <div className="flex flex-wrap gap-2 mb-4">
-          {protocol.difficulty_level && (
-            <Badge variant="outline" className={getDifficultyColor(protocol.difficulty_level)}>
-              {protocol.difficulty_level}
+          {protocol?.difficulty_level && (
+            <Badge variant="outline" className={getDifficultyColor(protocol?.difficulty_level)}>
+              {protocol?.difficulty_level}
             </Badge>
           )}
-          {protocol.category && (
-            <Badge variant="secondary">{protocol.category}</Badge>
+          {protocol?.category && (
+            <Badge variant="secondary">{protocol?.category}</Badge>
           )}
         </div>
-        {protocol.objective && (
-          <p className="text-muted-foreground text-base leading-relaxed">{protocol.objective}</p>
+        {protocol?.objective && (
+          <p className="text-muted-foreground text-base leading-relaxed">{protocol?.objective}</p>
         )}
       </div>
 
       {/* Méta-infos */}
       <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-        {protocol.duration && (
+        {protocol?.duration && (
           <Card className="bg-card/50 border-border/50">
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 mb-1">
                 <Clock className="h-4 w-4 text-primary" />
                 <span className="text-xs text-muted-foreground uppercase tracking-wide">Durée</span>
               </div>
-              <p className="font-semibold text-foreground">{protocol.duration}</p>
+              <p className="font-semibold text-foreground">{protocol?.duration}</p>
             </CardContent>
           </Card>
         )}
-        {protocol.estimated_cost && (
+        {protocol?.estimated_cost && (
           <Card className="bg-card/50 border-border/50">
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 mb-1">
                 <DollarSign className="h-4 w-4 text-primary" />
                 <span className="text-xs text-muted-foreground uppercase tracking-wide">Coût estimé</span>
               </div>
-              <p className="font-semibold text-foreground">{protocol.estimated_cost}</p>
+              <p className="font-semibold text-foreground">{protocol?.estimated_cost}</p>
             </CardContent>
           </Card>
         )}
-        {protocol.source_file && (
+        {protocol?.source_file && (
           <Card className="bg-card/50 border-border/50">
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 mb-1">
                 <FileText className="h-4 w-4 text-primary" />
                 <span className="text-xs text-muted-foreground uppercase tracking-wide">Source</span>
               </div>
-              <p className="text-sm text-muted-foreground line-clamp-2">{protocol.source_file}</p>
+              <p className="text-sm text-muted-foreground line-clamp-2">{protocol?.source_file}</p>
             </CardContent>
           </Card>
         )}
       </div>
 
       {/* Résumé */}
-      {protocol.summary && (
+      {protocol?.summary && (
         <Card className="bg-card/50 border-border/50 mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -126,7 +126,7 @@ export default function ProtocolDetail() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground leading-relaxed">{protocol.summary}</p>
+            <p className="text-muted-foreground leading-relaxed">{protocol?.summary}</p>
           </CardContent>
         </Card>
       )}
@@ -192,7 +192,7 @@ export default function ProtocolDetail() {
       )}
 
       {/* Sécurité */}
-      {protocol.safety_notes && (
+      {protocol?.safety_notes && (
         <Card className="bg-red-500/5 border-red-500/20 mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-red-400">
@@ -201,13 +201,13 @@ export default function ProtocolDetail() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground leading-relaxed">{protocol.safety_notes}</p>
+            <p className="text-sm text-muted-foreground leading-relaxed">{protocol?.safety_notes}</p>
           </CardContent>
         </Card>
       )}
 
       {/* Contrôle qualité */}
-      {protocol.quality_control && (
+      {protocol?.quality_control && (
         <Card className="bg-green-500/5 border-green-500/20 mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-green-400">
@@ -216,13 +216,13 @@ export default function ProtocolDetail() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-muted-foreground leading-relaxed">{protocol.quality_control}</p>
+            <p className="text-sm text-muted-foreground leading-relaxed">{protocol?.quality_control}</p>
           </CardContent>
         </Card>
       )}
 
       {/* Contenu complet */}
-      {protocol.full_content && (
+      {protocol?.full_content && (
         <Card className="bg-card/50 border-border/50 mb-6">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -232,7 +232,7 @@ export default function ProtocolDetail() {
           </CardHeader>
           <CardContent>
             <pre className="whitespace-pre-wrap text-sm text-muted-foreground font-sans leading-relaxed">
-              {protocol.full_content}
+              {protocol?.full_content}
             </pre>
           </CardContent>
         </Card>

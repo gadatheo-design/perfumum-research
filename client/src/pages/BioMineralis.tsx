@@ -92,7 +92,7 @@ function BioMineralisGraph() {
 }
 
 export default function BioMineralis() {
-  const { data: accords, isLoading } = trpc.accords.list.useQuery();
+  const { data: accords, isLoading } = trpc.accords?.list.useQuery();
 
   // Filter BIO-MINERALIS accords (the 6 revolutionary ones)
   const bioMineralisAccords = accords?.filter(accord => 

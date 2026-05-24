@@ -104,7 +104,7 @@ const liaisonConfigs = [
     id: "plant-molecule",
     label: "Plante ↔ Molécule",
     description: "Liaisons entre plantes et molécules",
-    endpoint: "plantMoleculeLinks.getAll",
+    endpoint: "plantMoleculeLinks?.getAll",
   },
   {
     id: "plant-terroir",
@@ -125,8 +125,8 @@ export default function AdminImportExport() {
   // Queries pour obtenir les données
   const { data: plantsData } = trpc.plants.list.useQuery();
   const { data: terroirsData } = trpc.terroirs.getAll.useQuery();
-  const { data: plantMoleculeLinks } = trpc.plantMoleculeLinks.getAll.useQuery();
-  const { data: plantTerroirs } = trpc.plantTerroirs.getAll.useQuery();
+  const { data: plantMoleculeLinks } = trpc.plantMoleculeLinks?.getAll.useQuery();
+  const { data: plantTerroirs } = trpc.plantTerroirs?.getAll.useQuery();
 
   // Toggle sélection d'une entité
   const toggleEntity = (entity: EntityType) => {

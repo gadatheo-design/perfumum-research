@@ -323,7 +323,7 @@ export default function BiosyntheticPathways() {
   const { data: moleculesData } = trpc.molecules.list.useQuery({ limit: 100 });
 
   // Filtrer les gènes TPS
-  const filteredTpsGenes = tpsData?.success ? tpsData.data.filter((gene: any) => {
+  const filteredTpsGenes = tpsData?.success ? tpsData?.data.filter((gene: any) => {
     const matchesSearch = gene.gene_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           gene.product?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesSubfamily = selectedSubfamily === "all" || gene.subfamily === selectedSubfamily;
@@ -332,7 +332,7 @@ export default function BiosyntheticPathways() {
 
   // Obtenir les sous-familles uniques
   const subfamilies = tpsData?.success 
-    ? [...new Set(tpsData.data.map((g: any) => g.subfamily).filter(Boolean))]
+    ? [...new Set(tpsData?.data.map((g: any) => g.subfamily).filter(Boolean))]
     : [];
 
   return (
@@ -517,9 +517,9 @@ export default function BiosyntheticPathways() {
               ) : tpsData?.success && linksData?.success && moleculesData?.success ? (
                 <>
                   <TpsNetworkGraph
-                    tpsGenes={tpsData.data}
-                    molecules={moleculesData.data}
-                    links={linksData.data}
+                    tpsGenes={tpsData?.data}
+                    molecules={moleculesData?.data}
+                    links={linksData?.data}
                     width={800}
                     height={600}
                   />
@@ -660,7 +660,7 @@ export default function BiosyntheticPathways() {
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <p className="text-2xl font-bold text-primary">{tpsData.data.length}</p>
+                    <p className="text-2xl font-bold text-primary">{tpsData?.data.length}</p>
                     <p className="text-sm text-muted-foreground">Gènes TPS</p>
                   </div>
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
@@ -669,7 +669,7 @@ export default function BiosyntheticPathways() {
                   </div>
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
                     <p className="text-2xl font-bold text-amber-600">
-                      {linksData?.success ? linksData.data.length : 0}
+                      {linksData?.success ? linksData?.data.length : 0}
                     </p>
                     <p className="text-sm text-muted-foreground">Liaisons</p>
                   </div>

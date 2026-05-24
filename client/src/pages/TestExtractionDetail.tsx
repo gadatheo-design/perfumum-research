@@ -107,14 +107,14 @@ export default function TestExtractionDetail() {
                 Test d'Extraction
               </div>
               <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-900 via-indigo-800 to-violet-900 bg-clip-text text-transparent">
-                {test.testName}
+                {test?.testName}
               </h1>
               <div className="flex flex-wrap gap-3">
-                {getViableBadge(test.viable)}
-                {test.date && (
+                {getViableBadge(test?.viable)}
+                {test?.date && (
                   <Badge variant="outline" className="gap-1">
                     <Calendar className="h-3 w-3" />
-                    {new Date(test.date).toLocaleDateString("fr-FR")}
+                    {new Date(test?.date).toLocaleDateString("fr-FR")}
                   </Badge>
                 )}
               </div>
@@ -139,31 +139,31 @@ export default function TestExtractionDetail() {
                   <CardContent className="space-y-4">
                     <div>
                       <h3 className="font-semibold text-stone-700 mb-2">Solvant</h3>
-                      <p className="text-stone-600">{getSolventLabel(test.solvent)}</p>
+                      <p className="text-stone-600">{getSolventLabel(test?.solvent)}</p>
                     </div>
-                    {test.ratio && (
+                    {test?.ratio && (
                       <div>
                         <h3 className="font-semibold text-stone-700 mb-2">Ratio</h3>
-                        <p className="text-stone-600">{test.ratio}</p>
+                        <p className="text-stone-600">{test?.ratio}</p>
                       </div>
                     )}
-                    {test.duration && (
+                    {test?.duration && (
                       <div>
                         <h3 className="font-semibold text-stone-700 mb-2">Durée</h3>
-                        <p className="text-stone-600">{test.duration} heures</p>
+                        <p className="text-stone-600">{test?.duration} heures</p>
                       </div>
                     )}
-                    {test.material && (
+                    {test?.material && (
                       <div>
                         <h3 className="font-semibold text-stone-700 mb-2">Matière testée</h3>
-                        <p className="text-stone-600">{test.material}</p>
+                        <p className="text-stone-600">{test?.material}</p>
                       </div>
                     )}
                   </CardContent>
                 </Card>
 
                 {/* Résultat olfactif */}
-                {test.resultSmell && (
+                {test?.resultSmell && (
                   <Card>
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
@@ -173,14 +173,14 @@ export default function TestExtractionDetail() {
                     </CardHeader>
                     <CardContent>
                       <p className="text-stone-600 leading-relaxed whitespace-pre-wrap">
-                        {test.resultSmell}
+                        {test?.resultSmell}
                       </p>
                     </CardContent>
                   </Card>
                 )}
 
                 {/* Observations temporelles */}
-                {(test.observationDay1 || test.observationDay7) && (
+                {(test?.observationDay1 || test?.observationDay7) && (
                   <Card>
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
@@ -189,19 +189,19 @@ export default function TestExtractionDetail() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                      {test.observationDay1 && (
+                      {test?.observationDay1 && (
                         <div>
                           <h3 className="font-semibold text-stone-700 mb-2">Jour +1</h3>
                           <p className="text-stone-600 leading-relaxed whitespace-pre-wrap">
-                            {test.observationDay1}
+                            {test?.observationDay1}
                           </p>
                         </div>
                       )}
-                      {test.observationDay7 && (
+                      {test?.observationDay7 && (
                         <div>
                           <h3 className="font-semibold text-stone-700 mb-2">Jour +7</h3>
                           <p className="text-stone-600 leading-relaxed whitespace-pre-wrap">
-                            {test.observationDay7}
+                            {test?.observationDay7}
                           </p>
                         </div>
                       )}
@@ -210,7 +210,7 @@ export default function TestExtractionDetail() {
                 )}
 
                 {/* Notes */}
-                {test.notes && (
+                {test?.notes && (
                   <Card>
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
@@ -220,7 +220,7 @@ export default function TestExtractionDetail() {
                     </CardHeader>
                     <CardContent>
                       <p className="text-stone-600 leading-relaxed whitespace-pre-wrap">
-                        {test.notes}
+                        {test?.notes}
                       </p>
                     </CardContent>
                   </Card>
@@ -235,12 +235,12 @@ export default function TestExtractionDetail() {
                     <CardTitle className="text-base">Viabilité</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    {getViableBadge(test.viable)}
+                    {getViableBadge(test?.viable)}
                   </CardContent>
                 </Card>
 
                 {/* Lien vers archive terrain */}
-                {test.fieldArchiveId && (
+                {test?.fieldArchiveId && (
                   <Card>
                     <CardHeader>
                       <CardTitle className="text-base flex items-center gap-2">
@@ -249,7 +249,7 @@ export default function TestExtractionDetail() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <Link href={`/archives-terrain/${test.fieldArchiveId}`}>
+                      <Link href={`/archives-terrain/${test?.fieldArchiveId}`}>
                         <Button variant="outline" className="w-full">
                           Voir l'archive terrain
                         </Button>
@@ -264,19 +264,19 @@ export default function TestExtractionDetail() {
                     <CardTitle className="text-base">Métadonnées</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-2 text-sm">
-                    {test.createdAt && (
+                    {test?.createdAt && (
                       <div>
                         <span className="text-stone-500">Créé le :</span>
                         <p className="text-stone-700">
-                          {new Date(test.createdAt).toLocaleDateString("fr-FR")}
+                          {new Date(test?.createdAt).toLocaleDateString("fr-FR")}
                         </p>
                       </div>
                     )}
-                    {test.updatedAt && (
+                    {test?.updatedAt && (
                       <div>
                         <span className="text-stone-500">Modifié le :</span>
                         <p className="text-stone-700">
-                          {new Date(test.updatedAt).toLocaleDateString("fr-FR")}
+                          {new Date(test?.updatedAt).toLocaleDateString("fr-FR")}
                         </p>
                       </div>
                     )}

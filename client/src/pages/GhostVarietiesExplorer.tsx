@@ -104,7 +104,7 @@ export default function GhostVarietiesExplorer() {
   // Filter varieties
   const filteredVarieties = useMemo(() => {
     if (!varieties) return [];
-    return varieties.filter((v) => {
+    return varieties?.filter((v) => {
       const matchesSearch = searchQuery === "" || 
         v.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         v.scientificName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -118,7 +118,7 @@ export default function GhostVarietiesExplorer() {
   // Get selected variety details
   const selectedVarietyData = useMemo(() => {
     if (!selectedVariety || !varieties) return null;
-    return varieties.find(v => v.id === selectedVariety) || null;
+    return varieties?.find(v => v.id === selectedVariety) || null;
   }, [selectedVariety, varieties]);
 
   // Initialize map markers
@@ -217,14 +217,14 @@ export default function GhostVarietiesExplorer() {
               <div className="hidden md:flex gap-4">
                 <Card className="bg-white/10 border-white/20 text-white">
                   <CardContent className="p-4 text-center">
-                    <div className="text-3xl font-bold">{stats.total}</div>
+                    <div className="text-3xl font-bold">{stats?.total}</div>
                     <div className="text-sm text-slate-300">Variétés</div>
                   </CardContent>
                 </Card>
                 <Card className="bg-red-500/20 border-red-500/30 text-white">
                   <CardContent className="p-4 text-center">
                     <div className="text-3xl font-bold">
-                      {stats.byConservationStatus.filter(s => 
+                      {stats?.byConservationStatus.filter(s => 
                         ["extinct", "extinct_wild", "critically_endangered"].includes(s.status)
                       ).reduce((acc, s) => acc + s.count, 0)}
                     </div>
@@ -528,7 +528,7 @@ export default function GhostVarietiesExplorer() {
                     </TabsList>
                     <TabsContent value="types" className="mt-2">
                       <div className="space-y-2">
-                        {stats.byVarietyType.map((item) => (
+                        {stats?.byVarietyType.map((item) => (
                           <div key={item.type} className="flex items-center justify-between text-sm">
                             <Badge variant="outline" className={VARIETY_TYPE_COLORS[item.type]}>
                               {VARIETY_TYPE_LABELS[item.type] || item.type}
@@ -540,7 +540,7 @@ export default function GhostVarietiesExplorer() {
                     </TabsContent>
                     <TabsContent value="status" className="mt-2">
                       <div className="space-y-2">
-                        {stats.byConservationStatus.map((item) => (
+                        {stats?.byConservationStatus.map((item) => (
                           <div key={item.status} className="flex items-center justify-between text-sm">
                             <Badge className={CONSERVATION_STATUS_COLORS[item.status]}>
                               {CONSERVATION_STATUS_LABELS[item.status] || item.status}

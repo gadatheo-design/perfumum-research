@@ -373,7 +373,7 @@ export default function LinkingDashboard() {
                   {showPreview && previewData && (
                     <Card>
                       <CardHeader>
-                        <CardTitle>Prévisualisation ({previewData.wouldCreate || previewData.suggestions?.length || 0} liaisons)</CardTitle>
+                        <CardTitle>Prévisualisation ({previewData?.wouldCreate || previewData?.suggestions?.length || 0} liaisons)</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <div className="max-h-96 overflow-y-auto">
@@ -387,7 +387,7 @@ export default function LinkingDashboard() {
                               </TableRow>
                             </TableHeader>
                             <TableBody>
-                              {previewData.suggestions?.slice(0, 50).map((s: any, i: number) => (
+                              {previewData?.suggestions?.slice(0, 50).map((s: any, i: number) => (
                                 <TableRow key={i}>
                                   <TableCell className="font-medium">{s.moleculeName}</TableCell>
                                   <TableCell>{s.recetteName}</TableCell>
@@ -451,7 +451,7 @@ export default function LinkingDashboard() {
                   {showPreview && plantMoleculePreview && (
                     <Card>
                       <CardHeader>
-                        <CardTitle>Prévisualisation ({plantMoleculePreview.wouldCreate || plantMoleculePreview.suggestions?.length || 0} liaisons)</CardTitle>
+                        <CardTitle>Prévisualisation ({plantMoleculePreview?.wouldCreate || plantMoleculePreview?.suggestions?.length || 0} liaisons)</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <div className="max-h-96 overflow-y-auto">
@@ -466,7 +466,7 @@ export default function LinkingDashboard() {
                               </TableRow>
                             </TableHeader>
                             <TableBody>
-                              {plantMoleculePreview.suggestions?.slice(0, 50).map((s: any, i: number) => (
+                              {plantMoleculePreview?.suggestions?.slice(0, 50).map((s: any, i: number) => (
                                 <TableRow key={i}>
                                   <TableCell className="font-medium">{s.plantName}</TableCell>
                                   <TableCell>{s.moleculeName}</TableCell>

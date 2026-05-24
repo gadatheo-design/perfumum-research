@@ -285,9 +285,9 @@ export default function IFRACompliance() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {bannedMolecules && bannedMolecules.length > 0 ? (
+              {bannedMolecules && bannedMolecules?.length > 0 ? (
                 <div className="grid gap-3">
-                  {bannedMolecules.map((mol) => (
+                  {bannedMolecules?.map((mol) => (
                     <div 
                       key={mol.id} 
                       className="flex items-center justify-between p-3 bg-red-500/5 border border-red-500/20 rounded-lg"
@@ -339,9 +339,9 @@ export default function IFRACompliance() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {restrictedMolecules && restrictedMolecules.length > 0 ? (
+              {restrictedMolecules && restrictedMolecules?.length > 0 ? (
                 <div className="grid gap-3">
-                  {restrictedMolecules.map((mol) => (
+                  {restrictedMolecules?.map((mol) => (
                     <div 
                       key={mol.id} 
                       className="flex items-center justify-between p-3 bg-orange-500/5 border border-orange-500/20 rounded-lg"
@@ -398,9 +398,9 @@ export default function IFRACompliance() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {specRequiredMolecules && specRequiredMolecules.length > 0 ? (
+              {specRequiredMolecules && specRequiredMolecules?.length > 0 ? (
                 <div className="grid gap-3">
-                  {specRequiredMolecules.map((mol) => (
+                  {specRequiredMolecules?.map((mol) => (
                     <div 
                       key={mol.id} 
                       className="flex items-center justify-between p-3 bg-yellow-500/5 border border-yellow-500/20 rounded-lg"

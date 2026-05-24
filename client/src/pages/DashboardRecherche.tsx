@@ -14,10 +14,10 @@ import { GammeBadge } from "@/components/GammeBadge";
 import { getGammeFromCategory } from "@/lib/gammeMapping";
 
 export default function DashboardRecherche() {
-  const { data: recettes } = trpc.recettes.list.useQuery();
-  const { data: molecules } = trpc.molecules.list.useQuery();
-  const { data: synergies } = trpc.synergies.list.useQuery();
-  const { data: prototypes } = trpc.prototypes.list.useQuery();
+  const { data: recettes } = trpc.recettes?.list.useQuery();
+  const { data: molecules } = trpc.molecules?.list.useQuery();
+  const { data: synergies } = trpc.synergies?.list.useQuery();
+  const { data: prototypes } = trpc.prototypes?.list.useQuery();
 
   // Notes system (local state for now - could be moved to database)
   const [notes, setNotes] = useState<Array<{ id: number; title: string; content: string; date: string }>>([
@@ -194,14 +194,14 @@ export default function DashboardRecherche() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {!userFavorites || userFavorites.length === 0 ? (
+                  {!userFavorites || userFavorites?.length === 0 ? (
                     <div className="text-center py-8 text-muted-foreground">
                       <Star className="h-12 w-12 mx-auto mb-2 opacity-20" />
                       <p className="text-sm">Aucune molécule favorite</p>
                       <p className="text-xs mt-1">Ajoutez des favoris depuis les pages molécules</p>
                     </div>
                   ) : (
-                    userFavorites.slice(0, 5).map((favorite) => {
+                    userFavorites?.slice(0, 5).map((favorite) => {
                       const molecule = favorite.molecule;
                       if (!molecule) return null;
                       return (

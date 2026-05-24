@@ -239,7 +239,7 @@ export default function CorrelationsParfumTabacCannabis() {
 
   const selectedIds = useMemo(() => {
     if (!crossData?.molecules) return [];
-    return crossData.molecules.slice(0, 30).map((m) => m.id);
+    return crossData?.molecules.slice(0, 30).map((m) => m.id);
   }, [crossData]);
 
   const { data: synergiesData } = trpc.correlations.getSynergiesForCrossDomain.useQuery(
@@ -249,7 +249,7 @@ export default function CorrelationsParfumTabacCannabis() {
 
   const molecules = useMemo(() => {
     if (!crossData?.molecules) return [];
-    return crossData.molecules.filter((m) => {
+    return crossData?.molecules.filter((m) => {
       const matchSearch = !search || m.name.toLowerCase().includes(search.toLowerCase()) ||
         (m.family || "").toLowerCase().includes(search.toLowerCase());
       const matchDomain = filterDomain === "all" || m.domains.includes(filterDomain);
@@ -259,7 +259,7 @@ export default function CorrelationsParfumTabacCannabis() {
 
   const selectedSynergies = useMemo(() => {
     if (!synergiesData || !selectedMol) return [];
-    return synergiesData.filter(
+    return synergiesData?.filter(
       (s) => s.molecule1_id === selectedMol.id || s.molecule2_id === selectedMol.id
     );
   }, [synergiesData, selectedMol]);
@@ -303,11 +303,11 @@ export default function CorrelationsParfumTabacCannabis() {
         {stats && (
           <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
             {[
-              { label: "Triple domaine", value: stats.tripleDomain, color: "text-amber-400", icon: "✦" },
-              { label: "Double domaine", value: stats.doubleDomain, color: "text-violet-400", icon: "◈" },
-              { label: "Cannabis × Tabac", value: stats.cannabisTabac, color: "text-emerald-400", icon: "⊗" },
-              { label: "Cannabis × Parfum", value: stats.cannabisParfum, color: "text-green-400", icon: "⊕" },
-              { label: "Tabac × Parfum", value: stats.tabacParfum, color: "text-amber-300", icon: "⊙" },
+              { label: "Triple domaine", value: stats?.tripleDomain, color: "text-amber-400", icon: "✦" },
+              { label: "Double domaine", value: stats?.doubleDomain, color: "text-violet-400", icon: "◈" },
+              { label: "Cannabis × Tabac", value: stats?.cannabisTabac, color: "text-emerald-400", icon: "⊗" },
+              { label: "Cannabis × Parfum", value: stats?.cannabisParfum, color: "text-green-400", icon: "⊕" },
+              { label: "Tabac × Parfum", value: stats?.tabacParfum, color: "text-amber-300", icon: "⊙" },
             ].map((s) => (
               <Card key={s.label} className="bg-white/5 border-white/10">
                 <CardContent className="p-4 text-center">
@@ -564,19 +564,19 @@ export default function CorrelationsParfumTabacCannabis() {
                     <div className="mt-4 space-y-2 text-sm">
                       <div className="flex justify-between text-white/60">
                         <span>Cannabis ∩ Tabac ∩ Parfum</span>
-                        <span className="text-amber-400 font-bold">{stats.tripleDomain}</span>
+                        <span className="text-amber-400 font-bold">{stats?.tripleDomain}</span>
                       </div>
                       <div className="flex justify-between text-white/60">
                         <span>Cannabis ∩ Tabac</span>
-                        <span className="text-emerald-400">{stats.cannabisTabac}</span>
+                        <span className="text-emerald-400">{stats?.cannabisTabac}</span>
                       </div>
                       <div className="flex justify-between text-white/60">
                         <span>Cannabis ∩ Parfum</span>
-                        <span className="text-green-400">{stats.cannabisParfum}</span>
+                        <span className="text-green-400">{stats?.cannabisParfum}</span>
                       </div>
                       <div className="flex justify-between text-white/60">
                         <span>Tabac ∩ Parfum</span>
-                        <span className="text-amber-300">{stats.tabacParfum}</span>
+                        <span className="text-amber-300">{stats?.tabacParfum}</span>
                       </div>
                     </div>
                   )}
@@ -641,7 +641,7 @@ export default function CorrelationsParfumTabacCannabis() {
               <CardContent>
                 {topFamilies ? (
                   <div className="space-y-3">
-                    {topFamilies.map((fam, i) => (
+                    {topFamilies?.map((fam, i) => (
                       <div key={fam.family} className="flex items-center gap-4">
                         <div className="w-6 text-center text-sm text-white/30 font-mono">{i + 1}</div>
                         <div className="flex-1">
@@ -700,7 +700,7 @@ function SynergiesTabacParfumTab() {
 
   const tabacParfumSynergies = useMemo(() => {
     if (!allSynergies) return [];
-    return allSynergies.filter(s => {
+    return allSynergies?.filter(s => {
       const m1 = s.molecule1Id;
       const m2 = s.molecule2Id;
       if (!m1 || !m2) return false;

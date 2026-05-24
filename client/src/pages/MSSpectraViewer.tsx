@@ -164,7 +164,7 @@ export default function MSSpectraViewer() {
   };
   
   const handleNext = () => {
-    if (spectra && currentIndex < spectra.length - 1) setCurrentIndex(currentIndex + 1);
+    if (spectra && currentIndex < spectra?.length - 1) setCurrentIndex(currentIndex + 1);
   };
   
   return (
@@ -301,7 +301,7 @@ export default function MSSpectraViewer() {
                   <Button
                     variant="outline"
                     onClick={handleNext}
-                    disabled={!spectra || currentIndex >= spectra.length - 1}
+                    disabled={!spectra || currentIndex >= spectra?.length - 1}
                   >
                     Suivant
                     <ChevronRight className="h-4 w-4 ml-1" />

@@ -139,7 +139,7 @@ function SearchSuggestions({
     
     // Mots-clés suggérés basés sur les profils olfactifs
     const olfactiveKeywords = new Set<string>();
-    molecules.forEach(m => {
+    molecules?.forEach(m => {
       if (m.olfactiveProfile) {
         const words = m.olfactiveProfile.toLowerCase().split(/[\s,;]+/);
         words.forEach((word: string) => {
@@ -158,9 +158,9 @@ function SearchSuggestions({
     };
   }, [query, molecules, plants, civilisations]);
   
-  const hasSuggestions = suggestions.molecules.length > 0 || 
-    suggestions.plants.length > 0 || 
-    suggestions.civilisations.length > 0 ||
+  const hasSuggestions = suggestions.molecules?.length > 0 || 
+    suggestions.plants?.length > 0 || 
+    suggestions.civilisations?.length > 0 ||
     suggestions.keywords.length > 0;
   
   if (!isOpen || !hasSuggestions) return null;
@@ -175,9 +175,9 @@ function SearchSuggestions({
       <Card className="border-border shadow-lg overflow-hidden">
         <Command className="bg-transparent">
           <CommandList className="max-h-[300px]">
-            {suggestions.molecules.length > 0 && (
+            {suggestions.molecules?.length > 0 && (
               <CommandGroup heading="Molécules">
-                {suggestions.molecules.map(m => (
+                {suggestions.molecules?.map(m => (
                   <CommandItem
                     key={`mol-${m.id}`}
                     onSelect={() => {
@@ -193,11 +193,11 @@ function SearchSuggestions({
               </CommandGroup>
             )}
             
-            {suggestions.plants.length > 0 && (
+            {suggestions.plants?.length > 0 && (
               <>
                 <CommandSeparator />
                 <CommandGroup heading="Plantes">
-                  {suggestions.plants.map(p => (
+                  {suggestions.plants?.map(p => (
                     <CommandItem
                       key={`plant-${p.id}`}
                       onSelect={() => {
@@ -217,11 +217,11 @@ function SearchSuggestions({
               </>
             )}
             
-            {suggestions.civilisations.length > 0 && (
+            {suggestions.civilisations?.length > 0 && (
               <>
                 <CommandSeparator />
                 <CommandGroup heading="Civilisations">
-                  {suggestions.civilisations.map(c => (
+                  {suggestions.civilisations?.map(c => (
                     <CommandItem
                       key={`civ-${c.id}`}
                       onSelect={() => {
@@ -332,9 +332,9 @@ export default function RechercheAvancee() {
   
   const searchInputRef = useRef<HTMLInputElement>(null);
   
-  const { data: molecules = [], isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
-  const { data: civilisations = [], isLoading: loadingCivilisations } = trpc.civilisations.list.useQuery();
-  const { data: plants = [], isLoading: loadingPlants } = trpc.plants.list.useQuery();
+  const { data: molecules = [], isLoading: loadingMolecules } = trpc.molecules?.list.useQuery();
+  const { data: civilisations = [], isLoading: loadingCivilisations } = trpc.civilisations?.list.useQuery();
+  const { data: plants = [], isLoading: loadingPlants } = trpc.plants?.list.useQuery();
 
   // Sauvegarder l'historique dans localStorage
   useEffect(() => {
@@ -355,7 +355,7 @@ export default function RechercheAvancee() {
 
   const uniqueFamilies = useMemo(() => {
     const families = new Set<string>();
-    molecules.forEach(m => {
+    molecules?.forEach(m => {
       if (m.family) {
         m.family.split(',').forEach((f: string) => families.add(f.trim()));
       }
@@ -365,12 +365,12 @@ export default function RechercheAvancee() {
 
   const uniqueOrigins = useMemo(() => {
     const origins = new Set<string>();
-    molecules.forEach(m => {
+    molecules?.forEach(m => {
       if (m.sourceOrigin) {
         m.sourceOrigin.split(',').forEach((o: string) => origins.add(o.trim()));
       }
     });
-    civilisations.forEach(c => {
+    civilisations?.forEach(c => {
       if (c.region) origins.add(c.region);
     });
     return Array.from(origins).sort();
@@ -378,7 +378,7 @@ export default function RechercheAvancee() {
 
   const uniqueCategories = useMemo(() => {
     const categories = new Set<string>();
-    molecules.forEach(m => {
+    molecules?.forEach(m => {
       if (m.chemicalClass) categories.add(m.chemicalClass);
     });
     return Array.from(categories).sort();
@@ -394,7 +394,7 @@ export default function RechercheAvancee() {
 
   // Filtrage avec opérateurs logiques (AND/OR)
   const filteredMolecules = useMemo(() => {
-    return molecules.filter(molecule => {
+    return molecules?.filter(molecule => {
       const matchesSearch = !searchQuery || 
         molecule.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         molecule.olfactiveProfile?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -447,7 +447,7 @@ export default function RechercheAvancee() {
   }, [molecules, searchQuery, selectedFamilies, selectedOrigins, selectedPeriods, selectedCategories, filterOperator]);
 
   const filteredCivilisations = useMemo(() => {
-    return civilisations.filter(civ => {
+    return civilisations?.filter(civ => {
       const matchesSearch = !searchQuery || 
         civ.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         civ.region?.toLowerCase().includes(searchQuery.toLowerCase());
@@ -471,7 +471,7 @@ export default function RechercheAvancee() {
 
   // Plantes filtrées
   const filteredPlants = useMemo(() => {
-    return plants.filter(plant => {
+    return plants?.filter(plant => {
       const matchesSearch = !searchQuery || 
         plant.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         plant.latinName?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -586,15 +586,15 @@ export default function RechercheAvancee() {
               >
                 <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-card border border-border/50 shadow-sm text-sm">
                   <Database className="w-4 h-4 text-primary" />
-                  <span className="font-medium">{molecules.length} molécules</span>
+                  <span className="font-medium">{molecules?.length} molécules</span>
                 </div>
                 <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-card border border-border/50 shadow-sm text-sm">
                   <Leaf className="w-4 h-4 text-green-500" />
-                  <span className="font-medium">{plants.length} plantes</span>
+                  <span className="font-medium">{plants?.length} plantes</span>
                 </div>
                 <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-card border border-border/50 shadow-sm text-sm">
                   <Globe className="w-4 h-4 text-primary" />
-                  <span className="font-medium">{civilisations.length} civilisations</span>
+                  <span className="font-medium">{civilisations?.length} civilisations</span>
                 </div>
               </motion.div>
             </motion.div>

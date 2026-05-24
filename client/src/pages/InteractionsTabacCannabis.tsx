@@ -51,12 +51,12 @@ export default function InteractionsTabacCannabis() {
   // Fetch data
   const { data: interactions, isLoading: loadingInteractions } = trpc.molecularInteractions.list.useQuery();
   const { data: accords, isLoading: loadingAccords } = trpc.aromaticAccords.list.useQuery();
-  const { data: entourageRules, isLoading: loadingRules } = trpc.entourageRules.list.useQuery();
+  const { data: entourageRules, isLoading: loadingRules } = trpc.entourageRules?.list.useQuery();
 
   // Filter interactions
   const filteredInteractions = useMemo(() => {
     if (!interactions) return [];
-    return interactions.filter(int => {
+    return interactions?.filter(int => {
       if (categoryFilter !== "all" && int.sourceCategory !== categoryFilter) return false;
       if (synergyFilter !== "all" && int.synergyType !== synergyFilter) return false;
       return true;
@@ -66,7 +66,7 @@ export default function InteractionsTabacCannabis() {
   // Group accords by category
   const accordsByCategory = useMemo(() => {
     if (!accords) return {};
-    return accords.reduce((acc, accord) => {
+    return accords?.reduce((acc, accord) => {
       const cat = accord.category;
       if (!acc[cat]) acc[cat] = [];
       acc[cat].push(accord);

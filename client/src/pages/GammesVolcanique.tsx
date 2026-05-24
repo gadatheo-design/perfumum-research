@@ -10,7 +10,7 @@ import { trpc } from "@/lib/trpc";
 import { linkifyMoleculeNames } from "@/lib/linkifyMolecules";
 
 export default function GammesVolcanique() {
-  const { data: molecules } = trpc.molecules.list.useQuery();
+  const { data: molecules } = trpc.molecules?.list.useQuery();
 
   const axes = [
     {

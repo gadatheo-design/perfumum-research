@@ -39,7 +39,7 @@ export default function CorrelationAnalysis() {
 
     // Group by recipe
     const recipeGroups = new Map<number, Set<number>>();
-    relationships.forEach((rel: { moleculeId: number; recetteId: number; proportion: string | null }) => {
+    relationships?.forEach((rel: { moleculeId: number; recetteId: number; proportion: string | null }) => {
       if (!recipeGroups.has(rel.recetteId)) {
         recipeGroups.set(rel.recetteId, new Set());
       }

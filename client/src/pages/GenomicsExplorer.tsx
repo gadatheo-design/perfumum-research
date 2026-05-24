@@ -556,7 +556,7 @@ export default function GenomicsExplorer() {
   // Filtrer les références génomiques (G1, G2, G3)
   const genomicsReferences = useMemo(() => {
     if (!allReferences) return [];
-    return allReferences.filter(ref => 
+    return allReferences?.filter(ref => 
       ref.axisPrimaryCode === 'G1' || 
       ref.axisPrimaryCode === 'G2' || 
       ref.axisPrimaryCode === 'G3'

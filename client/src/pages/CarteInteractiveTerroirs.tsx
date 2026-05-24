@@ -137,36 +137,36 @@ export default function CarteInteractiveTerroirs() {
   const [showClimateZones, setShowClimateZones] = useState(false);
 
   // Récupérer tous les terroirs
-  const { data: terroirs, isLoading: isLoadingTerroirs, refetch } = trpc.terroirs.getAll.useQuery();
+  const { data: terroirs, isLoading: isLoadingTerroirs, refetch } = trpc.terroirs?.getAll.useQuery();
 
   // Récupérer toutes les connexions plantes-terroirs
-  const { data: plantTerroirs, isLoading: isLoadingConnections } = trpc.plantTerroirs.getAll.useQuery();
+  const { data: plantTerroirs, isLoading: isLoadingConnections } = trpc.plantTerroirs?.getAll.useQuery();
 
   // Récupérer les plantes du terroir sélectionné
-  const { data: terroirPlants, isLoading: isLoadingPlants } = trpc.plantTerroirs.getByTerroir.useQuery(
+  const { data: terroirPlants, isLoading: isLoadingPlants } = trpc.plantTerroirs?.getByTerroir.useQuery(
     selectedTerroir?.id ?? 0,
     { enabled: !!selectedTerroir }
   );
 
   // Statistiques des connexions
-  const { data: networkStats } = trpc.plantTerroirs.getNetworkStats.useQuery();
+  const { data: networkStats } = trpc.plantTerroirs?.getNetworkStats.useQuery();
 
   // Extraire les pays, climats et sols uniques pour les filtres
   const countries = useMemo(() => {
     if (!terroirs) return [];
-    const uniqueCountries = Array.from(new Set(terroirs.map((t: Terroir) => t.country))).filter(Boolean).sort();
+    const uniqueCountries = Array.from(new Set(terroirs?.map((t: Terroir) => t.country))).filter(Boolean).sort();
     return uniqueCountries as string[];
   }, [terroirs]);
 
   const climates = useMemo(() => {
     if (!terroirs) return [];
-    const uniqueClimates = Array.from(new Set(terroirs.map((t: Terroir) => t.climateType).filter(Boolean))).sort();
+    const uniqueClimates = Array.from(new Set(terroirs?.map((t: Terroir) => t.climateType).filter(Boolean))).sort();
     return uniqueClimates as string[];
   }, [terroirs]);
 
   const soilTypes = useMemo(() => {
     if (!terroirs) return [];
-    const uniqueSoils = Array.from(new Set(terroirs.map((t: Terroir) => t.soilType).filter(Boolean))).sort();
+    const uniqueSoils = Array.from(new Set(terroirs?.map((t: Terroir) => t.soilType).filter(Boolean))).sort();
     return uniqueSoils as string[];
   }, [terroirs]);
 
@@ -174,7 +174,7 @@ export default function CarteInteractiveTerroirs() {
   const plantCountByTerroir = useMemo((): Record<number, number> => {
     if (!plantTerroirs) return {};
     const counts: Record<number, number> = {};
-    plantTerroirs.forEach((pt: any) => {
+    plantTerroirs?.forEach((pt: any) => {
       counts[pt.terroirId] = (counts[pt.terroirId] || 0) + 1;
     });
     return counts;
@@ -183,7 +183,7 @@ export default function CarteInteractiveTerroirs() {
   // Filtrer les terroirs
   const filteredTerroirs = useMemo(() => {
     if (!terroirs) return [];
-    return terroirs.filter((terroir: Terroir) => {
+    return terroirs?.filter((terroir: Terroir) => {
       const matchesSearch = searchQuery === "" || 
         terroir.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         terroir.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -695,16 +695,16 @@ export default function CarteInteractiveTerroirs() {
                         </p>
                         {isLoadingPlants ? (
                           <Skeleton className="h-16 mt-2" />
-                        ) : terroirPlants && terroirPlants.length > 0 ? (
+                        ) : terroirPlants && terroirPlants?.length > 0 ? (
                           <div className="mt-2 space-y-1">
-                            {terroirPlants.slice(0, 5).map((pt: any) => (
+                            {terroirPlants?.slice(0, 5).map((pt: any) => (
                               <div key={pt.id} className="text-sm text-muted-foreground">
                                 • {pt.localName || `Plante #${pt.plantId}`}
                               </div>
                             ))}
-                            {terroirPlants.length > 5 && (
+                            {terroirPlants?.length > 5 && (
                               <p className="text-xs text-muted-foreground">
-                                +{terroirPlants.length - 5} autres
+                                +{terroirPlants?.length - 5} autres
                               </p>
                             )}
                           </div>
@@ -907,15 +907,15 @@ export default function CarteInteractiveTerroirs() {
                   <CardContent>
                     <div className="grid grid-cols-3 gap-6 text-center">
                       <div>
-                        <p className="text-3xl font-bold text-primary">{networkStats.totalRelations}</p>
+                        <p className="text-3xl font-bold text-primary">{networkStats?.totalRelations}</p>
                         <p className="text-sm text-muted-foreground">Relations plante-terroir</p>
                       </div>
                       <div>
-                        <p className="text-3xl font-bold text-green-600">{networkStats.plantsWithTerroirs}</p>
+                        <p className="text-3xl font-bold text-green-600">{networkStats?.plantsWithTerroirs}</p>
                         <p className="text-sm text-muted-foreground">Plantes avec terroirs</p>
                       </div>
                       <div>
-                        <p className="text-3xl font-bold text-orange-600">{networkStats.terroirsWithPlants}</p>
+                        <p className="text-3xl font-bold text-orange-600">{networkStats?.terroirsWithPlants}</p>
                         <p className="text-sm text-muted-foreground">Terroirs avec plantes</p>
                       </div>
                     </div>

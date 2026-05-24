@@ -104,7 +104,7 @@ function MoleculeSelector({
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data: molecules, isLoading } = trpc.molecules.list.useQuery();
+  const { data: molecules, isLoading } = trpc.molecules?.list.useQuery();
 
   const filteredMolecules = useMemo(() => {
     if (!molecules) return [];
@@ -251,7 +251,7 @@ function SelectedMoleculeCard({
 function ComparisonRadarChart({ molecules }: { molecules: ComparedMolecule[] }) {
   const radarData = RADAR_AXES.map(axis => {
     const dataPoint: any = { axis: axis.label, fullLabel: axis.fullLabel };
-    molecules.forEach((mol, index) => {
+    molecules?.forEach((mol, index) => {
       const key = `radar${axis.key.charAt(0).toUpperCase() + axis.key.slice(1)}` as keyof ComparedMolecule;
       dataPoint[mol.name] = mol[key] || 50;
     });
@@ -271,7 +271,7 @@ function ComparisonRadarChart({ molecules }: { molecules: ComparedMolecule[] }) 
           domain={[0, 100]}
           tick={{ fill: "oklch(0.5 0.02 280)", fontSize: 10 }}
         />
-        {molecules.map((mol, index) => (
+        {molecules?.map((mol, index) => (
           <Radar
             key={mol.id}
             name={mol.name}
@@ -299,7 +299,7 @@ function ComparisonRadarChart({ molecules }: { molecules: ComparedMolecule[] }) 
 function ComparisonBarChart({ molecules }: { molecules: ComparedMolecule[] }) {
   const barData = RADAR_AXES.map(axis => {
     const dataPoint: any = { axis: axis.label };
-    molecules.forEach((mol) => {
+    molecules?.forEach((mol) => {
       const key = `radar${axis.key.charAt(0).toUpperCase() + axis.key.slice(1)}` as keyof ComparedMolecule;
       dataPoint[mol.name] = mol[key] || 50;
     });
@@ -320,7 +320,7 @@ function ComparisonBarChart({ molecules }: { molecules: ComparedMolecule[] }) {
           }}
         />
         <Legend />
-        {molecules.map((mol, index) => (
+        {molecules?.map((mol, index) => (
           <Bar
             key={mol.id}
             dataKey={mol.name}
@@ -341,7 +341,7 @@ function ComparisonTable({ molecules }: { molecules: ComparedMolecule[] }) {
         <thead>
           <tr className="border-b">
             <th className="text-left p-3 font-semibold">Caractéristique</th>
-            {molecules.map((mol) => (
+            {molecules?.map((mol) => (
               <th key={mol.id} className="text-center p-3 font-semibold">
                 <div className="flex items-center justify-center gap-2">
                   <div 
@@ -358,7 +358,7 @@ function ComparisonTable({ molecules }: { molecules: ComparedMolecule[] }) {
           {RADAR_AXES.map((axis) => (
             <tr key={axis.key} className="border-b hover:bg-muted/50">
               <td className="p-3 font-medium">{axis.fullLabel}</td>
-              {molecules.map((mol) => {
+              {molecules?.map((mol) => {
                 const key = `radar${axis.key.charAt(0).toUpperCase() + axis.key.slice(1)}` as keyof ComparedMolecule;
                 const value = (mol[key] as number) || 50;
                 return (
@@ -374,7 +374,7 @@ function ComparisonTable({ molecules }: { molecules: ComparedMolecule[] }) {
           ))}
           <tr className="border-b hover:bg-muted/50">
             <td className="p-3 font-medium">Famille</td>
-            {molecules.map((mol) => (
+            {molecules?.map((mol) => (
               <td key={mol.id} className="p-3 text-center">
                 <Badge variant="outline">{mol.family || "Non définie"}</Badge>
               </td>
@@ -389,7 +389,7 @@ function ComparisonTable({ molecules }: { molecules: ComparedMolecule[] }) {
 // Composant d'analyse des différences
 function DifferenceAnalysis({ molecules }: { molecules: ComparedMolecule[] }) {
   const analysis = useMemo(() => {
-    if (molecules.length < 2) return null;
+    if (molecules?.length < 2) return null;
 
     const differences: Array<{
       axis: string;
@@ -401,7 +401,7 @@ function DifferenceAnalysis({ molecules }: { molecules: ComparedMolecule[] }) {
 
     RADAR_AXES.forEach((axis) => {
       const key = `radar${axis.key.charAt(0).toUpperCase() + axis.key.slice(1)}` as keyof ComparedMolecule;
-      const values = molecules.map(m => ({ name: m.name, value: (m[key] as number) || 50 }));
+      const values = molecules?.map(m => ({ name: m.name, value: (m[key] as number) || 50 }));
       const max = Math.max(...values.map(v => v.value));
       const min = Math.min(...values.map(v => v.value));
       
@@ -446,7 +446,7 @@ function DifferenceAnalysis({ molecules }: { molecules: ComparedMolecule[] }) {
           </div>
           <div className="h-16 w-px bg-border" />
           <div className="text-center">
-            <div className="text-4xl font-bold">{molecules.length}</div>
+            <div className="text-4xl font-bold">{molecules?.length}</div>
             <div className="text-sm text-muted-foreground">Molécules comparées</div>
           </div>
         </div>

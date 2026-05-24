@@ -197,8 +197,8 @@ export default function Plants() {
   const [selectedAxis, setSelectedAxis] = useState<string>("all");
   const [selectedFamily, setSelectedFamily] = useState<string>("all");
 
-  const { data: plants, isLoading } = trpc.plants.list.useQuery();
-  const { data: families } = trpc.plants.listFamilies.useQuery();
+  const { data: plants, isLoading } = trpc.plants?.list.useQuery();
+  const { data: families } = trpc.plants?.listFamilies.useQuery();
 
   // Filter plants
   const filteredPlants = plants?.filter((plant: any) => {
@@ -514,7 +514,7 @@ function BotanicalGallery() {
   const { data: dbImages, isLoading, refetch } = trpc.gallery.list.useQuery();
   
   // Récupérer les plantes pour le lien
-  const { data: plants } = trpc.plants.list.useQuery();
+  const { data: plants } = trpc.plants?.list.useQuery();
 
   // Mutation pour uploader une image
   const uploadMutation = trpc.upload.galleryImage.useMutation({

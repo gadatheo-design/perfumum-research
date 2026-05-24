@@ -19,7 +19,7 @@ export default function SuggestionsSynergies() {
   if (isLoading) {
     return (
       <div className="container mx-auto py-8">
-        <p>Chargement des suggestions...</p>
+        <p>Chargement des suggestions?...</p>
       </div>
     );
   }
@@ -87,14 +87,14 @@ export default function SuggestionsSynergies() {
           <h2 className="text-xl font-semibold">
             {suggestions?.length || 0} Suggestions Trouvées
           </h2>
-          {suggestions && suggestions.length > 0 && (
+          {suggestions && suggestions?.length > 0 && (
             <p className="text-sm text-muted-foreground">
               Triées par similarité décroissante
             </p>
           )}
         </div>
 
-        {suggestions && suggestions.length === 0 && (
+        {suggestions && suggestions?.length === 0 && (
           <Card>
             <CardContent className="py-12 text-center">
               <Beaker className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />

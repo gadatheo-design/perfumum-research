@@ -16,16 +16,16 @@ const COLORS = {
 };
 
 export default function Statistiques() {
-  const { data: synergies, isLoading: loadingSynergies } = trpc.synergies.list.useQuery();
-  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
-  const { data: tabacs, isLoading: loadingTabacs } = trpc.tabacs.list.useQuery();
+  const { data: synergies, isLoading: loadingSynergies } = trpc.synergies?.list.useQuery();
+  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules?.list.useQuery();
+  const { data: tabacs, isLoading: loadingTabacs } = trpc.tabacs?.list.useQuery();
 
   // Synergies distribution by type
   const synergiesDistribution = useMemo(() => {
     if (!synergies) return [];
     
     const distribution: Record<string, number> = {};
-    synergies.forEach(s => {
+    synergies?.forEach(s => {
       const type = s.type || 'unknown';
       distribution[type] = (distribution[type] || 0) + 1;
     });
@@ -33,7 +33,7 @@ export default function Statistiques() {
     return Object.entries(distribution).map(([type, count]) => ({
       name: type.charAt(0).toUpperCase() + type.slice(1),
       value: count,
-      percentage: ((count / synergies.length) * 100).toFixed(1)
+      percentage: ((count / synergies?.length) * 100).toFixed(1)
     }));
   }, [synergies]);
 
@@ -42,7 +42,7 @@ export default function Statistiques() {
     if (!molecules) return [];
     
     const distribution: Record<string, number> = {};
-    molecules.forEach(m => {
+    molecules?.forEach(m => {
       if (m.family) {
         distribution[m.family] = (distribution[m.family] || 0) + 1;
       }
@@ -59,12 +59,12 @@ export default function Statistiques() {
     if (!synergies || !tabacs) return [];
     
     const distribution: Record<string, number> = {};
-    synergies.forEach(s => {
+    synergies?.forEach(s => {
       const tabacName = s.tabacName || 'Unknown';
       distribution[tabacName] = (distribution[tabacName] || 0) + 1;
     });
 
-    return tabacs.map(t => ({
+    return tabacs?.map(t => ({
       name: t.name,
       synergies: distribution[t.name] || 0
     })).sort((a, b) => b.synergies - a.synergies);
@@ -75,7 +75,7 @@ export default function Statistiques() {
     if (!synergies || !molecules) return [];
     
     const distribution: Record<number, number> = {};
-    synergies.forEach(s => {
+    synergies?.forEach(s => {
       const moleculeId = s.moleculeId;
       if (moleculeId !== null) {
         distribution[moleculeId] = (distribution[moleculeId] || 0) + 1;
@@ -84,7 +84,7 @@ export default function Statistiques() {
 
     return Object.entries(distribution)
       .map(([moleculeId, count]) => {
-        const molecule = molecules.find(m => m.id === parseInt(moleculeId));
+        const molecule = molecules?.find(m => m.id === parseInt(moleculeId));
         return {
           name: molecule?.name || 'Unknown',
           family: molecule?.family || 'N/A',

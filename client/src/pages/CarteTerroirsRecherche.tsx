@@ -126,18 +126,18 @@ export default function CarteTerroirsRecherche() {
   const [activeTab, setActiveTab] = useState<string>("carte");
 
   // Récupérer les plantes aromatiques de la base de données
-  const { data: plants, isLoading: isLoadingPlants } = trpc.plants.list.useQuery();
+  const { data: plants, isLoading: isLoadingPlants } = trpc.plants?.list.useQuery();
 
   // Filtrer les plantes des terroirs de recherche
   const researchPlants = useMemo(() => {
     if (!plants) return [];
-    return plants.filter(p => 
+    return plants?.filter(p => 
       ["Lippia origanoides", "Tagetes lucida", "Lippia multiflora", "Ocimum canum"].includes(p.latinName || "")
     );
   }, [plants]);
 
   // Récupérer les molécules liées à une plante
-  const { data: plantMolecules } = trpc.plants.getMolecules.useQuery(
+  const { data: plantMolecules } = trpc.plants?.getMolecules.useQuery(
     selectedPlant?.id ?? 0,
     { enabled: !!selectedPlant }
   );
@@ -196,7 +196,7 @@ export default function CarteTerroirsRecherche() {
               <div style="border-top: 1px solid #eee; padding-top: 8px;">
                 <p style="font-size: 12px; font-weight: 500; color: #333; margin-bottom: 4px;">Plantes étudiées:</p>
                 <div style="display: flex; flex-wrap: wrap; gap: 4px;">
-                  ${region.plants.map(p => `
+                  ${region.plants?.map(p => `
                     <span style="
                       background-color: ${terroir.color}20;
                       color: ${terroir.color};
@@ -431,7 +431,7 @@ export default function CarteTerroirsRecherche() {
                                 </Button>
                               </div>
                               <div className="flex flex-wrap gap-1 mt-2">
-                                {region.plants.map(plant => (
+                                {region.plants?.map(plant => (
                                   <Badge 
                                     key={plant} 
                                     variant="secondary"
@@ -571,13 +571,13 @@ export default function CarteTerroirsRecherche() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      {plantMolecules.length === 0 ? (
+                      {plantMolecules?.length === 0 ? (
                         <p className="text-sm text-muted-foreground">
                           Aucune molécule liée à cette plante pour le moment.
                         </p>
                       ) : (
                         <div className="space-y-3">
-                          {plantMolecules.map((pm: any) => (
+                          {plantMolecules?.map((pm: any) => (
                             <div 
                               key={pm.molecule.id}
                               className="flex items-center justify-between p-3 bg-muted/50 rounded-lg"

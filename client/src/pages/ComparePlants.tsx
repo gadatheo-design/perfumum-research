@@ -33,13 +33,13 @@ const COLORS = ["#8b5cf6", "#10b981", "#f59e0b", "#ef4444", "#3b82f6"];
 export default function ComparePlants() {
   const [selectedPlantIds, setSelectedPlantIds] = useState<number[]>([]);
   
-  const { data: plants, isLoading } = trpc.plants.list.useQuery();
+  const { data: plants, isLoading } = trpc.plants?.list.useQuery();
 
   // Plantes sélectionnées
   const selectedPlants = useMemo(() => {
     if (!plants) return [];
     return selectedPlantIds
-      .map(id => plants.find((p: any) => p.id === id))
+      .map(id => plants?.find((p: any) => p.id === id))
       .filter(Boolean);
   }, [plants, selectedPlantIds]);
 
@@ -59,7 +59,7 @@ export default function ComparePlants() {
   // Plantes disponibles (non sélectionnées)
   const availablePlants = useMemo(() => {
     if (!plants) return [];
-    return plants.filter((p: any) => !selectedPlantIds.includes(p.id));
+    return plants?.filter((p: any) => !selectedPlantIds.includes(p.id));
   }, [plants, selectedPlantIds]);
 
   // Données pour le radar des axes climatiques

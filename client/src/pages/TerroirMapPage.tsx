@@ -33,7 +33,7 @@ export default function TerroirMapPage() {
   
   // Statistiques des terroirs
   const { data: stats, isLoading: statsLoading, refetch: refetchStats } = trpc.plantTerroirs.getNetworkStats.useQuery();
-  const { data: terroirs, isLoading: terroirsLoading, refetch: refetchTerroirs } = trpc.terroirs.getAll.useQuery();
+  const { data: terroirs, isLoading: terroirsLoading, refetch: refetchTerroirs } = trpc.terroirs?.getAll.useQuery();
 
   // Compter les terroirs par climat
   const climateStats = terroirs?.reduce((acc, t) => {
@@ -202,7 +202,7 @@ export default function TerroirMapPage() {
                     .sort((a, b) => b[1] - a[1])
                     .map(([climate, count]) => {
                       const colorClass = CLIMATE_COLORS[climate.toLowerCase().replace(/[- ]/g, "_")] || "bg-gray-500/20 text-gray-700 border-gray-500/30";
-                      const percentage = terroirs ? Math.round((count / terroirs.length) * 100) : 0;
+                      const percentage = terroirs ? Math.round((count / terroirs?.length) * 100) : 0;
                       
                       return (
                         <div key={climate} className="space-y-1">
@@ -236,7 +236,7 @@ export default function TerroirMapPage() {
               <CardContent>
                 <div className="space-y-3">
                   {topCountries.map(([country, count], index) => {
-                    const percentage = terroirs ? Math.round((count / terroirs.length) * 100) : 0;
+                    const percentage = terroirs ? Math.round((count / terroirs?.length) * 100) : 0;
                     
                     return (
                       <div key={country} className="space-y-1">

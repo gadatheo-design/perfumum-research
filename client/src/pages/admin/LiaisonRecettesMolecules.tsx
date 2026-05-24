@@ -27,15 +27,15 @@ export default function LiaisonRecettesMolecules() {
   const [rechercheRecette, setRechercheRecette] = useState("");
 
   // Queries
-  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes.list.useQuery();
-  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
-  const { data: liaisonsExistantes } = trpc.molecules.getByRecette.useQuery(
+  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes?.list.useQuery();
+  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules?.list.useQuery();
+  const { data: liaisonsExistantes } = trpc.molecules?.getByRecette.useQuery(
     { recetteId: recetteSelectionnee! },
     { enabled: !!recetteSelectionnee }
   );
 
   // Mutations
-  const saveLiaisons = trpc.molecules.linkToRecette.useMutation({
+  const saveLiaisons = trpc.molecules?.linkToRecette.useMutation({
     onSuccess: () => {
       toast.success("Liaisons sauvegardées avec succès !");
       setFormule([]);
@@ -59,7 +59,7 @@ export default function LiaisonRecettesMolecules() {
     const axes = ["Frais", "Floral", "Fruité", "Épicé", "Boisé", "Terreux"];
     const profil = axes.map((axe) => {
       const valeur = formule.reduce((sum, mf) => {
-        const molecule = molecules.find((m: any) => m.id === mf.moleculeId);
+        const molecule = molecules?.find((m: any) => m.id === mf.moleculeId);
         if (!molecule) return sum;
         
         // Utiliser les valeurs radar directement depuis la molécule
@@ -83,7 +83,7 @@ export default function LiaisonRecettesMolecules() {
   // Filtrer recettes par catégorie et recherche
   const recettesFiltrees = useMemo(() => {
     if (!recettes) return [];
-    return recettes.filter((r: any) => {
+    return recettes?.filter((r: any) => {
       const matchCat = !filtreCategorie || r.category === filtreCategorie;
       const matchSearch = !rechercheRecette || (r.name || '').toLowerCase().includes(rechercheRecette.toLowerCase());
       return matchCat && matchSearch;
@@ -94,7 +94,7 @@ export default function LiaisonRecettesMolecules() {
   const statsCategories = useMemo(() => {
     if (!recettes) return {};
     const cats: Record<string, { total: number; linked: number }> = {};
-    recettes.forEach((r: any) => {
+    recettes?.forEach((r: any) => {
       const cat = r.category || 'unknown';
       if (!cats[cat]) cats[cat] = { total: 0, linked: 0 };
       cats[cat].total++;
@@ -106,7 +106,7 @@ export default function LiaisonRecettesMolecules() {
   // Filtrer molécules
   const moleculesFiltrees = useMemo(() => {
     if (!molecules) return [];
-    return molecules.filter((m) =>
+    return molecules?.filter((m) =>
       m.name.toLowerCase().includes(rechercheMolecule.toLowerCase())
     );
   }, [molecules, rechercheMolecule]);
@@ -171,13 +171,13 @@ export default function LiaisonRecettesMolecules() {
   };
 
   const chargerLiaisons = () => {
-    if (!liaisonsExistantes || liaisonsExistantes.length === 0) {
+    if (!liaisonsExistantes || liaisonsExistantes?.length === 0) {
       setFormule([]);
       return;
     }
 
     setFormule(
-      liaisonsExistantes.map((l: any) => ({
+      liaisonsExistantes?.map((l: any) => ({
         moleculeId: l.id,
         moleculeNom: l.name,
         proportion: parseFloat(l.proportion || "0"),
@@ -280,11 +280,11 @@ export default function LiaisonRecettesMolecules() {
             </Select>
           </div>
 
-          {recetteSelectionnee && liaisonsExistantes && liaisonsExistantes.length > 0 && (
+          {recetteSelectionnee && liaisonsExistantes && liaisonsExistantes?.length > 0 && (
             <Alert>
               <AlertCircle className="h-4 w-4" />
               <AlertDescription>
-                Cette recette a déjà {liaisonsExistantes.length} molécule(s) liée(s).{" "}
+                Cette recette a déjà {liaisonsExistantes?.length} molécule(s) liée(s).{" "}
                 <Button variant="link" className="p-0 h-auto" onClick={chargerLiaisons}>
                   Charger les liaisons existantes
                 </Button>

@@ -19,7 +19,7 @@ function TerpeneRadarSection({ landraceId }: { landraceId: number }) {
     );
   }
   
-  if (!terpenes || terpenes.length === 0) {
+  if (!terpenes || terpenes?.length === 0) {
     return null;
   }
   
@@ -92,28 +92,28 @@ export default function LandraceDetail() {
       <div className="mb-8">
         <div className="flex flex-wrap items-center gap-3 mb-4">
           <Leaf className="h-8 w-8 text-green-500" />
-          <h1 className="text-3xl font-bold text-foreground">{landrace.name}</h1>
-          {landrace.type && (
-            <Badge variant="outline" className={getTypeColor(landrace.type)}>
-              {landrace.type}
+          <h1 className="text-3xl font-bold text-foreground">{landrace?.name}</h1>
+          {landrace?.type && (
+            <Badge variant="outline" className={getTypeColor(landrace?.type)}>
+              {landrace?.type}
             </Badge>
           )}
-          {landrace.conservation_status && (
-            <Badge variant="outline" className={getConservationColor(landrace.conservation_status)}>
-              {landrace.conservation_status}
+          {landrace?.conservation_status && (
+            <Badge variant="outline" className={getConservationColor(landrace?.conservation_status)}>
+              {landrace?.conservation_status}
             </Badge>
           )}
         </div>
         
-        {landrace.alternate_names && (
+        {landrace?.alternate_names && (
           <p className="text-sm text-muted-foreground mb-4">
-            Aussi connue sous : {landrace.alternate_names}
+            Aussi connue sous : {landrace?.alternate_names}
           </p>
         )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        {(landrace.origin || landrace.region || landrace.country) && (
+        {(landrace?.origin || landrace?.region || landrace?.country) && (
           <Card className="bg-card/50 border-border/50">
             <CardHeader>
               <div className="flex items-center gap-2">
@@ -122,14 +122,14 @@ export default function LandraceDetail() {
               </div>
             </CardHeader>
             <CardContent className="space-y-2">
-              {landrace.origin && <p className="text-muted-foreground">{landrace.origin}</p>}
-              {landrace.region && <p className="text-sm text-muted-foreground">Région : {landrace.region}</p>}
-              {landrace.country && <p className="text-sm text-muted-foreground">Pays : {landrace.country}</p>}
+              {landrace?.origin && <p className="text-muted-foreground">{landrace?.origin}</p>}
+              {landrace?.region && <p className="text-sm text-muted-foreground">Région : {landrace?.region}</p>}
+              {landrace?.country && <p className="text-sm text-muted-foreground">Pays : {landrace?.country}</p>}
             </CardContent>
           </Card>
         )}
         
-        {landrace.effect_type && (
+        {landrace?.effect_type && (
           <Card className="bg-card/50 border-border/50">
             <CardHeader>
               <div className="flex items-center gap-2">
@@ -138,17 +138,17 @@ export default function LandraceDetail() {
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">{landrace.effect_type}</p>
+              <p className="text-muted-foreground">{landrace?.effect_type}</p>
               <div className="flex gap-4 mt-4 text-sm">
-                {landrace.thc_range && <span>THC: {landrace.thc_range}</span>}
-                {landrace.cbd_range && <span>CBD: {landrace.cbd_range}</span>}
+                {landrace?.thc_range && <span>THC: {landrace?.thc_range}</span>}
+                {landrace?.cbd_range && <span>CBD: {landrace?.cbd_range}</span>}
               </div>
             </CardContent>
           </Card>
         )}
       </div>
 
-      {landrace.aromatic_profile && (
+      {landrace?.aromatic_profile && (
         <Card className="bg-card/50 border-border/50 mb-6">
           <CardHeader>
             <div className="flex items-center gap-2">
@@ -157,50 +157,50 @@ export default function LandraceDetail() {
             </div>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground">{landrace.aromatic_profile}</p>
+            <p className="text-muted-foreground">{landrace?.aromatic_profile}</p>
           </CardContent>
         </Card>
       )}
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {landrace.head_notes && (
+        {landrace?.head_notes && (
           <Card className="bg-card/50 border-border/50">
             <CardHeader>
               <CardTitle className="text-sm">Notes de Tête</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">{landrace.head_notes}</p>
+              <p className="text-muted-foreground">{landrace?.head_notes}</p>
             </CardContent>
           </Card>
         )}
         
-        {landrace.heart_notes && (
+        {landrace?.heart_notes && (
           <Card className="bg-card/50 border-border/50">
             <CardHeader>
               <CardTitle className="text-sm">Notes de Cœur</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">{landrace.heart_notes}</p>
+              <p className="text-muted-foreground">{landrace?.heart_notes}</p>
             </CardContent>
           </Card>
         )}
         
-        {landrace.base_notes && (
+        {landrace?.base_notes && (
           <Card className="bg-card/50 border-border/50">
             <CardHeader>
               <CardTitle className="text-sm">Notes de Fond</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">{landrace.base_notes}</p>
+              <p className="text-muted-foreground">{landrace?.base_notes}</p>
             </CardContent>
           </Card>
         )}
       </div>
 
       {/* Graphique radar des terpènes */}
-      <TerpeneRadarSection landraceId={landrace.id} />
+      <TerpeneRadarSection landraceId={landrace?.id} />
 
-      {(landrace.dominant_terpenes || landrace.total_terpene_content) && (
+      {(landrace?.dominant_terpenes || landrace?.total_terpene_content) && (
         <Card className="bg-card/50 border-border/50 mb-6">
           <CardHeader>
             <div className="flex items-center gap-2">
@@ -209,28 +209,28 @@ export default function LandraceDetail() {
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            {landrace.dominant_terpenes && (
+            {landrace?.dominant_terpenes && (
               <div>
                 <p className="text-sm font-medium mb-2">Terpènes dominants</p>
-                <p className="text-muted-foreground">{landrace.dominant_terpenes}</p>
+                <p className="text-muted-foreground">{landrace?.dominant_terpenes}</p>
               </div>
             )}
-            {landrace.total_terpene_content && (
+            {landrace?.total_terpene_content && (
               <p className="text-sm text-muted-foreground">
-                Teneur totale : {landrace.total_terpene_content}
+                Teneur totale : {landrace?.total_terpene_content}
               </p>
             )}
           </CardContent>
         </Card>
       )}
 
-      {landrace.cigarillo_potential && (
+      {landrace?.cigarillo_potential && (
         <Card className="bg-amber-500/5 border-amber-500/20">
           <CardHeader>
             <CardTitle className="text-amber-400">Potentiel Cigarillo</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-muted-foreground">{landrace.cigarillo_potential}</p>
+            <p className="text-muted-foreground">{landrace?.cigarillo_potential}</p>
           </CardContent>
         </Card>
       )}

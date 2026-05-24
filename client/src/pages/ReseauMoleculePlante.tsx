@@ -91,7 +91,7 @@ export default function ReseauMoleculePlante() {
 
   // Générer les nœuds et arêtes à partir des données
   const { nodes: initialNodes, edges: initialEdges } = useMemo(() => {
-    if (!networkData || !networkData.entities || !networkData.relationships) {
+    if (!networkData || !networkData?.entities || !networkData?.relationships) {
       return { nodes: [], edges: [] };
     }
 
@@ -102,7 +102,7 @@ export default function ReseauMoleculePlante() {
     const processedTerroirs = new Set<number>();
 
     // Filtrer les relations par pourcentage minimum
-    const filteredRelations = (networkData.relationships.plantMolecules || []).filter(
+    const filteredRelations = (networkData?.relationships.plantMolecules || []).filter(
       (rel) => {
         const pct = parseFloat(String(rel.percentageTypical || (rel as any).percentageMax || 0));
         const passesPercentage = pct >= minPercentage;
@@ -113,9 +113,9 @@ export default function ReseauMoleculePlante() {
 
     // Filtrer par recherche
     const searchLower = searchQuery.toLowerCase();
-    const entitiesPlants = networkData.entities.plants || [];
-    const entitiesMolecules = networkData.entities.molecules || [];
-    const entitiesTerroirs = networkData.entities.terroirs || [];
+    const entitiesPlants = networkData?.entities.plants || [];
+    const entitiesMolecules = networkData?.entities.molecules || [];
+    const entitiesTerroirs = networkData?.entities.terroirs || [];
     
     const matchingPlants = entitiesPlants.filter(
       (p) => p.name.toLowerCase().includes(searchLower) || 
@@ -242,8 +242,8 @@ export default function ReseauMoleculePlante() {
 
     // 3. Ajouter les nœuds terroirs
     if (selectedTypes.includes("terroir")) {
-      const terroirsWithPlants = (networkData.entities.terroirs || []).filter(
-        (t) => terroirIds.has(t.id) && (networkData.relationships.terroirPlants || []).some(r => r.terroirId === t.id)
+      const terroirsWithPlants = (networkData?.entities.terroirs || []).filter(
+        (t) => terroirIds.has(t.id) && (networkData?.relationships.terroirPlants || []).some(r => r.terroirId === t.id)
       );
       
       const terroirAngleStep = (2 * Math.PI) / Math.max(terroirsWithPlants.length, 1);
@@ -306,7 +306,7 @@ export default function ReseauMoleculePlante() {
     });
 
     // 5. Créer les arêtes terroir-plante
-    (networkData.relationships.terroirPlants || []).forEach((rel) => {
+    (networkData?.relationships.terroirPlants || []).forEach((rel) => {
       if (!processedTerroirs.has(rel.terroirId) || !processedPlants.has(rel.plantId!)) return;
       
       edges.push({

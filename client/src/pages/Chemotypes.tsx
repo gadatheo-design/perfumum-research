@@ -141,24 +141,24 @@ export default function Chemotypes() {
   const [selectedPlant, setSelectedPlant] = useState<string>("all");
   const [selectedAxis, setSelectedAxis] = useState<string>("all");
 
-  const { data: chemotypes = [], isLoading } = trpc.chemotypes.getAll.useQuery();
-  const { data: stats } = trpc.chemotypes.getStats.useQuery();
+  const { data: chemotypes = [], isLoading } = trpc.chemotypes?.getAll.useQuery();
+  const { data: stats } = trpc.chemotypes?.getStats.useQuery();
 
   // Get unique plant names for filter
   const plantNames = useMemo(() => {
-    const names = new Set(chemotypes.map(ct => ct.plantName));
+    const names = new Set(chemotypes?.map(ct => ct.plantName));
     return Array.from(names).sort();
   }, [chemotypes]);
 
   // Get unique axes for filter
   const axes = useMemo(() => {
-    const axisSet = new Set(chemotypes.filter(ct => ct.climaticAxis).map(ct => ct.climaticAxis));
+    const axisSet = new Set(chemotypes?.filter(ct => ct.climaticAxis).map(ct => ct.climaticAxis));
     return Array.from(axisSet).sort();
   }, [chemotypes]);
 
   // Filter chemotypes
   const filteredChemotypes = useMemo(() => {
-    return chemotypes.filter(ct => {
+    return chemotypes?.filter(ct => {
       const matchesSearch = !searchQuery || 
         ct.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         ct.plantName.toLowerCase().includes(searchQuery.toLowerCase()) ||

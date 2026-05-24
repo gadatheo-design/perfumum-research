@@ -129,23 +129,23 @@ export default function Inventaire() {
   const stats = useMemo(() => {
     if (!matieres) return { total: 0, enStock: 0, aCommander: 0, epuise: 0, valeurTotale: 0 };
     
-    const enStock = matieres.filter(m => m.status === "en_stock").length;
-    const aCommander = matieres.filter(m => m.status === "a_commander").length;
-    const epuise = matieres.filter(m => m.status === "epuise").length;
-    const valeurTotale = matieres.reduce((acc, m) => {
+    const enStock = matieres?.filter(m => m.status === "en_stock").length;
+    const aCommander = matieres?.filter(m => m.status === "a_commander").length;
+    const epuise = matieres?.filter(m => m.status === "epuise").length;
+    const valeurTotale = matieres?.reduce((acc, m) => {
       const stock = m.stock || 0;
       const price = m.pricePerMl || 0;
       return acc + (stock * price / 100);
     }, 0);
 
-    return { total: matieres.length, enStock, aCommander, epuise, valeurTotale };
+    return { total: matieres?.length, enStock, aCommander, epuise, valeurTotale };
   }, [matieres]);
 
   // Filter and sort matieres
   const filteredMatieres = useMemo(() => {
     if (!matieres) return [];
     
-    let filtered = matieres.filter(m => {
+    let filtered = matieres?.filter(m => {
       const matchesSearch = m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (m.botanicalName?.toLowerCase().includes(searchQuery.toLowerCase())) ||
         (m.supplier?.toLowerCase().includes(searchQuery.toLowerCase()));

@@ -52,7 +52,7 @@ export default function ChemotypesExplorer() {
   const plantsWithChemotypes = useMemo(() => {
     if (!plantsData?.plants) return [];
     
-    return plantsData.plants
+    return plantsData?.plants
       .filter((plant: any) => plant.chemotypes && plant.chemotypes.length > 2)
       .map((plant: any) => {
         let chemotypes: Chemotype[] = [];

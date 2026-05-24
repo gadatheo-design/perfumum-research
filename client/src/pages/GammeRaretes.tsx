@@ -8,7 +8,7 @@ import { MoleculeListLinks } from "@/components/MoleculeLink";
 
 export default function GammeRaretes() {
   // Récupérer les molécules de la gamme Raretés
-  const { data: molecules } = trpc.molecules.list.useQuery();
+  const { data: molecules } = trpc.molecules?.list.useQuery();
   
   const raretesMolecules = molecules?.filter(m => 
     ["Oud (Agarwood)", "Absolue d'Iris (Orris Butter)", "Ambre Gris (Ambergris)", 
@@ -205,7 +205,7 @@ export default function GammeRaretes() {
           <div className="grid gap-6">
             {categories.map((cat) => {
               const Icon = cat.icon;
-              const catMolecules = raretesMolecules.filter(m => cat.molecules.includes(m.name));
+              const catMolecules = raretesMolecules.filter(m => cat.molecules?.includes(m.name));
               
               return (
                 <div key={cat.name} className="p-6 rounded-lg border bg-card/50">
@@ -299,7 +299,7 @@ export default function GammeRaretes() {
                     <div>
                       <h4 className="font-semibold mb-2 text-sm uppercase tracking-wide">Molécules Clés</h4>
                       <div className="flex flex-wrap gap-2">
-                        {accord.molecules.map((mol) => {
+                        {accord.molecules?.map((mol) => {
                           const molecule = raretesMolecules.find(m => m.name === mol);
                           return molecule ? (
                             <Link key={mol} href={`/molecule/${molecule.id}`}>

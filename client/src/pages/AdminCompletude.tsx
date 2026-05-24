@@ -89,7 +89,7 @@ export default function AdminCompletude() {
     return {};
   }, [filterScore]);
 
-  const { data: globalStats, isLoading: isLoadingGlobal, refetch: refetchGlobal } = trpc.completude.globalStats.useQuery(
+  const { data: globalStats, isLoading: isLoadingGlobal, refetch: refetchGlobal } = trpc.completude.globalStats?.useQuery(
     undefined,
     { enabled: !!user && user.role === 'admin' }
   );
@@ -131,20 +131,20 @@ export default function AdminCompletude() {
   // Filtrage local par recherche
   const filteredRm = useMemo(() => {
     if (!rmData?.items) return [];
-    if (!search) return rmData.items;
-    return rmData.items.filter((m: any) => m.name.toLowerCase().includes(search.toLowerCase()));
+    if (!search) return rmData?.items;
+    return rmData?.items.filter((m: any) => m.name.toLowerCase().includes(search.toLowerCase()));
   }, [rmData?.items, search]);
 
   const filteredPlants = useMemo(() => {
     if (!plantsData?.items) return [];
-    if (!search) return plantsData.items;
-    return plantsData.items.filter((p: any) => p.name.toLowerCase().includes(search.toLowerCase()));
+    if (!search) return plantsData?.items;
+    return plantsData?.items.filter((p: any) => p.name.toLowerCase().includes(search.toLowerCase()));
   }, [plantsData?.items, search]);
 
   const filteredTerroirs = useMemo(() => {
     if (!terroirsData?.items) return [];
-    if (!search) return terroirsData.items;
-    return terroirsData.items.filter((t: any) => t.name.toLowerCase().includes(search.toLowerCase()));
+    if (!search) return terroirsData?.items;
+    return terroirsData?.items.filter((t: any) => t.name.toLowerCase().includes(search.toLowerCase()));
   }, [terroirsData?.items, search]);
 
   if (!user || user.role !== 'admin') {
@@ -242,44 +242,44 @@ export default function AdminCompletude() {
                       <CardTitle className="text-base flex items-center gap-2">
                         <Package className="h-5 w-5 text-amber-600" />
                         Matières Premières
-                        <Badge variant="secondary">{globalStats.rawMaterials.total}</Badge>
+                        <Badge variant="secondary">{globalStats?.rawMaterials.total}</Badge>
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3">
                       <div className="space-y-1.5">
                         <div className="flex justify-between text-sm">
                           <span className="text-muted-foreground">Avec plante liée</span>
-                          <span className="font-semibold">{globalStats.rawMaterials.withPlant} / {globalStats.rawMaterials.total}</span>
+                          <span className="font-semibold">{globalStats?.rawMaterials.withPlant} / {globalStats?.rawMaterials.total}</span>
                         </div>
                         <div className="w-full bg-muted rounded-full h-1.5">
-                          <div className="bg-amber-500 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats.rawMaterials.withPlant / globalStats.rawMaterials.total * 100)}%` }} />
+                          <div className="bg-amber-500 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats?.rawMaterials.withPlant / globalStats?.rawMaterials.total * 100)}%` }} />
                         </div>
                       </div>
                       <div className="space-y-1.5">
                         <div className="flex justify-between text-sm">
                           <span className="text-muted-foreground">Avec terroir lié</span>
-                          <span className="font-semibold">{globalStats.rawMaterials.withTerroir} / {globalStats.rawMaterials.total}</span>
+                          <span className="font-semibold">{globalStats?.rawMaterials.withTerroir} / {globalStats?.rawMaterials.total}</span>
                         </div>
                         <div className="w-full bg-muted rounded-full h-1.5">
-                          <div className="bg-amber-400 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats.rawMaterials.withTerroir / globalStats.rawMaterials.total * 100)}%` }} />
+                          <div className="bg-amber-400 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats?.rawMaterials.withTerroir / globalStats?.rawMaterials.total * 100)}%` }} />
                         </div>
                       </div>
                       <div className="space-y-1.5">
                         <div className="flex justify-between text-sm">
                           <span className="text-muted-foreground">Avec famille olfactive</span>
-                          <span className="font-semibold">{globalStats.rawMaterials.withOlfFamily} / {globalStats.rawMaterials.total}</span>
+                          <span className="font-semibold">{globalStats?.rawMaterials.withOlfFamily} / {globalStats?.rawMaterials.total}</span>
                         </div>
                         <div className="w-full bg-muted rounded-full h-1.5">
-                          <div className="bg-amber-300 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats.rawMaterials.withOlfFamily / globalStats.rawMaterials.total * 100)}%` }} />
+                          <div className="bg-amber-300 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats?.rawMaterials.withOlfFamily / globalStats?.rawMaterials.total * 100)}%` }} />
                         </div>
                       </div>
                       <div className="space-y-1.5">
                         <div className="flex justify-between text-sm">
                           <span className="text-muted-foreground">Avec origine pays</span>
-                          <span className="font-semibold">{globalStats.rawMaterials.withOrigin} / {globalStats.rawMaterials.total}</span>
+                          <span className="font-semibold">{globalStats?.rawMaterials.withOrigin} / {globalStats?.rawMaterials.total}</span>
                         </div>
                         <div className="w-full bg-muted rounded-full h-1.5">
-                          <div className="bg-amber-200 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats.rawMaterials.withOrigin / globalStats.rawMaterials.total * 100)}%` }} />
+                          <div className="bg-amber-200 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats?.rawMaterials.withOrigin / globalStats?.rawMaterials.total * 100)}%` }} />
                         </div>
                       </div>
                       <Button variant="outline" size="sm" className="w-full mt-2" onClick={() => setActiveTab("rawMaterials")}>
@@ -294,35 +294,35 @@ export default function AdminCompletude() {
                       <CardTitle className="text-base flex items-center gap-2">
                         <Leaf className="h-5 w-5 text-emerald-600" />
                         Plantes
-                        <Badge variant="secondary">{globalStats.plants.total}</Badge>
+                        <Badge variant="secondary">{globalStats?.plants.total}</Badge>
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3">
                       <div className="space-y-1.5">
                         <div className="flex justify-between text-sm">
                           <span className="text-muted-foreground">Avec nom latin</span>
-                          <span className="font-semibold">{globalStats.plants.withLatin} / {globalStats.plants.total}</span>
+                          <span className="font-semibold">{globalStats?.plants.withLatin} / {globalStats?.plants.total}</span>
                         </div>
                         <div className="w-full bg-muted rounded-full h-1.5">
-                          <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats.plants.withLatin / globalStats.plants.total * 100)}%` }} />
+                          <div className="bg-emerald-500 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats?.plants.withLatin / globalStats?.plants.total * 100)}%` }} />
                         </div>
                       </div>
                       <div className="space-y-1.5">
                         <div className="flex justify-between text-sm">
                           <span className="text-muted-foreground">Avec description</span>
-                          <span className="font-semibold">{globalStats.plants.withDescription} / {globalStats.plants.total}</span>
+                          <span className="font-semibold">{globalStats?.plants.withDescription} / {globalStats?.plants.total}</span>
                         </div>
                         <div className="w-full bg-muted rounded-full h-1.5">
-                          <div className="bg-emerald-400 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats.plants.withDescription / globalStats.plants.total * 100)}%` }} />
+                          <div className="bg-emerald-400 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats?.plants.withDescription / globalStats?.plants.total * 100)}%` }} />
                         </div>
                       </div>
                       <div className="space-y-1.5">
                         <div className="flex justify-between text-sm">
                           <span className="text-muted-foreground">Avec image</span>
-                          <span className="font-semibold">{globalStats.plants.withImage} / {globalStats.plants.total}</span>
+                          <span className="font-semibold">{globalStats?.plants.withImage} / {globalStats?.plants.total}</span>
                         </div>
                         <div className="w-full bg-muted rounded-full h-1.5">
-                          <div className="bg-emerald-300 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats.plants.withImage / globalStats.plants.total * 100)}%` }} />
+                          <div className="bg-emerald-300 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats?.plants.withImage / globalStats?.plants.total * 100)}%` }} />
                         </div>
                       </div>
                       <Button variant="outline" size="sm" className="w-full mt-2" onClick={() => setActiveTab("plants")}>
@@ -337,26 +337,26 @@ export default function AdminCompletude() {
                       <CardTitle className="text-base flex items-center gap-2">
                         <MapPin className="h-5 w-5 text-blue-600" />
                         Terroirs
-                        <Badge variant="secondary">{globalStats.terroirs.total}</Badge>
+                        <Badge variant="secondary">{globalStats?.terroirs.total}</Badge>
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-3">
                       <div className="space-y-1.5">
                         <div className="flex justify-between text-sm">
                           <span className="text-muted-foreground">Avec description</span>
-                          <span className="font-semibold">{globalStats.terroirs.withDescription} / {globalStats.terroirs.total}</span>
+                          <span className="font-semibold">{globalStats?.terroirs.withDescription} / {globalStats?.terroirs.total}</span>
                         </div>
                         <div className="w-full bg-muted rounded-full h-1.5">
-                          <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats.terroirs.withDescription / globalStats.terroirs.total * 100)}%` }} />
+                          <div className="bg-blue-500 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats?.terroirs.withDescription / globalStats?.terroirs.total * 100)}%` }} />
                         </div>
                       </div>
                       <div className="space-y-1.5">
                         <div className="flex justify-between text-sm">
                           <span className="text-muted-foreground">Avec coordonnées GPS</span>
-                          <span className="font-semibold">{globalStats.terroirs.withCoords} / {globalStats.terroirs.total}</span>
+                          <span className="font-semibold">{globalStats?.terroirs.withCoords} / {globalStats?.terroirs.total}</span>
                         </div>
                         <div className="w-full bg-muted rounded-full h-1.5">
-                          <div className="bg-blue-400 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats.terroirs.withCoords / globalStats.terroirs.total * 100)}%` }} />
+                          <div className="bg-blue-400 h-1.5 rounded-full" style={{ width: `${Math.round(globalStats?.terroirs.withCoords / globalStats?.terroirs.total * 100)}%` }} />
                         </div>
                       </div>
                       <Button variant="outline" size="sm" className="w-full mt-2" onClick={() => setActiveTab("terroirs")}>
@@ -426,28 +426,28 @@ export default function AdminCompletude() {
                       <div className="p-3 rounded-lg bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900">
                         <p className="font-semibold text-red-700 dark:text-red-400 mb-1">🔴 Priorité haute</p>
                         <p className="text-muted-foreground">
-                          {globalStats.rawMaterials.total - globalStats.rawMaterials.withPlant} matières sans plante liée
+                          {globalStats?.rawMaterials.total - globalStats?.rawMaterials.withPlant} matières sans plante liée
                         </p>
                         <p className="text-muted-foreground">
-                          {globalStats.plants.total - globalStats.plants.withImage} plantes sans image
+                          {globalStats?.plants.total - globalStats?.plants.withImage} plantes sans image
                         </p>
                       </div>
                       <div className="p-3 rounded-lg bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900">
                         <p className="font-semibold text-amber-700 dark:text-amber-400 mb-1">🟡 Priorité moyenne</p>
                         <p className="text-muted-foreground">
-                          {globalStats.rawMaterials.total - globalStats.rawMaterials.withOlfFamily} matières sans famille olfactive
+                          {globalStats?.rawMaterials.total - globalStats?.rawMaterials.withOlfFamily} matières sans famille olfactive
                         </p>
                         <p className="text-muted-foreground">
-                          {globalStats.terroirs.total - globalStats.terroirs.withCoords} terroirs sans GPS
+                          {globalStats?.terroirs.total - globalStats?.terroirs.withCoords} terroirs sans GPS
                         </p>
                       </div>
                       <div className="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900">
                         <p className="font-semibold text-emerald-700 dark:text-emerald-400 mb-1">🟢 Bonne couverture</p>
                         <p className="text-muted-foreground">
-                          {globalStats.plants.withLatin}/{globalStats.plants.total} plantes avec nom latin ({Math.round(globalStats.plants.withLatin / globalStats.plants.total * 100)}%)
+                          {globalStats?.plants.withLatin}/{globalStats?.plants.total} plantes avec nom latin ({Math.round(globalStats?.plants.withLatin / globalStats?.plants.total * 100)}%)
                         </p>
                         <p className="text-muted-foreground">
-                          {globalStats.rawMaterials.withBoth} matières avec plante + terroir
+                          {globalStats?.rawMaterials.withBoth} matières avec plante + terroir
                         </p>
                       </div>
                     </div>
@@ -518,25 +518,25 @@ export default function AdminCompletude() {
             {activeTab === "rawMaterials" && rmData && (
               <Card className="p-4">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-medium">Distribution des scores — {rmData.total} entrées · Score moyen : {rmData.avgScore}%</span>
+                  <span className="text-sm font-medium">Distribution des scores — {rmData?.total} entrées · Score moyen : {rmData?.avgScore}%</span>
                 </div>
-                <DistributionBar distribution={rmData.distribution as { rouge: number; orange: number; vert: number }} total={rmData.total} />
+                <DistributionBar distribution={rmData?.distribution as { rouge: number; orange: number; vert: number }} total={rmData?.total} />
               </Card>
             )}
             {activeTab === "plants" && plantsData && (
               <Card className="p-4">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-medium">Distribution des scores — {plantsData.total} entrées · Score moyen : {plantsData.avgScore}%</span>
+                  <span className="text-sm font-medium">Distribution des scores — {plantsData?.total} entrées · Score moyen : {plantsData?.avgScore}%</span>
                 </div>
-                <DistributionBar distribution={plantsData.distribution as { rouge: number; orange: number; vert: number }} total={plantsData.total} />
+                <DistributionBar distribution={plantsData?.distribution as { rouge: number; orange: number; vert: number }} total={plantsData?.total} />
               </Card>
             )}
             {activeTab === "terroirs" && terroirsData && (
               <Card className="p-4">
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-medium">Distribution des scores — {terroirsData.total} entrées · Score moyen : {terroirsData.avgScore}%</span>
+                  <span className="text-sm font-medium">Distribution des scores — {terroirsData?.total} entrées · Score moyen : {terroirsData?.avgScore}%</span>
                 </div>
-                <DistributionBar distribution={terroirsData.distribution as { rouge: number; orange: number; vert: number }} total={terroirsData.total} />
+                <DistributionBar distribution={terroirsData?.distribution as { rouge: number; orange: number; vert: number }} total={terroirsData?.total} />
               </Card>
             )}
 
@@ -703,9 +703,9 @@ export default function AdminCompletude() {
                 </div>
 
                 {/* Pagination */}
-                {((activeTab === "rawMaterials" && rmData && rmData.total > LIMIT) ||
-                  (activeTab === "plants" && plantsData && plantsData.total > LIMIT) ||
-                  (activeTab === "terroirs" && terroirsData && terroirsData.total > LIMIT)) && (
+                {((activeTab === "rawMaterials" && rmData && rmData?.total > LIMIT) ||
+                  (activeTab === "plants" && plantsData && plantsData?.total > LIMIT) ||
+                  (activeTab === "terroirs" && terroirsData && terroirsData?.total > LIMIT)) && (
                   <div className="flex items-center justify-between px-4 py-3 border-t">
                     <span className="text-sm text-muted-foreground">
                       Page {page + 1} · {LIMIT} par page
@@ -719,9 +719,9 @@ export default function AdminCompletude() {
                         size="sm"
                         onClick={() => setPage(p => p + 1)}
                         disabled={
-                          (activeTab === "rawMaterials" && rmData ? (page + 1) * LIMIT >= rmData.total : true) ||
-                          (activeTab === "plants" && plantsData ? (page + 1) * LIMIT >= plantsData.total : true) ||
-                          (activeTab === "terroirs" && terroirsData ? (page + 1) * LIMIT >= terroirsData.total : true)
+                          (activeTab === "rawMaterials" && rmData ? (page + 1) * LIMIT >= rmData?.total : true) ||
+                          (activeTab === "plants" && plantsData ? (page + 1) * LIMIT >= plantsData?.total : true) ||
+                          (activeTab === "terroirs" && terroirsData ? (page + 1) * LIMIT >= terroirsData?.total : true)
                         }
                       >
                         <ChevronRight className="h-4 w-4" />

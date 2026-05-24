@@ -67,7 +67,7 @@ export default function CorpusBurkinaFaso() {
   const [search, setSearch] = useState("");
   const [familyFilter, setFamilyFilter] = useState("all");
 
-  const { data: plants, isLoading } = trpc.plants.getByOrigin.useQuery(
+  const { data: plants, isLoading } = trpc.plants?.getByOrigin.useQuery(
     { origin: "Burkina" },
     { staleTime: 5 * 60 * 1000 }
   );
@@ -75,7 +75,7 @@ export default function CorpusBurkinaFaso() {
   const families = useMemo(() => {
     if (!plants) return [];
     const fam = new Map<string, number>();
-    plants.forEach((p: any) => {
+    plants?.forEach((p: any) => {
       if (p.family) fam.set(p.family, (fam.get(p.family) || 0) + 1);
     });
     return Array.from(fam.entries())
@@ -85,7 +85,7 @@ export default function CorpusBurkinaFaso() {
 
   const filtered = useMemo(() => {
     if (!plants) return [];
-    return plants.filter((p: any) => {
+    return plants?.filter((p: any) => {
       const matchSearch =
         !search ||
         p.name?.toLowerCase().includes(search.toLowerCase()) ||

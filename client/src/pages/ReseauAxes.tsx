@@ -155,8 +155,8 @@ function NetworkGraph({
     const centerY = dimensions.height / 2;
     const radius = Math.min(dimensions.width, dimensions.height) * 0.35;
     
-    return axes.map((axis, i) => {
-      const angle = (i / axes.length) * 2 * Math.PI - Math.PI / 2;
+    return axes?.map((axis, i) => {
+      const angle = (i / axes?.length) * 2 * Math.PI - Math.PI / 2;
       return {
         ...axis,
         x: centerX + radius * Math.cos(angle),
@@ -403,12 +403,12 @@ export default function ReseauAxes() {
   const entries = useMemo(() => {
     if (!entriesData) return [];
     if (Array.isArray(entriesData)) return entriesData;
-    if (entriesData.entries) return entriesData.entries;
+    if (entriesData?.entries) return entriesData?.entries;
     return [];
   }, [entriesData]);
   
   // Récupérer les liens axe-bibliographie pour chaque axe
-  const axisReferenceQueries = axes.map((axis: any) => 
+  const axisReferenceQueries = axes?.map((axis: any) => 
     trpc.researchAxes.getBibliography.useQuery(axis.id, {
       enabled: !!axis.id,
     })
@@ -417,7 +417,7 @@ export default function ReseauAxes() {
   // Construire la map des références par axe
   const referencesByAxis = useMemo(() => {
     const map: Record<string, any[]> = {};
-    axes.forEach((axis: any, idx: number) => {
+    axes?.forEach((axis: any, idx: number) => {
       const refs = axisReferenceQueries[idx]?.data || [];
       map[axis.axisCode] = refs;
     });
@@ -525,7 +525,7 @@ export default function ReseauAxes() {
                   </CardTitle>
                   <CardDescription>
                     Cliquez sur un axe pour filtrer les références associées. 
-                    Les connexions représentent les références partagées entre axes.
+                    Les connexions représentent les références partagées entre axes?.
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -626,7 +626,7 @@ export default function ReseauAxes() {
             {/* Vue par axe */}
             <TabsContent value="axes" className="space-y-6">
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {axes.map((axis: any) => (
+                {axes?.map((axis: any) => (
                   <AxisCard
                     key={axis.id}
                     axis={axis}
@@ -823,7 +823,7 @@ export default function ReseauAxes() {
                       </div>
                       <div>
                         <p className="text-muted-foreground">Axes de recherche</p>
-                        <p className="text-2xl font-bold">{axes.length}</p>
+                        <p className="text-2xl font-bold">{axes?.length}</p>
                       </div>
                       <div>
                         <p className="text-muted-foreground">Connexions</p>

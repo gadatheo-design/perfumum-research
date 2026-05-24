@@ -18,8 +18,8 @@ import { trpc } from "@/lib/trpc";
 
 export default function AnalyticsDashboard() {
   // Récupérer les statistiques
-  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
-  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes.list.useQuery();
+  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules?.list.useQuery();
+  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes?.list.useQuery();
 
   // Calculer les statistiques par famille
   const familleStats = molecules?.reduce((acc, mol) => {
@@ -262,7 +262,7 @@ export default function AnalyticsDashboard() {
               </div>
               <div className="text-center p-4 rounded-lg bg-blue-50 dark:bg-blue-950">
                 <div className="text-3xl font-bold text-blue-600 dark:text-blue-400">
-                  {molecules?.length ? Math.round((radarStats.complete / molecules.length) * 100) : 0}%
+                  {molecules?.length ? Math.round((radarStats.complete / molecules?.length) * 100) : 0}%
                 </div>
                 <div className="text-sm text-muted-foreground">Taux de complétion</div>
               </div>

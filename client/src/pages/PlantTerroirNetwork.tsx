@@ -31,11 +31,11 @@ export function PlantTerroirNetwork() {
   const { data: stats } = trpc.plantTerroirs.getNetworkStats.useQuery();
 
   // Query pour les terroirs (pour le filtre par pays)
-  const { data: terroirs } = trpc.terroirs.getAll.useQuery();
+  const { data: terroirs } = trpc.terroirs?.getAll.useQuery();
 
   // Extraire les pays uniques
   const countries: string[] = terroirs 
-    ? Array.from(new Set(terroirs.map((t: any) => t.country).filter((c: string | null | undefined): c is string => Boolean(c))))
+    ? Array.from(new Set(terroirs?.map((t: any) => t.country).filter((c: string | null | undefined): c is string => Boolean(c))))
     : [];
 
   if (isLoading) {
@@ -86,15 +86,15 @@ export function PlantTerroirNetwork() {
           <CardContent>
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
-                <div className="text-2xl font-bold text-primary">{stats.totalRelations}</div>
+                <div className="text-2xl font-bold text-primary">{stats?.totalRelations}</div>
                 <p className="text-xs text-muted-foreground">Relations plante-terroir</p>
               </div>
               <div>
-                <div className="text-2xl font-bold text-green-600">{stats.plantsWithTerroirs}</div>
+                <div className="text-2xl font-bold text-green-600">{stats?.plantsWithTerroirs}</div>
                 <p className="text-xs text-muted-foreground">Plantes avec terroirs</p>
               </div>
               <div>
-                <div className="text-2xl font-bold text-orange-600">{stats.terroirsWithPlants}</div>
+                <div className="text-2xl font-bold text-orange-600">{stats?.terroirsWithPlants}</div>
                 <p className="text-xs text-muted-foreground">Terroirs avec plantes</p>
               </div>
             </div>
@@ -192,10 +192,10 @@ export function PlantTerroirNetwork() {
           {/* Graphe */}
           <Card>
             <CardContent className="pt-6">
-              {networkData && networkData.nodes.length > 0 ? (
+              {networkData && networkData?.nodes.length > 0 ? (
                 <PlantTerroirNetworkGraph 
-                  nodes={networkData.nodes as NetworkNode[]} 
-                  links={networkData.links as NetworkLink[]}
+                  nodes={networkData?.nodes as NetworkNode[]} 
+                  links={networkData?.links as NetworkLink[]}
                   width={1200}
                   height={700}
                 />

@@ -148,7 +148,7 @@ export default function PlantDetail() {
   );
 
   // NOSE Phase 1 — Émissions olfactives GC-MS
-  const { data: olfactiveEmissions } = trpc.olfactiveEmissions.getByPlant.useQuery(
+  const { data: olfactiveEmissions } = trpc.olfactiveEmissions?.getByPlant.useQuery(
     { plantId, limit: 100 },
     { enabled: plantId > 0 }
   );
@@ -175,7 +175,7 @@ export default function PlantDetail() {
   useBreadcrumbSegments(
     plantDetails ? [
       { label: "Plantes", path: "/plants" },
-      { label: plantDetails.name, path: `/plants/${plantId}` },
+      { label: plantDetails?.name, path: `/plants/${plantId}` },
     ] : null,
     [plantDetails?.name, plantId]
   );
@@ -360,12 +360,12 @@ export default function PlantDetail() {
           <TabsTrigger value="gcms" className="flex items-center gap-1">
             <FlaskConical className="h-3 w-3" />
             <span className="hidden sm:inline">GC-MS</span>
-            {olfactiveEmissions && olfactiveEmissions.total > 0 && (
-              <Badge variant="secondary" className="ml-1 text-xs px-1">{olfactiveEmissions.total}</Badge>
+            {olfactiveEmissions && olfactiveEmissions?.total > 0 && (
+              <Badge variant="secondary" className="ml-1 text-xs px-1">{olfactiveEmissions?.total}</Badge>
             )}
           </TabsTrigger>
-          {plantPerfumes && plantPerfumes.length > 0 && (
-            <TabsTrigger value="perfumes">Parfums ({plantPerfumes.length})</TabsTrigger>
+          {plantPerfumes && plantPerfumes?.length > 0 && (
+            <TabsTrigger value="perfumes">Parfums ({plantPerfumes?.length})</TabsTrigger>
           )}
           <TabsTrigger value="europeana" className="flex items-center gap-1">
             <Globe className="h-3 w-3 text-cyan-600" />
@@ -377,10 +377,10 @@ export default function PlantDetail() {
               <span className="hidden sm:inline">Distribution</span>
             </TabsTrigger>
           )}
-          {scientificPubs && scientificPubs.length > 0 && (
+          {scientificPubs && scientificPubs?.length > 0 && (
             <TabsTrigger value="publications" className="flex items-center gap-1">
               <BookOpen className="h-3 w-3 text-violet-600" />
-              <span className="hidden sm:inline">Publications ({scientificPubs.length})</span>
+              <span className="hidden sm:inline">Publications ({scientificPubs?.length})</span>
             </TabsTrigger>
           )}
           {plt.certifications && Array.isArray(plt.certifications) && plt.certifications.length > 0 && (
@@ -599,9 +599,9 @@ export default function PlantDetail() {
         {/* Variétés */}
         <TabsContent value="varieties" className="space-y-6">
           <TabErrorBoundary tabLabel="Variétés">
-          {varieties && varieties.length > 0 ? (
+          {varieties && varieties?.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {varieties.map((variety: unknown) => (
+              {varieties?.map((variety: unknown) => (
                 <Link key={variety.id} href={`/varietes/${variety.id}`}>
                 <Card className="hover:shadow-md hover:border-primary/50 transition-all cursor-pointer group">
                   <CardHeader>
@@ -747,9 +747,9 @@ export default function PlantDetail() {
         {/* Échantillons */}
         <TabsContent value="samples" className="space-y-6">
           <TabErrorBoundary tabLabel="Échantillons">
-          {samples && samples.length > 0 ? (
+          {samples && samples?.length > 0 ? (
             <div className="space-y-4">
-              {samples.map((sample: unknown) => (
+              {samples?.map((sample: unknown) => (
                 <Card key={sample.id}>
                   <CardHeader>
                     <div className="flex items-start justify-between">
@@ -833,9 +833,9 @@ export default function PlantDetail() {
         {/* Analyses */}
         <TabsContent value="analyses" className="space-y-6">
           <TabErrorBoundary tabLabel="Analyses">
-          {analyses && analyses.length > 0 ? (
+          {analyses && analyses?.length > 0 ? (
             <div className="space-y-4">
-              {analyses.map((analysis: unknown) => (
+              {analyses?.map((analysis: unknown) => (
                 <Card key={analysis.id}>
                   <CardHeader>
                     <div className="flex items-start justify-between">
@@ -975,7 +975,7 @@ export default function PlantDetail() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              {civilizationalMarkers && civilizationalMarkers.length > 0 ? (
+              {civilizationalMarkers && civilizationalMarkers?.length > 0 ? (
                 <div className="space-y-4">
                   {/* Timeline horizontale */}
                   <div className="relative">
@@ -1244,29 +1244,29 @@ export default function PlantDetail() {
                 <div className="flex items-center justify-center py-8">
                   <Loader2 className="h-6 w-6 animate-spin text-primary" />
                 </div>
-              ) : plantMolecules && plantMolecules.length > 0 ? (
+              ) : plantMolecules && plantMolecules?.length > 0 ? (
                 <div className="space-y-4">
                   {/* Résumé des restrictions */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-4 bg-muted/50 rounded-lg">
                     <div className="text-center">
-                      <p className="text-2xl font-bold text-primary">{plantMolecules.length}</p>
+                      <p className="text-2xl font-bold text-primary">{plantMolecules?.length}</p>
                       <p className="text-xs text-muted-foreground">Molécules documentées</p>
                     </div>
                     <div className="text-center">
                       <p className="text-2xl font-bold text-orange-500">
-                        {plantMolecules.filter((pm: unknown) => pm.ifraRestrictions?.some((r: unknown) => r.restrictionType === 'restricted')).length}
+                        {plantMolecules?.filter((pm: unknown) => pm.ifraRestrictions?.some((r: unknown) => r.restrictionType === 'restricted')).length}
                       </p>
                       <p className="text-xs text-muted-foreground">Avec restrictions</p>
                     </div>
                     <div className="text-center">
                       <p className="text-2xl font-bold text-yellow-500">
-                        {plantMolecules.filter((pm: unknown) => pm.ifraRestrictions?.some((r: unknown) => r.restrictionType === 'specification')).length}
+                        {plantMolecules?.filter((pm: unknown) => pm.ifraRestrictions?.some((r: unknown) => r.restrictionType === 'specification')).length}
                       </p>
                       <p className="text-xs text-muted-foreground">Spécifications</p>
                     </div>
                     <div className="text-center">
                       <p className="text-2xl font-bold text-green-500">
-                        {plantMolecules.filter((pm: unknown) => !pm.ifraRestrictions?.length || pm.ifraRestrictions?.some((r: unknown) => r.restrictionType === 'no_restriction')).length}
+                        {plantMolecules?.filter((pm: unknown) => !pm.ifraRestrictions?.length || pm.ifraRestrictions?.some((r: unknown) => r.restrictionType === 'no_restriction')).length}
                       </p>
                       <p className="text-xs text-muted-foreground">Sans restriction</p>
                     </div>
@@ -1275,7 +1275,7 @@ export default function PlantDetail() {
                   {/* Liste des molécules avec leurs restrictions */}
                   <div className="space-y-3">
                     <h4 className="font-medium">Détail par molécule</h4>
-                    {plantMolecules.map((pm: unknown) => (
+                    {plantMolecules?.map((pm: unknown) => (
                       <div key={pm.moleculeId} className="p-4 border rounded-lg">
                         <div className="flex items-start justify-between mb-2">
                           <div>
@@ -1387,7 +1387,7 @@ export default function PlantDetail() {
         </TabsContent>
 
         {/* Parfums Emblématiques */}
-        {plantPerfumes && plantPerfumes.length > 0 && (
+        {plantPerfumes && plantPerfumes?.length > 0 && (
           <TabsContent value="perfumes" className="space-y-6">
             <TabErrorBoundary tabLabel="Parfums">
             <Card>
@@ -1466,7 +1466,7 @@ export default function PlantDetail() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                {!olfactiveEmissions || olfactiveEmissions.total === 0 ? (
+                {!olfactiveEmissions || olfactiveEmissions?.total === 0 ? (
                   <div className="text-center py-8 text-muted-foreground">
                     <FlaskConical className="h-10 w-10 mx-auto mb-3 opacity-30" />
                     <p>Aucune donnée GC-MS disponible pour cette plante.</p>
@@ -1474,8 +1474,8 @@ export default function PlantDetail() {
                 ) : (
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Badge variant="outline">{olfactiveEmissions.total} composés identifiés</Badge>
-                      {olfactiveEmissions.emissions.some((e: React.ChangeEvent<HTMLInputElement>) => e.role === 'signature') && (
+                      <Badge variant="outline">{olfactiveEmissions?.total} composés identifiés</Badge>
+                      {olfactiveEmissions?.emissions.some((e: React.ChangeEvent<HTMLInputElement>) => e.role === 'signature') && (
                         <Badge className="bg-amber-500/10 text-amber-700 border-amber-300">Molécules signature présentes</Badge>
                       )}
                     </div>
@@ -1492,7 +1492,7 @@ export default function PlantDetail() {
                           </tr>
                         </thead>
                         <tbody>
-                          {olfactiveEmissions.emissions.map((e: React.ChangeEvent<HTMLInputElement>) => (
+                          {olfactiveEmissions?.emissions.map((e: React.ChangeEvent<HTMLInputElement>) => (
                             <tr key={e.id} className="border-b hover:bg-muted/30 transition-colors">
                               <td className="py-2 pr-4">
                                 {e.molecule_id ? (
@@ -1526,9 +1526,9 @@ export default function PlantDetail() {
                         </tbody>
                       </table>
                     </div>
-                    {olfactiveEmissions.emissions[0]?.analysis_source && (
+                    {olfactiveEmissions?.emissions[0]?.analysis_source && (
                       <p className="text-xs text-muted-foreground mt-2">
-                        Source : {olfactiveEmissions.emissions[0].analysis_source}
+                        Source : {olfactiveEmissions?.emissions[0].analysis_source}
                       </p>
                     )}
                   </div>
@@ -1594,15 +1594,15 @@ export default function PlantDetail() {
                   <CardContent className="space-y-4">
                     <div className="flex items-center gap-3 p-3 bg-emerald-50 dark:bg-emerald-950/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
                       <div className="text-2xl font-bold text-emerald-700 dark:text-emerald-400">
-                        {gbifData.gbif_occurrence_count?.toLocaleString('fr-FR') || '—'}
+                        {gbifData?.gbif_occurrence_count?.toLocaleString('fr-FR') || '—'}
                       </div>
                       <div className="text-sm text-muted-foreground">
                         occurrences répertoriées dans le monde
                       </div>
                     </div>
 
-                    {gbifData.gbif_countries && (() => {
-                      const countries = safeJsonParse(gbifData.gbif_countries, []) as Array<{country: string, count: number}>;
+                    {gbifData?.gbif_countries && (() => {
+                      const countries = safeJsonParse(gbifData?.gbif_countries, []) as Array<{country: string, count: number}>;
                       if (!countries.length) return null;
                       const total = countries.reduce((s: number, c: {country: string, count: number}) => s + c.count, 0);
                       const top5 = countries.slice(0, 5);
@@ -1627,9 +1627,9 @@ export default function PlantDetail() {
                       );
                     })()}
 
-                    {gbifData.gbif_id && (
+                    {gbifData?.gbif_id && (
                       <a
-                        href={`https://www.gbif.org/species/${gbifData.gbif_id}`}
+                        href={`https://www.gbif.org/species/${gbifData?.gbif_id}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center gap-1.5 text-sm text-emerald-600 hover:text-emerald-700 hover:underline"
@@ -1639,16 +1639,16 @@ export default function PlantDetail() {
                       </a>
                     )}
 
-                    {gbifData.iucn_id && (
+                    {gbifData?.iucn_id && (
                       <div className="pt-2 border-t">
                         <a
-                          href={`https://www.iucnredlist.org/species/${gbifData.iucn_id}`}
+                          href={`https://www.iucnredlist.org/species/${gbifData?.iucn_id}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-1.5 text-sm text-orange-600 hover:text-orange-700 hover:underline"
                         >
                           <ExternalLink className="h-3.5 w-3.5" />
-                          Fiche IUCN Red List (ID {gbifData.iucn_id})
+                          Fiche IUCN Red List (ID {gbifData?.iucn_id})
                         </a>
                       </div>
                     )}
@@ -1667,12 +1667,12 @@ export default function PlantDetail() {
         {/* Publications scientifiques — OpenAlex */}
         <TabsContent value="publications" className="space-y-4">
           <TabErrorBoundary tabLabel="Publications scientifiques">
-            {scientificPubs && scientificPubs.length > 0 ? (
+            {scientificPubs && scientificPubs?.length > 0 ? (
               <div className="space-y-3">
                 <p className="text-sm text-muted-foreground">
-                  {scientificPubs.length} publication{scientificPubs.length > 1 ? 's' : ''} scientifique{scientificPubs.length > 1 ? 's' : ''} répertoriée{scientificPubs.length > 1 ? 's' : ''} via OpenAlex
+                  {scientificPubs?.length} publication{scientificPubs?.length > 1 ? 's' : ''} scientifique{scientificPubs?.length > 1 ? 's' : ''} répertoriée{scientificPubs?.length > 1 ? 's' : ''} via OpenAlex
                 </p>
-                {scientificPubs.map((pub: unknown) => (
+                {scientificPubs?.map((pub: unknown) => (
                   <Card key={pub.id} className="hover:shadow-sm transition-shadow">
                     <CardContent className="p-4 space-y-1.5">
                       <div className="flex items-start justify-between gap-2">
@@ -1937,7 +1937,7 @@ export default function PlantDetail() {
           open={contribModalOpen}
           onClose={() => { setContribModalOpen(false); setContribDefaultType(undefined); }}
           plantId={plantId}
-          plantName={plantDetails.name}
+          plantName={plantDetails?.name}
           defaultType={contribDefaultType as string}
         />
       )}

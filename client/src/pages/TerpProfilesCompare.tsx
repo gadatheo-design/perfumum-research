@@ -98,7 +98,7 @@ function ComparisonRadarChart({ profiles }: { profiles: any[] }) {
           );
         })}
         {/* Profile polygons */}
-        {profiles.map((profile, profileIndex) => {
+        {profiles?.map((profile, profileIndex) => {
           const data = getProfileData(profile);
           const pathData = data
             .map((value, i) => {
@@ -134,7 +134,7 @@ function ComparisonRadarChart({ profiles }: { profiles: any[] }) {
       </svg>
       {/* Legend */}
       <div className="flex flex-wrap justify-center gap-4">
-        {profiles.map((profile, index) => (
+        {profiles?.map((profile, index) => (
           <div key={profile.id} className="flex items-center gap-2">
             <div 
               className="w-3 h-3 rounded-full" 
@@ -152,7 +152,7 @@ function ComparisonRadarChart({ profiles }: { profiles: any[] }) {
 function MoleculeBarChart({ profiles }: { profiles: any[] }) {
   const allMolecules = useMemo(() => {
     const moleculeSet = new Set<string>();
-    profiles.forEach(profile => {
+    profiles?.forEach(profile => {
       try {
         const concentrate = typeof profile.concentrate === 'string' 
           ? safeJsonParse(profile.concentrate, null) 
@@ -195,7 +195,7 @@ function MoleculeBarChart({ profiles }: { profiles: any[] }) {
         <div key={molecule} className="space-y-1">
           <div className="text-sm font-medium">{molecule}</div>
           <div className="flex gap-1">
-            {profiles.map((profile, index) => {
+            {profiles?.map((profile, index) => {
               const percentage = getPercentage(profile, molecule);
               return (
                 <div key={profile.id} className="flex-1">
@@ -216,7 +216,7 @@ function MoleculeBarChart({ profiles }: { profiles: any[] }) {
       ))}
       {/* Legend */}
       <div className="flex flex-wrap gap-4 pt-4 border-t">
-        {profiles.map((profile, index) => (
+        {profiles?.map((profile, index) => (
           <div key={profile.id} className="flex items-center gap-2">
             <div 
               className="w-3 h-3 rounded" 
@@ -236,7 +236,7 @@ export default function TerpProfilesCompare() {
 
   const selectedProfilesData = useMemo(() => {
     if (!profiles) return [];
-    return profiles.filter((p: any) => selectedProfiles.includes(p.id));
+    return profiles?.filter((p: any) => selectedProfiles.includes(p.id));
   }, [profiles, selectedProfiles]);
 
   const toggleProfile = (id: number) => {
@@ -268,7 +268,7 @@ export default function TerpProfilesCompare() {
   // Group profiles by collection
   const groupedProfiles = useMemo(() => {
     if (!profiles) return {};
-    return profiles.reduce((acc: Record<string, any[]>, profile: any) => {
+    return profiles?.reduce((acc: Record<string, any[]>, profile: any) => {
       const collection = profile.collection || 'Autres';
       if (!acc[collection]) acc[collection] = [];
       acc[collection].push(profile);

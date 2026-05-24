@@ -21,20 +21,20 @@ interface SankeyData {
 export default function SankeyFlow() {
   const [sankeyData, setSankeyData] = useState<SankeyData | null>(null);
   const [viewMode, setViewMode] = useState<"category" | "family">("category");
-  const { data: recettes, isLoading } = trpc.recettes.listWithRadar.useQuery({});
+  const { data: recettes, isLoading } = trpc.recettes?.listWithRadar.useQuery({});
 
   // Statistiques calculées
   const stats = useMemo(() => {
     if (!recettes) return null;
     
     const categoryCount = new Map<string, number>();
-    recettes.forEach((recette) => {
+    recettes?.forEach((recette) => {
       const category = recette.category || "Autre";
       categoryCount.set(category, (categoryCount.get(category) || 0) + 1);
     });
 
     return {
-      totalRecettes: recettes.length,
+      totalRecettes: recettes?.length,
       categories: categoryCount.size,
       topCategory: Array.from(categoryCount.entries()).sort((a, b) => b[1] - a[1])[0],
       categoryBreakdown: Array.from(categoryCount.entries()).sort((a, b) => b[1] - a[1]),
@@ -63,7 +63,7 @@ export default function SankeyFlow() {
 
     // Count recettes by category
     const categoryCount = new Map<string, number>();
-    recettes.forEach((recette) => {
+    recettes?.forEach((recette) => {
       const category = recette.category || "Autre";
       categoryCount.set(category, (categoryCount.get(category) || 0) + 1);
     });
@@ -175,7 +175,7 @@ export default function SankeyFlow() {
                         Diagramme de Sankey
                       </CardTitle>
                       <CardDescription className="mt-1">
-                        Les flux montrent la distribution des recettes par catégorie. La largeur représente le nombre de recettes.
+                        Les flux montrent la distribution des recettes par catégorie. La largeur représente le nombre de recettes?.
                       </CardDescription>
                     </div>
                   </div>

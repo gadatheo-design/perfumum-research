@@ -46,17 +46,17 @@ export default function AdminChemicalFamilyLinking() {
   const [expandedFamilies, setExpandedFamilies] = useState<Set<number>>(new Set());
 
   // Queries
-  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
+  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules?.list.useQuery();
   const { data: chemicalFamilies, isLoading: loadingFamilies, refetch: refetchFamilies } = 
-    trpc.chemicalFamilies.listWithCount.useQuery();
+    trpc.chemicalFamilies?.listWithCount.useQuery();
   const { data: moleculeFamilies, refetch: refetchMoleculeFamilies } = 
-    trpc.chemicalFamilies.getForMolecule.useQuery(
+    trpc.chemicalFamilies?.getForMolecule.useQuery(
       { moleculeId: selectedMoleculeId! },
       { enabled: !!selectedMoleculeId }
     );
 
   // Mutations
-  const linkMutation = trpc.chemicalFamilies.linkMolecule.useMutation({
+  const linkMutation = trpc.chemicalFamilies?.linkMolecule.useMutation({
     onSuccess: () => {
       showToast("Liaison créée avec succès");
       refetchFamilies();
@@ -65,7 +65,7 @@ export default function AdminChemicalFamilyLinking() {
     onError: (error) => showToast(`Erreur: ${error.message}`),
   });
 
-  const unlinkMutation = trpc.chemicalFamilies.unlinkMolecule.useMutation({
+  const unlinkMutation = trpc.chemicalFamilies?.unlinkMolecule.useMutation({
     onSuccess: () => {
       showToast("Liaison supprimée");
       refetchFamilies();
@@ -82,7 +82,7 @@ export default function AdminChemicalFamilyLinking() {
   // Filter molecules
   const filteredMolecules = useMemo(() => {
     if (!molecules) return [];
-    return molecules.filter((m) =>
+    return molecules?.filter((m) =>
       m.name?.toLowerCase().includes(searchMolecule.toLowerCase()) ||
       m.iupacName?.toLowerCase().includes(searchMolecule.toLowerCase())
     );
@@ -91,7 +91,7 @@ export default function AdminChemicalFamilyLinking() {
   // Filter families
   const filteredFamilies = useMemo(() => {
     if (!chemicalFamilies) return [];
-    let filtered = chemicalFamilies.filter((f) =>
+    let filtered = chemicalFamilies?.filter((f) =>
       f.name?.toLowerCase().includes(searchFamily.toLowerCase()) ||
       f.type?.toLowerCase().includes(searchFamily.toLowerCase())
     );
@@ -137,11 +137,11 @@ export default function AdminChemicalFamilyLinking() {
   // Stats
   const stats = useMemo(() => {
     if (!chemicalFamilies || !molecules) return { totalFamilies: 0, linkedFamilies: 0, totalMolecules: 0 };
-    const linkedFamilies = chemicalFamilies.filter(f => (f.moleculeCount || 0) > 0).length;
+    const linkedFamilies = chemicalFamilies?.filter(f => (f.moleculeCount || 0) > 0).length;
     return {
-      totalFamilies: chemicalFamilies.length,
+      totalFamilies: chemicalFamilies?.length,
       linkedFamilies,
-      totalMolecules: molecules.length,
+      totalMolecules: molecules?.length,
     };
   }, [chemicalFamilies, molecules]);
 
@@ -259,9 +259,9 @@ export default function AdminChemicalFamilyLinking() {
                     {moleculeFamilies?.length || 0} famille(s)
                   </Badge>
                 </div>
-                {moleculeFamilies && moleculeFamilies.length > 0 && (
+                {moleculeFamilies && moleculeFamilies?.length > 0 && (
                   <div className="mt-3 flex flex-wrap gap-1">
-                    {moleculeFamilies.map(f => (
+                    {moleculeFamilies?.map(f => (
                       <Badge key={f.id} variant="outline" className="text-xs">
                         {f.name}
                       </Badge>

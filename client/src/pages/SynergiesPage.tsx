@@ -384,19 +384,19 @@ export default function Synergies() {
   const [selectedSynergy, setSelectedSynergy] = useState<any>(null);
   const [graphFullscreen, setGraphFullscreen] = useState(false);
   
-  const { data: synergies, isLoading, error } = trpc.synergies.list.useQuery();
-  const { data: moleculeSynergies } = trpc.synergies.getAllMoleculeSynergies.useQuery();
-  const { data: stats } = trpc.synergies.getStats.useQuery();
+  const { data: synergies, isLoading, error } = trpc.synergies?.list.useQuery();
+  const { data: moleculeSynergies } = trpc.synergies?.getAllMoleculeSynergies.useQuery();
+  const { data: stats } = trpc.synergies?.getStats.useQuery();
 
   const types = useMemo(() => {
     if (!synergies) return [];
-    const uniqueTypes = new Set(synergies.map((s: any) => s.type).filter(Boolean));
+    const uniqueTypes = new Set(synergies?.map((s: any) => s.type).filter(Boolean));
     return Array.from(uniqueTypes) as string[];
   }, [synergies]);
 
   const filteredSynergies = useMemo(() => {
     if (!synergies) return [];
-    return synergies.filter((synergy: any) => {
+    return synergies?.filter((synergy: any) => {
       const matchesSearch = !searchQuery || 
         synergy.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         synergy.effet?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -410,12 +410,12 @@ export default function Synergies() {
   const statsData = useMemo(() => {
     if (!synergies) return { total: 0, byType: {} as Record<string, number> };
     const byType: Record<string, number> = {};
-    synergies.forEach((s: any) => {
+    synergies?.forEach((s: any) => {
       if (s.type) {
         byType[s.type] = (byType[s.type] || 0) + 1;
       }
     });
-    return { total: synergies.length, byType };
+    return { total: synergies?.length, byType };
   }, [synergies]);
 
   const getTypeColor = (type: string) => {

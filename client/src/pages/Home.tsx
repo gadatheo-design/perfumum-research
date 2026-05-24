@@ -835,7 +835,7 @@ export default function Home() {
                 <h2 className="text-foreground">Géographie Olfactive</h2>
               </div>
               <p className="text-center text-muted-foreground mb-10 max-w-2xl mx-auto">
-                Distribution des plantes aromatiques selon les zones climatiques de Köppen — {koppenStats ? koppenStats.reduce((s, z) => s + z.count, 0) : '...'} plantes géolocalisées.
+                Distribution des plantes aromatiques selon les zones climatiques de Köppen — {koppenStats ? koppenStats?.reduce((s, z) => s + z.count, 0) : '...'} plantes géolocalisées.
               </p>
 
               {/* Barres Köppen */}

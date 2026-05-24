@@ -155,47 +155,47 @@ export default function LeafEconomyForm() {
 
   useEffect(() => {
     if (existingSample && !isNew) {
-      const axes = existingSample.climaticAxis 
-        ? (typeof existingSample.climaticAxis === 'string' 
-            ? safeJsonParse(existingSample.climaticAxis, null) 
-            : existingSample.climaticAxis)
+      const axes = existingSample?.climaticAxis 
+        ? (typeof existingSample?.climaticAxis === 'string' 
+            ? safeJsonParse(existingSample?.climaticAxis, null) 
+            : existingSample?.climaticAxis)
         : [];
-      const usages = existingSample.usage 
-        ? (typeof existingSample.usage === 'string' 
-            ? safeJsonParse(existingSample.usage, null) 
-            : existingSample.usage)
+      const usages = existingSample?.usage 
+        ? (typeof existingSample?.usage === 'string' 
+            ? safeJsonParse(existingSample?.usage, null) 
+            : existingSample?.usage)
         : [];
 
       setFormData({
-        sampleId: existingSample.sampleId || "",
-        date: existingSample.date ? new Date(existingSample.date).toISOString().split('T')[0] : "",
-        island: existingSample.island || "san_andres",
-        preciseLocation: existingSample.preciseLocation || "",
-        sourceContact: existingSample.sourceContact || "",
-        category: existingSample.category || "aromatique",
-        species: existingSample.species || "",
-        claimedVariety: existingSample.claimedVariety || "",
-        usedPart: existingSample.usedPart || "feuille",
-        state: existingSample.state || "frais",
-        curingTreatment: existingSample.curingTreatment || "aucun",
-        extraction: existingSample.extraction || "aucune",
-        ratioParameters: existingSample.ratioParameters || "",
-        duration: existingSample.duration || "",
-        odorNotes: existingSample.odorNotes || "",
+        sampleId: existingSample?.sampleId || "",
+        date: existingSample?.date ? new Date(existingSample?.date).toISOString().split('T')[0] : "",
+        island: existingSample?.island || "san_andres",
+        preciseLocation: existingSample?.preciseLocation || "",
+        sourceContact: existingSample?.sourceContact || "",
+        category: existingSample?.category || "aromatique",
+        species: existingSample?.species || "",
+        claimedVariety: existingSample?.claimedVariety || "",
+        usedPart: existingSample?.usedPart || "feuille",
+        state: existingSample?.state || "frais",
+        curingTreatment: existingSample?.curingTreatment || "aucun",
+        extraction: existingSample?.extraction || "aucune",
+        ratioParameters: existingSample?.ratioParameters || "",
+        duration: existingSample?.duration || "",
+        odorNotes: existingSample?.odorNotes || "",
         climaticAxis: axes,
         usage: usages,
-        analysisAvailable: existingSample.analysisAvailable === 1,
-        analysisMethod: existingSample.analysisMethod || "",
-        topMoleculesList: existingSample.topMoleculesList || "",
-        topMolecule1: existingSample.topMolecule1 || "",
-        topMolecule2: existingSample.topMolecule2 || "",
-        topMolecule3: existingSample.topMolecule3 || "",
-        relativePercentages: existingSample.relativePercentages || "",
-        absorbeInterpretation: existingSample.absorbeInterpretation || "",
-        status: existingSample.status || "brut",
-        mediaLinks: existingSample.mediaLinks || "",
-        imageUrl: existingSample.imageUrl || "",
-        ethicalNotes: existingSample.ethicalNotes || "",
+        analysisAvailable: existingSample?.analysisAvailable === 1,
+        analysisMethod: existingSample?.analysisMethod || "",
+        topMoleculesList: existingSample?.topMoleculesList || "",
+        topMolecule1: existingSample?.topMolecule1 || "",
+        topMolecule2: existingSample?.topMolecule2 || "",
+        topMolecule3: existingSample?.topMolecule3 || "",
+        relativePercentages: existingSample?.relativePercentages || "",
+        absorbeInterpretation: existingSample?.absorbeInterpretation || "",
+        status: existingSample?.status || "brut",
+        mediaLinks: existingSample?.mediaLinks || "",
+        imageUrl: existingSample?.imageUrl || "",
+        ethicalNotes: existingSample?.ethicalNotes || "",
       });
     }
   }, [existingSample, isNew]);

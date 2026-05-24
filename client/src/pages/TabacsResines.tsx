@@ -98,7 +98,7 @@ const methodologies = [
 
 export default function TabacsResines() {
   const [selectedType, setSelectedType] = useState<string>("all");
-  const { data: tabacs, isLoading } = trpc.tabacs.listWithTerroir.useQuery();
+  const { data: tabacs, isLoading } = trpc.tabacs?.listWithTerroir.useQuery();
 
   const types = ["all", "blond", "brun", "oriental", "experimental"];
   const typeLabels: Record<string, string> = {
@@ -110,7 +110,7 @@ export default function TabacsResines() {
   };
 
   const filtered = tabacs
-    ? (selectedType === "all" ? tabacs : tabacs.filter((t: any) => t.type === selectedType))
+    ? (selectedType === "all" ? tabacs : tabacs?.filter((t: any) => t.type === selectedType))
     : [];
 
   const parseAromaticProfile = (raw: any): string[] => {
@@ -173,7 +173,7 @@ export default function TabacsResines() {
             <div className="flex items-center gap-3">
               <Cigarette className="w-8 h-8 text-amber-400" />
               <h2 className="text-3xl font-bold uppercase tracking-tight">
-                {tabacs ? tabacs.length : "42"} Variétés de Tabacs
+                {tabacs ? tabacs?.length : "42"} Variétés de Tabacs
               </h2>
             </div>
             {/* Filtres par type */}
@@ -197,7 +197,7 @@ export default function TabacsResines() {
           {isLoading ? (
             <div className="flex items-center justify-center py-20">
               <Loader2 className="w-8 h-8 animate-spin text-amber-400" />
-              <span className="ml-3 text-gray-400">Chargement des tabacs...</span>
+              <span className="ml-3 text-gray-400">Chargement des tabacs?...</span>
             </div>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

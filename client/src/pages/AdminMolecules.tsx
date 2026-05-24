@@ -107,10 +107,10 @@ export default function AdminMolecules() {
   const [selectedFamilyIds, setSelectedFamilyIds] = useState<number[]>([]);
   const [familyPopoverOpen, setFamilyPopoverOpen] = useState(false);
 
-  const { data: molecules, isLoading, refetch } = trpc.molecules.list.useQuery();
-  const { data: chemicalFamilies } = trpc.chemicalFamilies.listAll.useQuery();
+  const { data: molecules, isLoading, refetch } = trpc.molecules?.list.useQuery();
+  const { data: chemicalFamilies } = trpc.chemicalFamilies?.listAll.useQuery();
   
-  const updateRadarMutation = trpc.molecules.updateRadar.useMutation({
+  const updateRadarMutation = trpc.molecules?.updateRadar.useMutation({
     onSuccess: () => {
       setToastMessage("Radar mis à jour avec succès");
       setTimeout(() => setToastMessage(null), 3000);
@@ -122,14 +122,14 @@ export default function AdminMolecules() {
     },
   });
 
-  const linkMoleculeMutation = trpc.chemicalFamilies.linkMolecule.useMutation({
+  const linkMoleculeMutation = trpc.chemicalFamilies?.linkMolecule.useMutation({
     onError: (error) => {
       setToastMessage(`Erreur liaison: ${error.message}`);
       setTimeout(() => setToastMessage(null), 3000);
     },
   });
 
-  const unlinkMoleculeMutation = trpc.chemicalFamilies.unlinkMolecule.useMutation({
+  const unlinkMoleculeMutation = trpc.chemicalFamilies?.unlinkMolecule.useMutation({
     onError: (error) => {
       setToastMessage(`Erreur suppression liaison: ${error.message}`);
       setTimeout(() => setToastMessage(null), 3000);
@@ -137,7 +137,7 @@ export default function AdminMolecules() {
   });
 
   // Récupérer les familles chimiques de la molécule sélectionnée
-  const { data: moleculeFamilies, refetch: refetchMoleculeFamilies } = trpc.chemicalFamilies.getForMolecule.useQuery(
+  const { data: moleculeFamilies, refetch: refetchMoleculeFamilies } = trpc.chemicalFamilies?.getForMolecule.useQuery(
     { moleculeId: selectedMolecule?.id || 0 },
     { enabled: !!selectedMolecule?.id }
   );
@@ -145,7 +145,7 @@ export default function AdminMolecules() {
   // Mettre à jour les familles sélectionnées quand on charge les données
   useEffect(() => {
     if (moleculeFamilies) {
-      setSelectedFamilyIds(moleculeFamilies.map((f: any) => f.id));
+      setSelectedFamilyIds(moleculeFamilies?.map((f: any) => f.id));
     }
   }, [moleculeFamilies]);
 
@@ -452,7 +452,7 @@ export default function AdminMolecules() {
                   <p className="text-sm">
                     <span className="font-medium">{selectedFamilyIds.length}</span> famille(s) sélectionnée(s)
                     {chemicalFamilies && (
-                      <span className="text-muted-foreground"> sur {chemicalFamilies.length} disponibles</span>
+                      <span className="text-muted-foreground"> sur {chemicalFamilies?.length} disponibles</span>
                     )}
                   </p>
                 </div>

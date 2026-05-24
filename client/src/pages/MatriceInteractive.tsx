@@ -23,14 +23,14 @@ export default function MatriceInteractive() {
   const [viewMode, setViewMode] = useState<"grid" | "heatmap">("grid");
 
   // Fetch data
-  const { data: tabacs, isLoading: loadingTabacs } = trpc.tabacs.list.useQuery();
-  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
-  const { data: synergies, isLoading: loadingSynergies } = trpc.synergies.list.useQuery();
+  const { data: tabacs, isLoading: loadingTabacs } = trpc.tabacs?.list.useQuery();
+  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules?.list.useQuery();
+  const { data: synergies, isLoading: loadingSynergies } = trpc.synergies?.list.useQuery();
 
   // Extract unique families from molecules
   const uniqueFamilies = useMemo(() => {
     if (!molecules) return [];
-    const families = new Set(molecules.map(m => m.family).filter((f): f is string => Boolean(f)));
+    const families = new Set(molecules?.map(m => m.family).filter((f): f is string => Boolean(f)));
     return Array.from(families).sort();
   }, [molecules]);
 
@@ -38,7 +38,7 @@ export default function MatriceInteractive() {
   const filteredMolecules = useMemo(() => {
     if (!molecules) return [];
     
-    return molecules.filter(molecule => {
+    return molecules?.filter(molecule => {
       // Search filter
       if (searchQuery && !molecule.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
           !molecule.olfactiveProfile?.toLowerCase().includes(searchQuery.toLowerCase())) {
@@ -75,7 +75,7 @@ export default function MatriceInteractive() {
   // Get synergies for selected tabac
   const tabacSynergies = useMemo(() => {
     if (!synergies || selectedTabac === "all") return [];
-    return synergies.filter(s => s.tabacName === selectedTabac);
+    return synergies?.filter(s => s.tabacName === selectedTabac);
   }, [synergies, selectedTabac]);
 
   // Get molecules with synergies for selected tabac

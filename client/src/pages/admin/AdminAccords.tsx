@@ -91,14 +91,14 @@ export default function AdminAccords() {
   });
 
   const utils = trpc.useUtils();
-  const { data: accords, isLoading } = trpc.accords.list.useQuery();
-  const { data: families } = trpc.families.list.useQuery();
+  const { data: accords, isLoading } = trpc.accords?.list.useQuery();
+  const { data: families } = trpc.families?.list.useQuery();
 
   // Mutations
-  const createMutation = trpc.accords.create.useMutation({
+  const createMutation = trpc.accords?.create.useMutation({
     onSuccess: () => {
       toast.success("Accord créé avec succès");
-      utils.accords.list.invalidate();
+      utils.accords?.list.invalidate();
       setCreateDialogOpen(false);
       resetForm();
     },
@@ -107,10 +107,10 @@ export default function AdminAccords() {
     },
   });
 
-  const updateMutation = trpc.accords.update.useMutation({
+  const updateMutation = trpc.accords?.update.useMutation({
     onSuccess: () => {
       toast.success("Accord mis à jour avec succès");
-      utils.accords.list.invalidate();
+      utils.accords?.list.invalidate();
       setEditDialogOpen(false);
       resetForm();
     },
@@ -119,10 +119,10 @@ export default function AdminAccords() {
     },
   });
 
-  const deleteMutation = trpc.accords.delete.useMutation({
+  const deleteMutation = trpc.accords?.delete.useMutation({
     onSuccess: () => {
       toast.success("Accord supprimé avec succès");
-      utils.accords.list.invalidate();
+      utils.accords?.list.invalidate();
       setDeleteDialogOpen(false);
       setSelectedAccord(null);
     },
@@ -224,7 +224,7 @@ export default function AdminAccords() {
 
   const getFamilyName = (familyId: number | null) => {
     if (!familyId || !families) return null;
-    const family = families.find(f => f.id === familyId);
+    const family = families?.find(f => f.id === familyId);
     return family?.name || null;
   };
 

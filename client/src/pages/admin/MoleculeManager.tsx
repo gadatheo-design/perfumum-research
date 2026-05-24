@@ -55,14 +55,14 @@ function StatsPanel() {
   if (!stats) return null;
 
   const statCards = [
-    { label: "Molécules totales", value: stats.totalMolecules, icon: FlaskConical, color: "text-blue-500" },
-    { label: "Plantes totales", value: stats.totalPlants, icon: Leaf, color: "text-green-500" },
-    { label: "Liens plantes-molécules", value: stats.totalLinks, icon: Link2, color: "text-purple-500" },
-    { label: "Couverture plantes", value: `${stats.plantCoverage}%`, icon: BarChart3, color: "text-emerald-500" },
-    { label: "Couverture molécules", value: `${stats.moleculeCoverage}%`, icon: BarChart3, color: "text-teal-500" },
-    { label: "Groupes de doublons", value: stats.duplicateGroups, icon: AlertTriangle, color: "text-amber-500" },
-    { label: "Molécules en doublon", value: stats.duplicateMolecules, icon: AlertTriangle, color: "text-orange-500" },
-    { label: "Molécules orphelines", value: stats.orphanMolecules, icon: Link2Off, color: "text-red-500" },
+    { label: "Molécules totales", value: stats?.totalMolecules, icon: FlaskConical, color: "text-blue-500" },
+    { label: "Plantes totales", value: stats?.totalPlants, icon: Leaf, color: "text-green-500" },
+    { label: "Liens plantes-molécules", value: stats?.totalLinks, icon: Link2, color: "text-purple-500" },
+    { label: "Couverture plantes", value: `${stats?.plantCoverage}%`, icon: BarChart3, color: "text-emerald-500" },
+    { label: "Couverture molécules", value: `${stats?.moleculeCoverage}%`, icon: BarChart3, color: "text-teal-500" },
+    { label: "Groupes de doublons", value: stats?.duplicateGroups, icon: AlertTriangle, color: "text-amber-500" },
+    { label: "Molécules en doublon", value: stats?.duplicateMolecules, icon: AlertTriangle, color: "text-orange-500" },
+    { label: "Molécules orphelines", value: stats?.orphanMolecules, icon: Link2Off, color: "text-red-500" },
   ];
 
   return (
@@ -609,7 +609,7 @@ function DataQualityPanel() {
                 <Leaf className="w-4 h-4 text-green-500" />
                 <span className="text-xs text-muted-foreground">Plantes uniques</span>
               </div>
-              <p className="text-2xl font-bold">{stats.totalPlants}</p>
+              <p className="text-2xl font-bold">{stats?.totalPlants}</p>
             </CardContent>
           </Card>
           <Card>
@@ -618,8 +618,8 @@ function DataQualityPanel() {
                 <BarChart3 className="w-4 h-4 text-emerald-500" />
                 <span className="text-xs text-muted-foreground">Couverture compositions</span>
               </div>
-              <p className="text-2xl font-bold">{stats.coveragePercent}%</p>
-              <p className="text-xs text-muted-foreground">{stats.plantsWithCompositions}/{stats.totalPlants} plantes</p>
+              <p className="text-2xl font-bold">{stats?.coveragePercent}%</p>
+              <p className="text-xs text-muted-foreground">{stats?.plantsWithCompositions}/{stats?.totalPlants} plantes</p>
             </CardContent>
           </Card>
           <Card>
@@ -628,46 +628,46 @@ function DataQualityPanel() {
                 <AlertTriangle className="w-4 h-4 text-amber-500" />
                 <span className="text-xs text-muted-foreground">Sans nom latin</span>
               </div>
-              <p className="text-2xl font-bold">{stats.plantsWithoutLatinName}</p>
+              <p className="text-2xl font-bold">{stats?.plantsWithoutLatinName}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 mb-1">
-                {stats.duplicatePlantGroups === 0 ? (
+                {stats?.duplicatePlantGroups === 0 ? (
                   <CheckCircle2 className="w-4 h-4 text-green-500" />
                 ) : (
                   <AlertTriangle className="w-4 h-4 text-orange-500" />
                 )}
                 <span className="text-xs text-muted-foreground">Groupes doublons</span>
               </div>
-              <p className="text-2xl font-bold">{stats.duplicatePlantGroups}</p>
+              <p className="text-2xl font-bold">{stats?.duplicatePlantGroups}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 mb-1">
-                {stats.malformedNames === 0 ? (
+                {stats?.malformedNames === 0 ? (
                   <CheckCircle2 className="w-4 h-4 text-green-500" />
                 ) : (
                   <AlertTriangle className="w-4 h-4 text-red-500" />
                 )}
                 <span className="text-xs text-muted-foreground">Noms mal formatés</span>
               </div>
-              <p className="text-2xl font-bold">{stats.malformedNames}</p>
+              <p className="text-2xl font-bold">{stats?.malformedNames}</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-4">
               <div className="flex items-center gap-2 mb-1">
-                {stats.malformedLatinNames === 0 ? (
+                {stats?.malformedLatinNames === 0 ? (
                   <CheckCircle2 className="w-4 h-4 text-green-500" />
                 ) : (
                   <AlertTriangle className="w-4 h-4 text-red-500" />
                 )}
                 <span className="text-xs text-muted-foreground">Noms latins mal formatés</span>
               </div>
-              <p className="text-2xl font-bold">{stats.malformedLatinNames}</p>
+              <p className="text-2xl font-bold">{stats?.malformedLatinNames}</p>
             </CardContent>
           </Card>
           <Card>
@@ -676,7 +676,7 @@ function DataQualityPanel() {
                 <FlaskConical className="w-4 h-4 text-blue-500" />
                 <span className="text-xs text-muted-foreground">Molécules</span>
               </div>
-              <p className="text-2xl font-bold">{stats.totalMolecules}</p>
+              <p className="text-2xl font-bold">{stats?.totalMolecules}</p>
             </CardContent>
           </Card>
           <Card>
@@ -685,14 +685,14 @@ function DataQualityPanel() {
                 <Link2 className="w-4 h-4 text-purple-500" />
                 <span className="text-xs text-muted-foreground">Relations</span>
               </div>
-              <p className="text-2xl font-bold">{stats.totalLinks}</p>
+              <p className="text-2xl font-bold">{stats?.totalLinks}</p>
             </CardContent>
           </Card>
         </div>
       )}
 
       {/* Répartition par catégorie */}
-      {categories && categories.length > 0 && (
+      {categories && categories?.length > 0 && (
         <Card>
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2">
@@ -702,7 +702,7 @@ function DataQualityPanel() {
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-              {categories.map((cat) => (
+              {categories?.map((cat) => (
                 <div key={cat.category} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                   <span className="text-sm font-medium capitalize">{cat.category}</span>
                   <Badge variant="secondary">{cat.count}</Badge>
@@ -714,12 +714,12 @@ function DataQualityPanel() {
       )}
 
       {/* Plantes mal formatées */}
-      {malformed && malformed.length > 0 ? (
+      {malformed && malformed?.length > 0 ? (
         <Card className="border-orange-200 dark:border-orange-800">
           <CardHeader>
             <CardTitle className="text-base flex items-center gap-2 text-orange-600">
               <AlertTriangle className="w-4 h-4" />
-              Plantes encore mal formatées ({malformed.length})
+              Plantes encore mal formatées ({malformed?.length})
             </CardTitle>
             <CardDescription>
               Ces entrées nécessitent une correction manuelle
@@ -737,7 +737,7 @@ function DataQualityPanel() {
                   </tr>
                 </thead>
                 <tbody>
-                  {malformed.map((plant) => (
+                  {malformed?.map((plant) => (
                     <tr key={plant.id} className="border-b hover:bg-muted/30">
                       <td className="py-2 px-3 font-mono text-xs text-muted-foreground">{plant.id}</td>
                       <td className="py-2 px-3 max-w-xs">

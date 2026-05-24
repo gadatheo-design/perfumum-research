@@ -39,7 +39,7 @@ export default function CompareRecettes() {
   const filteredRecettes = useMemo(() => {
     if (!allRecettes) return [];
     
-    return allRecettes.filter(r => {
+    return allRecettes?.filter(r => {
       const matchesSearch = !searchTerm || 
         r.name.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesGamme = true; // Champ gamme supprimé du schéma
@@ -70,7 +70,7 @@ export default function CompareRecettes() {
     
     return selectedRecettes.map((recette, idx) => {
       // Trouver les molécules associées à cette recette
-      const recetteWithMolecules = recettesWithMolecules.find(r => r.recette.id === recette.id);
+      const recetteWithMolecules = recettesWithMolecules?.find(r => r.recette.id === recette.id);
       const associations = recetteWithMolecules?.molecules || [];
       
       // Calculer le profil moyen pondéré

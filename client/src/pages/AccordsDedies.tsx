@@ -413,8 +413,8 @@ function AccordCard({ accord, expanded, onToggle }: {
 }
 
 export default function AccordsDedies() {
-  const { data: aromaticAccords, isLoading: loadingAromatic } = trpc.aromaticAccords.list.useQuery();
-  const { data: accords, isLoading: loadingAccords } = trpc.accords.list.useQuery();
+  const { data: aromaticAccords, isLoading: loadingAromatic } = trpc.aromaticAccords?.list.useQuery();
+  const { data: accords, isLoading: loadingAccords } = trpc.accords?.list.useQuery();
   
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
@@ -439,7 +439,7 @@ export default function AccordsDedies() {
   const filteredAromaticAccords = useMemo(() => {
     if (!aromaticAccords) return [];
     
-    return aromaticAccords.filter(accord => {
+    return aromaticAccords?.filter(accord => {
       const matchesSearch = 
         accord.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         accord.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -456,7 +456,7 @@ export default function AccordsDedies() {
   const filteredClassicAccords = useMemo(() => {
     if (!accords) return [];
     
-    return accords.filter(accord => {
+    return accords?.filter(accord => {
       const matchesSearch = 
         accord.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         accord.olfactiveProfile?.toLowerCase().includes(searchQuery.toLowerCase());

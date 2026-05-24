@@ -385,7 +385,7 @@ export default function AdminBundleVisualizer() {
                 </code>{" "}
                 en local. Le fichier{" "}
                 <code className="font-mono bg-background px-1.5 py-0.5 rounded border text-xs">
-                  stats.html
+                  stats?.html
                 </code>{" "}
                 s'ouvrira automatiquement avec un treemap navigable par module.
               </div>

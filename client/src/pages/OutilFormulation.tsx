@@ -87,7 +87,7 @@ export default function OutilFormulation() {
   });
 
   // Fetch data
-  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
+  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules?.list.useQuery();
   
   // Synergy suggestions for selected molecules
   const selectedMoleculeIds = useMemo(() => selectedMolecules.map(m => m.id), [selectedMolecules]);
@@ -100,14 +100,14 @@ export default function OutilFormulation() {
     { enabled: !!selectedBaseMolecule }
   );
   const { data: savedFormulations, isLoading: loadingSaved } = trpc.formulationTool.list.useQuery();
-  const { data: entourageRules } = trpc.entourageRules.list.useQuery();
+  const { data: entourageRules } = trpc.entourageRules?.list.useQuery();
 
   // Filter molecules by search
   const filteredMolecules = useMemo(() => {
     if (!molecules) return [];
-    if (!searchQuery) return molecules.slice(0, 50);
+    if (!searchQuery) return molecules?.slice(0, 50);
     const query = searchQuery.toLowerCase();
-    return molecules.filter(m => 
+    return molecules?.filter(m => 
       m.name.toLowerCase().includes(query) ||
       m.family?.toLowerCase().includes(query) ||
       m.olfactiveProfile?.toLowerCase().includes(query)
@@ -529,22 +529,22 @@ export default function OutilFormulation() {
                           <Skeleton key={i} className="h-24 w-full" />
                         ))}
                       </div>
-                    ) : suggestions?.suggestions && suggestions.suggestions.length > 0 ? (
+                    ) : suggestions?.suggestions && suggestions?.suggestions?.length > 0 ? (
                       <>
                         <div className="bg-muted/50 rounded-lg p-4 mb-4">
                           <div className="font-medium mb-1">Molécule de base</div>
-                          <div className="text-lg">{suggestions.baseMolecule?.name}</div>
-                          {suggestions.baseMolecule?.olfactiveProfile && (
+                          <div className="text-lg">{suggestions?.baseMolecule?.name}</div>
+                          {suggestions?.baseMolecule?.olfactiveProfile && (
                             <p className="text-sm text-muted-foreground mt-1">
-                              {suggestions.baseMolecule.olfactiveProfile}
+                              {suggestions?.baseMolecule.olfactiveProfile}
                             </p>
                           )}
                         </div>
 
-                        <h4 className="font-medium">Molécules suggérées ({suggestions.suggestions.length})</h4>
+                        <h4 className="font-medium">Molécules suggérées ({suggestions?.suggestions?.length})</h4>
                         
                         <div className="grid md:grid-cols-2 gap-4">
-                          {suggestions.suggestions.map((suggestion, i) => (
+                          {suggestions?.suggestions?.map((suggestion, i) => (
                             <Card key={i} className="overflow-hidden">
                               <div className={`h-1 ${getCompatibilityColor(suggestion.compatibilityScore)}`} />
                               <CardContent className="p-4">

@@ -22,7 +22,7 @@ export default function RadarCorrelationHeatmap() {
 
   // Calculer la matrice de corrélation
   const correlationMatrix = useMemo(() => {
-    if (recettesWithRadar.length === 0) return null;
+    if (recettesWithRadar?.length === 0) return null;
 
     const axes: RadarKey[] = ['intensity', 'freshness', 'warmth', 'sweetness', 'spiciness', 'earthiness'];
     const matrix: Record<RadarKey, Record<RadarKey, number>> = {} as any;
@@ -37,12 +37,12 @@ export default function RadarCorrelationHeatmap() {
 
     // Extraire les valeurs pour chaque axe
     const values: Record<RadarKey, number[]> = {
-      intensity: recettesWithRadar.map(r => r.avgIntensity),
-      freshness: recettesWithRadar.map(r => r.avgFreshness),
-      warmth: recettesWithRadar.map(r => r.avgWarmth),
-      sweetness: recettesWithRadar.map(r => r.avgSweetness),
-      spiciness: recettesWithRadar.map(r => r.avgSpiciness),
-      earthiness: recettesWithRadar.map(r => r.avgEarthiness),
+      intensity: recettesWithRadar?.map(r => r.avgIntensity),
+      freshness: recettesWithRadar?.map(r => r.avgFreshness),
+      warmth: recettesWithRadar?.map(r => r.avgWarmth),
+      sweetness: recettesWithRadar?.map(r => r.avgSweetness),
+      spiciness: recettesWithRadar?.map(r => r.avgSpiciness),
+      earthiness: recettesWithRadar?.map(r => r.avgEarthiness),
     };
 
     // Calculer les moyennes
@@ -138,7 +138,7 @@ export default function RadarCorrelationHeatmap() {
             Heatmap des Axes Radar
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Visualisez les corrélations entre les 6 axes olfactifs sur {recettesWithRadar.length} recettes
+            Visualisez les corrélations entre les 6 axes olfactifs sur {recettesWithRadar?.length} recettes
           </p>
         </motion.div>
 

@@ -48,7 +48,7 @@ export default function EtudesClimatiques() {
           </Card>
         )}
 
-        {studies && studies.length === 0 && (
+        {studies && studies?.length === 0 && (
           <Card>
             <CardContent className="py-12 text-center">
               <Cloud className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
@@ -57,9 +57,9 @@ export default function EtudesClimatiques() {
           </Card>
         )}
 
-        {studies && studies.length > 0 && (
+        {studies && studies?.length > 0 && (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {studies.map((study) => (
+            {studies?.map((study) => (
               <Link key={study.id} href={`/etudes-climatiques/${study.id}`}>
                 <Card className="h-full hover:shadow-lg transition-shadow cursor-pointer">
                   <CardHeader>

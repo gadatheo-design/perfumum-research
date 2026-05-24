@@ -155,14 +155,14 @@ export default function ParcoursOlfactif() {
   }>>([{ level: 'terroirs' }]);
 
   // Queries
-  const { data: terroirs, isLoading: loadingTerroirs } = trpc.terroirs.getAll.useQuery();
+  const { data: terroirs, isLoading: loadingTerroirs } = trpc.terroirs?.getAll.useQuery();
   const { data: allPlants, isLoading: loadingPlants } = trpc.plants.list.useQuery();
   const { data: allMolecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
-  const { data: plantTerroirs } = trpc.plantTerroirs.getAll.useQuery();
+  const { data: plantTerroirs } = trpc.plantTerroirs?.getAll.useQuery();
   const { data: plantMolecules } = trpc.plantMoleculeLinks.getAll.useQuery();
   const { data: filterOptions } = trpc.parcoursOlfactif.getFilterOptions.useQuery();
-  const { data: curatedJourneys, isLoading: loadingJourneys } = trpc.curatedJourneys.listPublished.useQuery();
-  const { data: featuredJourneys } = trpc.curatedJourneys.getFeatured.useQuery();
+  const { data: curatedJourneys, isLoading: loadingJourneys } = trpc.curatedJourneys?.listPublished.useQuery();
+  const { data: featuredJourneys } = trpc.curatedJourneys?.getFeatured.useQuery();
 
   // Filtrer les terroirs
   const filteredTerroirs = useMemo(() => {
@@ -217,7 +217,7 @@ export default function ParcoursOlfactif() {
       .filter(pt => pt.terroirId === selectedTerroir.id)
       .map(pt => pt.plantId);
     
-    let plants = allPlants.filter(p => plantIds.includes(p.id));
+    let plants = allPlants?.filter(p => plantIds.includes(p.id));
     
     // Appliquer les filtres
     if (selectedPlantCategory) {
@@ -245,7 +245,7 @@ export default function ParcoursOlfactif() {
       .filter((pm: any) => pm.plantId === selectedPlant.id)
       .map((pm: any) => pm.moleculeId);
     
-    let molecules = allMolecules.filter(m => moleculeIds.includes(m.id));
+    let molecules = allMolecules?.filter(m => moleculeIds.includes(m.id));
     
     // Appliquer les filtres
     if (selectedMoleculeFamily) {
@@ -403,9 +403,9 @@ export default function ParcoursOlfactif() {
             <TabsTrigger value="journeys" className="gap-2">
               <BookOpen className="h-4 w-4" />
               Parcours guidés
-              {featuredJourneys && featuredJourneys.length > 0 && (
+              {featuredJourneys && featuredJourneys?.length > 0 && (
                 <Badge variant="secondary" className="ml-1 h-5 px-1.5">
-                  {featuredJourneys.length}
+                  {featuredJourneys?.length}
                 </Badge>
               )}
             </TabsTrigger>
@@ -1149,14 +1149,14 @@ export default function ParcoursOlfactif() {
           {/* Tab Parcours guidés */}
           <TabsContent value="journeys" className="space-y-6 mt-6">
             {/* Parcours mis en avant */}
-            {featuredJourneys && featuredJourneys.length > 0 && (
+            {featuredJourneys && featuredJourneys?.length > 0 && (
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
                   <Star className="h-5 w-5 text-yellow-500" />
                   <h2 className="text-xl font-semibold">Parcours recommandés</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {featuredJourneys.map((journey: any) => (
+                  {featuredJourneys?.map((journey: any) => (
                     <JourneyCard key={journey.id} journey={journey} featured />
                   ))}
                 </div>
@@ -1176,9 +1176,9 @@ export default function ParcoursOlfactif() {
                     <Skeleton key={i} className="h-48" />
                   ))}
                 </div>
-              ) : curatedJourneys && curatedJourneys.length > 0 ? (
+              ) : curatedJourneys && curatedJourneys?.length > 0 ? (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {curatedJourneys.map((journey: any) => (
+                  {curatedJourneys?.map((journey: any) => (
                     <JourneyCard key={journey.id} journey={journey} />
                   ))}
                 </div>

@@ -106,7 +106,7 @@ export function Glossaire() {
   // Letters present in ALL terms (for nav)
   const lettersInAll = useMemo(() => {
     const s = new Set<string>();
-    allTerms.forEach((t) => s.add(t.term.charAt(0).toUpperCase()));
+    allTerms?.forEach((t) => s.add(t.term.charAt(0).toUpperCase()));
     return s;
   }, [allTerms]);
 
@@ -121,7 +121,7 @@ export function Glossaire() {
   // Calculate stats by category
   const categoryStats = useMemo(() => {
     const stats: Record<string, number> = {};
-    allTerms.forEach((term) => {
+    allTerms?.forEach((term) => {
       stats[term.category] = (stats[term.category] || 0) + 1;
     });
     return stats;
@@ -197,7 +197,7 @@ export function Glossaire() {
               {/* Stats */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto">
                 <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
-                  <div className="text-2xl font-bold text-foreground">{allTerms.length}</div>
+                  <div className="text-2xl font-bold text-foreground">{allTerms?.length}</div>
                   <div className="text-xs text-muted-foreground">Termes définis</div>
                 </div>
                 <div className="bg-muted/50 rounded-lg p-3 border border-border/50">

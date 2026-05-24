@@ -11,7 +11,7 @@ import { linkifyMoleculeNames } from "@/lib/linkifyMolecules";
 
 export default function GammesPetrichor() {
   // Fetch all molecules to linkify names
-  const { data: molecules } = trpc.molecules.list.useQuery();
+  const { data: molecules } = trpc.molecules?.list.useQuery();
 
   const axes = [
     {

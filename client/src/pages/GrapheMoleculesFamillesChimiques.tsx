@@ -38,18 +38,18 @@ export default function GrapheMoleculesFamillesChimiques() {
   const [activeTab, setActiveTab] = useState("graph");
   
   // Récupérer toutes les liaisons molécule-famille chimique
-  const { data: links, isLoading, refetch } = trpc.chemicalFamilies.getAllLinks.useQuery();
+  const { data: links, isLoading, refetch } = trpc.chemicalFamilies?.getAllLinks.useQuery();
   
   // Récupérer toutes les familles chimiques
-  const { data: chemicalFamilies } = trpc.chemicalFamilies.listAll.useQuery();
+  const { data: chemicalFamilies } = trpc.chemicalFamilies?.listAll.useQuery();
   
   // Export CSV
-  const { refetch: fetchCSV, isFetching: isExportingCSV } = trpc.chemicalFamilies.exportCSV.useQuery(undefined, {
+  const { refetch: fetchCSV, isFetching: isExportingCSV } = trpc.chemicalFamilies?.exportCSV.useQuery(undefined, {
     enabled: false,
   });
   
   // Export JSON
-  const { refetch: fetchJSON, isFetching: isExportingJSON } = trpc.chemicalFamilies.exportJSON.useQuery(undefined, {
+  const { refetch: fetchJSON, isFetching: isExportingJSON } = trpc.chemicalFamilies?.exportJSON.useQuery(undefined, {
     enabled: false,
   });
   
@@ -57,17 +57,17 @@ export default function GrapheMoleculesFamillesChimiques() {
   const graphStats = useMemo(() => {
     if (!links) return null;
     return {
-      totalLinks: links.length,
-      uniqueMolecules: new Set(links.map((l: MoleculeChemicalFamilyLink) => l.moleculeId)).size,
-      uniqueFamilies: new Set(links.map((l: MoleculeChemicalFamilyLink) => l.chemicalFamilyId)).size,
-      familyTypes: new Set(links.map((l: MoleculeChemicalFamilyLink) => l.chemicalFamilyType)).size,
+      totalLinks: links?.length,
+      uniqueMolecules: new Set(links?.map((l: MoleculeChemicalFamilyLink) => l.moleculeId)).size,
+      uniqueFamilies: new Set(links?.map((l: MoleculeChemicalFamilyLink) => l.chemicalFamilyId)).size,
+      familyTypes: new Set(links?.map((l: MoleculeChemicalFamilyLink) => l.chemicalFamilyType)).size,
     };
   }, [links]);
   
   // Distribution par type de famille
   const familyTypeDistribution = useMemo(() => {
     if (!links) return {};
-    return links.reduce((acc: Record<string, number>, link: MoleculeChemicalFamilyLink) => {
+    return links?.reduce((acc: Record<string, number>, link: MoleculeChemicalFamilyLink) => {
       const type = link.chemicalFamilyType || 'unknown';
       acc[type] = (acc[type] || 0) + 1;
       return acc;
@@ -232,7 +232,7 @@ export default function GrapheMoleculesFamillesChimiques() {
                   </div>
                 </CardContent>
               </Card>
-            ) : links && links.length > 0 && chemicalFamilies ? (
+            ) : links && links?.length > 0 && chemicalFamilies ? (
               <ChemicalFamilyHierarchyGraph 
                 links={links} 
                 chemicalFamilies={chemicalFamilies}
@@ -296,7 +296,7 @@ export default function GrapheMoleculesFamillesChimiques() {
                 <CardContent>
                   <div className="space-y-2">
                     {links && (() => {
-                      const familyCounts = links.reduce((acc: Record<string, number>, link: MoleculeChemicalFamilyLink) => {
+                      const familyCounts = links?.reduce((acc: Record<string, number>, link: MoleculeChemicalFamilyLink) => {
                         const name = link.chemicalFamilyName;
                         acc[name] = (acc[name] || 0) + 1;
                         return acc;

@@ -45,7 +45,7 @@ export default function GrapheMoleculesRecettes() {
   const terpenes = allMolecules?.filter((m: any) => [1, 2, 3, 4, 5, 6, 7].includes(m.id)) || [];
   
   useEffect(() => {
-    if (!svgRef.current || !recettesData || recettesData.length === 0) return;
+    if (!svgRef.current || !recettesData || recettesData?.length === 0) return;
     
     const { width, height } = dimensions;
     const isMobile = width < 768;
@@ -63,7 +63,7 @@ export default function GrapheMoleculesRecettes() {
     const links: any[] = [];
     
     // Filtrer les recettes selon le filtre actif
-    const filteredRecettes = recettesData.filter((r: any) => {
+    const filteredRecettes = recettesData?.filter((r: any) => {
       if (filter === "all") return true;
       if (!r.name) return false;
       const isClassique = r.name?.includes("Mastiha") || r.name?.includes("Vétiver") || r.name?.includes("Figue") || r.name?.includes("Noir") || r.name?.includes("Cuir");

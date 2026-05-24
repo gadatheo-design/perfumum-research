@@ -328,9 +328,9 @@ export default function CSVValidationImport() {
     
     // Collecter les noms existants en base
     if (activeTab === "molecules" && existingMolecules) {
-      existingMolecules.forEach((m: any) => existingNames.add(m.name.toLowerCase()));
+      existingMolecules?.forEach((m: any) => existingNames.add(m.name.toLowerCase()));
     } else if (activeTab === "plants" && existingPlants) {
-      existingPlants.forEach((p: any) => existingNames.add(p.name.toLowerCase()));
+      existingPlants?.forEach((p: any) => existingNames.add(p.name.toLowerCase()));
     }
 
     const seenInFile = new Set<string>();

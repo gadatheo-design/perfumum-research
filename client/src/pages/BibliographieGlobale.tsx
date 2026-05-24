@@ -752,14 +752,14 @@ export default function BibliographieGlobale() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
               <Card>
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-2xl">{stats.total}</CardTitle>
+                  <CardTitle className="text-2xl">{stats?.total}</CardTitle>
                   <CardDescription>Références totales</CardDescription>
                 </CardHeader>
               </Card>
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-2xl">
-                    {stats.byReadStatus?.find((s: any) => s.status === "read")?.count || 0}
+                    {stats?.byReadStatus?.find((s: any) => s.status === "read")?.count || 0}
                   </CardTitle>
                   <CardDescription>Références lues</CardDescription>
                 </CardHeader>
@@ -767,7 +767,7 @@ export default function BibliographieGlobale() {
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-2xl">
-                    {stats.byType?.length || 0}
+                    {stats?.byType?.length || 0}
                   </CardTitle>
                   <CardDescription>Types de sources</CardDescription>
                 </CardHeader>
@@ -775,7 +775,7 @@ export default function BibliographieGlobale() {
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-2xl">
-                    {stats.byDomain?.length || 0}
+                    {stats?.byDomain?.length || 0}
                   </CardTitle>
                   <CardDescription>Domaines couverts</CardDescription>
                 </CardHeader>
@@ -866,11 +866,11 @@ export default function BibliographieGlobale() {
                 </Select>
                 {stats?.yearRange && (
                   <DateRangeFilter
-                    minYear={stats.yearRange.min}
-                    maxYear={stats.yearRange.max}
+                    minYear={stats?.yearRange.min}
+                    maxYear={stats?.yearRange.max}
                     selectedRange={selectedYearRange}
                     onRangeChange={setSelectedYearRange}
-                    yearDistribution={stats.byYear}
+                    yearDistribution={stats?.byYear}
                   />
                 )}
               </div>
@@ -881,9 +881,9 @@ export default function BibliographieGlobale() {
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
                   <p className="mt-4 text-muted-foreground">Chargement...</p>
                 </div>
-              ) : entriesData?.entries && entriesData.entries.length > 0 ? (
+              ) : entriesData?.entries && entriesData?.entries.length > 0 ? (
                 <div className="space-y-4">
-                  {entriesData.entries.map((entry: any) => (
+                  {entriesData?.entries.map((entry: any) => (
                     <Card key={entry.id} className="hover:shadow-md transition-shadow">
                       <CardContent className="p-6">
                         <div className="flex items-start justify-between gap-4">
@@ -1056,25 +1056,25 @@ export default function BibliographieGlobale() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                   <Card>
                     <CardHeader className="pb-2">
-                      <CardTitle className="text-2xl">{citationStats.totalCitations}</CardTitle>
+                      <CardTitle className="text-2xl">{citationStats?.totalCitations}</CardTitle>
                       <CardDescription>Citations totales</CardDescription>
                     </CardHeader>
                   </Card>
                   <Card>
                     <CardHeader className="pb-2">
-                      <CardTitle className="text-2xl">{citationStats.totalCitingReferences}</CardTitle>
+                      <CardTitle className="text-2xl">{citationStats?.totalCitingReferences}</CardTitle>
                       <CardDescription>Références citantes</CardDescription>
                     </CardHeader>
                   </Card>
                   <Card>
                     <CardHeader className="pb-2">
-                      <CardTitle className="text-2xl">{citationStats.totalCitedReferences}</CardTitle>
+                      <CardTitle className="text-2xl">{citationStats?.totalCitedReferences}</CardTitle>
                       <CardDescription>Références citées</CardDescription>
                     </CardHeader>
                   </Card>
                   <Card>
                     <CardHeader className="pb-2">
-                      <CardTitle className="text-2xl">{citationStats.verifiedCount}</CardTitle>
+                      <CardTitle className="text-2xl">{citationStats?.verifiedCount}</CardTitle>
                       <CardDescription>Citations vérifiées</CardDescription>
                     </CardHeader>
                   </Card>
@@ -1095,7 +1095,7 @@ export default function BibliographieGlobale() {
               />
 
               {/* Top références citées */}
-              {citationStats?.mostCited && citationStats.mostCited.length > 0 && (
+              {citationStats?.mostCited && citationStats?.mostCited.length > 0 && (
                 <Card className="mt-6">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
@@ -1105,7 +1105,7 @@ export default function BibliographieGlobale() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      {citationStats.mostCited.slice(0, 5).map((item: any, index: number) => (
+                      {citationStats?.mostCited.slice(0, 5).map((item: any, index: number) => (
                         <div key={item.citedId} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                           <div className="flex items-center gap-3">
                             <span className="text-2xl font-bold text-muted-foreground">#{index + 1}</span>

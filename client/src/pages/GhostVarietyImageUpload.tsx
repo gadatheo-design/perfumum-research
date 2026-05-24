@@ -244,7 +244,7 @@ export default function GhostVarietyImageUpload() {
             <ChevronRight className="h-4 w-4" />
             <Link href="/ghost-varieties-explorer" className="hover:text-white transition-colors">Variétés fantômes</Link>
             <ChevronRight className="h-4 w-4" />
-            <Link href={`/ghost-variety/${varietyId}`} className="hover:text-white transition-colors">{variety.name}</Link>
+            <Link href={`/ghost-variety/${varietyId}`} className="hover:text-white transition-colors">{variety?.name}</Link>
             <ChevronRight className="h-4 w-4" />
             <span>Ajouter une image</span>
           </div>
@@ -254,7 +254,7 @@ export default function GhostVarietyImageUpload() {
             Ajouter une image
           </h1>
           <p className="text-slate-300 mt-2">
-            Téléchargez une illustration pour <span className="font-semibold">{variety.name}</span>
+            Téléchargez une illustration pour <span className="font-semibold">{variety?.name}</span>
           </p>
         </div>
       </div>

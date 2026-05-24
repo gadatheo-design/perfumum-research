@@ -73,9 +73,9 @@ export default function ArchivesTerrain() {
                   <Skeleton key={i} className="h-64" />
                 ))}
               </div>
-            ) : archives && archives.length > 0 ? (
+            ) : archives && archives?.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {archives.map((archive) => (
+                {archives?.map((archive) => (
                   <Link key={archive.id} href={`/archives-terrain/${archive.id}`}>
                     <Card className="h-full hover:shadow-lg transition-all duration-200 cursor-pointer group border-border/50 hover:border-primary/40">
                       <CardHeader className="bg-gradient-to-br from-amber-50 to-stone-50 group-hover:from-amber-100 group-hover:to-stone-100 transition-colors">

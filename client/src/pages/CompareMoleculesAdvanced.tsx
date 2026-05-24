@@ -126,7 +126,7 @@ export default function CompareMoleculesAdvanced() {
   // Filtrer les molécules sélectionnées
   const selectedMolecules = useMemo(() => {
     if (!allMolecules) return [];
-    return allMolecules.filter(m => selectedMoleculeIds.includes(m.id));
+    return allMolecules?.filter(m => selectedMoleculeIds.includes(m.id));
   }, [allMolecules, selectedMoleculeIds]);
 
   const addMolecule = (id: string) => {

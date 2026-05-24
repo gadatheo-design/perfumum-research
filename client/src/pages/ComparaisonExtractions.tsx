@@ -142,7 +142,7 @@ export default function ComparaisonExtractions() {
   const [activeTab, setActiveTab] = useState("overview");
   
   // Récupérer les matières premières pour la comparaison
-  const { data: rawMaterials, isLoading } = trpc.rawMaterials.getAll.useQuery({
+  const { data: rawMaterials, isLoading } = trpc.rawMaterials?.getAll.useQuery({
     limit: 100
   });
   
@@ -151,7 +151,7 @@ export default function ComparaisonExtractions() {
     if (!rawMaterials) return {};
     
     const groups: Record<string, any[]> = {};
-    rawMaterials.forEach((rm: any) => {
+    rawMaterials?.forEach((rm: any) => {
       // Extraire le nom de la plante du nom de la matière première
       const plantName = rm.name?.replace(/^(HE|Absolue|Extrait CO2) (de |d')?/i, "").trim();
       if (plantName) {

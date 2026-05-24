@@ -160,7 +160,7 @@ export default function GenealogyGraph() {
   const filteredData = (() => {
     if (!graphData) return { nodes: [], links: [] };
 
-    const filteredNodes = graphData.nodes.filter((n) => {
+    const filteredNodes = graphData?.nodes.filter((n) => {
       // Check if node matches any selected category
       for (const cat of selectedCategories) {
         if (matchesCategory(n, cat)) return true;
@@ -170,7 +170,7 @@ export default function GenealogyGraph() {
 
     const nodeIds = new Set(filteredNodes.map((n) => n.id));
 
-    const filteredLinks = graphData.links.filter((l) => {
+    const filteredLinks = graphData?.links.filter((l) => {
       const srcId = typeof l.source === "object" ? (l.source as GraphNode).id : l.source;
       const tgtId = typeof l.target === "object" ? (l.target as GraphNode).id : l.target;
       if (!nodeIds.has(srcId) || !nodeIds.has(tgtId)) return false;
@@ -578,11 +578,11 @@ export default function GenealogyGraph() {
                   <Separator />
                   <div className="flex justify-between text-xs">
                     <span className="text-muted-foreground">Total base de données</span>
-                    <span>{graphData.stats.totalVarieties}</span>
+                    <span>{graphData?.stats.totalVarieties}</span>
                   </div>
                   <div className="flex justify-between text-xs">
                     <span className="text-muted-foreground">Pays d'origine</span>
-                    <span>{graphData.stats.countries}</span>
+                    <span>{graphData?.stats.countries}</span>
                   </div>
                 </CardContent>
               </Card>

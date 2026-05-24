@@ -32,7 +32,7 @@ import { useLocation } from "wouter";
 type SortOption = "name-asc" | "name-desc" | "family-asc" | "recent";
 
 export default function Favoris() {
-  const { data: favorites, isLoading } = trpc.favorites.list.useQuery();
+  const { data: favorites, isLoading } = trpc.favorites?.list.useQuery();
   const [, setLocation] = useLocation();
   const [familyFilter, setFamilyFilter] = useState<string>("all");
   const [gammeFilter, setGammeFilter] = useState<GammeType | "all">("all");
@@ -72,7 +72,7 @@ export default function Favoris() {
   const filteredFavorites = useMemo(() => {
     if (!favorites) return [];
 
-    let filtered = favorites.filter(fav => {
+    let filtered = favorites?.filter(fav => {
       if (!fav.molecule) return false;
       
       const matchesFamily = 
@@ -287,7 +287,7 @@ export default function Favoris() {
                 <div className="flex justify-center py-12">
                   <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
-              ) : !favorites || favorites.length === 0 ? (
+              ) : !favorites || favorites?.length === 0 ? (
                 <div className="text-center py-12">
                   <Star className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
                   <h3 className="text-xl font-semibold mb-2">Aucune molécule favorite</h3>

@@ -759,12 +759,12 @@ export default function ReferencesGraph() {
                                   <Skeleton className="h-4 w-full" />
                                   <Skeleton className="h-4 w-3/4" />
                                 </div>
-                              ) : referenceDetails?.linkedEntities && referenceDetails.linkedEntities.length > 0 ? (
+                              ) : referenceDetails?.linkedEntities && referenceDetails?.linkedEntities.length > 0 ? (
                                 <div className="space-y-2">
                                   <p className="text-xs font-medium text-muted-foreground">Entités liées</p>
                                   <ScrollArea className="h-32">
                                     <div className="space-y-1">
-                                      {referenceDetails.linkedEntities.map((entity, idx) => (
+                                      {referenceDetails?.linkedEntities.map((entity, idx) => (
                                         <div 
                                           key={idx}
                                           className="flex items-center justify-between p-2 rounded bg-muted/50 text-sm"
@@ -806,14 +806,14 @@ export default function ReferencesGraph() {
                 </AnimatePresence>
                 
                 {/* Top Axes */}
-                {stats?.topAxesByReferences && stats.topAxesByReferences.length > 0 && (
+                {stats?.topAxesByReferences && stats?.topAxesByReferences.length > 0 && (
                   <Card>
                     <CardHeader className="pb-3">
                       <CardTitle className="text-sm font-medium">Top Axes par Références</CardTitle>
                     </CardHeader>
                     <CardContent>
                       <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                        {stats.topAxesByReferences.slice(0, 5).map((axis, idx) => (
+                        {stats?.topAxesByReferences.slice(0, 5).map((axis, idx) => (
                           <div 
                             key={axis.code}
                             className="p-3 rounded-lg bg-muted/50 text-center cursor-pointer hover:bg-muted transition-colors"

@@ -66,8 +66,8 @@ export default function PlantTerroirImportCSV() {
   const utils = trpc.useUtils();
 
   // Queries pour validation
-  const { data: plants } = trpc.plants.list.useQuery();
-  const { data: terroirs } = trpc.terroirs.getAll.useQuery();
+  const { data: plants } = trpc.plants?.list.useQuery();
+  const { data: terroirs } = trpc.terroirs?.getAll.useQuery();
   const { data: existingRelations } = trpc.plantTerroirs.getAllWithNames.useQuery();
 
   // Mutation pour l'import
@@ -97,7 +97,7 @@ export default function PlantTerroirImportCSV() {
   const plantNameMap = useMemo(() => {
     if (!plants) return new Map<string, number>();
     const map = new Map<string, number>();
-    plants.forEach((p: any) => {
+    plants?.forEach((p: any) => {
       map.set(p.name.toLowerCase(), p.id);
       if (p.latinName) {
         map.set(p.latinName.toLowerCase(), p.id);
@@ -109,7 +109,7 @@ export default function PlantTerroirImportCSV() {
   const terroirNameMap = useMemo(() => {
     if (!terroirs) return new Map<string, number>();
     const map = new Map<string, number>();
-    terroirs.forEach((t: any) => {
+    terroirs?.forEach((t: any) => {
       map.set(t.name.toLowerCase(), t.id);
     });
     return map;
@@ -117,7 +117,7 @@ export default function PlantTerroirImportCSV() {
 
   const existingSet = useMemo(() => {
     if (!existingRelations) return new Set<string>();
-    return new Set(existingRelations.map(r => `${r.plantId}-${r.terroirId}`));
+    return new Set(existingRelations?.map(r => `${r.plantId}-${r.terroirId}`));
   }, [existingRelations]);
 
   // Parser le CSV

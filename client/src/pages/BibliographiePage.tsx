@@ -304,12 +304,12 @@ function DomainCloud({ data }: { data: Array<{ domain: string | null; count: num
 function StatsOverview({ stats }: { stats: any }) {
   if (!stats) return null;
   
-  const readCount = stats.byReadStatus?.find((s: any) => s.status === "read")?.count || 0;
-  const readingCount = stats.byReadStatus?.find((s: any) => s.status === "reading")?.count || 0;
-  const unreadCount = stats.byReadStatus?.find((s: any) => s.status === "unread")?.count || 0;
-  const toReviewCount = stats.byReadStatus?.find((s: any) => s.status === "to_review")?.count || 0;
+  const readCount = stats?.byReadStatus?.find((s: any) => s.status === "read")?.count || 0;
+  const readingCount = stats?.byReadStatus?.find((s: any) => s.status === "reading")?.count || 0;
+  const unreadCount = stats?.byReadStatus?.find((s: any) => s.status === "unread")?.count || 0;
+  const toReviewCount = stats?.byReadStatus?.find((s: any) => s.status === "to_review")?.count || 0;
   
-  const readProgress = stats.total > 0 ? Math.round((readCount / stats.total) * 100) : 0;
+  const readProgress = stats?.total > 0 ? Math.round((readCount / stats?.total) * 100) : 0;
   
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -317,7 +317,7 @@ function StatsOverview({ stats }: { stats: any }) {
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-3xl font-bold text-primary">{stats.total}</p>
+              <p className="text-3xl font-bold text-primary">{stats?.total}</p>
               <p className="text-sm text-muted-foreground">Références</p>
             </div>
             <Library className="h-8 w-8 text-primary/40" />
@@ -494,7 +494,7 @@ export default function BibliographiePage() {
   // Trouver l'ID de l'axe sélectionné
   const selectedAxisId = useMemo(() => {
     if (selectedAxis === "all") return undefined;
-    const axis = axes.find((a: any) => a.axisCode === selectedAxis);
+    const axis = axes?.find((a: any) => a.axisCode === selectedAxis);
     return axis?.id;
   }, [selectedAxis, axes]);
   
@@ -516,7 +516,7 @@ export default function BibliographiePage() {
     if (!entriesData) return [];
     // Handle both array and object with entries property
     if (Array.isArray(entriesData)) return entriesData;
-    if (entriesData.entries) return entriesData.entries;
+    if (entriesData?.entries) return entriesData?.entries;
     return [];
   }, [entriesData]);
   
@@ -694,7 +694,7 @@ export default function BibliographiePage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    {stats?.byDomain && <DomainCloud data={stats.byDomain} />}
+                    {stats?.byDomain && <DomainCloud data={stats?.byDomain} />}
                   </CardContent>
                 </Card>
                 
@@ -710,7 +710,7 @@ export default function BibliographiePage() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    {stats?.byYear && <PublicationTimeline data={stats.byYear} />}
+                    {stats?.byYear && <PublicationTimeline data={stats?.byYear} />}
                   </CardContent>
                 </Card>
               </div>
@@ -988,10 +988,10 @@ export default function BibliographiePage() {
                 <CardContent>
                   {stats?.byYear && (
                     <div className="space-y-8">
-                      <PublicationTimeline data={stats.byYear} />
+                      <PublicationTimeline data={stats?.byYear} />
                       
                       <div className="space-y-4 mt-8">
-                        {stats.byYear
+                        {stats?.byYear
                           .filter((y: any) => y.year !== null)
                           .sort((a: any, b: any) => (b.year || 0) - (a.year || 0))
                           .slice(0, 10)

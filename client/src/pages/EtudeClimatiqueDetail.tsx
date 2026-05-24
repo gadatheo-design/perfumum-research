@@ -57,10 +57,10 @@ export default function EtudeClimatiqueDetail() {
       {/* Breadcrumbs */}
       <div className="bg-sky-50">
         <Breadcrumbs 
-          currentLabel={study.name}
+          currentLabel={study?.name}
           customItems={[
             { label: "Études Climatiques", path: "/etudes-climatiques" },
-            { label: study.name }
+            { label: study?.name }
           ]}
         />
       </div>
@@ -74,9 +74,9 @@ export default function EtudeClimatiqueDetail() {
               Retour aux études
             </Button>
           </Link>
-          <h1 className="text-4xl font-bold mb-2">{study.name}</h1>
+          <h1 className="text-4xl font-bold mb-2">{study?.name}</h1>
           <div className="flex flex-wrap gap-2 mt-4">
-            {getTypeBadge(study.axis)}
+            {getTypeBadge(study?.axis)}
           </div>
         </div>
       </div>
@@ -93,18 +93,18 @@ export default function EtudeClimatiqueDetail() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 pt-6">
-              {study.zone && (
+              {study?.zone && (
                 <div>
                   <p className="text-sm font-medium text-stone-600 mb-1">Zone</p>
-                  <p className="text-sm text-stone-700">{study.zone}</p>
+                  <p className="text-sm text-stone-700">{study?.zone}</p>
                 </div>
               )}
-              {study.altitude && (
+              {study?.altitude && (
                 <div className="flex items-start gap-3">
                   <Calendar className="h-5 w-5 text-sky-600 mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-stone-600">Altitude</p>
-                    <p className="text-sm">{study.altitude}</p>
+                    <p className="text-sm">{study?.altitude}</p>
                   </div>
                 </div>
               )}
@@ -120,18 +120,18 @@ export default function EtudeClimatiqueDetail() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 pt-6">
-              {study.climate && (
+              {study?.climate && (
                 <div>
-                  <p className="text-sm text-stone-600 leading-relaxed">{study.climate}</p>
+                  <p className="text-sm text-stone-600 leading-relaxed">{study?.climate}</p>
                 </div>
               )}
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-                {study.keyMoment && (
+                {study?.keyMoment && (
                   <div className="flex items-center gap-2">
                     <Wind className="h-4 w-4 text-orange-500" />
                     <div>
                       <p className="text-xs text-stone-500">Moment clé</p>
-                      <p className="text-sm font-medium">{study.keyMoment}</p>
+                      <p className="text-sm font-medium">{study?.keyMoment}</p>
                     </div>
                   </div>
                 )}
@@ -151,31 +151,31 @@ export default function EtudeClimatiqueDetail() {
           </CardHeader>
           <CardContent className="pt-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {study.attackDescription && (
+              {study?.attackDescription && (
                 <div>
                   <h3 className="font-semibold text-stone-700 mb-2 flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-amber-500"></div>
                     Notes d'attaque
                   </h3>
-                  <p className="text-sm text-stone-600 leading-relaxed">{study.attackDescription}</p>
+                  <p className="text-sm text-stone-600 leading-relaxed">{study?.attackDescription}</p>
                 </div>
               )}
-              {study.heartDescription && (
+              {study?.heartDescription && (
                 <div>
                   <h3 className="font-semibold text-stone-700 mb-2 flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-rose-500"></div>
                     Notes de cœur
                   </h3>
-                  <p className="text-sm text-stone-600 leading-relaxed">{study.heartDescription}</p>
+                  <p className="text-sm text-stone-600 leading-relaxed">{study?.heartDescription}</p>
                 </div>
               )}
-              {study.baseDescription && (
+              {study?.baseDescription && (
                 <div>
                   <h3 className="font-semibold text-stone-700 mb-2 flex items-center gap-2">
                     <div className="h-2 w-2 rounded-full bg-stone-600"></div>
                     Notes de fond
                   </h3>
-                  <p className="text-sm text-stone-600 leading-relaxed">{study.baseDescription}</p>
+                  <p className="text-sm text-stone-600 leading-relaxed">{study?.baseDescription}</p>
                 </div>
               )}
             </div>
@@ -183,7 +183,7 @@ export default function EtudeClimatiqueDetail() {
         </Card>
 
         {/* Supports observés */}
-        {study.observedSupports && (
+        {study?.observedSupports && (
           <Card className="mb-6">
             <CardHeader className="bg-gradient-to-r from-violet-50 to-purple-50">
               <CardTitle className="flex items-center gap-2">
@@ -192,13 +192,13 @@ export default function EtudeClimatiqueDetail() {
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-6">
-              <p className="text-sm text-stone-600 leading-relaxed">{study.observedSupports}</p>
+              <p className="text-sm text-stone-600 leading-relaxed">{study?.observedSupports}</p>
             </CardContent>
           </Card>
         )}
 
         {/* Traduction laboratoire */}
-        {(study.headTranslation || study.heartTranslation || study.baseTranslation) && (
+        {(study?.headTranslation || study?.heartTranslation || study?.baseTranslation) && (
           <Card>
             <CardHeader className="bg-gradient-to-r from-amber-50 to-orange-50">
               <CardTitle className="flex items-center gap-2">
@@ -208,31 +208,31 @@ export default function EtudeClimatiqueDetail() {
             </CardHeader>
             <CardContent className="pt-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {study.headTranslation && (
+                {study?.headTranslation && (
                   <div>
                     <h3 className="font-semibold text-stone-700 mb-2 flex items-center gap-2">
                       <div className="h-2 w-2 rounded-full bg-amber-500"></div>
                       Tête
                     </h3>
-                    <p className="text-sm text-stone-600 leading-relaxed">{study.headTranslation}</p>
+                    <p className="text-sm text-stone-600 leading-relaxed">{study?.headTranslation}</p>
                   </div>
                 )}
-                {study.heartTranslation && (
+                {study?.heartTranslation && (
                   <div>
                     <h3 className="font-semibold text-stone-700 mb-2 flex items-center gap-2">
                       <div className="h-2 w-2 rounded-full bg-rose-500"></div>
                       Cœur
                     </h3>
-                    <p className="text-sm text-stone-600 leading-relaxed">{study.heartTranslation}</p>
+                    <p className="text-sm text-stone-600 leading-relaxed">{study?.heartTranslation}</p>
                   </div>
                 )}
-                {study.baseTranslation && (
+                {study?.baseTranslation && (
                   <div>
                     <h3 className="font-semibold text-stone-700 mb-2 flex items-center gap-2">
                       <div className="h-2 w-2 rounded-full bg-stone-600"></div>
                       Fond
                     </h3>
-                    <p className="text-sm text-stone-600 leading-relaxed">{study.baseTranslation}</p>
+                    <p className="text-sm text-stone-600 leading-relaxed">{study?.baseTranslation}</p>
                   </div>
                 )}
               </div>

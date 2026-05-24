@@ -390,23 +390,23 @@ export default function DataQuality() {
                   <div className="grid grid-cols-3 gap-4">
                     <div className="p-4 bg-muted rounded-lg">
                       <div className="text-sm text-muted-foreground">Total molécules</div>
-                      <div className="text-2xl font-bold">{duplicates.totalMolecules}</div>
+                      <div className="text-2xl font-bold">{duplicates?.totalMolecules}</div>
                     </div>
                     <div className="p-4 bg-muted rounded-lg">
                       <div className="text-sm text-muted-foreground">Groupes de doublons</div>
-                      <div className="text-2xl font-bold">{duplicates.duplicateGroups}</div>
+                      <div className="text-2xl font-bold">{duplicates?.duplicateGroups}</div>
                     </div>
                     <div className="p-4 bg-muted rounded-lg">
                       <div className="text-sm text-muted-foreground">Total doublons</div>
-                      <div className="text-2xl font-bold">{duplicates.totalDuplicates}</div>
+                      <div className="text-2xl font-bold">{duplicates?.totalDuplicates}</div>
                     </div>
                   </div>
                   
-                  {duplicates.duplicates && duplicates.duplicates.length > 0 && (
+                  {duplicates?.duplicates && duplicates?.duplicates?.length > 0 && (
                     <div className="space-y-2">
                       <h4 className="font-medium">Doublons détectés</h4>
                       <div className="max-h-60 overflow-y-auto space-y-1">
-                        {duplicates.duplicates.slice(0, 20).map((dup: any, i: number) => (
+                        {duplicates?.duplicates?.slice(0, 20).map((dup: any, i: number) => (
                           <div key={i} className="flex items-center justify-between p-2 bg-muted/50 rounded text-sm">
                             <span className="font-medium">{dup.name}</span>
                             <Badge variant="secondary">{dup.count} occurrences</Badge>
@@ -418,7 +418,7 @@ export default function DataQuality() {
                   
                   <Button 
                     onClick={handleMergeDuplicates} 
-                    disabled={isExecutingMerge || duplicates.duplicateGroups === 0}
+                    disabled={isExecutingMerge || duplicates?.duplicateGroups === 0}
                     className="w-full"
                   >
                     {isExecutingMerge ? (
@@ -465,23 +465,23 @@ export default function DataQuality() {
                   <div className="grid grid-cols-3 gap-4">
                     <div className="p-4 bg-muted rounded-lg">
                       <div className="text-sm text-muted-foreground">Sans formule</div>
-                      <div className="text-2xl font-bold">{enrichPreview.totalWithoutFormula}</div>
+                      <div className="text-2xl font-bold">{enrichPreview?.totalWithoutFormula}</div>
                     </div>
                     <div className="p-4 bg-muted rounded-lg">
                       <div className="text-sm text-muted-foreground">Enrichissables</div>
-                      <div className="text-2xl font-bold text-green-600">{enrichPreview.updated?.length || 0}</div>
+                      <div className="text-2xl font-bold text-green-600">{enrichPreview?.updated?.length || 0}</div>
                     </div>
                     <div className="p-4 bg-muted rounded-lg">
                       <div className="text-sm text-muted-foreground">Non trouvées</div>
-                      <div className="text-2xl font-bold text-orange-600">{enrichPreview.notFound?.length || 0}</div>
+                      <div className="text-2xl font-bold text-orange-600">{enrichPreview?.notFound?.length || 0}</div>
                     </div>
                   </div>
                   
-                  {enrichPreview.updated && enrichPreview.updated.length > 0 && (
+                  {enrichPreview?.updated && enrichPreview?.updated.length > 0 && (
                     <div className="space-y-2">
                       <h4 className="font-medium">Molécules à enrichir</h4>
                       <div className="max-h-40 overflow-y-auto space-y-1">
-                        {enrichPreview.updated.slice(0, 10).map((item: string, i: number) => (
+                        {enrichPreview?.updated.slice(0, 10).map((item: string, i: number) => (
                           <div key={i} className="flex items-center gap-2 p-2 bg-green-500/10 rounded text-sm">
                             <CheckCircle2 className="h-4 w-4 text-green-600" />
                             <span>{item}</span>
@@ -493,7 +493,7 @@ export default function DataQuality() {
                   
                   <Button 
                     onClick={handleEnrichFormulas} 
-                    disabled={isExecutingEnrich || (enrichPreview.updated?.length || 0) === 0}
+                    disabled={isExecutingEnrich || (enrichPreview?.updated?.length || 0) === 0}
                     className="w-full"
                   >
                     {isExecutingEnrich ? (
@@ -542,33 +542,33 @@ export default function DataQuality() {
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>Molécules → Recettes</span>
-                        <span className="font-medium">{linkAnalysis.coverage?.moleculesWithRecettesPercent}%</span>
+                        <span className="font-medium">{linkAnalysis?.coverage?.moleculesWithRecettesPercent}%</span>
                       </div>
-                      <Progress value={linkAnalysis.coverage?.moleculesWithRecettesPercent || 0} />
+                      <Progress value={linkAnalysis?.coverage?.moleculesWithRecettesPercent || 0} />
                       <div className="text-xs text-muted-foreground">
-                        {linkAnalysis.coverage?.moleculesWithRecettes} / {linkAnalysis.entities?.molecules} molécules liées
+                        {linkAnalysis?.coverage?.moleculesWithRecettes} / {linkAnalysis?.entities?.molecules} molécules liées
                       </div>
                     </div>
                     
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>Molécules → Plantes</span>
-                        <span className="font-medium">{linkAnalysis.coverage?.moleculesWithPlantsPercent}%</span>
+                        <span className="font-medium">{linkAnalysis?.coverage?.moleculesWithPlantsPercent}%</span>
                       </div>
-                      <Progress value={linkAnalysis.coverage?.moleculesWithPlantsPercent || 0} />
+                      <Progress value={linkAnalysis?.coverage?.moleculesWithPlantsPercent || 0} />
                       <div className="text-xs text-muted-foreground">
-                        {linkAnalysis.coverage?.moleculesWithPlants} / {linkAnalysis.entities?.molecules} molécules liées
+                        {linkAnalysis?.coverage?.moleculesWithPlants} / {linkAnalysis?.entities?.molecules} molécules liées
                       </div>
                     </div>
                     
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>Plantes → Molécules</span>
-                        <span className="font-medium">{linkAnalysis.coverage?.plantsWithMoleculesPercent}%</span>
+                        <span className="font-medium">{linkAnalysis?.coverage?.plantsWithMoleculesPercent}%</span>
                       </div>
-                      <Progress value={linkAnalysis.coverage?.plantsWithMoleculesPercent || 0} />
+                      <Progress value={linkAnalysis?.coverage?.plantsWithMoleculesPercent || 0} />
                       <div className="text-xs text-muted-foreground">
-                        {linkAnalysis.coverage?.plantsWithMolecules} / {linkAnalysis.entities?.plants} plantes liées
+                        {linkAnalysis?.coverage?.plantsWithMolecules} / {linkAnalysis?.entities?.plants} plantes liées
                       </div>
                     </div>
                   </div>
@@ -580,18 +580,18 @@ export default function DataQuality() {
                         <AlertTriangle className="h-4 w-4 text-orange-500" />
                         <span className="font-medium text-sm">Sans recettes</span>
                       </div>
-                      <div className="text-2xl font-bold">{linkAnalysis.gaps?.moleculesWithoutRecettes}</div>
-                      {moleculesWithoutRecettes && moleculesWithoutRecettes.length > 0 && (
+                      <div className="text-2xl font-bold">{linkAnalysis?.gaps?.moleculesWithoutRecettes}</div>
+                      {moleculesWithoutRecettes && moleculesWithoutRecettes?.length > 0 && (
                         <div className="mt-2 space-y-1">
-                          {moleculesWithoutRecettes.slice(0, 3).map((m: any) => (
+                          {moleculesWithoutRecettes?.slice(0, 3).map((m: any) => (
                             <div key={m.id} className="text-xs text-muted-foreground flex items-center gap-1">
                               <ChevronRight className="h-3 w-3" />
                               {m.name}
                             </div>
                           ))}
-                          {moleculesWithoutRecettes.length > 3 && (
+                          {moleculesWithoutRecettes?.length > 3 && (
                             <div className="text-xs text-muted-foreground">
-                              ... et {linkAnalysis.gaps?.moleculesWithoutRecettes - 3} autres
+                              ... et {linkAnalysis?.gaps?.moleculesWithoutRecettes - 3} autres
                             </div>
                           )}
                         </div>
@@ -603,18 +603,18 @@ export default function DataQuality() {
                         <AlertTriangle className="h-4 w-4 text-orange-500" />
                         <span className="font-medium text-sm">Sans plantes</span>
                       </div>
-                      <div className="text-2xl font-bold">{linkAnalysis.gaps?.moleculesWithoutPlants}</div>
-                      {moleculesWithoutPlants && moleculesWithoutPlants.length > 0 && (
+                      <div className="text-2xl font-bold">{linkAnalysis?.gaps?.moleculesWithoutPlants}</div>
+                      {moleculesWithoutPlants && moleculesWithoutPlants?.length > 0 && (
                         <div className="mt-2 space-y-1">
-                          {moleculesWithoutPlants.slice(0, 3).map((m: any) => (
+                          {moleculesWithoutPlants?.slice(0, 3).map((m: any) => (
                             <div key={m.id} className="text-xs text-muted-foreground flex items-center gap-1">
                               <ChevronRight className="h-3 w-3" />
                               {m.name}
                             </div>
                           ))}
-                          {moleculesWithoutPlants.length > 3 && (
+                          {moleculesWithoutPlants?.length > 3 && (
                             <div className="text-xs text-muted-foreground">
-                              ... et {linkAnalysis.gaps?.moleculesWithoutPlants - 3} autres
+                              ... et {linkAnalysis?.gaps?.moleculesWithoutPlants - 3} autres
                             </div>
                           )}
                         </div>
@@ -626,18 +626,18 @@ export default function DataQuality() {
                         <AlertTriangle className="h-4 w-4 text-orange-500" />
                         <span className="font-medium text-sm">Plantes isolées</span>
                       </div>
-                      <div className="text-2xl font-bold">{linkAnalysis.gaps?.plantsWithoutMolecules}</div>
-                      {plantsWithoutMolecules && plantsWithoutMolecules.length > 0 && (
+                      <div className="text-2xl font-bold">{linkAnalysis?.gaps?.plantsWithoutMolecules}</div>
+                      {plantsWithoutMolecules && plantsWithoutMolecules?.length > 0 && (
                         <div className="mt-2 space-y-1">
-                          {plantsWithoutMolecules.slice(0, 3).map((p: any) => (
+                          {plantsWithoutMolecules?.slice(0, 3).map((p: any) => (
                             <div key={p.id} className="text-xs text-muted-foreground flex items-center gap-1">
                               <ChevronRight className="h-3 w-3" />
                               {p.name}
                             </div>
                           ))}
-                          {plantsWithoutMolecules.length > 3 && (
+                          {plantsWithoutMolecules?.length > 3 && (
                             <div className="text-xs text-muted-foreground">
-                              ... et {linkAnalysis.gaps?.plantsWithoutMolecules - 3} autres
+                              ... et {linkAnalysis?.gaps?.plantsWithoutMolecules - 3} autres
                             </div>
                           )}
                         </div>

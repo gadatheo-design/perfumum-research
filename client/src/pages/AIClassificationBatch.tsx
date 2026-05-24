@@ -337,10 +337,10 @@ export default function AIClassificationBatch() {
                 <Beaker className="h-4 w-4 text-amber-500" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-amber-500">{stats.noChemicalClass}</div>
-                <Progress value={100 - stats.classificationRate} className="mt-2" />
+                <div className="text-2xl font-bold text-amber-500">{stats?.noChemicalClass}</div>
+                <Progress value={100 - stats?.classificationRate} className="mt-2" />
                 <p className="text-xs text-muted-foreground mt-2">
-                  {stats.classificationRate}% déjà classifiées
+                  {stats?.classificationRate}% déjà classifiées
                 </p>
               </CardContent>
             </Card>

@@ -133,7 +133,7 @@ export default function VisualisationsCorrelation() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {scatterData && scatterData.length > 0 ? (
+              {scatterData && scatterData?.length > 0 ? (
                 <>
                   <div className="h-[500px]">
                     <ResponsiveContainer width="100%" height="100%">
@@ -181,7 +181,7 @@ export default function VisualisationsCorrelation() {
                         />
                         <Legend />
                         {Object.keys(CHEMICAL_CLASS_COLORS).map(chemClass => {
-                          const classData = scatterData.filter(d => d.chemicalClass === chemClass);
+                          const classData = scatterData?.filter(d => d.chemicalClass === chemClass);
                           if (classData.length === 0) return null;
                           return (
                             <Scatter
@@ -196,7 +196,7 @@ export default function VisualisationsCorrelation() {
                     </ResponsiveContainer>
                   </div>
                   <p className="text-sm text-muted-foreground mt-4 text-center">
-                    {scatterData.length} molécules avec données complètes
+                    {scatterData?.length} molécules avec données complètes
                   </p>
                 </>
               ) : (
@@ -247,14 +247,14 @@ export default function VisualisationsCorrelation() {
                 </div>
               </div>
 
-              {correlationData && correlationData.points.length > 0 ? (
+              {correlationData && correlationData?.points.length > 0 ? (
                 <>
                   <div className="grid grid-cols-3 gap-4 mb-6">
                     <Card>
                       <CardContent className="pt-4">
                         <p className="text-sm text-muted-foreground">Coefficient de corrélation</p>
                         <p className="text-2xl font-bold">
-                          r = {correlationData.correlation}
+                          r = {correlationData?.correlation}
                         </p>
                       </CardContent>
                     </Card>
@@ -262,7 +262,7 @@ export default function VisualisationsCorrelation() {
                       <CardContent className="pt-4">
                         <p className="text-sm text-muted-foreground">R² (coefficient de détermination)</p>
                         <p className="text-2xl font-bold">
-                          R² = {correlationData.rSquared}
+                          R² = {correlationData?.rSquared}
                         </p>
                       </CardContent>
                     </Card>
@@ -270,7 +270,7 @@ export default function VisualisationsCorrelation() {
                       <CardContent className="pt-4">
                         <p className="text-sm text-muted-foreground">Points de données</p>
                         <p className="text-2xl font-bold">
-                          {correlationData.points.length}
+                          {correlationData?.points.length}
                         </p>
                       </CardContent>
                     </Card>
@@ -313,7 +313,7 @@ export default function VisualisationsCorrelation() {
                           }}
                         />
                         <Scatter 
-                          data={correlationData.points} 
+                          data={correlationData?.points} 
                           fill="#3b82f6"
                         />
                       </ScatterChart>
@@ -339,13 +339,13 @@ export default function VisualisationsCorrelation() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {heatmapData && heatmapData.data.length > 0 ? (
+              {heatmapData && heatmapData?.data.length > 0 ? (
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead>
                       <tr>
                         <th className="p-2 text-left font-medium">Classe / Famille</th>
-                        {heatmapData.families.slice(0, 10).map(family => (
+                        {heatmapData?.families.slice(0, 10).map(family => (
                           <th key={family} className="p-2 text-center font-medium text-xs">
                             {family.substring(0, 15)}
                           </th>
@@ -353,7 +353,7 @@ export default function VisualisationsCorrelation() {
                       </tr>
                     </thead>
                     <tbody>
-                      {heatmapData.chemicalClasses.map(chemClass => (
+                      {heatmapData?.chemicalClasses.map(chemClass => (
                         <tr key={chemClass}>
                           <td className="p-2 font-medium">
                             <Badge 
@@ -363,12 +363,12 @@ export default function VisualisationsCorrelation() {
                               {chemClass}
                             </Badge>
                           </td>
-                          {heatmapData.families.slice(0, 10).map(family => {
-                            const cell = heatmapData.data.find(
+                          {heatmapData?.families.slice(0, 10).map(family => {
+                            const cell = heatmapData?.data.find(
                               d => d.chemicalClass === chemClass && d.family === family
                             );
                             const count = cell?.count || 0;
-                            const maxCount = Math.max(...heatmapData.data.map(d => d.count));
+                            const maxCount = Math.max(...heatmapData?.data.map(d => d.count));
                             const intensity = count / maxCount;
                             
                             return (

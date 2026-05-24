@@ -141,26 +141,26 @@ export default function SmilesViewer() {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
               <Card className="bg-primary/5 border-primary/20">
                 <CardContent className="p-4">
-                  <div className="text-2xl font-bold text-primary">{stats.withSmiles}</div>
+                  <div className="text-2xl font-bold text-primary">{stats?.withSmiles}</div>
                   <div className="text-sm text-muted-foreground">Avec SMILES</div>
                 </CardContent>
               </Card>
               <Card className="bg-muted/50">
                 <CardContent className="p-4">
-                  <div className="text-2xl font-bold">{stats.total}</div>
+                  <div className="text-2xl font-bold">{stats?.total}</div>
                   <div className="text-sm text-muted-foreground">Total molécules</div>
                 </CardContent>
               </Card>
               <Card className="bg-green-500/10 border-green-500/20">
                 <CardContent className="p-4">
-                  <div className="text-2xl font-bold text-green-500">{stats.withPubChem}</div>
+                  <div className="text-2xl font-bold text-green-500">{stats?.withPubChem}</div>
                   <div className="text-sm text-muted-foreground">Avec PubChem CID</div>
                 </CardContent>
               </Card>
               <Card className="bg-amber-500/10 border-amber-500/20">
                 <CardContent className="p-4">
                   <div className="text-2xl font-bold text-amber-500">
-                    {Math.round((stats.withSmiles / stats.total) * 100)}%
+                    {Math.round((stats?.withSmiles / stats?.total) * 100)}%
                   </div>
                   <div className="text-sm text-muted-foreground">Couverture SMILES</div>
                 </CardContent>

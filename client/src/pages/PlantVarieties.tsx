@@ -528,14 +528,14 @@ export default function PlantVarieties() {
               </Select>
 
               {/* Country Filter */}
-              {countries && countries.length > 0 && (
+              {countries && countries?.length > 0 && (
                 <Select value={selectedCountry} onValueChange={setSelectedCountry}>
                   <SelectTrigger className="w-full md:w-[180px]">
                     <SelectValue placeholder="Pays d'origine" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">Tous pays</SelectItem>
-                    {countries.map((country) => (
+                    {countries?.map((country) => (
                       <SelectItem key={country} value={country}>
                         {country}
                       </SelectItem>

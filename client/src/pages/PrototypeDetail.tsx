@@ -46,7 +46,7 @@ export default function PrototypeDetail() {
     );
   }
 
-  const composition = safeJsonParse(prototype.composition, null);
+  const composition = safeJsonParse(prototype?.composition, null);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -65,17 +65,17 @@ export default function PrototypeDetail() {
               </Link>
               
               <div className="text-center">
-                <div className="text-6xl mb-4">{prototype.emoji}</div>
+                <div className="text-6xl mb-4">{prototype?.emoji}</div>
                 <div className="flex items-center justify-center gap-3 mb-4">
                   <Badge variant="outline" className="text-lg px-4 py-1">
-                    {prototype.code}
+                    {prototype?.code}
                   </Badge>
                   <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
-                    {prototype.name}
+                    {prototype?.name}
                   </h1>
                 </div>
                 <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                  {prototype.sensoryForm}
+                  {prototype?.sensoryForm}
                 </p>
               </div>
             </div>
@@ -87,7 +87,7 @@ export default function PrototypeDetail() {
           <div className="container">
             <div className="max-w-3xl mx-auto">
               <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-                {prototype.overview}
+                {prototype?.overview}
               </p>
 
               {/* Key Info Cards */}
@@ -97,7 +97,7 @@ export default function PrototypeDetail() {
                     <CardTitle className="text-base">Axe Conceptuel</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground">{prototype.conceptualAxis}</p>
+                    <p className="text-sm text-muted-foreground">{prototype?.conceptualAxis}</p>
                   </CardContent>
                 </Card>
 
@@ -106,7 +106,7 @@ export default function PrototypeDetail() {
                     <CardTitle className="text-base">Famille Olfactive</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground">{prototype.olfactiveFamily}</p>
+                    <p className="text-sm text-muted-foreground">{prototype?.olfactiveFamily}</p>
                   </CardContent>
                 </Card>
 
@@ -115,7 +115,7 @@ export default function PrototypeDetail() {
                     <CardTitle className="text-base">Support Privilégié</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground">{prototype.preferredSupport}</p>
+                    <p className="text-sm text-muted-foreground">{prototype?.preferredSupport}</p>
                   </CardContent>
                 </Card>
 
@@ -124,7 +124,7 @@ export default function PrototypeDetail() {
                     <CardTitle className="text-base">Émotion Clé</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground">{prototype.keyEmotion}</p>
+                    <p className="text-sm text-muted-foreground">{prototype?.keyEmotion}</p>
                   </CardContent>
                 </Card>
               </div>
@@ -188,56 +188,56 @@ export default function PrototypeDetail() {
               )}
 
               {/* Conceptual Reflection */}
-              {prototype.conceptualReflection && (
+              {prototype?.conceptualReflection && (
                 <Card className="mb-12">
                   <CardHeader>
                     <CardTitle className="text-2xl">Réflexion Conceptuelle</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground leading-relaxed">
-                      {prototype.conceptualReflection}
+                      {prototype?.conceptualReflection}
                     </p>
                   </CardContent>
                 </Card>
               )}
 
               {/* Installation */}
-              {prototype.installation && (
+              {prototype?.installation && (
                 <Card className="mb-12">
                   <CardHeader>
                     <CardTitle className="text-2xl">Installation</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground leading-relaxed">
-                      {prototype.installation}
+                      {prototype?.installation}
                     </p>
                   </CardContent>
                 </Card>
               )}
 
               {/* Technical Development */}
-              {prototype.technicalDevelopment && (
+              {prototype?.technicalDevelopment && (
                 <Card className="mb-12">
                   <CardHeader>
                     <CardTitle className="text-2xl">Développement Technique</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground leading-relaxed">
-                      {prototype.technicalDevelopment}
+                      {prototype?.technicalDevelopment}
                     </p>
                   </CardContent>
                 </Card>
               )}
 
               {/* Theoretical Scope */}
-              {prototype.theoreticalScope && (
+              {prototype?.theoreticalScope && (
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-2xl">Portée Théorique</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground leading-relaxed">
-                      {prototype.theoreticalScope}
+                      {prototype?.theoreticalScope}
                     </p>
                   </CardContent>
                 </Card>
@@ -247,7 +247,7 @@ export default function PrototypeDetail() {
               <div className="mt-12">
                 <LinkedReferences 
                   entityType="prototype" 
-                  entityId={prototype.id} 
+                  entityId={prototype?.id} 
                   title="References Bibliographiques Associees"
                   maxItems={5}
                 />

@@ -33,7 +33,7 @@ function CertificationRadarWidget() {
 
   const pieData = useMemo(() => {
     if (!certStats?.byType) return [];
-    return Object.entries(certStats.byType)
+    return Object.entries(certStats?.byType)
       .map(([type, count]) => ({ name: type, value: count as number }))
       .sort((a, b) => b.value - a.value)
       .slice(0, 10);
@@ -49,7 +49,7 @@ function CertificationRadarWidget() {
     );
   }
 
-  if (!certStats || certStats.totalCertified === 0) return null;
+  if (!certStats || certStats?.totalCertified === 0) return null;
 
   return (
     <Card>
@@ -59,8 +59,8 @@ function CertificationRadarWidget() {
           Durabilité du Corpus PERFUMUM
         </CardTitle>
         <CardDescription>
-          {certStats.totalCertified} plantes certifiées sur {certStats.totalPlants} ({Math.round((certStats.totalCertified / certStats.totalPlants) * 100)}%)
-          · {certStats.totalCertifications} certifications actives
+          {certStats?.totalCertified} plantes certifiées sur {certStats?.totalPlants} ({Math.round((certStats?.totalCertified / certStats?.totalPlants) * 100)}%)
+          · {certStats?.totalCertifications} certifications actives
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -102,13 +102,13 @@ function CertificationRadarWidget() {
               ))}
             </div>
 
-            {certStats.byIucn && (
+            {certStats?.byIucn && (
               <div className="pt-3 border-t">
                 <p className="text-xs font-medium text-muted-foreground mb-2 flex items-center gap-1">
                   <Leaf className="h-3 w-3" /> Plantes certifiées par statut IUCN
                 </p>
                 <div className="flex flex-wrap gap-1.5">
-                  {Object.entries(certStats.byIucn).map(([status, count]) => (
+                  {Object.entries(certStats?.byIucn).map(([status, count]) => (
                     <Badge
                       key={status}
                       className="text-xs"
@@ -190,7 +190,7 @@ export default function MonDashboard() {
   const { data: allMolecules } = trpc.molecules.list.useQuery();
   const moleculesDetails = useMemo(() => {
     if (!allMolecules || favoriteMolecules.length === 0) return [];
-    return allMolecules.filter((m: any) => favoriteMolecules.includes(m.id));
+    return allMolecules?.filter((m: any) => favoriteMolecules.includes(m.id));
   }, [allMolecules, favoriteMolecules]);
 
   // Calculer le profil radar moyen des molécules favorites
@@ -335,9 +335,9 @@ export default function MonDashboard() {
                   <div key={i} className="h-20 bg-muted animate-pulse rounded-lg" />
                 ))}
               </div>
-            ) : recommendedRecettes && recommendedRecettes.length > 0 ? (
+            ) : recommendedRecettes && recommendedRecettes?.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {recommendedRecettes.map((rec) => (
+                {recommendedRecettes?.map((rec) => (
                   <Link key={rec.recette.id} href={`/recette/${rec.recette.id}`}>
                     <Card className="hover:shadow-md transition-shadow cursor-pointer h-full">
                       <CardContent className="p-4">

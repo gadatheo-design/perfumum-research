@@ -46,9 +46,9 @@ export default function ProtocolesMoleculaires() {
                   <Skeleton key={i} className="h-72" />
                 ))}
               </div>
-            ) : protocols && protocols.length > 0 ? (
+            ) : protocols && protocols?.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {protocols.map((protocol) => (
+                {protocols?.map((protocol) => (
                   <Link key={protocol.id} href={`/protocoles-moleculaires/${protocol.id}`}>
                     <Card className="h-full hover:shadow-xl transition-all duration-300 cursor-pointer group border-l-4 border-l-violet-500">
                       <CardHeader className="bg-gradient-to-br from-violet-50 to-purple-50 group-hover:from-violet-100 group-hover:to-purple-100 transition-colors">

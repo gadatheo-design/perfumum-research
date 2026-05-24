@@ -55,8 +55,8 @@ export default function RechercheProfilMoleculaire() {
   const [searchMode, setSearchMode] = useState<"any" | "all">("any");
 
   // Données
-  const { data: plants, isLoading: plantsLoading } = trpc.plants.list.useQuery();
-  const { data: molecules, isLoading: moleculesLoading } = trpc.molecules.getAll.useQuery();
+  const { data: plants, isLoading: plantsLoading } = trpc.plants?.list.useQuery();
+  const { data: molecules, isLoading: moleculesLoading } = trpc.molecules?.getAll.useQuery();
 
   // Filtrer les molécules pour l'autocomplétion
   const filteredMolecules = useMemo(() => {
@@ -102,7 +102,7 @@ export default function RechercheProfilMoleculaire() {
   const filteredPlants = useMemo(() => {
     if (!plants) return [];
     
-    return plants.filter((plant: any) => {
+    return plants?.filter((plant: any) => {
       // Filtre par molécules
       if (selectedMolecules.length > 0) {
         const plantMolecules = (plant.dominantMolecules || "").toLowerCase();

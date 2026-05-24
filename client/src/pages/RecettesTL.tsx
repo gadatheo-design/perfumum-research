@@ -360,12 +360,12 @@ export default function RecettesTL() {
   const { data: allRecettes, isLoading } = trpc.recettes.list.useQuery({});
   
   // Fetch TerpProfiles for linking
-  const { data: terpProfiles } = trpc.terpProfiles.list.useQuery();
+  const { data: terpProfiles } = trpc.terpProfiles?.list.useQuery();
 
   // Filter TL recipes
   const tlRecipes = useMemo(() => {
     if (!allRecettes) return [];
-    return allRecettes.filter((r: any) => 
+    return allRecettes?.filter((r: any) => 
       r.id >= 450001 && r.id <= 450005
     ).sort((a: any, b: any) => a.id - b.id);
   }, [allRecettes]);
@@ -373,7 +373,7 @@ export default function RecettesTL() {
   // Find related TerpProfiles (those mentioning Tagetes or anise-related)
   const relatedProfiles = useMemo(() => {
     if (!terpProfiles) return [];
-    return terpProfiles.filter((tp: any) => 
+    return terpProfiles?.filter((tp: any) => 
       tp.name?.toLowerCase().includes("vent") ||
       tp.name?.toLowerCase().includes("citral") ||
       tp.climaticAxis === "vent" ||

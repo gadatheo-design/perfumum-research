@@ -32,15 +32,15 @@ export default function ReferenceLinkNetwork() {
     if (!graphData || !svgRef.current) return;
 
     // Filter data based on selections
-    let filteredNodes = graphData.nodes;
-    let filteredLinks = graphData.links;
+    let filteredNodes = graphData?.nodes;
+    let filteredLinks = graphData?.links;
 
     if (selectedEntityType !== 'all') {
-      filteredNodes = graphData.nodes.filter(
+      filteredNodes = graphData?.nodes.filter(
         n => n.type === selectedEntityType || n.type === 'reference'
       );
       const nodeIds = new Set(filteredNodes.map(n => n.id));
-      filteredLinks = graphData.links.filter(
+      filteredLinks = graphData?.links.filter(
         l => nodeIds.has(l.source) && nodeIds.has(l.target)
       );
     }

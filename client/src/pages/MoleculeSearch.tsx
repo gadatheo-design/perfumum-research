@@ -40,7 +40,7 @@ export default function MoleculeSearch() {
         </p>
         {stats && (
           <div className="flex justify-center gap-4 mt-4 text-sm text-muted-foreground">
-            <span>{stats.totalMolecules} molécules</span>
+            <span>{stats?.totalMolecules} molécules</span>
             <span>•</span>
             <span>258 plantes</span>
             <span>•</span>
@@ -79,9 +79,9 @@ export default function MoleculeSearch() {
             </div>
           )}
 
-          {searchResults && searchResults.length > 0 && (
+          {searchResults && searchResults?.length > 0 && (
             <div className="space-y-2">
-              {searchResults.map((molecule) => (
+              {searchResults?.map((molecule) => (
                 <Card
                   key={molecule.id}
                   className={`cursor-pointer transition-all hover:border-primary ${
@@ -118,7 +118,7 @@ export default function MoleculeSearch() {
             </div>
           )}
 
-          {searchResults && searchResults.length === 0 && searchTerm.length >= 2 && (
+          {searchResults && searchResults?.length === 0 && searchTerm.length >= 2 && (
             <p className="text-muted-foreground text-center py-8">
               Aucune molécule trouvée pour "{searchTerm}"
             </p>
@@ -140,9 +140,9 @@ export default function MoleculeSearch() {
             </div>
           )}
 
-          {plantResults && plantResults.length > 0 && (
+          {plantResults && plantResults?.length > 0 && (
             <div className="space-y-2">
-              {plantResults.map((item) => (
+              {plantResults?.map((item) => (
                 <Link key={item.plant.id} href={`/plants/${item.plant.id}`}>
                   <Card className="cursor-pointer transition-all hover:border-green-500">
                     <CardContent className="p-4">
@@ -178,7 +178,7 @@ export default function MoleculeSearch() {
             </div>
           )}
 
-          {plantResults && plantResults.length === 0 && selectedMolecule && (
+          {plantResults && plantResults?.length === 0 && selectedMolecule && (
             <p className="text-muted-foreground text-center py-8">
               Aucune plante associée à cette molécule
             </p>

@@ -45,7 +45,7 @@ export default function PlantsByMolecule() {
   const allDominantMolecules = useMemo(() => {
     if (!allPlants) return [];
     const molSet = new Set<string>();
-    allPlants.forEach((plant: any) => {
+    allPlants?.forEach((plant: any) => {
       if (plant.dominantMolecules) {
         const mols = typeof plant.dominantMolecules === "string"
           ? safeJsonParse<string[]>(plant.dominantMolecules, [])
@@ -64,7 +64,7 @@ export default function PlantsByMolecule() {
 
   const filteredPlants = useMemo(() => {
     if (!allPlants || selectedMolecules.length === 0) return [];
-    return allPlants.filter((plant: any) => {
+    return allPlants?.filter((plant: any) => {
       if (!plant.dominantMolecules) return false;
       const mols = typeof plant.dominantMolecules === "string"
         ? safeJsonParse<string[]>(plant.dominantMolecules, [])

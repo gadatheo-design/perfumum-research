@@ -95,20 +95,20 @@ export default function OdeurSitueeDetail() {
                 Odeur Située
               </div>
               <h1 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-purple-900 via-pink-800 to-rose-900 bg-clip-text text-transparent">
-                {smell.poeticName}
+                {smell?.poeticName}
               </h1>
               <div className="flex flex-wrap gap-3">
-                {getRecreatableBadge(smell.recreatable)}
-                {smell.date && (
+                {getRecreatableBadge(smell?.recreatable)}
+                {smell?.date && (
                   <Badge variant="outline" className="gap-1">
                     <Calendar className="h-3 w-3" />
-                    {new Date(smell.date).toLocaleDateString("fr-FR")}
+                    {new Date(smell?.date).toLocaleDateString("fr-FR")}
                   </Badge>
                 )}
-                {smell.location && (
+                {smell?.location && (
                   <Badge variant="outline" className="gap-1">
                     <MapPin className="h-3 w-3" />
-                    {smell.location}
+                    {smell?.location}
                   </Badge>
                 )}
               </div>
@@ -133,25 +133,25 @@ export default function OdeurSitueeDetail() {
                   <CardContent className="space-y-4">
                     <div>
                       <h3 className="font-semibold text-stone-700 mb-2">Lieu</h3>
-                      <p className="text-stone-600">{smell.location}</p>
+                      <p className="text-stone-600">{smell?.location}</p>
                     </div>
-                    {smell.weather && (
+                    {smell?.weather && (
                       <div>
                         <h3 className="font-semibold text-stone-700 mb-2">Météo</h3>
-                        <p className="text-stone-600">{smell.weather}</p>
+                        <p className="text-stone-600">{smell?.weather}</p>
                       </div>
                     )}
-                    {smell.support && (
+                    {smell?.support && (
                       <div>
                         <h3 className="font-semibold text-stone-700 mb-2">Support</h3>
-                        <p className="text-stone-600 whitespace-pre-wrap">{smell.support}</p>
+                        <p className="text-stone-600 whitespace-pre-wrap">{smell?.support}</p>
                       </div>
                     )}
                   </CardContent>
                 </Card>
 
                 {/* Impression immédiate */}
-                {smell.immediateImpression && (
+                {smell?.immediateImpression && (
                   <Card>
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
@@ -161,14 +161,14 @@ export default function OdeurSitueeDetail() {
                     </CardHeader>
                     <CardContent>
                       <p className="text-stone-600 leading-relaxed whitespace-pre-wrap italic text-lg">
-                        "{smell.immediateImpression}"
+                        "{smell?.immediateImpression}"
                       </p>
                     </CardContent>
                   </Card>
                 )}
 
                 {/* Souvenir déclenché */}
-                {smell.triggeredMemory && (
+                {smell?.triggeredMemory && (
                   <Card>
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
@@ -178,7 +178,7 @@ export default function OdeurSitueeDetail() {
                     </CardHeader>
                     <CardContent>
                       <p className="text-stone-600 leading-relaxed whitespace-pre-wrap">
-                        {smell.triggeredMemory}
+                        {smell?.triggeredMemory}
                       </p>
                     </CardContent>
                   </Card>
@@ -193,7 +193,7 @@ export default function OdeurSitueeDetail() {
                     <CardTitle className="text-base">Recréabilité</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    {getRecreatableBadge(smell.recreatable)}
+                    {getRecreatableBadge(smell?.recreatable)}
                     <p className="text-sm text-stone-500 mt-3">
                       Potentiel de recréation en laboratoire
                     </p>
@@ -201,7 +201,7 @@ export default function OdeurSitueeDetail() {
                 </Card>
 
                 {/* Lien vers archive terrain */}
-                {smell.linkedFieldArchiveId && (
+                {smell?.linkedFieldArchiveId && (
                   <Card>
                     <CardHeader>
                       <CardTitle className="text-base flex items-center gap-2">
@@ -210,7 +210,7 @@ export default function OdeurSitueeDetail() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <Link href={`/archives-terrain/${smell.linkedFieldArchiveId}`}>
+                      <Link href={`/archives-terrain/${smell?.linkedFieldArchiveId}`}>
                         <Button variant="outline" className="w-full">
                           Voir l'archive terrain
                         </Button>
@@ -225,11 +225,11 @@ export default function OdeurSitueeDetail() {
                     <CardTitle className="text-base">Métadonnées</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-2 text-sm">
-                    {smell.date && (
+                    {smell?.date && (
                       <div>
                         <span className="text-stone-500">Date :</span>
                         <p className="text-stone-700">
-                          {new Date(smell.date).toLocaleDateString("fr-FR", {
+                          {new Date(smell?.date).toLocaleDateString("fr-FR", {
                             weekday: 'long',
                             year: 'numeric',
                             month: 'long',
@@ -238,19 +238,19 @@ export default function OdeurSitueeDetail() {
                         </p>
                       </div>
                     )}
-                    {smell.createdAt && (
+                    {smell?.createdAt && (
                       <div>
                         <span className="text-stone-500">Créé le :</span>
                         <p className="text-stone-700">
-                          {new Date(smell.createdAt).toLocaleDateString("fr-FR")}
+                          {new Date(smell?.createdAt).toLocaleDateString("fr-FR")}
                         </p>
                       </div>
                     )}
-                    {smell.updatedAt && (
+                    {smell?.updatedAt && (
                       <div>
                         <span className="text-stone-500">Modifié le :</span>
                         <p className="text-stone-700">
-                          {new Date(smell.updatedAt).toLocaleDateString("fr-FR")}
+                          {new Date(smell?.updatedAt).toLocaleDateString("fr-FR")}
                         </p>
                       </div>
                     )}

@@ -23,9 +23,9 @@ export default function GestionPage() {
   const isAdmin = user?.role === "admin";
 
   // Statistiques globales
-  const { data: molecules } = trpc.molecules.list.useQuery();
-  const { data: plants } = trpc.plants.list.useQuery();
-  const { data: recettes } = trpc.recettes.list.useQuery();
+  const { data: molecules } = trpc.molecules?.list.useQuery();
+  const { data: plants } = trpc.plants?.list.useQuery();
+  const { data: recettes } = trpc.recettes?.list.useQuery();
 
   const stats = {
     molecules: molecules?.length || 0,

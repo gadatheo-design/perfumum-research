@@ -536,7 +536,7 @@ export default function CrossSearch() {
           {/* Résultats */}
           <div className="space-y-4">
             {/* Statistiques */}
-            {searchResults && <StatsBar stats={searchResults.stats} />}
+            {searchResults && <StatsBar stats={searchResults?.stats} />}
 
             {/* Onglets de résultats */}
             <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as any)}>
@@ -549,7 +549,7 @@ export default function CrossSearch() {
                   <span className="hidden sm:inline">Terroirs</span>
                   {searchResults && (
                     <Badge variant="secondary" className="ml-1">
-                      {searchResults.terroirs.length}
+                      {searchResults?.terroirs.length}
                     </Badge>
                   )}
                 </TabsTrigger>
@@ -558,7 +558,7 @@ export default function CrossSearch() {
                   <span className="hidden sm:inline">Plantes</span>
                   {searchResults && (
                     <Badge variant="secondary" className="ml-1">
-                      {searchResults.plants.length}
+                      {searchResults?.plants.length}
                     </Badge>
                   )}
                 </TabsTrigger>
@@ -567,7 +567,7 @@ export default function CrossSearch() {
                   <span className="hidden sm:inline">Molécules</span>
                   {searchResults && (
                     <Badge variant="secondary" className="ml-1">
-                      {searchResults.molecules.length}
+                      {searchResults?.molecules.length}
                     </Badge>
                   )}
                 </TabsTrigger>
@@ -584,15 +584,15 @@ export default function CrossSearch() {
                   <TabErrorBoundary>
                   <TabsContent value="all" className="mt-4 space-y-6">
                     {/* Terroirs */}
-                    {searchResults && searchResults.terroirs.length > 0 && (
+                    {searchResults && searchResults?.terroirs.length > 0 && (
                       <div>
                         <h3 className="font-medium mb-3 flex items-center gap-2 text-emerald-600">
                           <MapPin className="h-4 w-4" />
-                          Terroirs ({searchResults.terroirs.length})
+                          Terroirs ({searchResults?.terroirs.length})
                         </h3>
                         <div className="grid gap-3 sm:grid-cols-2">
                           <AnimatePresence mode="popLayout">
-                            {searchResults.terroirs.slice(0, 4).map(terroir => (
+                            {searchResults?.terroirs.slice(0, 4).map(terroir => (
                               <ResultCard
                                 key={`terroir-${terroir.id}`}
                                 type="terroir"
@@ -605,13 +605,13 @@ export default function CrossSearch() {
                             ))}
                           </AnimatePresence>
                         </div>
-                        {searchResults.terroirs.length > 4 && (
+                        {searchResults?.terroirs.length > 4 && (
                           <Button
                             variant="ghost"
                             className="w-full mt-2"
                             onClick={() => setActiveTab("terroirs")}
                           >
-                            Voir tous les terroirs ({searchResults.terroirs.length})
+                            Voir tous les terroirs ({searchResults?.terroirs.length})
                             <ChevronRight className="h-4 w-4 ml-1" />
                           </Button>
                         )}
@@ -619,15 +619,15 @@ export default function CrossSearch() {
                     )}
 
                     {/* Plantes */}
-                    {searchResults && searchResults.plants.length > 0 && (
+                    {searchResults && searchResults?.plants.length > 0 && (
                       <div>
                         <h3 className="font-medium mb-3 flex items-center gap-2 text-green-600">
                           <Leaf className="h-4 w-4" />
-                          Plantes ({searchResults.plants.length})
+                          Plantes ({searchResults?.plants.length})
                         </h3>
                         <div className="grid gap-3 sm:grid-cols-2">
                           <AnimatePresence mode="popLayout">
-                            {searchResults.plants.slice(0, 4).map(plant => (
+                            {searchResults?.plants.slice(0, 4).map(plant => (
                               <ResultCard
                                 key={`plant-${plant.id}`}
                                 type="plant"
@@ -640,13 +640,13 @@ export default function CrossSearch() {
                             ))}
                           </AnimatePresence>
                         </div>
-                        {searchResults.plants.length > 4 && (
+                        {searchResults?.plants.length > 4 && (
                           <Button
                             variant="ghost"
                             className="w-full mt-2"
                             onClick={() => setActiveTab("plants")}
                           >
-                            Voir toutes les plantes ({searchResults.plants.length})
+                            Voir toutes les plantes ({searchResults?.plants.length})
                             <ChevronRight className="h-4 w-4 ml-1" />
                           </Button>
                         )}
@@ -654,15 +654,15 @@ export default function CrossSearch() {
                     )}
 
                     {/* Molécules */}
-                    {searchResults && searchResults.molecules.length > 0 && (
+                    {searchResults && searchResults?.molecules.length > 0 && (
                       <div>
                         <h3 className="font-medium mb-3 flex items-center gap-2 text-purple-600">
                           <Atom className="h-4 w-4" />
-                          Molécules ({searchResults.molecules.length})
+                          Molécules ({searchResults?.molecules.length})
                         </h3>
                         <div className="grid gap-3 sm:grid-cols-2">
                           <AnimatePresence mode="popLayout">
-                            {searchResults.molecules.slice(0, 4).map(molecule => (
+                            {searchResults?.molecules.slice(0, 4).map(molecule => (
                               <ResultCard
                                 key={`molecule-${molecule.id}`}
                                 type="molecule"
@@ -674,13 +674,13 @@ export default function CrossSearch() {
                             ))}
                           </AnimatePresence>
                         </div>
-                        {searchResults.molecules.length > 4 && (
+                        {searchResults?.molecules.length > 4 && (
                           <Button
                             variant="ghost"
                             className="w-full mt-2"
                             onClick={() => setActiveTab("molecules")}
                           >
-                            Voir toutes les molécules ({searchResults.molecules.length})
+                            Voir toutes les molécules ({searchResults?.molecules.length})
                             <ChevronRight className="h-4 w-4 ml-1" />
                           </Button>
                         )}
@@ -689,9 +689,9 @@ export default function CrossSearch() {
 
                     {/* État vide */}
                     {searchResults && 
-                     searchResults.terroirs.length === 0 && 
-                     searchResults.plants.length === 0 && 
-                     searchResults.molecules.length === 0 && (
+                     searchResults?.terroirs.length === 0 && 
+                     searchResults?.plants.length === 0 && 
+                     searchResults?.molecules.length === 0 && (
                       <div className="text-center py-12">
                         <Search className="h-12 w-12 mx-auto text-muted-foreground/50 mb-4" />
                         <h3 className="text-lg font-medium mb-2">Aucun résultat</h3>

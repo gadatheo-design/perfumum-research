@@ -29,10 +29,10 @@ export default function RelationsGraph() {
   // Récupérer les données
   const { data: axes, isLoading: axesLoading } = trpc.researchAxes.list.useQuery({});
   const { data: references, isLoading: refsLoading } = trpc.bibliography.list.useQuery({});
-  const { data: plants, isLoading: plantsLoading } = trpc.plants.list.useQuery();
-  const { data: molecules, isLoading: moleculesLoading } = trpc.molecules.list.useQuery();
-  const { data: terroirs, isLoading: terroirsLoading } = trpc.terroirs.getAll.useQuery();
-  const { data: recettes, isLoading: recettesLoading } = trpc.recettes.list.useQuery({});
+  const { data: plants, isLoading: plantsLoading } = trpc.plants?.list.useQuery();
+  const { data: molecules, isLoading: moleculesLoading } = trpc.molecules?.list.useQuery();
+  const { data: terroirs, isLoading: terroirsLoading } = trpc.terroirs?.getAll.useQuery();
+  const { data: recettes, isLoading: recettesLoading } = trpc.recettes?.list.useQuery({});
   // Note: Les liens axes-références seront ajoutés quand la procédure sera disponible
   const axisLinks: any[] = [];
 

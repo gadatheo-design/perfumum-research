@@ -437,7 +437,7 @@ function GenreTreeView({ initialGenus = "" }: { initialGenus?: string }) {
   const [selectedSpecies, setSelectedSpecies] = useState<string>("");
   const speciesList = useMemo(() => {
     if (!generaData || !selectedGenus) return [];
-    return generaData.filter((g: any) => g.genus === selectedGenus && g.species)
+    return generaData?.filter((g: any) => g.genus === selectedGenus && g.species)
       .sort((a: any, b: any) => (b.varietyCount ?? 0) - (a.varietyCount ?? 0));
   }, [generaData, selectedGenus]);
   const isValidGenus = (g: string): g is "Nicotiana" | "Cannabis" | "Rosa" | "Lavandula" =>
@@ -447,7 +447,7 @@ function GenreTreeView({ initialGenus = "" }: { initialGenus?: string }) {
     { enabled: !!selectedGenus && isValidGenus(selectedGenus) }
   );
   if (generaLoading) return <div className="space-y-4"><Skeleton className="h-10 w-full" /><Skeleton className="h-64 w-full" /></div>;
-  if (!generaData || generaData.length === 0) return (
+  if (!generaData || generaData?.length === 0) return (
     <Card className="p-8 text-center">
       <AlertCircle className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
       <p className="text-muted-foreground">Aucun genre avec variétés documentées.</p>
@@ -510,12 +510,12 @@ function GenreTreeView({ initialGenus = "" }: { initialGenus?: string }) {
           {treeData && (
             <div className="space-y-4">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <Card className="p-3 bg-primary/10 border-primary/20"><p className="text-xs text-muted-foreground">Variétés</p><p className="text-2xl font-bold">{(treeData.stats as any).totalVarieties}</p></Card>
-                <Card className="p-3 bg-blue-500/10 border-blue-500/20"><p className="text-xs text-muted-foreground">Espèces</p><p className="text-2xl font-bold">{(treeData.stats as any).totalSpecies}</p></Card>
-                <Card className="p-3 bg-amber-500/10 border-amber-500/20"><p className="text-xs text-muted-foreground">Profondeur max</p><p className="text-2xl font-bold">{(treeData.stats as any).maxDepth}</p></Card>
-                <Card className="p-3 bg-red-500/10 border-red-500/20"><p className="text-xs text-muted-foreground">Critiques</p><p className="text-2xl font-bold">{treeData.stats.conservationCritical}</p></Card>
+                <Card className="p-3 bg-primary/10 border-primary/20"><p className="text-xs text-muted-foreground">Variétés</p><p className="text-2xl font-bold">{(treeData?.stats as any).totalVarieties}</p></Card>
+                <Card className="p-3 bg-blue-500/10 border-blue-500/20"><p className="text-xs text-muted-foreground">Espèces</p><p className="text-2xl font-bold">{(treeData?.stats as any).totalSpecies}</p></Card>
+                <Card className="p-3 bg-amber-500/10 border-amber-500/20"><p className="text-xs text-muted-foreground">Profondeur max</p><p className="text-2xl font-bold">{(treeData?.stats as any).maxDepth}</p></Card>
+                <Card className="p-3 bg-red-500/10 border-red-500/20"><p className="text-xs text-muted-foreground">Critiques</p><p className="text-2xl font-bold">{treeData?.stats.conservationCritical}</p></Card>
               </div>
-              {treeData.rootNodes.length === 0 ? (
+              {treeData?.rootNodes.length === 0 ? (
                 <Card className="p-6 text-center"><p className="text-muted-foreground">Aucune variété trouvée pour <em>{selectedGenus} {selectedSpecies}</em>.</p></Card>
               ) : (
                 <Card className="p-4">
@@ -524,7 +524,7 @@ function GenreTreeView({ initialGenus = "" }: { initialGenus?: string }) {
                     Arbre des variétés — <em className="font-normal italic">{selectedGenus} {selectedSpecies}</em>
                   </h3>
                   <div className="space-y-1">
-                    {treeData.rootNodes.map((node: any) => <VarietyTreeNode key={node.id} node={node} depth={0} />)}
+                    {treeData?.rootNodes.map((node: any) => <VarietyTreeNode key={node.id} node={node} depth={0} />)}
                   </div>
                 </Card>
               )}

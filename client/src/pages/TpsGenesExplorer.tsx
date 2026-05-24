@@ -512,7 +512,7 @@ function TpsGeneMoleculeLinksTab({ tpsGenes }: TpsGeneMoleculeLinksTabProps) {
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">Tous les gènes</SelectItem>
-              {tpsGenes.map((gene) => (
+              {tpsGenes?.map((gene) => (
                 <SelectItem key={gene.id} value={gene.id.toString()}>
                   {gene.name} - {gene.main_product}
                 </SelectItem>

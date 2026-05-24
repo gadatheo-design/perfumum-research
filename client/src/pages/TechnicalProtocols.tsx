@@ -47,20 +47,20 @@ export default function TechnicalProtocols() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
           <Card className="bg-card/50 border-border/50">
             <CardContent className="pt-4">
-              <div className="text-2xl font-bold text-foreground">{stats.total}</div>
+              <div className="text-2xl font-bold text-foreground">{stats?.total}</div>
               <div className="text-sm text-muted-foreground">Protocoles</div>
             </CardContent>
           </Card>
           <Card className="bg-card/50 border-border/50">
             <CardContent className="pt-4">
-              <div className="text-2xl font-bold text-foreground">{stats.byCategory?.length || 0}</div>
+              <div className="text-2xl font-bold text-foreground">{stats?.byCategory?.length || 0}</div>
               <div className="text-sm text-muted-foreground">Catégories</div>
             </CardContent>
           </Card>
           <Card className="bg-card/50 border-border/50">
             <CardContent className="pt-4">
               <div className="text-2xl font-bold text-foreground">
-                {stats.byDifficulty?.find((d: any) => d.difficulty_level === "expert")?.count || 0}
+                {stats?.byDifficulty?.find((d: any) => d.difficulty_level === "expert")?.count || 0}
               </div>
               <div className="text-sm text-muted-foreground">Protocoles Expert</div>
             </CardContent>

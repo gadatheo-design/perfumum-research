@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 
 export default function OlfactiveStats() {
-  const { data: molecules } = trpc.molecules.list.useQuery();
+  const { data: molecules } = trpc.molecules?.list.useQuery();
   const { data: flavornetStats } = trpc.flavornet.getEnrichmentStats.useQuery();
   const { data: ifraStats } = trpc.ifra.getEnrichmentStats.useQuery();
   const { data: availablePercepts } = trpc.flavornet.getUniquePercepts.useQuery();
@@ -32,7 +32,7 @@ export default function OlfactiveStats() {
     if (!molecules) return { banned: 0, restricted: 0, specification_required: 0, not_regulated: 0, unknown: 0 };
     
     const dist = { banned: 0, restricted: 0, specification_required: 0, not_regulated: 0, unknown: 0 };
-    molecules.forEach(m => {
+    molecules?.forEach(m => {
       const status = (m as any).ifraStatus;
       if (status === 'banned') dist.banned++;
       else if (status === 'restricted') dist.restricted++;
@@ -48,7 +48,7 @@ export default function OlfactiveStats() {
     if (!molecules) return [];
     
     const perceptCount: Record<string, number> = {};
-    molecules.forEach(m => {
+    molecules?.forEach(m => {
       const percepts = (m as any).flavornetPercepts;
       if (percepts) {
         percepts.split(',').forEach((p: string) => {
@@ -73,13 +73,13 @@ export default function OlfactiveStats() {
     let withPercepts = 0;
     let withIfra = 0;
     
-    molecules.forEach(m => {
+    molecules?.forEach(m => {
       if ((m as any).flavornetPercepts) withPercepts++;
       if ((m as any).ifraStatus && (m as any).ifraStatus !== 'unknown') withIfra++;
     });
     
     return {
-      total: molecules.length,
+      total: molecules?.length,
       withPercepts,
       withIfra
     };

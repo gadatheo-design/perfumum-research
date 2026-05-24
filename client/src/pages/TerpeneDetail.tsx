@@ -352,14 +352,14 @@ export default function TerpeneDetail() {
             </div>
 
             {/* Vous pourriez aimer */}
-            {similarMolecules && similarMolecules.length > 0 && (
+            {similarMolecules && similarMolecules?.length > 0 && (
               <div className="mb-12">
                 <h2 className="text-2xl font-bold mb-2">Vous pourriez aimer</h2>
                 <p className="text-muted-foreground mb-6">
                   Terpènes avec profils olfactifs similaires (algorithme de distance euclidienne)
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {similarMolecules.map((mol) => (
+                  {similarMolecules?.map((mol) => (
                     <Link key={mol.id} href={`/terpene/${mol.id}`}>
                       <Card className="hover:shadow-lg transition-shadow cursor-pointer h-full">
                         <CardHeader>

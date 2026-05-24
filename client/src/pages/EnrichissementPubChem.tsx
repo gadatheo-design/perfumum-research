@@ -85,7 +85,7 @@ export default function EnrichissementPubChem() {
 
   // Fonction pour lancer le mode batch automatique
   const startAutoBatch = async () => {
-    if (!allMoleculesToEnrich || allMoleculesToEnrich.total === 0) {
+    if (!allMoleculesToEnrich || allMoleculesToEnrich?.total === 0) {
       toast.error("Aucune molécule à enrichir");
       return;
     }
@@ -95,7 +95,7 @@ export default function EnrichissementPubChem() {
     setEnrichmentResults([]);
     setAutoBatchProgress({
       current: 0,
-      total: allMoleculesToEnrich.total,
+      total: allMoleculesToEnrich?.total,
       success: 0,
       failed: 0,
       startTime: Date.now(),
@@ -107,7 +107,7 @@ export default function EnrichissementPubChem() {
     let totalFailed = 0;
 
     try {
-      while (startIndex < allMoleculesToEnrich.total && !autoBatchAbortRef.current) {
+      while (startIndex < allMoleculesToEnrich?.total && !autoBatchAbortRef.current) {
         const result = await enrichBatchAuto.mutateAsync({
           batchSize,
           startIndex,
@@ -164,10 +164,10 @@ export default function EnrichissementPubChem() {
 
   const handleSelectAll = () => {
     if (moleculesToEnrich?.molecules) {
-      if (selectedIds.length === moleculesToEnrich.molecules.length) {
+      if (selectedIds.length === moleculesToEnrich?.molecules.length) {
         setSelectedIds([]);
       } else {
-        setSelectedIds(moleculesToEnrich.molecules.map(m => m.id));
+        setSelectedIds(moleculesToEnrich?.molecules.map(m => m.id));
       }
     }
   };
@@ -366,7 +366,7 @@ export default function EnrichissementPubChem() {
               <Button 
                 size="lg"
                 onClick={startAutoBatch}
-                disabled={!allMoleculesToEnrich || allMoleculesToEnrich.total === 0}
+                disabled={!allMoleculesToEnrich || allMoleculesToEnrich?.total === 0}
                 className="gap-2"
               >
                 <Play className="h-5 w-5" />

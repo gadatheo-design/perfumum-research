@@ -140,7 +140,7 @@ export default function BatchImport() {
 
   const handleCopyTemplate = () => {
     if (csvTemplate) {
-      const templateCsv = csvTemplate.headers.join(',') + '\n' + csvTemplate.example;
+      const templateCsv = csvTemplate?.headers.join(',') + '\n' + csvTemplate?.example;
       navigator.clipboard.writeText(templateCsv);
       setCopiedTemplate(true);
       toast.success("Modèle CSV copié dans le presse-papiers");
@@ -150,7 +150,7 @@ export default function BatchImport() {
 
   const handleDownloadTemplate = () => {
     if (csvTemplate) {
-      const templateCsv = csvTemplate.headers.join(',') + '\n' + csvTemplate.example;
+      const templateCsv = csvTemplate?.headers.join(',') + '\n' + csvTemplate?.example;
       const blob = new Blob([templateCsv], { type: 'text/csv' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -281,7 +281,7 @@ export default function BatchImport() {
                   <div className="bg-muted/50 p-4 rounded-lg text-sm">
                     <p className="font-medium mb-2">Colonnes disponibles:</p>
                     <ul className="space-y-1 text-muted-foreground">
-                      {csvTemplate.instructions.map((instruction: string, i: number) => (
+                      {csvTemplate?.instructions.map((instruction: string, i: number) => (
                         <li key={i}>{instruction}</li>
                       ))}
                     </ul>

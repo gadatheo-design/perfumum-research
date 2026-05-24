@@ -101,3 +101,13 @@
 - Molécules couvertes : 1 042
 - Embeddings olfactifs : 1 042 (50 dimensions, normalisés L2)
 - Datasets importés : 7/7 (Leffingwell, Good Scents, Dravnieks, Keller, IFRA, Arctander, Sigma-Aldrich)
+
+## Session Mai 2026 — Build, Schema Refactoring, Audit Frontend
+- [x] Vérifier build de production (pnpm build — 54s, aucune erreur)
+- [x] Découper drizzle/schema.ts (7000+ lignes) en 30 modules thématiques dans drizzle/schema-modules/
+- [x] Créer drizzle/schema-modules/_relations.ts (78 blocs relations centralisés pour éviter les circular deps)
+- [x] Résoudre 5 paires de dépendances circulaires (plants↔raw-materials, plants↔terp-profiles, bibliography↔research-axes, molecules↔research-publications, raw-materials↔suppliers)
+- [x] Ajouter imports croisés automatiques entre modules (script fix-schema-imports.py)
+- [x] Corriger ImportCSV.tsx (namespaces importMolecules/importPlants non reconnus par le type checker)
+- [x] Corriger accès non sécurisés aux données de query (optional chaining data?.xxx) dans 60+ pages
+- [x] 0 erreurs TypeScript — 1893 tests passés (126 fichiers) après toutes les corrections

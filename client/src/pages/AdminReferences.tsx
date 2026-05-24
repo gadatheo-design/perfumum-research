@@ -46,11 +46,11 @@ export default function AdminReferences() {
     pages: ''
   });
 
-  const { data: molecules, isLoading } = trpc.molecules.list.useQuery();
-  const updateMolecule = trpc.molecules.updateReferences.useMutation({
+  const { data: molecules, isLoading } = trpc.molecules?.list.useQuery();
+  const updateMolecule = trpc.molecules?.updateReferences.useMutation({
     onSuccess: () => {
       toast({ title: "✅ Références mises à jour", variant: "default" });
-      utils.molecules.list.invalidate();
+      utils.molecules?.list.invalidate();
       setEditingRef(null);
       setShowAddForm(false);
       resetForm();

@@ -151,7 +151,7 @@ export default function RecetteDetail() {
   }, [data?.molecules]);
 
   // Récupérer les recommandations
-  const { data: recommendations, isLoading: isLoadingRecommendations } = trpc.recommendations.similarRecettes.useQuery(
+  const { data: recommendations, isLoading: isLoadingRecommendations } = trpc.recommendations?.similarRecettes?.useQuery(
     {
       recetteId: id,
       limit: 5,
@@ -954,7 +954,7 @@ export default function RecetteDetail() {
             <div>
               <CardTitle className="flex items-center gap-2">
                 <Package className="h-5 w-5 text-amber-600" />
-                Matières Premières {rawMaterialsLinked && rawMaterialsLinked.length > 0 && `(${rawMaterialsLinked.length})`}
+                Matières Premières {rawMaterialsLinked && rawMaterialsLinked?.length > 0 && `(${rawMaterialsLinked?.length})`}
               </CardTitle>
               <p className="text-sm text-muted-foreground mt-1">
                 Matières premières directement liées à cette formulation
@@ -974,7 +974,7 @@ export default function RecetteDetail() {
           </div>
         </CardHeader>
         <CardContent>
-          {rawMaterialsLinked && rawMaterialsLinked.length > 0 ? (
+          {rawMaterialsLinked && rawMaterialsLinked?.length > 0 ? (
             <div className="space-y-2">
               {((rawMaterialsLinked as unknown) as RawMaterialLink[] | undefined)?.map((rm: RawMaterialLink) => {
                 const roleColors: Record<string, string> = {
@@ -1087,9 +1087,9 @@ export default function RecetteDetail() {
                 onChange={(e) => { setRmSearch(e.target.value); setSelectedRmId(null); }}
                 autoFocus
               />
-              {rawMaterialsSearch && rawMaterialsSearch.items && rawMaterialsSearch.items.length > 0 && !selectedRmId && (
+              {rawMaterialsSearch && rawMaterialsSearch?.items && rawMaterialsSearch?.items.length > 0 && !selectedRmId && (
                 <div className="border rounded-lg max-h-40 overflow-y-auto bg-background shadow-sm">
-                  {rawMaterialsSearch.items.map((rm: RawMaterialLink) => (
+                  {rawMaterialsSearch?.items.map((rm: RawMaterialLink) => (
                     <button
                       key={rm.id}
                       className="w-full text-left px-3 py-2 text-sm hover:bg-amber-50 dark:hover:bg-amber-950/30 flex items-center justify-between border-b last:border-0"
@@ -1303,14 +1303,14 @@ export default function RecetteDetail() {
             <p className="text-sm text-muted-foreground mb-4">
               Cette recette est une variation de :
             </p>
-            <Link href={`/recette/${parentRecette.id}`}>
+            <Link href={`/recette/${parentRecette?.id}`}>
               <Card className="hover:shadow-md transition-shadow cursor-pointer border-rose-200 hover:border-rose-400">
                 <CardContent className="p-4 flex items-center justify-between">
                   <div>
-                    <h4 className="font-semibold text-lg">{parentRecette.name}</h4>
-                    {parentRecette.description && (
+                    <h4 className="font-semibold text-lg">{parentRecette?.name}</h4>
+                    {parentRecette?.description && (
                       <p className="text-sm text-muted-foreground line-clamp-1">
-                        {parentRecette.description}
+                        {parentRecette?.description}
                       </p>
                     )}
                   </div>
@@ -1325,7 +1325,7 @@ export default function RecetteDetail() {
       )}
 
       {/* Formules de Référence */}
-      {formulesReference && formulesReference.length > 0 && (
+      {formulesReference && formulesReference?.length > 0 && (
         <Card className="shadow-sm border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50">
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
@@ -1338,7 +1338,7 @@ export default function RecetteDetail() {
               Cette recette s'inspire des archétypes olfactifs classiques suivants :
             </p>
             <div className="space-y-3">
-              {formulesReference.map((formule: FormuleReference) => (
+              {formulesReference?.map((formule: FormuleReference) => (
                 <div key={formule.id} className="flex items-center justify-between p-3 bg-white rounded-lg border border-amber-200">
                   <div className="flex-1">
                     <div className="font-semibold text-slate-700">{formule.formuleReferenceName}</div>
@@ -1365,12 +1365,12 @@ export default function RecetteDetail() {
       )}
 
       {/* TerpProfiles Liés (pour les recettes TL) */}
-      {linkedTerpProfiles && linkedTerpProfiles.length > 0 && (
+      {linkedTerpProfiles && linkedTerpProfiles?.length > 0 && (
         <Card className="shadow-sm border-sky-200 bg-gradient-to-br from-sky-50/50 to-cyan-50/50 dark:from-sky-950/20 dark:to-cyan-950/20">
           <CardHeader className="pb-2 md:pb-4">
             <CardTitle className="text-lg md:text-xl flex items-center gap-2">
               <Leaf className="h-4 w-4 md:h-5 md:w-5 text-sky-600" />
-              <span className="truncate">TerpProfiles Associés ({linkedTerpProfiles.length})</span>
+              <span className="truncate">TerpProfiles Associés ({linkedTerpProfiles?.length})</span>
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-0">
@@ -1416,12 +1416,12 @@ export default function RecetteDetail() {
       )}
 
       {/* Transformations Moléculaires */}
-      {transformationsData?.transformations && transformationsData.transformations.length > 0 && (
+      {transformationsData?.transformations && transformationsData?.transformations.length > 0 && (
         <Card className="shadow-sm border-orange-200 bg-gradient-to-br from-orange-50/50 to-red-50/50 dark:from-orange-950/20 dark:to-red-950/20">
           <CardHeader className="pb-2 md:pb-4">
             <CardTitle className="text-lg md:text-xl flex items-center gap-2">
               <Flame className="h-4 w-4 md:h-5 md:w-5 text-orange-600" />
-              <span className="truncate">Transformations Moléculaires ({transformationsData.transformations.length})</span>
+              <span className="truncate">Transformations Moléculaires ({transformationsData?.transformations.length})</span>
             </CardTitle>
             <p className="text-xs md:text-sm text-muted-foreground">
               Réactions chimiques (pyrolyse, oxydation...) qui impactent cette recette
@@ -1441,14 +1441,14 @@ export default function RecetteDetail() {
             {/* Liste des transformations par type d'impact */}
             <div className="space-y-4">
               {/* Impacts majeurs */}
-              {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'major').length > 0 && (
+              {(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'major').length > 0 && (
                 <div className="bg-red-50 dark:bg-red-950/30 p-4 rounded-lg border border-red-200 dark:border-red-800">
                   <h4 className="text-sm font-semibold text-red-800 dark:text-red-300 mb-3 flex items-center gap-2">
                     <Zap className="h-4 w-4" />
-                    Impacts Majeurs ({(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'major').length})
+                    Impacts Majeurs ({(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'major').length})
                   </h4>
                   <div className="space-y-3">
-                    {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'major').map((t: Transformation) => (
+                    {(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'major').map((t: Transformation) => (
                       <TransformationCard key={t.id} transformation={t} />
                     ))}
                   </div>
@@ -1456,19 +1456,19 @@ export default function RecetteDetail() {
               )}
               
               {/* Impacts modérés */}
-              {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'moderate').length > 0 && (
+              {(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'moderate').length > 0 && (
                 <div className="bg-orange-50 dark:bg-orange-950/30 p-4 rounded-lg border border-orange-200 dark:border-orange-800">
                   <h4 className="text-sm font-semibold text-orange-800 dark:text-orange-300 mb-3 flex items-center gap-2">
                     <Flame className="h-4 w-4" />
-                    Impacts Modérés ({(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'moderate').length})
+                    Impacts Modérés ({(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'moderate').length})
                   </h4>
                   <div className="space-y-3">
-                    {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'moderate').slice(0, 5).map((t: Transformation) => (
+                    {(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'moderate').slice(0, 5).map((t: Transformation) => (
                       <TransformationCard key={t.id} transformation={t} />
                     ))}
-                    {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'moderate').length > 5 && (
+                    {(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'moderate').length > 5 && (
                       <p className="text-xs text-muted-foreground text-center">
-                        +{(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'moderate').length - 5} autres transformations modérées
+                        +{(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'moderate').length - 5} autres transformations modérées
                       </p>
                     )}
                   </div>
@@ -1476,21 +1476,21 @@ export default function RecetteDetail() {
               )}
               
               {/* Impacts mineurs */}
-              {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'minor').length > 0 && (
+              {(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'minor').length > 0 && (
                 <div className="bg-yellow-50 dark:bg-yellow-950/30 p-4 rounded-lg border border-yellow-200 dark:border-yellow-800">
                   <h4 className="text-sm font-semibold text-yellow-800 dark:text-yellow-300 mb-3 flex items-center gap-2">
                     <Droplets className="h-4 w-4" />
-                    Impacts Mineurs ({(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'minor').length})
+                    Impacts Mineurs ({(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'minor').length})
                   </h4>
                   <div className="flex flex-wrap gap-2">
-                    {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'minor').slice(0, 10).map((t: Transformation) => (
+                    {(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'minor').slice(0, 10).map((t: Transformation) => (
                       <Badge key={t.id} variant="outline" className="text-xs">
                         {t.source_molecule_name} → {t.product_molecule_name}
                       </Badge>
                     ))}
-                    {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'minor').length > 10 && (
+                    {(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'minor').length > 10 && (
                       <Badge variant="secondary" className="text-xs">
-                        +{(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'minor').length - 10} autres
+                        +{(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'minor').length - 10} autres
                       </Badge>
                     )}
                   </div>
@@ -1498,13 +1498,13 @@ export default function RecetteDetail() {
               )}
               
               {/* Traces */}
-              {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'trace').length > 0 && (
+              {(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'trace').length > 0 && (
                 <div className="bg-gray-50 dark:bg-gray-950/30 p-4 rounded-lg border border-gray-200 dark:border-gray-800">
                   <h4 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2">
-                    Traces ({(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'trace').length})
+                    Traces ({(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'trace').length})
                   </h4>
                   <p className="text-xs text-muted-foreground">
-                    {(transformationsData.transformations as any[]).filter((t: Transformation) => t.impact_type === 'trace').length} transformations à impact négligeable
+                    {(transformationsData?.transformations as any[]).filter((t: Transformation) => t.impact_type === 'trace').length} transformations à impact négligeable
                   </p>
                 </div>
               )}
@@ -1514,7 +1514,7 @@ export default function RecetteDetail() {
       )}
 
       {/* Recommandations IA */}
-      {recommendations && recommendations.length > 0 && (
+      {recommendations && recommendations?.length > 0 && (
         <RecommendationsCard
           type="recettes"
           recommendations={recommendations}
@@ -1549,12 +1549,12 @@ export default function RecetteDetail() {
       />
 
       {/* Variations */}
-      {variations && variations.length > 0 && (
+      {variations && variations?.length > 0 && (
         <Card className="shadow-sm border-amber-200">
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-2">
               <GitBranch className="h-5 w-5 text-amber-600" />
-              Variations ({variations.length})
+              Variations ({variations?.length})
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -1562,7 +1562,7 @@ export default function RecetteDetail() {
               Explorez les déclinaisons de cette recette :
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {variations.map((variation) => (
+              {variations?.map((variation) => (
                 <Link key={variation.id} href={`/recette/${variation.id}`}>
                   <Card className="hover:shadow-md transition-shadow cursor-pointer border-amber-200 hover:border-amber-400">
                     <CardContent className="p-4">

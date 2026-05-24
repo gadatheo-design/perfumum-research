@@ -134,7 +134,7 @@ export default function KNApSAcKBatch() {
                 <div className="flex items-center gap-3">
                   <Leaf className="w-8 h-8 text-emerald-500" />
                   <div>
-                    <div className="text-2xl font-bold">{stats.totalPlants}</div>
+                    <div className="text-2xl font-bold">{stats?.totalPlants}</div>
                     <div className="text-xs text-muted-foreground">Plantes en DB</div>
                   </div>
                 </div>
@@ -145,7 +145,7 @@ export default function KNApSAcKBatch() {
                 <div className="flex items-center gap-3">
                   <Link2 className="w-8 h-8 text-orange-500" />
                   <div>
-                    <div className="text-2xl font-bold">{stats.knapsackLinks}</div>
+                    <div className="text-2xl font-bold">{stats?.knapsackLinks}</div>
                     <div className="text-xs text-muted-foreground">Liaisons KNApSAcK</div>
                   </div>
                 </div>
@@ -156,7 +156,7 @@ export default function KNApSAcKBatch() {
                 <div className="flex items-center gap-3">
                   <FlaskConical className="w-8 h-8 text-blue-500" />
                   <div>
-                    <div className="text-2xl font-bold">{stats.plantsWithKnapsack}</div>
+                    <div className="text-2xl font-bold">{stats?.plantsWithKnapsack}</div>
                     <div className="text-xs text-muted-foreground">Plantes enrichies</div>
                   </div>
                 </div>

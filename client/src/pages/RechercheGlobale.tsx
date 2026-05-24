@@ -193,15 +193,15 @@ export default function RechercheGlobale() {
   const allResults = useMemo(() => {
     if (!searchResults) return [];
     return [
-      ...searchResults.molecules,
-      ...searchResults.recettes,
-      ...searchResults.plants,
-      ...searchResults.accords,
-      ...searchResults.terpProfiles,
-      ...searchResults.finalRecipes,
-      ...searchResults.civilisations,
-      ...searchResults.prototypes,
-      ...searchResults.glossary,
+      ...searchResults?.molecules,
+      ...searchResults?.recettes,
+      ...searchResults?.plants,
+      ...searchResults?.accords,
+      ...searchResults?.terpProfiles,
+      ...searchResults?.finalRecipes,
+      ...searchResults?.civilisations,
+      ...searchResults?.prototypes,
+      ...searchResults?.glossary,
     ];
   }, [searchResults]);
 
@@ -209,16 +209,16 @@ export default function RechercheGlobale() {
   const counts = useMemo(() => {
     if (!searchResults) return {};
     return {
-      all: searchResults.total,
-      molecules: searchResults.molecules.length,
-      recettes: searchResults.recettes.length,
-      plants: searchResults.plants.length,
-      accords: searchResults.accords.length,
-      terpProfiles: searchResults.terpProfiles.length,
-      finalRecipes: searchResults.finalRecipes.length,
-      civilisations: searchResults.civilisations.length,
-      prototypes: searchResults.prototypes.length,
-      glossary: searchResults.glossary.length,
+      all: searchResults?.total,
+      molecules: searchResults?.molecules.length,
+      recettes: searchResults?.recettes.length,
+      plants: searchResults?.plants.length,
+      accords: searchResults?.accords.length,
+      terpProfiles: searchResults?.terpProfiles.length,
+      finalRecipes: searchResults?.finalRecipes.length,
+      civilisations: searchResults?.civilisations.length,
+      prototypes: searchResults?.prototypes.length,
+      glossary: searchResults?.glossary.length,
     };
   }, [searchResults]);
 
@@ -267,7 +267,7 @@ export default function RechercheGlobale() {
             {searchResults && (
               <div className="text-center">
                 <p className="text-muted-foreground">
-                  <span className="font-semibold text-foreground">{searchResults.total}</span> résultat{searchResults.total !== 1 ? 's' : ''} pour "{debouncedQuery}"
+                  <span className="font-semibold text-foreground">{searchResults?.total}</span> résultat{searchResults?.total !== 1 ? 's' : ''} pour "{debouncedQuery}"
                 </p>
               </div>
             )}
@@ -328,66 +328,66 @@ export default function RechercheGlobale() {
                   ) : (
                     <ScrollArea className="h-[60vh]">
                       <div className="space-y-8 pr-4">
-                        {searchResults?.molecules && searchResults.molecules.length > 0 && (
+                        {searchResults?.molecules && searchResults?.molecules.length > 0 && (
                           <ResultSection 
                             title="Molécules" 
-                            results={searchResults.molecules}
+                            results={searchResults?.molecules}
                             icon={<FlaskConical className="w-4 h-4" />}
                           />
                         )}
-                        {searchResults?.recettes && searchResults.recettes.length > 0 && (
+                        {searchResults?.recettes && searchResults?.recettes.length > 0 && (
                           <ResultSection 
                             title="Recettes" 
-                            results={searchResults.recettes}
+                            results={searchResults?.recettes}
                             icon={<Beaker className="w-4 h-4" />}
                           />
                         )}
-                        {searchResults?.plants && searchResults.plants.length > 0 && (
+                        {searchResults?.plants && searchResults?.plants.length > 0 && (
                           <ResultSection 
                             title="Plantes" 
-                            results={searchResults.plants}
+                            results={searchResults?.plants}
                             icon={<Leaf className="w-4 h-4" />}
                           />
                         )}
-                        {searchResults?.accords && searchResults.accords.length > 0 && (
+                        {searchResults?.accords && searchResults?.accords.length > 0 && (
                           <ResultSection 
                             title="Accords" 
-                            results={searchResults.accords}
+                            results={searchResults?.accords}
                             icon={<Music className="w-4 h-4" />}
                           />
                         )}
-                        {searchResults?.terpProfiles && searchResults.terpProfiles.length > 0 && (
+                        {searchResults?.terpProfiles && searchResults?.terpProfiles.length > 0 && (
                           <ResultSection 
                             title="TerpProfiles" 
-                            results={searchResults.terpProfiles}
+                            results={searchResults?.terpProfiles}
                             icon={<FileText className="w-4 h-4" />}
                           />
                         )}
-                        {searchResults?.finalRecipes && searchResults.finalRecipes.length > 0 && (
+                        {searchResults?.finalRecipes && searchResults?.finalRecipes.length > 0 && (
                           <ResultSection 
                             title="Recettes Finales" 
-                            results={searchResults.finalRecipes}
+                            results={searchResults?.finalRecipes}
                             icon={<Droplets className="w-4 h-4" />}
                           />
                         )}
-                        {searchResults?.civilisations && searchResults.civilisations.length > 0 && (
+                        {searchResults?.civilisations && searchResults?.civilisations.length > 0 && (
                           <ResultSection 
                             title="Civilisations" 
-                            results={searchResults.civilisations}
+                            results={searchResults?.civilisations}
                             icon={<Globe className="w-4 h-4" />}
                           />
                         )}
-                        {searchResults?.prototypes && searchResults.prototypes.length > 0 && (
+                        {searchResults?.prototypes && searchResults?.prototypes.length > 0 && (
                           <ResultSection 
                             title="Prototypes" 
-                            results={searchResults.prototypes}
+                            results={searchResults?.prototypes}
                             icon={<Sparkles className="w-4 h-4" />}
                           />
                         )}
-                        {searchResults?.glossary && searchResults.glossary.length > 0 && (
+                        {searchResults?.glossary && searchResults?.glossary.length > 0 && (
                           <ResultSection 
                             title="Glossaire" 
-                            results={searchResults.glossary}
+                            results={searchResults?.glossary}
                             icon={<BookOpen className="w-4 h-4" />}
                           />
                         )}

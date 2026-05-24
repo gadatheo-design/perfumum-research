@@ -52,7 +52,7 @@ export default function MoleculeRecetteAudit() {
   // Filtrer les molécules sans recette
   const filteredMoleculesWithoutRecette = useMemo(() => {
     if (!auditStats?.moleculesWithoutRecetteList) return [];
-    return auditStats.moleculesWithoutRecetteList.filter((m: any) => {
+    return auditStats?.moleculesWithoutRecetteList.filter((m: any) => {
       const matchSearch = m.name.toLowerCase().includes(searchMolecule.toLowerCase());
       const matchFamily = familyFilter === "all" || m.family?.toLowerCase().includes(familyFilter.toLowerCase());
       return matchSearch && matchFamily;
@@ -62,7 +62,7 @@ export default function MoleculeRecetteAudit() {
   // Filtrer les recettes sans molécule
   const filteredRecettesWithoutMolecule = useMemo(() => {
     if (!auditStats?.recettesWithoutMoleculeList) return [];
-    return auditStats.recettesWithoutMoleculeList.filter((r: any) =>
+    return auditStats?.recettesWithoutMoleculeList.filter((r: any) =>
       r.name.toLowerCase().includes(searchRecette.toLowerCase())
     );
   }, [auditStats?.recettesWithoutMoleculeList, searchRecette]);
@@ -71,7 +71,7 @@ export default function MoleculeRecetteAudit() {
   const uniqueFamilies = useMemo(() => {
     if (!auditStats?.moleculesWithoutRecetteList) return [];
     const families = new Set(
-      auditStats.moleculesWithoutRecetteList
+      auditStats?.moleculesWithoutRecetteList
         .map((m: any) => m.family)
         .filter(Boolean)
     );
@@ -248,7 +248,7 @@ export default function MoleculeRecetteAudit() {
                               <Badge variant="secondary">{m.recetteCount} recettes</Badge>
                             </div>
                           ))}
-                          {(!auditStats?.topMoleculesByRecettes || auditStats.topMoleculesByRecettes.length === 0) && (
+                          {(!auditStats?.topMoleculesByRecettes || auditStats?.topMoleculesByRecettes.length === 0) && (
                             <p className="text-muted-foreground text-sm">Aucune donnée</p>
                           )}
                         </div>
@@ -271,7 +271,7 @@ export default function MoleculeRecetteAudit() {
                               <Badge variant="secondary">{r.moleculeCount} molécules</Badge>
                             </div>
                           ))}
-                          {(!auditStats?.topRecettesByMolecules || auditStats.topRecettesByMolecules.length === 0) && (
+                          {(!auditStats?.topRecettesByMolecules || auditStats?.topRecettesByMolecules.length === 0) && (
                             <p className="text-muted-foreground text-sm">Aucune donnée</p>
                           )}
                         </div>
@@ -301,7 +301,7 @@ export default function MoleculeRecetteAudit() {
                                 <Badge variant="outline" className="text-xs">{m.family}</Badge>
                               </div>
                             ))}
-                            {(!auditStats?.priorityMoleculesWithoutRecette || auditStats.priorityMoleculesWithoutRecette.length === 0) && (
+                            {(!auditStats?.priorityMoleculesWithoutRecette || auditStats?.priorityMoleculesWithoutRecette.length === 0) && (
                               <p className="text-muted-foreground text-sm">Aucune priorité identifiée</p>
                             )}
                           </div>
@@ -318,7 +318,7 @@ export default function MoleculeRecetteAudit() {
                                 <Badge variant="outline" className="text-xs">{r.category}</Badge>
                               </div>
                             ))}
-                            {(!auditStats?.priorityRecettesWithoutMolecule || auditStats.priorityRecettesWithoutMolecule.length === 0) && (
+                            {(!auditStats?.priorityRecettesWithoutMolecule || auditStats?.priorityRecettesWithoutMolecule.length === 0) && (
                               <p className="text-muted-foreground text-sm">Aucune priorité identifiée</p>
                             )}
                           </div>
@@ -495,7 +495,7 @@ export default function MoleculeRecetteAudit() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      {suggestions && suggestions.length > 0 ? (
+                      {suggestions && suggestions?.length > 0 ? (
                         <div className="rounded-md border">
                           <Table>
                             <TableHeader>
@@ -507,7 +507,7 @@ export default function MoleculeRecetteAudit() {
                               </TableRow>
                             </TableHeader>
                             <TableBody>
-                              {suggestions.slice(0, 30).map((s: any, i: number) => (
+                              {suggestions?.slice(0, 30).map((s: any, i: number) => (
                                 <TableRow key={i}>
                                   <TableCell className="font-medium">{s.moleculeName}</TableCell>
                                   <TableCell>{s.recetteName}</TableCell>

@@ -30,11 +30,11 @@ export default function EnhancedRadarDemo() {
   const [showConfidence, setShowConfidence] = useState(true);
   const [animate, setAnimate] = useState(true);
 
-  const { data: recettes, isLoading } = trpc.recettes.listWithRadar.useQuery({});
+  const { data: recettes, isLoading } = trpc.recettes?.listWithRadar.useQuery({});
 
   // Calculate average and confidence intervals for all recettes
   const calculateStats = () => {
-    if (!recettes || recettes.length === 0) return null;
+    if (!recettes || recettes?.length === 0) return null;
 
     const axes = [
       { key: "avgIntensity", label: "Intensité" },
@@ -46,7 +46,7 @@ export default function EnhancedRadarDemo() {
     ];
 
     return axes.map(({ key, label }) => {
-      const values = recettes.map((r) => (r as any)[key] || 0);
+      const values = recettes?.map((r) => (r as any)[key] || 0);
       const avg = values.reduce((a, b) => a + b, 0) / values.length;
       const min = Math.min(...values);
       const max = Math.max(...values);

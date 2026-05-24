@@ -153,7 +153,7 @@ export default function SynergiesGraphVisualization() {
   const filteredData = useMemo(() => {
     if (!graphData) return { nodes: [], links: [] };
     
-    let filteredLinks = graphData.links.filter((link: GraphLink) => {
+    let filteredLinks = graphData?.links.filter((link: GraphLink) => {
       const matchesType = filterType === "all" || link.type === filterType;
       const matchesScore = link.compatibilityScore >= minScore;
       return matchesType && matchesScore;
@@ -166,7 +166,7 @@ export default function SynergiesGraphVisualization() {
       connectedNodeIds.add(typeof link.target === 'number' ? link.target : link.target.id);
     });
     
-    let filteredNodes = graphData.nodes.filter((node: GraphNode) => {
+    let filteredNodes = graphData?.nodes.filter((node: GraphNode) => {
       const isConnected = connectedNodeIds.has(node.id);
       const matchesChemicalClass = filterChemicalClass === "all" || node.chemicalClass === filterChemicalClass;
       const matchesSearch = !searchQuery || 
@@ -191,7 +191,7 @@ export default function SynergiesGraphVisualization() {
   // Get unique chemical classes for filter
   const chemicalClasses = useMemo(() => {
     if (!graphData) return [];
-    const classes = new Set(graphData.nodes.map((n: GraphNode) => n.chemicalClass).filter(Boolean));
+    const classes = new Set(graphData?.nodes.map((n: GraphNode) => n.chemicalClass).filter(Boolean));
     return Array.from(classes) as string[];
   }, [graphData]);
   
@@ -647,7 +647,7 @@ export default function SynergiesGraphVisualization() {
                         <span className="text-muted-foreground">Synergies</span>
                         <span className="font-medium">{filteredData.links.length}</span>
                       </div>
-                      {Object.entries(graphData.stats.byType || {}).map(([type, count]) => (
+                      {Object.entries(graphData?.stats.byType || {}).map(([type, count]) => (
                         <div key={type} className="flex justify-between">
                           <span className="text-muted-foreground capitalize">{type}</span>
                           <Badge variant="outline" style={{ borderColor: SYNERGY_TYPE_CONFIG[type]?.color }}>

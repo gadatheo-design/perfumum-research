@@ -41,7 +41,7 @@ export default function MoleculeOriginsAdmin() {
 
   // Queries
   const { data: origins, isLoading: originsLoading } = trpc.geographicOrigins.listWithMoleculeCount.useQuery();
-  const { data: molecules, isLoading: moleculesLoading } = trpc.molecules.list.useQuery();
+  const { data: molecules, isLoading: moleculesLoading } = trpc.molecules?.list.useQuery();
   const { data: allOriginsWithMolecules } = trpc.geographicOrigins.list.useQuery();
   
   // Get molecules for a specific origin
@@ -87,7 +87,7 @@ export default function MoleculeOriginsAdmin() {
   const availableMolecules = useMemo(() => {
     if (!molecules || selectedOrigin === "all") return [];
     const associatedIds = new Set(originMolecules?.map((om: any) => om.moleculeId) || []);
-    return molecules.filter((m: any) => !associatedIds.has(m.id));
+    return molecules?.filter((m: any) => !associatedIds.has(m.id));
   }, [molecules, originMolecules, selectedOrigin]);
 
   // Filter molecules by search
@@ -232,9 +232,9 @@ export default function MoleculeOriginsAdmin() {
 
             {/* Tab: Molécules associées */}
             <TabsContent value="associated" className="space-y-4">
-              {originMolecules && originMolecules.length > 0 ? (
+              {originMolecules && originMolecules?.length > 0 ? (
                 <div className="grid gap-4">
-                  {originMolecules.map((om: any) => (
+                  {originMolecules?.map((om: any) => (
                     <Card key={om.id} className="hover:shadow-md transition-shadow">
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">

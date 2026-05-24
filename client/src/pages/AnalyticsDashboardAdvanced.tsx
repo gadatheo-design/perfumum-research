@@ -139,7 +139,7 @@ function KPICard({ title, value, previousValue, icon, color, suffix = "", isLoad
 // Composant pour le graphique radar des profils moyens
 function AverageRadarChart({ molecules }: { molecules: any[] }) {
   const averageData = useMemo(() => {
-    if (!molecules || molecules.length === 0) return [];
+    if (!molecules || molecules?.length === 0) return [];
 
     const sums = {
       intensity: 0,
@@ -151,7 +151,7 @@ function AverageRadarChart({ molecules }: { molecules: any[] }) {
     };
     let count = 0;
 
-    molecules.forEach(m => {
+    molecules?.forEach(m => {
       if (m.radarIntensity !== null) {
         sums.intensity += m.radarIntensity || 0;
         sums.freshness += m.radarFreshness || 0;
@@ -218,7 +218,7 @@ function FamilyDistributionChart({ molecules }: { molecules: any[] }) {
     if (!molecules) return [];
     
     const distribution: Record<string, number> = {};
-    molecules.forEach(m => {
+    molecules?.forEach(m => {
       const family = m.family || "Non classé";
       distribution[family] = (distribution[family] || 0) + 1;
     });
@@ -316,7 +316,7 @@ function RecetteCategoryChart({ recettes }: { recettes: any[] }) {
     if (!recettes) return [];
     
     const distribution: Record<string, number> = {};
-    recettes.forEach(r => {
+    recettes?.forEach(r => {
       const category = r.category || "Autre";
       distribution[category] = (distribution[category] || 0) + 1;
     });
@@ -424,8 +424,8 @@ export default function AnalyticsDashboardAdvanced() {
   const [timeRange, setTimeRange] = useState("30");
   
   // Récupérer les données
-  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
-  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes.list.useQuery();
+  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules?.list.useQuery();
+  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes?.list.useQuery();
   const { data: statistics } = trpc.analytics.getStatistics.useQuery();
   const { data: dashboardStats } = trpc.analytics.getDashboardStats.useQuery({ days: parseInt(timeRange) });
   const { data: activityTimeline } = trpc.analytics.getActivityTimeline.useQuery({ days: parseInt(timeRange) });
@@ -442,7 +442,7 @@ export default function AnalyticsDashboardAdvanced() {
     let complete = 0;
     let incomplete = 0;
     
-    molecules.forEach(m => {
+    molecules?.forEach(m => {
       if (m.radarIntensity !== null && m.radarIntensity > 0) {
         complete++;
       } else {
@@ -453,7 +453,7 @@ export default function AnalyticsDashboardAdvanced() {
     return {
       complete,
       incomplete,
-      percentage: molecules.length > 0 ? Math.round((complete / molecules.length) * 100) : 0,
+      percentage: molecules?.length > 0 ? Math.round((complete / molecules?.length) * 100) : 0,
     };
   }, [molecules]);
 
@@ -680,9 +680,9 @@ export default function AnalyticsDashboardAdvanced() {
                     <CardDescription>Top 5 sur les {timeRange} derniers jours</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    {mostViewedMolecules && mostViewedMolecules.length > 0 ? (
+                    {mostViewedMolecules && mostViewedMolecules?.length > 0 ? (
                       <div className="space-y-3">
-                        {mostViewedMolecules.map((item: any, index: number) => (
+                        {mostViewedMolecules?.map((item: any, index: number) => (
                           <div 
                             key={item.id}
                             className="flex items-center gap-3 p-3 rounded-lg bg-muted/50"
@@ -738,9 +738,9 @@ export default function AnalyticsDashboardAdvanced() {
                     <CardDescription>Top 5 sur les {timeRange} derniers jours</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    {mostViewedRecipes && mostViewedRecipes.length > 0 ? (
+                    {mostViewedRecipes && mostViewedRecipes?.length > 0 ? (
                       <div className="space-y-3">
-                        {mostViewedRecipes.map((item: any, index: number) => (
+                        {mostViewedRecipes?.map((item: any, index: number) => (
                           <div 
                             key={item.id}
                             className="flex items-center gap-3 p-3 rounded-lg bg-muted/50"
@@ -796,9 +796,9 @@ export default function AnalyticsDashboardAdvanced() {
                     <CardDescription>Termes les plus recherchés</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    {popularSearches && popularSearches.length > 0 ? (
+                    {popularSearches && popularSearches?.length > 0 ? (
                       <div className="space-y-3">
-                        {popularSearches.map((search: any, index: number) => (
+                        {popularSearches?.map((search: any, index: number) => (
                           <div 
                             key={index}
                             className="flex items-center gap-3 p-3 rounded-lg bg-muted/50"

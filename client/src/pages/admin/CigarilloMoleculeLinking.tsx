@@ -20,7 +20,7 @@ export default function CigarilloMoleculeLinking() {
   const { data: links, isLoading: linksLoading } = trpc.cigarilloMoleculeLinks.list.useQuery(
     selectedRecipeId ? { cigarilloRecipeId: selectedRecipeId } : undefined
   );
-  const { data: stats } = trpc.cigarilloMoleculeLinks.stats.useQuery();
+  const { data: stats } = trpc.cigarilloMoleculeLinks.stats?.useQuery();
   const { data: allMolecules } = trpc.molecules.list.useQuery();
   const { data: recipesData } = trpc.recipes.getAll.useQuery({ limit: 100, offset: 0 });
 
@@ -34,7 +34,7 @@ export default function CigarilloMoleculeLinking() {
     onSuccess: () => {
       toast({ title: "Liaison créée", description: "La liaison cigarillo-molécule a été ajoutée." });
       utils.cigarilloMoleculeLinks.list.invalidate();
-      utils.cigarilloMoleculeLinks.stats.invalidate();
+      utils.cigarilloMoleculeLinks.stats?.invalidate();
       setFormMoleculeId("");
       setFormRole("");
       setFormPercentage("");
@@ -49,7 +49,7 @@ export default function CigarilloMoleculeLinking() {
     onSuccess: () => {
       toast({ title: "Liaison supprimée" });
       utils.cigarilloMoleculeLinks.list.invalidate();
-      utils.cigarilloMoleculeLinks.stats.invalidate();
+      utils.cigarilloMoleculeLinks.stats?.invalidate();
     },
     onError: (err) => {
       toast({ title: "Erreur", description: err.message, variant: "destructive" });
@@ -58,7 +58,7 @@ export default function CigarilloMoleculeLinking() {
 
   const filteredMolecules = useMemo(() => {
     if (!allMolecules) return [];
-    if (!moleculeSearch) return allMolecules.slice(0, 50);
+    if (!moleculeSearch) return allMolecules?.slice(0, 50);
     return allMolecules
       .filter(m => m.name.toLowerCase().includes(moleculeSearch.toLowerCase()))
       .slice(0, 50);
@@ -66,8 +66,8 @@ export default function CigarilloMoleculeLinking() {
 
   const filteredRecipes = useMemo(() => {
     if (!recipesData?.recipes) return [];
-    if (!recipeSearch) return recipesData.recipes;
-    return recipesData.recipes.filter((r: any) =>
+    if (!recipeSearch) return recipesData?.recipes;
+    return recipesData?.recipes.filter((r: any) =>
       r.name?.toLowerCase().includes(recipeSearch.toLowerCase()) ||
       r.collection?.toLowerCase().includes(recipeSearch.toLowerCase())
     );

@@ -89,7 +89,7 @@ export default function ChemicalFamilyGraph() {
   
   // Queries
   const { data: chemicalFamilies, isLoading: loadingFamilies } = 
-    trpc.chemicalFamilies.listWithCount.useQuery();
+    trpc.chemicalFamilies?.listWithCount.useQuery();
   const { data: networkData, isLoading: loadingNetwork } = 
     trpc.network.getRelationships.useQuery();
 
@@ -102,8 +102,8 @@ export default function ChemicalFamilyGraph() {
     const addedMolecules = new Set<number>();
     
     // Add family nodes
-    chemicalFamilies.forEach((family, index) => {
-      const angle = (index / chemicalFamilies.length) * 2 * Math.PI;
+    chemicalFamilies?.forEach((family, index) => {
+      const angle = (index / chemicalFamilies?.length) * 2 * Math.PI;
       const radius = 250;
       
       nodes.push({
@@ -120,8 +120,8 @@ export default function ChemicalFamilyGraph() {
     });
     
     // Add molecule nodes from network data
-    if (networkData.relationships?.moleculeFamilies) {
-      networkData.relationships.moleculeFamilies.forEach((relation: any) => {
+    if (networkData?.relationships?.moleculeFamilies) {
+      networkData?.relationships.moleculeFamilies.forEach((relation: any) => {
         // Add molecule node if not already added
         if (!addedMolecules.has(relation.moleculeId)) {
           const familyNode = nodes.find(n => n.id === `family-${relation.familyId}`);
@@ -327,8 +327,8 @@ export default function ChemicalFamilyGraph() {
   const stats = useMemo(() => {
     if (!chemicalFamilies) return { totalFamilies: 0, familiesWithMolecules: 0, totalLinks: 0 };
     return {
-      totalFamilies: chemicalFamilies.length,
-      familiesWithMolecules: chemicalFamilies.filter(f => (f.moleculeCount || 0) > 0).length,
+      totalFamilies: chemicalFamilies?.length,
+      familiesWithMolecules: chemicalFamilies?.filter(f => (f.moleculeCount || 0) > 0).length,
       totalLinks: graphData.links.length,
     };
   }, [chemicalFamilies, graphData]);

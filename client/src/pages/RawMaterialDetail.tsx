@@ -133,9 +133,9 @@ export default function RawMaterialDetail() {
     );
   }
 
-  const categoryInfo = categoryConfig[material.category] || categoryConfig.autre;
-  const olfactiveInfo = material.olfactiveFamily 
-    ? olfactiveFamilyConfig[material.olfactiveFamily] || olfactiveFamilyConfig.autre
+  const categoryInfo = categoryConfig[material?.category] || categoryConfig.autre;
+  const olfactiveInfo = material?.olfactiveFamily 
+    ? olfactiveFamilyConfig[material?.olfactiveFamily] || olfactiveFamilyConfig.autre
     : null;
 
   // Helpers de normalisation des champs JSON polymorphes
@@ -151,7 +151,7 @@ export default function RawMaterialDetail() {
   };
 
   // Champs normalisés
-  const normAllergens = asArrayRM(material.allergens);
+  const normAllergens = asArrayRM(material?.allergens);
   const normSynergies = asArrayRM((material as any).synergies);
 
   return (
@@ -161,10 +161,10 @@ export default function RawMaterialDetail() {
       <main className="container py-8">
         {/* Breadcrumbs */}
         <Breadcrumbs 
-          currentLabel={material.name}
+          currentLabel={material?.name}
           customItems={[
             { label: "Matières Premières", path: "/matieres-premieres" },
-            { label: material.name }
+            { label: material?.name }
           ]}
         />
         
@@ -186,19 +186,19 @@ export default function RawMaterialDetail() {
             </div>
             <div className="flex-1">
               <div className="flex items-start justify-between gap-4 mb-1">
-                <h1 className="text-4xl font-bold">{material.name}</h1>
+                <h1 className="text-4xl font-bold">{material?.name}</h1>
                 <AIEnrichButton
                   entityType="rawMaterial"
-                  entityId={material.id}
-                  entityName={material.name}
+                  entityId={material?.id}
+                  entityName={material?.name}
                   onEnrichSuccess={() => {
                     utils.rawMaterials.getById.invalidate(id);
                     utils.rawMaterials.getMolecules.invalidate(id);
                   }}
                 />
               </div>
-              {material.latinName && (
-                <p className="text-xl text-muted-foreground italic">{material.latinName}</p>
+              {material?.latinName && (
+                <p className="text-xl text-muted-foreground italic">{material?.latinName}</p>
               )}
               <div className="flex flex-wrap gap-2 mt-3">
                 <Badge variant="outline" className={categoryInfo.color}>
@@ -209,11 +209,11 @@ export default function RawMaterialDetail() {
                     {olfactiveInfo.label}
                   </Badge>
                 )}
-                {material.quality && (
-                  <Badge variant="outline">{material.quality.replace('_', ' ')}</Badge>
+                {material?.quality && (
+                  <Badge variant="outline">{material?.quality.replace('_', ' ')}</Badge>
                 )}
-                {material.priceRange && (
-                  <Badge variant="outline">{material.priceRange}</Badge>
+                {material?.priceRange && (
+                  <Badge variant="outline">{material?.priceRange}</Badge>
                 )}
               </div>
             </div>
@@ -242,38 +242,38 @@ export default function RawMaterialDetail() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {material.originCountry && (
+                  {material?.originCountry && (
                     <div>
                       <span className="text-sm text-muted-foreground">Pays</span>
-                      <p className="font-medium">{material.originCountry}</p>
+                      <p className="font-medium">{material?.originCountry}</p>
                     </div>
                   )}
-                  {material.originRegion && (
+                  {material?.originRegion && (
                     <div>
                       <span className="text-sm text-muted-foreground">Région</span>
-                      <p className="font-medium">{material.originRegion}</p>
+                      <p className="font-medium">{material?.originRegion}</p>
                     </div>
                   )}
-                  {material.plantPart && (
+                  {material?.plantPart && (
                     <div>
                       <span className="text-sm text-muted-foreground">Partie de la plante</span>
-                      <p className="font-medium capitalize">{material.plantPart.replace('_', ' ')}</p>
+                      <p className="font-medium capitalize">{material?.plantPart.replace('_', ' ')}</p>
                     </div>
                   )}
-                  {material.plantId && (
+                  {material?.plantId && (
                     <div>
                       <span className="text-sm text-muted-foreground">Plante source</span>
-                      <Link href={`/plantes/${material.plantId}`}>
+                      <Link href={`/plantes/${material?.plantId}`}>
                         <Button variant="link" className="p-0 h-auto">
                           Voir la plante <ExternalLink className="w-3 h-3 ml-1" />
                         </Button>
                       </Link>
                     </div>
                   )}
-                  {material.terroirId && (
+                  {material?.terroirId && (
                     <div>
                       <span className="text-sm text-muted-foreground">Terroir</span>
-                      <Link href={`/terroirs/${material.terroirId}`}>
+                      <Link href={`/terroirs/${material?.terroirId}`}>
                         <Button variant="link" className="p-0 h-auto">
                           Voir le terroir <ExternalLink className="w-3 h-3 ml-1" />
                         </Button>
@@ -292,45 +292,45 @@ export default function RawMaterialDetail() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {material.olfactiveProfile && (
+                  {material?.olfactiveProfile && (
                     <div>
                       <span className="text-sm text-muted-foreground">Description</span>
-                      <p className="text-sm">{material.olfactiveProfile}</p>
+                      <p className="text-sm">{material?.olfactiveProfile}</p>
                     </div>
                   )}
                   
                   <div className="grid grid-cols-1 gap-3">
-                    {material.topNotes && (
+                    {material?.topNotes && (
                       <div className="p-3 rounded-lg bg-sky-500/10 border border-sky-500/20">
                         <span className="text-xs text-sky-400 font-medium">Notes de tête</span>
-                        <p className="text-sm mt-1">{material.topNotes}</p>
+                        <p className="text-sm mt-1">{material?.topNotes}</p>
                       </div>
                     )}
-                    {material.heartNotes && (
+                    {material?.heartNotes && (
                       <div className="p-3 rounded-lg bg-rose-500/10 border border-rose-500/20">
                         <span className="text-xs text-rose-400 font-medium">Notes de cœur</span>
-                        <p className="text-sm mt-1">{material.heartNotes}</p>
+                        <p className="text-sm mt-1">{material?.heartNotes}</p>
                       </div>
                     )}
-                    {material.baseNotes && (
+                    {material?.baseNotes && (
                       <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
                         <span className="text-xs text-amber-400 font-medium">Notes de fond</span>
-                        <p className="text-sm mt-1">{material.baseNotes}</p>
+                        <p className="text-sm mt-1">{material?.baseNotes}</p>
                       </div>
                     )}
                   </div>
 
                   <div className="flex gap-6">
-                    {material.intensity && (
+                    {material?.intensity && (
                       <div className="flex items-center gap-2">
                         <Gauge className="w-4 h-4 text-muted-foreground" />
-                        <span className="text-sm">Intensité: {material.intensity}/10</span>
+                        <span className="text-sm">Intensité: {material?.intensity}/10</span>
                       </div>
                     )}
-                    {material.tenacity && (
+                    {material?.tenacity && (
                       <div className="flex items-center gap-2">
                         <Clock className="w-4 h-4 text-muted-foreground" />
-                        <span className="text-sm">Tenue: {material.tenacity}h</span>
+                        <span className="text-sm">Tenue: {material?.tenacity}h</span>
                       </div>
                     )}
                   </div>
@@ -346,16 +346,16 @@ export default function RawMaterialDetail() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {material.extractionYield && (
+                  {material?.extractionYield && (
                     <div>
                       <span className="text-sm text-muted-foreground">Rendement</span>
-                      <p className="font-medium">{material.extractionYield}%</p>
+                      <p className="font-medium">{material?.extractionYield}%</p>
                     </div>
                   )}
-                  {material.extractionNotes && (
+                  {material?.extractionNotes && (
                     <div>
                       <span className="text-sm text-muted-foreground">Notes d'extraction</span>
-                      <p className="text-sm">{material.extractionNotes}</p>
+                      <p className="text-sm">{material?.extractionNotes}</p>
                     </div>
                   )}
                 </CardContent>
@@ -370,22 +370,22 @@ export default function RawMaterialDetail() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {material.ifraCategory && (
+                  {material?.ifraCategory && (
                     <div>
                       <span className="text-sm text-muted-foreground">Catégorie IFRA</span>
-                      <p className="font-medium">{material.ifraCategory}</p>
+                      <p className="font-medium">{material?.ifraCategory}</p>
                     </div>
                   )}
-                  {material.maxUsageLevel && (
+                  {material?.maxUsageLevel && (
                     <div>
                       <span className="text-sm text-muted-foreground">Niveau d'usage max</span>
-                      <p className="font-medium">{material.maxUsageLevel}%</p>
+                      <p className="font-medium">{material?.maxUsageLevel}%</p>
                     </div>
                   )}
-                  {material.restrictions && (
+                  {material?.restrictions && (
                     <div>
                       <span className="text-sm text-muted-foreground">Restrictions</span>
-                      <p className="text-sm">{material.restrictions}</p>
+                      <p className="text-sm">{material?.restrictions}</p>
                     </div>
                   )}
                   {normAllergens.length > 0 && (
@@ -420,9 +420,9 @@ export default function RawMaterialDetail() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                {molecules && molecules.length > 0 ? (
+                {molecules && molecules?.length > 0 ? (
                   <div className="space-y-3">
-                    {molecules.map((item: any, index: number) => (
+                    {molecules?.map((item: any, index: number) => (
                       <div 
                         key={index}
                         className="flex items-center justify-between p-4 rounded-lg border border-border/50 hover:border-primary/30 transition-colors"
@@ -568,9 +568,9 @@ export default function RawMaterialDetail() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                {molecules && molecules.length > 0 ? (
+                {molecules && molecules?.length > 0 ? (
                   <div className="space-y-3">
-                    {molecules.slice(0, 10).map((mol: any) => (
+                    {molecules?.slice(0, 10).map((mol: any) => (
                       <Link 
                         key={mol.id}
                         href={`/ms-spectra?search=${encodeURIComponent(mol.molecule?.name || mol.name || '')}`}
@@ -658,8 +658,8 @@ export default function RawMaterialDetail() {
                   <CardTitle>Notes d'utilisation</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  {material.usageNotes ? (
-                    <p className="text-sm">{material.usageNotes}</p>
+                  {material?.usageNotes ? (
+                    <p className="text-sm">{material?.usageNotes}</p>
                   ) : (
                     <p className="text-sm text-muted-foreground">Aucune note d'utilisation disponible.</p>
                   )}
@@ -671,8 +671,8 @@ export default function RawMaterialDetail() {
                   <CardTitle>Conseils d'assemblage</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  {material.blendingTips ? (
-                    <p className="text-sm">{material.blendingTips}</p>
+                  {material?.blendingTips ? (
+                    <p className="text-sm">{material?.blendingTips}</p>
                   ) : (
                     <p className="text-sm text-muted-foreground">Aucun conseil d'assemblage disponible.</p>
                   )}
@@ -699,13 +699,13 @@ export default function RawMaterialDetail() {
                 </Card>
               )}
 
-              {material.notes && (
+              {material?.notes && (
                 <Card className="lg:col-span-2">
                   <CardHeader>
                     <CardTitle>Notes de recherche</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm whitespace-pre-wrap">{material.notes}</p>
+                    <p className="text-sm whitespace-pre-wrap">{material?.notes}</p>
                   </CardContent>
                 </Card>
               )}

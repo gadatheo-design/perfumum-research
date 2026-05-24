@@ -9,8 +9,8 @@ import { useToast } from "@/hooks/use-toast";
 
 export default function HistoriqueFormules() {
   const { toast } = useToast();
-  const { data: formulas, isLoading, refetch } = trpc.formulas.getHistory.useQuery();
-  const deleteFormula = trpc.formulas.delete.useMutation({
+  const { data: formulas, isLoading, refetch } = trpc.formulas?.getHistory.useQuery();
+  const deleteFormula = trpc.formulas?.delete.useMutation({
     onSuccess: () => {
       toast({ title: "✅ Formule supprimée", variant: "default" });
       refetch();
@@ -59,12 +59,12 @@ export default function HistoriqueFormules() {
       </div>
 
       {/* Statistiques */}
-      {formulas && formulas.length > 0 && (
+      {formulas && formulas?.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-3xl font-bold text-primary">
-                {formulas.length}
+                {formulas?.length}
               </CardTitle>
               <CardDescription>Formules sauvegardées</CardDescription>
             </CardHeader>
@@ -73,7 +73,7 @@ export default function HistoriqueFormules() {
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-3xl font-bold text-primary">
-                {Math.round(formulas.reduce((sum, f) => sum + f.suggestions.length, 0) / formulas.length)}
+                {Math.round(formulas?.reduce((sum, f) => sum + f.suggestions.length, 0) / formulas?.length)}
               </CardTitle>
               <CardDescription>Molécules moyennes / formule</CardDescription>
             </CardHeader>
@@ -158,7 +158,7 @@ export default function HistoriqueFormules() {
 
       {/* Liste des formules */}
       <div className="space-y-4">
-        {!formulas || formulas.length === 0 ? (
+        {!formulas || formulas?.length === 0 ? (
           <Card>
             <CardContent className="py-12 text-center">
               <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
@@ -171,7 +171,7 @@ export default function HistoriqueFormules() {
             </CardContent>
           </Card>
         ) : (
-          formulas.map(formula => (
+          formulas?.map(formula => (
             <Card key={formula.id} className={selectedFormulas.includes(formula.id) ? "border-primary" : ""}>
               <CardHeader>
                 <div className="flex items-start justify-between">

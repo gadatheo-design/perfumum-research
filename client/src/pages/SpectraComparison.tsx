@@ -232,7 +232,7 @@ export default function SpectraComparison() {
   const filteredSpectra = useMemo(() => {
     if (!allSpectra || !searchQuery) return [];
     const query = searchQuery.toLowerCase();
-    return allSpectra.filter((s: any) => 
+    return allSpectra?.filter((s: any) => 
       s.compound_name.toLowerCase().includes(query) ||
       s.cas_number?.includes(query) ||
       s.molecular_formula?.toLowerCase().includes(query)

@@ -8,8 +8,8 @@ import { AlertCircle } from "lucide-react";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 
 export function RecipeNetworkPage() {
-  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes.list.useQuery();
-  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
+  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes?.list.useQuery();
+  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules?.list.useQuery();
 
   const isLoading = loadingRecettes || loadingMolecules;
 
@@ -23,7 +23,7 @@ export function RecipeNetworkPage() {
     const linkArray: any[] = [];
 
     // Ajouter les recettes comme nœuds
-    recettes.forEach((recette) => {
+    recettes?.forEach((recette) => {
       nodeMap.set(`recipe-${recette.id}`, {
         id: `recipe-${recette.id}`,
         name: recette.name,
@@ -34,7 +34,7 @@ export function RecipeNetworkPage() {
     // Ajouter les molécules comme nœuds et créer les liens
     const moleculeUsageCount = new Map<number, number>();
 
-    recettes.forEach((recette) => {
+    recettes?.forEach((recette) => {
       // Simuler les molécules d'une recette (à adapter selon votre structure de données)
       // Pour l'instant, on crée des liens aléatoires pour démonstration
       const randomMolecules = molecules
@@ -165,7 +165,7 @@ export function RecipeNetworkPage() {
           <ul className="space-y-2">
             <li>
               Les <strong>molécules centrales</strong> (avec beaucoup de connexions) sont les 
-              plus utilisées dans vos recettes.
+              plus utilisées dans vos recettes?.
             </li>
             <li>
               Les <strong>clusters</strong> (groupes de nœuds proches) indiquent des familles 

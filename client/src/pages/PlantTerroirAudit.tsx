@@ -94,8 +94,8 @@ export default function PlantTerroirAudit() {
   // Filtrer les plantes sans terroir
   const filteredPlantsWithoutTerroir = useMemo(() => {
     if (!auditStats?.plantsWithoutTerroirList) return [];
-    if (!searchPlant) return auditStats.plantsWithoutTerroirList;
-    return auditStats.plantsWithoutTerroirList.filter((p: any) =>
+    if (!searchPlant) return auditStats?.plantsWithoutTerroirList;
+    return auditStats?.plantsWithoutTerroirList.filter((p: any) =>
       p.name?.toLowerCase().includes(searchPlant.toLowerCase()) ||
       p.latinName?.toLowerCase().includes(searchPlant.toLowerCase())
     );
@@ -104,8 +104,8 @@ export default function PlantTerroirAudit() {
   // Filtrer les terroirs sans plante
   const filteredTerroirsWithoutPlant = useMemo(() => {
     if (!auditStats?.terroirsWithoutPlantList) return [];
-    if (!searchTerroir) return auditStats.terroirsWithoutPlantList;
-    return auditStats.terroirsWithoutPlantList.filter((t: any) =>
+    if (!searchTerroir) return auditStats?.terroirsWithoutPlantList;
+    return auditStats?.terroirsWithoutPlantList.filter((t: any) =>
       t.name?.toLowerCase().includes(searchTerroir.toLowerCase()) ||
       t.country?.toLowerCase().includes(searchTerroir.toLowerCase())
     );
@@ -322,7 +322,7 @@ export default function PlantTerroirAudit() {
                                   <Badge variant="secondary">{plant.terroirCount} terroirs</Badge>
                                 </div>
                               ))}
-                              {(!auditStats?.topPlantsByTerroirs || auditStats.topPlantsByTerroirs.length === 0) && (
+                              {(!auditStats?.topPlantsByTerroirs || auditStats?.topPlantsByTerroirs.length === 0) && (
                                 <p className="text-sm text-muted-foreground text-center py-4">
                                   Aucune plante avec terroir
                                 </p>
@@ -356,7 +356,7 @@ export default function PlantTerroirAudit() {
                                   <Badge variant="secondary">{terroir.plantCount} plantes</Badge>
                                 </div>
                               ))}
-                              {(!auditStats?.topTerroirsByPlants || auditStats.topTerroirsByPlants.length === 0) && (
+                              {(!auditStats?.topTerroirsByPlants || auditStats?.topTerroirsByPlants.length === 0) && (
                                 <p className="text-sm text-muted-foreground text-center py-4">
                                   Aucun terroir avec plantes
                                 </p>
@@ -409,7 +409,7 @@ export default function PlantTerroirAudit() {
                                   </Link>
                                 </div>
                               ))}
-                              {(!auditStats?.priorityPlantsWithoutTerroir || auditStats.priorityPlantsWithoutTerroir.length === 0) && (
+                              {(!auditStats?.priorityPlantsWithoutTerroir || auditStats?.priorityPlantsWithoutTerroir.length === 0) && (
                                 <div className="flex items-center justify-center py-8 text-muted-foreground">
                                   <CheckCircle2 className="h-5 w-5 mr-2 text-green-600" />
                                   Toutes les plantes prioritaires sont liées !
@@ -454,7 +454,7 @@ export default function PlantTerroirAudit() {
                                   </Link>
                                 </div>
                               ))}
-                              {(!auditStats?.priorityTerroirsWithoutPlant || auditStats.priorityTerroirsWithoutPlant.length === 0) && (
+                              {(!auditStats?.priorityTerroirsWithoutPlant || auditStats?.priorityTerroirsWithoutPlant.length === 0) && (
                                 <div className="flex items-center justify-center py-8 text-muted-foreground">
                                   <CheckCircle2 className="h-5 w-5 mr-2 text-green-600" />
                                   Tous les terroirs prioritaires sont liés !

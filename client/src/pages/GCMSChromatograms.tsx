@@ -17,7 +17,7 @@ function ChromatogramChart({ peaks, landraceName }: { peaks: any[]; landraceName
   const [selectedPeakForMS, setSelectedPeakForMS] = useState<any>(null);
   
   useEffect(() => {
-    if (!svgRef.current || peaks.length === 0) return;
+    if (!svgRef.current || peaks?.length === 0) return;
     
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
@@ -77,7 +77,7 @@ function ChromatogramChart({ peaks, landraceName }: { peaks: any[]; landraceName
     };
     
     // Dessiner les pics
-    peaks.forEach((peak: any, idx: number) => {
+    peaks?.forEach((peak: any, idx: number) => {
       const gaussianPoints = generateGaussian(
         peak.retention_time, 
         peak.peak_area,
@@ -284,7 +284,7 @@ export default function GCMSChromatograms() {
         </Card>
         
         {/* Chromatogramme */}
-        {selectedLandrace && peaks && peaks.length > 0 && (
+        {selectedLandrace && peaks && peaks?.length > 0 && (
           <>
             <Card>
               <CardHeader>
@@ -377,7 +377,7 @@ export default function GCMSChromatograms() {
                       </tr>
                     </thead>
                     <tbody>
-                      {peaks.sort((a: any, b: any) => b.concentration_ppm - a.concentration_ppm).map((peak: any, idx: number) => (
+                      {peaks?.sort((a: any, b: any) => b.concentration_ppm - a.concentration_ppm).map((peak: any, idx: number) => (
                         <tr key={idx} className="border-b border-border/50 hover:bg-muted/50">
                           <td className="py-3 px-4 font-medium">{peak.compound_name}</td>
                           <td className="py-3 px-4 text-muted-foreground font-mono text-sm">{peak.cas_number}</td>

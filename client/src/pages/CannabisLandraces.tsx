@@ -92,7 +92,7 @@ export default function CannabisLandraces() {
         </Button>
         {terpeneStats && (
           <div className="text-sm text-muted-foreground">
-            <span className="font-medium text-foreground">{terpeneStats.withTerpenes}</span>/{terpeneStats.totalLandraces} landraces avec profil terpénique
+            <span className="font-medium text-foreground">{terpeneStats?.withTerpenes}</span>/{terpeneStats?.totalLandraces} landraces avec profil terpénique
           </div>
         )}
       </div>
@@ -101,20 +101,20 @@ export default function CannabisLandraces() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <Card className="bg-card/50 border-border/50">
             <CardContent className="pt-4">
-              <div className="text-2xl font-bold text-foreground">{stats.total}</div>
+              <div className="text-2xl font-bold text-foreground">{stats?.total}</div>
               <div className="text-sm text-muted-foreground">Landraces</div>
             </CardContent>
           </Card>
           <Card className="bg-card/50 border-border/50">
             <CardContent className="pt-4">
-              <div className="text-2xl font-bold text-foreground">{stats.byCountry?.length || 0}</div>
+              <div className="text-2xl font-bold text-foreground">{stats?.byCountry?.length || 0}</div>
               <div className="text-sm text-muted-foreground">Pays d'origine</div>
             </CardContent>
           </Card>
           <Card className="bg-card/50 border-border/50">
             <CardContent className="pt-4">
               <div className="text-2xl font-bold text-foreground">
-                {stats.byConservation?.find((c: any) => c.conservation_status === "rare")?.count || 0}
+                {stats?.byConservation?.find((c: any) => c.conservation_status === "rare")?.count || 0}
               </div>
               <div className="text-sm text-muted-foreground">Variétés rares</div>
             </CardContent>
@@ -122,7 +122,7 @@ export default function CannabisLandraces() {
           <Card className="bg-card/50 border-border/50">
             <CardContent className="pt-4">
               <div className="text-2xl font-bold text-foreground">
-                {stats.byConservation?.find((c: any) => c.conservation_status === "menacé")?.count || 0}
+                {stats?.byConservation?.find((c: any) => c.conservation_status === "menacé")?.count || 0}
               </div>
               <div className="text-sm text-muted-foreground">Variétés menacées</div>
             </CardContent>

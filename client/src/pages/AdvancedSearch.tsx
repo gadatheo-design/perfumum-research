@@ -71,8 +71,8 @@ export default function AdvancedSearch() {
 
   // Récupérer les données
   const { data: recettesWithRadar = [] } = trpc.recettes.listWithRadar.useQuery();
-  const { data: molecules = [] } = trpc.molecules.list.useQuery();
-  const { data: accords = [] } = trpc.accords.list.useQuery();
+  const { data: molecules = [] } = trpc.molecules?.list.useQuery();
+  const { data: accords = [] } = trpc.accords?.list.useQuery();
 
   // Fonction de recherche full-text
   const fullTextSearch = (text: string, query: string): boolean => {
@@ -84,7 +84,7 @@ export default function AdvancedSearch() {
 
   // Filtrer les recettes
   const filteredRecettes = useMemo(() => {
-    return recettesWithRadar.filter(recette => {
+    return recettesWithRadar?.filter(recette => {
       // Recherche full-text
       const matchesQuery = fullTextSearch(
         `${recette.name} ${recette.description || ''} ${recette.ingredients || ''}`,
@@ -106,7 +106,7 @@ export default function AdvancedSearch() {
 
   // Filtrer les molécules
   const filteredMolecules = useMemo(() => {
-    return molecules.filter(molecule => 
+    return molecules?.filter(molecule => 
       fullTextSearch(
         `${molecule.name} ${molecule.olfactiveProfile || ''} ${molecule.family || ''}`,
         searchQuery
@@ -116,7 +116,7 @@ export default function AdvancedSearch() {
 
   // Filtrer les accords
   const filteredAccords = useMemo(() => {
-    return accords.filter(accord => 
+    return accords?.filter(accord => 
       fullTextSearch(
         `${accord.name} ${accord.olfactiveProfile || ''}`,
         searchQuery
@@ -127,9 +127,9 @@ export default function AdvancedSearch() {
   // Suggestions intelligentes basées sur l'historique
   const suggestions = useMemo(() => {
     const allTerms = [
-      ...recettesWithRadar.map(r => r.name),
-      ...molecules.map(m => m.name),
-      ...accords.map(a => a.name),
+      ...recettesWithRadar?.map(r => r.name),
+      ...molecules?.map(m => m.name),
+      ...accords?.map(a => a.name),
     ];
     
     if (!searchQuery.trim()) {
@@ -183,7 +183,7 @@ export default function AdvancedSearch() {
             Explorez PERFUMUM
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Recherchez parmi {recettesWithRadar.length} recettes, {molecules.length} molécules et {accords.length} accords avec des filtres avancés
+            Recherchez parmi {recettesWithRadar?.length} recettes, {molecules?.length} molécules et {accords?.length} accords avec des filtres avancés
           </p>
         </motion.div>
 

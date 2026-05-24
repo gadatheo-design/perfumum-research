@@ -36,13 +36,13 @@ export default function GrapheAxesThematiques() {
   const [viewMode, setViewMode] = useState<ViewMode>('molecules-recettes');
 
   // Charger les données
-  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
-  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes.list.useQuery();
-  const { data: prototypes, isLoading: loadingPrototypes } = trpc.prototypes.list.useQuery();
-  const { data: families, isLoading: loadingFamilies } = trpc.families.list.useQuery();
-  const { data: plantMoleculeLinks, isLoading: loadingLinks } = trpc.plantMoleculeLinks.getAll.useQuery();
-  const { data: plants, isLoading: loadingPlants } = trpc.plants.list.useQuery();
-  const { data: terroirs, isLoading: loadingTerroirs } = trpc.terroirs.getAll.useQuery();
+  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules?.list.useQuery();
+  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes?.list.useQuery();
+  const { data: prototypes, isLoading: loadingPrototypes } = trpc.prototypes?.list.useQuery();
+  const { data: families, isLoading: loadingFamilies } = trpc.families?.list.useQuery();
+  const { data: plantMoleculeLinks, isLoading: loadingLinks } = trpc.plantMoleculeLinks?.getAll.useQuery();
+  const { data: plants, isLoading: loadingPlants } = trpc.plants?.list.useQuery();
+  const { data: terroirs, isLoading: loadingTerroirs } = trpc.terroirs?.getAll.useQuery();
 
   const isLoading = loadingMolecules || loadingRecettes || loadingPrototypes || 
                    loadingFamilies || loadingPlants || loadingTerroirs;

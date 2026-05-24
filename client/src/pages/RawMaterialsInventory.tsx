@@ -99,14 +99,14 @@ export default function RawMaterialsInventory() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <Card>
               <CardContent className="pt-6">
-                <div className="text-3xl font-bold text-emerald-500">{stats.total}</div>
+                <div className="text-3xl font-bold text-emerald-500">{stats?.total}</div>
                 <div className="text-sm text-muted-foreground">Matières premières</div>
               </CardContent>
             </Card>
             <Card>
               <CardContent className="pt-6">
                 <div className="text-3xl font-bold text-purple-500">
-                  {stats.byCategory?.length || 0}
+                  {stats?.byCategory?.length || 0}
                 </div>
                 <div className="text-sm text-muted-foreground">Catégories</div>
               </CardContent>
@@ -114,7 +114,7 @@ export default function RawMaterialsInventory() {
             <Card>
               <CardContent className="pt-6">
                 <div className="text-3xl font-bold text-amber-500">
-                  {stats.byOrigin?.length || 0}
+                  {stats?.byOrigin?.length || 0}
                 </div>
                 <div className="text-sm text-muted-foreground">Origines</div>
               </CardContent>
@@ -122,7 +122,7 @@ export default function RawMaterialsInventory() {
             <Card>
               <CardContent className="pt-6">
                 <div className="text-3xl font-bold text-cyan-500">
-                  {stats.byCategory?.find((c: any) => c.category === 'huile_essentielle')?.count || 0}
+                  {stats?.byCategory?.find((c: any) => c.category === 'huile_essentielle')?.count || 0}
                 </div>
                 <div className="text-sm text-muted-foreground">Huiles essentielles</div>
               </CardContent>
@@ -166,9 +166,9 @@ export default function RawMaterialsInventory() {
           <div className="flex items-center justify-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
-        ) : materials && materials.length > 0 ? (
+        ) : materials && materials?.length > 0 ? (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {materials.map((material: any) => (
+            {materials?.map((material: any) => (
               <Card key={material.id} className="hover:border-primary/50 transition-colors">
                 <CardHeader className="pb-3">
                   <div className="flex items-start justify-between">

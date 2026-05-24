@@ -88,19 +88,19 @@ export default function FamilyDetail() {
   const [activeTab, setActiveTab] = useState("plants");
 
   // Récupérer les plantes de cette famille
-  const { data: plants, isLoading: isLoadingPlants } = trpc.plants.getByFamily.useQuery(
+  const { data: plants, isLoading: isLoadingPlants } = trpc.plants?.getByFamily.useQuery(
     { family: familyName },
     { enabled: !!familyName }
   );
 
   // Récupérer les statistiques de la famille
-  const { data: familyStats, isLoading: isLoadingStats } = trpc.plants.getFamilyStats.useQuery(
+  const { data: familyStats, isLoading: isLoadingStats } = trpc.plants?.getFamilyStats.useQuery(
     { family: familyName },
     { enabled: !!familyName }
   );
 
   // Récupérer les données phylogénétiques
-  const { data: phyloData } = trpc.plants.getFamiliesWithCategories.useQuery();
+  const { data: phyloData } = trpc.plants?.getFamiliesWithCategories.useQuery();
 
   const superFamily = getSuperFamily(familyName);
 
@@ -148,7 +148,7 @@ export default function FamilyDetail() {
     );
   }
 
-  if (!plants || plants.length === 0) {
+  if (!plants || plants?.length === 0) {
     return (
       <>
         <Header />
@@ -206,7 +206,7 @@ export default function FamilyDetail() {
               </div>
               <h1 className="text-3xl font-bold mb-2">{familyName}</h1>
               <p className="text-muted-foreground">
-                Famille botanique regroupant {plants.length} plante{plants.length > 1 ? "s" : ""} dans la base de données PERFUMUM
+                Famille botanique regroupant {plants?.length} plante{plants?.length > 1 ? "s" : ""} dans la base de données PERFUMUM
               </p>
             </div>
           </div>
@@ -216,7 +216,7 @@ export default function FamilyDetail() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <Card className="bg-card/50 border-border/50">
             <CardContent className="pt-4">
-              <div className="text-2xl font-bold text-foreground">{plants.length}</div>
+              <div className="text-2xl font-bold text-foreground">{plants?.length}</div>
               <div className="text-sm text-muted-foreground">Plantes</div>
             </CardContent>
           </Card>
@@ -243,7 +243,7 @@ export default function FamilyDetail() {
         {/* Onglets */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
           <TabsList>
-            <TabsTrigger value="plants">Plantes ({plants.length})</TabsTrigger>
+            <TabsTrigger value="plants">Plantes ({plants?.length})</TabsTrigger>
             <TabsTrigger value="molecules">Molécules ({uniqueMolecules.size})</TabsTrigger>
             <TabsTrigger value="origins">Origines ({uniqueOrigins.size})</TabsTrigger>
           </TabsList>
@@ -252,7 +252,7 @@ export default function FamilyDetail() {
           <TabErrorBoundary>
           <TabsContent value="plants" className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {plants.map((plant: any) => (
+              {plants?.map((plant: any) => (
                 <Link key={plant.id} href={`/plants/${plant.id}`}>
                   <Card className="h-full hover:border-primary/50 transition-colors cursor-pointer">
                     <CardHeader className="pb-2">

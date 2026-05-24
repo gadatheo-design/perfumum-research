@@ -34,10 +34,10 @@ export default function ExportBibliographique() {
   const [generatedCitations, setGeneratedCitations] = useState<string>("");
 
   // Récupérer toutes les molécules
-  const { data: molecules } = trpc.molecules.list.useQuery();
+  const { data: molecules } = trpc.molecules?.list.useQuery();
   
   // Récupérer toutes les recettes
-  const { data: recettes } = trpc.recettes.list.useQuery();
+  const { data: recettes } = trpc.recettes?.list.useQuery();
 
   // Générer les citations groupées
   // @ts-ignore - Cette procédure sera ajoutée ultérieurement
@@ -318,7 +318,7 @@ export default function ExportBibliographique() {
                   ))}
                   {filteredRecettes.length > 100 && (
                     <p className="text-center text-sm text-muted-foreground py-2">
-                      +{filteredRecettes.length - 100} autres recettes...
+                      +{filteredRecettes.length - 100} autres recettes?...
                     </p>
                   )}
                 </div>

@@ -9,7 +9,7 @@ import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
 
 function CivilisationsDatabase() {
-  const { data: civilisations, isLoading } = trpc.civilisations.list.useQuery();
+  const { data: civilisations, isLoading } = trpc.civilisations?.list.useQuery();
 
   if (isLoading) {
     return (

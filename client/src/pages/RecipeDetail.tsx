@@ -48,7 +48,7 @@ export default function RecipeDetail() {
     );
   }
 
-  const terpeneProfile = safeJsonParse(recipe.terpene_profile, null);
+  const terpeneProfile = safeJsonParse(recipe?.terpene_profile, null);
 
   return (
     <div className="container py-8">
@@ -62,22 +62,22 @@ export default function RecipeDetail() {
       <div className="mb-8">
         <div className="flex flex-wrap items-center gap-3 mb-4">
           <Cigarette className="h-8 w-8 text-amber-500" />
-          <h1 className="text-3xl font-bold text-foreground">{recipe.name}</h1>
-          {recipe.difficulty_level && (
-            <Badge variant="outline" className={getDifficultyColor(recipe.difficulty_level)}>
-              {recipe.difficulty_level}
+          <h1 className="text-3xl font-bold text-foreground">{recipe?.name}</h1>
+          {recipe?.difficulty_level && (
+            <Badge variant="outline" className={getDifficultyColor(recipe?.difficulty_level)}>
+              {recipe?.difficulty_level}
             </Badge>
           )}
         </div>
         
-        {recipe.collection && (
+        {recipe?.collection && (
           <Badge variant="secondary" className="mb-4">
-            {recipe.collection}
+            {recipe?.collection}
           </Badge>
         )}
         
-        {recipe.concept && (
-          <p className="text-lg text-muted-foreground">{recipe.concept}</p>
+        {recipe?.concept && (
+          <p className="text-lg text-muted-foreground">{recipe?.concept}</p>
         )}
         <div className="mt-4">
           <Button variant="outline" size="sm" className="gap-2 border-amber-500/50 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/30" onClick={() => setContributionOpen(true)}>
@@ -87,58 +87,58 @@ export default function RecipeDetail() {
           <RecipeContributionModal
             open={contributionOpen}
             onClose={() => setContributionOpen(false)}
-            recipeId={recipe.id}
-            recipeName={recipe.name}
+            recipeId={recipe?.id}
+            recipeName={recipe?.name}
           />
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        {recipe.cannabis_component && (
+        {recipe?.cannabis_component && (
           <Card className="bg-green-500/5 border-green-500/20">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Leaf className="h-5 w-5 text-green-500" />
-                <CardTitle className="text-green-400">Cannabis ({recipe.cannabis_percentage}%)</CardTitle>
+                <CardTitle className="text-green-400">Cannabis ({recipe?.cannabis_percentage}%)</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">{recipe.cannabis_component}</p>
+              <p className="text-muted-foreground">{recipe?.cannabis_component}</p>
             </CardContent>
           </Card>
         )}
         
-        {recipe.tobacco_component && (
+        {recipe?.tobacco_component && (
           <Card className="bg-amber-500/5 border-amber-500/20">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <Cigarette className="h-5 w-5 text-amber-500" />
-                <CardTitle className="text-amber-400">Tabac ({recipe.tobacco_percentage}%)</CardTitle>
+                <CardTitle className="text-amber-400">Tabac ({recipe?.tobacco_percentage}%)</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">{recipe.tobacco_component}</p>
+              <p className="text-muted-foreground">{recipe?.tobacco_component}</p>
             </CardContent>
           </Card>
         )}
         
-        {recipe.perfume_component && (
+        {recipe?.perfume_component && (
           <Card className="bg-purple-500/5 border-purple-500/20">
             <CardHeader>
               <div className="flex items-center gap-2">
                 <FlaskConical className="h-5 w-5 text-purple-500" />
-                <CardTitle className="text-purple-400">Parfum ({recipe.perfume_percentage}%)</CardTitle>
+                <CardTitle className="text-purple-400">Parfum ({recipe?.perfume_percentage}%)</CardTitle>
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">{recipe.perfume_component}</p>
+              <p className="text-muted-foreground">{recipe?.perfume_component}</p>
             </CardContent>
           </Card>
         )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {recipe.maturation_days && (
+        {recipe?.maturation_days && (
           <Card className="bg-card/50 border-border/50">
             <CardHeader>
               <div className="flex items-center gap-2">
@@ -147,18 +147,18 @@ export default function RecipeDetail() {
               </div>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold text-foreground">{recipe.maturation_days} jours</p>
+              <p className="text-2xl font-bold text-foreground">{recipe?.maturation_days} jours</p>
             </CardContent>
           </Card>
         )}
         
-        {recipe.wrapper_leaf && (
+        {recipe?.wrapper_leaf && (
           <Card className="bg-card/50 border-border/50">
             <CardHeader>
               <CardTitle>Feuille d'Enveloppe</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">{recipe.wrapper_leaf}</p>
+              <p className="text-muted-foreground">{recipe?.wrapper_leaf}</p>
             </CardContent>
           </Card>
         )}
@@ -186,7 +186,7 @@ export default function RecipeDetail() {
 
       {/* Composition détaillée des ingrédients */}
       <div className="mt-6">
-        <RecipeIngredients recipeId={recipe.id} />
+        <RecipeIngredients recipeId={recipe?.id} />
       </div>
     </div>
   );

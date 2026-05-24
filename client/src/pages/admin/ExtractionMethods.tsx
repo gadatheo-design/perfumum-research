@@ -19,7 +19,7 @@ export default function ExtractionMethods() {
   const [showDetails, setShowDetails] = useState(false);
 
   // Récupérer tous les procédés d'extraction
-  const { data: extractionMethods, isLoading: isLoadingMethods } = trpc.extractionMethods.getAll.useQuery();
+  const { data: extractionMethods, isLoading: isLoadingMethods } = trpc.extractionMethods?.getAll.useQuery();
 
   // Récupérer les publications liées au procédé sélectionné
   const { data: linkedPublications, isLoading: isLoadingPublications } = 
@@ -31,7 +31,7 @@ export default function ExtractionMethods() {
   // Filtrer les procédés par terme de recherche
   const filteredMethods = useMemo(() => {
     if (!extractionMethods) return [];
-    return extractionMethods.filter((method: any) =>
+    return extractionMethods?.filter((method: any) =>
       method.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       method.description?.toLowerCase().includes(searchTerm.toLowerCase())
     );

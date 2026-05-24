@@ -91,31 +91,31 @@ export default function PlantTerroirLinking() {
   const utils = trpc.useUtils();
 
   // Queries
-  const { data: plants, isLoading: loadingPlants } = trpc.plants.list.useQuery();
-  const { data: terroirs, isLoading: loadingTerroirs } = trpc.terroirs.getAll.useQuery();
-  const { data: networkStats } = trpc.plantTerroirs.getNetworkStats.useQuery();
-  const { data: allRelations } = trpc.plantTerroirs.getAll.useQuery();
+  const { data: plants, isLoading: loadingPlants } = trpc.plants?.list.useQuery();
+  const { data: terroirs, isLoading: loadingTerroirs } = trpc.terroirs?.getAll.useQuery();
+  const { data: networkStats } = trpc.plantTerroirs?.getNetworkStats.useQuery();
+  const { data: allRelations } = trpc.plantTerroirs?.getAll.useQuery();
   
   // Terroirs d'une plante sélectionnée
-  const { data: plantTerroirs } = trpc.plantTerroirs.getByPlant.useQuery(
+  const { data: plantTerroirs } = trpc.plantTerroirs?.getByPlant.useQuery(
     selectedPlant?.id,
     { enabled: !!selectedPlant }
   );
   
   // Plantes d'un terroir sélectionné
-  const { data: terroirPlants } = trpc.plantTerroirs.getByTerroir.useQuery(
+  const { data: terroirPlants } = trpc.plantTerroirs?.getByTerroir.useQuery(
     selectedTerroir?.id,
     { enabled: !!selectedTerroir }
   );
 
   // Mutations
-  const createLinkMutation = trpc.plantTerroirs.create.useMutation({
+  const createLinkMutation = trpc.plantTerroirs?.create.useMutation({
     onSuccess: () => {
       toast.success("Liaison créée avec succès !");
-      utils.plantTerroirs.getAll.invalidate();
-      utils.plantTerroirs.getNetworkStats.invalidate();
-      if (selectedPlant) utils.plantTerroirs.getByPlant.invalidate(selectedPlant.id);
-      if (selectedTerroir) utils.plantTerroirs.getByTerroir.invalidate(selectedTerroir.id);
+      utils.plantTerroirs?.getAll.invalidate();
+      utils.plantTerroirs?.getNetworkStats.invalidate();
+      if (selectedPlant) utils.plantTerroirs?.getByPlant.invalidate(selectedPlant.id);
+      if (selectedTerroir) utils.plantTerroirs?.getByTerroir.invalidate(selectedTerroir.id);
       setLinkDialogOpen(false);
       resetLinkForm();
     },
@@ -124,13 +124,13 @@ export default function PlantTerroirLinking() {
     },
   });
 
-  const deleteLinkMutation = trpc.plantTerroirs.delete.useMutation({
+  const deleteLinkMutation = trpc.plantTerroirs?.delete.useMutation({
     onSuccess: () => {
       toast.success("Liaison supprimée avec succès !");
-      utils.plantTerroirs.getAll.invalidate();
-      utils.plantTerroirs.getNetworkStats.invalidate();
-      if (selectedPlant) utils.plantTerroirs.getByPlant.invalidate(selectedPlant.id);
-      if (selectedTerroir) utils.plantTerroirs.getByTerroir.invalidate(selectedTerroir.id);
+      utils.plantTerroirs?.getAll.invalidate();
+      utils.plantTerroirs?.getNetworkStats.invalidate();
+      if (selectedPlant) utils.plantTerroirs?.getByPlant.invalidate(selectedPlant.id);
+      if (selectedTerroir) utils.plantTerroirs?.getByTerroir.invalidate(selectedTerroir.id);
       setDeleteDialogOpen(false);
       setLinkToDelete(null);
     },
@@ -181,7 +181,7 @@ export default function PlantTerroirLinking() {
   // Filtrer plantes
   const plantesFiltrees = useMemo(() => {
     if (!plants) return [];
-    return plants.filter((p: any) =>
+    return plants?.filter((p: any) =>
       p.name?.toLowerCase().includes(recherchePlante.toLowerCase()) ||
       p.latinName?.toLowerCase().includes(recherchePlante.toLowerCase())
     );
@@ -190,7 +190,7 @@ export default function PlantTerroirLinking() {
   // Filtrer terroirs
   const terroirsFiltres = useMemo(() => {
     if (!terroirs) return [];
-    return terroirs.filter((t: any) =>
+    return terroirs?.filter((t: any) =>
       t.name?.toLowerCase().includes(rechercheTerroir.toLowerCase()) ||
       t.country?.toLowerCase().includes(rechercheTerroir.toLowerCase()) ||
       t.region?.toLowerCase().includes(rechercheTerroir.toLowerCase())
@@ -578,7 +578,7 @@ export default function PlantTerroirLinking() {
                         </div>
                       </CardHeader>
                       <CardContent>
-                        {!plantTerroirs || plantTerroirs.length === 0 ? (
+                        {!plantTerroirs || plantTerroirs?.length === 0 ? (
                           <p className="text-sm text-muted-foreground text-center py-8">
                             Aucun terroir associé à cette plante.
                           </p>
@@ -595,7 +595,7 @@ export default function PlantTerroirLinking() {
                                 </TableRow>
                               </TableHeader>
                               <TableBody>
-                                {plantTerroirs.map((pt: any) => (
+                                {plantTerroirs?.map((pt: any) => (
                                   <TableRow key={pt.terroirId}>
                                     <TableCell className="font-medium">
                                       {pt.terroirName || `Terroir #${pt.terroirId}`}
@@ -704,7 +704,7 @@ export default function PlantTerroirLinking() {
                         </div>
                       </CardHeader>
                       <CardContent>
-                        {!terroirPlants || terroirPlants.length === 0 ? (
+                        {!terroirPlants || terroirPlants?.length === 0 ? (
                           <p className="text-sm text-muted-foreground text-center py-8">
                             Aucune plante associée à ce terroir.
                           </p>
@@ -721,7 +721,7 @@ export default function PlantTerroirLinking() {
                                 </TableRow>
                               </TableHeader>
                               <TableBody>
-                                {terroirPlants.map((tp: any) => (
+                                {terroirPlants?.map((tp: any) => (
                                   <TableRow key={tp.plantId}>
                                     <TableCell className="font-medium">
                                       {tp.plantName || `Plante #${tp.plantId}`}
@@ -783,7 +783,7 @@ export default function PlantTerroirLinking() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      {!allRelations || allRelations.length === 0 ? (
+                      {!allRelations || allRelations?.length === 0 ? (
                         <p className="text-sm text-muted-foreground text-center py-8">
                           Aucune liaison créée pour le moment.
                         </p>
@@ -799,7 +799,7 @@ export default function PlantTerroirLinking() {
                               </TableRow>
                             </TableHeader>
                             <TableBody>
-                              {allRelations.slice(0, 20).map((rel: any, index: number) => (
+                              {allRelations?.slice(0, 20).map((rel: any, index: number) => (
                                 <TableRow key={`${rel.plantId}-${rel.terroirId}-${index}`}>
                                   <TableCell className="font-medium">
                                     <div className="flex items-center gap-2">

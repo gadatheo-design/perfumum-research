@@ -47,20 +47,20 @@ export default function MoleculeRecetteDragDrop() {
   const utils = trpc.useUtils();
 
   // Queries
-  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
-  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes.list.useQuery();
-  const { data: existingRelations } = trpc.molecules.getAllRecetteRelationsWithNames.useQuery();
+  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules?.list.useQuery();
+  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes?.list.useQuery();
+  const { data: existingRelations } = trpc.molecules?.getAllRecetteRelationsWithNames.useQuery();
 
   // Mutation
-  const createLinks = trpc.molecules.createMultipleRecettes.useMutation({
+  const createLinks = trpc.molecules?.createMultipleRecettes.useMutation({
     onSuccess: (result) => {
       if (result.created > 0) {
         toast.success(`${result.created} liaison(s) créée(s) avec succès !`);
         setPendingLinks([]);
         setSelectedMolecules(new Set());
         setSelectedRecettes(new Set());
-        utils.molecules.getRecetteAuditStats.invalidate();
-        utils.molecules.getAllRecetteRelationsWithNames.invalidate();
+        utils.molecules?.getRecetteAuditStats.invalidate();
+        utils.molecules?.getAllRecetteRelationsWithNames.invalidate();
       }
       if (result.errors.length > 0) {
         toast.warning(`${result.errors.length} erreur(s) : ${result.errors[0]}`);
@@ -74,13 +74,13 @@ export default function MoleculeRecetteDragDrop() {
   // Set des relations existantes
   const existingSet = useMemo(() => {
     if (!existingRelations) return new Set<string>();
-    return new Set(existingRelations.map((r: any) => `${r.moleculeId}-${r.recetteId}`));
+    return new Set(existingRelations?.map((r: any) => `${r.moleculeId}-${r.recetteId}`));
   }, [existingRelations]);
 
   // Filtrer les molécules
   const filteredMolecules = useMemo(() => {
     if (!molecules) return [];
-    return molecules.filter((m: any) =>
+    return molecules?.filter((m: any) =>
       m.name.toLowerCase().includes(searchMolecule.toLowerCase())
     );
   }, [molecules, searchMolecule]);
@@ -88,7 +88,7 @@ export default function MoleculeRecetteDragDrop() {
   // Filtrer les recettes
   const filteredRecettes = useMemo(() => {
     if (!recettes) return [];
-    return recettes.filter((r: any) =>
+    return recettes?.filter((r: any) =>
       r.name.toLowerCase().includes(searchRecette.toLowerCase())
     );
   }, [recettes, searchRecette]);

@@ -45,13 +45,13 @@ export default function PeriqueCompounds() {
 
   const categories = useMemo(() => {
     if (!compounds) return [];
-    const cats = [...new Set(compounds.map((c: any) => c.category))].filter(Boolean);
+    const cats = [...new Set(compounds?.map((c: any) => c.category))].filter(Boolean);
     return cats.sort();
   }, [compounds]);
 
   const filteredCompounds = useMemo(() => {
     if (!compounds) return [];
-    return compounds.filter((compound: any) => {
+    return compounds?.filter((compound: any) => {
       const matchesSearch = 
         compound.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         compound.odor_description?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -64,7 +64,7 @@ export default function PeriqueCompounds() {
   const categoryStats = useMemo(() => {
     if (!compounds) return [];
     const stats: Record<string, number> = {};
-    compounds.forEach((c: any) => {
+    compounds?.forEach((c: any) => {
       const cat = c.category || "Non classé";
       stats[cat] = (stats[cat] || 0) + 1;
     });
@@ -76,7 +76,7 @@ export default function PeriqueCompounds() {
   const perfumeryStats = useMemo(() => {
     if (!compounds) return [];
     const stats: Record<string, number> = {};
-    compounds.forEach((c: any) => {
+    compounds?.forEach((c: any) => {
       const pot = c.perfumery_potential || "Non évalué";
       stats[pot] = (stats[pot] || 0) + 1;
     });
@@ -87,7 +87,7 @@ export default function PeriqueCompounds() {
 
   const newIsolatesCount = useMemo(() => {
     if (!compounds) return 0;
-    return compounds.filter((c: any) => c.is_new_isolate).length;
+    return compounds?.filter((c: any) => c.is_new_isolate).length;
   }, [compounds]);
 
   if (isLoading) {

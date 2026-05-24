@@ -93,7 +93,7 @@ export default function Recettes() {
   });
 
   // Recettes liées à la molécule sélectionnée (IDs)
-  const { data: moleculeRecetteIds } = trpc.recettes.getByMoleculeName.useQuery(
+  const { data: moleculeRecetteIds } = trpc.recettes?.getByMoleculeName.useQuery(
     { moleculeName: selectedMolecule ?? '' },
     { enabled: !!selectedMolecule }
   );
@@ -118,7 +118,7 @@ export default function Recettes() {
   // Pull-to-refresh
   const [pullRef, pullState] = usePullToRefresh<HTMLDivElement>({
     onRefresh: async () => {
-      await utils.recettes.listWithRadar.invalidate();
+      await utils.recettes?.listWithRadar.invalidate();
       toast({
         title: "Recettes actualisées",
         description: "La liste des recettes a été mise à jour.",
@@ -127,7 +127,7 @@ export default function Recettes() {
   });
 
   // Utiliser la nouvelle procédure avec radar
-  const { data: recettes = [], isLoading } = trpc.recettes.listWithRadar.useQuery({
+  const { data: recettes = [], isLoading } = trpc.recettes?.listWithRadar.useQuery({
     intensityMin: radarFilters.intensity[0] > 0 ? radarFilters.intensity[0] : undefined,
     intensityMax: radarFilters.intensity[1] < 100 ? radarFilters.intensity[1] : undefined,
     freshnessMin: radarFilters.freshness[0] > 0 ? radarFilters.freshness[0] : undefined,
@@ -144,7 +144,7 @@ export default function Recettes() {
 
   // Extract unique families from recettes
   const families = useMemo(() => {
-    return Array.from(new Set(recettes.map(r => r.category).filter(Boolean)));
+    return Array.from(new Set(recettes?.map(r => r.category).filter(Boolean)));
   }, [recettes]);
 
   // Prototypes
@@ -159,7 +159,7 @@ export default function Recettes() {
   // Filter and sort recettes
   const filteredRecettes = useMemo(() => {
     // Filtrer d'abord
-    let filtered = recettes.filter((recette) => {
+    let filtered = recettes?.filter((recette) => {
       const matchesSearch = recette.name?.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesGamme = !selectedGamme || getGammeFromCategory(recette.category) === selectedGamme;
       const matchesFamily = !selectedFamily || recette.category === selectedFamily;
@@ -220,9 +220,9 @@ export default function Recettes() {
   const hasActiveFilters = searchTerm || selectedGamme || selectedFamily || selectedPrototype || selectedIngredient || linkedFilter !== 'all' || selectedMolecule;
   
   // Statistiques de couverture
-  const linkedCount = recettes.filter(r => r.moleculeCount > 0).length;
-  const unlinkedCount = recettes.filter(r => r.moleculeCount === 0).length;
-  const coveragePercent = recettes.length > 0 ? Math.round(linkedCount / recettes.length * 100) : 0;
+  const linkedCount = recettes?.filter(r => r.moleculeCount > 0).length;
+  const unlinkedCount = recettes?.filter(r => r.moleculeCount === 0).length;
+  const coveragePercent = recettes?.length > 0 ? Math.round(linkedCount / recettes?.length * 100) : 0;
   
   const hasActiveRadarFilters = Object.values(radarFilters).some(
     ([min, max]) => min > 0 || max < 100
@@ -273,7 +273,7 @@ export default function Recettes() {
                 <h1 className="text-4xl md:text-5xl font-bold">Recettes</h1>
               </div>
               <p className="text-lg text-muted-foreground">
-                Formules olfactives développées dans le cadre de PERFUMUM. Explorez les {recettes.length} recettes par famille, prototype ou profil radar.
+                Formules olfactives développées dans le cadre de PERFUMUM. Explorez les {recettes?.length} recettes par famille, prototype ou profil radar.
               </p>
             </div>
           </div>
@@ -449,7 +449,7 @@ export default function Recettes() {
                     className="h-7 px-2 text-xs"
                     onClick={() => setLinkedFilter('all')}
                   >
-                    Toutes ({recettes.length})
+                    Toutes ({recettes?.length})
                   </Button>
                   <Button
                     variant={linkedFilter === 'linked' ? 'default' : 'ghost'}
@@ -639,7 +639,7 @@ export default function Recettes() {
                 </p>
                 <Badge variant="outline" className="text-xs">
                   <FlaskConical className="h-3 w-3 mr-1" />
-                  Couverture : {coveragePercent}% ({linkedCount}/{recettes.length})
+                  Couverture : {coveragePercent}% ({linkedCount}/{recettes?.length})
                 </Badge>
                 {linkedFilter === 'unlinked' && (
                   <Badge variant="secondary" className="text-xs">

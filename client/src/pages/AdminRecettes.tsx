@@ -83,27 +83,27 @@ export default function AdminRecettes() {
   });
 
   const utils = trpc.useUtils();
-  const { data: recettes, isLoading } = trpc.recettes.list.useQuery();
+  const { data: recettes, isLoading } = trpc.recettes?.list.useQuery();
 
-  const createMutation = trpc.recettes.create.useMutation({
+  const createMutation = trpc.recettes?.create.useMutation({
     onSuccess: () => {
-      utils.recettes.list.invalidate();
+      utils.recettes?.list.invalidate();
       setIsDialogOpen(false);
       resetForm();
     },
   });
 
-  const updateMutation = trpc.recettes.update.useMutation({
+  const updateMutation = trpc.recettes?.update.useMutation({
     onSuccess: () => {
-      utils.recettes.list.invalidate();
+      utils.recettes?.list.invalidate();
       setIsDialogOpen(false);
       resetForm();
     },
   });
 
-  const deleteMutation = trpc.recettes.delete.useMutation({
+  const deleteMutation = trpc.recettes?.delete.useMutation({
     onSuccess: () => {
-      utils.recettes.list.invalidate();
+      utils.recettes?.list.invalidate();
     },
   });
 

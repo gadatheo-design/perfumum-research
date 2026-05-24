@@ -32,8 +32,8 @@ export default function ImportExportPlants() {
     errors: string[];
   } | null>(null);
 
-  const { data: plants } = trpc.plants.list.useQuery();
-  const { data: plantVarieties } = trpc.plantVarieties.getAll.useQuery();
+  const { data: plants } = trpc.plants?.list.useQuery();
+  const { data: plantVarieties } = trpc.plantVarieties?.getAll.useQuery();
 
   // Générer le template CSV
   const generateCSVTemplate = () => {
@@ -153,7 +153,7 @@ export default function ImportExportPlants() {
 
   // Exporter les données
   const exportData = async () => {
-    if (!plants || plants.length === 0) {
+    if (!plants || plants?.length === 0) {
       toast({
         title: "Aucune donnée",
         description: "Il n'y a pas de plantes à exporter.",
@@ -177,7 +177,7 @@ export default function ImportExportPlants() {
           "traditional_use", "absorbe_use", "notes", "created_at"
         ];
         
-        const rows = plants.map((plant: any) => [
+        const rows = plants?.map((plant: any) => [
           plant.id,
           `"${(plant.name || "").replace(/"/g, '""')}"`,
           `"${(plant.latinName || "").replace(/"/g, '""')}"`,
@@ -216,7 +216,7 @@ export default function ImportExportPlants() {
 
       toast({
         title: "Export réussi",
-        description: `${plants.length} plantes exportées vers ${filename}`,
+        description: `${plants?.length} plantes exportées vers ${filename}`,
       });
     } catch (error) {
       toast({

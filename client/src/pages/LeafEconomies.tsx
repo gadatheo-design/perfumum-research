@@ -62,7 +62,7 @@ export default function LeafEconomies() {
   const filteredSamples = useMemo(() => {
     if (!samples) return [];
     
-    return samples.filter(sample => {
+    return samples?.filter(sample => {
       if (searchTerm) {
         const search = searchTerm.toLowerCase();
         const matchesSearch = 
@@ -93,11 +93,11 @@ export default function LeafEconomies() {
   const stats = useMemo(() => {
     if (!samples) return { total: 0, aromatique: 0, tabac: 0, cannabis: 0, withAnalysis: 0 };
     return {
-      total: samples.length,
-      aromatique: samples.filter(s => s.category === "aromatique").length,
-      tabac: samples.filter(s => s.category === "tabac").length,
-      cannabis: samples.filter(s => s.category === "cannabis").length,
-      withAnalysis: samples.filter(s => s.analysisAvailable === 1).length,
+      total: samples?.length,
+      aromatique: samples?.filter(s => s.category === "aromatique").length,
+      tabac: samples?.filter(s => s.category === "tabac").length,
+      cannabis: samples?.filter(s => s.category === "cannabis").length,
+      withAnalysis: samples?.filter(s => s.analysisAvailable === 1).length,
     };
   }, [samples]);
 

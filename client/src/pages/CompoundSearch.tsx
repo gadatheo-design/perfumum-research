@@ -51,7 +51,7 @@ export default function CompoundSearch() {
     // Filtrer par recherche
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      filtered = allPeaks.filter((peak: any) => 
+      filtered = allPeaks?.filter((peak: any) => 
         peak.compound_name.toLowerCase().includes(query) ||
         peak.cas_number?.toLowerCase().includes(query)
       );
@@ -76,7 +76,7 @@ export default function CompoundSearch() {
   const compoundStats = useMemo(() => {
     if (!allPeaks) return [];
     
-    const grouped = allPeaks.reduce((acc: any, peak: any) => {
+    const grouped = allPeaks?.reduce((acc: any, peak: any) => {
       const key = peak.compound_name;
       if (!acc[key]) {
         acc[key] = {

@@ -143,7 +143,7 @@ export default function RawMaterialForm() {
   });
 
   // Queries for related data
-  const { data: plants } = trpc.plants.list.useQuery();
+  const { data: plants } = trpc.plants?.list.useQuery();
   // @ts-ignore - Ces procédures seront ajoutées ultérieurement
   const { data: terroirs } = trpc.terroirs?.getAll?.useQuery?.() || { data: [] };
   // @ts-ignore

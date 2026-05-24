@@ -17,7 +17,7 @@ export default function RechercheRadicale() {
     );
   }
 
-  if (!accords || accords.length === 0) {
+  if (!accords || accords?.length === 0) {
     return (
       <div className="container py-12">
         <div className="text-center text-muted-foreground">
@@ -70,7 +70,7 @@ export default function RechercheRadicale() {
       {/* Liste des accords */}
       <div className="container py-12">
         <div className="grid gap-8 max-w-5xl mx-auto">
-          {accords.map((accord) => {
+          {accords?.map((accord) => {
             const architecture = safeJsonParse(accord.architecture, null);
             
             return (

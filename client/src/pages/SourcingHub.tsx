@@ -327,12 +327,12 @@ export default function SourcingHub() {
   const [sortBy, setSortBy] = useState("quality");
 
   const countries = useMemo(() => {
-    const set = new Set(suppliers.map((s: any) => s.country).filter(Boolean));
+    const set = new Set(suppliers?.map((s: any) => s.country).filter(Boolean));
     return Array.from(set).sort();
   }, [suppliers]);
 
   const supplierTypes = useMemo(() => {
-    const set = new Set(suppliers.map((s: any) => s.supplierType).filter(Boolean));
+    const set = new Set(suppliers?.map((s: any) => s.supplierType).filter(Boolean));
     return Array.from(set).sort();
   }, [suppliers]);
 
@@ -408,7 +408,7 @@ export default function SourcingHub() {
     mapRef.current = map;
     // Placer les épingles pour chaque fournisseur
     const suppliersByCountry: Record<string, any[]> = {};
-    suppliers.forEach((s: any) => {
+    suppliers?.forEach((s: any) => {
       if (s.country) {
         if (!suppliersByCountry[s.country]) suppliersByCountry[s.country] = [];
         suppliersByCountry[s.country].push(s);
@@ -453,12 +453,12 @@ export default function SourcingHub() {
   }, [suppliers]);
 
   const stats = useMemo(() => ({
-    total: suppliers.length,
-    tabac: suppliers.filter((s: any) => getCategory(s.supplierId) === "tabac").length,
-    cannabis: suppliers.filter((s: any) => getCategory(s.supplierId) === "cannabis").length,
-    parfum: suppliers.filter((s: any) => getCategory(s.supplierId) === "parfum").length,
-    botanique: suppliers.filter((s: any) => getCategory(s.supplierId) === "botanique").length,
-    countries: new Set(suppliers.map((s: any) => s.country).filter(Boolean)).size,
+    total: suppliers?.length,
+    tabac: suppliers?.filter((s: any) => getCategory(s.supplierId) === "tabac").length,
+    cannabis: suppliers?.filter((s: any) => getCategory(s.supplierId) === "cannabis").length,
+    parfum: suppliers?.filter((s: any) => getCategory(s.supplierId) === "parfum").length,
+    botanique: suppliers?.filter((s: any) => getCategory(s.supplierId) === "botanique").length,
+    countries: new Set(suppliers?.map((s: any) => s.country).filter(Boolean)).size,
   }), [suppliers]);
 
   return (

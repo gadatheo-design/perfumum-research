@@ -63,9 +63,9 @@ export default function AdminMoleculesIndex() {
     radarEarthiness: 50,
   });
 
-  const { data: molecules, isLoading, refetch } = trpc.molecules.list.useQuery();
+  const { data: molecules, isLoading, refetch } = trpc.molecules?.list.useQuery();
   
-  const updateRadarMutation = trpc.molecules.updateRadar.useMutation({
+  const updateRadarMutation = trpc.molecules?.updateRadar.useMutation({
     onSuccess: () => {
       toast.success("Profil radar mis à jour avec succès");
       refetch();

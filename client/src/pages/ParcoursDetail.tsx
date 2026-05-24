@@ -72,8 +72,8 @@ export default function ParcoursDetail() {
 
   // Calculer la progression
   const progress = useMemo(() => {
-    if (!journeyItems || journeyItems.length === 0) return 0;
-    return (completedSteps.size / journeyItems.length) * 100;
+    if (!journeyItems || journeyItems?.length === 0) return 0;
+    return (completedSteps.size / journeyItems?.length) * 100;
   }, [journeyItems, completedSteps]);
 
   // Marquer une étape comme complétée
@@ -136,70 +136,70 @@ export default function ParcoursDetail() {
         <Card className="overflow-hidden">
           <div 
             className="h-32 bg-gradient-to-r from-primary/20 via-primary/10 to-transparent"
-            style={journey.color ? { background: `linear-gradient(to right, ${journey.color}33, ${journey.color}11, transparent)` } : undefined}
+            style={journey?.color ? { background: `linear-gradient(to right, ${journey?.color}33, ${journey?.color}11, transparent)` } : undefined}
           />
           <CardHeader className="-mt-16 relative">
             <div className="flex items-start gap-4">
               <div className="p-4 rounded-xl bg-background shadow-lg border">
-                {journey.emoji ? (
-                  <span className="text-4xl">{journey.emoji}</span>
+                {journey?.emoji ? (
+                  <span className="text-4xl">{journey?.emoji}</span>
                 ) : (
                   <Route className="h-10 w-10 text-primary" />
                 )}
               </div>
               <div className="flex-1 pt-8">
                 <div className="flex items-center gap-2 mb-2">
-                  {journey.isFeatured && (
+                  {journey?.isFeatured && (
                     <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />
                   )}
                   <Badge variant="outline">
-                    {themeLabels[journey.theme] || journey.theme}
+                    {themeLabels[journey?.theme] || journey?.theme}
                   </Badge>
-                  {journey.difficulty && (
-                    <Badge className={difficultyLabels[journey.difficulty]?.color || ''}>
-                      {difficultyLabels[journey.difficulty]?.label || journey.difficulty}
+                  {journey?.difficulty && (
+                    <Badge className={difficultyLabels[journey?.difficulty]?.color || ''}>
+                      {difficultyLabels[journey?.difficulty]?.label || journey?.difficulty}
                     </Badge>
                   )}
                 </div>
-                <CardTitle className="text-2xl">{journey.name}</CardTitle>
-                {journey.nameEn && (
-                  <p className="text-sm text-muted-foreground italic">{journey.nameEn}</p>
+                <CardTitle className="text-2xl">{journey?.name}</CardTitle>
+                {journey?.nameEn && (
+                  <p className="text-sm text-muted-foreground italic">{journey?.nameEn}</p>
                 )}
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            {journey.description && (
-              <p className="text-muted-foreground">{journey.description}</p>
+            {journey?.description && (
+              <p className="text-muted-foreground">{journey?.description}</p>
             )}
             
             <div className="flex flex-wrap gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <MapPin className="h-4 w-4 text-orange-500" />
-                <span>{journey.terroirCount} terroirs</span>
+                <span>{journey?.terroirCount} terroirs</span>
               </div>
               <div className="flex items-center gap-2">
                 <Leaf className="h-4 w-4 text-green-500" />
-                <span>{journey.plantCount} plantes</span>
+                <span>{journey?.plantCount} plantes</span>
               </div>
               <div className="flex items-center gap-2">
                 <FlaskConical className="h-4 w-4 text-blue-500" />
-                <span>{journey.moleculeCount} molécules</span>
+                <span>{journey?.moleculeCount} molécules</span>
               </div>
-              {journey.estimatedDuration && (
+              {journey?.estimatedDuration && (
                 <div className="flex items-center gap-2">
                   <Clock className="h-4 w-4 text-muted-foreground" />
-                  <span>{journey.estimatedDuration} min</span>
+                  <span>{journey?.estimatedDuration} min</span>
                 </div>
               )}
             </div>
 
             {/* Barre de progression */}
-            {journeyItems && journeyItems.length > 0 && (
+            {journeyItems && journeyItems?.length > 0 && (
               <div className="space-y-2 pt-4 border-t">
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">Progression</span>
-                  <span className="font-medium">{completedSteps.size}/{journeyItems.length} étapes</span>
+                  <span className="font-medium">{completedSteps.size}/{journeyItems?.length} étapes</span>
                 </div>
                 <Progress value={progress} className="h-2" />
               </div>
@@ -228,10 +228,10 @@ export default function ParcoursDetail() {
                       <Skeleton key={i} className="h-24" />
                     ))}
                   </div>
-                ) : journeyItems && journeyItems.length > 0 ? (
+                ) : journeyItems && journeyItems?.length > 0 ? (
                   <ScrollArea className="h-[500px] pr-4">
                     <div className="space-y-4">
-                      {journeyItems.map((item: any, index: number) => {
+                      {journeyItems?.map((item: any, index: number) => {
                         const isCompleted = completedSteps.has(item.id);
                         const isCurrent = currentStep === index;
                         
@@ -267,7 +267,7 @@ export default function ParcoursDetail() {
                                       <FlaskConical className="h-5 w-5 text-blue-500" />
                                     )}
                                   </div>
-                                  {index < journeyItems.length - 1 && (
+                                  {index < journeyItems?.length - 1 && (
                                     <div className={`w-0.5 h-8 mt-2 ${
                                       isCompleted ? 'bg-green-500/30' : 'bg-muted'
                                     }`} />
@@ -352,22 +352,22 @@ export default function ParcoursDetail() {
                 <div className="space-y-3">
                   <div>
                     <p className="text-xs text-muted-foreground uppercase tracking-wide">Thème</p>
-                    <p className="font-medium">{themeLabels[journey.theme] || journey.theme}</p>
+                    <p className="font-medium">{themeLabels[journey?.theme] || journey?.theme}</p>
                   </div>
                   
-                  {journey.difficulty && (
+                  {journey?.difficulty && (
                     <div>
                       <p className="text-xs text-muted-foreground uppercase tracking-wide">Difficulté</p>
-                      <Badge className={difficultyLabels[journey.difficulty]?.color || ''}>
-                        {difficultyLabels[journey.difficulty]?.label || journey.difficulty}
+                      <Badge className={difficultyLabels[journey?.difficulty]?.color || ''}>
+                        {difficultyLabels[journey?.difficulty]?.label || journey?.difficulty}
                       </Badge>
                     </div>
                   )}
 
-                  {journey.estimatedDuration && (
+                  {journey?.estimatedDuration && (
                     <div>
                       <p className="text-xs text-muted-foreground uppercase tracking-wide">Durée estimée</p>
-                      <p className="font-medium">{journey.estimatedDuration} minutes</p>
+                      <p className="font-medium">{journey?.estimatedDuration} minutes</p>
                     </div>
                   )}
                 </div>
@@ -379,17 +379,17 @@ export default function ParcoursDetail() {
                   <div className="grid grid-cols-3 gap-2 text-center">
                     <div className="p-2 rounded-lg bg-orange-500/10">
                       <MapPin className="h-4 w-4 text-orange-500 mx-auto mb-1" />
-                      <p className="text-lg font-bold">{journey.terroirCount}</p>
+                      <p className="text-lg font-bold">{journey?.terroirCount}</p>
                       <p className="text-xs text-muted-foreground">Terroirs</p>
                     </div>
                     <div className="p-2 rounded-lg bg-green-500/10">
                       <Leaf className="h-4 w-4 text-green-500 mx-auto mb-1" />
-                      <p className="text-lg font-bold">{journey.plantCount}</p>
+                      <p className="text-lg font-bold">{journey?.plantCount}</p>
                       <p className="text-xs text-muted-foreground">Plantes</p>
                     </div>
                     <div className="p-2 rounded-lg bg-blue-500/10">
                       <FlaskConical className="h-4 w-4 text-blue-500 mx-auto mb-1" />
-                      <p className="text-lg font-bold">{journey.moleculeCount}</p>
+                      <p className="text-lg font-bold">{journey?.moleculeCount}</p>
                       <p className="text-xs text-muted-foreground">Molécules</p>
                     </div>
                   </div>

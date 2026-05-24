@@ -200,7 +200,7 @@ export default function VarietyDetail() {
       };
     }
 
-    const profile = varietyData.variety.molecularProfile as Array<{
+    const profile = varietyData?.variety.molecularProfile as Array<{
       molecule: string;
       minPercent: number;
       maxPercent: number;

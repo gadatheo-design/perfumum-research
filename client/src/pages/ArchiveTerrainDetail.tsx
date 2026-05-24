@@ -68,10 +68,10 @@ export default function ArchiveTerrainDetail() {
       {/* Breadcrumbs */}
       <div className="bg-stone-50">
         <Breadcrumbs 
-          currentLabel={archive.provisionalName || "Archive"}
+          currentLabel={archive?.provisionalName || "Archive"}
           customItems={[
             { label: "Archives Terrain", path: "/archives-terrain" },
-            { label: archive.provisionalName || "Archive" }
+            { label: archive?.provisionalName || "Archive" }
           ]}
         />
       </div>
@@ -85,17 +85,17 @@ export default function ArchiveTerrainDetail() {
               Retour aux archives
             </Button>
           </Link>
-          <h1 className="text-4xl font-bold mb-2">{archive.provisionalName}</h1>
+          <h1 className="text-4xl font-bold mb-2">{archive?.provisionalName}</h1>
           <div className="flex flex-wrap gap-2 mt-4">
-            {getStatusBadge(archive.status)}
-            {getTestBadge(archive.testPerformed)}
+            {getStatusBadge(archive?.status)}
+            {getTestBadge(archive?.testPerformed)}
           </div>
         </div>
       </div>
 
       <div className="container py-8">
         {/* Carte géographique */}
-        {archive.preciseLocation && (
+        {archive?.preciseLocation && (
           <Card className="mb-6 overflow-hidden">
             <CardHeader className="bg-gradient-to-r from-emerald-50 to-amber-50">
               <CardTitle className="flex items-center gap-2">
@@ -108,9 +108,9 @@ export default function ArchiveTerrainDetail() {
                 {/* TODO: Intégrer Google Maps ou Leaflet */}
                 <div className="text-center">
                   <MapPin className="h-12 w-12 mx-auto mb-2 text-stone-400" />
-                  <p className="font-semibold">{archive.preciseLocation}</p>
-                  {archive.zone && <p className="text-sm">{archive.zone}</p>}
-                  {archive.altitude && <p className="text-sm">{archive.altitude}m d'altitude</p>}
+                  <p className="font-semibold">{archive?.preciseLocation}</p>
+                  {archive?.zone && <p className="text-sm">{archive?.zone}</p>}
+                  {archive?.altitude && <p className="text-sm">{archive?.altitude}m d'altitude</p>}
                 </div>
               </div>
             </CardContent>
@@ -128,39 +128,39 @@ export default function ArchiveTerrainDetail() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 pt-6">
-              {archive.date && (
+              {archive?.date && (
                 <div className="flex items-start gap-3">
                   <Calendar className="h-5 w-5 text-amber-600 mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-stone-600">Date</p>
-                    <p className="text-sm">{new Date(archive.date).toLocaleDateString("fr-FR")}</p>
+                    <p className="text-sm">{new Date(archive?.date).toLocaleDateString("fr-FR")}</p>
                   </div>
                 </div>
               )}
-              {archive.altitude && (
+              {archive?.altitude && (
                 <div className="flex items-start gap-3">
                   <Mountain className="h-5 w-5 text-stone-600 mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-stone-600">Altitude</p>
-                    <p className="text-sm">{archive.altitude} mètres</p>
+                    <p className="text-sm">{archive?.altitude} mètres</p>
                   </div>
                 </div>
               )}
-              {archive.climate && (
+              {archive?.climate && (
                 <div className="flex items-start gap-3">
                   <Thermometer className="h-5 w-5 text-blue-600 mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-stone-600">Climat</p>
-                    <p className="text-sm">{archive.climate}</p>
+                    <p className="text-sm">{archive?.climate}</p>
                   </div>
                 </div>
               )}
-              {archive.testPerformed !== "no" && archive.testType && (
+              {archive?.testPerformed !== "no" && archive?.testType && (
                 <div className="flex items-start gap-3">
                   <TestTube className="h-5 w-5 text-emerald-600 mt-0.5" />
                   <div>
                     <p className="text-sm font-medium text-stone-600">Type de test</p>
-                    <p className="text-sm">{archive.testType}</p>
+                    <p className="text-sm">{archive?.testType}</p>
                   </div>
                 </div>
               )}
@@ -176,27 +176,27 @@ export default function ArchiveTerrainDetail() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 pt-6">
-              {archive.encounterContext && (
+              {archive?.encounterContext && (
                 <div>
                   <h3 className="font-semibold text-stone-700 mb-2">Contexte de la rencontre</h3>
-                  <p className="text-sm text-stone-600 leading-relaxed">{archive.encounterContext}</p>
+                  <p className="text-sm text-stone-600 leading-relaxed">{archive?.encounterContext}</p>
                 </div>
               )}
-              {archive.material && (
+              {archive?.material && (
                 <div>
                   <h3 className="font-semibold text-stone-700 mb-2">Matière rencontrée</h3>
-                  <p className="text-sm text-stone-600 leading-relaxed">{archive.material}</p>
-                  {archive.materialState && (
+                  <p className="text-sm text-stone-600 leading-relaxed">{archive?.material}</p>
+                  {archive?.materialState && (
                     <Badge variant="outline" className="mt-2">
-                      État : {archive.materialState}
+                      État : {archive?.materialState}
                     </Badge>
                   )}
                 </div>
               )}
-              {archive.dominantSmell && (
+              {archive?.dominantSmell && (
                 <div>
                   <h3 className="font-semibold text-stone-700 mb-2">Odeur dominante</h3>
-                  <p className="text-sm text-stone-600 leading-relaxed">{archive.dominantSmell}</p>
+                  <p className="text-sm text-stone-600 leading-relaxed">{archive?.dominantSmell}</p>
                 </div>
               )}
             </CardContent>
@@ -205,7 +205,7 @@ export default function ArchiveTerrainDetail() {
 
         {/* Évolution temporelle */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-          {archive.firstImpression && (
+          {archive?.firstImpression && (
             <Card>
               <CardHeader className="bg-gradient-to-br from-amber-50 to-yellow-50">
                 <CardTitle className="flex items-center gap-2 text-base">
@@ -214,11 +214,11 @@ export default function ArchiveTerrainDetail() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
-                <p className="text-sm text-stone-600 leading-relaxed">{archive.firstImpression}</p>
+                <p className="text-sm text-stone-600 leading-relaxed">{archive?.firstImpression}</p>
               </CardContent>
             </Card>
           )}
-          {archive.evolution && (
+          {archive?.evolution && (
             <Card>
               <CardHeader className="bg-gradient-to-br from-emerald-50 to-teal-50">
                 <CardTitle className="flex items-center gap-2 text-base">
@@ -227,11 +227,11 @@ export default function ArchiveTerrainDetail() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
-                <p className="text-sm text-stone-600 leading-relaxed">{archive.evolution}</p>
+                <p className="text-sm text-stone-600 leading-relaxed">{archive?.evolution}</p>
               </CardContent>
             </Card>
           )}
-          {archive.persistence && (
+          {archive?.persistence && (
             <Card>
               <CardHeader className="bg-gradient-to-br from-stone-50 to-slate-50">
                 <CardTitle className="flex items-center gap-2 text-base">
@@ -240,7 +240,7 @@ export default function ArchiveTerrainDetail() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
-                <p className="text-sm text-stone-600 leading-relaxed">{archive.persistence}</p>
+                <p className="text-sm text-stone-600 leading-relaxed">{archive?.persistence}</p>
               </CardContent>
             </Card>
           )}
@@ -252,56 +252,56 @@ export default function ArchiveTerrainDetail() {
             <CardTitle>Analyse & Hypothèses</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4 pt-6">
-            {archive.olfactiveHypothesis && (
+            {archive?.olfactiveHypothesis && (
               <div>
                 <h3 className="font-semibold text-stone-700 mb-2">Hypothèse olfactive</h3>
-                <p className="text-sm text-stone-600 leading-relaxed">{archive.olfactiveHypothesis}</p>
+                <p className="text-sm text-stone-600 leading-relaxed">{archive?.olfactiveHypothesis}</p>
               </div>
             )}
-            {archive.translationHypothesis && (
+            {archive?.translationHypothesis && (
               <div>
                 <h3 className="font-semibold text-stone-700 mb-2">Hypothèse de traduction</h3>
-                <p className="text-sm text-stone-600 leading-relaxed">{archive.translationHypothesis}</p>
+                <p className="text-sm text-stone-600 leading-relaxed">{archive?.translationHypothesis}</p>
               </div>
             )}
-            {archive.localUsage && (
+            {archive?.localUsage && (
               <div>
                 <h3 className="font-semibold text-stone-700 mb-2">Usage local observé</h3>
-                <p className="text-sm text-stone-600 leading-relaxed">{archive.localUsage}</p>
+                <p className="text-sm text-stone-600 leading-relaxed">{archive?.localUsage}</p>
               </div>
             )}
           </CardContent>
         </Card>
 
         {/* Notes personnelles */}
-        {(archive.personalFeeling || archive.whatToKeep || archive.whatToLeave || archive.personalNote) && (
+        {(archive?.personalFeeling || archive?.whatToKeep || archive?.whatToLeave || archive?.personalNote) && (
           <Card>
             <CardHeader className="bg-gradient-to-r from-rose-50 to-pink-50">
               <CardTitle>Notes Personnelles</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 pt-6">
-              {archive.personalFeeling && (
+              {archive?.personalFeeling && (
                 <div>
                   <h3 className="font-semibold text-stone-700 mb-2">Ressenti personnel</h3>
-                  <p className="text-sm text-stone-600 leading-relaxed">{archive.personalFeeling}</p>
+                  <p className="text-sm text-stone-600 leading-relaxed">{archive?.personalFeeling}</p>
                 </div>
               )}
-              {archive.whatToKeep && (
+              {archive?.whatToKeep && (
                 <div>
                   <h3 className="font-semibold text-stone-700 mb-2">Ce que je garde</h3>
-                  <p className="text-sm text-stone-600 leading-relaxed">{archive.whatToKeep}</p>
+                  <p className="text-sm text-stone-600 leading-relaxed">{archive?.whatToKeep}</p>
                 </div>
               )}
-              {archive.whatToLeave && (
+              {archive?.whatToLeave && (
                 <div>
                   <h3 className="font-semibold text-stone-700 mb-2">Ce que je laisse</h3>
-                  <p className="text-sm text-stone-600 leading-relaxed">{archive.whatToLeave}</p>
+                  <p className="text-sm text-stone-600 leading-relaxed">{archive?.whatToLeave}</p>
                 </div>
               )}
-              {archive.personalNote && (
+              {archive?.personalNote && (
                 <div>
                   <h3 className="font-semibold text-stone-700 mb-2">Archive subjective</h3>
-                  <p className="text-sm text-stone-600 leading-relaxed italic">{archive.personalNote}</p>
+                  <p className="text-sm text-stone-600 leading-relaxed italic">{archive?.personalNote}</p>
                 </div>
               )}
             </CardContent>

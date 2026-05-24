@@ -100,7 +100,7 @@ function TerroirStatistics({ terroirs, plants, plantTerroirs }: {
   // Statistiques par climat
   const climateStats = useMemo(() => {
     const stats: Record<string, number> = {};
-    terroirs.forEach(t => {
+    terroirs?.forEach(t => {
       const climate = t.climateType || 'unknown';
       stats[climate] = (stats[climate] || 0) + 1;
     });
@@ -109,14 +109,14 @@ function TerroirStatistics({ terroirs, plants, plantTerroirs }: {
       .map(([climate, count]) => ({
         climate,
         count,
-        percentage: Math.round((count / terroirs.length) * 100)
+        percentage: Math.round((count / terroirs?.length) * 100)
       }));
   }, [terroirs]);
 
   // Statistiques par pays
   const countryStats = useMemo(() => {
     const stats: Record<string, number> = {};
-    terroirs.forEach(t => {
+    terroirs?.forEach(t => {
       const country = t.country || 'Non défini';
       stats[country] = (stats[country] || 0) + 1;
     });
@@ -126,14 +126,14 @@ function TerroirStatistics({ terroirs, plants, plantTerroirs }: {
       .map(([country, count]) => ({
         country,
         count,
-        percentage: Math.round((count / terroirs.length) * 100)
+        percentage: Math.round((count / terroirs?.length) * 100)
       }));
   }, [terroirs]);
 
   // Statistiques par qualité
   const qualityStats = useMemo(() => {
     const stats: Record<string, number> = {};
-    terroirs.forEach(t => {
+    terroirs?.forEach(t => {
       const quality = t.qualityRating || 'unknown';
       stats[quality] = (stats[quality] || 0) + 1;
     });
@@ -142,7 +142,7 @@ function TerroirStatistics({ terroirs, plants, plantTerroirs }: {
       .map(([quality, count]) => ({
         quality,
         count,
-        percentage: Math.round((count / terroirs.length) * 100)
+        percentage: Math.round((count / terroirs?.length) * 100)
       }));
   }, [terroirs]);
 
@@ -150,9 +150,9 @@ function TerroirStatistics({ terroirs, plants, plantTerroirs }: {
   const terroirsWithMostPlants = useMemo(() => {
     const plantCounts: Record<number, { terroir: any; count: number }> = {};
     
-    plantTerroirs.forEach((pt: any) => {
+    plantTerroirs?.forEach((pt: any) => {
       if (!plantCounts[pt.terroirId]) {
-        const terroir = terroirs.find(t => t.id === pt.terroirId);
+        const terroir = terroirs?.find(t => t.id === pt.terroirId);
         if (terroir) {
           plantCounts[pt.terroirId] = { terroir, count: 0 };
         }
@@ -168,8 +168,8 @@ function TerroirStatistics({ terroirs, plants, plantTerroirs }: {
   }, [terroirs, plantTerroirs]);
 
   // Terroirs avec coordonnées GPS
-  const terroirsWithCoords = terroirs.filter(t => t.latitude && t.longitude);
-  const coordsCoverage = Math.round((terroirsWithCoords.length / terroirs.length) * 100);
+  const terroirsWithCoords = terroirs?.filter(t => t.latitude && t.longitude);
+  const coordsCoverage = Math.round((terroirsWithCoords.length / terroirs?.length) * 100);
 
   return (
     <div className="space-y-6">
@@ -182,7 +182,7 @@ function TerroirStatistics({ terroirs, plants, plantTerroirs }: {
                 <Globe className="h-5 w-5 text-primary" />
               </div>
               <div>
-                <p className="text-2xl font-bold">{terroirs.length}</p>
+                <p className="text-2xl font-bold">{terroirs?.length}</p>
                 <p className="text-sm text-muted-foreground">Terroirs totaux</p>
               </div>
             </div>
@@ -211,7 +211,7 @@ function TerroirStatistics({ terroirs, plants, plantTerroirs }: {
               </div>
               <div>
                 <p className="text-2xl font-bold">
-                  {terroirs.filter(t => t.qualityRating === 'exceptional' || t.qualityRating === 'excellent').length}
+                  {terroirs?.filter(t => t.qualityRating === 'exceptional' || t.qualityRating === 'excellent').length}
                 </p>
                 <p className="text-sm text-muted-foreground">Qualité excellente</p>
               </div>
@@ -400,7 +400,7 @@ function TerroirCardWithPlants({ terroir, plantTerroirs, plants }: {
     const plantIds = plantTerroirs
       .filter((pt: any) => pt.terroirId === terroir.id)
       .map((pt: any) => pt.plantId);
-    return plants.filter(p => plantIds.includes(p.id)).slice(0, 5);
+    return plants?.filter(p => plantIds.includes(p.id)).slice(0, 5);
   }, [terroir.id, plantTerroirs, plants]);
 
   return (
@@ -499,18 +499,18 @@ export default function Terroirs() {
   const [selectedClimate, setSelectedClimate] = useState<string>("all");
   const [activeTab, setActiveTab] = useState("grid");
   
-  const { data: terroirs, isLoading } = trpc.terroirs.getAll.useQuery();
-  const { data: plants = [] } = trpc.plants.list.useQuery();
-  const { data: plantTerroirs = [] } = trpc.plantTerroirs.getAll.useQuery();
+  const { data: terroirs, isLoading } = trpc.terroirs?.getAll.useQuery();
+  const { data: plants = [] } = trpc.plants?.list.useQuery();
+  const { data: plantTerroirs = [] } = trpc.plantTerroirs?.getAll.useQuery();
   
   // Extraire les pays uniques
   const countries = terroirs 
-    ? Array.from(new Set(terroirs.map((t: any) => t.country).filter(Boolean))).sort()
+    ? Array.from(new Set(terroirs?.map((t: any) => t.country).filter(Boolean))).sort()
     : [];
   
   // Extraire les climats uniques
   const climates = terroirs
-    ? Array.from(new Set(terroirs.map((t: any) => t.climateType).filter(Boolean))).sort()
+    ? Array.from(new Set(terroirs?.map((t: any) => t.climateType).filter(Boolean))).sort()
     : [];
   
   // Filtrer les terroirs

@@ -14,9 +14,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 const COLORS = ['oklch(0.60 0.15 270)', 'oklch(0.55 0.18 25)', 'oklch(0.55 0.12 160)', 'oklch(0.68 0.20 330)'];
 
 export default function ComparaisonMolecules() {
-  const { data: molecules, isLoading } = trpc.molecules.list.useQuery();
-  const { data: synergies } = trpc.synergies.list.useQuery();
-  const { data: recettes } = trpc.recettes.list.useQuery();
+  const { data: molecules, isLoading } = trpc.molecules?.list.useQuery();
+  const { data: synergies } = trpc.synergies?.list.useQuery();
+  const { data: recettes } = trpc.recettes?.list.useQuery();
   
   const [selectedMolecules, setSelectedMolecules] = useState<number[]>([]);
 

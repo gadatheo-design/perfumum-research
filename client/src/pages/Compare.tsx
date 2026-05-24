@@ -31,7 +31,7 @@ export default function Compare() {
   
   const selectedMolecules = useMemo(() => {
     if (!allMolecules) return [];
-    return allMolecules.filter(m => moleculeIds.includes(m.id));
+    return allMolecules?.filter(m => moleculeIds.includes(m.id));
   }, [allMolecules, moleculeIds]);
 
   if (moleculeIds.length === 0) {

@@ -12,10 +12,10 @@ export function ExperimentalAccords() {
   // Filter accords by type
   const filteredAccords = selectedType === "all" 
     ? allAccords 
-    : allAccords.filter(a => selectedType === "extreme" ? a.isExtreme === 1 : a.isExtreme === 0);
+    : allAccords?.filter(a => selectedType === "extreme" ? a.isExtreme === 1 : a.isExtreme === 0);
 
-  const standardCount = allAccords.filter(a => a.isExtreme === 0).length;
-  const extremeCount = allAccords.filter(a => a.isExtreme === 1).length;
+  const standardCount = allAccords?.filter(a => a.isExtreme === 0).length;
+  const extremeCount = allAccords?.filter(a => a.isExtreme === 1).length;
 
   if (isLoading) {
     return (
@@ -47,7 +47,7 @@ export function ExperimentalAccords() {
         <Card>
           <CardHeader className="pb-3">
             <CardDescription>Total</CardDescription>
-            <CardTitle className="text-3xl">{allAccords.length}</CardTitle>
+            <CardTitle className="text-3xl">{allAccords?.length}</CardTitle>
           </CardHeader>
         </Card>
         <Card>

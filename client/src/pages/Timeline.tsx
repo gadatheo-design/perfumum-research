@@ -16,10 +16,10 @@ import {
 export function Timeline() {
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
   const { data: milestones = [], isLoading } = trpc.timeline.list.useQuery();
-  const { data: stats } = trpc.timeline.stats.useQuery();
+  const { data: stats } = trpc.timeline.stats?.useQuery();
 
   // Group milestones by quarter
-  const groupedByQuarter = milestones.reduce((acc, milestone) => {
+  const groupedByQuarter = milestones?.reduce((acc, milestone) => {
     if (!acc[milestone.quarter]) {
       acc[milestone.quarter] = [];
     }
@@ -28,7 +28,7 @@ export function Timeline() {
   }, {} as Record<string, typeof milestones>);
 
   // Get unique years
-  const years = Array.from(new Set(milestones.map((m) => m.year))).sort();
+  const years = Array.from(new Set(milestones?.map((m) => m.year))).sort();
 
   // Filter by year if selected
   const filteredQuarters = selectedYear
@@ -116,7 +116,7 @@ export function Timeline() {
 
   // Calculate progress percentage
   const progressPercentage = stats 
-    ? Math.round(((stats.byStatus.completed || 0) / stats.total) * 100) 
+    ? Math.round(((stats?.byStatus.completed || 0) / stats?.total) * 100) 
     : 0;
 
   if (isLoading) {
@@ -174,24 +174,24 @@ export function Timeline() {
               {stats && (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-2xl mx-auto">
                   <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
-                    <div className="text-2xl font-bold text-foreground">{stats.total}</div>
+                    <div className="text-2xl font-bold text-foreground">{stats?.total}</div>
                     <div className="text-xs text-muted-foreground">Jalons planifiés</div>
                   </div>
                   <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
                     <div className="text-2xl font-bold text-green-600">
-                      {stats.byStatus.completed || 0}
+                      {stats?.byStatus.completed || 0}
                     </div>
                     <div className="text-xs text-muted-foreground">{progressPercentage}% complété</div>
                   </div>
                   <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
                     <div className="text-2xl font-bold text-blue-600">
-                      {stats.byStatus.in_progress || 0}
+                      {stats?.byStatus.in_progress || 0}
                     </div>
                     <div className="text-xs text-muted-foreground">En cours</div>
                   </div>
                   <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
                     <div className="text-2xl font-bold text-foreground">
-                      {stats.byStatus.planned || 0}
+                      {stats?.byStatus.planned || 0}
                     </div>
                     <div className="text-xs text-muted-foreground">À venir</div>
                   </div>

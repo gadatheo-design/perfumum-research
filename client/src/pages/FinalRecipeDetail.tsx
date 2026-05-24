@@ -112,14 +112,14 @@ export default function FinalRecipeDetail() {
     );
   }
 
-  const typeConfig = RECIPE_TYPE_CONFIG[recipe.recipeType] ?? RECIPE_TYPE_CONFIG.parfum;
-  const axisConfig = CLIMATIC_AXIS_CONFIG[recipe.climaticAxis ?? "vent"] ?? CLIMATIC_AXIS_CONFIG.vent;
-  const concentrate = recipe.concentrate as { ingredient: string; percentage: number }[] | null;
+  const typeConfig = RECIPE_TYPE_CONFIG[recipe?.recipeType] ?? RECIPE_TYPE_CONFIG.parfum;
+  const axisConfig = CLIMATIC_AXIS_CONFIG[recipe?.climaticAxis ?? "vent"] ?? CLIMATIC_AXIS_CONFIG.vent;
+  const concentrate = recipe?.concentrate as { ingredient: string; percentage: number }[] | null;
 
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <Breadcrumbs currentLabel={recipe.name} />
+      <Breadcrumbs currentLabel={recipe?.name} />
 
       <main className="flex-1">
         {/* ── Hero ── */}
@@ -134,7 +134,7 @@ export default function FinalRecipeDetail() {
 
             <div className="flex flex-wrap items-start gap-3 mb-4">
               <Badge variant="outline" className="font-mono text-base px-3 py-1">
-                {recipe.recipeId}
+                {recipe?.recipeId}
               </Badge>
               <Badge variant="outline" className={`${typeConfig.color} flex items-center gap-1.5`}>
                 {typeConfig.icon}
@@ -144,7 +144,7 @@ export default function FinalRecipeDetail() {
                 {axisConfig.icon}
                 {axisConfig.label}
               </Badge>
-              {recipe.isRadical === 1 && (
+              {recipe?.isRadical === 1 && (
                 <Badge variant="outline" className="bg-red-500/20 text-red-400 border-red-500/30 flex items-center gap-1.5">
                   <Zap className="w-3.5 h-3.5" />
                   Recette radicale
@@ -152,10 +152,10 @@ export default function FinalRecipeDetail() {
               )}
             </div>
 
-            <h1 className="text-3xl md:text-4xl font-bold mb-3">{recipe.name}</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-3">{recipe?.name}</h1>
 
-            {recipe.function && (
-              <p className="text-lg text-muted-foreground">{recipe.function}</p>
+            {recipe?.function && (
+              <p className="text-lg text-muted-foreground">{recipe?.function}</p>
             )}
           </div>
         </section>
@@ -212,19 +212,19 @@ export default function FinalRecipeDetail() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="divide-y divide-border/50">
-                <InfoRow label="Base / Support" value={recipe.base} />
-                <InfoRow label="Dilution" value={recipe.dilution} />
-                <InfoRow label="Repos" value={recipe.restPeriod} />
-                <InfoRow label="Forme" value={recipe.form} />
-                <InfoRow label="Temps de combustion" value={recipe.combustionTime} />
-                <InfoRow label="Supports" value={recipe.supports} />
-                <InfoRow label="Protocole" value={recipe.protocol} />
-                <InfoRow label="Usage" value={recipe.usage} />
+                <InfoRow label="Base / Support" value={recipe?.base} />
+                <InfoRow label="Dilution" value={recipe?.dilution} />
+                <InfoRow label="Repos" value={recipe?.restPeriod} />
+                <InfoRow label="Forme" value={recipe?.form} />
+                <InfoRow label="Temps de combustion" value={recipe?.combustionTime} />
+                <InfoRow label="Supports" value={recipe?.supports} />
+                <InfoRow label="Protocole" value={recipe?.protocol} />
+                <InfoRow label="Usage" value={recipe?.usage} />
               </CardContent>
             </Card>
 
             {/* Résultat attendu & Critères */}
-            {(recipe.expectedResult || recipe.successCriteria) && (
+            {(recipe?.expectedResult || recipe?.successCriteria) && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base">
@@ -233,21 +233,21 @@ export default function FinalRecipeDetail() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {recipe.expectedResult && (
+                  {recipe?.expectedResult && (
                     <div>
                       <h4 className="text-sm font-medium text-muted-foreground mb-1.5">Résultat attendu</h4>
-                      <p className="text-sm leading-relaxed">{recipe.expectedResult}</p>
+                      <p className="text-sm leading-relaxed">{recipe?.expectedResult}</p>
                     </div>
                   )}
-                  {recipe.successCriteria && (
+                  {recipe?.successCriteria && (
                     <>
-                      {recipe.expectedResult && <Separator />}
+                      {recipe?.expectedResult && <Separator />}
                       <div>
                         <h4 className="text-sm font-medium text-muted-foreground mb-1.5 flex items-center gap-1.5">
                           <CheckCircle2 className="h-4 w-4 text-green-500" />
                           Critères de réussite
                         </h4>
-                        <p className="text-sm leading-relaxed">{recipe.successCriteria}</p>
+                        <p className="text-sm leading-relaxed">{recipe?.successCriteria}</p>
                       </div>
                     </>
                   )}
@@ -256,7 +256,7 @@ export default function FinalRecipeDetail() {
             )}
 
             {/* Risques */}
-            {recipe.risks && (
+            {recipe?.risks && (
               <Card className="border-amber-200 dark:border-amber-800">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base text-amber-600 dark:text-amber-400">
@@ -265,13 +265,13 @@ export default function FinalRecipeDetail() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm leading-relaxed text-amber-700 dark:text-amber-300">{recipe.risks}</p>
+                  <p className="text-sm leading-relaxed text-amber-700 dark:text-amber-300">{recipe?.risks}</p>
                 </CardContent>
               </Card>
             )}
 
             {/* Notes */}
-            {recipe.notes && (
+            {recipe?.notes && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-base">
@@ -280,7 +280,7 @@ export default function FinalRecipeDetail() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm leading-relaxed text-foreground/80 whitespace-pre-line">{recipe.notes}</p>
+                  <p className="text-sm leading-relaxed text-foreground/80 whitespace-pre-line">{recipe?.notes}</p>
                 </CardContent>
               </Card>
             )}

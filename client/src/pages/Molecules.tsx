@@ -36,7 +36,7 @@ import {
 } from "@/components/ui/select";
 
 export default function Molecules() {
-  const { data: molecules, isLoading } = trpc.molecules.list.useQuery();
+  const { data: molecules, isLoading } = trpc.molecules?.list.useQuery();
   const { data: chemicalFamiliesData } = trpc.chemicalFamilies.listAll.useQuery();
   const trackEvent = trpc.analytics.trackEvent.useMutation();
   const [, setLocation] = useLocation();
@@ -102,7 +102,7 @@ export default function Molecules() {
   // Extract unique families for filter
   const families = useMemo(() => {
     if (!molecules) return [];
-    const uniqueFamilies = new Set(molecules.map(m => m.family).filter(Boolean));
+    const uniqueFamilies = new Set(molecules?.map(m => m.family).filter(Boolean));
     return Array.from(uniqueFamilies).sort().map(f => ({ value: f!, label: f! }));
   }, [molecules]);
 
@@ -131,7 +131,7 @@ export default function Molecules() {
 
   const chemicalClasses = useMemo(() => {
     if (!molecules) return [];
-    const uniqueClasses = new Set(molecules.map(m => m.chemicalClass).filter(Boolean));
+    const uniqueClasses = new Set(molecules?.map(m => m.chemicalClass).filter(Boolean));
     return Array.from(uniqueClasses).sort().map(c => ({ 
       value: c!, 
       label: chemicalClassLabels[c!] || c! 
@@ -141,7 +141,7 @@ export default function Molecules() {
   // Extract chemical families from classification service
   const chemicalFamilies = useMemo(() => {
     if (!chemicalFamiliesData) return [];
-    return chemicalFamiliesData.map((f: any) => ({
+    return chemicalFamiliesData?.map((f: any) => ({
       value: f.id,
       label: f.nameFr,
       labelEn: f.name
@@ -166,7 +166,7 @@ export default function Molecules() {
   const olfactiveProfiles = useMemo(() => {
     if (!molecules) return [];
     const profileSet = new Set<string>();
-    molecules.forEach(m => {
+    molecules?.forEach(m => {
       getOlfactiveTags(m.olfactiveProfile as any).forEach(tag => profileSet.add(tag));
     });
     return Array.from(profileSet).sort();
@@ -183,7 +183,7 @@ export default function Molecules() {
   const filteredMolecules = useMemo(() => {
     if (!molecules) return [];
     
-    return molecules.filter(molecule => {
+    return molecules?.filter(molecule => {
       // Search filter
       const matchesSearch = 
         molecule.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -428,7 +428,7 @@ export default function Molecules() {
         </section>
 
         {/* Chemical Family Statistics */}
-        {chemicalFamiliesData && chemicalFamiliesData.length > 0 && (
+        {chemicalFamiliesData && chemicalFamiliesData?.length > 0 && (
           <section className="py-6 bg-muted/20 border-b border-border/40">
             <div className="container">
               <div className="max-w-5xl mx-auto">
@@ -437,7 +437,7 @@ export default function Molecules() {
                   Classification par famille chimique
                 </h2>
                 <div className="flex flex-wrap gap-2">
-                  {chemicalFamiliesData.slice(0, 12).map((family: any) => (
+                  {chemicalFamiliesData?.slice(0, 12).map((family: any) => (
                     <Button
                       key={family.id}
                       variant={chemicalFamilyFilter === family.id ? "default" : "outline"}
@@ -453,14 +453,14 @@ export default function Molecules() {
                       </Badge>
                     </Button>
                   ))}
-                  {chemicalFamiliesData.length > 12 && (
+                  {chemicalFamiliesData?.length > 12 && (
                     <span className="text-xs text-muted-foreground self-center ml-2">
-                      +{chemicalFamiliesData.length - 12} familles
+                      +{chemicalFamiliesData?.length - 12} familles
                     </span>
                   )}
                 </div>
                 <p className="text-xs text-muted-foreground mt-3">
-                  {chemicalFamiliesData.reduce((acc: number, f: any) => acc + (f.count || 0), 0)} molécules classées dans {chemicalFamiliesData.length} familles chimiques
+                  {chemicalFamiliesData?.reduce((acc: number, f: any) => acc + (f.count || 0), 0)} molécules classées dans {chemicalFamiliesData?.length} familles chimiques
                 </p>
               </div>
             </div>

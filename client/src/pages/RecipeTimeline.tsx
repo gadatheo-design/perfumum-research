@@ -14,11 +14,11 @@ export default function RecipeTimeline() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedYear, setSelectedYear] = useState<string>('all');
 
-  const { data: recettes = [], isLoading } = trpc.recettes.list.useQuery();
+  const { data: recettes = [], isLoading } = trpc.recettes?.list.useQuery();
 
   // Grouper les recettes par mois
   const timelineData = useMemo(() => {
-    const filtered = recettes.filter(r => {
+    const filtered = recettes?.filter(r => {
       if (selectedCategory !== 'all' && r.category !== selectedCategory) return false;
       if (selectedYear !== 'all') {
         const year = new Date(r.createdAt).getFullYear();
@@ -39,7 +39,7 @@ export default function RecipeTimeline() {
       
       const entry = grouped.get(key)!;
       entry.count++;
-      entry.recettes.push(recette);
+      entry.recettes?.push(recette);
     });
 
     // Convertir en tableau et trier
@@ -57,7 +57,7 @@ export default function RecipeTimeline() {
 
   // Calculer les statistiques
   const stats = useMemo(() => {
-    const filtered = recettes.filter(r => {
+    const filtered = recettes?.filter(r => {
       if (selectedCategory !== 'all' && r.category !== selectedCategory) return false;
       if (selectedYear !== 'all') {
         const year = new Date(r.createdAt).getFullYear();
@@ -81,7 +81,7 @@ export default function RecipeTimeline() {
   // Extraire les années disponibles
   const availableYears = useMemo(() => {
     const years = new Set<number>();
-    recettes.forEach(r => {
+    recettes?.forEach(r => {
       years.add(new Date(r.createdAt).getFullYear());
     });
     return Array.from(years).sort((a, b) => b - a);
@@ -90,7 +90,7 @@ export default function RecipeTimeline() {
   // Extraire les catégories disponibles
   const availableCategories = useMemo(() => {
     const categories = new Set<string>();
-    recettes.forEach(r => {
+    recettes?.forEach(r => {
       if (r.category) categories.add(r.category);
     });
     return Array.from(categories).sort();
@@ -309,7 +309,7 @@ export default function RecipeTimeline() {
                 </CardHeader>
                 <CardContent>
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
-                    {month.recettes.map(recette => (
+                    {month.recettes?.map(recette => (
                       <Link key={recette.id} href={`/recette/${recette.id}`}>
                         <div className="p-3 rounded-lg border hover:bg-muted/50 transition-colors cursor-pointer">
                           <h4 className="font-medium line-clamp-1">{recette.name}</h4>

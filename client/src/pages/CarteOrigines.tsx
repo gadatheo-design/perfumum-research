@@ -100,13 +100,13 @@ export default function CarteOrigines() {
   // Extraire les pays et climats uniques pour les filtres
   const countries = useMemo(() => {
     if (!origins) return [];
-    const uniqueCountries = Array.from(new Set(origins.map(o => o.country))).filter(Boolean).sort();
+    const uniqueCountries = Array.from(new Set(origins?.map(o => o.country))).filter(Boolean).sort();
     return uniqueCountries;
   }, [origins]);
 
   const climates = useMemo(() => {
     if (!origins) return [];
-    const uniqueClimates = Array.from(new Set(origins.map(o => o.climate).filter(Boolean))).sort();
+    const uniqueClimates = Array.from(new Set(origins?.map(o => o.climate).filter(Boolean))).sort();
     return uniqueClimates as string[];
   }, [origins]);
 
@@ -116,7 +116,7 @@ export default function CarteOrigines() {
     
     // Si recherche par molécule active, utiliser les résultats de recherche
     if (moleculeSearch.length >= 2 && searchResults) {
-      const searchIds = new Set(searchResults.map(r => r.id));
+      const searchIds = new Set(searchResults?.map(r => r.id));
       baseOrigins = baseOrigins.filter(o => searchIds.has(o.id));
     }
     
@@ -242,9 +242,9 @@ export default function CarteOrigines() {
   // Statistiques
   const stats = useMemo(() => {
     if (!origins) return { totalOrigins: 0, totalMolecules: 0, withMolecules: 0 };
-    const totalMolecules = origins.reduce((sum, o) => sum + (o.moleculeCount || 0), 0);
-    const withMolecules = origins.filter(o => (o.moleculeCount || 0) > 0).length;
-    return { totalOrigins: origins.length, totalMolecules, withMolecules };
+    const totalMolecules = origins?.reduce((sum, o) => sum + (o.moleculeCount || 0), 0);
+    const withMolecules = origins?.filter(o => (o.moleculeCount || 0) > 0).length;
+    return { totalOrigins: origins?.length, totalMolecules, withMolecules };
   }, [origins]);
 
   return (
@@ -377,7 +377,7 @@ export default function CarteOrigines() {
               {moleculeSearch.length >= 2 && searchResults && (
                 <>
                   <span>•</span>
-                  <span className="text-amber-600">{searchResults.length} résultat{searchResults.length > 1 ? 's' : ''} pour "{moleculeSearch}"</span>
+                  <span className="text-amber-600">{searchResults?.length} résultat{searchResults?.length > 1 ? 's' : ''} pour "{moleculeSearch}"</span>
                 </>
               )}
             </div>
@@ -487,10 +487,10 @@ export default function CarteOrigines() {
                             <Skeleton className="h-8 w-full" />
                             <Skeleton className="h-8 w-full" />
                           </div>
-                        ) : originMolecules && originMolecules.length > 0 ? (
+                        ) : originMolecules && originMolecules?.length > 0 ? (
                           <ScrollArea className="h-[200px]">
                             <div className="space-y-2">
-                              {originMolecules.map((mol: MoleculeDetail) => (
+                              {originMolecules?.map((mol: MoleculeDetail) => (
                                 <Link key={mol.id} href={`/molecules/${mol.molecule.id}`}>
                                   <div className="p-2 rounded-lg hover:bg-accent/50 transition-colors cursor-pointer">
                                     <div className="flex items-center justify-between">

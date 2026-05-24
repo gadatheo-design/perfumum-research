@@ -9,7 +9,7 @@ import { GammeBadge, type GammeType } from "@/components/GammeBadge";
 import { getGammeFromPrototype } from "@/lib/gammeMapping";
 
 export default function Prototypes() {
-  const { data: prototypes, isLoading } = trpc.prototypes.list.useQuery();
+  const { data: prototypes, isLoading } = trpc.prototypes?.list.useQuery();
   const [selectedGamme, setSelectedGamme] = useState<GammeType | null>(null);
 
   const getColorFromCode = (code: string): "c1" | "c2" | "c3" | "c4" => {

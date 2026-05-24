@@ -95,10 +95,10 @@ export default function ProtocoleMoleculaireDetail() {
       {/* Breadcrumbs */}
       <div className="bg-violet-50">
         <Breadcrumbs 
-          currentLabel={protocol.name}
+          currentLabel={protocol?.name}
           customItems={[
             { label: "Protocoles Moléculaires", path: "/protocoles-moleculaires" },
-            { label: protocol.name }
+            { label: protocol?.name }
           ]}
         />
       </div>
@@ -112,14 +112,14 @@ export default function ProtocoleMoleculaireDetail() {
               Retour aux protocoles
             </Button>
           </Link>
-          <h1 className="text-4xl font-bold mb-2">{protocol.name}</h1>
+          <h1 className="text-4xl font-bold mb-2">{protocol?.name}</h1>
         </div>
       </div>
 
       <div className="container py-8">
         {/* Objectif et architecture */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {protocol.objective && (
+          {protocol?.objective && (
             <Card>
               <CardHeader className="bg-gradient-to-br from-violet-50 to-purple-50">
                 <CardTitle className="flex items-center gap-2">
@@ -128,11 +128,11 @@ export default function ProtocoleMoleculaireDetail() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
-                <p className="text-sm text-stone-600 leading-relaxed">{protocol.objective}</p>
+                <p className="text-sm text-stone-600 leading-relaxed">{protocol?.objective}</p>
               </CardContent>
             </Card>
           )}
-          {protocol.olfactiveArchitecture && (
+          {protocol?.olfactiveArchitecture && (
             <Card>
               <CardHeader className="bg-gradient-to-br from-purple-50 to-indigo-50">
                 <CardTitle className="flex items-center gap-2">
@@ -141,11 +141,11 @@ export default function ProtocoleMoleculaireDetail() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-4">
-                <p className="text-sm text-stone-600 leading-relaxed">{protocol.olfactiveArchitecture}</p>
-                {protocol.function && (
+                <p className="text-sm text-stone-600 leading-relaxed">{protocol?.olfactiveArchitecture}</p>
+                {protocol?.function && (
                   <div className="mt-3 p-3 bg-purple-50 rounded">
                     <p className="text-xs font-medium text-purple-900 mb-1">Fonction</p>
-                    <p className="text-sm text-purple-800">{protocol.function}</p>
+                    <p className="text-sm text-purple-800">{protocol?.function}</p>
                   </div>
                 )}
               </CardContent>
@@ -182,12 +182,12 @@ export default function ProtocoleMoleculaireDetail() {
                       stroke="currentColor"
                       strokeWidth="12"
                       fill="none"
-                      strokeDasharray={`${(protocol.headRatio || 0) * 3.52} 352`}
+                      strokeDasharray={`${(protocol?.headRatio || 0) * 3.52} 352`}
                       className="text-amber-500"
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-amber-900">{protocol.headRatio}%</span>
+                    <span className="text-2xl font-bold text-amber-900">{protocol?.headRatio}%</span>
                   </div>
                 </div>
                 <p className="font-semibold text-amber-900">Notes de Tête</p>
@@ -212,12 +212,12 @@ export default function ProtocoleMoleculaireDetail() {
                       stroke="currentColor"
                       strokeWidth="12"
                       fill="none"
-                      strokeDasharray={`${(protocol.heartRatio || 0) * 3.52} 352`}
+                      strokeDasharray={`${(protocol?.heartRatio || 0) * 3.52} 352`}
                       className="text-rose-500"
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-rose-900">{protocol.heartRatio}%</span>
+                    <span className="text-2xl font-bold text-rose-900">{protocol?.heartRatio}%</span>
                   </div>
                 </div>
                 <p className="font-semibold text-rose-900">Notes de Cœur</p>
@@ -242,12 +242,12 @@ export default function ProtocoleMoleculaireDetail() {
                       stroke="currentColor"
                       strokeWidth="12"
                       fill="none"
-                      strokeDasharray={`${(protocol.baseRatio || 0) * 3.52} 352`}
+                      strokeDasharray={`${(protocol?.baseRatio || 0) * 3.52} 352`}
                       className="text-stone-600"
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-stone-900">{protocol.baseRatio}%</span>
+                    <span className="text-2xl font-bold text-stone-900">{protocol?.baseRatio}%</span>
                   </div>
                 </div>
                 <p className="font-semibold text-stone-900">Notes de Fond</p>
@@ -260,19 +260,19 @@ export default function ProtocoleMoleculaireDetail() {
         {/* Palettes moléculaires */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
           {renderPalette(
-            protocol.headPalette as MoleculeEntry[] | null,
+            protocol?.headPalette as MoleculeEntry[] | null,
             "Palette de Tête",
             "bg-amber-500",
             "bg-gradient-to-br from-amber-50 to-yellow-50"
           )}
           {renderPalette(
-            protocol.heartPalette as MoleculeEntry[] | null,
+            protocol?.heartPalette as MoleculeEntry[] | null,
             "Palette de Cœur",
             "bg-rose-500",
             "bg-gradient-to-br from-rose-50 to-pink-50"
           )}
           {renderPalette(
-            protocol.basePalette as MoleculeEntry[] | null,
+            protocol?.basePalette as MoleculeEntry[] | null,
             "Palette de Fond",
             "bg-stone-600",
             "bg-gradient-to-br from-stone-50 to-slate-50"
@@ -280,7 +280,7 @@ export default function ProtocoleMoleculaireDetail() {
         </div>
 
         {/* Protocole de formulation */}
-        {protocol.formulationProtocol && (
+        {protocol?.formulationProtocol && (
           <Card>
             <CardHeader className="bg-gradient-to-r from-indigo-50 to-violet-50">
               <CardTitle className="flex items-center gap-2">
@@ -291,7 +291,7 @@ export default function ProtocoleMoleculaireDetail() {
             <CardContent className="pt-6">
               <div className="prose prose-sm max-w-none">
                 <p className="text-sm text-stone-600 leading-relaxed whitespace-pre-line">
-                  {protocol.formulationProtocol}
+                  {protocol?.formulationProtocol}
                 </p>
               </div>
             </CardContent>

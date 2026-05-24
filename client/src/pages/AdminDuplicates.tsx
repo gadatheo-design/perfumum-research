@@ -157,17 +157,17 @@ export default function AdminDuplicates() {
         <TabsList className="grid w-full grid-cols-2 max-w-md">
           <TabsTrigger value="molecules">
             Molécules
-            {moleculeData && moleculeData.totalDuplicates > 0 && (
+            {moleculeData && moleculeData?.totalDuplicates > 0 && (
               <Badge variant="destructive" className="ml-2">
-                {moleculeData.totalDuplicates}
+                {moleculeData?.totalDuplicates}
               </Badge>
             )}
           </TabsTrigger>
           <TabsTrigger value="plants">
             Plantes
-            {plantData && plantData.totalDuplicates > 0 && (
+            {plantData && plantData?.totalDuplicates > 0 && (
               <Badge variant="destructive" className="ml-2">
-                {plantData.totalDuplicates}
+                {plantData?.totalDuplicates}
               </Badge>
             )}
           </TabsTrigger>
@@ -185,7 +185,7 @@ export default function AdminDuplicates() {
                 </div>
               </CardContent>
             </Card>
-          ) : moleculeData && moleculeData.totalDuplicates === 0 ? (
+          ) : moleculeData && moleculeData?.totalDuplicates === 0 ? (
             <Alert>
               <CheckCircle2 className="h-4 w-4" />
               <AlertTitle>Aucun doublon détecté</AlertTitle>
@@ -196,12 +196,12 @@ export default function AdminDuplicates() {
           ) : (
             <>
               {/* Doublons par nom */}
-              {moleculeData && moleculeData.nameDuplicates.length > 0 && (
+              {moleculeData && moleculeData?.nameDuplicates.length > 0 && (
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <AlertTriangle className="w-5 h-5 mr-2 text-orange-500" />
-                      Doublons par Nom ({moleculeData.nameDuplicates.length})
+                      Doublons par Nom ({moleculeData?.nameDuplicates.length})
                     </CardTitle>
                     <CardDescription>
                       Molécules ayant le même nom
@@ -218,7 +218,7 @@ export default function AdminDuplicates() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {moleculeData.nameDuplicates.slice(0, 10).map((dup) => (
+                        {moleculeData?.nameDuplicates.slice(0, 10).map((dup) => (
                           <TableRow key={dup.value}>
                             <TableCell className="font-medium">{dup.value}</TableCell>
                             <TableCell>
@@ -240,9 +240,9 @@ export default function AdminDuplicates() {
                         ))}
                       </TableBody>
                     </Table>
-                    {moleculeData.nameDuplicates.length > 10 && (
+                    {moleculeData?.nameDuplicates.length > 10 && (
                       <div className="mt-4 text-center text-sm text-muted-foreground">
-                        Et {moleculeData.nameDuplicates.length - 10} autres groupes de doublons...
+                        Et {moleculeData?.nameDuplicates.length - 10} autres groupes de doublons...
                       </div>
                     )}
                   </CardContent>
@@ -250,12 +250,12 @@ export default function AdminDuplicates() {
               )}
 
               {/* Doublons par CAS */}
-              {moleculeData && moleculeData.casDuplicates.length > 0 && (
+              {moleculeData && moleculeData?.casDuplicates.length > 0 && (
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <AlertTriangle className="w-5 h-5 mr-2 text-orange-500" />
-                      Doublons par CAS Number ({moleculeData.casDuplicates.length})
+                      Doublons par CAS Number ({moleculeData?.casDuplicates.length})
                     </CardTitle>
                     <CardDescription>
                       Molécules ayant le même numéro CAS
@@ -272,7 +272,7 @@ export default function AdminDuplicates() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {moleculeData.casDuplicates.slice(0, 10).map((dup) => (
+                        {moleculeData?.casDuplicates.slice(0, 10).map((dup) => (
                           <TableRow key={dup.value}>
                             <TableCell className="font-medium">{dup.value}</TableCell>
                             <TableCell>
@@ -294,9 +294,9 @@ export default function AdminDuplicates() {
                         ))}
                       </TableBody>
                     </Table>
-                    {moleculeData.casDuplicates.length > 10 && (
+                    {moleculeData?.casDuplicates.length > 10 && (
                       <div className="mt-4 text-center text-sm text-muted-foreground">
-                        Et {moleculeData.casDuplicates.length - 10} autres groupes de doublons...
+                        Et {moleculeData?.casDuplicates.length - 10} autres groupes de doublons...
                       </div>
                     )}
                   </CardContent>
@@ -304,12 +304,12 @@ export default function AdminDuplicates() {
               )}
 
               {/* Doublons par SMILES */}
-              {moleculeData && moleculeData.smilesDuplicates.length > 0 && (
+              {moleculeData && moleculeData?.smilesDuplicates.length > 0 && (
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <AlertTriangle className="w-5 h-5 mr-2 text-orange-500" />
-                      Doublons par SMILES ({moleculeData.smilesDuplicates.length})
+                      Doublons par SMILES ({moleculeData?.smilesDuplicates.length})
                     </CardTitle>
                     <CardDescription>
                       Molécules ayant la même structure chimique (SMILES)
@@ -326,7 +326,7 @@ export default function AdminDuplicates() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {moleculeData.smilesDuplicates.slice(0, 10).map((dup) => (
+                        {moleculeData?.smilesDuplicates.slice(0, 10).map((dup) => (
                           <TableRow key={dup.value}>
                             <TableCell className="font-mono text-xs max-w-xs truncate">
                               {dup.value}
@@ -350,9 +350,9 @@ export default function AdminDuplicates() {
                         ))}
                       </TableBody>
                     </Table>
-                    {moleculeData.smilesDuplicates.length > 10 && (
+                    {moleculeData?.smilesDuplicates.length > 10 && (
                       <div className="mt-4 text-center text-sm text-muted-foreground">
-                        Et {moleculeData.smilesDuplicates.length - 10} autres groupes de doublons...
+                        Et {moleculeData?.smilesDuplicates.length - 10} autres groupes de doublons...
                       </div>
                     )}
                   </CardContent>
@@ -375,7 +375,7 @@ export default function AdminDuplicates() {
                 </div>
               </CardContent>
             </Card>
-          ) : plantData && plantData.totalDuplicates === 0 ? (
+          ) : plantData && plantData?.totalDuplicates === 0 ? (
             <Alert>
               <CheckCircle2 className="h-4 w-4" />
               <AlertTitle>Aucun doublon détecté</AlertTitle>
@@ -386,12 +386,12 @@ export default function AdminDuplicates() {
           ) : (
             <>
               {/* Doublons par nom scientifique */}
-              {plantData && plantData.scientificDuplicates.length > 0 && (
+              {plantData && plantData?.scientificDuplicates.length > 0 && (
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <AlertTriangle className="w-5 h-5 mr-2 text-orange-500" />
-                      Doublons par Nom Scientifique ({plantData.scientificDuplicates.length})
+                      Doublons par Nom Scientifique ({plantData?.scientificDuplicates.length})
                     </CardTitle>
                     <CardDescription>
                       Plantes ayant le même nom scientifique (latin)
@@ -408,7 +408,7 @@ export default function AdminDuplicates() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {plantData.scientificDuplicates.slice(0, 10).map((dup) => (
+                        {plantData?.scientificDuplicates.slice(0, 10).map((dup) => (
                           <TableRow key={dup.value}>
                             <TableCell className="font-medium italic">{dup.value}</TableCell>
                             <TableCell>
@@ -430,9 +430,9 @@ export default function AdminDuplicates() {
                         ))}
                       </TableBody>
                     </Table>
-                    {plantData.scientificDuplicates.length > 10 && (
+                    {plantData?.scientificDuplicates.length > 10 && (
                       <div className="mt-4 text-center text-sm text-muted-foreground">
-                        Et {plantData.scientificDuplicates.length - 10} autres groupes de doublons...
+                        Et {plantData?.scientificDuplicates.length - 10} autres groupes de doublons...
                       </div>
                     )}
                   </CardContent>
@@ -440,12 +440,12 @@ export default function AdminDuplicates() {
               )}
 
               {/* Doublons par nom commun */}
-              {plantData && plantData.commonDuplicates.length > 0 && (
+              {plantData && plantData?.commonDuplicates.length > 0 && (
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <AlertTriangle className="w-5 h-5 mr-2 text-orange-500" />
-                      Doublons par Nom Commun ({plantData.commonDuplicates.length})
+                      Doublons par Nom Commun ({plantData?.commonDuplicates.length})
                     </CardTitle>
                     <CardDescription>
                       Plantes ayant le même nom commun
@@ -462,7 +462,7 @@ export default function AdminDuplicates() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {plantData.commonDuplicates.slice(0, 10).map((dup) => (
+                        {plantData?.commonDuplicates.slice(0, 10).map((dup) => (
                           <TableRow key={dup.value}>
                             <TableCell className="font-medium">{dup.value}</TableCell>
                             <TableCell>
@@ -484,9 +484,9 @@ export default function AdminDuplicates() {
                         ))}
                       </TableBody>
                     </Table>
-                    {plantData.commonDuplicates.length > 10 && (
+                    {plantData?.commonDuplicates.length > 10 && (
                       <div className="mt-4 text-center text-sm text-muted-foreground">
-                        Et {plantData.commonDuplicates.length - 10} autres groupes de doublons...
+                        Et {plantData?.commonDuplicates.length - 10} autres groupes de doublons...
                       </div>
                     )}
                   </CardContent>

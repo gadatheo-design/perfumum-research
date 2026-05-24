@@ -195,10 +195,10 @@ export default function MatieresPremieres() {
         {showStats && stats && (
           <div className="mb-6 grid grid-cols-2 md:grid-cols-4 gap-3">
             {[
-              { title: "Par catégorie",     rows: (stats.byCategory as any[]),     keyField: "category",         labels: CATEGORY_LABELS },
-              { title: "Famille olfactive", rows: (stats.byOlfFamily as any[]),    keyField: "olfactiveFamily",  labels: OLFACTIVE_LABELS },
-              { title: "Qualité",           rows: (stats.byQuality as any[]),      keyField: "quality",          labels: QUALITY_LABELS },
-              { title: "Disponibilité",     rows: (stats.byAvailability as any[]), keyField: "availability",     labels: AVAILABILITY_LABELS },
+              { title: "Par catégorie",     rows: (stats?.byCategory as any[]),     keyField: "category",         labels: CATEGORY_LABELS },
+              { title: "Famille olfactive", rows: (stats?.byOlfFamily as any[]),    keyField: "olfactiveFamily",  labels: OLFACTIVE_LABELS },
+              { title: "Qualité",           rows: (stats?.byQuality as any[]),      keyField: "quality",          labels: QUALITY_LABELS },
+              { title: "Disponibilité",     rows: (stats?.byAvailability as any[]), keyField: "availability",     labels: AVAILABILITY_LABELS },
             ].map(({ title, rows, keyField, labels }) => (
               <Card key={title}>
                 <CardHeader className="pb-2 pt-3 px-3">

@@ -277,7 +277,7 @@ export default function SpectraIdentification() {
     // Calculer la similarité avec chaque spectre de référence
     const userRI = unknownRI ? parseFloat(unknownRI) : null;
     
-    const matches = referenceSpectra.map((ref: any) => {
+    const matches = referenceSpectra?.map((ref: any) => {
       const refPeaks = ref.spectrum_data?.peaks || [];
       let { similarity, matchedPeaks } = calculateWeightedSimilarity(manualPeaks, refPeaks, tolerance);
       

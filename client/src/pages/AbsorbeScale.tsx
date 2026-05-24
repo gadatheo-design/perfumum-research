@@ -9,8 +9,8 @@ import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend, 
 
 export function AbsorbeScale() {
   const [selectedPrototypes, setSelectedPrototypes] = useState<string[]>([]);
-  const { data: prototypes = [], isLoading } = trpc.prototypes.list.useQuery();
-  const { data: absorbeProfiles = [] } = trpc.absorbeProfiles.list.useQuery();
+  const { data: prototypes = [], isLoading } = trpc.prototypes?.list.useQuery();
+  const { data: absorbeProfiles = [] } = trpc.absorbeProfiles?.list.useQuery();
 
   // ABSORBE axes definition
   const absorbeAxes = [
@@ -26,10 +26,10 @@ export function AbsorbeScale() {
 
   // Get ABSORBE profile from database
   const getAbsorbeProfile = (code: string): Record<string, number> => {
-    const proto = prototypes.find(p => p.code === code);
+    const proto = prototypes?.find(p => p.code === code);
     if (!proto) return {};
     
-    const profile = absorbeProfiles.find(p => p.prototypeId === proto.id);
+    const profile = absorbeProfiles?.find(p => p.prototypeId === proto.id);
     if (!profile) return {};
     
     return {
@@ -127,7 +127,7 @@ export function AbsorbeScale() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {prototypes.map((proto) => (
+            {prototypes?.map((proto) => (
               <button
                 key={proto.id}
                 onClick={() => togglePrototype(proto.code)}
@@ -189,7 +189,7 @@ export function AbsorbeScale() {
               <h3 className="font-semibold text-lg">Scores détaillés</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {selectedPrototypes.map(code => {
-                  const proto = prototypes.find(p => p.code === code);
+                  const proto = prototypes?.find(p => p.code === code);
                   const profile = getAbsorbeProfile(code);
                   return (
                     <Card key={code} className="border-l-4" style={{ borderLeftColor: prototypeColors[code] }}>

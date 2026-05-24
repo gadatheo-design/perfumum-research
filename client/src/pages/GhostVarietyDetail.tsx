@@ -264,7 +264,7 @@ export default function GhostVarietyDetail() {
   const molecularProfile = useMemo(() => {
     if (!completeData?.variety?.molecularProfile) return [];
     try {
-      const profile = completeData.variety.molecularProfile as { molecule: string; percentage?: number; note?: string }[];
+      const profile = completeData?.variety.molecularProfile as { molecule: string; percentage?: number; note?: string }[];
       return profile;
     } catch {
       return [];
@@ -275,7 +275,7 @@ export default function GhostVarietyDetail() {
   const historicalSources = useMemo(() => {
     if (!completeData?.variety?.historicalSources) return [];
     try {
-      const sources = completeData.variety.historicalSources as { title: string; author?: string; year?: number; type?: string }[];
+      const sources = completeData?.variety.historicalSources as { title: string; author?: string; year?: number; type?: string }[];
       return sources;
     } catch {
       return [];
@@ -286,7 +286,7 @@ export default function GhostVarietyDetail() {
   const reconstructionAttempts = useMemo(() => {
     if (!completeData?.variety?.reconstructionAttempts) return [];
     try {
-      const attempts = completeData.variety.reconstructionAttempts as { year: number; institution?: string; method?: string; success?: boolean; notes?: string }[];
+      const attempts = completeData?.variety.reconstructionAttempts as { year: number; institution?: string; method?: string; success?: boolean; notes?: string }[];
       return attempts;
     } catch {
       return [];
@@ -627,9 +627,9 @@ export default function GhostVarietyDetail() {
                               className="pl-10"
                             />
                           </div>
-                          {moleculeSearchResults && moleculeSearchResults.length > 0 && !selectedMolecule && (
+                          {moleculeSearchResults && moleculeSearchResults?.length > 0 && !selectedMolecule && (
                             <div className="border rounded-md max-h-40 overflow-y-auto">
-                              {moleculeSearchResults.map((mol) => (
+                              {moleculeSearchResults?.map((mol) => (
                                 <button
                                   key={mol.id}
                                   className="w-full px-3 py-2 text-left hover:bg-muted flex justify-between items-center"
@@ -866,9 +866,9 @@ export default function GhostVarietyDetail() {
                               className="pl-10"
                             />
                           </div>
-                          {plantSearchResults && plantSearchResults.length > 0 && !selectedPlant && (
+                          {plantSearchResults && plantSearchResults?.length > 0 && !selectedPlant && (
                             <div className="border rounded-md max-h-40 overflow-y-auto">
-                              {plantSearchResults.map((plant) => (
+                              {plantSearchResults?.map((plant) => (
                                 <button
                                   key={plant.id}
                                   className="w-full px-3 py-2 text-left hover:bg-muted flex justify-between items-center"

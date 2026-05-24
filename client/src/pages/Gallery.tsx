@@ -79,7 +79,7 @@ export default function Gallery() {
     selectedCategory ? { category: selectedCategory } : undefined
   );
   const { data: stats } = trpc.gallery.getStats.useQuery();
-  const { data: plants } = trpc.plants.list.useQuery();
+  const { data: plants } = trpc.plants?.list.useQuery();
   
   // Mutations
   const uploadMutation = trpc.upload.galleryImage.useMutation({
@@ -383,12 +383,12 @@ export default function Gallery() {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-8">
           <Card>
             <CardContent className="pt-4 pb-3">
-              <div className="text-2xl font-bold">{stats.total}</div>
+              <div className="text-2xl font-bold">{stats?.total}</div>
               <p className="text-xs text-muted-foreground">Total</p>
             </CardContent>
           </Card>
           {CATEGORY_OPTIONS.map(cat => {
-            const count = stats.byCategory[cat.value] || 0;
+            const count = stats?.byCategory[cat.value] || 0;
             const Icon = cat.icon;
             return (
               <Card 
@@ -496,7 +496,7 @@ export default function Gallery() {
             <p className="text-muted-foreground mb-4">
               {searchTerm || selectedCategory 
                 ? "Aucune image ne correspond à vos critères de recherche"
-                : "La galerie est vide. Commencez par ajouter des images."}
+                : "La galerie est vide. Commencez par ajouter des images?."}
             </p>
             {user && !searchTerm && !selectedCategory && (
               <Button onClick={() => setIsUploadOpen(true)}>
@@ -537,7 +537,7 @@ export default function Gallery() {
                 <CardContent className="pt-3">
                   <h3 className="font-medium truncate">{image.title || "Sans titre"}</h3>
                   {image.plantId && plants && (() => {
-                    const plant = plants.find(p => p.id === image.plantId);
+                    const plant = plants?.find(p => p.id === image.plantId);
                     return plant ? (
                       <Link 
                         href={`/plantes/${plant.id}`}
@@ -592,7 +592,7 @@ export default function Gallery() {
                             {getCategoryLabel(image.category || "autre")}
                           </Badge>
                           {image.plantId && plants && (() => {
-                            const plant = plants.find(p => p.id === image.plantId);
+                            const plant = plants?.find(p => p.id === image.plantId);
                             return plant ? (
                               <Link 
                                 href={`/plantes/${plant.id}`}
@@ -744,7 +744,7 @@ export default function Gallery() {
                     {getCategoryLabel(filteredImages[lightboxIndex].category || "autre")}
                   </Badge>
                   {filteredImages[lightboxIndex].plantId && plants && (() => {
-                    const plant = plants.find(p => p.id === filteredImages[lightboxIndex].plantId);
+                    const plant = plants?.find(p => p.id === filteredImages[lightboxIndex].plantId);
                     return plant ? (
                       <Link 
                         href={`/plantes/${plant.id}`}

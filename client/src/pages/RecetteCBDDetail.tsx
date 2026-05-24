@@ -278,9 +278,9 @@ export default function RecetteCBDDetail() {
         </Card>
 
         {/* Profil Olfactif Radar */}
-        {molecules && molecules.length > 0 && (
+        {molecules && molecules?.length > 0 && (
           <RecipeOlfactiveProfile 
-            molecules={molecules.map((item: any) => ({
+            molecules={molecules?.map((item: any) => ({
               id: item.molecule.id,
               name: item.molecule.name,
               chemicalFormula: item.molecule.chemicalFormula,
@@ -298,7 +298,7 @@ export default function RecetteCBDDetail() {
         )}
 
         {/* Composition moléculaire */}
-        {molecules && molecules.length > 0 && (
+        {molecules && molecules?.length > 0 && (
           <Card>
             <CardHeader>
               <CardTitle>Composition Terpénique</CardTitle>
@@ -322,7 +322,7 @@ export default function RecetteCBDDetail() {
                           </tr>
                         </thead>
                         <tbody>
-                          {molecules.map((item: any) => {
+                          {molecules?.map((item: any) => {
                             const proportion = parseFloat(item.proportion) || 0;
                             const gramsFor100g = (proportion).toFixed(2);
                             return (
@@ -347,10 +347,10 @@ export default function RecetteCBDDetail() {
                           <tr className="font-semibold">
                             <td className="py-3 px-3">Total</td>
                             <td className="text-right py-3 px-3">
-                              {safeToFixed(molecules.reduce((sum: number, item: any) => sum + (parseFloat(item.proportion) || 0), 0), 1)}%
+                              {safeToFixed(molecules?.reduce((sum: number, item: any) => sum + (parseFloat(item.proportion) || 0), 0), 1)}%
                             </td>
                             <td className="text-right py-3 px-3">
-                              {safeToFixed(molecules.reduce((sum: number, item: any) => sum + (parseFloat(item.proportion) || 0), 0), 2)}g
+                              {safeToFixed(molecules?.reduce((sum: number, item: any) => sum + (parseFloat(item.proportion) || 0), 0), 2)}g
                             </td>
                             <td></td>
                           </tr>
@@ -362,7 +362,7 @@ export default function RecetteCBDDetail() {
                     <div className="mt-4 space-y-2">
                       <h4 className="font-semibold">Propriétés Thérapeutiques</h4>
                       <div className="grid grid-cols-1 gap-2">
-                        {molecules.map((item: any) => (
+                        {molecules?.map((item: any) => (
                           <div key={item.molecule.id} className="text-sm">
                             <span className="font-medium">{item.molecule.name}:</span>{" "}
                             <span className="text-muted-foreground">
@@ -380,10 +380,10 @@ export default function RecetteCBDDetail() {
                     <div className="w-full max-w-[300px]">
                       <Pie
                         data={{
-                          labels: molecules.map((item: any) => item.molecule.name),
+                          labels: molecules?.map((item: any) => item.molecule.name),
                           datasets: [
                             {
-                              data: molecules.map((item: any) => parseFloat(item.proportion) || 0),
+                              data: molecules?.map((item: any) => parseFloat(item.proportion) || 0),
                               backgroundColor: [
                                 "rgba(139, 92, 246, 0.6)",
                                 "rgba(16, 185, 129, 0.6)",

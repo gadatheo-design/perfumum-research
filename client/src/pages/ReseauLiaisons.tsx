@@ -126,7 +126,7 @@ function buildEdges(networkData: any): Edge[] {
   const edges: Edge[] = [];
 
   // Liaisons recette ↔ matière première
-  networkData.edges.recetteRawMaterials?.forEach((link: any, i: number) => {
+  networkData?.edges.recetteRawMaterials?.forEach((link: any, i: number) => {
     edges.push({
       id: `rm-link-${i}`,
       source: `recette-${link.recetteId}`,
@@ -138,7 +138,7 @@ function buildEdges(networkData: any): Edge[] {
   });
 
   // Liaisons recette ↔ molécule
-  networkData.edges.recetteMolecules?.forEach((link: any, i: number) => {
+  networkData?.edges.recetteMolecules?.forEach((link: any, i: number) => {
     edges.push({
       id: `mol-link-${i}`,
       source: `recette-${link.recetteId}`,
@@ -169,9 +169,9 @@ export default function ReseauLiaisons() {
   const initialNodes = useMemo(() => {
     if (!networkData) return [];
     return layoutNodes(
-      networkData.nodes.recettes,
-      networkData.nodes.rawMaterials,
-      networkData.nodes.molecules
+      networkData?.nodes.recettes,
+      networkData?.nodes.rawMaterials,
+      networkData?.nodes.molecules
     );
   }, [networkData]);
 
@@ -214,18 +214,18 @@ export default function ReseauLiaisons() {
               <div className="flex gap-3 shrink-0">
                 <Badge variant="outline" className="text-violet-700 border-violet-300">
                   <FlaskConical className="h-3 w-3 mr-1" />
-                  {networkData.stats.totalRecettes} recettes
+                  {networkData?.stats.totalRecettes} recettes
                 </Badge>
                 <Badge variant="outline" className="text-amber-700 border-amber-300">
                   <Package className="h-3 w-3 mr-1" />
-                  {networkData.stats.totalRawMaterials} matières
+                  {networkData?.stats.totalRawMaterials} matières
                 </Badge>
                 <Badge variant="outline" className="text-emerald-700 border-emerald-300">
                   <Leaf className="h-3 w-3 mr-1" />
-                  {networkData.stats.totalMolecules} molécules
+                  {networkData?.stats.totalMolecules} molécules
                 </Badge>
                 <Badge variant="outline" className="text-slate-600 border-slate-300">
-                  {networkData.stats.totalEdges} liaisons
+                  {networkData?.stats.totalEdges} liaisons
                 </Badge>
               </div>
             )}

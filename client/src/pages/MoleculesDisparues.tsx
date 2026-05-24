@@ -323,9 +323,9 @@ export function MoleculesDisparues() {
                     <div className="flex items-start gap-3">
                       <BookOpen className="h-5 w-5 text-muted-foreground mt-0.5 flex-shrink-0" />
                       <div>
-                        <div className="font-medium text-sm">{ax05Entry.title}</div>
-                        <div className="text-xs text-muted-foreground mt-1">{ax05Entry.summary}</div>
-                        <Link href={`/axes-recherche/${ax05Entry.id}`}>
+                        <div className="font-medium text-sm">{ax05Entry?.title}</div>
+                        <div className="text-xs text-muted-foreground mt-1">{ax05Entry?.summary}</div>
+                        <Link href={`/axes-recherche/${ax05Entry?.id}`}>
                           <Button variant="link" size="sm" className="p-0 h-auto text-xs mt-2 gap-1">
                             Lire la note de recherche complète <ArrowRight className="h-3 w-3" />
                           </Button>
@@ -427,8 +427,8 @@ export function MoleculesDisparues() {
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <BookOpen className="h-4 w-4" />
                       <span>Note de recherche : </span>
-                      <Link href={`/axes-recherche/${tabEntry.id}`}>
-                        <span className="text-primary hover:underline cursor-pointer">{tabEntry.title}</span>
+                      <Link href={`/axes-recherche/${tabEntry?.id}`}>
+                        <span className="text-primary hover:underline cursor-pointer">{tabEntry?.title}</span>
                       </Link>
                     </div>
                   </CardContent>
@@ -476,9 +476,9 @@ export function MoleculesDisparues() {
                     <div className="flex items-start gap-3">
                       <Dna className="h-5 w-5 text-emerald-600 mt-0.5 flex-shrink-0" />
                       <div>
-                        <div className="font-medium">{pf23Entry.title}</div>
-                        <div className="text-sm text-muted-foreground mt-1">{pf23Entry.summary}</div>
-                        <Link href={`/axes-recherche/${pf23Entry.id}`}>
+                        <div className="font-medium">{pf23Entry?.title}</div>
+                        <div className="text-sm text-muted-foreground mt-1">{pf23Entry?.summary}</div>
+                        <Link href={`/axes-recherche/${pf23Entry?.id}`}>
                           <Button variant="link" size="sm" className="p-0 h-auto text-sm mt-2 gap-1 text-emerald-700">
                             Lire la note complète <ArrowRight className="h-3 w-3" />
                           </Button>

@@ -176,31 +176,31 @@ export default function Ifra() {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
           <Card>
             <CardContent className="pt-6">
-              <div className="text-2xl font-bold">{stats.total}</div>
+              <div className="text-2xl font-bold">{stats?.total}</div>
               <p className="text-xs text-muted-foreground">Total molécules</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-6">
-              <div className="text-2xl font-bold text-red-600">{stats.prohibited}</div>
+              <div className="text-2xl font-bold text-red-600">{stats?.prohibited}</div>
               <p className="text-xs text-muted-foreground">Interdites</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-6">
-              <div className="text-2xl font-bold text-amber-600">{stats.restricted}</div>
+              <div className="text-2xl font-bold text-amber-600">{stats?.restricted}</div>
               <p className="text-xs text-muted-foreground">Restreintes</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-6">
-              <div className="text-2xl font-bold text-blue-600">{stats.specification}</div>
+              <div className="text-2xl font-bold text-blue-600">{stats?.specification}</div>
               <p className="text-xs text-muted-foreground">Spécifications</p>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-6">
-              <div className="text-2xl font-bold text-green-600">{stats.noRestriction}</div>
+              <div className="text-2xl font-bold text-green-600">{stats?.noRestriction}</div>
               <p className="text-xs text-muted-foreground">Sans restriction</p>
             </CardContent>
           </Card>
@@ -356,22 +356,22 @@ export default function Ifra() {
                 <div className="space-y-4">
                   <Separator />
                   
-                  <Alert variant={formulaResult.isCompliant ? "default" : "destructive"}>
-                    {formulaResult.isCompliant ? (
+                  <Alert variant={formulaResult?.isCompliant ? "default" : "destructive"}>
+                    {formulaResult?.isCompliant ? (
                       <ShieldCheck className="h-4 w-4" />
                     ) : (
                       <ShieldAlert className="h-4 w-4" />
                     )}
                     <AlertTitle className="text-lg">
-                      {formulaResult.isCompliant ? "Formule conforme" : "Formule non conforme"}
+                      {formulaResult?.isCompliant ? "Formule conforme" : "Formule non conforme"}
                     </AlertTitle>
                     <AlertDescription>
-                      {formulaResult.isCompliant ? (
+                      {formulaResult?.isCompliant ? (
                         <p>Tous les ingrédients respectent les limites IFRA pour cette catégorie de produit.</p>
                       ) : (
                         <p>
-                          <strong>{formulaResult.nonCompliantCount}</strong> ingrédient(s) sur{" "}
-                          <strong>{formulaResult.totalIngredients}</strong> dépassent les limites autorisées.
+                          <strong>{formulaResult?.nonCompliantCount}</strong> ingrédient(s) sur{" "}
+                          <strong>{formulaResult?.totalIngredients}</strong> dépassent les limites autorisées.
                         </p>
                       )}
                     </AlertDescription>
@@ -390,7 +390,7 @@ export default function Ifra() {
                         </TableRow>
                       </TableHeader>
                       <TableBody>
-                        {formulaResult.results.map((result) => (
+                        {formulaResult?.results.map((result) => (
                           <TableRow 
                             key={result.moleculeId}
                             className={!result.isCompliant ? "bg-destructive/10" : ""}
@@ -439,12 +439,12 @@ export default function Ifra() {
                     <div className="flex justify-between text-sm">
                       <span>Conformité globale</span>
                       <span>
-                        {formulaResult.totalIngredients - formulaResult.nonCompliantCount} / {formulaResult.totalIngredients} ingrédients conformes
+                        {formulaResult?.totalIngredients - formulaResult?.nonCompliantCount} / {formulaResult?.totalIngredients} ingrédients conformes
                       </span>
                     </div>
                     <Progress 
-                      value={((formulaResult.totalIngredients - formulaResult.nonCompliantCount) / formulaResult.totalIngredients) * 100} 
-                      className={formulaResult.isCompliant ? "" : "[&>div]:bg-destructive"}
+                      value={((formulaResult?.totalIngredients - formulaResult?.nonCompliantCount) / formulaResult?.totalIngredients) * 100} 
+                      className={formulaResult?.isCompliant ? "" : "[&>div]:bg-destructive"}
                     />
                   </div>
                 </div>
@@ -616,35 +616,35 @@ export default function Ifra() {
 
               {complianceResult && (
                 <Alert
-                  variant={complianceResult.compliant ? "default" : "destructive"}
+                  variant={complianceResult?.compliant ? "default" : "destructive"}
                   className="mt-4"
                 >
-                  {complianceResult.compliant ? (
+                  {complianceResult?.compliant ? (
                     <CheckCircle className="h-4 w-4" />
                   ) : (
                     <XCircle className="h-4 w-4" />
                   )}
                   <AlertTitle>
-                    {complianceResult.compliant ? "Conforme" : "Non conforme"}
+                    {complianceResult?.compliant ? "Conforme" : "Non conforme"}
                   </AlertTitle>
                   <AlertDescription>
-                    <p>{complianceResult.message}</p>
-                    {complianceResult.limit !== null && (
+                    <p>{complianceResult?.message}</p>
+                    {complianceResult?.limit !== null && (
                       <p className="mt-2">
-                        Limite IFRA: <strong>{complianceResult.limit}%</strong>
-                        {complianceResult.margin !== undefined && (
+                        Limite IFRA: <strong>{complianceResult?.limit}%</strong>
+                        {complianceResult?.margin !== undefined && (
                           <span className="ml-2 text-muted-foreground">
                             (marge: {(complianceResult).toFixed(3)}%)
                           </span>
                         )}
                       </p>
                     )}
-                    {complianceResult.reason && (
-                      <p className="mt-2 text-sm">{complianceResult.reason}</p>
+                    {complianceResult?.reason && (
+                      <p className="mt-2 text-sm">{complianceResult?.reason}</p>
                     )}
-                    {complianceResult.alternatives && !complianceResult.compliant && (
+                    {complianceResult?.alternatives && !complianceResult?.compliant && (
                       <p className="mt-2 text-sm">
-                        <strong>Alternatives:</strong> {complianceResult.alternatives}
+                        <strong>Alternatives:</strong> {complianceResult?.alternatives}
                       </p>
                     )}
                   </AlertDescription>

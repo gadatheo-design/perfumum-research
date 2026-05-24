@@ -340,7 +340,7 @@ function MetaAxisSection({
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <Badge variant="secondary">{references.length} références</Badge>
+            <Badge variant="secondary">{references?.length} références</Badge>
             <Badge variant="outline">{axesInMeta.length} axes</Badge>
           </div>
         </div>
@@ -362,7 +362,7 @@ function MetaAxisSection({
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-        {references.slice(0, 6).map(ref => (
+        {references?.slice(0, 6).map(ref => (
           <ReferenceCard 
             key={ref.id} 
             reference={ref} 
@@ -373,10 +373,10 @@ function MetaAxisSection({
         ))}
       </div>
       
-      {references.length > 6 && (
+      {references?.length > 6 && (
         <Button variant="outline" className="w-full" asChild>
           <Link href={`/references-v3?metaAxis=${metaAxis}`}>
-            Voir les {references.length - 6} autres références
+            Voir les {references?.length - 6} autres références
             <ArrowRight className="w-4 h-4 ml-2" />
           </Link>
         </Button>

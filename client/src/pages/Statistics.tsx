@@ -84,25 +84,25 @@ export default function Statistics() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" data-export="kpi-cards">
                   <StatCard
                     title="Molécules"
-                    value={stats.totalMolecules}
+                    value={stats?.totalMolecules}
                     icon={Beaker}
                     description="Total molécules documentées"
                   />
                   <StatCard
                     title="Recettes"
-                    value={stats.totalRecettes}
+                    value={stats?.totalRecettes}
                     icon={FlaskConical}
                     description="Formulations créées"
                   />
                   <StatCard
                     title="Familles Chimiques"
-                    value={stats.totalFamilies}
+                    value={stats?.totalFamilies}
                     icon={Layers}
                     description="Catégories uniques"
                   />
                   <StatCard
                     title="Prototypes"
-                    value={stats.totalPrototypes}
+                    value={stats?.totalPrototypes}
                     icon={Users}
                     description="Prototypes développés"
                   />
@@ -117,13 +117,13 @@ export default function Statistics() {
                   {/* Gamme Distribution */}
                   <div className="bg-background rounded-lg p-6 border border-border shadow-sm">
                     <h2 className="text-xl font-bold mb-6">Répartition par Gamme</h2>
-                    <GammeDistributionChart data={stats.gammeDistribution} />
+                    <GammeDistributionChart data={stats?.gammeDistribution} />
                   </div>
 
                   {/* Family Ranking */}
                   <div className="bg-background rounded-lg p-6 border border-border shadow-sm">
                     <h2 className="text-xl font-bold mb-6">Top 10 Familles Chimiques</h2>
-                    <FamilyRankingChart data={stats.familyDistribution} topN={10} />
+                    <FamilyRankingChart data={stats?.familyDistribution} topN={10} />
                   </div>
                 </div>
               </div>
@@ -138,7 +138,7 @@ export default function Statistics() {
                     <div className="flex items-center justify-center h-64">
                       <Loader2 className="h-8 w-8 animate-spin text-primary" />
                     </div>
-                  ) : timelineData && timelineData.length > 0 ? (
+                  ) : timelineData && timelineData?.length > 0 ? (
                     <ResearchTimelineChart data={timelineData} />
                   ) : (
                     <div className="flex items-center justify-center h-64 bg-muted/20 rounded-lg border border-border">
@@ -160,30 +160,30 @@ export default function Statistics() {
                     <div>
                       <h3 className="font-semibold mb-2">Gamme Dominante</h3>
                       <p className="text-sm text-muted-foreground">
-                        {stats.gammeDistribution.length > 0
-                          ? `${stats.gammeDistribution.sort((a, b) => b.count - a.count)[0].gamme.charAt(0).toUpperCase() + stats.gammeDistribution.sort((a, b) => b.count - a.count)[0].gamme.slice(1)} avec ${stats.gammeDistribution.sort((a, b) => b.count - a.count)[0].count} molécules`
+                        {stats?.gammeDistribution.length > 0
+                          ? `${stats?.gammeDistribution.sort((a, b) => b.count - a.count)[0].gamme.charAt(0).toUpperCase() + stats?.gammeDistribution.sort((a, b) => b.count - a.count)[0].gamme.slice(1)} avec ${stats?.gammeDistribution.sort((a, b) => b.count - a.count)[0].count} molécules`
                           : 'Aucune donnée'}
                       </p>
                     </div>
                     <div>
                       <h3 className="font-semibold mb-2">Famille la Plus Représentée</h3>
                       <p className="text-sm text-muted-foreground">
-                        {stats.familyDistribution.length > 0
-                          ? `${stats.familyDistribution.sort((a, b) => b.count - a.count)[0].family} avec ${stats.familyDistribution.sort((a, b) => b.count - a.count)[0].count} molécules`
+                        {stats?.familyDistribution.length > 0
+                          ? `${stats?.familyDistribution.sort((a, b) => b.count - a.count)[0].family} avec ${stats?.familyDistribution.sort((a, b) => b.count - a.count)[0].count} molécules`
                           : 'Aucune donnée'}
                       </p>
                     </div>
                     <div>
                       <h3 className="font-semibold mb-2">Diversité Chimique</h3>
                       <p className="text-sm text-muted-foreground">
-                        {stats.totalFamilies} familles chimiques différentes répertoriées
+                        {stats?.totalFamilies} familles chimiques différentes répertoriées
                       </p>
                     </div>
                     <div>
                       <h3 className="font-semibold mb-2">Ratio Recettes/Molécules</h3>
                       <p className="text-sm text-muted-foreground">
-                        {stats.totalMolecules > 0
-                          ? `${(stats.totalRecettes / stats.totalMolecules).toFixed(2)} recettes par molécule en moyenne`
+                        {stats?.totalMolecules > 0
+                          ? `${(stats?.totalRecettes / stats?.totalMolecules).toFixed(2)} recettes par molécule en moyenne`
                           : 'Aucune donnée'}
                       </p>
                     </div>

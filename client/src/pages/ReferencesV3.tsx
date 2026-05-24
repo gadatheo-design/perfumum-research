@@ -113,7 +113,7 @@ export default function ReferencesV3() {
   const { data: references, isLoading: loadingRefs } = trpc.v3References.getAll.useQuery();
   const { data: axes, isLoading: loadingAxes } = trpc.thematicAxes.getAll.useQuery();
   const { data: graphData, isLoading: loadingGraph } = trpc.axisGraph.getData.useQuery();
-  const { data: molecules } = trpc.molecules.getAll.useQuery();
+  const { data: molecules } = trpc.molecules?.getAll.useQuery();
   const createLinkMutation = trpc.referenceEntityLinks.create.useMutation();
 
   // Filter references
@@ -153,7 +153,7 @@ export default function ReferencesV3() {
   // Get axis info
   const getAxisInfo = (code: string | null) => {
     if (!code || !axes) return null;
-    return axes.find((a: ThematicAxis) => a.axisCode === code);
+    return axes?.find((a: ThematicAxis) => a.axisCode === code);
   };
 
   // Handle node click in graph
@@ -342,8 +342,8 @@ export default function ReferencesV3() {
               <Skeleton className="w-full h-full" />
             ) : graphData ? (
               <AxisForceGraph
-                nodes={graphData.nodes.map((n: any) => ({ ...n, color: n.color || META_AXIS_COLORS[n.metaAxis] || '#6366f1' }))}
-                links={graphData.links as any}
+                nodes={graphData?.nodes.map((n: any) => ({ ...n, color: n.color || META_AXIS_COLORS[n.metaAxis] || '#6366f1' }))}
+                links={graphData?.links as any}
                 onNodeClick={handleNodeClick}
               />
             ) : (

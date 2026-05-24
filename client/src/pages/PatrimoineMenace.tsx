@@ -134,7 +134,7 @@ export default function PatrimoineMenace() {
               <CardContent className="p-4 text-center">
                 <Skull className="h-6 w-6 text-red-600 mx-auto mb-2" />
                 <p className="text-2xl font-bold text-red-700 dark:text-red-300">
-                  {threatenedPlants.filter(p => p.conservationStatus === 'CR' || p.conservationStatus === 'EX' || p.conservationStatus === 'EW').length}
+                  {threatenedPlants?.filter(p => p.conservationStatus === 'CR' || p.conservationStatus === 'EX' || p.conservationStatus === 'EW').length}
                 </p>
                 <p className="text-xs text-red-600 dark:text-red-400">Critiques / Éteintes</p>
               </CardContent>
@@ -143,7 +143,7 @@ export default function PatrimoineMenace() {
               <CardContent className="p-4 text-center">
                 <TrendingDown className="h-6 w-6 text-orange-600 mx-auto mb-2" />
                 <p className="text-2xl font-bold text-orange-700 dark:text-orange-300">
-                  {threatenedPlants.filter(p => p.conservationStatus === 'EN' || p.conservationStatus === 'VU').length}
+                  {threatenedPlants?.filter(p => p.conservationStatus === 'EN' || p.conservationStatus === 'VU').length}
                 </p>
                 <p className="text-xs text-orange-600 dark:text-orange-400">En danger / Vulnérables</p>
               </CardContent>
@@ -152,7 +152,7 @@ export default function PatrimoineMenace() {
               <CardContent className="p-4 text-center">
                 <Shield className="h-6 w-6 text-purple-600 mx-auto mb-2" />
                 <p className="text-2xl font-bold text-purple-700 dark:text-purple-300">
-                  {threatenedPlants.filter(p => p.citesAppendix === 'I' || p.citesAppendix === 'II').length}
+                  {threatenedPlants?.filter(p => p.citesAppendix === 'I' || p.citesAppendix === 'II').length}
                 </p>
                 <p className="text-xs text-purple-600 dark:text-purple-400">Protégées CITES</p>
               </CardContent>
@@ -161,7 +161,7 @@ export default function PatrimoineMenace() {
               <CardContent className="p-4 text-center">
                 <Leaf className="h-6 w-6 text-green-600 mx-auto mb-2" />
                 <p className="text-2xl font-bold text-green-700 dark:text-green-300">
-                  {threatenedPlants.filter(p => p.sustainableAlternatives).length}
+                  {threatenedPlants?.filter(p => p.sustainableAlternatives).length}
                 </p>
                 <p className="text-xs text-green-600 dark:text-green-400">Avec alternatives</p>
               </CardContent>
@@ -395,7 +395,7 @@ export default function PatrimoineMenace() {
                   
                   // Ajouter un marqueur pour chaque plante avec coordonnées GPS
                   if (threatenedPlants) {
-                    threatenedPlants.forEach((plant) => {
+                    threatenedPlants?.forEach((plant) => {
                       // Utiliser les vraies coordonnées GPS si disponibles
                       const lat = plant.latitude ? parseFloat(plant.latitude) : null;
                       const lng = plant.longitude ? parseFloat(plant.longitude) : null;
@@ -671,9 +671,9 @@ export default function PatrimoineMenace() {
         <div className="text-center py-12">
           <p className="text-muted-foreground">Chargement des espèces menacées...</p>
         </div>
-      ) : threatenedPlants && threatenedPlants.length > 0 ? (
+      ) : threatenedPlants && threatenedPlants?.length > 0 ? (
         <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
-          {threatenedPlants.map((plant) => {
+          {threatenedPlants?.map((plant) => {
             const iucnInfo = plant.conservationStatus ? iucnLabels[plant.conservationStatus] : null;
             const citesInfo = plant.citesAppendix ? citesLabels[plant.citesAppendix] : null;
             const threats = plant.threatFactors as Record<string, boolean> | null;

@@ -553,7 +553,7 @@ export default function Admin() {
                   <Card>
                     <CardHeader className="pb-3">
                       <CardTitle className="text-3xl font-bold text-primary">
-                        {stats.prototypes}
+                        {stats?.prototypes}
                       </CardTitle>
                       <CardDescription>Prototypes</CardDescription>
                     </CardHeader>
@@ -562,7 +562,7 @@ export default function Admin() {
                   <Card>
                     <CardHeader className="pb-3">
                       <CardTitle className="text-3xl font-bold text-purple-600">
-                        {stats.molecules}
+                        {stats?.molecules}
                       </CardTitle>
                       <CardDescription>Molécules</CardDescription>
                     </CardHeader>
@@ -571,7 +571,7 @@ export default function Admin() {
                   <Card>
                     <CardHeader className="pb-3">
                       <CardTitle className="text-3xl font-bold text-green-600">
-                        {stats.accords}
+                        {stats?.accords}
                       </CardTitle>
                       <CardDescription>Accords</CardDescription>
                     </CardHeader>
@@ -580,7 +580,7 @@ export default function Admin() {
                   <Card>
                     <CardHeader className="pb-3">
                       <CardTitle className="text-3xl font-bold text-blue-600">
-                        {stats.families}
+                        {stats?.families}
                       </CardTitle>
                       <CardDescription>Familles</CardDescription>
                     </CardHeader>
@@ -589,7 +589,7 @@ export default function Admin() {
                   <Card>
                     <CardHeader className="pb-3">
                       <CardTitle className="text-3xl font-bold text-rose-600">
-                        {stats.recettes}
+                        {stats?.recettes}
                       </CardTitle>
                       <CardDescription>Recettes</CardDescription>
                     </CardHeader>

@@ -134,7 +134,7 @@ function ExclusiveMoleculesSection() {
   const filtered = useMemo(() => {
     if (!molecules) return [];
     if (filterStatus === "all") return molecules;
-    return molecules.filter((m: any) => m.statuses.includes(filterStatus));
+    return molecules?.filter((m: any) => m.statuses.includes(filterStatus));
   }, [molecules, filterStatus]);
 
   const displayed = expanded ? filtered : filtered.slice(0, 12);
@@ -177,7 +177,7 @@ function ExclusiveMoleculesSection() {
                   : "border-border text-muted-foreground hover:bg-muted"
               }`}
             >
-              Toutes ({molecules.length})
+              Toutes ({molecules?.length})
             </button>
             {["EX", "EW", "CR", "EN"].filter((s) => countByStatus[s]).map((s) => {
               const cfg = UICN_CONFIG[s];

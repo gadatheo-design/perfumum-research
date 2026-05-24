@@ -197,12 +197,12 @@ export default function AxeRechercheDetail() {
   });
 
   // Récupérer toutes les références bibliographiques pour la liaison
-  const { data: allBibliography } = trpc.bibliography.list.useQuery({}, {
+  const { data: allBibliography } = trpc.bibliography?.list.useQuery({}, {
     enabled: isLinkBibDialogOpen,
   });
 
   // Mutation pour lier une référence
-  const linkBibMutation = trpc.bibliography.linkToAxis.useMutation({
+  const linkBibMutation = trpc.bibliography?.linkToAxis.useMutation({
     onSuccess: () => {
       toast.success("Référence liée");
       window.location.reload();
@@ -213,7 +213,7 @@ export default function AxeRechercheDetail() {
   });
 
   // Mutation pour délier une référence
-  const unlinkBibMutation = trpc.bibliography.unlinkFromAxis.useMutation({
+  const unlinkBibMutation = trpc.bibliography?.unlinkFromAxis.useMutation({
     onSuccess: () => {
       toast.success("Référence déliée");
       window.location.reload();
@@ -227,9 +227,9 @@ export default function AxeRechercheDetail() {
   const openEditAxisDialog = () => {
     if (axis) {
       setAxisFormData({
-        description: axis.description || "",
-        objectives: axis.objectives || "",
-        methodology: axis.methodology || "",
+        description: axis?.description || "",
+        objectives: axis?.objectives || "",
+        methodology: axis?.methodology || "",
       });
       setIsEditAxisDialogOpen(true);
     }
@@ -239,7 +239,7 @@ export default function AxeRechercheDetail() {
   const handleAxisSubmit = () => {
     if (!axis) return;
     updateAxisMutation.mutate({
-      id: axis.id,
+      id: axis?.id,
       description: axisFormData.description || undefined,
       objectives: axisFormData.objectives || undefined,
       methodology: axisFormData.methodology || undefined,
@@ -249,9 +249,9 @@ export default function AxeRechercheDetail() {
   // Filtrer les références pour la recherche
   const filteredBibliography = useMemo(() => {
     if (!allBibliography?.entries) return [];
-    if (!bibSearchQuery) return allBibliography.entries.slice(0, 50);
+    if (!bibSearchQuery) return allBibliography?.entries?.slice(0, 50);
     const query = bibSearchQuery.toLowerCase();
-    return allBibliography.entries.filter((b: any) =>
+    return allBibliography?.entries?.filter((b: any) =>
       b.title?.toLowerCase().includes(query) ||
       b.authors?.toLowerCase().includes(query) ||
       b.entryKey?.toLowerCase().includes(query)
@@ -302,7 +302,7 @@ export default function AxeRechercheDetail() {
 
     const data = {
       entryCode: formData.entryCode,
-      axisId: axis.id,
+      axisId: axis?.id,
       title: formData.title,
       content: formData.content || undefined,
       summary: formData.summary || undefined,
@@ -389,33 +389,33 @@ export default function AxeRechercheDetail() {
           </Link>
 
           {/* En-tête de l'axe */}
-          <Card className="mb-8" style={{ borderTopColor: axis.color || undefined, borderTopWidth: '4px' }}>
+          <Card className="mb-8" style={{ borderTopColor: axis?.color || undefined, borderTopWidth: '4px' }}>
             <CardHeader>
               <div className="flex items-start justify-between">
                 <div>
-                  <span className="text-sm font-mono text-muted-foreground">{axis.axisCode}</span>
-                  <CardTitle className="text-2xl mt-1">{axis.name}</CardTitle>
-                  {axis.subtitle && (
-                    <CardDescription className="text-lg mt-1">{axis.subtitle}</CardDescription>
+                  <span className="text-sm font-mono text-muted-foreground">{axis?.axisCode}</span>
+                  <CardTitle className="text-2xl mt-1">{axis?.name}</CardTitle>
+                  {axis?.subtitle && (
+                    <CardDescription className="text-lg mt-1">{axis?.subtitle}</CardDescription>
                   )}
                 </div>
                 <div className="flex items-center gap-2">
-                  <Badge variant="outline">{axis.category}</Badge>
-                  <Badge>{axis.status}</Badge>
+                  <Badge variant="outline">{axis?.category}</Badge>
+                  <Badge>{axis?.status}</Badge>
                 </div>
               </div>
             </CardHeader>
             <CardContent>
-              {axis.description && (
-                <p className="text-muted-foreground mb-4">{axis.description}</p>
+              {axis?.description && (
+                <p className="text-muted-foreground mb-4">{axis?.description}</p>
               )}
               <div className="flex items-center gap-4">
                 <div className="flex-1">
                   <div className="flex justify-between text-sm mb-1">
                     <span>Progression</span>
-                    <span className="font-medium">{axis.progressPercent || 0}%</span>
+                    <span className="font-medium">{axis?.progressPercent || 0}%</span>
                   </div>
-                  <Progress value={axis.progressPercent || 0} className="h-2" />
+                  <Progress value={axis?.progressPercent || 0} className="h-2" />
                 </div>
                 <div className="text-sm text-muted-foreground">
                   {entries?.length || 0} entrées
@@ -427,8 +427,8 @@ export default function AxeRechercheDetail() {
           <Tabs defaultValue="entries" className="space-y-6">
             <TabsList className="flex-wrap">
               <TabsTrigger value="entries">Entrées de recherche</TabsTrigger>
-              {subAxes && subAxes.length > 0 && (
-                <TabsTrigger value="subaxes">Sous-axes ({subAxes.length})</TabsTrigger>
+              {subAxes && subAxes?.length > 0 && (
+                <TabsTrigger value="subaxes">Sous-axes ({subAxes?.length})</TabsTrigger>
               )}
               <TabsTrigger value="bibliography">Bibliographie ({bibliography?.length || 0})</TabsTrigger>
               <TabsTrigger value="info">Informations</TabsTrigger>
@@ -602,9 +602,9 @@ export default function AxeRechercheDetail() {
                 <div className="text-center py-12">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
                 </div>
-              ) : entries && entries.length > 0 ? (
+              ) : entries && entries?.length > 0 ? (
                 <div className="space-y-4">
-                  {entries.map((entry: any) => (
+                  {entries?.map((entry: any) => (
                     <Card key={entry.id} className="hover:shadow-md transition-shadow">
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between gap-4">
@@ -699,15 +699,15 @@ export default function AxeRechercheDetail() {
             </TabErrorBoundary>
 
             {/* Sous-axes */}
-            {subAxes && subAxes.length > 0 && (
+            {subAxes && subAxes?.length > 0 && (
               <TabErrorBoundary>
               <TabsContent value="subaxes">
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {subAxes.map((subAxis: any) => (
+                  {subAxes?.map((subAxis: any) => (
                     <Card 
                       key={subAxis.id} 
                       className="hover:shadow-lg transition-shadow overflow-hidden"
-                      style={{ borderTopColor: subAxis.color || axis.color, borderTopWidth: '4px' }}
+                      style={{ borderTopColor: subAxis.color || axis?.color, borderTopWidth: '4px' }}
                     >
                       <CardHeader className="pb-2">
                         <div className="flex items-start justify-between">
@@ -809,7 +809,7 @@ export default function AxeRechercheDetail() {
                                         if (axis) {
                                           linkBibMutation.mutate({
                                             bibliographyId: bib.id,
-                                            axisId: axis.id,
+                                            axisId: axis?.id,
                                             relevance: 'secondaire',
                                           });
                                         }
@@ -836,9 +836,9 @@ export default function AxeRechercheDetail() {
                 </div>
               )}
 
-              {bibliography && bibliography.length > 0 ? (
+              {bibliography && bibliography?.length > 0 ? (
                 <div className="space-y-4">
-                  {bibliography.map((entry: any) => (
+                  {bibliography?.map((entry: any) => (
                     <Card key={entry.id}>
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">
@@ -881,7 +881,7 @@ export default function AxeRechercheDetail() {
                                   if (axis && confirm("Délier cette référence ?")) {
                                     unlinkBibMutation.mutate({
                                       bibliographyId: entry.id,
-                                      axisId: axis.id,
+                                      axisId: axis?.id,
                                     });
                                   }
                                 }}
@@ -937,8 +937,8 @@ export default function AxeRechercheDetail() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    {axis.description ? (
-                      <p className="whitespace-pre-wrap">{axis.description}</p>
+                    {axis?.description ? (
+                      <p className="whitespace-pre-wrap">{axis?.description}</p>
                     ) : (
                       <p className="text-muted-foreground italic">Aucune description définie</p>
                     )}
@@ -954,8 +954,8 @@ export default function AxeRechercheDetail() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    {axis.objectives ? (
-                      <p className="whitespace-pre-wrap">{axis.objectives}</p>
+                    {axis?.objectives ? (
+                      <p className="whitespace-pre-wrap">{axis?.objectives}</p>
                     ) : (
                       <p className="text-muted-foreground italic">Aucun objectif défini</p>
                     )}
@@ -971,8 +971,8 @@ export default function AxeRechercheDetail() {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    {axis.methodology ? (
-                      <p className="whitespace-pre-wrap">{axis.methodology}</p>
+                    {axis?.methodology ? (
+                      <p className="whitespace-pre-wrap">{axis?.methodology}</p>
                     ) : (
                       <p className="text-muted-foreground italic">Aucune méthodologie définie</p>
                     )}
@@ -980,7 +980,7 @@ export default function AxeRechercheDetail() {
                 </Card>
 
                 {/* Tags */}
-                {axis.tags && axis.tags.length > 0 && (
+                {axis?.tags && axis?.tags.length > 0 && (
                   <Card className="md:col-span-2">
                     <CardHeader>
                       <CardTitle className="text-lg flex items-center gap-2">
@@ -990,7 +990,7 @@ export default function AxeRechercheDetail() {
                     </CardHeader>
                     <CardContent>
                       <div className="flex flex-wrap gap-2">
-                        {axis.tags.map((tag: string, i: number) => (
+                        {axis?.tags.map((tag: string, i: number) => (
                           <Badge key={i} variant="outline">{tag}</Badge>
                         ))}
                       </div>

@@ -21,7 +21,7 @@ const TEXTURE_LABELS: Record<string, string> = {
 };
 
 export default function Accords() {
-  const { data: accords, isLoading } = trpc.accords.list.useQuery();
+  const { data: accords, isLoading } = trpc.accords?.list.useQuery();
   
   const [searchQuery, setSearchQuery] = useState("");
   const [textureFilter, setTextureFilter] = useState("all");
@@ -29,7 +29,7 @@ export default function Accords() {
   // Extract unique textures for filter
   const textures = useMemo(() => {
     if (!accords) return [];
-    const uniqueTextures = new Set(accords.map(a => a.texture).filter(Boolean));
+    const uniqueTextures = new Set(accords?.map(a => a.texture).filter(Boolean));
     return Array.from(uniqueTextures).map(t => ({ 
       value: t!, 
       label: TEXTURE_LABELS[t!] || t! 
@@ -40,7 +40,7 @@ export default function Accords() {
   const filteredAccords = useMemo(() => {
     if (!accords) return [];
     
-    return accords.filter(accord => {
+    return accords?.filter(accord => {
       const matchesSearch = 
         accord.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         accord.olfactiveProfile?.toLowerCase().includes(searchQuery.toLowerCase()) ||

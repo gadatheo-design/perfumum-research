@@ -168,8 +168,8 @@ export default function AdminOrphanMolecules() {
                 <TrendingUp className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{stats.classificationRate}%</div>
-                <Progress value={stats.classificationRate} className="mt-2" />
+                <div className="text-2xl font-bold">{stats?.classificationRate}%</div>
+                <Progress value={stats?.classificationRate} className="mt-2" />
                 <p className="text-xs text-muted-foreground mt-2">
                   Moyenne des champs remplis
                 </p>
@@ -182,9 +182,9 @@ export default function AdminOrphanMolecules() {
                 <AlertCircle className="h-4 w-4 text-amber-500" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-amber-500">{stats.orphanCount}</div>
+                <div className="text-2xl font-bold text-amber-500">{stats?.orphanCount}</div>
                 <p className="text-xs text-muted-foreground mt-2">
-                  Sur {stats.totalMolecules} molécules totales
+                  Sur {stats?.totalMolecules} molécules totales
                 </p>
               </CardContent>
             </Card>
@@ -195,10 +195,10 @@ export default function AdminOrphanMolecules() {
                 <FlaskConical className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{stats.withFamily}</div>
-                <Progress value={(stats.withFamily / stats.totalMolecules) * 100} className="mt-2" />
+                <div className="text-2xl font-bold">{stats?.withFamily}</div>
+                <Progress value={(stats?.withFamily / stats?.totalMolecules) * 100} className="mt-2" />
                 <p className="text-xs text-muted-foreground mt-2">
-                  {Math.round((stats.withFamily / stats.totalMolecules) * 100)}% de couverture
+                  {Math.round((stats?.withFamily / stats?.totalMolecules) * 100)}% de couverture
                 </p>
               </CardContent>
             </Card>
@@ -209,10 +209,10 @@ export default function AdminOrphanMolecules() {
                 <Beaker className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{stats.withChemicalClass}</div>
-                <Progress value={(stats.withChemicalClass / stats.totalMolecules) * 100} className="mt-2" />
+                <div className="text-2xl font-bold">{stats?.withChemicalClass}</div>
+                <Progress value={(stats?.withChemicalClass / stats?.totalMolecules) * 100} className="mt-2" />
                 <p className="text-xs text-muted-foreground mt-2">
-                  {Math.round((stats.withChemicalClass / stats.totalMolecules) * 100)}% de couverture
+                  {Math.round((stats?.withChemicalClass / stats?.totalMolecules) * 100)}% de couverture
                 </p>
               </CardContent>
             </Card>
@@ -229,25 +229,25 @@ export default function AdminOrphanMolecules() {
             <CardContent>
               <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
                 {[
-                  { label: 'Numéro CAS', value: stats.withCasNumber, color: 'bg-blue-500' },
-                  { label: 'Nom IUPAC', value: stats.withIupacName, color: 'bg-purple-500' },
-                  { label: 'Formule', value: stats.withFormula, color: 'bg-green-500' },
-                  { label: 'Profil Olfactif', value: stats.withOlfactiveProfile, color: 'bg-amber-500' },
-                  { label: 'Radar Complet', value: stats.withRadarComplete, color: 'bg-pink-500' },
-                  { label: 'Famille', value: stats.withFamily, color: 'bg-cyan-500' },
+                  { label: 'Numéro CAS', value: stats?.withCasNumber, color: 'bg-blue-500' },
+                  { label: 'Nom IUPAC', value: stats?.withIupacName, color: 'bg-purple-500' },
+                  { label: 'Formule', value: stats?.withFormula, color: 'bg-green-500' },
+                  { label: 'Profil Olfactif', value: stats?.withOlfactiveProfile, color: 'bg-amber-500' },
+                  { label: 'Radar Complet', value: stats?.withRadarComplete, color: 'bg-pink-500' },
+                  { label: 'Famille', value: stats?.withFamily, color: 'bg-cyan-500' },
                 ].map((item) => (
                   <div key={item.label} className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span className="text-muted-foreground">{item.label}</span>
-                      <span className="font-medium">{Math.round((item.value / stats.totalMolecules) * 100)}%</span>
+                      <span className="font-medium">{Math.round((item.value / stats?.totalMolecules) * 100)}%</span>
                     </div>
                     <div className="h-2 rounded-full bg-muted overflow-hidden">
                       <div 
                         className={`h-full ${item.color} transition-all duration-500`}
-                        style={{ width: `${(item.value / stats.totalMolecules) * 100}%` }}
+                        style={{ width: `${(item.value / stats?.totalMolecules) * 100}%` }}
                       />
                     </div>
-                    <p className="text-xs text-muted-foreground">{item.value} / {stats.totalMolecules}</p>
+                    <p className="text-xs text-muted-foreground">{item.value} / {stats?.totalMolecules}</p>
                   </div>
                 ))}
               </div>

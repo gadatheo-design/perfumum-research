@@ -55,20 +55,20 @@ export default function InventoryDashboard() {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
   // Données
-  const { data: inventoryStats, isLoading: isLoadingStats } = trpc.rawMaterials.getInventoryStats.useQuery();
-  const { data: allInventory, isLoading: isLoadingInventory } = trpc.rawMaterials.getAllInventory.useQuery();
-  const { data: rawMaterials } = trpc.rawMaterials.getAll.useQuery({ limit: 500 });
+  const { data: inventoryStats, isLoading: isLoadingStats } = trpc.rawMaterials?.getInventoryStats.useQuery();
+  const { data: allInventory, isLoading: isLoadingInventory } = trpc.rawMaterials?.getAllInventory.useQuery();
+  const { data: rawMaterials } = trpc.rawMaterials?.getAll.useQuery({ limit: 500 });
 
   // Extraire les catégories et fournisseurs uniques
   const categories = useMemo(() => {
     if (!rawMaterials) return [];
-    const cats = new Set(rawMaterials.map(m => m.category).filter(Boolean));
+    const cats = new Set(rawMaterials?.map(m => m.category).filter(Boolean));
     return Array.from(cats);
   }, [rawMaterials]);
 
   const suppliers = useMemo(() => {
     if (!allInventory) return [];
-    const sups = new Set(allInventory.map(e => e.supplierName).filter(Boolean));
+    const sups = new Set(allInventory?.map(e => e.supplierName).filter(Boolean));
     return Array.from(sups);
   }, [allInventory]);
 
@@ -120,12 +120,12 @@ export default function InventoryDashboard() {
     // Grouper par matière première
     const stockByMaterial: Record<number, { total: number; material: any }> = {};
     
-    allInventory.forEach(entry => {
+    allInventory?.forEach(entry => {
       if (entry.rawMaterialId) {
         if (!stockByMaterial[entry.rawMaterialId]) {
           stockByMaterial[entry.rawMaterialId] = { 
             total: 0, 
-            material: rawMaterials.find(m => m.id === entry.rawMaterialId) 
+            material: rawMaterials?.find(m => m.id === entry.rawMaterialId) 
           };
         }
         stockByMaterial[entry.rawMaterialId].total += parseFloat(entry.quantity || "0");
@@ -149,7 +149,7 @@ export default function InventoryDashboard() {
     
     const stats: Record<string, { count: number; value: number }> = {};
     
-    allInventory.forEach(entry => {
+    allInventory?.forEach(entry => {
       if (entry.purchaseDate) {
         const date = new Date(entry.purchaseDate);
         const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;

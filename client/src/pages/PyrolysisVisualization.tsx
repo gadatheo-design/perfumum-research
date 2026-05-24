@@ -394,13 +394,13 @@ function DynamicPyrolysisDB() {
   
   const mechanisms = useMemo(() => {
     if (!allTransformations) return [];
-    const mechs = new Set(allTransformations.map((t: any) => t.mechanism).filter(Boolean));
+    const mechs = new Set(allTransformations?.map((t: any) => t.mechanism).filter(Boolean));
     return Array.from(mechs).sort() as string[];
   }, [allTransformations]);
   
   const filtered = useMemo(() => {
     if (!allTransformations) return [];
-    return allTransformations.filter((t: any) => {
+    return allTransformations?.filter((t: any) => {
       const matchSearch = !search || 
         t.source_molecule?.toLowerCase().includes(search.toLowerCase()) ||
         t.product_molecule?.toLowerCase().includes(search.toLowerCase()) ||

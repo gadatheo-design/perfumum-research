@@ -38,7 +38,7 @@ export default function EditeurFormulation() {
   const [nomFormule, setNomFormule] = useState("");
   const [draggedItem, setDraggedItem] = useState<number | null>(null);
 
-  const { data: molecules, isLoading } = trpc.molecules.list.useQuery();
+  const { data: molecules, isLoading } = trpc.molecules?.list.useQuery();
 
   const totalProportions = useMemo(() => {
     return formule.reduce((sum, m) => sum + m.proportion, 0);
@@ -52,7 +52,7 @@ export default function EditeurFormulation() {
     const axes = ["Frais", "Floral", "Fruité", "Épicé", "Boisé", "Terreux"];
     const profil = axes.map((axe) => {
       const valeur = formule.reduce((sum, mf) => {
-        const molecule = molecules.find((m: any) => m.id === mf.moleculeId);
+        const molecule = molecules?.find((m: any) => m.id === mf.moleculeId);
         if (!molecule) return sum;
 
         let axeValue = 50;
@@ -74,7 +74,7 @@ export default function EditeurFormulation() {
 
   const moleculesFiltrees = useMemo(() => {
     if (!molecules) return [];
-    return molecules.filter((m: any) => {
+    return molecules?.filter((m: any) => {
       const matchRecherche = m.name.toLowerCase().includes(recherche.toLowerCase());
       return matchRecherche;
     });

@@ -18,8 +18,8 @@ export default function ImportCSV() {
   const [importing, setImporting] = useState(false);
   const [result, setResult] = useState<ImportResult | null>(null);
 
-  const importMoleculesMutation = trpc.importMolecules.useMutation();
-  const importPlantsMutation = trpc.importPlants.useMutation();
+  const importMoleculesMutation = (trpc as any).importMolecules.useMutation();
+  const importPlantsMutation = (trpc as any).importPlants.useMutation();
 
   const parseCSV = (text: string): string[][] => {
     const lines = text.split("\n").filter((line) => line.trim());

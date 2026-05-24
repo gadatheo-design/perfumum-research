@@ -134,7 +134,7 @@ export default function TabacsNiche() {
   // Créer un index nom → données DB
   const tabacIndex: Record<string, any> = {};
   if (allTabacs) {
-    allTabacs.forEach((t: any) => {
+    allTabacs?.forEach((t: any) => {
       tabacIndex[t.name.toLowerCase()] = t;
     });
   }
@@ -142,7 +142,7 @@ export default function TabacsNiche() {
   // Trouver le tabac DB correspondant à une variété niche
   const findDbTabac = (variety: any) => {
     if (!variety.dbName || !allTabacs) return null;
-    return allTabacs.find((t: any) =>
+    return allTabacs?.find((t: any) =>
       t.name.toLowerCase().includes(variety.dbName.toLowerCase()) ||
       variety.dbName.toLowerCase().includes(t.name.toLowerCase())
     ) ?? null;

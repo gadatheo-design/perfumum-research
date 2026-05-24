@@ -87,7 +87,7 @@ export default function EuropeanaMap() {
   // Calculer le max pour la normalisation des tailles de marqueurs
   const maxCount = useMemo(() => {
     if (!distribution?.countries?.length) return 1;
-    return Math.max(...distribution.countries.map((c) => c.count));
+    return Math.max(...distribution?.countries.map((c) => c.count));
   }, [distribution]);
 
   // Placer les marqueurs sur la carte quand les données arrivent
@@ -195,7 +195,7 @@ export default function EuropeanaMap() {
 
     // Placer les marqueurs si les données sont déjà disponibles
     if (distribution?.countries?.length) {
-      updateMarkers(map, distribution.countries);
+      updateMarkers(map, distribution?.countries);
     }
   }, [distribution, updateMarkers]);
 
@@ -205,7 +205,7 @@ export default function EuropeanaMap() {
     prevThemeRef.current !== selectedTheme || mapReady
   )) {
     prevThemeRef.current = selectedTheme;
-    updateMarkers(mapRef.current, distribution.countries);
+    updateMarkers(mapRef.current, distribution?.countries);
   }
 
   const currentThemeConfig = themeConfig?.find((t) => t.key === selectedTheme);
@@ -290,18 +290,18 @@ export default function EuropeanaMap() {
           <div className="flex items-center gap-3 text-sm text-muted-foreground">
             <span className="flex items-center gap-1">
               <BarChart2 className="h-3.5 w-3.5" />
-              {distribution.total.toLocaleString()} items
+              {distribution?.total.toLocaleString()} items
             </span>
             <span className="flex items-center gap-1">
               <MapPin className="h-3.5 w-3.5" />
-              {distribution.countries.length} pays
+              {distribution?.countries.length} pays
             </span>
-            {!distribution.apiAvailable && (
+            {!distribution?.apiAvailable && (
               <Badge variant="outline" className="text-xs text-amber-600 border-amber-400">
                 Mode démo
               </Badge>
             )}
-            {distribution.apiAvailable && (
+            {distribution?.apiAvailable && (
               <Badge variant="outline" className="text-xs text-green-600 border-green-400">
                 API active
               </Badge>
@@ -311,7 +311,7 @@ export default function EuropeanaMap() {
       </div>
 
       {/* Bannière démo */}
-      {distribution && !distribution.apiAvailable && (
+      {distribution && !distribution?.apiAvailable && (
         <Card className="border-amber-200 bg-amber-50 dark:bg-amber-950/20 dark:border-amber-800">
           <CardContent className="p-3 flex items-start gap-3">
             <Info className="h-4 w-4 text-amber-600 mt-0.5 shrink-0" />
@@ -390,7 +390,7 @@ export default function EuropeanaMap() {
                   <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
                 </div>
               ) : distribution?.countries.length ? (
-                distribution.countries
+                distribution?.countries
                   .sort((a, b) => b.count - a.count)
                   .slice(0, 20)
                   .map((country, idx) => {

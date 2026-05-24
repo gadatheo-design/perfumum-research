@@ -39,12 +39,12 @@ export default function ComparateurAvance() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedEntities, setSelectedEntities] = useState<SelectedEntity[]>([]);
   
-  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
-  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes.list.useQuery();
+  const { data: molecules, isLoading: loadingMolecules } = trpc.molecules?.list.useQuery();
+  const { data: recettes, isLoading: loadingRecettes } = trpc.recettes?.list.useQuery();
   
   const filteredMolecules = useMemo(() => {
     if (!molecules) return [];
-    if (!searchQuery) return molecules.slice(0, 20);
+    if (!searchQuery) return molecules?.slice(0, 20);
     return molecules
       .filter(m => 
         m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -55,7 +55,7 @@ export default function ComparateurAvance() {
   
   const filteredRecettes = useMemo(() => {
     if (!recettes) return [];
-    if (!searchQuery) return recettes.slice(0, 20);
+    if (!searchQuery) return recettes?.slice(0, 20);
     return recettes
       .filter(r => 
         r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -226,7 +226,7 @@ export default function ComparateurAvance() {
                   <TabsContent value="recette" className="mt-4">
                     {loadingRecettes ? (
                       <div className="text-center py-8 text-muted-foreground">
-                        Chargement des recettes...
+                        Chargement des recettes?...
                       </div>
                     ) : (
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">

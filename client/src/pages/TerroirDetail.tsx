@@ -136,21 +136,21 @@ export default function TerroirDetail() {
                 </div>
                 <div>
                   <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">
-                    {terroir.name}
+                    {terroir?.name}
                   </h1>
-                  {terroir.region && (
+                  {terroir?.region && (
                     <p className="text-lg text-muted-foreground flex items-center gap-2">
                       <Globe className="w-4 h-4" />
-                      {terroir.region}
-                      {terroir.country && `, ${terroir.country}`}
+                      {terroir?.region}
+                      {terroir?.country && `, ${terroir?.country}`}
                     </p>
                   )}
                 </div>
               </div>
               
-              {terroir.reputation && (
+              {terroir?.reputation && (
                 <p className="text-muted-foreground leading-relaxed max-w-3xl">
-                  {terroir.reputation}
+                  {terroir?.reputation}
                 </p>
               )}
               
@@ -158,7 +158,7 @@ export default function TerroirDetail() {
               <div className="mt-6 mb-2">
                 <TerroirContributionModal
                   terroirId={terroirId}
-                  terroirName={terroir.name}
+                  terroirName={terroir?.name}
                   trigger={
                     <Button variant="outline" size="sm" className="gap-2 border-amber-500/50 text-amber-600 hover:bg-amber-50 dark:hover:bg-amber-950/30">
                       <PlusCircle className="h-4 w-4" />
@@ -171,18 +171,18 @@ export default function TerroirDetail() {
               <div className="flex flex-wrap gap-3 mt-3">
                 <Badge variant="secondary" className="text-sm">
                   <Leaf className="w-3.5 h-3.5 mr-1.5" />
-                  {plants.length} plantes
+                  {plants?.length} plantes
                 </Badge>
-                {terroir.climateType && (
+                {terroir?.climateType && (
                   <Badge variant="outline" className="text-sm">
                     <Sun className="w-3.5 h-3.5 mr-1.5" />
-                    {terroir.climateType}
+                    {terroir?.climateType}
                   </Badge>
                 )}
-                {terroir.altitude && (
+                {terroir?.altitude && (
                   <Badge variant="outline" className="text-sm">
                     <Mountain className="w-3.5 h-3.5 mr-1.5" />
-                    {terroir.altitude}m
+                    {terroir?.altitude}m
                   </Badge>
                 )}
               </div>
@@ -196,7 +196,7 @@ export default function TerroirDetail() {
             <TabsList>
               <TabsTrigger value="plants" className="gap-2">
                 <Leaf className="w-4 h-4" />
-                Plantes ({plants.length})
+                Plantes ({plants?.length})
               </TabsTrigger>
               <TabsTrigger value="characteristics" className="gap-2">
                 <Thermometer className="w-4 h-4" />
@@ -211,7 +211,7 @@ export default function TerroirDetail() {
             {/* Onglet Plantes */}
             <TabErrorBoundary>
             <TabsContent value="plants" className="space-y-4">
-              {plants.length === 0 ? (
+              {plants?.length === 0 ? (
                 <Card className="border-border/50">
                   <CardContent className="py-12 text-center">
                     <Leaf className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
@@ -223,7 +223,7 @@ export default function TerroirDetail() {
                 </Card>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {plants.map((plant: any) => (
+                  {plants?.map((plant: any) => (
                     <Link key={plant.id} href={`/plants/${plant.id}`}>
                       <Card className="group h-full border-border/50 hover:border-green-500/50 hover:shadow-lg transition-all cursor-pointer">
                         <CardHeader className="pb-3">
@@ -273,7 +273,7 @@ export default function TerroirDetail() {
             <TabErrorBoundary>
             <TabsContent value="characteristics" className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {terroir.climateType && (
+                {terroir?.climateType && (
                   <Card className="border-border/50">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -282,12 +282,12 @@ export default function TerroirDetail() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-lg font-semibold">{terroir.climateType}</p>
+                      <p className="text-lg font-semibold">{terroir?.climateType}</p>
                     </CardContent>
                   </Card>
                 )}
                 
-                {terroir.altitude && (
+                {terroir?.altitude && (
                   <Card className="border-border/50">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -296,12 +296,12 @@ export default function TerroirDetail() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-lg font-semibold">{terroir.altitude} m</p>
+                      <p className="text-lg font-semibold">{terroir?.altitude} m</p>
                     </CardContent>
                   </Card>
                 )}
                 
-                {terroir.soilType && (
+                {terroir?.soilType && (
                   <Card className="border-border/50">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -310,12 +310,12 @@ export default function TerroirDetail() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-lg font-semibold">{terroir.soilType}</p>
+                      <p className="text-lg font-semibold">{terroir?.soilType}</p>
                     </CardContent>
                   </Card>
                 )}
                 
-                {terroir.annualRainfall && (
+                {terroir?.annualRainfall && (
                   <Card className="border-border/50">
                     <CardHeader className="pb-2">
                       <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -324,13 +324,13 @@ export default function TerroirDetail() {
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <p className="text-lg font-semibold">{terroir.annualRainfall}</p>
+                      <p className="text-lg font-semibold">{terroir?.annualRainfall}</p>
                     </CardContent>
                   </Card>
                 )}
               </div>
               
-              {terroir.reputation && (
+              {terroir?.reputation && (
                 <Card className="border-border/50">
                   <CardHeader>
                     <CardTitle className="text-sm font-medium flex items-center gap-2">
@@ -340,7 +340,7 @@ export default function TerroirDetail() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-muted-foreground leading-relaxed">
-                      {terroir.reputation}
+                      {terroir?.reputation}
                     </p>
                   </CardContent>
                 </Card>

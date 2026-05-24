@@ -91,7 +91,7 @@ export default function MatierePremierePage() {
 
   // Listes pour les selects
   const { data: plants } = trpc.plantVarieties.getPlants.useQuery();
-  const { data: terroirs } = trpc.terroirs.getAll.useQuery();
+  const { data: terroirs } = trpc.terroirs?.getAll.useQuery();
 
   const utils = trpc.useUtils();
 
@@ -156,24 +156,24 @@ export default function MatierePremierePage() {
   const openEdit = () => {
     if (!material) return;
     setEditForm({
-      name: material.name ?? "",
-      latinName: material.latinName ?? "",
-      category: material.category ?? "",
-      olfactiveFamily: material.olfactiveFamily ?? "",
-      olfactiveProfile: material.olfactiveProfile ?? "",
-      quality: material.quality ?? "",
-      availability: material.availability ?? "",
-      priceRange: material.priceRange ?? "",
-      originCountry: material.originCountry ?? "",
-      originRegion: material.originRegion ?? "",
-      plantId: material.plant?.id ?? null,
-      terroirId: material.terroir?.id ?? null,
-      notes: material.notes ?? "",
-      topNotes: material.topNotes ?? "",
-      heartNotes: material.heartNotes ?? "",
-      baseNotes: material.baseNotes ?? "",
-      plantPart: material.plantPart ?? "",
-      extractionYield: material.extractionYield ?? "",
+      name: material?.name ?? "",
+      latinName: material?.latinName ?? "",
+      category: material?.category ?? "",
+      olfactiveFamily: material?.olfactiveFamily ?? "",
+      olfactiveProfile: material?.olfactiveProfile ?? "",
+      quality: material?.quality ?? "",
+      availability: material?.availability ?? "",
+      priceRange: material?.priceRange ?? "",
+      originCountry: material?.originCountry ?? "",
+      originRegion: material?.originRegion ?? "",
+      plantId: material?.plant?.id ?? null,
+      terroirId: material?.terroir?.id ?? null,
+      notes: material?.notes ?? "",
+      topNotes: material?.topNotes ?? "",
+      heartNotes: material?.heartNotes ?? "",
+      baseNotes: material?.baseNotes ?? "",
+      plantPart: material?.plantPart ?? "",
+      extractionYield: material?.extractionYield ?? "",
     });
     setEditOpen(true);
   };
@@ -218,8 +218,8 @@ export default function MatierePremierePage() {
     );
   }
 
-  const catInfo = CATEGORY_LABELS[material.category] ?? CATEGORY_LABELS.autre;
-  const availInfo = material.availability ? AVAILABILITY_LABELS[material.availability] : null;
+  const catInfo = CATEGORY_LABELS[material?.category] ?? CATEGORY_LABELS.autre;
+  const availInfo = material?.availability ? AVAILABILITY_LABELS[material?.availability] : null;
 
   return (
     <div className="min-h-screen bg-[#0d0d0f] text-zinc-100">
@@ -420,19 +420,19 @@ export default function MatierePremierePage() {
         <div className="space-y-3">
           <div className="flex flex-wrap items-start gap-3">
             <h1 className="text-3xl font-semibold text-zinc-50 leading-tight flex-1 min-w-0">
-              {material.name}
+              {material?.name}
             </h1>
             <Badge className={`border text-xs px-2 py-1 shrink-0 ${catInfo.color}`}>
               {catInfo.label}
             </Badge>
           </div>
-          {material.latinName && (
-            <p className="text-zinc-400 italic text-lg">{material.latinName}</p>
+          {material?.latinName && (
+            <p className="text-zinc-400 italic text-lg">{material?.latinName}</p>
           )}
           <div className="flex flex-wrap gap-2 mt-2">
-            {material.quality && (
+            {material?.quality && (
               <Badge variant="outline" className="border-zinc-700 text-zinc-300 text-xs">
-                {QUALITY_LABELS[material.quality] ?? material.quality}
+                {QUALITY_LABELS[material?.quality] ?? material?.quality}
               </Badge>
             )}
             {availInfo && (
@@ -440,9 +440,9 @@ export default function MatierePremierePage() {
                 ● {availInfo.label}
               </span>
             )}
-            {material.priceRange && (
+            {material?.priceRange && (
               <Badge variant="outline" className="border-zinc-700 text-zinc-400 text-xs">
-                {material.priceRange}
+                {material?.priceRange}
               </Badge>
             )}
           </div>
@@ -457,7 +457,7 @@ export default function MatierePremierePage() {
           <div className="md:col-span-2 space-y-6">
 
             {/* Profil olfactif */}
-            {(material.olfactiveProfile || material.topNotes || material.heartNotes || material.baseNotes) && (
+            {(material?.olfactiveProfile || material?.topNotes || material?.heartNotes || material?.baseNotes) && (
               <Card className="bg-[#16161a] border-zinc-800">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wider">
@@ -465,34 +465,34 @@ export default function MatierePremierePage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3">
-                  {material.olfactiveProfile && (
-                    <p className="text-zinc-200 text-sm leading-relaxed">{material.olfactiveProfile}</p>
+                  {material?.olfactiveProfile && (
+                    <p className="text-zinc-200 text-sm leading-relaxed">{material?.olfactiveProfile}</p>
                   )}
-                  {(material.topNotes || material.heartNotes || material.baseNotes) && (
+                  {(material?.topNotes || material?.heartNotes || material?.baseNotes) && (
                     <div className="grid grid-cols-3 gap-3 mt-3">
-                      {material.topNotes && (
+                      {material?.topNotes && (
                         <div className="bg-zinc-900/60 rounded-lg p-3">
                           <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Notes de tête</p>
-                          <p className="text-zinc-300 text-sm">{material.topNotes}</p>
+                          <p className="text-zinc-300 text-sm">{material?.topNotes}</p>
                         </div>
                       )}
-                      {material.heartNotes && (
+                      {material?.heartNotes && (
                         <div className="bg-zinc-900/60 rounded-lg p-3">
                           <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Notes de cœur</p>
-                          <p className="text-zinc-300 text-sm">{material.heartNotes}</p>
+                          <p className="text-zinc-300 text-sm">{material?.heartNotes}</p>
                         </div>
                       )}
-                      {material.baseNotes && (
+                      {material?.baseNotes && (
                         <div className="bg-zinc-900/60 rounded-lg p-3">
                           <p className="text-xs text-zinc-500 uppercase tracking-wide mb-1">Notes de fond</p>
-                          <p className="text-zinc-300 text-sm">{material.baseNotes}</p>
+                          <p className="text-zinc-300 text-sm">{material?.baseNotes}</p>
                         </div>
                       )}
                     </div>
                   )}
-                  {material.olfactiveFamily && (
+                  {material?.olfactiveFamily && (
                     <p className="text-xs text-zinc-500">
-                      Famille olfactive : <span className="text-zinc-300">{material.olfactiveFamily}</span>
+                      Famille olfactive : <span className="text-zinc-300">{material?.olfactiveFamily}</span>
                     </p>
                   )}
                 </CardContent>
@@ -500,18 +500,18 @@ export default function MatierePremierePage() {
             )}
 
             {/* Molécules */}
-            {material.molecules && material.molecules.length > 0 && (
+            {material?.molecules && material?.molecules.length > 0 && (
               <Card className="bg-[#16161a] border-zinc-800">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wider flex items-center gap-2">
                     <FlaskConical className="h-4 w-4" />
                     Composition moléculaire
-                    <span className="text-zinc-600 font-normal">({material.molecules.length})</span>
+                    <span className="text-zinc-600 font-normal">({material?.molecules.length})</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    {material.molecules.map((mol) => (
+                    {material?.molecules.map((mol) => (
                       <div key={mol.id} className="flex items-center justify-between py-2 border-b border-zinc-800/60 last:border-0">
                         <div className="flex items-center gap-3 min-w-0">
                           <Link href={`/molecules/${mol.id}`}>
@@ -544,18 +544,18 @@ export default function MatierePremierePage() {
             )}
 
             {/* Recettes associées (via molécules) */}
-            {material.recipes && material.recipes.length > 0 && (
+            {material?.recipes && material?.recipes.length > 0 && (
               <Card className="bg-[#16161a] border-zinc-800">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wider flex items-center gap-2">
                     <BookOpen className="h-4 w-4" />
                     Recettes associées (via molécules)
-                    <span className="text-zinc-600 font-normal">({material.recipes.length})</span>
+                    <span className="text-zinc-600 font-normal">({material?.recipes.length})</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="flex flex-wrap gap-2">
-                    {material.recipes.map((r) => (
+                    {material?.recipes.map((r) => (
                       <Link key={r.id} href={`/recettes/${r.id}`}>
                         <Badge
                           variant="outline"
@@ -577,8 +577,8 @@ export default function MatierePremierePage() {
                   <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wider flex items-center gap-2">
                     <Link2 className="h-4 w-4" />
                     Liaisons directes recettes
-                    {directRecettes && directRecettes.length > 0 && (
-                      <span className="text-zinc-600 font-normal">({directRecettes.length})</span>
+                    {directRecettes && directRecettes?.length > 0 && (
+                      <span className="text-zinc-600 font-normal">({directRecettes?.length})</span>
                     )}
                   </CardTitle>
                   {user && (
@@ -594,11 +594,11 @@ export default function MatierePremierePage() {
                 </div>
               </CardHeader>
               <CardContent>
-                {(!directRecettes || directRecettes.length === 0) ? (
+                {(!directRecettes || directRecettes?.length === 0) ? (
                   <p className="text-zinc-600 text-sm italic">Aucune liaison directe. Utilisez le bouton ci-dessus pour lier cette matière première à une recette.</p>
                 ) : (
                   <div className="space-y-2">
-                    {directRecettes.map((r) => (
+                    {directRecettes?.map((r) => (
                       <div key={r.id} className="flex items-center justify-between py-2 border-b border-zinc-800/60 last:border-0">
                         <div className="flex items-center gap-3 min-w-0">
                           <Link href={`/recettes/${r.recetteId}`}>
@@ -714,7 +714,7 @@ export default function MatierePremierePage() {
             </Dialog>
 
             {/* Notes & description */}
-            {material.notes && (
+            {material?.notes && (
               <Card className="bg-[#16161a] border-zinc-800">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wider">
@@ -722,7 +722,7 @@ export default function MatierePremierePage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-zinc-300 text-sm leading-relaxed whitespace-pre-wrap">{material.notes}</p>
+                  <p className="text-zinc-300 text-sm leading-relaxed whitespace-pre-wrap">{material?.notes}</p>
                 </CardContent>
               </Card>
             )}
@@ -732,7 +732,7 @@ export default function MatierePremierePage() {
           <div className="space-y-4">
 
             {/* Origine géographique */}
-            {(material.originCountry || material.originRegion || material.terroir) && (
+            {(material?.originCountry || material?.originRegion || material?.terroir) && (
               <Card className="bg-[#16161a] border-zinc-800">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wider flex items-center gap-2">
@@ -741,29 +741,29 @@ export default function MatierePremierePage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm">
-                  {material.originCountry && (
+                  {material?.originCountry && (
                     <div>
                       <span className="text-zinc-500">Pays : </span>
-                      <span className="text-zinc-200">{material.originCountry}</span>
+                      <span className="text-zinc-200">{material?.originCountry}</span>
                     </div>
                   )}
-                  {material.originRegion && (
+                  {material?.originRegion && (
                     <div>
                       <span className="text-zinc-500">Région : </span>
-                      <span className="text-zinc-200">{material.originRegion}</span>
+                      <span className="text-zinc-200">{material?.originRegion}</span>
                     </div>
                   )}
-                  {material.terroir && (
+                  {material?.terroir && (
                     <div className="mt-2 pt-2 border-t border-zinc-800">
                       <p className="text-zinc-500 text-xs mb-1">Terroir lié</p>
                       <Link href={`/terroirsmap`}>
                         <span className="text-amber-400 hover:text-amber-300 cursor-pointer flex items-center gap-1">
-                          {material.terroir.name}
+                          {material?.terroir.name}
                           <ExternalLink className="h-3 w-3" />
                         </span>
                       </Link>
-                      {material.terroir.country && (
-                        <p className="text-zinc-500 text-xs mt-1">{material.terroir.country}</p>
+                      {material?.terroir.country && (
+                        <p className="text-zinc-500 text-xs mt-1">{material?.terroir.country}</p>
                       )}
                     </div>
                   )}
@@ -772,7 +772,7 @@ export default function MatierePremierePage() {
             )}
 
             {/* Plante source */}
-            {material.plant && (
+            {material?.plant && (
               <Card className="bg-[#16161a] border-zinc-800">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wider flex items-center gap-2">
@@ -781,20 +781,20 @@ export default function MatierePremierePage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm">
-                  <Link href={`/plantes/${material.plant.id}`}>
+                  <Link href={`/plantes/${material?.plant.id}`}>
                     <p className="text-amber-400 hover:text-amber-300 cursor-pointer font-medium">
-                      {material.plant.name}
+                      {material?.plant.name}
                     </p>
                   </Link>
-                  {material.plant.latinName && (
-                    <p className="text-zinc-400 italic text-xs">{material.plant.latinName}</p>
+                  {material?.plant.latinName && (
+                    <p className="text-zinc-400 italic text-xs">{material?.plant.latinName}</p>
                   )}
-                  {material.plant.family && (
-                    <p className="text-zinc-500 text-xs">Famille : {material.plant.family}</p>
+                  {material?.plant.family && (
+                    <p className="text-zinc-500 text-xs">Famille : {material?.plant.family}</p>
                   )}
-                  {material.plant.conservationStatus && !(["NE", "DD"].includes(material.plant.conservationStatus)) && (
+                  {material?.plant.conservationStatus && !(["NE", "DD"].includes(material?.plant.conservationStatus)) && (
                     <Badge className="bg-red-900/40 text-red-300 border-red-700 border text-xs mt-1">
-                      {material.plant.conservationStatus.toUpperCase()}
+                      {material?.plant.conservationStatus.toUpperCase()}
                     </Badge>
                   )}
                 </CardContent>
@@ -802,7 +802,7 @@ export default function MatierePremierePage() {
             )}
 
             {/* Méthode d'extraction */}
-            {(material.extractionMethodId || material.extractionYield || material.plantPart || (material as any).extractionMethod) && (
+            {(material?.extractionMethodId || material?.extractionYield || material?.plantPart || (material as any).extractionMethod) && (
               <Card className="bg-[#16161a] border-zinc-800">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-sm font-medium text-zinc-400 uppercase tracking-wider">
@@ -810,16 +810,16 @@ export default function MatierePremierePage() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2 text-sm">
-                  {material.plantPart && (
+                  {material?.plantPart && (
                     <div>
                       <span className="text-zinc-500">Partie utilisée : </span>
-                      <span className="text-zinc-200 capitalize">{material.plantPart.replace(/_/g, " ")}</span>
+                      <span className="text-zinc-200 capitalize">{material?.plantPart.replace(/_/g, " ")}</span>
                     </div>
                   )}
-                  {material.extractionYield && (
+                  {material?.extractionYield && (
                     <div>
                       <span className="text-zinc-500">Rendement : </span>
-                      <span className="text-zinc-200">{material.extractionYield}</span>
+                      <span className="text-zinc-200">{material?.extractionYield}</span>
                     </div>
                   )}
                   {/* Badge procédé cliquable — lien vers /extraction-procedes */}
@@ -846,7 +846,7 @@ export default function MatierePremierePage() {
 
             {/* Identifiant interne */}
             <div className="text-xs text-zinc-700 font-mono pt-2">
-              ID : {material.materialId}
+              ID : {material?.materialId}
             </div>
           </div>
         </div>
@@ -859,7 +859,7 @@ export default function MatierePremierePage() {
           {
             label: "Molécules identifiées",
             type: "molecule",
-            items: (material.molecules || []).map((mol: any) => ({
+            items: (material?.molecules || []).map((mol: any) => ({
               id: mol.id,
               label: mol.name,
               sublabel: mol.family || mol.chemicalClass || undefined,
@@ -882,27 +882,27 @@ export default function MatierePremierePage() {
             viewAllHref: "/recettes",
             viewAllLabel: "Toutes les recettes",
           },
-          ...(material.plant ? [{
+          ...(material?.plant ? [{
             label: "Plante source",
             type: "plant" as const,
             items: [{
-              id: material.plant.id,
-              label: material.plant.name,
-              sublabel: material.plant.latinName || undefined,
-              href: `/plantes/${material.plant.id}`,
+              id: material?.plant.id,
+              label: material?.plant.name,
+              sublabel: material?.plant.latinName || undefined,
+              href: `/plantes/${material?.plant.id}`,
               type: "plant" as const,
             }],
             viewAllHref: "/plantes",
             viewAllLabel: "Toutes les plantes",
           }] : []),
-          ...(material.terroir ? [{
+          ...(material?.terroir ? [{
             label: "Terroir d'origine",
             type: "terroir" as const,
             items: [{
-              id: material.terroir.id,
-              label: material.terroir.name,
-              sublabel: material.terroir.country || undefined,
-              href: `/terroirs/${material.terroir.id}`,
+              id: material?.terroir.id,
+              label: material?.terroir.name,
+              sublabel: material?.terroir.country || undefined,
+              href: `/terroirs/${material?.terroir.id}`,
               type: "terroir" as const,
             }],
             viewAllHref: "/plantes?tab=terroirs",

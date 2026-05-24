@@ -69,7 +69,7 @@ export default function AnalyticalMethodsPage() {
   const filteredMethods = useMemo(() => {
     if (!methods) return [];
     
-    return methods.filter((method: AnalyticalMethod) => {
+    return methods?.filter((method: AnalyticalMethod) => {
       const matchesSearch = searchTerm === "" || 
         method.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         method.code.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -86,7 +86,7 @@ export default function AnalyticalMethodsPage() {
   const categoryStats = useMemo(() => {
     if (!methods) return {};
     const stats: Record<string, number> = {};
-    methods.forEach((m: AnalyticalMethod) => {
+    methods?.forEach((m: AnalyticalMethod) => {
       const cat = m.category || "other";
       stats[cat] = (stats[cat] || 0) + 1;
     });
@@ -170,7 +170,7 @@ export default function AnalyticalMethodsPage() {
             <CardContent className="py-12 text-center">
               <Info className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
               <p className="text-muted-foreground">
-                {methods && methods.length === 0 
+                {methods && methods?.length === 0 
                   ? "Aucune méthode analytique n'a encore été ajoutée à la base de données."
                   : "Aucune méthode ne correspond à vos critères de recherche."}
               </p>

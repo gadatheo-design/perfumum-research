@@ -74,7 +74,7 @@ export default function CartePlantesGPS() {
   // Filtrer les plantes par catégories sélectionnées, axes climatiques et molécule
   const filteredPlants = useMemo(() => {
     if (!plantsWithGPS) return [];
-    let filtered = plantsWithGPS.filter(p => selectedCategories.has(p.category as CategoryId));
+    let filtered = plantsWithGPS?.filter(p => selectedCategories.has(p.category as CategoryId));
     
     // Filtrer par axe climatique si des axes sont sélectionnés
     if (selectedClimaticAxes.size > 0) {
@@ -110,7 +110,7 @@ export default function CartePlantesGPS() {
   const categoryStats = useMemo(() => {
     if (!plantsWithGPS) return {};
     const stats: Record<string, number> = {};
-    plantsWithGPS.forEach(p => {
+    plantsWithGPS?.forEach(p => {
       stats[p.category] = (stats[p.category] || 0) + 1;
     });
     return stats;

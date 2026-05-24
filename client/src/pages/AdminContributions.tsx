@@ -213,25 +213,25 @@ export default function AdminContributions() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <Card>
             <CardContent className="pt-6 text-center">
-              <p className="text-3xl font-bold">{stats.total || 0}</p>
+              <p className="text-3xl font-bold">{stats?.total || 0}</p>
               <p className="text-sm text-muted-foreground">Total</p>
             </CardContent>
           </Card>
           <Card className="border-amber-500/30">
             <CardContent className="pt-6 text-center">
-              <p className="text-3xl font-bold text-amber-600">{stats.pending || 0}</p>
+              <p className="text-3xl font-bold text-amber-600">{stats?.pending || 0}</p>
               <p className="text-sm text-muted-foreground">En attente</p>
             </CardContent>
           </Card>
           <Card className="border-green-500/30">
             <CardContent className="pt-6 text-center">
-              <p className="text-3xl font-bold text-green-600">{stats.approved || 0}</p>
+              <p className="text-3xl font-bold text-green-600">{stats?.approved || 0}</p>
               <p className="text-sm text-muted-foreground">Approuvées</p>
             </CardContent>
           </Card>
           <Card className="border-red-500/30">
             <CardContent className="pt-6 text-center">
-              <p className="text-3xl font-bold text-red-600">{stats.rejected || 0}</p>
+              <p className="text-3xl font-bold text-red-600">{stats?.rejected || 0}</p>
               <p className="text-sm text-muted-foreground">Rejetées</p>
             </CardContent>
           </Card>

@@ -86,7 +86,7 @@ export default function CannabisExplorer() {
               <CardTitle className="text-sm font-medium text-slate-600">Variétés Totales</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold">{stats.totalVarieties || 0}</p>
+              <p className="text-2xl font-bold">{stats?.totalVarieties || 0}</p>
             </CardContent>
           </Card>
           <Card>
@@ -94,7 +94,7 @@ export default function CannabisExplorer() {
               <CardTitle className="text-sm font-medium text-slate-600">Cultivars</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold">{stats.cultivars || 0}</p>
+              <p className="text-2xl font-bold">{stats?.cultivars || 0}</p>
             </CardContent>
           </Card>
           <Card>
@@ -102,7 +102,7 @@ export default function CannabisExplorer() {
               <CardTitle className="text-sm font-medium text-slate-600">Hybrides</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold">{stats.hybrids || 0}</p>
+              <p className="text-2xl font-bold">{stats?.hybrids || 0}</p>
             </CardContent>
           </Card>
           <Card>
@@ -110,7 +110,7 @@ export default function CannabisExplorer() {
               <CardTitle className="text-sm font-medium text-slate-600">Landraces</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-2xl font-bold">{stats.landraces || 0}</p>
+              <p className="text-2xl font-bold">{stats?.landraces || 0}</p>
             </CardContent>
           </Card>
         </div>
@@ -226,7 +226,7 @@ export default function CannabisExplorer() {
             </CardHeader>
             <CardContent>
               <div className="space-y-2">
-                {stats?.conservationStatus && Object.entries(stats.conservationStatus).map(([status, count]) => (
+                {stats?.conservationStatus && Object.entries(stats?.conservationStatus).map(([status, count]) => (
                   <div key={status} className="flex justify-between items-center">
                     <span className="text-sm font-medium">{status}</span>
                     <span className="text-sm text-slate-600">{count} variétés</span>

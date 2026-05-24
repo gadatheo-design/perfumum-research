@@ -177,7 +177,7 @@ export default function TabacsNaturels() {
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [countryFilter, setCountryFilter] = useState<string>("all");
 
-  const { data: tabacs, isLoading, error } = trpc.tabacs.listWithTerroir.useQuery();
+  const { data: tabacs, isLoading, error } = trpc.tabacs?.listWithTerroir.useQuery();
 
   const countries = useMemo(() => {
     if (!tabacs) return [];

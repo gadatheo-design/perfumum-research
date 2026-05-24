@@ -55,17 +55,17 @@ export default function MoleculeRecetteImportCSV() {
   const utils = trpc.useUtils();
 
   // Queries pour la validation
-  const { data: molecules } = trpc.molecules.list.useQuery();
-  const { data: recettes } = trpc.recettes.list.useQuery();
+  const { data: molecules } = trpc.molecules?.list.useQuery();
+  const { data: recettes } = trpc.recettes?.list.useQuery();
 
   // Mutation
-  const importLinks = trpc.molecules.bulkImportRecettes.useMutation({
+  const importLinks = trpc.molecules?.bulkImportRecettes.useMutation({
     onSuccess: (result) => {
       setImportResult(result);
       if (result.imported > 0) {
         toast.success(`${result.imported} liaison(s) importée(s) avec succès !`);
-        utils.molecules.getRecetteAuditStats.invalidate();
-        utils.molecules.getAllRecetteRelationsWithNames.invalidate();
+        utils.molecules?.getRecetteAuditStats.invalidate();
+        utils.molecules?.getAllRecetteRelationsWithNames.invalidate();
       }
       if (result.duplicates && result.duplicates > 0) {
         toast.info(`${result.duplicates} doublon(s) ignoré(s)`);
@@ -82,12 +82,12 @@ export default function MoleculeRecetteImportCSV() {
   // Maps pour la validation
   const moleculeNameSet = useMemo(() => {
     if (!molecules) return new Set<string>();
-    return new Set(molecules.map((m: any) => m.name.toLowerCase()));
+    return new Set(molecules?.map((m: any) => m.name.toLowerCase()));
   }, [molecules]);
 
   const recetteNameSet = useMemo(() => {
     if (!recettes) return new Set<string>();
-    return new Set(recettes.map((r: any) => r.name.toLowerCase()));
+    return new Set(recettes?.map((r: any) => r.name.toLowerCase()));
   }, [recettes]);
 
   // Parser le CSV

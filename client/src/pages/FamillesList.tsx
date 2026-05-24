@@ -33,7 +33,7 @@ const TYPE_TO_GAMME_PATH: Record<string, string> = {
 };
 
 export default function FamillesList() {
-  const { data: families, isLoading } = trpc.families.list.useQuery();
+  const { data: families, isLoading } = trpc.families?.list.useQuery();
   
   const [searchQuery, setSearchQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState("all");
@@ -41,7 +41,7 @@ export default function FamillesList() {
   // Extract unique types for filter
   const types = useMemo(() => {
     if (!families) return [];
-    const uniqueTypes = new Set(families.map(f => f.type));
+    const uniqueTypes = new Set(families?.map(f => f.type));
     return Array.from(uniqueTypes).map(t => ({ 
       value: t, 
       label: TYPE_LABELS[t] || t 
@@ -52,7 +52,7 @@ export default function FamillesList() {
   const filteredFamilies = useMemo(() => {
     if (!families) return [];
     
-    return families.filter(family => {
+    return families?.filter(family => {
       const matchesSearch = 
         family.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         family.description?.toLowerCase().includes(searchQuery.toLowerCase());

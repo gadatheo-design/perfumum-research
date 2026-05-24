@@ -65,12 +65,12 @@ export default function Recherche() {
     }
     
     return {
-      molecules: activeFilter === "molecules" ? searchResults.molecules : [],
-      recettes: activeFilter === "recettes" ? searchResults.recettes : [],
-      accords: activeFilter === "accords" ? searchResults.accords : [],
-      prototypes: activeFilter === "prototypes" ? searchResults.prototypes : [],
-      glossary: activeFilter === "glossary" ? searchResults.glossary : [],
-      civilisations: activeFilter === "civilisations" ? searchResults.civilisations : [],
+      molecules: activeFilter === "molecules" ? searchResults?.molecules : [],
+      recettes: activeFilter === "recettes" ? searchResults?.recettes : [],
+      accords: activeFilter === "accords" ? searchResults?.accords : [],
+      prototypes: activeFilter === "prototypes" ? searchResults?.prototypes : [],
+      glossary: activeFilter === "glossary" ? searchResults?.glossary : [],
+      civilisations: activeFilter === "civilisations" ? searchResults?.civilisations : [],
       plants: [],
       terpProfiles: [],
       finalRecipes: [],
@@ -82,12 +82,12 @@ export default function Recherche() {
   const counts = useMemo(() => {
     if (!searchResults) return { all: 0, molecules: 0, recettes: 0, accords: 0, prototypes: 0, glossary: 0, civilisations: 0 };
     
-    const molecules = searchResults.molecules?.length || 0;
-    const recettes = searchResults.recettes?.length || 0;
-    const accords = searchResults.accords?.length || 0;
-    const prototypes = searchResults.prototypes?.length || 0;
-    const glossary = searchResults.glossary?.length || 0;
-    const civilisations = searchResults.civilisations?.length || 0;
+    const molecules = searchResults?.molecules?.length || 0;
+    const recettes = searchResults?.recettes?.length || 0;
+    const accords = searchResults?.accords?.length || 0;
+    const prototypes = searchResults?.prototypes?.length || 0;
+    const glossary = searchResults?.glossary?.length || 0;
+    const civilisations = searchResults?.civilisations?.length || 0;
     
     return {
       all: molecules + recettes + accords + prototypes + glossary + civilisations,

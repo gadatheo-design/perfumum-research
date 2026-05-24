@@ -24,7 +24,7 @@ export default function ArchivesOlfactives() {
 
   const { data: tradStats } = trpc.olfactiveArchives.traditionStats.useQuery();
 
-  const { data: archives, isLoading } = trpc.archives.list.useQuery({
+  const { data: archives, isLoading } = trpc.archives?.list.useQuery({
     civilization: civilizationFilter,
     type: typeFilter as any,
     q: searchQuery || undefined,
@@ -69,7 +69,7 @@ export default function ArchivesOlfactives() {
           <TabsTrigger value="traditions" className="gap-2">
             <Globe className="h-4 w-4" />
             Traditions olfactives
-            {tradStats && <span className="ml-1 px-1.5 py-0.5 rounded-full text-xs bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200">{tradStats.total}</span>}
+            {tradStats && <span className="ml-1 px-1.5 py-0.5 rounded-full text-xs bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200">{tradStats?.total}</span>}
           </TabsTrigger>
         </TabsList>
 
@@ -80,19 +80,19 @@ export default function ArchivesOlfactives() {
             <div className="grid grid-cols-3 gap-4">
               <Card className="bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800">
                 <CardContent className="p-4 text-center">
-                  <p className="text-2xl font-bold text-amber-700 dark:text-amber-300">{tradStats.total}</p>
+                  <p className="text-2xl font-bold text-amber-700 dark:text-amber-300">{tradStats?.total}</p>
                   <p className="text-xs text-amber-600 dark:text-amber-400">Traditions totales</p>
                 </CardContent>
               </Card>
               <Card className="bg-purple-50 dark:bg-purple-950/30 border-purple-200 dark:border-purple-800">
                 <CardContent className="p-4 text-center">
-                  <p className="text-2xl font-bold text-purple-700 dark:text-purple-300">{tradStats.withGetty}</p>
+                  <p className="text-2xl font-bold text-purple-700 dark:text-purple-300">{tradStats?.withGetty}</p>
                   <p className="text-xs text-purple-600 dark:text-purple-400">Liées au Getty AAT</p>
                 </CardContent>
               </Card>
               <Card className="bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800">
                 <CardContent className="p-4 text-center">
-                  <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">{tradStats.withWikidata}</p>
+                  <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">{tradStats?.withWikidata}</p>
                   <p className="text-xs text-blue-600 dark:text-blue-400">Liées à Wikidata</p>
                 </CardContent>
               </Card>
@@ -203,7 +203,7 @@ export default function ArchivesOlfactives() {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder="Rechercher dans les archives..."
+              placeholder="Rechercher dans les archives?..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10"
@@ -253,11 +253,11 @@ export default function ArchivesOlfactives() {
       {/* Liste des archives */}
       {isLoading ? (
         <div className="text-center py-12">
-          <p className="text-muted-foreground">Chargement des archives...</p>
+          <p className="text-muted-foreground">Chargement des archives?...</p>
         </div>
-      ) : archives && archives.length > 0 ? (
+      ) : archives && archives?.length > 0 ? (
         <div className="space-y-6">
-          {archives.map((archive) => {
+          {archives?.map((archive) => {
             const typeInfo = typeLabels[archive.type];
             const authenticityInfo = authenticityLabels[archive.authenticityLevel];
             const AuthenticityIcon = authenticityInfo.icon;

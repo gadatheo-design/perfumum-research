@@ -21,12 +21,12 @@ export default function LaboratoireRecettes() {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
 
-  const { data: recettes, isLoading } = trpc.recettes.list.useQuery({});
+  const { data: recettes, isLoading } = trpc.recettes?.list.useQuery({});
 
   const filteredRecettes = useMemo(() => {
     if (!recettes) return [];
     
-    return recettes.filter((recette) => {
+    return recettes?.filter((recette) => {
       const matchesSearch = recette.name.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesStatus = statusFilter === "all" || recette.status === statusFilter;
       const matchesCategory = categoryFilter === "all" || recette.category === categoryFilter;
@@ -39,11 +39,11 @@ export default function LaboratoireRecettes() {
     if (!recettes) return { total: 0, experimental: 0, testing: 0, validated: 0, production: 0 };
     
     return {
-      total: recettes.length,
-      experimental: recettes.filter(r => r.status === "experimental").length,
-      testing: recettes.filter(r => r.status === "testing").length,
-      validated: recettes.filter(r => r.status === "validated").length,
-      production: recettes.filter(r => r.status === "production").length,
+      total: recettes?.length,
+      experimental: recettes?.filter(r => r.status === "experimental").length,
+      testing: recettes?.filter(r => r.status === "testing").length,
+      validated: recettes?.filter(r => r.status === "validated").length,
+      production: recettes?.filter(r => r.status === "production").length,
     };
   }, [recettes]);
 

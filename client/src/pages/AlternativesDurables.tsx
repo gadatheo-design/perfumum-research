@@ -163,20 +163,20 @@ export default function AlternativesDurables() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <Card>
             <CardContent className="pt-6">
-              <div className="text-3xl font-bold text-green-600">{stats.totalAlternatives}</div>
+              <div className="text-3xl font-bold text-green-600">{stats?.totalAlternatives}</div>
               <div className="text-sm text-muted-foreground">Alternatives documentées</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-6">
-              <div className="text-3xl font-bold text-orange-600">{stats.speciesWithAlternatives}</div>
+              <div className="text-3xl font-bold text-orange-600">{stats?.speciesWithAlternatives}</div>
               <div className="text-sm text-muted-foreground">Espèces avec alternatives</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-6">
               <div className="text-3xl font-bold text-blue-600">
-                {stats.byType?.find(t => t.type === 'natural_plant')?.count || 0}
+                {stats?.byType?.find(t => t.type === 'natural_plant')?.count || 0}
               </div>
               <div className="text-sm text-muted-foreground">Alternatives naturelles</div>
             </CardContent>
@@ -184,7 +184,7 @@ export default function AlternativesDurables() {
           <Card>
             <CardContent className="pt-6">
               <div className="text-3xl font-bold text-purple-600">
-                {stats.byType?.find(t => t.type === 'synthetic')?.count || 0}
+                {stats?.byType?.find(t => t.type === 'synthetic')?.count || 0}
               </div>
               <div className="text-sm text-muted-foreground">Alternatives synthétiques</div>
             </CardContent>
@@ -292,11 +292,11 @@ export default function AlternativesDurables() {
           {isLoading ? (
             <div className="text-center py-12">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-              <p className="text-muted-foreground">Chargement des alternatives...</p>
+              <p className="text-muted-foreground">Chargement des alternatives?...</p>
             </div>
-          ) : alternatives && alternatives.length > 0 ? (
+          ) : alternatives && alternatives?.length > 0 ? (
             <div className="grid gap-4">
-              {alternatives.map((alt) => (
+              {alternatives?.map((alt) => (
                 <Card key={alt.id} className="hover:shadow-md transition-shadow">
                   <CardContent className="pt-6">
                     <div className="flex flex-col md:flex-row md:items-start gap-4">
@@ -446,9 +446,9 @@ export default function AlternativesDurables() {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              {threatenedWithAlternatives && threatenedWithAlternatives.length > 0 ? (
+              {threatenedWithAlternatives && threatenedWithAlternatives?.length > 0 ? (
                 <Accordion type="single" collapsible className="w-full">
-                  {threatenedWithAlternatives.map((plant) => (
+                  {threatenedWithAlternatives?.map((plant) => (
                     <AccordionItem key={plant.id} value={`plant-${plant.id}`}>
                       <AccordionTrigger className="hover:no-underline">
                         <div className="flex items-center gap-4 text-left">
@@ -504,10 +504,10 @@ export default function AlternativesDurables() {
                           )}
 
                           {/* Liste des alternatives structurées */}
-                          {plant.alternatives && plant.alternatives.length > 0 ? (
+                          {plant.alternatives && plant.alternatives?.length > 0 ? (
                             <div className="space-y-3">
                               <p className="text-sm font-medium">Alternatives documentées:</p>
-                              {plant.alternatives.map((alt) => (
+                              {plant.alternatives?.map((alt) => (
                                 <div key={alt.id} className="border rounded-lg p-4 bg-background">
                                   <div className="flex items-start justify-between">
                                     <div>

@@ -117,7 +117,7 @@ function GammeStats({ gamme, recettes, molecules, plants }: {
 }) {
   // Calculer les statistiques basées sur les keywords de la gamme
   const stats = useMemo(() => {
-    const matchingRecettes = recettes.filter(r => 
+    const matchingRecettes = recettes?.filter(r => 
       gamme.keywords.some(kw => 
         r.name?.toLowerCase().includes(kw.toLowerCase()) ||
         r.description?.toLowerCase().includes(kw.toLowerCase()) ||
@@ -125,7 +125,7 @@ function GammeStats({ gamme, recettes, molecules, plants }: {
       )
     );
     
-    const matchingMolecules = molecules.filter(m =>
+    const matchingMolecules = molecules?.filter(m =>
       gamme.keywords.some(kw =>
         m.name?.toLowerCase().includes(kw.toLowerCase()) ||
         m.olfactiveProfile?.toLowerCase().includes(kw.toLowerCase()) ||
@@ -133,7 +133,7 @@ function GammeStats({ gamme, recettes, molecules, plants }: {
       )
     );
     
-    const matchingPlants = plants.filter(p =>
+    const matchingPlants = plants?.filter(p =>
       gamme.keywords.some(kw =>
         p.name?.toLowerCase().includes(kw.toLowerCase()) ||
         p.description?.toLowerCase().includes(kw.toLowerCase()) ||
@@ -179,21 +179,21 @@ function ComparativeView({ gammes, recettes, molecules, plants }: {
   
   const gammeStats = useMemo(() => {
     return gammes.map(gamme => {
-      const matchingRecettes = recettes.filter(r => 
+      const matchingRecettes = recettes?.filter(r => 
         gamme.keywords.some(kw => 
           r.name?.toLowerCase().includes(kw.toLowerCase()) ||
           r.description?.toLowerCase().includes(kw.toLowerCase())
         )
       );
       
-      const matchingMolecules = molecules.filter(m =>
+      const matchingMolecules = molecules?.filter(m =>
         gamme.keywords.some(kw =>
           m.name?.toLowerCase().includes(kw.toLowerCase()) ||
           m.olfactiveProfile?.toLowerCase().includes(kw.toLowerCase())
         )
       );
       
-      const matchingPlants = plants.filter(p =>
+      const matchingPlants = plants?.filter(p =>
         gamme.keywords.some(kw =>
           p.name?.toLowerCase().includes(kw.toLowerCase()) ||
           p.description?.toLowerCase().includes(kw.toLowerCase())
@@ -450,9 +450,9 @@ export default function Gammes() {
   const [viewMode, setViewMode] = useState<'grid' | 'compare'>('grid');
   
   // Récupérer les données pour les statistiques
-  const { data: recettes = [], isLoading: loadingRecettes } = trpc.recettes.list.useQuery();
-  const { data: molecules = [], isLoading: loadingMolecules } = trpc.molecules.list.useQuery();
-  const { data: plants = [], isLoading: loadingPlants } = trpc.plants.list.useQuery();
+  const { data: recettes = [], isLoading: loadingRecettes } = trpc.recettes?.list.useQuery();
+  const { data: molecules = [], isLoading: loadingMolecules } = trpc.molecules?.list.useQuery();
+  const { data: plants = [], isLoading: loadingPlants } = trpc.plants?.list.useQuery();
   
   const isLoading = loadingRecettes || loadingMolecules || loadingPlants;
   

@@ -56,8 +56,8 @@ export default function PlantTerroirDragDrop() {
   const utils = trpc.useUtils();
 
   // Queries
-  const { data: plants, isLoading: loadingPlants } = trpc.plants.list.useQuery();
-  const { data: terroirs, isLoading: loadingTerroirs } = trpc.terroirs.getAll.useQuery();
+  const { data: plants, isLoading: loadingPlants } = trpc.plants?.list.useQuery();
+  const { data: terroirs, isLoading: loadingTerroirs } = trpc.terroirs?.getAll.useQuery();
   const { data: existingRelations } = trpc.plantTerroirs.getAllWithNames.useQuery();
 
   // Mutation pour créer plusieurs liaisons
@@ -82,14 +82,14 @@ export default function PlantTerroirDragDrop() {
   // Set des relations existantes pour vérification rapide
   const existingSet = useMemo(() => {
     if (!existingRelations) return new Set<string>();
-    return new Set(existingRelations.map(r => `${r.plantId}-${r.terroirId}`));
+    return new Set(existingRelations?.map(r => `${r.plantId}-${r.terroirId}`));
   }, [existingRelations]);
 
   // Filtrer les plantes
   const filteredPlants = useMemo(() => {
     if (!plants) return [];
     if (!searchPlant) return plants;
-    return plants.filter((p: any) =>
+    return plants?.filter((p: any) =>
       p.name?.toLowerCase().includes(searchPlant.toLowerCase()) ||
       p.latinName?.toLowerCase().includes(searchPlant.toLowerCase())
     );
@@ -99,7 +99,7 @@ export default function PlantTerroirDragDrop() {
   const filteredTerroirs = useMemo(() => {
     if (!terroirs) return [];
     if (!searchTerroir) return terroirs;
-    return terroirs.filter((t: any) =>
+    return terroirs?.filter((t: any) =>
       t.name?.toLowerCase().includes(searchTerroir.toLowerCase()) ||
       t.country?.toLowerCase().includes(searchTerroir.toLowerCase())
     );

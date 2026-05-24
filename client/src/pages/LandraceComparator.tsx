@@ -19,7 +19,7 @@ function ComparisonRadarChart({
   const svgRef = useRef<SVGSVGElement>(null);
   
   useEffect(() => {
-    if (!svgRef.current || landraces.length === 0) return;
+    if (!svgRef.current || landraces?.length === 0) return;
     
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
@@ -31,7 +31,7 @@ function ComparisonRadarChart({
     
     // Collecter tous les terpènes uniques
     const allTerpenes = new Set<string>();
-    landraces.forEach(l => {
+    landraces?.forEach(l => {
       const lProfiles = profiles.get(l.id) || [];
       lProfiles.forEach((p: any) => allTerpenes.add(p.terpene_name));
     });
@@ -95,7 +95,7 @@ function ComparisonRadarChart({
     const colors = ['#22c55e', '#3b82f6', '#f59e0b', '#ef4444'];
     
     // Tracer les polygones pour chaque landrace
-    landraces.forEach((landrace, idx) => {
+    landraces?.forEach((landrace, idx) => {
       const lProfiles = profiles.get(landrace.id) || [];
       const profileMap = new Map(lProfiles.map((p: any) => [p.terpene_name, p.relative_abundance || 0]));
       
@@ -225,8 +225,8 @@ export default function LandraceComparator() {
   // Organiser les profils par landrace
   const profilesByLandrace = new Map<number, any[]>();
   if (allProfiles && landraces) {
-    landraces.forEach(landrace => {
-      const profiles = allProfiles.filter((p: any) => 
+    landraces?.forEach(landrace => {
+      const profiles = allProfiles?.filter((p: any) => 
         p.landrace_name?.toLowerCase() === landrace.name?.toLowerCase()
       );
       profilesByLandrace.set(landrace.id, profiles);

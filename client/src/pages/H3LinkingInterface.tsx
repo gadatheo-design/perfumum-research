@@ -486,7 +486,7 @@ export default function H3LinkingInterface() {
   const linkCountsByRef = useMemo(() => {
     const counts: Record<number, number> = {};
     if (existingLinks) {
-      existingLinks.forEach((item: any) => {
+      existingLinks?.forEach((item: any) => {
         const refId = item.referenceId;
         if (refId) {
           counts[refId] = (counts[refId] || 0) + 1;
@@ -499,7 +499,7 @@ export default function H3LinkingInterface() {
   // Check if a tradition is linked to the selected reference
   const isLinked = (traditionId: number): boolean => {
     if (!selectedReference || !existingLinks) return false;
-    return existingLinks.some((item: any) => 
+    return existingLinks?.some((item: any) => 
       item.referenceId === selectedReference.id && 
       item.entityId === traditionId &&
       item.entityType === 'tradition'
@@ -509,7 +509,7 @@ export default function H3LinkingInterface() {
   // Get link ID for a tradition
   const getLinkId = (traditionId: number): number | null => {
     if (!selectedReference || !existingLinks) return null;
-    const link = existingLinks.find((item: any) => 
+    const link = existingLinks?.find((item: any) => 
       item.referenceId === selectedReference.id && 
       item.entityId === traditionId &&
       item.entityType === 'tradition'

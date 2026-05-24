@@ -73,13 +73,13 @@ export default function AdminFamilles() {
   });
 
   const utils = trpc.useUtils();
-  const { data: families, isLoading } = trpc.families.list.useQuery();
+  const { data: families, isLoading } = trpc.families?.list.useQuery();
 
   // Mutations
-  const createMutation = trpc.families.create.useMutation({
+  const createMutation = trpc.families?.create.useMutation({
     onSuccess: () => {
       toast.success("Famille créée avec succès");
-      utils.families.list.invalidate();
+      utils.families?.list.invalidate();
       setCreateDialogOpen(false);
       resetForm();
     },
@@ -88,10 +88,10 @@ export default function AdminFamilles() {
     },
   });
 
-  const updateMutation = trpc.families.update.useMutation({
+  const updateMutation = trpc.families?.update.useMutation({
     onSuccess: () => {
       toast.success("Famille mise à jour avec succès");
-      utils.families.list.invalidate();
+      utils.families?.list.invalidate();
       setEditDialogOpen(false);
       resetForm();
     },
@@ -100,10 +100,10 @@ export default function AdminFamilles() {
     },
   });
 
-  const deleteMutation = trpc.families.delete.useMutation({
+  const deleteMutation = trpc.families?.delete.useMutation({
     onSuccess: () => {
       toast.success("Famille supprimée avec succès");
-      utils.families.list.invalidate();
+      utils.families?.list.invalidate();
       setDeleteDialogOpen(false);
       setSelectedFamily(null);
     },

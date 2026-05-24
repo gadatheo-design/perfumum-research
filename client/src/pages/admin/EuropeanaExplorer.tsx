@@ -972,7 +972,7 @@ function IiifFullTextTab() {
 // ─── Onglet statistiques ──────────────────────────────────────────────────────
 
 function StatsTab() {
-  const { data: stats, isLoading } = trpc.europeana.stats.useQuery();
+  const { data: stats, isLoading } = trpc.europeana.stats?.useQuery();
 
   if (isLoading) {
     return (
@@ -1063,20 +1063,20 @@ function StatsTab() {
           <CardContent className="p-4 pt-0">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div className="flex items-center gap-2 text-xs">
-                <div className={`h-2 w-2 rounded-full ${stats.sprint1.facetsEnabled ? "bg-green-500" : "bg-gray-300"}`} />
+                <div className={`h-2 w-2 rounded-full ${stats?.sprint1.facetsEnabled ? "bg-green-500" : "bg-gray-300"}`} />
                 <span>Facettes COUNTRY/YEAR</span>
               </div>
               <div className="flex items-center gap-2 text-xs">
-                <div className={`h-2 w-2 rounded-full ${stats.sprint1.entityApiEnabled ? "bg-green-500" : "bg-amber-400"}`} />
+                <div className={`h-2 w-2 rounded-full ${stats?.sprint1.entityApiEnabled ? "bg-green-500" : "bg-amber-400"}`} />
                 <span>Entity API (QID→Europeana)</span>
               </div>
               <div className="flex items-center gap-2 text-xs">
-                <div className={`h-2 w-2 rounded-full ${stats.sprint1.thematicFiltersEnabled ? "bg-green-500" : "bg-gray-300"}`} />
+                <div className={`h-2 w-2 rounded-full ${stats?.sprint1.thematicFiltersEnabled ? "bg-green-500" : "bg-gray-300"}`} />
                 <span>Filtres thématiques</span>
               </div>
               <div className="flex items-center gap-2 text-xs">
                 <div className="h-2 w-2 rounded-full bg-green-500" />
-                <span>{stats.sprint1.newThemes.length} nouveaux thèmes</span>
+                <span>{stats?.sprint1.newThemes.length} nouveaux thèmes</span>
               </div>
             </div>
           </CardContent>

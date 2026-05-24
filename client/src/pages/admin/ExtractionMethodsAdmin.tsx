@@ -232,19 +232,19 @@ export default function ExtractionMethodsAdmin() {
         <div className="grid grid-cols-3 gap-4">
           <Card>
             <CardContent className="pt-4">
-              <div className="text-2xl font-bold text-emerald-600">{stats.total}</div>
+              <div className="text-2xl font-bold text-emerald-600">{stats?.total}</div>
               <div className="text-sm text-muted-foreground">Méthodes enregistrées</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-4">
-              <div className="text-2xl font-bold text-blue-600">{stats.withPlantLinks}</div>
+              <div className="text-2xl font-bold text-blue-600">{stats?.withPlantLinks}</div>
               <div className="text-sm text-muted-foreground">Liées à des plantes</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-4">
-              <div className="text-2xl font-bold text-purple-600">{stats.byCategory?.length || 0}</div>
+              <div className="text-2xl font-bold text-purple-600">{stats?.byCategory?.length || 0}</div>
               <div className="text-sm text-muted-foreground">Catégories utilisées</div>
             </CardContent>
           </Card>

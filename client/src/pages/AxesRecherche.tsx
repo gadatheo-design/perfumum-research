@@ -163,7 +163,7 @@ export default function AxesRecherche() {
   const mainAxes = useMemo(() => {
     if (!allAxes) return [];
     // Filtrer pour ne montrer que les axes principaux (sans parent)
-    return allAxes.filter((a: any) => !a.parentAxisId);
+    return allAxes?.filter((a: any) => !a.parentAxisId);
   }, [allAxes]);
 
   const resetForm = () => {
@@ -239,7 +239,7 @@ export default function AxesRecherche() {
     if (!searchQuery) return axes;
     
     const query = searchQuery.toLowerCase();
-    return axes.filter((axis: any) =>
+    return axes?.filter((axis: any) =>
       axis.name.toLowerCase().includes(query) ||
       axis.axisCode.toLowerCase().includes(query) ||
       axis.description?.toLowerCase().includes(query)
@@ -462,9 +462,9 @@ export default function AxesRecherche() {
                       <h3 className="text-lg font-semibold">Progression globale du projet</h3>
                       <p className="text-sm text-muted-foreground">Moyenne de tous les axes de recherche</p>
                     </div>
-                    <div className="text-3xl font-bold text-primary">{stats.averageProgress}%</div>
+                    <div className="text-3xl font-bold text-primary">{stats?.averageProgress}%</div>
                   </div>
-                  <Progress value={stats.averageProgress} className="h-3" />
+                  <Progress value={stats?.averageProgress} className="h-3" />
                   <div className="flex justify-between mt-2 text-xs text-muted-foreground">
                     <span>Début</span>
                     <span>Objectif 2035</span>
@@ -478,7 +478,7 @@ export default function AxesRecherche() {
                   <CardHeader className="pb-2">
                     <div className="flex items-center gap-2">
                       <Compass className="h-5 w-5 text-primary" />
-                      <CardTitle className="text-2xl">{stats.total}</CardTitle>
+                      <CardTitle className="text-2xl">{stats?.total}</CardTitle>
                     </div>
                     <CardDescription>Axes de recherche</CardDescription>
                   </CardHeader>
@@ -488,7 +488,7 @@ export default function AxesRecherche() {
                     <div className="flex items-center gap-2">
                       <Clock className="h-5 w-5 text-blue-500" />
                       <CardTitle className="text-2xl">
-                        {stats.byStatus?.find((s: any) => s.status === "en_cours")?.count || 0}
+                        {stats?.byStatus?.find((s: any) => s.status === "en_cours")?.count || 0}
                       </CardTitle>
                     </div>
                     <CardDescription>En cours</CardDescription>
@@ -499,7 +499,7 @@ export default function AxesRecherche() {
                     <div className="flex items-center gap-2">
                       <CheckCircle className="h-5 w-5 text-green-500" />
                       <CardTitle className="text-2xl">
-                        {stats.byStatus?.find((s: any) => s.status === "termine")?.count || 0}
+                        {stats?.byStatus?.find((s: any) => s.status === "termine")?.count || 0}
                       </CardTitle>
                     </div>
                     <CardDescription>Terminés</CardDescription>
@@ -510,7 +510,7 @@ export default function AxesRecherche() {
                     <div className="flex items-center gap-2">
                       <PauseCircle className="h-5 w-5 text-yellow-500" />
                       <CardTitle className="text-2xl">
-                        {stats.byStatus?.find((s: any) => s.status === "pause")?.count || 0}
+                        {stats?.byStatus?.find((s: any) => s.status === "pause")?.count || 0}
                       </CardTitle>
                     </div>
                     <CardDescription>En pause</CardDescription>
@@ -521,7 +521,7 @@ export default function AxesRecherche() {
                     <div className="flex items-center gap-2">
                       <Calendar className="h-5 w-5 text-slate-500" />
                       <CardTitle className="text-2xl">
-                        {stats.byStatus?.find((s: any) => s.status === "planifie")?.count || 0}
+                        {stats?.byStatus?.find((s: any) => s.status === "planifie")?.count || 0}
                       </CardTitle>
                     </div>
                     <CardDescription>Planifiés</CardDescription>
@@ -530,14 +530,14 @@ export default function AxesRecherche() {
               </div>
 
               {/* Répartition par catégorie */}
-              {stats.byCategory && stats.byCategory.length > 0 && (
+              {stats?.byCategory && stats?.byCategory.length > 0 && (
                 <Card>
                   <CardHeader className="pb-2">
                     <CardTitle className="text-sm font-medium">Répartition par catégorie</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="flex flex-wrap gap-2">
-                      {stats.byCategory.map((cat: any) => (
+                      {stats?.byCategory.map((cat: any) => (
                         <Badge 
                           key={cat.category} 
                           variant="outline" 

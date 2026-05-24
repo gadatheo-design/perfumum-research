@@ -68,7 +68,7 @@ const SYNERGY_TYPES = [
 ];
 
 export function SynergiesHeatmap() {
-  const { data: synergies, isLoading, error } = trpc.synergies.getAllMoleculeSynergies.useQuery();
+  const { data: synergies, isLoading, error } = trpc.synergies?.getAllMoleculeSynergies.useQuery();
   const [selectedType, setSelectedType] = useState<string>("all");
   const [selectedFamily, setSelectedFamily] = useState<string>("all");
 
@@ -76,7 +76,7 @@ export function SynergiesHeatmap() {
   const families = useMemo(() => {
     if (!synergies) return [];
     const fams = new Set<string>();
-    synergies.forEach((s: any) => {
+    synergies?.forEach((s: any) => {
       if (s.molecule1Family) fams.add(s.molecule1Family);
       if (s.molecule2Family) fams.add(s.molecule2Family);
     });
@@ -86,7 +86,7 @@ export function SynergiesHeatmap() {
   // Synergies filtrées selon les sélections
   const filteredSynergies = useMemo(() => {
     if (!synergies) return [];
-    return synergies.filter((s: any) => {
+    return synergies?.filter((s: any) => {
       const typeMatch = selectedType === "all" || s.type === selectedType;
       const familyMatch =
         selectedFamily === "all" ||
@@ -99,12 +99,12 @@ export function SynergiesHeatmap() {
   // Statistiques par type
   const stats = synergies
     ? {
-        total: synergies.length,
-        potentialisation: synergies.filter((s: any) => s.type === "potentialisation").length,
-        stabilisation: synergies.filter((s: any) => s.type === "stabilisation").length,
-        transformation: synergies.filter((s: any) => s.type === "transformation").length,
-        masquage: synergies.filter((s: any) => s.type === "masquage").length,
-        neutralisation: synergies.filter((s: any) => s.type === "neutralisation").length,
+        total: synergies?.length,
+        potentialisation: synergies?.filter((s: any) => s.type === "potentialisation").length,
+        stabilisation: synergies?.filter((s: any) => s.type === "stabilisation").length,
+        transformation: synergies?.filter((s: any) => s.type === "transformation").length,
+        masquage: synergies?.filter((s: any) => s.type === "masquage").length,
+        neutralisation: synergies?.filter((s: any) => s.type === "neutralisation").length,
       }
     : null;
 

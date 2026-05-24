@@ -173,23 +173,23 @@ export default function LeafEconomyDetail() {
     );
   }
 
-  const axes = parseJsonArray(sample.climaticAxis);
-  const usages = parseJsonArray(sample.usage);
-  const category = categoryConfig[sample.category] || categoryConfig.aromatique;
-  const status = statusConfig[sample.status || "brut"];
-  const extraction = extractionConfig[sample.extraction || "aucune"];
-  const curing = curingConfig[sample.curingTreatment || "aucun"];
+  const axes = parseJsonArray(sample?.climaticAxis);
+  const usages = parseJsonArray(sample?.usage);
+  const category = categoryConfig[sample?.category] || categoryConfig.aromatique;
+  const status = statusConfig[sample?.status || "brut"];
+  const extraction = extractionConfig[sample?.extraction || "aucune"];
+  const curing = curingConfig[sample?.curingTreatment || "aucun"];
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white dark:from-emerald-950 dark:to-gray-900">
       {/* Breadcrumbs */}
       <div className="bg-emerald-50 dark:bg-emerald-950">
         <Breadcrumbs 
-          currentLabel={sample.species || sample.sampleId}
+          currentLabel={sample?.species || sample?.sampleId}
           customItems={[
             { label: "San Andrés", path: "/san-andres" },
             { label: "Leaf Economies", path: "/san-andres/leaf-economies" },
-            { label: sample.species || sample.sampleId }
+            { label: sample?.species || sample?.sampleId }
           ]}
         />
       </div>
@@ -201,14 +201,14 @@ export default function LeafEconomyDetail() {
           <div className="flex items-start justify-between">
             <div>
               <Badge variant="outline" className="mb-3 font-mono text-sm border-emerald-400 text-emerald-200">
-                {sample.sampleId}
+                {sample?.sampleId}
               </Badge>
               <h1 className="text-3xl md:text-4xl font-bold mb-2">
-                {sample.species || "Espèce inconnue"}
+                {sample?.species || "Espèce inconnue"}
               </h1>
-              {sample.claimedVariety && (
+              {sample?.claimedVariety && (
                 <p className="text-emerald-200 text-lg italic">
-                  {sample.claimedVariety}
+                  {sample?.claimedVariety}
                 </p>
               )}
             </div>
@@ -232,8 +232,8 @@ export default function LeafEconomyDetail() {
               <div>
                 <p className="text-xs text-muted-foreground">Localisation</p>
                 <p className="font-medium">
-                  {sample.island === "san_andres" ? "San Andrés" : 
-                   sample.island === "providencia" ? "Providencia" : "Autre"}
+                  {sample?.island === "san_andres" ? "San Andrés" : 
+                   sample?.island === "providencia" ? "Providencia" : "Autre"}
                 </p>
               </div>
             </CardContent>
@@ -257,7 +257,7 @@ export default function LeafEconomyDetail() {
               <div>
                 <p className="text-xs text-muted-foreground">Analyse</p>
                 <p className="font-medium">
-                  {sample.analysisAvailable ? "Disponible" : "Non disponible"}
+                  {sample?.analysisAvailable ? "Disponible" : "Non disponible"}
                 </p>
               </div>
             </CardContent>
@@ -333,19 +333,19 @@ export default function LeafEconomyDetail() {
                 <div className="grid gap-4 md:grid-cols-2">
                   <div>
                     <p className="text-sm text-muted-foreground">Espèce</p>
-                    <p className="font-medium">{sample.species || "Non spécifiée"}</p>
+                    <p className="font-medium">{sample?.species || "Non spécifiée"}</p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Variété revendiquée</p>
-                    <p className="font-medium italic">{sample.claimedVariety || "Non spécifiée"}</p>
+                    <p className="font-medium italic">{sample?.claimedVariety || "Non spécifiée"}</p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Partie utilisée</p>
-                    <p className="font-medium capitalize">{sample.usedPart || "Non spécifiée"}</p>
+                    <p className="font-medium capitalize">{sample?.usedPart || "Non spécifiée"}</p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">État</p>
-                    <p className="font-medium capitalize">{sample.state || "Non spécifié"}</p>
+                    <p className="font-medium capitalize">{sample?.state || "Non spécifié"}</p>
                   </div>
                 </div>
               </CardContent>
@@ -371,16 +371,16 @@ export default function LeafEconomyDetail() {
                     <p className="font-medium">{extraction.label}</p>
                     <p className="text-xs text-muted-foreground mt-1">{extraction.description}</p>
                   </div>
-                  {sample.ratioParameters && (
+                  {sample?.ratioParameters && (
                     <div>
                       <p className="text-sm text-muted-foreground">Ratio/Paramètres</p>
-                      <p className="font-medium font-mono">{sample.ratioParameters}</p>
+                      <p className="font-medium font-mono">{sample?.ratioParameters}</p>
                     </div>
                   )}
-                  {sample.duration && (
+                  {sample?.duration && (
                     <div>
                       <p className="text-sm text-muted-foreground">Durée</p>
-                      <p className="font-medium">{sample.duration}</p>
+                      <p className="font-medium">{sample?.duration}</p>
                     </div>
                   )}
                 </div>
@@ -399,19 +399,19 @@ export default function LeafEconomyDetail() {
                   Analyse chimique
                 </CardTitle>
                 <CardDescription>
-                  {sample.analysisAvailable 
-                    ? `Méthode: ${sample.analysisMethod?.toUpperCase() || "Non spécifiée"}`
+                  {sample?.analysisAvailable 
+                    ? `Méthode: ${sample?.analysisMethod?.toUpperCase() || "Non spécifiée"}`
                     : "Analyse non encore réalisée"}
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                {sample.analysisAvailable ? (
+                {sample?.analysisAvailable ? (
                   <div className="space-y-6">
                     {/* Top Molecules */}
                     <div>
                       <h4 className="font-medium mb-3">Molécules principales</h4>
                       <div className="grid gap-3 md:grid-cols-3">
-                        {[sample.topMolecule1, sample.topMolecule2, sample.topMolecule3]
+                        {[sample?.topMolecule1, sample?.topMolecule2, sample?.topMolecule3]
                           .filter(Boolean)
                           .map((mol, idx) => (
                             <div 
@@ -430,21 +430,21 @@ export default function LeafEconomyDetail() {
                     </div>
 
                     {/* Full molecule list */}
-                    {sample.topMoleculesList && (
+                    {sample?.topMoleculesList && (
                       <div>
                         <h4 className="font-medium mb-3">Liste complète des molécules</h4>
                         <div className="p-4 rounded-lg bg-muted/50 font-mono text-sm">
-                          {sample.topMoleculesList}
+                          {sample?.topMoleculesList}
                         </div>
                       </div>
                     )}
 
                     {/* Percentages */}
-                    {sample.relativePercentages && (
+                    {sample?.relativePercentages && (
                       <div>
                         <h4 className="font-medium mb-3">Pourcentages relatifs</h4>
                         <div className="p-4 rounded-lg bg-muted/50 font-mono text-sm">
-                          {sample.relativePercentages}
+                          {sample?.relativePercentages}
                         </div>
                       </div>
                     )}
@@ -464,7 +464,7 @@ export default function LeafEconomyDetail() {
             </Card>
 
             {/* Odor Notes */}
-            {sample.odorNotes && (
+            {sample?.odorNotes && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
@@ -474,7 +474,7 @@ export default function LeafEconomyDetail() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground whitespace-pre-wrap">
-                    {sample.odorNotes}
+                    {sample?.odorNotes}
                   </p>
                 </CardContent>
               </Card>
@@ -496,9 +496,9 @@ export default function LeafEconomyDetail() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                {sample.absorbeInterpretation ? (
+                {sample?.absorbeInterpretation ? (
                   <blockquote className="border-l-4 border-emerald-500 pl-4 py-2 italic text-lg">
-                    {sample.absorbeInterpretation}
+                    {sample?.absorbeInterpretation}
                   </blockquote>
                 ) : (
                   <p className="text-muted-foreground italic">
@@ -527,7 +527,7 @@ export default function LeafEconomyDetail() {
             )}
 
             {/* Ethical Notes */}
-            {sample.ethicalNotes && (
+            {sample?.ethicalNotes && (
               <Card className="border-amber-200 dark:border-amber-800">
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2 text-amber-700 dark:text-amber-400">
@@ -537,7 +537,7 @@ export default function LeafEconomyDetail() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground whitespace-pre-wrap">
-                    {sample.ethicalNotes}
+                    {sample?.ethicalNotes}
                   </p>
                 </CardContent>
               </Card>
@@ -559,13 +559,13 @@ export default function LeafEconomyDetail() {
                 <div className="grid gap-4 md:grid-cols-2">
                   <div>
                     <p className="text-sm text-muted-foreground">ID Échantillon</p>
-                    <p className="font-mono font-medium">{sample.sampleId}</p>
+                    <p className="font-mono font-medium">{sample?.sampleId}</p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Date de collecte</p>
                     <p className="font-medium">
-                      {sample.date 
-                        ? new Date(sample.date).toLocaleDateString('fr-FR', { 
+                      {sample?.date 
+                        ? new Date(sample?.date).toLocaleDateString('fr-FR', { 
                             year: 'numeric', 
                             month: 'long', 
                             day: 'numeric' 
@@ -575,16 +575,16 @@ export default function LeafEconomyDetail() {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Localisation précise</p>
-                    <p className="font-medium">{sample.preciseLocation || "Non spécifiée"}</p>
+                    <p className="font-medium">{sample?.preciseLocation || "Non spécifiée"}</p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Contact source</p>
-                    <p className="font-medium">{sample.sourceContact || "Non spécifié"}</p>
+                    <p className="font-medium">{sample?.sourceContact || "Non spécifié"}</p>
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground">Créé le</p>
                     <p className="font-medium">
-                      {new Date(sample.createdAt).toLocaleDateString('fr-FR', { 
+                      {new Date(sample?.createdAt).toLocaleDateString('fr-FR', { 
                         year: 'numeric', 
                         month: 'long', 
                         day: 'numeric',
@@ -596,7 +596,7 @@ export default function LeafEconomyDetail() {
                   <div>
                     <p className="text-sm text-muted-foreground">Dernière mise à jour</p>
                     <p className="font-medium">
-                      {new Date(sample.updatedAt).toLocaleDateString('fr-FR', { 
+                      {new Date(sample?.updatedAt).toLocaleDateString('fr-FR', { 
                         year: 'numeric', 
                         month: 'long', 
                         day: 'numeric',
@@ -607,10 +607,10 @@ export default function LeafEconomyDetail() {
                   </div>
                 </div>
 
-                {sample.mediaLinks && (
+                {sample?.mediaLinks && (
                   <div className="pt-4 border-t">
                     <p className="text-sm text-muted-foreground mb-2">Liens médias</p>
-                    <p className="font-mono text-sm">{sample.mediaLinks}</p>
+                    <p className="font-mono text-sm">{sample?.mediaLinks}</p>
                   </div>
                 )}
               </CardContent>
@@ -640,7 +640,7 @@ export default function LeafEconomyDetail() {
                 <DialogHeader>
                   <DialogTitle className="flex items-center gap-2">
                     <ImageIcon className="h-5 w-5" />
-                    Photos de {sample.species || sample.sampleId}
+                    Photos de {sample?.species || sample?.sampleId}
                   </DialogTitle>
                 </DialogHeader>
                 <div className="flex-1 overflow-auto">
@@ -650,7 +650,7 @@ export default function LeafEconomyDetail() {
                         <Skeleton key={i} className="aspect-square rounded-lg" />
                       ))}
                     </div>
-                  ) : sampleImages && sampleImages.length > 0 ? (
+                  ) : sampleImages && sampleImages?.length > 0 ? (
                     <>
                       {/* Image principale sélectionnée */}
                       <div className="relative aspect-video bg-black/5 dark:bg-white/5 rounded-lg overflow-hidden mb-4">
@@ -659,16 +659,16 @@ export default function LeafEconomyDetail() {
                           alt={sampleImages[selectedImageIndex]?.title || `Photo ${selectedImageIndex + 1}`}
                           className="w-full h-full object-contain"
                         />
-                        {sampleImages.length > 1 && (
+                        {sampleImages?.length > 1 && (
                           <>
                             <button
-                              onClick={() => setSelectedImageIndex((prev) => (prev > 0 ? prev - 1 : sampleImages.length - 1))}
+                              onClick={() => setSelectedImageIndex((prev) => (prev > 0 ? prev - 1 : sampleImages?.length - 1))}
                               className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
                             >
                               <ChevronLeft className="h-5 w-5" />
                             </button>
                             <button
-                              onClick={() => setSelectedImageIndex((prev) => (prev < sampleImages.length - 1 ? prev + 1 : 0))}
+                              onClick={() => setSelectedImageIndex((prev) => (prev < sampleImages?.length - 1 ? prev + 1 : 0))}
                               className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors"
                             >
                               <ChevronRight className="h-5 w-5" />
@@ -703,9 +703,9 @@ export default function LeafEconomyDetail() {
                         </div>
                       )}
                       {/* Grille de miniatures */}
-                      {sampleImages.length > 1 && (
+                      {sampleImages?.length > 1 && (
                         <div className="grid grid-cols-4 md:grid-cols-6 gap-2">
-                          {sampleImages.map((img, index) => (
+                          {sampleImages?.map((img, index) => (
                             <button
                               key={img.id}
                               onClick={() => setSelectedImageIndex(index)}
@@ -741,12 +741,12 @@ export default function LeafEconomyDetail() {
                     </div>
                   )}
                 </div>
-                {sampleImages && sampleImages.length > 0 && (
+                {sampleImages && sampleImages?.length > 0 && (
                   <div className="flex justify-between items-center pt-4 border-t">
                     <p className="text-sm text-muted-foreground">
-                      {sampleImages.length} photo{sampleImages.length > 1 ? "s" : ""}
+                      {sampleImages?.length} photo{sampleImages?.length > 1 ? "s" : ""}
                     </p>
-                    <Link href={`/galerie?leafEconomyId=${sample.id}`}>
+                    <Link href={`/galerie?leafEconomyId=${sample?.id}`}>
                       <Button variant="outline" size="sm">
                         Voir dans la galerie
                       </Button>
@@ -755,7 +755,7 @@ export default function LeafEconomyDetail() {
                 )}
               </DialogContent>
             </Dialog>
-            <Link href={`/san-andres/echantillon/${sample.id}/edit`}>
+            <Link href={`/san-andres/echantillon/${sample?.id}/edit`}>
               <Button>
                 <Edit className="h-4 w-4 mr-2" />
                 Modifier

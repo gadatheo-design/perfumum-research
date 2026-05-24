@@ -10,12 +10,12 @@ import { trpc } from "@/lib/trpc";
 
 export default function ResinesCBD() {
   // Fetch CBD collections from database
-  const { data: collectionsCBD, isLoading: loadingCollections } = trpc.recettes.list.useQuery({
+  const { data: collectionsCBD, isLoading: loadingCollections } = trpc.recettes?.list.useQuery({
     category: 'resine_cbd' as any
   });
 
   // Fetch existing premium profiles from database
-  const { data: recettes, isLoading } = trpc.recettes.list.useQuery({
+  const { data: recettes, isLoading } = trpc.recettes?.list.useQuery({
     category: 'resine'
   });
 
@@ -219,7 +219,7 @@ export default function ResinesCBD() {
 
             {loadingCollections ? (
               <div className="text-center py-12">
-                <p className="text-muted-foreground">Chargement des recettes...</p>
+                <p className="text-muted-foreground">Chargement des recettes?...</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

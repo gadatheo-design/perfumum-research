@@ -46,11 +46,11 @@ export default function SynergiesMoleculaires() {
   const svgRef = useRef<SVGSVGElement>(null);
   const [dimensions, setDimensions] = useState({ width: 1200, height: 800 });
 
-  const { data: synergies = [], isLoading } = trpc.synergies.getGraphData.useQuery();
+  const { data: synergies = [], isLoading } = trpc.synergies?.getGraphData.useQuery();
 
   // Filtrer les synergies par effet
   const filteredSynergies = selectedEffect
-    ? synergies.filter((s) => s.effectType === selectedEffect)
+    ? synergies?.filter((s) => s.effectType === selectedEffect)
     : synergies;
 
   // Construire les nœuds et liens pour D3.js
@@ -222,7 +222,7 @@ export default function SynergiesMoleculaires() {
                 <h1 className="text-4xl md:text-5xl font-bold">Synergies Moléculaires</h1>
               </div>
               <p className="text-lg text-muted-foreground">
-                Visualisation interactive des {synergies.length} synergies identifiées entre molécules. Explorez les interactions qui créent des effets olfactifs uniques.
+                Visualisation interactive des {synergies?.length} synergies identifiées entre molécules. Explorez les interactions qui créent des effets olfactifs uniques.
               </p>
             </div>
           </div>
@@ -238,7 +238,7 @@ export default function SynergiesMoleculaires() {
                 {(Object.keys(effectConfig) as EffectType[]).map((effect) => {
                   const config = effectConfig[effect];
                   const Icon = config.icon;
-                  const count = synergies.filter((s) => s.effectType === effect).length;
+                  const count = synergies?.filter((s) => s.effectType === effect).length;
                   return (
                     <Button
                       key={effect}

@@ -48,7 +48,7 @@ export default function EnrichmentDashboard() {
 
   // Fonction pour enrichir par lot
   const handleBatchEnrich = async () => {
-    if (!unenrichedMolecules || unenrichedMolecules.length === 0) {
+    if (!unenrichedMolecules || unenrichedMolecules?.length === 0) {
       toast({
         title: "Aucune molécule à enrichir",
         description: "Toutes les molécules ont déjà été traitées.",
@@ -57,12 +57,12 @@ export default function EnrichmentDashboard() {
     }
 
     setIsEnriching(true);
-    setEnrichmentProgress({ current: 0, total: unenrichedMolecules.length, success: 0, failed: 0 });
+    setEnrichmentProgress({ current: 0, total: unenrichedMolecules?.length, success: 0, failed: 0 });
 
     let success = 0;
     let failed = 0;
 
-    for (let i = 0; i < unenrichedMolecules.length; i++) {
+    for (let i = 0; i < unenrichedMolecules?.length; i++) {
       const molecule = unenrichedMolecules[i];
       
       try {
@@ -78,7 +78,7 @@ export default function EnrichmentDashboard() {
 
       setEnrichmentProgress({ 
         current: i + 1, 
-        total: unenrichedMolecules.length, 
+        total: unenrichedMolecules?.length, 
         success, 
         failed 
       });
@@ -99,7 +99,7 @@ export default function EnrichmentDashboard() {
     refetchUnenriched();
   };
 
-  const enrichedPercent = stats ? Math.round((stats.enriched / stats.total) * 100) : 0;
+  const enrichedPercent = stats ? Math.round((stats?.enriched / stats?.total) * 100) : 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -285,19 +285,19 @@ export default function EnrichmentDashboard() {
                   <Button 
                     variant="outline"
                     onClick={async () => {
-                      if (!unenrichedForChEBI || unenrichedForChEBI.length === 0) {
+                      if (!unenrichedForChEBI || unenrichedForChEBI?.length === 0) {
                         toast({ title: "Aucune molécule à enrichir via ChEBI" });
                         return;
                       }
                       setIsEnrichingChEBI(true);
-                      setChebiProgress({ current: 0, total: unenrichedForChEBI.length, success: 0, failed: 0 });
+                      setChebiProgress({ current: 0, total: unenrichedForChEBI?.length, success: 0, failed: 0 });
                       let success = 0, failed = 0;
-                      for (let i = 0; i < unenrichedForChEBI.length; i++) {
+                      for (let i = 0; i < unenrichedForChEBI?.length; i++) {
                         try {
                           const result = await enrichChEBIMutation.mutateAsync({ moleculeId: unenrichedForChEBI[i].id });
                           if (result.success) success++; else failed++;
                         } catch { failed++; }
-                        setChebiProgress({ current: i + 1, total: unenrichedForChEBI.length, success, failed });
+                        setChebiProgress({ current: i + 1, total: unenrichedForChEBI?.length, success, failed });
                         await new Promise(r => setTimeout(r, 600));
                       }
                       setIsEnrichingChEBI(false);
@@ -345,9 +345,9 @@ export default function EnrichmentDashboard() {
               <div className="flex justify-center py-8">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
               </div>
-            ) : unenrichedMolecules && unenrichedMolecules.length > 0 ? (
+            ) : unenrichedMolecules && unenrichedMolecules?.length > 0 ? (
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-2">
-                {unenrichedMolecules.map((molecule) => (
+                {unenrichedMolecules?.map((molecule) => (
                   <Link 
                     key={molecule.id} 
                     href={`/molecule/${molecule.id}`}

@@ -70,11 +70,11 @@ export default function VueDetailConnexions() {
     if (!networkData) return connections;
 
     // Connexions terroir-plante
-    if (networkData.relationships?.terroirPlants && networkData.entities?.terroirs && networkData.entities?.plants) {
-      const terroirMap = new Map(networkData.entities.terroirs.map((t: any) => [t.id, t]));
-      const plantMap = new Map(networkData.entities.plants.map((p: any) => [p.id, p]));
+    if (networkData?.relationships?.terroirPlants && networkData?.entities?.terroirs && networkData?.entities?.plants) {
+      const terroirMap = new Map(networkData?.entities.terroirs.map((t: any) => [t.id, t]));
+      const plantMap = new Map(networkData?.entities.plants.map((p: any) => [p.id, p]));
       
-      networkData.relationships.terroirPlants.forEach((rel: any) => {
+      networkData?.relationships.terroirPlants.forEach((rel: any) => {
         const terroir = terroirMap.get(rel.terroirId);
         const plant = plantMap.get(rel.plantId);
         if (terroir && plant) {
@@ -90,11 +90,11 @@ export default function VueDetailConnexions() {
     }
 
     // Connexions plante-molécule
-    if (networkData.relationships?.plantMolecules && networkData.entities?.plants && networkData.entities?.molecules) {
-      const plantMap = new Map(networkData.entities.plants.map((p: any) => [p.id, p]));
-      const moleculeMap = new Map(networkData.entities.molecules.map((m: any) => [m.id, m]));
+    if (networkData?.relationships?.plantMolecules && networkData?.entities?.plants && networkData?.entities?.molecules) {
+      const plantMap = new Map(networkData?.entities.plants.map((p: any) => [p.id, p]));
+      const moleculeMap = new Map(networkData?.entities.molecules.map((m: any) => [m.id, m]));
       
-      networkData.relationships.plantMolecules.forEach((rel: any) => {
+      networkData?.relationships.plantMolecules.forEach((rel: any) => {
         const plant = plantMap.get(rel.plantId);
         const molecule = moleculeMap.get(rel.moleculeId);
         if (plant && molecule) {

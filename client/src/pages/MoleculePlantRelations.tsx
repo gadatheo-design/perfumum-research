@@ -151,8 +151,8 @@ function SearchResults({ searchTerm }: { searchTerm: string }) {
     );
   }
 
-  const hasMoleculeResults = moleculeResults && moleculeResults.length > 0;
-  const hasRawMaterialResults = rawMaterialResults && rawMaterialResults.length > 0;
+  const hasMoleculeResults = moleculeResults && moleculeResults?.length > 0;
+  const hasRawMaterialResults = rawMaterialResults && rawMaterialResults?.length > 0;
 
   if (!hasMoleculeResults && !hasRawMaterialResults) {
     return (
@@ -173,7 +173,7 @@ function SearchResults({ searchTerm }: { searchTerm: string }) {
             Molécules trouvées dans les plantes contenant "{searchTerm}"
           </h3>
           <div className="space-y-3">
-            {moleculeResults.map((result: any, index: number) => (
+            {moleculeResults?.map((result: any, index: number) => (
               <Card key={index} className="p-4">
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2 flex-1">
@@ -209,7 +209,7 @@ function SearchResults({ searchTerm }: { searchTerm: string }) {
             Matières premières contenant des molécules "{searchTerm}"
           </h3>
           <div className="space-y-3">
-            {rawMaterialResults.map((result: any, index: number) => (
+            {rawMaterialResults?.map((result: any, index: number) => (
               <Card key={index} className="p-4">
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2 flex-1">
@@ -245,7 +245,7 @@ export default function MoleculePlantRelations() {
   const [selectedMoleculeId, setSelectedMoleculeId] = useState<number | null>(null);
   const [selectedPlantId, setSelectedPlantId] = useState<number | null>(null);
 
-  const { data: contentStats } = trpc.contentStats.getAll.useQuery();
+  const { data: contentStats } = trpc.contentStats?.getAll.useQuery();
 
   // Fetch relations when an entity is selected
   const { data: moleculeSources } = trpc.moleculePlantSources.getByMolecule.useQuery(
@@ -284,11 +284,11 @@ export default function MoleculePlantRelations() {
           </p>
           {contentStats && (
             <div className="flex gap-4 mt-4 text-sm text-muted-foreground">
-              <span>{contentStats.moleculePlantLinks || 0} liaisons documentées</span>
+              <span>{contentStats?.moleculePlantLinks || 0} liaisons documentées</span>
               <span>•</span>
-              <span>{contentStats.molecules || 0} molécules</span>
+              <span>{contentStats?.molecules || 0} molécules</span>
               <span>•</span>
-              <span>{contentStats.plants || 0} plantes</span>
+              <span>{contentStats?.plants || 0} plantes</span>
             </div>
           )}
         </div>
@@ -384,19 +384,19 @@ export default function MoleculePlantRelations() {
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="text-center p-4 rounded-lg bg-muted/50">
-                  <p className="text-3xl font-bold text-primary">{contentStats.molecules || 0}</p>
+                  <p className="text-3xl font-bold text-primary">{contentStats?.molecules || 0}</p>
                   <p className="text-sm text-muted-foreground">Molécules</p>
                 </div>
                 <div className="text-center p-4 rounded-lg bg-muted/50">
-                  <p className="text-3xl font-bold text-green-400">{contentStats.plants || 0}</p>
+                  <p className="text-3xl font-bold text-green-400">{contentStats?.plants || 0}</p>
                   <p className="text-sm text-muted-foreground">Plantes</p>
                 </div>
                 <div className="text-center p-4 rounded-lg bg-muted/50">
-                  <p className="text-3xl font-bold text-emerald-400">{contentStats.rawMaterials || 0}</p>
+                  <p className="text-3xl font-bold text-emerald-400">{contentStats?.rawMaterials || 0}</p>
                   <p className="text-sm text-muted-foreground">Matières premières</p>
                 </div>
                 <div className="text-center p-4 rounded-lg bg-muted/50">
-                  <p className="text-3xl font-bold text-amber-400">{contentStats.terroirs || 0}</p>
+                  <p className="text-3xl font-bold text-amber-400">{contentStats?.terroirs || 0}</p>
                   <p className="text-sm text-muted-foreground">Terroirs</p>
                 </div>
               </div>

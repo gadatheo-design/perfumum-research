@@ -387,7 +387,7 @@ export default function H2LinkingInterface() {
 
   // Queries
   const { data: allReferences, isLoading: loadingRefs } = trpc.v3References.getAll.useQuery();
-  const { data: leafEconomies, isLoading: loadingPlants } = trpc.leafEconomies.list.useQuery();
+  const { data: leafEconomies, isLoading: loadingPlants } = trpc.leafEconomies?.list.useQuery();
   const { data: linkStats } = trpc.referenceEntityLinks.getStats.useQuery();
   
   // Query pour les liaisons de la référence sélectionnée
@@ -440,7 +440,7 @@ export default function H2LinkingInterface() {
   // Filtrer les références H2 uniquement
   const h2References = useMemo(() => {
     if (!allReferences) return [];
-    return allReferences.filter(ref => ref.axisPrimaryCode === 'H2');
+    return allReferences?.filter(ref => ref.axisPrimaryCode === 'H2');
   }, [allReferences]);
 
   // Filtrer les références par recherche
@@ -486,7 +486,7 @@ export default function H2LinkingInterface() {
   // Vérifier si une plante est liée à la référence sélectionnée
   const isPlantLinked = (plantId: number) => {
     if (!selectedRefLinks) return false;
-    return selectedRefLinks.some(link => 
+    return selectedRefLinks?.some(link => 
       link.entityType === 'leaf_economy' && link.entityId === plantId
     );
   };
@@ -494,7 +494,7 @@ export default function H2LinkingInterface() {
   // Obtenir l'ID de la liaison pour une plante
   const getLinkId = (plantId: number) => {
     if (!selectedRefLinks) return null;
-    const link = selectedRefLinks.find(l => 
+    const link = selectedRefLinks?.find(l => 
       l.entityType === 'leaf_economy' && l.entityId === plantId
     );
     return link?.id ?? null;
@@ -571,7 +571,7 @@ export default function H2LinkingInterface() {
               {linkStats && (
                 <Badge variant="outline" className="text-sm border-amber-600 text-amber-400">
                   <Link2 className="w-4 h-4 mr-2" />
-                  {linkStats.total} liaisons totales
+                  {linkStats?.total} liaisons totales
                 </Badge>
               )}
             </div>
@@ -718,12 +718,12 @@ export default function H2LinkingInterface() {
           </div>
 
           {/* Liaisons existantes pour la référence sélectionnée */}
-          {selectedReference && selectedRefLinks && selectedRefLinks.length > 0 && (
+          {selectedReference && selectedRefLinks && selectedRefLinks?.length > 0 && (
             <Card className="mt-6 bg-slate-900/50 border-slate-700">
               <CardHeader>
                 <CardTitle className="text-lg text-slate-100 flex items-center gap-2">
                   <Link2 className="w-5 h-5 text-green-500" />
-                  Liaisons existantes ({selectedRefLinks.filter(l => l.entityType === 'leaf_economy').length})
+                  Liaisons existantes ({selectedRefLinks?.filter(l => l.entityType === 'leaf_economy').length})
                 </CardTitle>
               </CardHeader>
               <CardContent>

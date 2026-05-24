@@ -12,7 +12,7 @@ import { trpc } from "@/lib/trpc";
 
 export default function GammePheromones() {
   // Récupérer les molécules phéromones depuis la base de données
-  const { data: molecules, isLoading } = trpc.molecules.list.useQuery();
+  const { data: molecules, isLoading } = trpc.molecules?.list.useQuery();
   
   const pheromones = molecules?.filter((m: { family: string | null; name: string }) => 
     m.family === 'Phéromone' || 
