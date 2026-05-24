@@ -8,7 +8,7 @@ export const aiEnrichMoleculeRouter = router({
   preview: protectedProcedure
     .input(z.object({ id: z.number() }))
     .query(async ({ input }) => {
-      const { invokeLLM } = await import('./_core/llm');
+      const { invokeLLM } = await import('../_core/llm');
       const { createConnection: _ccMol } = await import('mysql2/promise');
       const _connMol = await _ccMol(process.env.DATABASE_URL!);
       const [rows] = await _connMol.query(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties, notes FROM molecules WHERE id = ?`, [input.id]);
@@ -70,7 +70,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
   enrich: protectedProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
-      const { invokeLLM } = await import('./_core/llm');
+      const { invokeLLM } = await import('../_core/llm');
       const { createConnection: _ccMol } = await import('mysql2/promise');
       const _connMol = await _ccMol(process.env.DATABASE_URL!);
       const [rows] = await _connMol.query(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties, notes FROM molecules WHERE id = ?`, [input.id]);

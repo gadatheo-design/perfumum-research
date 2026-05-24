@@ -143,7 +143,7 @@ export const leafEconomiesRouter = router({
       const fileKey = `leaf-economies/${input.leafEconomyId}/botanical-${timestamp}-${randomSuffix}.${extension}`;
       
       // Upload vers S3
-      const { storagePut } = await import('./storage');
+      const { storagePut } = await import('../storage');
       const { url } = await storagePut(fileKey, buffer, input.contentType);
       
       // Mettre à jour l'URL dans la base de données

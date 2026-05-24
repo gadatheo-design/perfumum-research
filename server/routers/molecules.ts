@@ -203,7 +203,7 @@ export const moleculesRouter = router({
         const { moleculeId, chemicalClass, olfactiveFamily, olfactiveProfile } = input;
         const dbConn = await db.getDb();
         if (!dbConn) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Database not available' });
-        const { molecules: moleculesTable } = await import('../drizzle/schema');
+        const { molecules: moleculesTable } = await import('../../drizzle/schema');
         const { eq } = await import('drizzle-orm');
         const updateData: Record<string, string> = {};
         if (chemicalClass !== undefined) updateData.chemicalClass = chemicalClass;
@@ -227,7 +227,7 @@ export const moleculesRouter = router({
         const { moleculeId, researcherNotes, appendMode } = input;
         const dbConn = await db.getDb();
         if (!dbConn) throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Database not available' });
-        const { molecules: moleculesTable } = await import('../drizzle/schema');
+        const { molecules: moleculesTable } = await import('../../drizzle/schema');
         const { eq } = await import('drizzle-orm');
         let finalNotes = researcherNotes;
         if (appendMode) {

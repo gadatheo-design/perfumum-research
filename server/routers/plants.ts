@@ -210,7 +210,7 @@ export const plantsRouter = router({
         const fileKey = `plants/${input.plantId}/botanical-${timestamp}-${randomSuffix}.${extension}`;
         
         // Upload vers S3
-        const { storagePut } = await import('./storage');
+        const { storagePut } = await import('../storage');
         const { url } = await storagePut(fileKey, buffer, input.contentType);
         
         // Mettre à jour l'URL dans la base de données
@@ -271,7 +271,7 @@ export const plantsRouter = router({
     getSeasonalVariations: publicProcedure
       .input(z.number())
       .query(async ({ input: plantId }) => {
-        const { getDb } = await import('./db');
+        const { getDb } = await import('../db');
         const { sql } = await import('drizzle-orm');
         const dbConn = await getDb();
         if (!dbConn) return [];
@@ -314,7 +314,7 @@ export const plantsRouter = router({
         limit: z.number().min(1).max(100).default(50),
       }))
       .query(async ({ input }) => {
-        const { getDb } = await import('./db');
+        const { getDb } = await import('../db');
         const { sql } = await import('drizzle-orm');
         const dbConn = await getDb();
         if (!dbConn) return [];

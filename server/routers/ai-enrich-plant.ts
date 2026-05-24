@@ -8,7 +8,7 @@ export const aiEnrichPlantRouter = router({
   enrich: protectedProcedure
     .input(z.object({ plantId: z.number() }))
     .mutation(async ({ input }) => {
-      const { invokeLLM } = await import('./_core/llm');
+      const { invokeLLM } = await import('../_core/llm');
       const plant = await db.getPlantById(input.plantId);
       if (!plant) throw new Error('Plante non trouvée');
 
@@ -111,7 +111,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
   preview: protectedProcedure
     .input(z.object({ plantId: z.number() }))
     .mutation(async ({ input }) => {
-      const { invokeLLM } = await import('./_core/llm');
+      const { invokeLLM } = await import('../_core/llm');
       const plant = await db.getPlantById(input.plantId);
       if (!plant) throw new Error('Plante non trouvée');
 

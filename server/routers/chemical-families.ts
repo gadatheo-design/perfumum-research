@@ -1,240 +1,120 @@
-/**
- * Chemical Families Router
- * 
- * tRPC procedures for chemical family classification and filtering
- */
-
-import { z } from 'zod';
-import { publicProcedure, router } from '../_core/trpc';
-import { getDb } from '../db';
-import { molecules } from '../../drizzle/schema';
-import { 
-  classifyMolecule, 
-  getAllFamiliesForUI, 
-  getFamilyById,
-  CHEMICAL_FAMILIES 
-} from '../chemical-families-service';
+// @ts-nocheck
+import { z } from "zod";
+import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { getDb } from "../db";
+import * as db from "../db";
+import { SQL } from "drizzle-orm";
 
 export const chemicalFamiliesRouter = router({
-  /**
-   * Get all chemical families for UI display
-   */
-  getAllFamilies: publicProcedure.query(async () => {
-    return getAllFamiliesForUI();
+  // Liste toutes les familles chimiques de la table dédiée
+  listAll: publicProcedure.query(async () => {
+    return await db.getAllChemicalFamilies();
   }),
-
-  /**
-   * Classify a single molecule
-   */
-  classifyMolecule: publicProcedure
+  // Liste avec comptage des molécules liées
+  listWithCount: publicProcedure.query(async () => {
+    return await db.getChemicalFamiliesWithMoleculeCount();
+  }),
+  // Récupérer une famille par ID
+  getById: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .query(async ({ input }) => {
+      return await db.getChemicalFamilyById(input.id);
+    }),
+  // Récupérer une famille par type
+  getByType: publicProcedure
+    .input(z.object({ type: z.string() }))
+    .query(async ({ input }) => {
+      return await db.getChemicalFamilyByType(input.type);
+    }),
+  // Récupérer les molécules d'une famille (via table de liaison)
+  getMoleculesById: publicProcedure
+    .input(z.object({ familyId: z.number() }))
+    .query(async ({ input }) => {
+      return await db.getMoleculesByChemicalFamilyId(input.familyId);
+    }),
+  // Récupérer les familles chimiques d'une molécule
+  getForMolecule: publicProcedure
+    .input(z.object({ moleculeId: z.number() }))
+    .query(async ({ input }) => {
+      return await db.getChemicalFamiliesForMolecule(input.moleculeId);
+    }),
+  // Lier une molécule à une famille
+  linkMolecule: protectedProcedure
+    .input(z.object({ moleculeId: z.number(), chemicalFamilyId: z.number() }))
+    .mutation(async ({ input }) => {
+      return await db.linkMoleculeToChemicalFamily(input.moleculeId, input.chemicalFamilyId);
+    }),
+  // Supprimer la liaison molécule-famille
+  unlinkMolecule: protectedProcedure
+    .input(z.object({ moleculeId: z.number(), chemicalFamilyId: z.number() }))
+    .mutation(async ({ input }) => {
+      return await db.unlinkMoleculeFromChemicalFamily(input.moleculeId, input.chemicalFamilyId);
+    }),
+  // Créer une nouvelle famille chimique
+  create: protectedProcedure
     .input(z.object({
       name: z.string(),
-      smiles: z.string().optional().nullable(),
-      iupacName: z.string().optional().nullable()
+      type: z.string(),
+      subcategory: z.string().optional(),
+      description: z.string().optional(),
+      olfactiveRole: z.string().optional(),
+      volatility: z.string().optional(),
+      polarity: z.string().optional(),
+      molecularWeightRange: z.string().optional(),
+      typicalNotes: z.string().optional(),
+      exampleMolecules: z.string().optional(),
     }))
-    .query(async ({ input }) => {
-      const families = classifyMolecule(input.name, input.smiles, input.iupacName);
-      return {
-        families,
-        familyDetails: families.map(id => getFamilyById(id)).filter(Boolean)
-      };
+    .mutation(async ({ input }) => {
+      return await db.createChemicalFamily(input);
     }),
-
-  /**
-   * Batch classify all molecules and return statistics
-   */
-  getClassificationStats: publicProcedure.query(async () => {
-    const db = await getDb();
-    if (!db) return {
-      total: 0,
-      classified: 0,
-      unclassifiedCount: 0,
-      byFamily: {},
-      familyDetails: []
-    };
-
-    // Get all molecules
-    const allMolecules = await db.select({
-      id: molecules.id,
-      name: molecules.name,
-      smiles: molecules.smiles,
-      iupacName: molecules.iupacName
-    }).from(molecules);
-
-    // Classify each molecule
-    const stats: Record<string, number> = {};
-    const unclassified: string[] = [];
-
-    for (const mol of allMolecules) {
-      const families = classifyMolecule(mol.name, mol.smiles, mol.iupacName);
-      
-      if (families.length === 0) {
-        unclassified.push(mol.name);
-      } else {
-        for (const familyId of families) {
-          stats[familyId] = (stats[familyId] || 0) + 1;
-        }
-      }
-    }
-
-    return {
-      total: allMolecules.length,
-      classified: allMolecules.length - unclassified.length,
-      unclassifiedCount: unclassified.length,
-      byFamily: stats,
-      familyDetails: CHEMICAL_FAMILIES.map(f => ({
-        id: f.id,
-        name: f.name,
-        nameFr: f.nameFr,
-        count: stats[f.id] || 0
-      })).sort((a, b) => b.count - a.count)
-    };
+  // Mettre à jour une famille chimique
+  update: protectedProcedure
+    .input(z.object({
+      id: z.number(),
+      name: z.string().optional(),
+      type: z.string().optional(),
+      subcategory: z.string().optional(),
+      description: z.string().optional(),
+      olfactiveRole: z.string().optional(),
+      volatility: z.string().optional(),
+      polarity: z.string().optional(),
+      molecularWeightRange: z.string().optional(),
+      typicalNotes: z.string().optional(),
+      exampleMolecules: z.string().optional(),
+    }))
+    .mutation(async ({ input }) => {
+      const { id, ...data } = input;
+      return await db.updateChemicalFamily(id, data);
+    }),
+  // Supprimer une famille chimique
+  delete: protectedProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input }) => {
+      return await db.deleteChemicalFamily(input.id);
+    }),
+  // Anciennes fonctions pour compatibilité
+  list: publicProcedure.query(async () => {
+    return await db.getChemicalFamilies();
   }),
-
-  /**
-   * Get molecules by chemical family
-   */
-  getMoleculesByFamily: publicProcedure
-    .input(z.object({
-      familyId: z.string(),
-      limit: z.number().optional().default(100),
-      offset: z.number().optional().default(0)
-    }))
-    .query(async ({ input }) => {
-      const family = getFamilyById(input.familyId);
-      if (!family) {
-        throw new Error(`Unknown chemical family: ${input.familyId}`);
-      }
-
-      const db = await getDb();
-      if (!db) return {
-        molecules: [],
-        total: 0,
-        family: {
-          id: family.id,
-          name: family.name,
-          nameFr: family.nameFr,
-          description: family.description
-        }
-      };
-
-      // Get all molecules
-      const allMolecules = await db.select({
-        id: molecules.id,
-        name: molecules.name,
-        smiles: molecules.smiles,
-        iupacName: molecules.iupacName,
-        chemicalFormula: molecules.chemicalFormula,
-        molecularWeight: molecules.molecularWeight,
-        ifraStatus: molecules.ifraStatus,
-      }).from(molecules);
-
-      // Filter by family
-      const filtered = allMolecules.filter(mol => {
-        const families = classifyMolecule(mol.name, mol.smiles, mol.iupacName);
-        return families.includes(input.familyId);
-      });
-
-      // Apply pagination
-      const paginated = filtered.slice(input.offset, input.offset + input.limit);
-
-      return {
-        molecules: paginated,
-        total: filtered.length,
-        family: {
-          id: family.id,
-          name: family.name,
-          nameFr: family.nameFr,
-          description: family.description
-        }
-      };
-    }),
-
-  /**
-   * Search molecules with chemical family filter
-   * This is used by the main molecules page
-   */
-  searchWithFamilyFilter: publicProcedure
-    .input(z.object({
-      familyId: z.string().optional(),
-      searchTerm: z.string().optional(),
-      ifraStatus: z.string().optional(),
-      percept: z.string().optional(),
-      limit: z.number().optional().default(50),
-      offset: z.number().optional().default(0)
-    }))
-    .query(async ({ input }) => {
-      const db = await getDb();
-      if (!db) return {
-        molecules: [],
-        total: 0,
-        hasMore: false
-      };
-
-      // Get all molecules first (we'll filter in JS for family)
-      const allMolecules = await db.select({
-        id: molecules.id,
-        name: molecules.name,
-        smiles: molecules.smiles,
-        iupacName: molecules.iupacName,
-        chemicalFormula: molecules.chemicalFormula,
-        molecularWeight: molecules.molecularWeight,
-        ifraStatus: molecules.ifraStatus,
-        therapeuticProperties: molecules.therapeuticProperties,
-        olfactiveProfile: molecules.olfactiveProfile,
-        chemicalClass: molecules.chemicalClass,
-      }).from(molecules);
-
-      // Apply filters
-      let filtered = allMolecules;
-
-      // Search term filter
-      if (input.searchTerm) {
-        const term = input.searchTerm.toLowerCase();
-        filtered = filtered.filter(mol => 
-          mol.name.toLowerCase().includes(term) ||
-          (mol.iupacName && mol.iupacName.toLowerCase().includes(term)) ||
-          (mol.chemicalFormula && mol.chemicalFormula.toLowerCase().includes(term))
-        );
-      }
-
-      // IFRA status filter
-      if (input.ifraStatus) {
-        filtered = filtered.filter(mol => mol.ifraStatus === input.ifraStatus);
-      }
-
-      // Percept filter
-      if (input.percept) {
-        const perceptLower = input.percept.toLowerCase();
-        filtered = filtered.filter(mol => {
-          if (!mol.olfactiveProfile) return false;
-          const percepts = mol.olfactiveProfile.split(',').map((p: string) => p.trim().toLowerCase());
-          return percepts.includes(perceptLower);
-        });
-      }
-
-      // Chemical family filter
-      if (input.familyId) {
-        filtered = filtered.filter(mol => {
-          const families = classifyMolecule(mol.name, mol.smiles, mol.iupacName);
-          return families.includes(input.familyId!);
-        });
-      }
-
-      // Apply pagination
-      const total = filtered.length;
-      const paginated = filtered.slice(input.offset, input.offset + input.limit);
-
-      // Add chemical families to each molecule
-      const withFamilies = paginated.map(mol => ({
-        ...mol,
-        chemicalFamilies: classifyMolecule(mol.name, mol.smiles, mol.iupacName)
-      }));
-
-      return {
-        molecules: withFamilies,
-        total,
-        hasMore: input.offset + input.limit < total
-      };
+  getMolecules: publicProcedure
+    .input((val: unknown) => {
+      if (typeof val !== "string") throw new Error("Expected string");
+      return val;
     })
-});
+    .query(async ({ input }) => {
+      return await db.getMoleculesByFamily(input);
+    }),
+  // Récupérer toutes les liaisons molécule-famille chimique (pour graphe)
+  getAllLinks: publicProcedure.query(async () => {
+    return await db.getAllMoleculeChemicalFamilyLinks();
+  }),
+  // Export CSV des liaisons
+  exportCSV: publicProcedure.query(async () => {
+    return await db.exportMoleculeChemicalFamilyLinksCSV();
+  }),
+  // Export JSON des liaisons
+  exportJSON: publicProcedure.query(async () => {
+    return await db.exportMoleculeChemicalFamilyLinksJSON();
+  }),
+})
+

@@ -12,7 +12,7 @@ export const importRouter = router({
         csvData: z.string(),
       }))
       .mutation(async ({ input }) => {
-        const { csvToObjects, parseValue } = await import('./csv-utils');
+        const { csvToObjects, parseValue } = await import('../csv-utils');
         
         try {
           let parsedData: Record<string, unknown>[] = [];
@@ -119,7 +119,7 @@ export const importRouter = router({
         mode: z.enum(["create", "update", "upsert"]).default("create"),
       }))
       .mutation(async ({ input }) => {
-        const { csvToObjects, parseValue } = await import('./csv-utils');
+        const { csvToObjects, parseValue } = await import('../csv-utils');
         
         const parsedData = csvToObjects(input.csvData, (row) => ({
           nom: row.nom || null,
@@ -183,7 +183,7 @@ export const importRouter = router({
         mode: z.enum(["create", "update", "upsert"]).default("create"),
       }))
       .mutation(async ({ input }) => {
-        const { csvToObjects, parseValue } = await import('./csv-utils');
+        const { csvToObjects, parseValue } = await import('../csv-utils');
         
         const parsedData = csvToObjects(input.csvData, (row) => ({
           nom: row.nom || null,
@@ -252,7 +252,7 @@ export const importRouter = router({
         mode: z.enum(["create", "update", "upsert"]).default("create"),
       }))
       .mutation(async ({ input }) => {
-        const { csvToObjects, parseValue } = await import('./csv-utils');
+        const { csvToObjects, parseValue } = await import('../csv-utils');
         
         const parsedData = csvToObjects(input.csvData, (row) => ({
           nom: row.nom || null,
@@ -307,7 +307,7 @@ export const importRouter = router({
         mode: z.enum(["create", "update", "upsert"]).default("create"),
       }))
       .mutation(async ({ input }) => {
-        const { csvToObjects } = await import('./csv-utils');
+        const { csvToObjects } = await import('../csv-utils');
         
         const parsedData = csvToObjects(input.csvData, (row) => ({
           nom: row.nom || null,
@@ -361,7 +361,7 @@ export const importRouter = router({
         mode: z.enum(["create", "update", "upsert"]).default("create"),
       }))
       .mutation(async ({ input }) => {
-        const { csvToObjects, parseValue } = await import('./csv-utils');
+        const { csvToObjects, parseValue } = await import('../csv-utils');
         
         const parsedData = csvToObjects(input.csvData, (row) => ({
           nom: row.nom || null,

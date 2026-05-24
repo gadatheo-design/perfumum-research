@@ -11,7 +11,7 @@ export const pubchemBatchRouter = router({
       moleculeId: z.number(),
     }))
     .mutation(async ({ input }) => {
-      const { enrichMoleculeWithTranslation, inferChemicalClass } = await import('./pubchem');
+      const { enrichMoleculeWithTranslation, inferChemicalClass } = await import('../pubchem');
       
       // Récupérer la molécule
       const molecule = await db.getMoleculeById(input.moleculeId);
@@ -55,7 +55,7 @@ export const pubchemBatchRouter = router({
       moleculeIds: z.array(z.number()),
     }))
     .mutation(async ({ input }) => {
-      const { enrichMoleculeWithTranslation, inferChemicalClass } = await import('./pubchem');
+      const { enrichMoleculeWithTranslation, inferChemicalClass } = await import('../pubchem');
       
       const results: Array<{
         moleculeId: number;
@@ -221,7 +221,7 @@ export const pubchemBatchRouter = router({
       startIndex: z.number().min(0).default(0),
     }))
     .mutation(async ({ input }) => {
-      const { enrichMoleculeWithTranslation, inferChemicalClass } = await import('./pubchem');
+      const { enrichMoleculeWithTranslation, inferChemicalClass } = await import('../pubchem');
       
       const allMolecules = await db.getAllMolecules();
       

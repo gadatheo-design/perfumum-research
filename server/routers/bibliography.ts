@@ -266,7 +266,7 @@ export const bibliographyRouter = router({
         offset: z.number().default(0),
       }))
       .mutation(async ({ input }) => {
-        const { invokeLLM } = await import('./_core/llm');
+        const { invokeLLM } = await import('../_core/llm');
         const dbConn = await db.getDb();
         if (!dbConn) throw new Error('DB non disponible');
         const { sql } = await import('drizzle-orm');

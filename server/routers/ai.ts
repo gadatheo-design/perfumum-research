@@ -18,7 +18,7 @@ export const aiRouter = router({
         botanicalSources: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        const { invokeLLM } = await import("./_core/llm");
+        const { invokeLLM } = await import("../_core/llm");
         
         // Construire le contexte pour l'IA
         const moleculeContext = [
@@ -175,7 +175,7 @@ Réponds avec un JSON contenant:
         botanicalSources: z.string().optional(),
       })))
       .mutation(async ({ input }) => {
-        const { invokeLLM } = await import("./_core/llm");
+        const { invokeLLM } = await import("../_core/llm");
         const results: Array<{
           id: number;
           name: string;
@@ -265,7 +265,7 @@ Réponds avec un JSON contenant:
         botanicalSources: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
-        const { invokeLLM } = await import("./_core/llm");
+        const { invokeLLM } = await import("../_core/llm");
 
         const context = [
           `Nom: ${input.name}`,
@@ -357,7 +357,7 @@ Réponds avec un JSON contenant:
         confidenceThreshold: z.number().min(0).max(100).default(70), // Seuil de confiance pour auto-apply
       }))
       .mutation(async ({ input }) => {
-        const { invokeLLM } = await import("./_core/llm");
+        const { invokeLLM } = await import("../_core/llm");
         
         const results: Array<{
           id: number;
@@ -574,7 +574,7 @@ Familles olfactives disponibles:
         maxMolecules: z.number().min(1).max(500).default(100),
       }))
       .mutation(async ({ input, ctx }) => {
-        const { invokeLLM } = await import("./_core/llm");
+        const { invokeLLM } = await import("../_core/llm");
         
         // Récupérer toutes les molécules sans classe chimique
         const { molecules: unclassifiedMolecules, total } = await db.getOrphanMoleculesList(

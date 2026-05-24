@@ -185,7 +185,7 @@ export const ghostVarietyLinksRouter = router({
         isPrimary: z.boolean().optional(),
       }))
       .mutation(async ({ input, ctx }) => {
-        const { storagePut } = await import('./storage');
+        const { storagePut } = await import('../storage');
         
         // Décoder le base64
         const base64Data = input.imageData.replace(/^data:image\/\w+;base64,/, '');

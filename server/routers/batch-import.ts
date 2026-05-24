@@ -97,7 +97,7 @@ export const batchImportRouter = router({
     }))
     .mutation(async ({ input, ctx }) => {
       const JSZip = (await import('jszip')).default;
-      const { storagePut } = await import('./storage');
+      const { storagePut } = await import('../storage');
 
       // Décoder le ZIP
       const zipBuffer = Buffer.from(input.zipData, 'base64');

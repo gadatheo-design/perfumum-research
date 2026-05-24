@@ -8,7 +8,7 @@ export const aiEnrichRawMaterialRouter = router({
   enrich: protectedProcedure
     .input(z.object({ rawMaterialId: z.number() }))
     .mutation(async ({ input }) => {
-      const { invokeLLM } = await import('./_core/llm');
+      const { invokeLLM } = await import('../_core/llm');
 
       const { createConnection } = await import('mysql2/promise');
       const _conn = await createConnection(process.env.DATABASE_URL!);
@@ -87,7 +87,7 @@ Réponds UNIQUEMENT avec le JSON.`;
   preview: protectedProcedure
     .input(z.object({ rawMaterialId: z.number() }))
     .mutation(async ({ input }) => {
-      const { invokeLLM } = await import('./_core/llm');
+      const { invokeLLM } = await import('../_core/llm');
 
       const { createConnection } = await import('mysql2/promise');
       const _conn = await createConnection(process.env.DATABASE_URL!);
