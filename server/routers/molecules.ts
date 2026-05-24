@@ -410,6 +410,58 @@ export const moleculesRouter = router({
         return await db.getUnenrichedMoleculesForChEBI(input.limit);
       }),
     
+    // Enrichissement PubChem batch côté serveur (grands lots ≥200 — évite les timeouts client)
+    enrichBatchPubChemServer: protectedProcedure
+      .input(z.object({
+        limit: z.number().min(1).max(5000).default(200),
+        delayMs: z.number().min(0).max(5000).default(1200),
+      }))
+      .mutation(async ({ input }) => {
+        const mols = await db.getUnenrichedMolecules(input.limit);
+        let succeeded = 0;
+        let failed = 0;
+        const results: Array<{ id: number; name: string; status: string; message: string }> = [];
+        const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
+        for (const mol of mols) {
+          try {
+            const res = await db.enrichMoleculeFromPubChemWithTranslation(mol.id);
+            if (res.success) { succeeded++; results.push({ id: mol.id, name: mol.name, status: 'success', message: res.message }); }
+            else { failed++; results.push({ id: mol.id, name: mol.name, status: 'notFound', message: res.message }); }
+          } catch (e) {
+            failed++;
+            results.push({ id: mol.id, name: mol.name, status: 'error', message: (e as Error).message });
+          }
+          if (input.delayMs > 0) await sleep(input.delayMs);
+        }
+        return { total: mols.length, succeeded, failed, results: results.slice(-200) };
+      }),
+
+    // Enrichissement ChEBI batch côté serveur (grands lots ≥200 — évite les timeouts client)
+    enrichBatchChEBIServer: protectedProcedure
+      .input(z.object({
+        limit: z.number().min(1).max(5000).default(200),
+        delayMs: z.number().min(0).max(5000).default(1000),
+      }))
+      .mutation(async ({ input }) => {
+        const mols = await db.getUnenrichedMoleculesForChEBI(input.limit);
+        let succeeded = 0;
+        let failed = 0;
+        const results: Array<{ id: number; name: string; status: string; message: string }> = [];
+        const sleep = (ms: number) => new Promise<void>(r => setTimeout(r, ms));
+        for (const mol of mols) {
+          try {
+            const res = await db.enrichMoleculeFromChEBIWithTranslation(mol.id);
+            if (res.success) { succeeded++; results.push({ id: mol.id, name: mol.name, status: 'success', message: res.message }); }
+            else { failed++; results.push({ id: mol.id, name: mol.name, status: 'notFound', message: res.message }); }
+          } catch (e) {
+            failed++;
+            results.push({ id: mol.id, name: mol.name, status: 'error', message: (e as Error).message });
+          }
+          if (input.delayMs > 0) await sleep(input.delayMs);
+        }
+        return { total: mols.length, succeeded, failed, results: results.slice(-200) };
+      }),
+
     // Enrichissement COCONUT (produits naturels)
     enrichFromCOCONUT: protectedProcedure
       .input(z.object({ moleculeId: z.number() }))

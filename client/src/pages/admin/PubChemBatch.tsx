@@ -45,6 +45,8 @@ export default function PubChemBatch() {
     { enabled: false }
   );
   const enrichMutation = trpc.molecules.enrichFromPubChem.useMutation();
+  const enrichBatchServerMutation = trpc.molecules.enrichBatchPubChemServer.useMutation();
+  const isServerMode = batchSize >= 200;
 
   const addLog = useCallback((entry: Omit<LogEntry, "timestamp">) => {
     setLogs(prev => [{ ...entry, timestamp: new Date() }, ...prev].slice(0, 500));
@@ -64,12 +66,36 @@ export default function PubChemBatch() {
     setLogs([]);
     setStartTime(new Date());
 
-    // Charger la liste des molécules à enrichir
+    // Mode batch serveur pour les lots >=200 (traitement cote serveur, pas de timeout client)
+    if (batchSize >= 200) {
+      addLog({ id: 0, name: "—", status: "skipped", message: `Lot ${batchSize} mol. — mode serveur actif (traitement en arriere-plan)...` });
+      setTotalToProcess(batchSize);
+      try {
+        const res = await enrichBatchServerMutation.mutateAsync({ limit: batchSize, delayMs });
+        setProcessed(res.total);
+        setSucceeded(res.succeeded);
+        setFailed(res.failed);
+        res.results.forEach(r => addLog({
+          id: r.id,
+          name: r.name,
+          status: r.status === 'success' ? 'success' : r.status === 'notFound' ? 'skipped' : 'error',
+          message: r.message,
+        }));
+        addLog({ id: 0, name: "—", status: "success", message: `Batch termine : ${res.succeeded} enrichis, ${res.failed} echecs sur ${res.total} molecules.` });
+      } catch (err: any) {
+        addLog({ id: 0, name: "—", status: "error", message: `Erreur batch serveur : ${err?.message || 'Erreur inconnue'}` });
+      }
+      setIsRunning(false);
+      statsQuery.refetch();
+      return;
+    }
+
+    // Mode client pour les petits lots (<200)
     const result = await unenrichedQuery.refetch();
     const molecules = result.data || [];
 
     if (molecules.length === 0) {
-      addLog({ id: 0, name: "—", status: "skipped", message: "Aucune molécule à enrichir." });
+      addLog({ id: 0, name: "—", status: "skipped", message: "Aucune molecule a enrichir." });
       setIsRunning(false);
       return;
     }
@@ -78,13 +104,10 @@ export default function PubChemBatch() {
     setTotalToProcess(molecules.length);
 
     for (let i = 0; i < molecules.length; i++) {
-      // Vérifier abort
       if (abortRef.current) {
-        addLog({ id: 0, name: "—", status: "skipped", message: "⛔ Enrichissement arrêté par l'utilisateur." });
+        addLog({ id: 0, name: "—", status: "skipped", message: "Enrichissement arrete par l'utilisateur." });
         break;
       }
-
-      // Gérer la pause
       while (pauseRef.current && !abortRef.current) {
         await sleep(300);
       }
@@ -94,17 +117,10 @@ export default function PubChemBatch() {
 
       try {
         const res = await enrichMutation.mutateAsync({ moleculeId: mol.id });
-
         if (res.success) {
           setSucceeded(s => s + 1);
-          addLog({
-            id: mol.id,
-            name: mol.name,
-            status: "success",
-            message: `CID ${res.data?.pubchemCid} — ${res.message}`,
-            cid: res.data?.pubchemCid,
-          });
-        } else if (res.message?.includes("déjà enrichie")) {
+          addLog({ id: mol.id, name: mol.name, status: "success", message: `CID ${res.data?.pubchemCid} — ${res.message}`, cid: res.data?.pubchemCid });
+        } else if (res.message?.includes("deja enrichie")) {
           setSkipped(s => s + 1);
           addLog({ id: mol.id, name: mol.name, status: "skipped", message: res.message });
         } else {
@@ -117,8 +133,6 @@ export default function PubChemBatch() {
       }
 
       setProcessed(i + 1);
-
-      // Délai entre les appels (rate-limit PubChem : max 5 req/s)
       if (i < molecules.length - 1 && !abortRef.current) {
         await sleep(delayMs);
       }
@@ -207,7 +221,7 @@ export default function PubChemBatch() {
           <CardHeader className="pb-3">
             <CardTitle className="text-base">Configuration du batch</CardTitle>
             <CardDescription>
-              PubChem limite à 5 requêtes/seconde. Un délai de 1.2s est recommandé pour éviter les blocages.
+PubChem limite à 5 requêtes/seconde. Délai 1.2s recommandé. Les lots ≥200 sont traités côté serveur (pas de timeout client).
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -215,7 +229,7 @@ export default function PubChemBatch() {
               <div>
                 <label className="text-sm font-medium block mb-1">Nombre de molécules à traiter</label>
                 <div className="flex items-center gap-2">
-                  {[25, 50, 100, 200, 500].map(n => (
+                  {[25, 50, 100, 200, 500, 1000, 2000].map(n => (
                     <Button
                       key={n}
                       variant={batchSize === n ? "default" : "outline"}

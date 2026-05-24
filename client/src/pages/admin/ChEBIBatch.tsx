@@ -37,6 +37,7 @@ export default function ChEBIBatch() {
   const logEndRef = useRef<HTMLDivElement>(null);
 
   const enrichMutation = trpc.molecules.enrichFromChEBI.useMutation();
+  const enrichBatchServerMutation = trpc.molecules.enrichBatchChEBIServer.useMutation();
   const { data: stats, refetch: refetchStats } = trpc.molecules.getEnrichmentStats.useQuery();
   const { data: unenrichedData, refetch: refetchUnenriched } = trpc.molecules.getUnenrichedForChEBI.useQuery(
     { limit: batchSize },
@@ -65,7 +66,33 @@ export default function ChEBIBatch() {
     setLogs([]);
     setCurrentIndex(0);
 
-    // Fetch molecules to enrich
+    // Mode batch serveur pour les lots >=200 (traitement cote serveur, pas de timeout client)
+    if (batchSize >= 200) {
+      setTotal(batchSize);
+      addLog({ moleculeId: 0, moleculeName: "—", status: "skipped", message: `Lot ${batchSize} mol. — mode serveur actif (traitement en arriere-plan)...` });
+      try {
+        const res = await enrichBatchServerMutation.mutateAsync({ limit: batchSize, delayMs });
+        setProcessed(res.total);
+        setSuccess(res.succeeded);
+        setErrors(res.failed);
+        res.results.forEach(r => addLog({
+          moleculeId: r.id,
+          moleculeName: r.name,
+          status: r.status === 'success' ? 'success' : r.status === 'notFound' ? 'skipped' : 'error',
+          message: r.message,
+        }));
+        addLog({ moleculeId: 0, moleculeName: "—", status: "success", message: `Batch termine : ${res.succeeded} enrichis, ${res.failed} echecs sur ${res.total} molecules.` });
+        toast({ title: "Batch ChEBI termine", description: `${res.succeeded} enrichis, ${res.failed} echecs.` });
+      } catch (err: any) {
+        addLog({ moleculeId: 0, moleculeName: "—", status: "error", message: `Erreur batch serveur : ${err?.message || 'Erreur inconnue'}` });
+      }
+      setIsRunning(false);
+      setCurrentMolecule(null);
+      refetchStats();
+      return;
+    }
+
+    // Fetch molecules to enrich (mode client <200)
     const result = await refetchUnenriched();
     const mols = result.data || [];
     setMolecules(mols);
@@ -237,7 +264,7 @@ export default function ChEBIBatch() {
                   Nombre de molécules à traiter
                 </label>
                 <div className="flex gap-2 flex-wrap">
-                  {[25, 50, 100, 200, 500].map(n => (
+                  {[25, 50, 100, 200, 500, 1000, 2000].map(n => (
                     <button
                       key={n}
                       onClick={() => setBatchSize(n)}
