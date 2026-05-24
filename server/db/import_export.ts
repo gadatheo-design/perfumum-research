@@ -676,10 +676,10 @@ export async function previewGcmsImport(
         const [found] = await conn.execute(
           `SELECT id, name FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
           [mol.moleculeName]
-        ) as any[];
-        if ((found as any[]).length > 0) {
-          moleculeId = (found as any[])[0].id;
-          moleculeDbName = (found as any[])[0].name;
+        ) as unknown as Array<Record<string, unknown>>[];
+        if ((found as Record<string, unknown>[]).length > 0) {
+          moleculeId = (found as Record<string, unknown>[])[0].id as number;
+          moleculeDbName = (found as Record<string, unknown>[])[0].name as string;
         } else {
           status = 'molecule_not_found';
         }
@@ -689,8 +689,8 @@ export async function previewGcmsImport(
         const [existing] = await conn.execute(
           `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
           [plantId, moleculeId]
-        ) as any[];
-        if ((existing as any[]).length > 0) {
+        ) as unknown as Array<Record<string, unknown>>[];
+        if ((existing as Record<string, unknown>[]).length > 0) {
           status = overwriteExisting ? 'will_update' : 'already_exists_skip';
         }
       }
@@ -743,9 +743,9 @@ export async function importGcmsBatch(
           const [found] = await conn.execute(
             `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
             [mol.moleculeName]
-          ) as any[];
-          if ((found as any[]).length > 0) {
-            moleculeId = (found as any[])[0].id;
+          ) as unknown as Array<Record<string, unknown>>[];
+          if ((found as Record<string, unknown>[]).length > 0) {
+            moleculeId = (found as Record<string, unknown>[])[0].id as number;
           } else {
             notFound++;
             errors.push(`Molécule non trouvée : "${mol.moleculeName}"`);
@@ -756,9 +756,9 @@ export async function importGcmsBatch(
         const [existing] = await conn.execute(
           `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
           [plantId, moleculeId]
-        ) as any[];
+        ) as unknown as Array<Record<string, unknown>>[];
 
-        if ((existing as any[]).length > 0) {
+        if ((existing as Record<string, unknown>[]).length > 0) {
           if (overwriteExisting) {
             await conn.execute(`
               UPDATE plant_molecules SET
@@ -837,8 +837,8 @@ export async function importGcmsFromCsv(
           const [plants] = await conn.execute(
             `SELECT id FROM plants WHERE LOWER(name) = LOWER(?) OR LOWER(latin_name) = LOWER(?) LIMIT 1`,
             [row.plantName, row.plantName]
-          ) as any[];
-          plantCache[row.plantName] = (plants as any[]).length > 0 ? (plants as any[])[0].id : null;
+          ) as unknown as Array<Record<string, unknown>>[];
+          plantCache[row.plantName] = (plants as Record<string, unknown>[]).length > 0 ? (plants as Record<string, unknown>[])[0].id as number : null;
         }
         const plantId = plantCache[row.plantName];
         if (!plantId) {
@@ -851,20 +851,20 @@ export async function importGcmsFromCsv(
         const [mols] = await conn.execute(
           `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
           [row.moleculeName]
-        ) as any[];
-        if ((mols as any[]).length === 0) {
+        ) as unknown as Array<Record<string, unknown>>[];
+        if ((mols as Record<string, unknown>[]).length === 0) {
           notFound++;
           errors.push(`Molécule non trouvée : "${row.moleculeName}"`);
           continue;
         }
-        const moleculeId = (mols as any[])[0].id;
+        const moleculeId = (mols as Record<string, unknown>[])[0].id as number;
 
         const [existing] = await conn.execute(
           `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
           [plantId, moleculeId]
-        ) as any[];
+        ) as unknown as Array<Record<string, unknown>>[];
 
-        if ((existing as any[]).length > 0) {
+        if ((existing as Record<string, unknown>[]).length > 0) {
           if (overwriteExisting) {
             await conn.execute(`
               UPDATE plant_molecules SET

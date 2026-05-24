@@ -1133,9 +1133,9 @@ export async function getAllPyrolysisTransformations() {
   `) as unknown as [any[]];
   // mysql2 retourne [rows, fields] — on prend result[0] pour les lignes
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const rows = Array.isArray(result) && Array.isArray((result as any)[0])
+  const rows = Array.isArray(result) && Array.isArray((result as Record<string, unknown>[])[0])
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ? (result as any)[0]
+    ? (result as Record<string, unknown>[])[0]
     : result as unknown[];
   return rows;
 }

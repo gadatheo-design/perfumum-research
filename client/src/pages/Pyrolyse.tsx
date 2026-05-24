@@ -597,7 +597,7 @@ export default function Pyrolyse() {
           </div>
           {filteredData.length !== (allData?.length || 0) && (
             <p className="text-xs text-muted-foreground mt-2">
-              {filteredData.length} transformation{filteredData.length > 1 ? 's' : ''} sur {allData?.length || 0}
+              {`${filteredData.length} transformation${filteredData.length > 1 ? 's' : ''} sur ${allData?.length ?? 0}`}
             </p>
           )}
         </CardContent>

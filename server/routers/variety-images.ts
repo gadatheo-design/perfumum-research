@@ -201,7 +201,7 @@ export const varietyImagesRouter = router({
     }))
     .query(async ({ input }) => {
       const db = await requireDb();
-      const conditions: any[] = [eq(varietyImages.plantId as any, input.plantId)];
+      const conditions: ReturnType<typeof eq>[] = [eq(varietyImages.plantId as any, input.plantId)];
       if (input.imageType) conditions.push(eq(varietyImages.imageType, input.imageType));
       return db.select().from(varietyImages).where(and(...conditions));
     }),
@@ -220,7 +220,7 @@ export const varietyImagesRouter = router({
     }))
     .query(async ({ input }) => {
       const db = await requireDb();
-      const conditions: any[] = [];
+      const conditions: ReturnType<typeof eq>[] = [];
       if (input.genus) conditions.push(eq(varietyImages.genus, input.genus));
       if (input.species) conditions.push(eq(varietyImages.species, input.species));
       if (input.imageType) conditions.push(eq(varietyImages.imageType, input.imageType));
@@ -576,8 +576,8 @@ export const varietyImagesRouter = router({
     const byTerroir: Record<string, number> = {};
     for (const img of allImages) {
       byGenus[img.genus] = (byGenus[img.genus] || 0) + 1;
-      if ((img as any).terroirName) {
-        const tn = (img as any).terroirName as string;
+      if ((img as Record<string, unknown>).terroirName) {
+        const tn = (img as Record<string, unknown>).terroirName as string;
         byTerroir[tn] = (byTerroir[tn] || 0) + 1;
       }
     }
@@ -585,8 +585,8 @@ export const varietyImagesRouter = router({
       total: allImages.length,
       verified: allImages.filter((i) => i.isVerified).length,
       unverified: allImages.filter((i) => !i.isVerified).length,
-      withPlant: allImages.filter((i) => (i as any).plantId !== null && (i as any).plantId !== undefined).length,
-      withTerroir: allImages.filter((i) => (i as any).terroirId !== null && (i as any).terroirId !== undefined).length,
+      withPlant: allImages.filter((i) => (i as Record<string, unknown>).plantId !== null && (i as Record<string, unknown>).plantId !== undefined).length,
+      withTerroir: allImages.filter((i) => (i as Record<string, unknown>).terroirId !== null && (i as Record<string, unknown>).terroirId !== undefined).length,
       byType: {
         leaf: allImages.filter((i) => i.imageType === "leaf").length,
         flower: allImages.filter((i) => i.imageType === "flower").length,

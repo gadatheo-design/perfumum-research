@@ -69,7 +69,7 @@ export const landracesRouter = router({
         FROM landrace_terpenes WHERE landrace_id = ${input.landraceId}
         ORDER BY percentage DESC
       `) as unknown as [any[]];
-      const rows = result as any[];
+      const rows = result as { id: number; landrace_id: number; terpene_name: string; percentage: number; notes: string | null }[];
       return rows;
     }),
 

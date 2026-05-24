@@ -257,7 +257,7 @@ export const storylinesRouter = router({
         });
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const data = await resp.json() as any;
-        const items = (data.items || []).map((item: any) => ({
+        const items = ((data.items || []) as any[]).map((item: any) => ({
           id: item.id,
           title: Array.isArray(item.title) ? item.title[0] : item.title,
           thumbnailUrl: Array.isArray(item.edmPreview) ? item.edmPreview[0] : item.edmPreview,

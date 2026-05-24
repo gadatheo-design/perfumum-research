@@ -40,7 +40,7 @@ export const cigarilloMoleculeLinksRouter = router({
         ORDER BY cr.name, m.name
       `)) as unknown as [any[]];
 
-      return (result as any)[0] || [];
+      return (result as any[])[0] || [];
     }),
 
   // Créer une liaison
@@ -99,7 +99,7 @@ export const cigarilloMoleculeLinksRouter = router({
       FROM cigarillo_molecule_links
     `)) as unknown as [any[]];
 
-    const row = ((result as any)[0] || [])[0] || {};
+    const row = ((result as any[])[0] || [])[0] || {};
     return {
       totalLinks: Number(row.total_links || 0),
       recipesWithLinks: Number(row.recipes_with_links || 0),

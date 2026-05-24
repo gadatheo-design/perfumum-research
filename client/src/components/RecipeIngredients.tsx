@@ -171,8 +171,8 @@ export function RecipeIngredients({ recipeId }: RecipeIngredientsProps) {
                       <span className="font-medium text-foreground">
                         {ing.ingredient_name}
                       </span>
-                      <Badge variant="outline" className={`text-xs ${getRoleColor(ing.role)}`}>
-                        {getRoleLabel(ing.role)}
+                      <Badge variant="outline" className={`text-xs ${getRoleColor(ing.role ?? '')}`}>
+                        {getRoleLabel(ing.role ?? '')}
                       </Badge>
                     </div>
                     {ing.notes && (
@@ -205,7 +205,7 @@ export function RecipeIngredients({ recipeId }: RecipeIngredientsProps) {
                 </div>
                 <div className="text-right shrink-0">
                   <span className="text-2xl font-bold text-foreground">
-                    {typeof ing.percentage === 'number' ? (ing).toFixed(1) : '0.0'}%
+                    {typeof ing.percentage === 'number' ? (ing.percentage).toFixed(1) : '0.0'}%
                   </span>
                 </div>
               </div>

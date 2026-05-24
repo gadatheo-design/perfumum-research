@@ -80,7 +80,7 @@ export const recipesRouter = router({
         FROM cigarillo_recipe_ingredients WHERE recipe_id = ${input.recipeId}
         ORDER BY percentage DESC
       `) as unknown as [any[]];
-      const rows = result as any[];
+      const rows = result as { id: number; recipe_id: number; ingredient_name: string; ingredient_type: string; percentage: number; role: string | null; notes: string | null; molecule_id: number | null; plant_id: number | null }[];
       return rows;
     }),
 
@@ -88,7 +88,7 @@ export const recipesRouter = router({
     const db = await getDb();
     if (!db) return { total: 0, byDifficulty: [], byCollection: [], avgMaturationDays: 0 };
     const [totalResult] = await db.execute(sql`SELECT COUNT(*) as total FROM cigarillo_recipes`) as unknown as [any[]];
-    const totalRows = (totalResult[0] as unknown) as any[];
+    const totalRows = totalResult as any[];
     const total = totalRows[0]?.total || 0;
     const [diffResult] = await db.execute(sql`
       SELECT difficulty_level, COUNT(*) as count FROM cigarillo_recipes
@@ -103,12 +103,12 @@ export const recipesRouter = router({
     const [avgResult] = await db.execute(sql`
       SELECT AVG(maturation_days) as avg_days FROM cigarillo_recipes WHERE maturation_days IS NOT NULL
     `) as unknown as [any[]];
-    const avgRows = (avgResult[0] as unknown) as any[];
+    const avgRows = avgResult as any[];
     return {
       total,
       byDifficulty,
       byCollection,
-      avgMaturationDays: Math.round(avgRows[0]?.avg_days || 0)
+      avgMaturationDays: Math.round(Number(avgRows[0]?.avg_days) || 0)
     };
   }),
 });

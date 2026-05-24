@@ -55,9 +55,9 @@ async function gbifGetDistribution(usageKey: number) {
     const results = data.results || [];
     if (results.length === 0) return null;
 
-    const lats = results.map((r: any) => r.decimalLatitude).filter((v: any) => v != null);
-    const lons = results.map((r: any) => r.decimalLongitude).filter((v: any) => v != null);
-    const elevs = results.map((r: any) => r.elevation).filter((v: any) => v != null && v > -500 && v < 9000);
+    const lats = results.map((r: Record<string, unknown>) => r.decimalLatitude).filter((v: any) => v != null);
+    const lons = results.map((r: Record<string, unknown>) => r.decimalLongitude).filter((v: any) => v != null);
+    const elevs = results.map((r: Record<string, unknown>) => r.elevation).filter((v: any) => v != null && v > -500 && v < 9000);
 
     return {
       latitudeMin: lats.length ? Math.min(...lats) : null,

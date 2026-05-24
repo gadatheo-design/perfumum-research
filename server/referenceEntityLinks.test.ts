@@ -18,7 +18,8 @@ import {
  */
 
 // Generate unique test IDs to avoid conflicts
-const TEST_ENTITY_BASE_ID = 9000 + Math.floor(Math.random() * 1000);
+// Use timestamp-based IDs to prevent collisions across test runs
+const TEST_ENTITY_BASE_ID = 900000 + (Date.now() % 90000);
 let testCounter = 0;
 const getUniqueEntityId = () => TEST_ENTITY_BASE_ID + (testCounter++);
 

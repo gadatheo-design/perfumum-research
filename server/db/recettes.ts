@@ -415,7 +415,7 @@ export async function createRecette(data: InsertRecette): Promise<Recette> {
   
   const result = await db.insert(recettes).values(data);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const insertedId = Number((result as any)[0]?.insertId || 0);
+  const insertedId = Number((result as unknown as { insertId?: number }[])[0]?.insertId || 0);
   
   const created = await getRecetteById(insertedId);
   if (!created) throw new Error('Failed to retrieve created recette');

@@ -52,7 +52,7 @@ export const resinTobaccoRecipesRouter = router({
           `SELECT id, name, latin_name, family FROM plants WHERE id IN (${placeholders})`,
           input.ids
         );
-        return (rows as any[]).map((r: any) => ({
+        return (rows as any[]).map((r: Record<string, unknown>) => ({
           id: r.id as number,
           name: (r.name || '') as string,
           latinName: (r.latin_name || '') as string,

@@ -202,7 +202,7 @@ export const gbifEnrichmentRouter = router({
         );
         return {
           total: data.count || 0,
-          results: (data.results || []).map((r: any) => ({
+          results: (data.results || []).map((r: Record<string, unknown>) => ({
             key: r.key,
             scientificName: r.scientificName || "",
             canonicalName: r.canonicalName || "",

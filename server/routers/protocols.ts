@@ -70,7 +70,7 @@ export const protocolsRouter = router({
     const db = await getDb();
     if (!db) return { total: 0, byDifficulty: [], byCategory: [] };
     const [totalResult] = await db.execute(sql`SELECT COUNT(*) as total FROM technical_protocols`) as unknown as [any[]];
-    const totalRows = (totalResult[0] as unknown) as any[];
+    const totalRows = (totalResult[0] as unknown) as Record<string, unknown>[];
     const total = totalRows[0]?.total || 0;
     const [diffResult] = await db.execute(sql`
       SELECT difficulty_level, COUNT(*) as count FROM technical_protocols

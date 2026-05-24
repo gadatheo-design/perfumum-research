@@ -144,7 +144,7 @@ export const sparqlRouter = router({
           return { artworks: [], total: 0 };
         }
         
-        const qids = rows.map((r: any) => r.wikidata_qid);
+        const qids = rows.map((r: any) => r.wikidata_qid as string);
         const artworks = await findArtworksForMoleculesBatch(qids, input.limit);
         
         return { artworks, total: artworks.length, moleculesChecked: rows.length };
@@ -191,7 +191,7 @@ export const sparqlRouter = router({
       const [qidRows] = await conn.execute<any[]>(
         "SELECT wikidata_qid FROM molecules WHERE wikidata_qid IS NOT NULL LIMIT 50"
       );
-      const qids = qidRows.map((r: any) => r.wikidata_qid);
+      const qids = qidRows.map((r: any) => r.wikidata_qid as string);
 
       const sparqlStats = await getNoseStats(qids);
 

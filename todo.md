@@ -111,3 +111,13 @@
 - [x] Corriger ImportCSV.tsx (namespaces importMolecules/importPlants non reconnus par le type checker)
 - [x] Corriger accès non sécurisés aux données de query (optional chaining data?.xxx) dans 60+ pages
 - [x] 0 erreurs TypeScript — 1893 tests passés (126 fichiers) après toutes les corrections
+
+## Session Mai 2026 — Typage SQL + Décomposition MoleculeDetail
+
+- [x] Typer les retours SQL (remplacer any[] par Record<string,unknown>[] et types explicites dans db/, routers/)
+- [x] Corriger les erreurs TS introduites par le typage SQL (powo-kew.ts, recipes.ts, sparql.ts, storylines.ts, variety-images.ts, recettes.ts)
+- [x] Décomposer MoleculeDetail.tsx (3794 → 2824 lignes, -26%)
+- [x] Extraire PerfumesTab, Structure3DTab, SynergiesTab, RecetteSynergiesSection, PyrfumeSection, SimilarMolecules vers client/src/components/molecule/
+- [x] Créer barrel file client/src/components/molecule/index.ts
+- [x] Corriger test referenceEntityLinks.test.ts (IDs timestamp-based pour éviter collisions)
+- [x] 0 erreurs TypeScript, 1893 tests passés (126 fichiers), 0 échec
