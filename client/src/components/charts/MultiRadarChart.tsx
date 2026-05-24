@@ -364,7 +364,7 @@ export function MultiRadarChart({
         const dataPoint = dataset.data.find(d => d.axis === allAxes[i]);
         if (dataPoint) {
           circle.append("title")
-            .text(`${dataset.name}\n${dataPoint.axis}: ${(dataPoint).toFixed(1)}`);
+            .text(`${dataset.name}\n${dataPoint.axis}: ${dataPoint.value.toFixed(1)}`);
         }
       });
     });
@@ -496,7 +496,7 @@ export function MultiRadarChart({
                         />
                         <span className="text-muted-foreground">{v.name}</span>
                       </div>
-                      <span className="font-medium">{(v).toFixed(1)}</span>
+                      <span className="font-medium">{v.value.toFixed(1)}</span>
                     </div>
                   ))}
                 </div>
