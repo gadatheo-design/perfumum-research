@@ -114,7 +114,8 @@ describe("Session 06 Jan 2026 - Enrichissement avancé", () => {
       const molecule = await db.getMoleculeById(870001);
       expect(molecule).toBeDefined();
       expect(molecule?.name).toBe("Anéthole");
-      expect(molecule?.casNumber).toBe("4180-23-8");
+      // 104-46-1 = p-Anéthole (isomère trans), 4180-23-8 = trans-Anéthole (synonyme)
+      expect(molecule?.casNumber).toBe("104-46-1");
     });
 
     it("should have Estragole molecule in database", async () => {

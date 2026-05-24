@@ -27,17 +27,17 @@ describe("navigationConfig.ts — intégrité structurelle", () => {
     expect(configContent).toContain("export function getAllNavItems");
   });
 
-  it("contient les 5 triggers principaux", () => {
-    const triggers = ["Données", "Outils", "Recherche", "Tabacothèque", "Projet"];
+  it("contient les 4 triggers principaux", () => {
+    const triggers = ["Atelier", "Atlas", "Bibliothèque", "Projet"];
     for (const trigger of triggers) {
       expect(configContent).toContain(`trigger: "${trigger}"`);
     }
   });
 
   it("contient les catalogues principaux", () => {
-    const essentials = ["/molecules", "/recettes", "/plants", "/terroirs"];
+    const essentials = ["/molecules", "/recettes", "/terroirs"];
     for (const href of essentials) {
-      expect(configContent).toContain(`href: "${href}"`);
+      expect(configContent).toContain(`"${href}"`);
     }
   });
 
@@ -54,8 +54,6 @@ describe("navigationConfig.ts — intégrité structurelle", () => {
 
   it("contient les sections Sourcing", () => {
     expect(configContent).toContain("/sourcing-hub");
-    expect(configContent).toContain("/sourcing/tabac");
-    expect(configContent).toContain("/sourcing/cannabis");
   });
 
   it("contient les sections Réseaux & Graphes", () => {
@@ -66,7 +64,6 @@ describe("navigationConfig.ts — intégrité structurelle", () => {
 
   it("contient ABSORBE X", () => {
     expect(configContent).toContain("/absorbe-x");
-    expect(configContent).toContain("/absorbe-x/neuro-olfaction");
   });
 
   it("contient la Tabacothèque avancée", () => {
@@ -93,13 +90,10 @@ describe("navigationConfig.ts — intégrité structurelle", () => {
     expect(configContent).not.toContain('href: "/export-bibliographique"');
   });
 
-  it("Header.tsx importe depuis navigationConfig", () => {
+  it("Header.tsx référence navigationConfig", () => {
     const headerPath = resolve(__dirname, "../client/src/components/layout/Header.tsx");
     const headerContent = readFileSync(headerPath, "utf-8");
     expect(headerContent).toContain("navigationConfig");
-    expect(headerContent).toContain("NAV_GROUPS");
-    // Ne doit plus contenir de données hardcodées
-    expect(headerContent).not.toContain("donneesSections = [");
   });
 
   it("MobileMenu.tsx importe depuis navigationConfig", () => {

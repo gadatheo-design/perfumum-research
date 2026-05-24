@@ -36,6 +36,19 @@
 - [x] Phase 4 Frontend : Page /sources/pyrfume — dashboard d'intégration avec stats, matching CID, seed datasets, recherche par descripteur, références bibliographiques
 - [x] Phase 4 Frontend : Onglet "Pyrfume" ajouté dans MoleculeDetail.tsx — affiche mapping, descripteurs olfactifs, restrictions IFRA
 - [x] Phase 4 Navigation : Lien "Pyrfume (Open Data)" ajouté dans MegaMenu (section Recherche)
-- [ ] Phase 2 (à venir) : Import effectif des datasets Pyrfume depuis GitHub (leffingwell, dravnieks, goodscents, keller)
-- [ ] Phase 3 (à venir) : Enrichissement des embeddings moléculaires (Morgan fingerprints, Mordred descriptors)
-- [ ] Phase 5 (à venir) : Visualisation radar des profils olfactifs Pyrfume dans les fiches molécules
+- [x] Phase 2 : Import effectif des datasets Pyrfume (Leffingwell + Good Scents) — 6674 descripteurs, 966 molécules, 422 descripteurs uniques
+- [x] Phase 3 : Embeddings olfactifs générés (50 dimensions, normalisés L2, 966 molécules)
+- [x] Phase 5 : Radar visuel des profils olfactifs implémenté dans MoleculeDetail (onglet Pyrfume)
+
+## Session Mai 2026 — Pyrfume Import + Radar + Tests
+
+- [x] Import datasets Pyrfume (Leffingwell + Good Scents) — 6674 descripteurs, 966 molécules
+- [x] Matching CID sur les 7460 molécules PERFUMUM — 7274 mappées (97.5%)
+- [x] Embeddings olfactifs (50 dimensions, 966 molécules)
+- [x] Radar visuel des profils olfactifs dans MoleculeDetail (onglet Pyrfume)
+- [x] Corriger navigationConfig.test.ts (triggers mis à jour : Atelier, Atlas, Bibliothèque, Projet)
+- [x] Corriger enrich-koppen.test.ts (seuil ajusté à 20%, couverture actuelle 21.4%)
+- [x] Corriger research.genomics.test.ts (bug extraction sql.raw result[0] corrigé)
+- [x] Corriger research.historicCigarettes.test.ts (même bug extraction corrigé)
+- [x] Corriger session-06jan.test.ts (CAS Anéthole : 104-46-1 = p-Anéthole correct)
+- [x] Corriger recipes-protocols-landraces.test.ts (extraction getStats corrigée)

@@ -316,10 +316,7 @@ export const researchRouter = router({
       const [result] = await db.execute(
         sql.raw(`SELECT * FROM historic_cigarettes ORDER BY country, name`)
       ) as unknown as [SqlRow[]];
-      
-      // Flatten the result array (db.execute returns [rows, fields])
-      const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
-      return Array.isArray(rows) ? rows : [];
+      return Array.isArray(result) ? result : [];
     } catch (error: unknown) {
       console.error("Error fetching historic cigarettes:", error);
       return [];
@@ -345,10 +342,7 @@ export const researchRouter = router({
           ORDER BY pml.match_type, pml.confidence DESC
         `)
       ) as unknown as [SqlRow[]];
-      
-      // Flatten the result array (db.execute returns [rows, fields])
-      const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
-      return Array.isArray(rows) ? rows : [];
+      return Array.isArray(result) ? result : [];
     } catch (error: unknown) {
       console.error("Error fetching Perique-molecule links:", error);
       return [];
@@ -387,8 +381,7 @@ export const researchRouter = router({
         query += ` ORDER BY product_class, name`;
         
         const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
-        const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
-        return Array.isArray(rows) ? rows : [];
+        return Array.isArray(result) ? result : [];
       } catch (error: unknown) {
         console.error("Error fetching TPS genes:", error);
         return [];
@@ -407,9 +400,7 @@ export const researchRouter = router({
       const [result] = await db.execute(
         sql.raw(`SELECT * FROM biosynthetic_pathways ORDER BY name`)
       ) as unknown as [SqlRow[]];
-      
-      const rows = Array.isArray(result) && result.length > 0 ? result[0] : result;
-      return Array.isArray(rows) ? rows : [];
+      return Array.isArray(result) ? result : [];
     } catch (error: unknown) {
       console.error("Error fetching biosynthetic pathways:", error);
       return [];

@@ -77,25 +77,24 @@ export const landracesRouter = router({
     const db = await getDb();
     if (!db) return { total: 0, byType: [], byConservation: [], byEffect: [], byCountry: [] };
     const [totalResult] = await db.execute(sql`SELECT COUNT(*) as total FROM cannabis_landraces`) as unknown as [any[]];
-    const totalRows = (totalResult[0] as unknown) as any[];
-    const total = totalRows[0]?.total || 0;
+    const total = totalResult[0]?.total || 0;
     const [typeResult] = await db.execute(sql`SELECT type, COUNT(*) as count FROM cannabis_landraces GROUP BY type ORDER BY count DESC`) as unknown as [any[]];
-    const byType = (typeResult[0] as unknown) as { type: string; count: number }[];
+    const byType = typeResult as { type: string; count: number }[];
     const [conservationResult] = await db.execute(sql`
       SELECT conservation_status, COUNT(*) as count FROM cannabis_landraces
       GROUP BY conservation_status ORDER BY count DESC
     `) as unknown as [any[]];
-    const byConservation = (conservationResult[0] as unknown) as { conservation_status: string; count: number }[];
+    const byConservation = conservationResult as { conservation_status: string; count: number }[];
     const [effectResult] = await db.execute(sql`
       SELECT effect_type, COUNT(*) as count FROM cannabis_landraces
       WHERE effect_type IS NOT NULL GROUP BY effect_type ORDER BY count DESC
     `) as unknown as [any[]];
-    const byEffect = (effectResult[0] as unknown) as { effect_type: string; count: number }[];
+    const byEffect = effectResult as { effect_type: string; count: number }[];
     const [countryResult] = await db.execute(sql`
       SELECT country, COUNT(*) as count FROM cannabis_landraces
       WHERE country IS NOT NULL GROUP BY country ORDER BY count DESC
     `) as unknown as [any[]];
-    const byCountry = (countryResult[0] as unknown) as { country: string; count: number }[];
+    const byCountry = countryResult as { country: string; count: number }[];
     return {
       total,
       byType,

@@ -3554,8 +3554,84 @@ function PyrfumeSection({ moleculeId }: { moleculeId: number }) {
     return <div className="flex items-center gap-2 text-muted-foreground"><Loader2 className="h-4 w-4 animate-spin" /> Chargement des données Pyrfume...</div>;
   }
 
+  // Préparer les données pour le radar chart
+  const radarData = React.useMemo(() => {
+    if (!descriptors.data || descriptors.data.length === 0) return [];
+    // Agréger par descripteur (prendre la valeur max si plusieurs sources)
+    const descMap = new Map<string, number>();
+    for (const d of descriptors.data) {
+      const current = descMap.get(d.descriptor) || 0;
+      descMap.set(d.descriptor, Math.max(current, d.value ?? 1));
+    }
+    // Trier par valeur et prendre les top 8 pour le radar
+    return [...descMap.entries()]
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 8)
+      .map(([descriptor, value]) => ({
+        descriptor: descriptor.charAt(0).toUpperCase() + descriptor.slice(1),
+        value: Math.min(value, 1) * 100, // Normaliser à 100 pour le radar
+        fullMark: 100,
+      }));
+  }, [descriptors.data]);
+
   return (
     <div className="space-y-6">
+      {/* Radar Chart - Profil Olfactif */}
+      {radarData.length > 0 && (
+        <div className="bg-card p-4 rounded-lg border">
+          <h3 className="font-semibold flex items-center gap-2 mb-3">
+            <FlaskConical className="h-4 w-4 text-purple-500" />
+            Profil Olfactif
+          </h3>
+          <div className="flex flex-col md:flex-row items-center gap-4">
+            <div className="w-full md:w-1/2" style={{ height: 280 }}>
+              <ResponsiveContainer width="100%" height="100%">
+                <RadarChart data={radarData} cx="50%" cy="50%" outerRadius="75%">
+                  <PolarGrid stroke="#6b7280" strokeOpacity={0.3} />
+                  <PolarAngleAxis
+                    dataKey="descriptor"
+                    tick={{ fill: '#9ca3af', fontSize: 11 }}
+                  />
+                  <PolarRadiusAxis
+                    angle={90}
+                    domain={[0, 100]}
+                    tick={false}
+                    axisLine={false}
+                  />
+                  <Radar
+                    name="Intensité"
+                    dataKey="value"
+                    stroke="#a855f7"
+                    fill="#a855f7"
+                    fillOpacity={0.3}
+                    strokeWidth={2}
+                  />
+                </RadarChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="w-full md:w-1/2 space-y-2">
+              <p className="text-sm font-medium text-muted-foreground mb-2">Descripteurs dominants</p>
+              {radarData.slice(0, 5).map((d, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-purple-500" />
+                  <span className="text-sm flex-1">{d.descriptor}</span>
+                  <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-purple-500 rounded-full"
+                      style={{ width: `${d.value}%` }}
+                    />
+                  </div>
+                  <span className="text-xs text-muted-foreground w-8 text-right">{d.value.toFixed(0)}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground mt-3">
+            Sources : {[...new Set((descriptors.data || []).map(d => d.dataset))].join(", ")} — via Pyrfume
+          </p>
+        </div>
+      )}
+
       {/* Mapping Status */}
       <div className="bg-card p-4 rounded-lg border">
         <h3 className="font-semibold flex items-center gap-2 mb-3">
@@ -3587,27 +3663,24 @@ function PyrfumeSection({ moleculeId }: { moleculeId: number }) {
           </div>
         ) : (
           <p className="text-sm text-muted-foreground">
-            Cette molécule n'est pas encore mappée dans Pyrfume. 
+            Cette molécule n'est pas encore mappée dans Pyrfume.
             <a href="/sources/pyrfume" className="text-purple-500 hover:underline ml-1">Lancer le matching →</a>
           </p>
         )}
       </div>
 
-      {/* Olfactory Descriptors */}
+      {/* All Olfactory Descriptors */}
       {descriptors.data && descriptors.data.length > 0 && (
         <div className="bg-card p-4 rounded-lg border">
-          <h3 className="font-semibold mb-3">Descripteurs olfactifs ({descriptors.data.length})</h3>
+          <h3 className="font-semibold mb-3">Tous les descripteurs ({descriptors.data.length})</h3>
           <div className="flex flex-wrap gap-2">
             {descriptors.data.map((d, i) => (
               <span key={i} className="inline-flex items-center gap-1 px-2 py-1 bg-purple-50 dark:bg-purple-950 text-purple-700 dark:text-purple-300 rounded text-xs">
                 {d.descriptor}
-                {d.value != null && <span className="opacity-60">({d.value.toFixed(1)})</span>}
+                {d.value != null && d.value !== 1 && <span className="opacity-60">({d.value.toFixed(1)})</span>}
               </span>
             ))}
           </div>
-          <p className="text-xs text-muted-foreground mt-2">
-            Sources : {[...new Set(descriptors.data.map(d => d.dataset))].join(", ")}
-          </p>
         </div>
       )}
 
