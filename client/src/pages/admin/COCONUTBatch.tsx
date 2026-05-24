@@ -46,6 +46,7 @@ export default function COCONUTBatch() {
     { enabled: false }
   );
   const enrichMutation = trpc.coconut.enrichMolecule.useMutation();
+  const enrichBatchMutation = trpc.coconut.enrichBatch.useMutation();
 
   const addLog = useCallback((entry: Omit<LogEntry, "timestamp">) => {
     setLogs(prev => [{ ...entry, timestamp: new Date() }, ...prev].slice(0, 500));
@@ -71,6 +72,36 @@ export default function COCONUTBatch() {
       setElapsed(prev => prev + 1);
     }, 1000);
 
+    // Mode batch serveur pour les lots >=200 (traitement côté serveur, pas de timeout client)
+    if (batchSize >= 200) {
+      setTotalToProcess(batchSize);
+      addLog({ id: 0, name: "—", status: "skipped", message: `Lot ${batchSize} mol. — mode serveur actif (traitement en arrière-plan)...` });
+      try {
+        const res = await enrichBatchMutation.mutateAsync({ limit: batchSize });
+        setProcessed(res.total);
+        setSucceeded(res.enriched);
+        setFailed(res.errors);
+        setWithOrganisms(res.withOrganisms);
+        setTotalToProcess(res.total);
+        res.details.forEach(d => addLog({
+          id: 0,
+          name: d.name,
+          status: d.success ? 'success' : 'error',
+          message: d.success
+            ? `Enrichi · ${d.organisms || 0} organisme(s) · ${d.newPlantLinks || 0} lien(s) plante`
+            : 'Non trouvée dans LOTUS',
+        }));
+        addLog({ id: 0, name: "—", status: "success", message: `Batch terminé : ${res.enriched} enrichies, ${res.errors} erreurs sur ${res.total} molécules.` });
+      } catch (err: any) {
+        addLog({ id: 0, name: "—", status: "error", message: `Erreur batch serveur : ${err?.message || 'Erreur inconnue'}` });
+      }
+      setIsRunning(false);
+      if (timerRef.current) clearInterval(timerRef.current);
+      statsQuery.refetch();
+      return;
+    }
+
+    // Mode client pour les petits lots (<200)
     const result = await unenrichedQuery.refetch();
     const molecules = result.data || [];
 
@@ -99,17 +130,17 @@ export default function COCONUTBatch() {
 
         if (res.success) {
           setSucceeded(prev => prev + 1);
-          if (res.data?.organisms && res.data.organisms > 0) {
+          if (res.data?.organisms && (res.data.organisms as unknown as { length?: number })?.length
+            ? (res.data.organisms as unknown as unknown[]).length > 0
+            : (res.data.organisms as unknown as number) > 0) {
             setWithOrganisms(prev => prev + 1);
           }
           addLog({
             id: mol.id,
             name: mol.name,
             status: "success",
-            message: `LOTUS ID: ${res.data?.coconutId} · ${res.data?.organisms || 0} organisme(s)`,
-
-            coconutId: res.data?.coconutId,
-            organisms: res.data?.organisms,
+            message: `LOTUS ID: ${res.data?.coconutId} · organismes trouvés`,
+            coconutId: res.data?.coconutId as string | undefined,
           });
         } else if (res.message?.includes("déjà enrichie")) {
           setSkipped(prev => prev + 1);
