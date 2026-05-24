@@ -6355,7 +6355,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
     }),
     
     // Mode batch automatique - enrichir un lot avec progression
-    enrichBatchAuto: publicProcedure
+    enrichBatchAuto: protectedProcedure
       .input(z.object({
         batchSize: z.number().min(1).max(20).default(10),
         startIndex: z.number().min(0).default(0),

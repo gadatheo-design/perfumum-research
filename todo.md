@@ -59,3 +59,31 @@
 - [x] Importer 13 240 descripteurs olfactifs Dravnieks (62 molécules PERFUMUM enrichies)
 - [x] Régénérer les embeddings olfactifs (971 molécules, 50 dimensions)
 - [x] Totaux finaux : 19 914 descripteurs, 971 molécules, 515 descripteurs uniques (3 datasets)
+
+## Import Keller 2016 (Mai 2026)
+- [x] Télécharger behavior.csv (68 MB, 1.43M lignes, 960 stimuli)
+- [x] Agréger les ratings par molécule (480 CIDs, 21 dimensions psychophysiques)
+- [x] Insérer 5 277 descripteurs (intensité, agrément, familiarité + 18 descripteurs olfactifs)
+- [x] 230 molécules PERFUMUM enrichies avec données Keller
+- [x] Régénérer les embeddings olfactifs (976 molécules, 50D)
+- [x] Protéger enrichBatchAuto (dernière mutation publique sensible)
+
+## Bilan Rapport 1 — État d'avancement complet
+| # | Recommandation | État | Détails |
+|---|---------------|------|---------|
+| 1 | Protéger mutations destructives | FAIT | enrichMolecule, enrichBatch, geocodeBatch, enrichBatchAuto, executeMergeDuplicates, enrichKoppenData, importToDatabase, autoLinkTpsGenes |
+| 2 | CI GitHub Actions | FAIT | ci.yml + navigation-audit.yml + datadog-synthetics.yml |
+| 3 | Découper server/routers.ts (13 090 lignes) | PARTIEL | 56 sous-routeurs extraits, fichier principal reste volumineux |
+| 4 | Tests aiEnrichMolecule | FAIT | 5 fichiers de tests enrichissement existants |
+| 5 | Lazy loading | FAIT | 386 pages en lazy loading |
+| 6 | Typer retours SQL (supprimer any[]) | NON FAIT | Dette technique long terme (2 444 occurrences) |
+| 7 | Découper drizzle/schema.ts (7 313 lignes) | NON FAIT | Dette technique long terme |
+| 8 | Décomposer MoleculeDetail.tsx (3 719 lignes) | NON FAIT | Dette technique long terme |
+| 9 | États d'erreur explicites | FAIT | Implémentés dans les pages principales |
+| 10 | Merger branche codex/check-structure | FAIT | Déjà sur main |
+
+### Totaux Pyrfume après Keller
+- Descripteurs olfactifs : 25 191 (Leffingwell 2 266 + Good Scents 4 408 + Dravnieks 13 240 + Keller 5 277)
+- Molécules couvertes : 976
+- Embeddings olfactifs : 976 (50 dimensions, normalisés L2)
+- Datasets importés : 4/7
