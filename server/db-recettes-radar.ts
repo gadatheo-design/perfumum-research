@@ -80,8 +80,9 @@ export async function getAllRecettesWithRadar(): Promise<RecetteWithRadar[]> {
     async () => {
       const db = await getDb();
       if (!db) return [];
-      const [rows] = await (db as any).$client.promise().query(RADAR_QUERY);
-      return (rows as any[]).map((r: any) => ({
+      type RadarRow = Record<string, unknown>;
+      const [rows] = await (db as unknown as { $client: { promise: () => { query: (q: string) => Promise<[RadarRow[], unknown]> } } }).$client.promise().query(RADAR_QUERY);
+      return rows.map((r: RadarRow) => ({
         id: r.id,
         name: r.name,
         category: r.category,

@@ -1188,19 +1188,33 @@ export async function getPlantFamiliesWithCategories(): Promise<{family: string;
 
 // === SMILES et PubChem ===
 
+interface MoleculeWithSmiles {
+  id: number;
+  name: string;
+  smiles: string | null;
+  pubchem_cid: number | null;
+  chemicalFormula: string | null;
+  molecularWeight: number | null;
+  cas_number: string | null;
+  chemical_class: string | null;
+  iupac_name: string | null;
+  inchi: string | null;
+  inchi_key: string | null;
+}
+
 export async function getMoleculesWithSmiles(params: {
   search?: string;
   chemicalClass?: string;
   limit?: number;
   offset?: number;
-}): Promise<{ molecules: any[]; total: number }> {
+}): Promise<{ molecules: MoleculeWithSmiles[]; total: number }> {
   const db = await getDb();
   if (!db) return { molecules: [], total: 0 };
   
   const { search, chemicalClass, limit = 20, offset = 0 } = params;
   
   let whereClause = "WHERE (smiles IS NOT NULL AND smiles != '') OR pubchem_cid IS NOT NULL";
-  const queryParams: any[] = [];
+  const queryParams: (string | number)[] = [];
   
   if (search) {
     whereClause += " AND (name LIKE ? OR cas_number LIKE ? OR chemicalFormula LIKE ?)";
@@ -1232,8 +1246,7 @@ export async function getMoleculesWithSmiles(params: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [molecules] = await (db as any).execute(selectQuery, [...queryParams, limit, offset]);
   
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return { molecules: molecules as any[], total };
+  return { molecules: molecules as MoleculeWithSmiles[], total };
 }
 
 export async function getChemicalClasses(): Promise<{ name: string; count: number }[]> {

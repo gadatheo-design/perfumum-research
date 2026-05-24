@@ -115,6 +115,34 @@ import { bibliographyRouter } from "./routers/bibliography";
 import { plantsRouter } from "./routers/plants";
 import { importRouter } from "./routers/import";
 import { moleculesRouter } from "./routers/molecules";
+import type { SQL } from "drizzle-orm";
+
+// ── Types pour les réponses LLM enrichissement ────────────────────────────────
+interface PlantEnrichmentLLM {
+  olfactiveProfile: string[];
+  therapeuticProperties: string[];
+  dominantMolecules: string[];
+  traditionalUse: string;
+  habitat: string;
+  description: string;
+}
+interface RawMaterialEnrichmentLLM {
+  description: string;
+  olfactiveProfile: string[];
+  therapeuticProperties: string[];
+  keyMolecules: string[];
+  usagesInPerfumery: string;
+  extractionDetails: string;
+  qualityMarkers: string[];
+}
+interface MoleculeEnrichmentLLM {
+  olfactiveProfile: string[];
+  therapeuticProperties: string[];
+  family: string;
+  iupac_name: string;
+  notes: string;
+}
+// ─────────────────────────────────────────────────────────────────────────────
 export const appRouter = router({
   system: systemRouter,
   importExport: importExportRouter,
@@ -294,10 +322,10 @@ export const appRouter = router({
         if (!dbConn) return [];
         const { laboratoire: labTable } = await import('../drizzle/schema');
         const { eq, like, and, or, asc } = await import('drizzle-orm');
-        const conditions: any[] = [];
-        if (input?.type) conditions.push(eq(labTable.type, input.type! as any));
-        if (input?.status) conditions.push(eq(labTable.status, input.status! as any));
-        if (input?.note) conditions.push(eq(labTable.note, input.note! as any));
+        const conditions: SQL[] = [];
+        if (input?.type) conditions.push(eq(labTable.type, input.type!));
+        if (input?.status) conditions.push(eq(labTable.status, input.status!));
+        if (input?.note) conditions.push(eq(labTable.note, input.note!));
         if (input?.search) {
           conditions.push(or(
             like(labTable.name, `%${input.search}%`),
@@ -3031,7 +3059,7 @@ Génère un objet JSON avec les champs suivants (uniquement les champs que tu pe
 
 Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
 
-        let enriched: any;
+        let enriched: PlantEnrichmentLLM;
         try {
           const response = await invokeLLM({
             messages: [
@@ -3062,8 +3090,8 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           const raw = response?.choices?.[0]?.message?.content;
           if (!raw) throw new Error('Réponse LLM vide');
           enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
-        } catch (err: any) {
-          throw new Error(`Erreur IA enrichissement plante "${plant.name}": ${err?.message || 'Échec appel LLM'}`);
+        } catch (err: unknown) {
+          throw new Error(`Erreur IA enrichissement plante "${plant.name}": ${err instanceof Error ? err.message : 'Échec appel LLM'}`);
         }
 
         const { createConnection: _ccPlantUpd } = await import('mysql2/promise');
@@ -3133,7 +3161,7 @@ Génère un objet JSON avec les champs suivants :
 }
 
 Réponds UNIQUEMENT avec le JSON.`;
-        let enriched: any;
+        let enriched: PlantEnrichmentLLM;
         try {
           const response = await invokeLLM({
             messages: [
@@ -3164,8 +3192,8 @@ Réponds UNIQUEMENT avec le JSON.`;
           const raw = response?.choices?.[0]?.message?.content;
           if (!raw) throw new Error('Réponse LLM vide');
           enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
-        } catch (err: any) {
-          throw new Error(`Erreur IA preview plante "${plant.name}": ${err?.message || 'Échec appel LLM'}`);
+        } catch (err: unknown) {
+          throw new Error(`Erreur IA preview plante "${plant.name}": ${err instanceof Error ? err.message : 'Échec appel LLM'}`);
         }
         return { success: true, enriched, plantName: plant.name };
       }),
@@ -3207,7 +3235,7 @@ Génère un objet JSON avec les champs suivants :
 }
 
 Réponds UNIQUEMENT avec le JSON.`;
-        let enriched: any;
+        let enriched: RawMaterialEnrichmentLLM & { olfactiveNotes?: string[] };
         try {
           const response = await invokeLLM({
             messages: [
@@ -3238,8 +3266,8 @@ Réponds UNIQUEMENT avec le JSON.`;
           const raw = response?.choices?.[0]?.message?.content;
           if (!raw) throw new Error('Réponse LLM vide');
           enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
-        } catch (err: any) {
-          throw new Error(`Erreur IA enrichissement matière "${rm.name}": ${err?.message || 'Échec appel LLM'}`);
+        } catch (err: unknown) {
+          throw new Error(`Erreur IA enrichissement matière "${rm.name}": ${err instanceof Error ? err.message : 'Échec appel LLM'}`);
         }
         if (enriched.description) {
           const { createConnection: _cc } = await import('mysql2/promise');
@@ -3282,7 +3310,7 @@ Génère un objet JSON :
   "extractionDetails": "détails extraction",
   "qualityMarkers": ["marqueur1", "marqueur2"]
 }"`;
-        let enriched: any;
+        let enriched: RawMaterialEnrichmentLLM & { olfactiveNotes?: string[] };
         try {
           const response = await invokeLLM({
             messages: [
@@ -3313,8 +3341,8 @@ Génère un objet JSON :
           const raw = response?.choices?.[0]?.message?.content;
           if (!raw) throw new Error('Réponse LLM vide');
           enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
-        } catch (err: any) {
-          throw new Error(`Erreur IA preview matière "${rm.name}": ${err?.message || 'Échec appel LLM'}`);
+        } catch (err: unknown) {
+          throw new Error(`Erreur IA preview matière "${rm.name}": ${err instanceof Error ? err.message : 'Échec appel LLM'}`);
         }
         return { success: true, enriched, materialName: rm.name };
       }),
@@ -3348,7 +3376,7 @@ Génère un objet JSON avec les champs suivants (uniquement ceux que tu peux enr
   "notes": "description scientifique enrichie (2-3 phrases)"
 }
 Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
-        let enriched: any;
+        let enriched: MoleculeEnrichmentLLM;
         try {
           const response = await invokeLLM({
             messages: [
@@ -3377,8 +3405,8 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           });
           const raw = response.choices[0].message.content;
           enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
-        } catch (err: any) {
-          throw new Error(`Erreur IA preview molécule "${mol.name}": ${err?.message || 'Échec appel LLM'}`);
+        } catch (err: unknown) {
+          throw new Error(`Erreur IA preview molécule "${mol.name}": ${err instanceof Error ? err.message : 'Échec appel LLM'}`);
         }
         return { molecule: mol, enriched };
       }),
@@ -3410,7 +3438,7 @@ Génère un objet JSON avec les champs suivants :
   "notes": "description scientifique enrichie (2-3 phrases)"
 }
 Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
-        let enriched: any;
+        let enriched: MoleculeEnrichmentLLM;
         try {
           const response = await invokeLLM({
             messages: [
@@ -3439,8 +3467,8 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
           });
           const raw = response.choices[0].message.content;
           enriched = typeof raw === 'string' ? JSON.parse(raw) : raw;
-        } catch (err: any) {
-          throw new Error(`Erreur IA enrichissement molécule "${mol.name}": ${err?.message || 'Échec appel LLM'}`);
+        } catch (err: unknown) {
+          throw new Error(`Erreur IA enrichissement molécule "${mol.name}": ${err instanceof Error ? err.message : 'Échec appel LLM'}`);
         }
         const updates: string[] = [];
         const params: (string | number | null)[] = [];

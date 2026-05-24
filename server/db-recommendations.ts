@@ -96,13 +96,15 @@ const ALL_RECETTES_RADAR_SQL = `
   ORDER BY r.id
 `;
 
+type DbWithClient = { $client: { promise: () => { query: (q: string) => Promise<[Record<string, unknown>[], unknown]> } } };
+
 // Récupérer tous les profils radar en 1 requête + cache TTL 5 min
-async function getAllRecettesRadarProfiles(db: any): Promise<RecetteWithRadar[]> {
+async function getAllRecettesRadarProfiles(db: DbWithClient): Promise<RecetteWithRadar[]> {
   return withCache<RecetteWithRadar[]>(
     RADAR_PROFILES_CACHE_KEY,
     async () => {
       const [rows] = await db.$client.promise().query(ALL_RECETTES_RADAR_SQL);
-      return (rows as any[]).map((r: any) => ({
+      return rows.map((r: Record<string, unknown>) => ({
     id: r.id,
     name: r.name,
     category: r.category,
@@ -196,7 +198,7 @@ export async function getSimilarMolecules(
         FROM molecules
         ORDER BY id
       `);
-      return (rows as any[]).map((m: any) => ({
+      return rows.map((m: Record<string, unknown>) => ({
     id: m.id,
     name: m.name,
     family: m.family,

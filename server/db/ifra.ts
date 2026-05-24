@@ -497,8 +497,11 @@ export async function getIfraStats() {
 /**
  * Update molecule with IFRA regulatory data
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function updateMoleculeIFRAData(moleculeId: number, ifraData: any): Promise<void> {
+interface IFRAData {
+  status: string;
+  [key: string]: unknown;
+}
+export async function updateMoleculeIFRAData(moleculeId: number, ifraData: IFRAData): Promise<void> {
   const db = await getDb();
   if (!db) return;
   

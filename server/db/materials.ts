@@ -430,7 +430,22 @@ export async function updateSupplier(id: number, data: Partial<{
   isPreferred: boolean;
   notes: string;
 }>) {
-  const updateData: any = {};
+  type SupplierUpdate = {
+    name?: string;
+    companyName?: string;
+    country?: string;
+    region?: string;
+    email?: string;
+    phone?: string;
+    website?: string;
+    specialties?: string;
+    description?: string;
+    rating?: number;
+    certifications?: string;
+    isPreferred?: number;
+    notes?: string;
+  };
+  const updateData: SupplierUpdate = {};
   if (data.name !== undefined) updateData.name = data.name;
   if (data.companyName !== undefined) updateData.companyName = data.companyName;
   if (data.country !== undefined) updateData.country = data.country;

@@ -387,8 +387,7 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
   const perCategoryLimit = Math.ceil(limit / 9);
 
   // Fonction helper pour construire les conditions de recherche enrichies
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const buildEnrichedSearchCondition = (columns: any[]) => {
+  const buildEnrichedSearchCondition = (columns: SQL[]) => {
     const conditions: ReturnType<typeof sql>[] = [];
     
     // Recherche principale (terme original) - priorité haute
