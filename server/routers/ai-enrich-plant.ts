@@ -3,6 +3,7 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
+import { PlantEnrichmentLLM } from "../routers";
 
 export const aiEnrichPlantRouter = router({
   enrich: protectedProcedure

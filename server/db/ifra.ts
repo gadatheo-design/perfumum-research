@@ -497,10 +497,8 @@ export async function getIfraStats() {
 /**
  * Update molecule with IFRA regulatory data
  */
-interface IFRAData {
-  status: string;
-  [key: string]: unknown;
-}
+// IFRAData imported from ../ifra
+import type { IFRAData } from "../ifra";
 export async function updateMoleculeIFRAData(moleculeId: number, ifraData: IFRAData): Promise<void> {
   const db = await getDb();
   if (!db) return;

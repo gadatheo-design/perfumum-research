@@ -4,7 +4,7 @@
  * Sections: ADMIN FUNCTIONS, GLOBAL SEARCH, DASHBOARD STATISTICS (+3 autres)
  */
 
-import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, lte, inArray, notInArray, count, type SQL } from "drizzle-orm";
+import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, lte, inArray, notInArray, count, type SQL, type AnyColumn } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   InsertUser, 
@@ -387,7 +387,7 @@ export async function globalSearch(query: string, limit: number = 50): Promise<{
   const perCategoryLimit = Math.ceil(limit / 9);
 
   // Fonction helper pour construire les conditions de recherche enrichies
-  const buildEnrichedSearchCondition = (columns: SQL[]) => {
+  const buildEnrichedSearchCondition = (columns: AnyColumn[]) => {
     const conditions: ReturnType<typeof sql>[] = [];
     
     // Recherche principale (terme original) - priorité haute

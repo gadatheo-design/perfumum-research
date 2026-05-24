@@ -512,7 +512,7 @@ export const pyrfumeRouter = router({
           name: molecules.name,
           iupacName: molecules.iupacName,
           casNumber: molecules.casNumber,
-          molecularFormula: molecules.molecularFormula,
+          molecularFormula: molecules.chemicalFormula,
         })
         .from(molecules)
         .where(inArray(molecules.id, moleculeIds));

@@ -3,6 +3,7 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
+import { createPlantVariety, deletePlantVariety, getAllPlantVarieties, getPlantVarietiesByPlant, getPlantVarietyById, updatePlantVariety } from "../db/plants";
 
 export const plantVarietiesRouter = router({
   getAll: publicProcedure.query(async () => {

@@ -153,7 +153,6 @@ import { genealogyRouter } from "./routers/genealogy";
 import { aromaticAccordsRouter } from "./routers/aromatic-accords";
 import { chemotypesRouter } from "./routers/chemotypes";
 import { analyticsRouter } from "./routers/analytics";
-import { chemicalFamiliesRouter } from "./routers/chemical-families";
 import { gcmsImportRouter } from "./routers/gcms-import";
 import { moleculeContributionsRouter } from "./routers/molecule-contributions";
 import { classificationReviewsRouter } from "./routers/classification-reviews";
@@ -178,9 +177,77 @@ import { galleryRouter } from "./routers/gallery";
 import { uploadRouter } from "./routers/upload";
 import { plantMoleculeLinksRouter } from "./routers/plant-molecule-links";
 import { formulasRouter } from "./routers/formulas";
+import { completudeRouter } from "./routers/completude";
+import { navigationRouter } from "./routers/navigation";
+import { forceGraphRouter } from "./routers/force-graph";
+import { ghostVarietyExtendedRouter } from "./routers/ghost-variety-extended";
+import { progressReportsRouter } from "./routers/progress-reports";
+import { notificationsRouter } from "./routers/notifications";
+import { orphanMoleculesRouter } from "./routers/orphan-molecules";
+import { graphVisualizationRouter } from "./routers/graph-visualization";
+import { autoLinkingRouter } from "./routers/auto-linking";
+import { linkingCoverageRouter } from "./routers/linking-coverage";
+import { axisGraphRouter } from "./routers/axis-graph";
+import { thematicAxesRouter } from "./routers/thematic-axes";
+import { plantsConservationRouter } from "./routers/plants-conservation";
+import { markersRouter } from "./routers/markers";
+import { ifraCategoriesRouter } from "./routers/ifra-categories";
+import { contentStatsRouter } from "./routers/content-stats";
+import { advancedSearchRouter } from "./routers/advanced-search";
+import { fullProfilesRouter } from "./routers/full-profiles";
+import { terroirSpecialtiesRouter } from "./routers/terroir-specialties";
+import { moleculePlantSourcesRouter } from "./routers/molecule-plant-sources";
+import { recetteRawMaterialsRouter } from "./routers/recette-raw-materials";
+import { plantStatisticsRouter } from "./routers/plant-statistics";
+import { extendedSuppliersRouter } from "./routers/extended-suppliers";
+import { plantSamplesRouter } from "./routers/plant-samples";
+import { plantAnalysesRouter } from "./routers/plant-analyses";
+import { analyticalMethodsRouter } from "./routers/analytical-methods";
+import { extractionMethodsRouter } from "./routers/extraction-methods";
+import { terroirsRouter } from "./routers/terroirs";
+import { moleculeScientificDataRouter } from "./routers/molecule-scientific-data";
+import { moleculeOriginsRouter } from "./routers/molecule-origins";
+import { situatedSmellsRouter } from "./routers/situated-smells";
+import { extractionTestsRouter } from "./routers/extraction-tests";
+import { fieldArchivesRouter } from "./routers/field-archives";
+import { molecularProtocolsRouter } from "./routers/molecular-protocols";
+import { climateStudiesRouter } from "./routers/climate-studies";
+import { rechercheRadicaleRouter } from "./routers/recherche-radicale";
+import { exportRouter } from "./routers/export";
+import { citationsRouter } from "./routers/citations";
+import { notesRouter } from "./routers/notes";
+import { moleculeNotesRouter } from "./routers/molecule-notes";
+import { sharedCollectionsRouter } from "./routers/shared-collections";
+import { milestonesRouter } from "./routers/milestones";
+import { favoritesRouter } from "./routers/favorites";
+import { dashboardRouter } from "./routers/dashboard";
+import { networkRouter } from "./routers/network";
+import { prototypeRouter } from "./routers/prototype";
+import { civilisationRouter } from "./routers/civilisation";
+import { recetteRouter } from "./routers/recette";
+import { moleculeRouter } from "./routers/molecule";
+import { searchRouter } from "./routers/search";
+import { experimentalAccordsRouter } from "./routers/experimental-accords";
+import { absorbeProfilesRouter } from "./routers/absorbe-profiles";
+import { timelineRouter } from "./routers/timeline";
+import { glossaryRouter } from "./routers/glossary";
+import { adminRouter } from "./routers/admin";
+import { homeRouter } from "./routers/home";
+import { formulationRouter } from "./routers/formulation";
+import { tabacsRouter } from "./routers/tabacs";
+import { volcaniqueRouter } from "./routers/volcanique";
+import { petrichorRouter } from "./routers/petrichor";
+import { installationsRouter } from "./routers/installations";
+import { civilisationsRouter } from "./routers/civilisations";
+import { recommendationsRouter } from "./routers/recommendations";
+import { accordsRouter } from "./routers/accords";
+import { terpeneSynergiesRouter } from "./routers/terpene-synergies";
+import { familiesRouter } from "./routers/families";
+import { prototypesRouter } from "./routers/prototypes";
+import { authRouter } from "./routers/auth";
 
 // ── Types pour les réponses LLM enrichissement ────────────────────────────────
-interface PlantEnrichmentLLM {
+export interface PlantEnrichmentLLM {
   olfactiveProfile: string[];
   therapeuticProperties: string[];
   dominantMolecules: string[];
@@ -188,7 +255,7 @@ interface PlantEnrichmentLLM {
   habitat: string;
   description: string;
 }
-interface RawMaterialEnrichmentLLM {
+export interface RawMaterialEnrichmentLLM {
   description: string;
   olfactiveProfile: string[];
   therapeuticProperties: string[];
@@ -197,7 +264,7 @@ interface RawMaterialEnrichmentLLM {
   extractionDetails: string;
   qualityMarkers: string[];
 }
-interface MoleculeEnrichmentLLM {
+export interface MoleculeEnrichmentLLM {
   olfactiveProfile: string[];
   therapeuticProperties: string[];
   family: string;
@@ -210,71 +277,13 @@ export const appRouter = router({
   importExport: importExportRouter,
   pyrfume: pyrfumeRouter,
   
-  auth: router({
-    me: publicProcedure.query(opts => opts.ctx.user),
-    logout: publicProcedure.mutation(({ ctx }) => {
-      const cookieOptions = getSessionCookieOptions(ctx.req);
-      ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });
-      return {
-        success: true,
-      } as const;
-    }),
-  }),
+  auth: authRouter,
 
   // Prototypes
-  prototypes: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllPrototypes();
-    }),
-    getByCode: publicProcedure
-      .input((val: unknown) => {
-        if (typeof val !== "string") throw new Error("Expected string");
-        return val;
-      })
-      .query(async ({ input }) => {
-        return await db.getPrototypeByCode(input);
-      }),
-  }),
+  prototypes: prototypesRouter,
 
   // Families
-  families: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllFamilies();
-    }),
-    getById: publicProcedure
-      .input((val: unknown) => {
-        if (typeof val !== "number") throw new Error("Expected number");
-        return val;
-      })
-      .query(async ({ input }) => {
-        return await db.getFamilyById(input);
-      }),
-    create: publicProcedure
-      .input(z.object({
-        name: z.string().min(1),
-        description: z.string().optional(),
-        type: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return await db.createFamily(input);
-      }),
-    update: publicProcedure
-      .input(z.object({
-        id: z.number(),
-        name: z.string().optional(),
-        description: z.string().optional(),
-        type: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        const { id, ...data } = input;
-        return await db.updateFamilyFull(id, data);
-      }),
-    delete: publicProcedure
-      .input(z.number())
-      .mutation(async ({ input }) => {
-        return await db.deleteFamily(input);
-      }),
-  }),
+  families: familiesRouter,
 
   // Laboratoire (Matières Premières)
   laboratoire: laboratoireRouter,
@@ -286,758 +295,105 @@ export const appRouter = router({
   pubchemIupac: pubchemIupacRouter,
 
     // Terpene Synergies
-  terpeneSynergies: router({
-    listAll: publicProcedure.query(async () => {
-      return await db.getAllTerpeneSynergies();
-    }),
-    getByPair: publicProcedure
-      .input(z.object({
-        terpene1Id: z.number(),
-        terpene2Id: z.number(),
-      }))
-      .query(async ({ input }) => {
-        return await db.getTerpeneSynergyByPair(input.terpene1Id, input.terpene2Id);
-      }),
-  }),
+  terpeneSynergies: terpeneSynergiesRouter,
 
   // Accords
-  accords: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllAccords();
-    }),
-    getById: publicProcedure
-      .input((val: unknown) => {
-        if (typeof val !== "number") throw new Error("Expected number");
-        return val;
-      })
-      .query(async ({ input }) => {
-        return await db.getAccordById(input);
-      }),
-    create: publicProcedure
-      .input(z.object({
-        name: z.string().min(1),
-        familyId: z.number().nullable().optional(),
-        olfactiveProfile: z.string().optional(),
-        emotionalResonance: z.string().optional(),
-        texture: z.string().optional(),
-        notes: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return await db.createAccord(input);
-      }),
-    update: publicProcedure
-      .input(z.object({
-        id: z.number(),
-        name: z.string().optional(),
-        familyId: z.number().nullable().optional(),
-        olfactiveProfile: z.string().optional(),
-        emotionalResonance: z.string().optional(),
-        texture: z.string().optional(),
-        notes: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        const { id, ...data } = input;
-        return await db.updateAccordFull(id, data);
-      }),
-    delete: publicProcedure
-      .input(z.number())
-      .mutation(async ({ input }) => {
-        return await db.deleteAccord(input);
-      }),
-  }),
+  accords: accordsRouter,
 
   // Recettes (avec cache pour optimisation)
   recettes: recettesInlineRouter,
 
   // Recommandations
-  recommendations: router({
-    similarRecettes: publicProcedure
-      .input(z.object({
-        recetteId: z.number(),
-        limit: z.number().optional().default(5),
-      }))
-      .query(async ({ input }) => {
-        return await getSimilarRecettes(input.recetteId, input.limit);
-      }),
-    similarMolecules: publicProcedure
-      .input(z.object({
-        moleculeId: z.number(),
-        limit: z.number().optional().default(5),
-      }))
-      .query(async ({ input }) => {
-        return await getSimilarMolecules(input.moleculeId, input.limit);
-      }),
-    fromFavorites: publicProcedure
-      .input(z.object({
-        favoriteMoleculeIds: z.array(z.number()),
-        limit: z.number().optional().default(10),
-      }))
-      .query(async ({ input }) => {
-        return await getRecommendedRecettesFromFavorites(input.favoriteMoleculeIds, input.limit);
-      }),
-  }),
+  recommendations: recommendationsRouter,
 
   // Civilisations
-  civilisations: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllCivilisations();
-    }),
-    getById: publicProcedure
-      .input((val: unknown) => {
-        if (typeof val !== "number") throw new Error("Expected number");
-        return val;
-      })
-      .query(async ({ input }) => {
-        return await db.getCivilisationById(input);
-      }),
-  }),
+  civilisations: civilisationsRouter,
 
   // Installations
-  installations: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllInstallations();
-    }),
-    getById: publicProcedure
-      .input((val: unknown) => {
-        if (typeof val !== "number") throw new Error("Expected number");
-        return val;
-      })
-      .query(async ({ input }) => {
-        return await db.getInstallationById(input);
-      }),
-  }),
+  installations: installationsRouter,
 
   // Petrichor
-  petrichor: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllPetrichor();
-    }),
-  }),
+  petrichor: petrichorRouter,
 
   // Volcanique
-  volcanique: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllVolcanique();
-    }),
-  }),
+  volcanique: volcaniqueRouter,
 
   // Tabacs
-  tabacs: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllTabacs();
-    }),
-    getById: publicProcedure
-      .input((val: unknown) => {
-        if (typeof val !== "number") throw new Error("Expected number");
-        return val;
-      })
-      .query(async ({ input }) => {
-        return await db.getTabacById(input);
-      }),
-    getSuggestions: publicProcedure
-      .input(z.object({
-        olfactiveProfile: z.string(),
-      }))
-      .query(async ({ input }) => {
-        return await db.getTabacsByProfile(input.olfactiveProfile);
-      }),
-    listWithTerroir: publicProcedure.query(async () => {
-      return await db.getTabacsWithTerroir();
-    }),
-    listByType: publicProcedure
-      .input(z.object({ type: z.enum(['blond', 'brun', 'oriental', 'experimental']) }))
-      .query(async ({ input }) => {
-        return await db.getTabacsByType(input.type);
-      }),
-    getWithMolecules: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return await db.getTabacWithMolecules(input);
-      }),
-  }),
+  tabacs: tabacsRouter,
 
   // Formulation
-  formulation: router({
-    calculateDilution: publicProcedure
-      .input(z.object({
-        moleculeName: z.string(),
-        targetConcentration: z.number(), // %
-        finalVolume: z.number(), // mL
-        stockConcentration: z.number().optional(), // % (default 100%)
-      }))
-      .mutation(async ({ input }) => {
-        const stockConc = input.stockConcentration || 100;
-        const volumeStock = (input.targetConcentration / stockConc) * input.finalVolume;
-        const volumeSolvent = input.finalVolume - volumeStock;
-        
-        return {
-          moleculeName: input.moleculeName,
-          targetConcentration: input.targetConcentration,
-          finalVolume: input.finalVolume,
-          stockConcentration: stockConc,
-          volumeStock: Math.round(volumeStock * 100) / 100,
-          volumeSolvent: Math.round(volumeSolvent * 100) / 100,
-          formula: `${Math.round(volumeStock * 100) / 100} mL stock + ${Math.round(volumeSolvent * 100) / 100} mL solvant = ${input.finalVolume} mL à ${input.targetConcentration}%`,
-        };
-      }),
-  }),
+  formulation: formulationRouter,
 
   // Home
-  home: router({
-    getMoleculeOfTheDay: publicProcedure.query(async () => {
-      // Sélection aléatoire basée sur la date du jour
-      const today = new Date().toISOString().split('T')[0];
-      const seed = today.split('-').join(''); // YYYYMMDD
-      const molecules = await db.getAllMolecules();
-      if (molecules.length === 0) return null;
-      const index = parseInt(seed) % molecules.length;
-      return molecules[index];
-    }),
-    getRecentActivity: publicProcedure.query(async () => {
-      // Récupérer les 10 derniers ajouts (molécules, recettes, prototypes)
-      const molecules = await db.getAllMolecules();
-      const recettes = await db.getAllRecettes();
-      
-      const activity = [
-        ...molecules.slice(0, 5).map(m => ({ type: 'molecule' as const, item: m, date: new Date() })),
-        ...recettes.slice(0, 5).map(r => ({ type: 'recette' as const, item: r, date: new Date() })),
-      ];
-      
-      return activity.slice(0, 10);
-    }),
-  }),
+  home: homeRouter,
 
   // Admin
-  admin: router({
-    getStats: publicProcedure.query(async () => {
-      return await db.getAdminStats();
-    }),
-    enrichMoleculeData: protectedProcedure.mutation(async () => {
-      return await db.enrichMoleculeData();
-    }),
-    getBundleStats: publicProcedure.query(async () => {
-      // Lit les fichiers JS du build de production et retourne leurs tailles
-      const fs = await import('fs');
-      const path = await import('path');
-      const distDir = path.join(process.cwd(), 'dist', 'public', 'assets');
-      try {
-        const files = fs.readdirSync(distDir);
-        const chunks = files
-          .filter((f: string) => f.endsWith('.js'))
-          .map((f: string) => {
-            const fullPath = path.join(distDir, f);
-            const stat = fs.statSync(fullPath);
-            return { name: `assets/${f}`, size: stat.size };
-          })
-          .sort((a: { name: string; size: number }, b: { name: string; size: number }) => b.size - a.size);
-        return { chunks, totalSize: chunks.reduce((acc: number, c: { size: number }) => acc + c.size, 0) };
-      } catch {
-        return { chunks: [], totalSize: 0 };
-      }
-    }),
-  }),
+  admin: adminRouter,
 
   // Glossary
-  glossary: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllGlossaryTerms();
-    }),
-    search: publicProcedure
-      .input((val: unknown) => {
-        if (typeof val !== "string") throw new Error("Expected string");
-        return val;
-      })
-      .query(async ({ input }) => {
-        return await db.searchGlossaryTerms(input);
-      }),
-    getByCategory: publicProcedure
-      .input((val: unknown) => {
-        if (typeof val !== "string") throw new Error("Expected string");
-        return val;
-      })
-      .query(async ({ input }) => {
-        return await db.getGlossaryTermsByCategory(input);
-      }),
-  }),
+  glossary: glossaryRouter,
 
   // Timeline
-  timeline: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllMilestones();
-    }),
-    getByPhase: publicProcedure
-      .input((val: unknown) => {
-        if (typeof val !== "string") throw new Error("Expected string");
-        return val;
-      })
-      .query(async ({ input }) => {
-        return await db.getMilestonesByPhase(input);
-      }),
-    getByYear: publicProcedure
-      .input((val: unknown) => {
-        if (typeof val !== "number") throw new Error("Expected number");
-        return val;
-      })
-      .query(async ({ input }) => {
-        return await db.getMilestonesByYear(input);
-      }),
-    stats: publicProcedure.query(async () => {
-      return await db.getTimelineStats();
-    }),
-  }),
+  timeline: timelineRouter,
 
   // Chemical Families (Enrichi)
   chemicalFamilies: chemicalFamiliesRouter,
 
   // Experimental Accords
-  absorbeProfiles: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAbsorbeProfiles();
-    }),
-    getByPrototypeId: publicProcedure
-      .input(z.object({ prototypeId: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getAbsorbeProfileByPrototypeId(input.prototypeId);
-      }),
-  }),
+  absorbeProfiles: absorbeProfilesRouter,
 
-  experimentalAccords: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllExperimentalAccords();
-    }),
-    getByType: publicProcedure
-      .input((val: unknown) => {
-        if (typeof val !== "number") throw new Error("Expected number");
-        return val;
-      })
-      .query(async ({ input }) => {
-        return await db.getExperimentalAccordsByType(input);
-      }),
-  }),
+  experimentalAccords: experimentalAccordsRouter,
 
   // Global Search (avec cache pour optimisation)
-  search: router({
-    global: publicProcedure
-      .input(z.object({ query: z.string(), limit: z.number().optional() }))
-      .query(async ({ input }) => {
-        // Cache les résultats de recherche pendant 1 minute
-        return await withCache(
-          CACHE_KEYS.SEARCH_GLOBAL(input.query),
-          () => db.globalSearch(input.query, input.limit),
-          CACHE_TTL.SHORT
-        );
-      }),
-    // Synonymes olfactifs - récupère les synonymes d'un terme
-    getSynonyms: publicProcedure
-      .input(z.object({ term: z.string() }))
-      .query(async ({ input }) => {
-        return db.getOlfactiveSynonyms(input.term);
-      }),
-    // Expansion de requête - étend une requête avec ses synonymes
-    expandQuery: publicProcedure
-      .input(z.object({ query: z.string() }))
-      .query(async ({ input }) => {
-        return db.expandOlfactiveSearchQuery(input.query);
-      }),
-    // Catégorisation - identifie le domaine olfactif d'un terme
-    categorizeTerm: publicProcedure
-      .input(z.object({ term: z.string() }))
-      .query(async ({ input }) => {
-        return db.categorizeOlfactiveSearchTerm(input.term);
-      }),
-    // Statistiques du dictionnaire de synonymes
-    getDictionaryStats: publicProcedure
-      .query(async () => {
-        return db.getOlfactiveDictionaryStats();
-      }),
-  }),
+  search: searchRouter,
 
   // Molecule details
-  molecule: router({
-    getById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getMoleculeWithRelations(input.id);
-      }),
-    getAllRelationships: publicProcedure
-      .query(async () => {
-        return await db.getAllMoleculeRecetteRelationships();
-      }),
-  }),
+  molecule: moleculeRouter,
 
   // Recette details
-  recette: router({
-    getById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getRecetteWithRelations(input.id);
-      }),
-  }),
+  recette: recetteRouter,
 
   // Civilisation details
-  civilisation: router({
-    getById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getCivilisationDetailsWithRelations(input.id);
-      }),
-  }),
+  civilisation: civilisationRouter,
 
   // Prototype details
-  prototype: router({
-    getById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getPrototypeWithRelations(input.id);
-      }),
-  }),
+  prototype: prototypeRouter,
 
   // Network visualization
-  network: router({
-    getRelationships: publicProcedure.query(async () => {
-      return await db.getNetworkRelationships();
-    }),
-    
-    // Nouveau: Réseau molécule-plante-terroir (procédure complète - peut être volumineuse)
-    getMoleculePlantTerroirNetwork: publicProcedure.query(async () => {
-      return await db.getMoleculePlantTerroirNetwork();
-    }),
-    
-    // Procédures séparées pour réduire la taille des payloads
-    getNetworkEntities: publicProcedure.query(async () => {
-      const data = await db.getMoleculePlantTerroirNetwork();
-      return data.entities;
-    }),
-    
-    getNetworkPlantMoleculeRelations: publicProcedure.query(async () => {
-      const data = await db.getMoleculePlantTerroirNetwork();
-      return data.relationships.plantMolecules;
-    }),
-    
-    getNetworkTerroirPlantRelations: publicProcedure.query(async () => {
-      const data = await db.getMoleculePlantTerroirNetwork();
-      return data.relationships.terroirPlants;
-    }),
-    
-    // Molécules d'une plante avec pourcentages
-    getPlantMoleculesWithPercentages: publicProcedure
-      .input(z.object({ plantId: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getPlantMoleculesWithPercentages(input.plantId);
-      }),
-    
-    // Plantes contenant une molécule avec pourcentages
-    getMoleculePlantsWithPercentages: publicProcedure
-      .input(z.object({ moleculeId: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getMoleculePlantsWithPercentages(input.moleculeId);
-      }),
-  }),
+  network: networkRouter,
   // Dashboard statistics
-  dashboard: router({
-    getStats: publicProcedure.query(async () => {
-      return await db.getDashboardStats();
-    }),
-    
-    getRecipesByStatus: publicProcedure.query(async () => {
-      return await db.getRecipesByStatus();
-    }),
-    
-    getRecipesByCategory: publicProcedure.query(async () => {
-      return await db.getRecipesByCategory();
-    }),
-    
-    getMoleculesByFamily: publicProcedure.query(async () => {
-      return await db.getMoleculesFamilyStats();
-    }),
-    
-    getRecentActivity: publicProcedure
-      .input(z.object({ limit: z.number().optional() }).optional())
-      .query(async ({ input }) => {
-        return await db.getRecentActivity(input?.limit);
-      }),
-
-    getKoppenStats: publicProcedure.query(async () => {
-      return await db.getKoppenZoneStats();
-    }),
-  }),
+  dashboard: dashboardRouter,
 
   // Synergies Moléculaires
   synergies: synergiesRouter,
 
   // Favorites
-  favorites: router({
-    add: publicProcedure
-      .input(z.object({ moleculeId: z.number() }))
-      .mutation(async ({ input, ctx }) => {
-        if (!ctx.user) throw new Error("Not authenticated");
-        return await db.addFavorite(ctx.user.id, input.moleculeId);
-      }),
-    
-    remove: publicProcedure
-      .input(z.object({ moleculeId: z.number() }))
-      .mutation(async ({ input, ctx }) => {
-        if (!ctx.user) throw new Error("Not authenticated");
-        return await db.removeFavorite(ctx.user.id, input.moleculeId);
-      }),
-    
-    list: publicProcedure.query(async ({ ctx }) => {
-      if (!ctx.user) return [];
-      return await db.getUserFavorites(ctx.user.id);
-    }),
-    
-    isFavorite: publicProcedure
-      .input(z.object({ moleculeId: z.number() }))
-      .query(async ({ input, ctx }) => {
-        if (!ctx.user) return false;
-        return await db.isFavorite(ctx.user.id, input.moleculeId);
-      }),
-  }),
+  favorites: favoritesRouter,
 
   // Milestones
-  milestones: router({
-    list: publicProcedure.query(async () => {
-      return await db.getMilestones();
-    }),
-    
-    getById: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return await db.getMilestoneById(input);
-      }),
-    
-    create: publicProcedure
-      .input(z.object({
-        date: z.date(),
-        title: z.string().min(1).max(255),
-        description: z.string().optional(),
-        type: z.enum(["prototype", "discovery", "collaboration", "publication", "other"]),
-        moleculeId: z.number().optional(),
-      }))
-      .mutation(async ({ input, ctx }) => {
-        if (!ctx.user) throw new Error("Not authenticated");
-        return await db.createMilestone({
-          ...input,
-          userId: ctx.user.id,
-        });
-      }),
-    
-    update: publicProcedure
-      .input(z.object({
-        id: z.number(),
-        date: z.date().optional(),
-        title: z.string().min(1).max(255).optional(),
-        description: z.string().optional(),
-        type: z.enum(["prototype", "discovery", "collaboration", "publication", "other"]).optional(),
-        moleculeId: z.number().optional(),
-      }))
-      .mutation(async ({ input, ctx }) => {
-        if (!ctx.user) throw new Error("Not authenticated");
-        const { id, ...data } = input;
-        return await db.updateMilestone(id, data);
-      }),
-    
-    delete: publicProcedure
-      .input(z.number())
-      .mutation(async ({ input, ctx }) => {
-        if (!ctx.user) throw new Error("Not authenticated");
-        return await db.deleteMilestone(input);
-      }),
-  }),
+  milestones: milestonesRouter,
 
   // ============================================================================
   // PHASE 4: COLLABORATION & PARTAGE - tRPC Procedures
   // ============================================================================
 
   // Shared Collections
-  sharedCollections: router({
-    create: publicProcedure
-      .input(z.object({
-        title: z.string(),
-        description: z.string().optional(),
-        moleculeIds: z.array(z.number()),
-      }))
-      .mutation(async ({ input, ctx }) => {
-        if (!ctx.user) throw new Error("Not authenticated");
-        
-        // Generate unique token
-        const token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-        
-        // Expires in 24 hours
-        const expiresAt = new Date();
-        expiresAt.setHours(expiresAt.getHours() + 24);
-        
-        return await db.createSharedCollection({
-          token,
-          title: input.title,
-          description: input.description,
-          moleculeIds: input.moleculeIds,
-          creatorId: ctx.user.id,
-          expiresAt,
-        });
-      }),
-    
-    getByToken: publicProcedure
-      .input(z.string())
-      .query(async ({ input }) => {
-        return await db.getSharedCollectionByToken(input);
-      }),
-    
-    listMine: publicProcedure
-      .query(async ({ ctx }) => {
-        if (!ctx.user) throw new Error("Not authenticated");
-        return await db.getUserSharedCollections(ctx.user.id);
-      }),
-  }),
+  sharedCollections: sharedCollectionsRouter,
 
   // Molecule Notes
-  moleculeNotes: router({
-    get: publicProcedure
-      .input(z.number()) // moleculeId
-      .query(async ({ input, ctx }) => {
-        if (!ctx.user) throw new Error("Not authenticated");
-        return await db.getMoleculeNote(ctx.user.id, input);
-      }),
-    
-    upsert: publicProcedure
-      .input(z.object({
-        moleculeId: z.number(),
-        note: z.string(),
-        tags: z.array(z.string()).optional(),
-      }))
-      .mutation(async ({ input, ctx }) => {
-        if (!ctx.user) throw new Error("Not authenticated");
-        return await db.upsertMoleculeNote({
-          userId: ctx.user.id,
-          moleculeId: input.moleculeId,
-          note: input.note,
-          tags: input.tags,
-        });
-      }),
-    
-    listMine: publicProcedure
-      .query(async ({ ctx }) => {
-        if (!ctx.user) throw new Error("Not authenticated");
-        return await db.getUserMoleculeNotes(ctx.user.id);
-      }),
-    
-    delete: publicProcedure
-      .input(z.number()) // moleculeId
-      .mutation(async ({ input, ctx }) => {
-        if (!ctx.user) throw new Error("Not authenticated");
-        return await db.deleteMoleculeNote(ctx.user.id, input);
-      }),
-  }),
+  moleculeNotes: moleculeNotesRouter,
 
   // User Notes
-  notes: router({
-    create: publicProcedure
-      .input(z.object({
-        entityType: z.string(),
-        entityId: z.number(),
-        content: z.string(),
-      }))
-      .mutation(async ({ input }) => {
-        return await db.createUserNote(input.entityType, input.entityId, input.content);
-      }),
-    
-    update: publicProcedure
-      .input(z.object({
-        id: z.number(),
-        content: z.string(),
-      }))
-      .mutation(async ({ input }) => {
-        return await db.updateUserNote(input.id, input.content);
-      }),
-    
-    delete: publicProcedure
-      .input(z.number())
-      .mutation(async ({ input }) => {
-        return await db.deleteUserNote(input);
-      }),
-    
-    getByEntity: publicProcedure
-      .input(z.object({
-        entityType: z.string(),
-        entityId: z.number(),
-      }))
-      .query(async ({ input }) => {
-        return await db.getUserNoteByEntity(input.entityType, input.entityId);
-      }),
-    
-    search: publicProcedure
-      .input(z.string())
-      .query(async ({ input }) => {
-        return await db.searchUserNotes(input);
-      }),
-  }),
+  notes: notesRouter,
 
   // Citations
-  citations: router({
-    generate: publicProcedure
-      .input(z.object({
-        entityType: z.enum(["molecule", "recipe", "prototype", "accord"]),
-        entityId: z.number(),
-        format: z.enum(["apa", "mla", "chicago", "bibtex"]).default("apa"),
-      }))
-      .mutation(async ({ input }) => {
-        return await db.generateCitation(
-          input.entityType,
-          input.entityId,
-          input.format
-        );
-      }),
-    
-    get: publicProcedure
-      .input(z.object({
-        entityType: z.string(),
-        entityId: z.number(),
-        format: z.string().default("apa"),
-      }))
-      .query(async ({ input }) => {
-        return await db.getCitation(
-          input.entityType,
-          input.entityId,
-          input.format
-        );
-      }),
-  }),
+  citations: citationsRouter,
 
   // Analytics
   analytics: analyticsRouter,
 
   // Export CSV
-  export: router({
-    molecules: publicProcedure.query(async () => {
-      const molecules = await db.getAllMolecules();
-      const { objectsToCSV } = await import('./csv-utils');
-      return objectsToCSV(molecules);
-    }),
-
-    recettes: publicProcedure.query(async () => {
-      const recettes = await db.getAllRecettes();
-      const { objectsToCSV } = await import('./csv-utils');
-      return objectsToCSV(recettes);
-    }),
-
-    accords: publicProcedure.query(async () => {
-      const accords = await db.getAllAccords();
-      const { objectsToCSV } = await import('./csv-utils');
-      return objectsToCSV(accords);
-    }),
-
-    familles: publicProcedure.query(async () => {
-      const familles = await db.getAllFamilies();
-      const { objectsToCSV } = await import('./csv-utils');
-      return objectsToCSV(familles);
-    }),
-
-    matieres: publicProcedure.query(async () => {
-      const matieres = await db.getAllMatieres();
-      const { objectsToCSV } = await import('./csv-utils');
-      return objectsToCSV(matieres);
-    }),
-  }),
+  export: exportRouter,
 
   // Import CSV
   import: importRouter,
@@ -1046,94 +402,25 @@ export const appRouter = router({
   history: historyRouter,
 
   // Recherche Radicale
-  rechercheRadicale: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllRechercheRadicale();
-    }),
-    getById: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return await db.getRechercheRadicaleById(input);
-      }),
-    getBySerie: publicProcedure
-      .input(z.string())
-      .query(async ({ input }) => {
-        return await db.getRechercheRadicaleBySerie(input);
-      }),
-  }),
+  rechercheRadicale: rechercheRadicaleRouter,
 
   // Saved Formulas (Historique des formules générées)
   formulas: formulasRouter,
 
   // Climate Studies (Études climatiques)
-  climateStudies: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllClimateStudies();
-    }),
-    getById: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return await db.getClimateStudyById(input);
-      }),
-  }),
+  climateStudies: climateStudiesRouter,
 
   // Molecular Protocols (Protocoles moléculaires)
-  molecularProtocols: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllMolecularProtocols();
-    }),
-    getById: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return await db.getMolecularProtocolById(input);
-      }),
-    getByStudyId: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return await db.getMolecularProtocolsByStudyId(input);
-      }),
-  }),
+  molecularProtocols: molecularProtocolsRouter,
 
   // Field Archives (Archives terrain)
-  fieldArchives: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllFieldArchives();
-    }),
-    getById: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return await db.getFieldArchiveById(input);
-      }),
-  }),
+  fieldArchives: fieldArchivesRouter,
 
   // Extraction Tests (Tests d'extraction)
-  extractionTests: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllExtractionTests();
-    }),
-    getById: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return await db.getExtractionTestById(input);
-      }),
-    getByArchiveId: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return await db.getExtractionTestsByArchiveId(input);
-      }),
-  }),
+  extractionTests: extractionTestsRouter,
 
   // Situated Smells (Odeurs situées)
-  situatedSmells: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllSituatedSmells();
-    }),
-    getById: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return await db.getSituatedSmellById(input);
-      }),
-  }),
+  situatedSmells: situatedSmellsRouter,
 
   // Leaf Economies (San Andrés / Seaflower Research)
   leafEconomies: leafEconomiesRouter,
@@ -1142,73 +429,13 @@ export const appRouter = router({
   geographicOrigins: geographicOriginsRouter,
 
   // Molecule Origins (Relations molécules-terroirs)
-  moleculeOrigins: router({
-    getByMolecule: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return await db.getMoleculeOrigins(input);
-      }),
-    add: publicProcedure
-      .input(z.object({
-        moleculeId: z.number(),
-        originId: z.number(),
-        isPrimaryOrigin: z.number().optional(),
-        qualityRating: z.number().optional(),
-        productionVolume: z.string().optional(),
-        priceRange: z.string().optional(),
-        specificCharacteristics: z.string().optional(),
-        notes: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return await db.addMoleculeOrigin(input);
-      }),
-    update: publicProcedure
-      .input(z.object({
-        id: z.number(),
-        data: z.object({
-          isPrimaryOrigin: z.number().optional(),
-          qualityRating: z.number().optional(),
-          productionVolume: z.string().optional(),
-          priceRange: z.string().optional(),
-          specificCharacteristics: z.string().optional(),
-          notes: z.string().optional(),
-        }),
-      }))
-      .mutation(async ({ input }) => {
-        await db.updateMoleculeOrigin(input.id, input.data);
-        return { success: true };
-      }),
-    remove: publicProcedure
-      .input(z.number())
-      .mutation(async ({ input }) => {
-        await db.removeMoleculeOrigin(input);
-        return { success: true };
-      }),
-  }),
+  moleculeOrigins: moleculeOriginsRouter,
 
   // IFRA Restrictions
   ifraRestrictions: ifraRestrictionsRouter,
 
   // Molecule Scientific Data
-  moleculeScientificData: router({
-    update: publicProcedure
-      .input(z.object({
-        id: z.number(),
-        iupacName: z.string().optional(),
-        casNumber: z.string().optional(),
-        chemicalClass: z.enum(['terpene', 'sesquiterpene', 'diterpene', 'monoterpene', 'aldehyde', 'ketone', 'alcohol', 'ester', 'ether', 'phenol', 'lactone', 'coumarin', 'musk', 'nitrile', 'sulfur_compound', 'heterocyclic', 'aromatic', 'aliphatic', 'other']).optional(),
-      }))
-      .mutation(async ({ input }) => {
-        const { id, ...data } = input;
-        return await db.updateMoleculeScientificData(id, data);
-      }),
-    getWithoutCas: publicProcedure.query(async () => {
-      return await db.getMoleculesWithoutCas();
-    }),
-    getWithCas: publicProcedure.query(async () => {
-      return await db.getMoleculesWithCas();
-    }),
-  }),
+  moleculeScientificData: moleculeScientificDataRouter,
 
   // ============================================================================
   // PLANTS (Plantes aromatiques avec variétés et états botaniques)
@@ -1231,75 +458,14 @@ export const appRouter = router({
   // Routes pour les liaisons plantes-molécules
   plantMoleculeLinks: plantMoleculeLinksRouter,
   
-  terroirs: router({
-    getAll: publicProcedure.query(async () => {
-      return getAllTerroirs();
-    }),
-    getByCountry: publicProcedure
-      .input(z.object({ country: z.string() }))
-      .query(async ({ input }) => {
-        return getTerroirsByCountry(input.country);
-      }),
-    getById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return getTerroirById(input.id);
-      }),
-  }),
+  terroirs: terroirsRouter,
   
-  extractionMethods: router({
-    getAll: publicProcedure.query(async () => {
-      return getAllExtractionMethods();
-    }),
-    getById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return getExtractionMethodById(input.id);
-      }),
-  }),
+  extractionMethods: extractionMethodsRouter,
   
   // Méthodes analytiques (GC-MS, PTR-MS, etc.)
-  analyticalMethods: router({
-    list: publicProcedure.query(async () => {
-      return await db.getAllAnalyticalMethods();
-    }),
-    getById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getAnalyticalMethodById(input.id);
-      }),
-    getByCategory: publicProcedure
-      .input(z.object({ category: z.string() }))
-      .query(async ({ input }) => {
-        return await db.getAnalyticalMethodsByCategory(input.category);
-      }),
-    search: publicProcedure
-      .input(z.object({ query: z.string() }))
-      .query(async ({ input }) => {
-        return await db.searchAnalyticalMethods(input.query);
-      }),
-    getByMoleculeId: publicProcedure
-      .input(z.object({ moleculeId: z.number() }))
-      .query(async ({ input }) => {
-        return await db.getAnalyticalMethodsByMoleculeId(input.moleculeId);
-      }),
-  }),
+  analyticalMethods: analyticalMethodsRouter,
   
-  plantAnalyses: router({
-    getAll: publicProcedure.query(async () => {
-      return getAllPlantAnalyses();
-    }),
-    getByPlant: publicProcedure
-      .input(z.object({ plantId: z.number() }))
-      .query(async ({ input }) => {
-        return getPlantAnalysesByPlant(input.plantId);
-      }),
-    getById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return getPlantAnalysisById(input.id);
-      }),
-  }),
+  plantAnalyses: plantAnalysesRouter,
   
   // ============================================================
   // ENRICHISSEMENT IA — Plantes
@@ -1314,376 +480,36 @@ export const appRouter = router({
   aiEnrichMolecule: aiEnrichMoleculeRouter,
 
 
-  plantSamples: router({
-    getAll: publicProcedure.query(async () => {
-      return getAllPlantSamples();
-    }),
-    getByPlant: publicProcedure
-      .input(z.object({ plantId: z.number() }))
-      .query(async ({ input }) => {
-        return getPlantSamplesByPlant(input.plantId);
-      }),
-    getById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return getPlantSampleById(input.id);
-      }),
-  }),
+  plantSamples: plantSamplesRouter,
   
-  extendedSuppliers: router({
-    getAll: publicProcedure.query(async () => {
-      return getAllExtendedSuppliers();
-    }),
-    getById: publicProcedure
-      .input(z.object({ id: z.number() }))
-      .query(async ({ input }) => {
-        return getExtendedSupplierById(input.id);
-      }),
-    getTabacSuppliers: publicProcedure.query(async () => {
-      const all = await getAllExtendedSuppliers();
-      return all.filter((s: Record<string,unknown>) => String(s.supplierId ?? '').startsWith('TABAC'));
-    }),
-    getCannabisSuppliers: publicProcedure.query(async () => {
-      const all = await getAllExtendedSuppliers();
-      return all.filter((s: Record<string,unknown>) => String(s.supplierId ?? '').startsWith('CANNA'));
-    }),
-    getByCategory: publicProcedure
-      .input(z.object({ category: z.enum(['tabac', 'cannabis', 'parfum', 'botanique', 'all']) }))
-      .query(async ({ input }) => {
-        const all = await getAllExtendedSuppliers();
-        if (input.category === 'tabac') return all.filter((s: Record<string,unknown>) => String(s.supplierId ?? '').startsWith('TABAC'));
-        if (input.category === 'cannabis') return all.filter((s: Record<string,unknown>) => String(s.supplierId ?? '').startsWith('CANNA'));
-        if (input.category === 'parfum') return all.filter((s: Record<string,unknown>) => String(s.supplierId ?? '').startsWith('PARF'));
-        if (input.category === 'botanique') return all.filter((s: Record<string,unknown>) => String(s.supplierId ?? '').startsWith('BOTA'));
-        return all;
-      }),
-    getByCountry: publicProcedure
-      .input(z.object({ country: z.string() }))
-      .query(async ({ input }) => {
-        const all = await getAllExtendedSuppliers();
-        return all.filter((s: Record<string,unknown>) => s.country === input.country);
-      }),
-  }),
+  extendedSuppliers: extendedSuppliersRouter,
   
-  plantStatistics: router({
-    getOverview: publicProcedure.query(async () => {
-      return getPlantStatistics();
-    }),
-    getPlantWithDetails: publicProcedure
-      .input(z.object({ plantId: z.number() }))
-      .query(async ({ input }) => {
-        return getPlantWithFullDetails(input.plantId);
-      }),
-    searchByMolecule: publicProcedure
-      .input(z.object({ moleculeName: z.string() }))
-      .query(async ({ input }) => {
-        return searchPlantsByMolecule(input.moleculeName);
-      }),
-    searchByTerroir: publicProcedure
-      .input(z.object({ terroirId: z.number() }))
-      .query(async ({ input }) => {
-        return searchPlantsByTerroir(input.terroirId);
-      }),
-    search: publicProcedure
-      .input(z.object({ query: z.string().min(1) }))
-      .query(async ({ input }) => {
-        const allPlants = await db.getAllPlants();
-        const q = input.query.toLowerCase();
-        return allPlants
-          .filter((p: Record<string,unknown>) =>
-            String(p.name ?? '').toLowerCase().includes(q) ||
-            String(p.latinName ?? '').toLowerCase().includes(q) ||
-            String(p.latin_name ?? '').toLowerCase().includes(q)
-          )
-          .slice(0, 20);
-      }),
-    getPlantMoleculesWithIfra: publicProcedure
-      .input(z.object({ plantId: z.number() }))
-      .query(async ({ input }) => {
-        // Récupérer les molécules de la plante avec leurs restrictions IFRA
-        const molecules = await db.getPlantMoleculesWithPercentages(input.plantId);
-        
-        // Pour chaque molécule, récupérer ses restrictions IFRA
-        const moleculesWithIfra = await Promise.all(
-          molecules.map(async (mol) => {
-            const ifraRestrictions = await db.getMoleculeIfraRestrictions(mol.molecule.id);
-            return {
-              moleculeId: mol.molecule.id,
-              molecule: mol.molecule,
-              percentageTypical: mol.percentageTypical,
-              percentageMin: mol.percentageMin,
-              percentageMax: mol.percentageMax,
-              role: mol.role,
-              isSignature: mol.isSignature,
-              ifraRestrictions,
-            };
-          })
-        );
-        
-        return moleculesWithIfra;
-      }),
-
-  }),
+  plantStatistics: plantStatisticsRouter,
 
   // ============================================================================
   // MATIÈRES PREMIÈRES ET RELATIONS MOLÉCULE-PLANTE-TERROIR
   // ============================================================================
   
   rawMaterials: rawMaterialsInlineRouter,
-  recetteRawMaterials: router({
-    getByRecette: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getRecetteRawMaterials(input);
-      }),
-    getByRawMaterial: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getRecettesForRawMaterial(input);
-      }),
-    add: protectedProcedure
-      .input(z.object({
-        recetteId: z.number(),
-        rawMaterialId: z.number(),
-        role: z.enum(['base', 'coeur', 'tete', 'fixateur', 'modificateur', 'autre']).optional(),
-        dosage: z.string().optional(),
-        dosageUnit: z.string().optional(),
-        percentage: z.string().optional(),
-        notes: z.string().optional(),
-        sortOrder: z.number().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return db.addRecetteRawMaterial(input);
-      }),
-    update: protectedProcedure
-      .input(z.object({
-        id: z.number(),
-        data: z.object({
-          role: z.enum(['base', 'coeur', 'tete', 'fixateur', 'modificateur', 'autre']).optional(),
-          dosage: z.string().optional(),
-          dosageUnit: z.string().optional(),
-          percentage: z.string().optional(),
-          notes: z.string().optional(),
-          sortOrder: z.number().optional(),
-        }),
-      }))
-      .mutation(async ({ input }) => {
-        return db.updateRecetteRawMaterial(input.id, input.data);
-      }),
-    remove: protectedProcedure
-      .input(z.number())
-      .mutation(async ({ input }) => {
-        return db.removeRecetteRawMaterial(input);
-      }),
-  }),
-  moleculePlantSources: router({
-    getByMolecule: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getMoleculePlantSources(input);
-      }),
-    getByPlant: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getPlantMoleculeSources(input);
-      }),
-    add: protectedProcedure
-      .input(z.object({
-        moleculeId: z.number(),
-        plantId: z.number(),
-        plantPart: z.string().optional(),
-        percentageInPlant: z.string().optional(),
-        percentageInOil: z.string().optional(),
-        variability: z.enum(['stable', 'variable', 'tres_variable', 'chemotype_dependant']).optional(),
-        isMainSource: z.number().optional(),
-        isPrimarySource: z.number().optional(),
-        bestExtractionMethod: z.string().optional(),
-        extractionYield: z.string().optional(),
-        notes: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return db.addMoleculePlantSource(input);
-      }),
-    update: protectedProcedure
-      .input(z.object({
-        id: z.number(),
-        data: z.object({
-          plantPart: z.string().optional(),
-          percentageInPlant: z.string().optional(),
-          percentageInOil: z.string().optional(),
-          variability: z.enum(['stable', 'variable', 'tres_variable', 'chemotype_dependant']).optional(),
-          isMainSource: z.number().optional(),
-          isPrimarySource: z.number().optional(),
-          bestExtractionMethod: z.string().optional(),
-          notes: z.string().optional(),
-        }),
-      }))
-      .mutation(async ({ input }) => {
-        return db.updateMoleculePlantSource(input.id, input.data);
-      }),
-    delete: protectedProcedure
-      .input(z.number())
-      .mutation(async ({ input }) => {
-        await db.deleteMoleculePlantSource(input);
-        return { success: true };
-      }),
-  }),
+  recetteRawMaterials: recetteRawMaterialsRouter,
+  moleculePlantSources: moleculePlantSourcesRouter,
 
-  terroirSpecialties: router({
-    getByTerroir: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getTerroirSpecialties(input);
-      }),
-    getByPlant: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getPlantTerroirSpecialties(input);
-      }),
-    add: protectedProcedure
-      .input(z.object({
-        terroirId: z.number(),
-        plantId: z.number().optional(),
-        rawMaterialId: z.number().optional(),
-        isSignature: z.number().optional(),
-        importance: z.enum(['majeure', 'significative', 'mineure', 'emergente']).optional(),
-        annualProduction: z.string().optional(),
-        productionTrend: z.enum(['croissante', 'stable', 'decroissante', 'variable']).optional(),
-        qualityReputation: z.enum(['exceptionnelle', 'excellente', 'bonne', 'standard']).optional(),
-        uniqueCharacteristics: z.string().optional(),
-        historicalContext: z.string().optional(),
-        traditionSince: z.string().optional(),
-        economicImportance: z.string().optional(),
-        notes: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return db.addTerroirSpecialty(input);
-      }),
-    update: protectedProcedure
-      .input(z.object({
-        id: z.number(),
-        data: z.object({
-          isSignature: z.number().optional(),
-          importance: z.enum(['majeure', 'significative', 'mineure', 'emergente']).optional(),
-          annualProduction: z.string().optional(),
-          productionTrend: z.enum(['croissante', 'stable', 'decroissante', 'variable']).optional(),
-          qualityReputation: z.enum(['exceptionnelle', 'excellente', 'bonne', 'standard']).optional(),
-          uniqueCharacteristics: z.string().optional(),
-          notes: z.string().optional(),
-        }),
-      }))
-      .mutation(async ({ input }) => {
-        return db.updateTerroirSpecialty(input.id, input.data);
-      }),
-    delete: protectedProcedure
-      .input(z.number())
-      .mutation(async ({ input }) => {
-        await db.deleteTerroirSpecialty(input);
-        return { success: true };
-      }),
-  }),
+  terroirSpecialties: terroirSpecialtiesRouter,
 
   // Profils complets avec toutes les relations
-  fullProfiles: router({
-    getMolecule: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getFullMoleculeProfile(input);
-      }),
-    getPlant: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getFullPlantProfile(input);
-      }),
-    getTerroir: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getFullTerroirProfile(input);
-      }),
-  }),
+  fullProfiles: fullProfilesRouter,
 
   // Recherche avancée
-  advancedSearch: router({
-    moleculesByPlant: publicProcedure
-      .input(z.string())
-      .query(async ({ input }) => {
-        return db.searchMoleculesByPlantSource(input);
-      }),
-    rawMaterialsByMolecule: publicProcedure
-      .input(z.string())
-      .query(async ({ input }) => {
-        return db.searchRawMaterialsByMolecule(input);
-      }),
-    // Recherche croisée terroirs ↔ plantes ↔ molécules
-    crossSearch: publicProcedure
-      .input(z.object({
-        terroirIds: z.array(z.number()).optional(),
-        terroirCountries: z.array(z.string()).optional(),
-        terroirClimates: z.array(z.string()).optional(),
-        plantIds: z.array(z.number()).optional(),
-        plantCategories: z.array(z.string()).optional(),
-        plantFamilies: z.array(z.string()).optional(),
-        moleculeIds: z.array(z.number()).optional(),
-        moleculeFamilies: z.array(z.string()).optional(),
-        chemicalClasses: z.array(z.string()).optional(),
-        searchQuery: z.string().optional(),
-        includeRelations: z.boolean().optional(),
-      }).optional())
-      .query(async ({ input }) => {
-        return db.crossSearch(input || {});
-      }),
-    // Options de filtres pour la recherche croisée
-    getCrossSearchFilterOptions: publicProcedure.query(async () => {
-      return db.getCrossSearchFilterOptions();
-    }),
-  }),
+  advancedSearch: advancedSearchRouter,
 
   // Statistiques de contenu
-  contentStats: router({
-    getAll: publicProcedure.query(async () => {
-      return db.getContentStatistics();
-    }),
-  }),
+  contentStats: contentStatsRouter,
 
   // Chémotypes (variations chimiques au sein d'une même espèce)
   chemotypes: chemotypesRouter,
 
   // Catégories IFRA et calcul des limites
-  ifraCategories: router({
-    list: publicProcedure.query(async () => {
-      return db.getAllIfraCategories();
-    }),
-    getByCode: publicProcedure
-      .input(z.string())
-      .query(async ({ input }) => {
-        return db.getIfraCategoryByCode(input);
-      }),
-    calculateLimit: publicProcedure
-      .input(z.object({
-        moleculeId: z.number(),
-        categoryCode: z.string(),
-      }))
-      .query(async ({ input }) => {
-        return db.calculateIfraLimit(input.moleculeId, input.categoryCode);
-      }),
-    checkCompliance: publicProcedure
-      .input(z.object({
-        moleculeId: z.number(),
-        categoryCode: z.string(),
-        concentration: z.number(),
-      }))
-      .query(async ({ input }) => {
-        return db.checkIfraCompliance(input.moleculeId, input.categoryCode, input.concentration);
-      }),
-    searchByName: publicProcedure
-      .input(z.string())
-      .query(async ({ input }) => {
-        return db.searchIfraRestrictionsByName(input);
-      }),
-    getStats: publicProcedure.query(async () => {
-      return db.getIfraStats();
-    }),
-  }),
+  ifraCategories: ifraCategoriesRouter,
 
   // Upload d'images pour les échantillons botaniques
   upload: uploadRouter,
@@ -1895,53 +721,7 @@ export const appRouter = router({
   // ============================================================================
   // CIVILIZATIONAL MARKERS (Marqueurs historiques)
   // ============================================================================
-  markers: router({
-    list: publicProcedure
-      .input(z.object({
-        civilization: z.string().optional(),
-        period: z.string().optional(),
-        usageType: z.enum(["ritual","medical","commercial","funerary","cosmetic"]).optional(),
-        plantId: z.number().int().optional(),
-      }).optional())
-      .query(async ({ input }) => {
-        return await db.listCivilizationalMarkers(input ?? {});
-      }),
-    
-    getByPlant: publicProcedure
-      .input(z.object({ plantId: z.number().int().min(1) }))
-      .query(async ({ input }) => {
-        return await db.getCivilizationalMarkersByPlant(input.plantId);
-      }),
-    
-    getByCivilization: publicProcedure
-      .input(z.object({ civilization: z.string().min(1) }))
-      .query(async ({ input }) => {
-        return await db.getCivilizationalMarkersByCivilization(input.civilization);
-      }),
-    
-    getByPeriod: publicProcedure
-      .input(z.object({ period: z.string().min(1) }))
-      .query(async ({ input }) => {
-        return await db.getCivilizationalMarkersByPeriod(input.period);
-      }),
-    
-    create: protectedProcedure
-      .input(z.object({
-        plantId: z.number().int().min(1),
-        civilization: z.string().min(1),
-        period: z.string().optional(),
-        startYear: z.number().int().optional(),
-        endYear: z.number().int().optional(),
-        usageType: z.enum(["ritual","medical","commercial","funerary","cosmetic"]),
-        historicalSignificance: z.string().optional(),
-        tradeRoutes: z.array(z.any()).default([]),
-        archaeologicalEvidence: z.string().optional(),
-        primarySources: z.array(z.any()).default([]),
-      }))
-      .mutation(async ({ input }) => {
-        return await db.createCivilizationalMarker(input);
-      }),
-  }),
+  markers: markersRouter,
 
   // ============================================================================
   // VARIETY GENEALOGY (Généalogie des variétés)
@@ -1951,56 +731,7 @@ export const appRouter = router({
   // ============================================================================
   // PLANTS CONSERVATION (Conservation des plantes)
   // ============================================================================
-  plantsConservation: router({
-    listThreatened: publicProcedure
-      .input(z.object({
-        iucn: z.enum(["EX","EW","CR","EN","VU","NT","LC","DD","NE"]).optional(),
-        cites: z.enum(["I","II","III","NONE","UNKNOWN"]).optional(),
-        region: z.string().optional(),
-      }).optional())
-      .query(async ({ input }) => {
-        return await db.listThreatenedPlants(input ?? {});
-      }),
-    
-    getConservationStatus: publicProcedure
-      .input(z.object({ plantId: z.number().int().min(1) }))
-      .query(async ({ input }) => {
-        return await db.getPlantConservationStatus(input.plantId);
-      }),
-    
-    updateConservationStatus: protectedProcedure
-      .input(z.object({
-        plantId: z.number().int().min(1),
-        conservationStatus: z.enum(["EX","EW","CR","EN","VU","NT","LC","DD","NE"]).optional(),
-        citesAppendix: z.enum(["I","II","III","NONE","UNKNOWN"]).optional(),
-        conservationNotes: z.string().optional(),
-        threatFactors: z.record(z.string(), z.any()).optional(),
-        sustainableAlternatives: z.string().optional(),
-        lastAssessmentYear: z.number().int().optional(),
-        historicalStatus: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        const { plantId, ...data } = input;
-        return await db.updatePlantConservationStatus(plantId, data);
-      }),
-    
-    listGeographicZones: publicProcedure
-      .input(z.object({
-        zoneType: z.enum(["threatened_concentration", "sustainable_alternatives", "biodiversity_hotspot", "conservation_area"]).optional(),
-        threatLevel: z.enum(["critical", "high", "medium", "low", "stable"]).optional(),
-      }).optional())
-      .query(async ({ input }) => {
-        return await db.listGeographicZones(input ?? {});
-      }),
-    
-    getPlantsByZone: publicProcedure
-      .input(z.object({
-        zoneId: z.number(),
-      }))
-      .query(async ({ input }) => {
-        return await db.getPlantsByGeographicZone(input.zoneId);
-      }),
-  }),
+  plantsConservation: plantsConservationRouter,
 
   // ============================================================================
   // SUSTAINABLE ALTERNATIVES (Alternatives durables)
@@ -2040,24 +771,7 @@ export const appRouter = router({
   // V3 REFERENCES (Pack Niche Innovations)
   // ============================================================================
   
-  thematicAxes: router({
-    // Liste tous les axes thématiques
-    list: publicProcedure.query(async () => {
-      return db.getAllThematicAxes();
-    }),
-    
-    // Alias getAll pour compatibilité
-    getAll: publicProcedure.query(async () => {
-      return db.getAllThematicAxes();
-    }),
-    
-    // Obtenir un axe par son code
-    getByCode: publicProcedure
-      .input(z.string())
-      .query(async ({ input }) => {
-        return db.getThematicAxisByCode(input);
-      }),
-  }),
+  thematicAxes: thematicAxesRouter,
   
   v3References: v3ReferencesRouter,
   
@@ -2065,58 +779,7 @@ export const appRouter = router({
   
   referenceNotes: referenceNotesRouter,
   
-  axisGraph: router({
-    // Obtenir les données du graphe
-    getData: publicProcedure.query(async () => {
-      return db.getAxisGraphData();
-    }),
-    
-    // Obtenir toutes les connexions
-    getConnections: publicProcedure.query(async () => {
-      return db.getAllAxisConnections();
-    }),
-    
-    // Obtenir les connexions pour un axe
-    getConnectionsForAxis: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getAxisConnectionsForAxis(input);
-      }),
-    
-    // Créer une connexion
-    createConnection: protectedProcedure
-      .input(z.object({
-        sourceAxisId: z.number(),
-        targetAxisId: z.number(),
-        strength: z.number().min(1).max(10).optional(),
-        connectionType: z.enum(['related', 'complementary', 'dependent', 'overlap']).optional(),
-        notes: z.string().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return db.createAxisConnection(input);
-      }),
-    
-    // Mettre à jour la force d'une connexion
-    updateStrength: protectedProcedure
-      .input(z.object({
-        sourceId: z.number(),
-        targetId: z.number(),
-        strength: z.number().min(1).max(10),
-      }))
-      .mutation(async ({ input }) => {
-        return db.updateAxisConnectionStrength(input.sourceId, input.targetId, input.strength);
-      }),
-    
-    // Supprimer une connexion
-    deleteConnection: protectedProcedure
-      .input(z.object({
-        sourceId: z.number(),
-        targetId: z.number(),
-      }))
-      .mutation(async ({ input }) => {
-        return db.deleteAxisConnection(input.sourceId, input.targetId);
-      }),
-  }),
+  axisGraph: axisGraphRouter,
   
   // ============================================================================
   // REFERENCE ENTITY LINKS (Liaisons références ↔ entités)
@@ -2134,53 +797,7 @@ export const appRouter = router({
   // ============================================================================
   // LINKING COVERAGE & AUTO-LINK ROUTER
   // ============================================================================
-  linkingCoverage: router({
-    // Get overall coverage statistics
-    getStats: publicProcedure.query(async () => {
-      return db.getLinkingCoverageStats();
-    }),
-
-    // Auto-link molecules to recettes (dry run)
-    previewAutoLink: protectedProcedure
-      .input(z.object({
-        maxLinks: z.number().default(50),
-      }))
-      .query(async ({ input }) => {
-        return db.autoLinkMoleculeRecettes({ maxLinks: input.maxLinks, dryRun: true });
-      }),
-
-    // Execute auto-link molecule-recette
-    executeAutoLink: protectedProcedure
-      .input(z.object({
-        maxLinks: z.number().default(50),
-      }))
-      .mutation(async ({ input }) => {
-        return db.autoLinkMoleculeRecettes({ maxLinks: input.maxLinks, dryRun: false });
-      }),
-
-    // Auto-link plants to molecules (dry run)
-    previewPlantMoleculeAutoLink: protectedProcedure
-      .input(z.object({
-        maxLinks: z.number().default(50),
-      }))
-      .query(async ({ input }) => {
-        return db.autoLinkPlantMolecules({ maxLinks: input.maxLinks, dryRun: true });
-      }),
-
-    // Execute plant-molecule auto-link
-    executePlantMoleculeAutoLink: protectedProcedure
-      .input(z.object({
-        maxLinks: z.number().default(50),
-      }))
-      .mutation(async ({ input }) => {
-        return db.autoLinkPlantMolecules({ maxLinks: input.maxLinks, dryRun: false });
-      }),
-
-    // Get plant-molecule audit stats
-    getPlantMoleculeAuditStats: publicProcedure.query(async () => {
-      return db.getPlantMoleculeAuditStats();
-    }),
-  }),
+  linkingCoverage: linkingCoverageRouter,
 
   // ============================================================================
   // CURATED JOURNEYS (Parcours olfactifs prédéfinis)
@@ -2200,189 +817,27 @@ export const appRouter = router({
   // ============================================================================
   // AUTOMATIC ENTITY LINKING (Liaisons automatiques par mots-clés)
   // ============================================================================
-  autoLinking: router({
-    // Suggérer des liaisons pour une référence
-    suggestForReference: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.suggestEntityLinksForReference(input);
-      }),
-    
-    // Suggérer des liaisons en masse
-    bulkSuggest: publicProcedure
-      .input(z.object({
-        minScore: z.number().min(0).max(100).optional(),
-        limit: z.number().min(1).max(500).optional(),
-        entityTypes: z.array(z.enum(['molecule', 'plant', 'terroir'])).optional(),
-      }).optional())
-      .query(async ({ input }) => {
-        return db.bulkSuggestEntityLinks(input || {});
-      }),
-    
-    // Créer des liaisons en masse
-    batchCreate: protectedProcedure
-      .input(z.array(z.object({
-        referenceId: z.number(),
-        entityType: z.enum(['leaf_economy', 'molecule', 'recette', 'plant', 'prototype', 'tradition', 'terroir', 'supplier']),
-        entityId: z.number(),
-        linkType: z.enum(['documents', 'mentions', 'analyzes', 'conserves', 'reconstructs', 'sources', 'validates', 'contextualizes']).optional(),
-        relevanceScore: z.number().min(0).max(100).optional(),
-        notes: z.string().optional(),
-      })))
-      .mutation(async ({ input, ctx }) => {
-        return db.batchCreateEntityLinks(
-          input.map((link) => ({ ...link, createdBy: ctx.user?.id }))
-        );
-      }),
-  }),
+  autoLinking: autoLinkingRouter,
 
   // ============================================================================
   // GRAPH VISUALIZATION (Visualisation graphique des références)
   // ============================================================================
-  graphVisualization: router({
-    // Obtenir les données pour le graphe
-    getGraphData: publicProcedure.query(async () => {
-      return db.getReferencesGroupedByAxis();
-    }),
-    
-    // Obtenir les statistiques du graphe
-    getStats: publicProcedure.query(async () => {
-      return db.getGraphVisualizationStats();
-    }),
-    
-    // Obtenir les détails d'une référence avec ses entités liées
-    getReferenceDetails: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getReferenceWithLinkedEntities(input);
-      }),
-  }),
+  graphVisualization: graphVisualizationRouter,
 
   // ============================================================================
   // ORPHAN MOLECULES CLASSIFICATION
   // ============================================================================
-  orphanMolecules: router({
-    // Obtenir les statistiques des molécules orphelines
-    getStats: publicProcedure.query(async () => {
-      return db.getOrphanMoleculeStats();
-    }),
-
-    // Lister les molécules orphelines avec filtres
-    list: publicProcedure
-      .input(z.object({
-        filter: z.enum(['all', 'no_family', 'no_chemical_class', 'no_cas', 'no_iupac', 'no_formula', 'no_olfactive_profile', 'no_radar']).default('all'),
-        limit: z.number().default(100),
-        offset: z.number().default(0),
-      }))
-      .query(async ({ input }) => {
-        return db.getOrphanMoleculesList(input.filter, input.limit, input.offset);
-      }),
-
-    // Classifier des molécules en masse
-    batchClassify: protectedProcedure
-      .input(z.array(z.object({
-        moleculeId: z.number(),
-        family: z.string().optional(),
-        chemicalClass: z.string().optional(),
-        olfactiveProfile: z.string().optional(),
-      })))
-      .mutation(async ({ input }) => {
-        return db.batchClassifyMolecules(input);
-      }),
-  }),
+  orphanMolecules: orphanMoleculesRouter,
 
   // ============================================================================
   // NOTIFICATIONS SYSTEM
   // ============================================================================
-  notifications: router({
-    // Lister les notifications
-    list: publicProcedure
-      .input(z.object({
-        unreadOnly: z.boolean().default(false),
-        type: z.string().optional(),
-        limit: z.number().default(50),
-        offset: z.number().default(0),
-      }).optional())
-      .query(async ({ input }) => {
-        return db.getNotifications(input || {});
-      }),
-
-    // Marquer une notification comme lue
-    markAsRead: protectedProcedure
-      .input(z.number())
-      .mutation(async ({ input, ctx }) => {
-        return db.markNotificationAsRead(input, ctx.user?.id);
-      }),
-
-    // Marquer toutes les notifications comme lues
-    markAllAsRead: protectedProcedure
-      .mutation(async ({ ctx }) => {
-        return db.markAllNotificationsAsRead(ctx.user?.id);
-      }),
-
-    // Supprimer une notification
-    delete: protectedProcedure
-      .input(z.number())
-      .mutation(async ({ input }) => {
-        return db.deleteNotification(input);
-      }),
-
-    // Créer une notification (admin)
-    create: protectedProcedure
-      .input(z.object({
-        type: z.enum(['import_orphan_molecules', 'new_contribution', 'validation_required', 'classification_milestone', 'system_alert', 'data_quality', 'other']),
-        title: z.string(),
-        message: z.string(),
-        severity: z.enum(['info', 'warning', 'error', 'success']).default('info'),
-        entityType: z.string().optional(),
-        entityId: z.number().optional(),
-        metadata: z.object({}).passthrough().optional(),
-      }))
-      .mutation(async ({ input }) => {
-        return db.createNotification(input);
-      }),
-  }),
+  notifications: notificationsRouter,
 
   // ============================================================================
   // CLASSIFICATION PROGRESS REPORTS
   // ============================================================================
-  progressReports: router({
-    // Créer un snapshot de l'état actuel
-    createSnapshot: protectedProcedure
-      .input(z.object({
-        notes: z.string().optional(),
-      }).optional())
-      .mutation(async ({ input, ctx }) => {
-        return db.createClassificationSnapshot(input?.notes, ctx.user?.id);
-      }),
-
-    // Obtenir le dernier snapshot
-    getLatest: publicProcedure.query(async () => {
-      return db.getLatestSnapshot();
-    }),
-
-    // Lister les snapshots
-    listSnapshots: publicProcedure
-      .input(z.object({
-        limit: z.number().default(100),
-        offset: z.number().default(0),
-        startDate: z.date().optional(),
-        endDate: z.date().optional(),
-      }).optional())
-      .query(async ({ input }) => {
-        return db.getClassificationSnapshots(input || {});
-      }),
-
-    // Obtenir le rapport de progression complet
-    getReport: publicProcedure
-      .input(z.object({
-        startDate: z.date().optional(),
-        endDate: z.date().optional(),
-      }).optional())
-      .query(async ({ input }) => {
-        return db.getProgressReport(input?.startDate, input?.endDate);
-      }),
-  }),
+  progressReports: progressReportsRouter,
 
   // ============================================================================
   // AI-ASSISTED CLASSIFICATION
@@ -2401,40 +856,7 @@ export const appRouter = router({
   genomicLinks: genomicLinksRouter,
 
   // Ghost Variety Extended Operations
-  ghostVarietyExtended: router({
-    // Get variety with all relations
-    getWithRelations: publicProcedure
-      .input(z.number())
-      .query(async ({ input }) => {
-        return db.getGhostVarietyWithRelations(input);
-      }),
-    // Get molecules for linking
-    getMoleculesForLinking: publicProcedure.query(async () => {
-      return db.getMoleculesForGhostVarietyLinking();
-    }),
-    // Get plants for linking
-    getPlantsForLinking: publicProcedure.query(async () => {
-      return db.getPlantsForGhostVarietyLinking();
-    }),
-    // Search molecules for autocomplete
-    searchMolecules: publicProcedure
-      .input(z.object({
-        query: z.string(),
-        limit: z.number().optional(),
-      }))
-      .query(async ({ input }) => {
-        return db.searchMoleculesForGhostVariety(input.query, input.limit);
-      }),
-    // Search plants for autocomplete
-    searchPlants: publicProcedure
-      .input(z.object({
-        query: z.string(),
-        limit: z.number().optional(),
-      }))
-      .query(async ({ input }) => {
-        return db.searchPlantsForGhostVariety(input.query, input.limit);
-      }),
-  }),
+  ghostVarietyExtended: ghostVarietyExtendedRouter,
 
   // Ghost Variety Links (Liaisons variétés fantômes ↔ molécules/plantes)
   ghostVarietyLinks: ghostVarietyLinksRouter,
@@ -2447,23 +869,7 @@ export const appRouter = router({
   // ============================================================================
   // FORCE GRAPH VISUALIZATION
   // ============================================================================
-  forceGraph: router({
-    // Obtenir les données du graphe de force pour références-axes
-    getReferencesAxesData: publicProcedure
-      .input(z.object({
-        includeReferences: z.boolean().default(true),
-        metaAxisFilter: z.string().optional(),
-        minRelevanceScore: z.number().default(0),
-      }).optional())
-      .query(async ({ input }) => {
-        return db.getForceGraphDataReferencesAxes(input || {});
-      }),
-    
-     // Obtenir les données du graphe d'axes uniquement
-    getAxisGraphData: publicProcedure.query(async () => {
-      return db.getAxisGraphData();
-    }),
-  }),
+  forceGraph: forceGraphRouter,
 
   // Köppen Climate Data
   koppen: koppenRouter,
@@ -2538,70 +944,9 @@ export const appRouter = router({
   // ============================================================
   gcmsImport: gcmsImportRouter,
 
-  navigation: router({
-    getFeaturedItems: publicProcedure.query(async () => {
-      return await withCache(
-        'navigation:featured_items',
-        () => db.getMegaMenuFeaturedItems(),
-        CACHE_TTL.MEDIUM
-      );
-    }),
-  }),
+  navigation: navigationRouter,
 
-  completude: router({
-    globalStats: protectedProcedure
-      .query(async ({ ctx }) => {
-        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
-        return db.getCompletudeGlobalStats();
-      }),
-    rawMaterials: protectedProcedure
-      .input(z.object({
-        limit: z.number().min(1).max(200).default(50),
-        offset: z.number().min(0).default(0),
-        sortBy: z.enum(['score_asc', 'score_desc', 'name']).default('score_asc'),
-        minScore: z.number().min(0).max(100).optional(),
-        maxScore: z.number().min(0).max(100).optional(),
-        category: z.string().optional(),
-      }))
-      .query(async ({ input, ctx }) => {
-        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
-        return db.getCompletudeRawMaterials(input);
-      }),
-    plants: protectedProcedure
-      .input(z.object({
-        limit: z.number().min(1).max(500).default(50),
-        offset: z.number().min(0).default(0),
-        sortBy: z.enum(['score_asc', 'score_desc', 'name']).default('score_asc'),
-        minScore: z.number().min(0).max(100).optional(),
-        maxScore: z.number().min(0).max(100).optional(),
-      }))
-      .query(async ({ input, ctx }) => {
-        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
-        return db.getCompletudePlants(input);
-      }),
-    terroirs: protectedProcedure
-      .input(z.object({
-        limit: z.number().min(1).max(200).default(50),
-        offset: z.number().min(0).default(0),
-        sortBy: z.enum(['score_asc', 'score_desc', 'name']).default('score_asc'),
-        minScore: z.number().min(0).max(100).optional(),
-        maxScore: z.number().min(0).max(100).optional(),
-      }))
-      .query(async ({ input, ctx }) => {
-        if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
-        return db.getCompletudeTerroirs(input);
-      }),
-    getNetworkData: publicProcedure
-      .input(z.object({
-        limit: z.number().min(10).max(200).default(50),
-        includeRecettes: z.boolean().default(true),
-        includeRawMaterials: z.boolean().default(true),
-        includeMolecules: z.boolean().default(true),
-      }))
-      .query(async ({ input }) => {
-        return db.getNetworkData(input);
-      }),
-  }),
+  completude: completudeRouter,
 
   // NOSE Phase 1 — Olfactive Emissions (od:L12 Smell Emission)
   olfactiveEmissions: olfactiveEmissionsRouter,

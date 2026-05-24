@@ -82,17 +82,17 @@ export async function getAllRecettesWithRadar(): Promise<RecetteWithRadar[]> {
       if (!db) return [];
       type RadarRow = Record<string, unknown>;
       const [rows] = await (db as unknown as { $client: { promise: () => { query: (q: string) => Promise<[RadarRow[], unknown]> } } }).$client.promise().query(RADAR_QUERY);
-      return rows.map((r: RadarRow) => ({
-        id: r.id,
-        name: r.name,
-        category: r.category,
-        description: r.description,
-        ingredients: r.ingredients,
-        formula: r.formula,
-        intensity: r.intensity,
-        stability: r.stability,
-        parentRecetteId: r.parentRecetteId,
-        createdAt: r.createdAt,
+      return rows.map((r: RadarRow): RecetteWithRadar => ({
+        id: Number(r.id),
+        name: String(r.name || ''),
+        category: r.category ? String(r.category) : null,
+        description: r.description ? String(r.description) : null,
+        ingredients: r.ingredients ? String(r.ingredients) : null,
+        formula: r.formula ? String(r.formula) : null,
+        intensity: r.intensity ? Number(r.intensity) : null,
+        stability: r.stability ? String(r.stability) : null,
+        parentRecetteId: r.parentRecetteId ? Number(r.parentRecetteId) : null,
+        createdAt: r.createdAt ? new Date(String(r.createdAt)) : null,
         avgIntensity: Math.round(Number(r.avgIntensity) || 50),
         avgFreshness: Math.round(Number(r.avgFreshness) || 50),
         avgWarmth: Math.round(Number(r.avgWarmth) || 50),

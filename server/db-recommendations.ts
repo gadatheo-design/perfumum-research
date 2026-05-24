@@ -104,18 +104,18 @@ async function getAllRecettesRadarProfiles(db: DbWithClient): Promise<RecetteWit
     RADAR_PROFILES_CACHE_KEY,
     async () => {
       const [rows] = await db.$client.promise().query(ALL_RECETTES_RADAR_SQL);
-      return rows.map((r: Record<string, unknown>) => ({
-    id: r.id,
-    name: r.name,
-    category: r.category,
-    description: r.description,
-    avgIntensity: Math.round(Number(r.avgIntensity) || 50),
-    avgFreshness: Math.round(Number(r.avgFreshness) || 50),
-    avgWarmth: Math.round(Number(r.avgWarmth) || 50),
-    avgSweetness: Math.round(Number(r.avgSweetness) || 50),
-    avgSpiciness: Math.round(Number(r.avgSpiciness) || 50),
-    avgEarthiness: Math.round(Number(r.avgEarthiness) || 50),
-      moleculeCount: Number(r.moleculeCount) || 0,
+      return (rows as Record<string, unknown>[]).map((r): RecetteWithRadar => ({
+        id: Number(r.id),
+        name: String(r.name || ''),
+        category: r.category ? String(r.category) : null,
+        description: r.description ? String(r.description) : null,
+        avgIntensity: Math.round(Number(r.avgIntensity) || 50),
+        avgFreshness: Math.round(Number(r.avgFreshness) || 50),
+        avgWarmth: Math.round(Number(r.avgWarmth) || 50),
+        avgSweetness: Math.round(Number(r.avgSweetness) || 50),
+        avgSpiciness: Math.round(Number(r.avgSpiciness) || 50),
+        avgEarthiness: Math.round(Number(r.avgEarthiness) || 50),
+        moleculeCount: Number(r.moleculeCount) || 0,
       }));
     },
     CACHE_TTL.MEDIUM
@@ -198,17 +198,17 @@ export async function getSimilarMolecules(
         FROM molecules
         ORDER BY id
       `);
-      return rows.map((m: Record<string, unknown>) => ({
-    id: m.id,
-    name: m.name,
-    family: m.family,
-    olfactiveProfile: m.olfactiveProfile,
-    radarIntensity: Number(m.radarIntensity) || 50,
-    radarFreshness: Number(m.radarFreshness) || 50,
-    radarWarmth: Number(m.radarWarmth) || 50,
-    radarSweetness: Number(m.radarSweetness) || 50,
-    radarSpiciness: Number(m.radarSpiciness) || 50,
-      radarEarthiness: Number(m.radarEarthiness) || 50,
+      return (rows as Record<string, unknown>[]).map((m): MoleculeWithRadar => ({
+        id: Number(m.id),
+        name: String(m.name || ''),
+        family: m.family ? String(m.family) : null,
+        olfactiveProfile: m.olfactiveProfile ? String(m.olfactiveProfile) : null,
+        radarIntensity: Number(m.radarIntensity) || 50,
+        radarFreshness: Number(m.radarFreshness) || 50,
+        radarWarmth: Number(m.radarWarmth) || 50,
+        radarSweetness: Number(m.radarSweetness) || 50,
+        radarSpiciness: Number(m.radarSpiciness) || 50,
+        radarEarthiness: Number(m.radarEarthiness) || 50,
       }));
     },
     CACHE_TTL.MEDIUM

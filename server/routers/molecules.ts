@@ -5,6 +5,7 @@ import * as db from "../db";
 import { eq, or, lt } from "drizzle-orm";
 import { withCache, CACHE_KEYS, CACHE_TTL, invalidateMoleculeCache } from "../cache";
 import { families, molecules } from "../../drizzle/schema";
+import { invalidateRadarCache } from "../db-recettes-radar";
 
 export const moleculesRouter = router({
     list: publicProcedure.query(async () => {
