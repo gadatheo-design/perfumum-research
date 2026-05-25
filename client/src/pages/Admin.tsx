@@ -404,6 +404,22 @@ export default function Admin() {
       bgColor: "bg-cyan-50",
     },
     {
+      title: "Graphe de Connaissances — Axe 2.3",
+      description: "Visualisation D3.js force-directed du graphe de connaissances PERFUMUM : molécules, plantes, recettes, familles olfactives et bibliographie interconnectés.",
+      icon: Network,
+      href: "/admin/knowledge-graph",
+      color: "text-indigo-600",
+      bgColor: "bg-indigo-50",
+    },
+    {
+      title: "Migration v3 & Cache SPARQL — Rapport 7",
+      description: "Fusion bibliographique v3_references → bibliography_entries (Axe 1.4), gestion du cache SPARQL DB 24h (Axe 2.5), enrichissement CrossRef et réseau de citations (Axe 3.3).",
+      icon: Database,
+      href: "/admin/v3-migration",
+      color: "text-teal-600",
+      bgColor: "bg-teal-50",
+    },
+    {
       title: "Tropicos — Missouri Botanical Garden",
       description: "Enrichir les données taxonomiques depuis Tropicos : 1.33M noms botaniques, synonymes, 685K images, distribution géographique. Idéal pour Nicotiana, Cannabis, Rosa.",
       icon: Leaf,

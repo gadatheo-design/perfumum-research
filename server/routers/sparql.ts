@@ -11,8 +11,55 @@ import * as dbModule from "../db";
 import { molecules as molTable, plants as plantTable, recettes as recTable, families as famTable, bibliographyEntries as bibTable } from "../../drizzle/schema";
 import { like, and, or } from "drizzle-orm";
 
-// Cache SPARQL interne (TTL 5 min)
+// Cache SPARQL interne en mémoire (TTL 5 min — fallback rapide)
 const _sparqlCache = new Map<string, { result: unknown; exp: number }>();
+
+// TTL du cache DB SPARQL (24h en ms)
+const SPARQL_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+
+/** Calcule le hash SHA-256 d'une requête SPARQL normalisée */
+function hashQuery(query: string): string {
+  return crypto.createHash("sha256").update(query.trim().replace(/\s+/g, " ")).digest("hex");
+}
+
+/** Lit le cache DB pour une requête donnée */
+async function readDbCache(queryHash: string): Promise<unknown | null> {
+  try {
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const [rows] = await conn.execute<mysql.RowDataPacket[]>(
+      "SELECT results_json, expires_at FROM sparql_cache WHERE query_hash = ? AND expires_at > NOW() LIMIT 1",
+      [queryHash]
+    );
+    if (rows.length > 0) {
+      // Incrémenter le hit count
+      await conn.execute("UPDATE sparql_cache SET hit_count = hit_count + 1, last_accessed_at = NOW() WHERE query_hash = ?", [queryHash]);
+      await conn.end();
+      return JSON.parse(rows[0].results_json as string);
+    }
+    await conn.end();
+    return null;
+  } catch { return null; }
+}
+
+/** Écrit le résultat dans le cache DB */
+async function writeDbCache(queryHash: string, queryText: string, queryType: string, result: unknown, executionTimeMs: number): Promise<void> {
+  try {
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const expiresAt = new Date(Date.now() + SPARQL_CACHE_TTL_MS);
+    const resultsJson = JSON.stringify(result);
+    const resultObj = (result as Record<string, unknown>)?.results;
+    const bindingsArr = resultObj && typeof resultObj === 'object' ? (resultObj as Record<string, unknown>).bindings : undefined;
+    const resultCount = Array.isArray(bindingsArr) ? bindingsArr.length : 0;
+    await conn.execute(
+      `INSERT INTO sparql_cache (query_hash, query_text, query_type, results_json, result_count, execution_time_ms, expires_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?)
+       ON DUPLICATE KEY UPDATE results_json = VALUES(results_json), result_count = VALUES(result_count),
+         execution_time_ms = VALUES(execution_time_ms), expires_at = VALUES(expires_at), last_accessed_at = NOW()`,
+      [queryHash, queryText.substring(0, 5000), queryType, resultsJson, resultCount, executionTimeMs, expiresAt]
+    );
+    await conn.end();
+  } catch { /* cache write failure is non-fatal */ }
+}
 import {
   findArtworksForMolecule,
   findPapersForMolecule,
@@ -22,6 +69,7 @@ import {
   getNoseStats,
 } from "../sparql";
 import mysql from "mysql2/promise";
+import crypto from "crypto";
 
 async function getDb() {
   return mysql.createConnection(process.env.DATABASE_URL!);
@@ -454,11 +502,20 @@ LIMIT 20`,
       useCache: z.boolean().default(true),
     }))
     .mutation(async ({ input }) => {
+      const startTime = Date.now();
       const cache = _sparqlCache;
       const cacheKey = input.query;
       if (input.useCache) {
+        // 1. Cache mémoire (5 min)
         const entry = cache.get(cacheKey);
         if (entry && Date.now() < entry.exp) return entry.result;
+        // 2. Cache DB (24h)
+        const qHash = hashQuery(input.query);
+        const dbCached = await readDbCache(qHash);
+        if (dbCached !== null) {
+          cache.set(cacheKey, { result: dbCached, exp: Date.now() + 5 * 60 * 1000 });
+          return dbCached;
+        }
       }
 
       // Parseur minimal SPARQL → type d'entité
@@ -523,7 +580,12 @@ LIMIT 20`,
         }
 
         const result = { head: { vars }, results: { bindings } };
-        if (input.useCache) cache.set(cacheKey, { result, exp: Date.now() + 5 * 60 * 1000 });
+        if (input.useCache) {
+          cache.set(cacheKey, { result, exp: Date.now() + 5 * 60 * 1000 });
+          // Écrire aussi dans le cache DB (TTL 24h)
+          const qHash = hashQuery(input.query);
+          void writeDbCache(qHash, input.query, "SELECT", result, Date.now() - startTime);
+        }
         return result;
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : String(err);
@@ -544,6 +606,58 @@ LIMIT 20`,
       { title: "Bibliographie", query: `SELECT ?entry ?title ?authors ?year WHERE {\n  ?entry a perfumum:BibliographyEntry ;\n         perfumum:title ?title .\n  FILTER(CONTAINS(?title, "olfact"))\n} LIMIT 20` },
     ];
   }),
+
+  /**
+   * Axe 2.5 — Statistiques du cache SPARQL DB
+   */
+  getCacheStats: publicProcedure.query(async () => {
+    try {
+      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const [total] = await conn.execute<mysql.RowDataPacket[]>("SELECT COUNT(*) as cnt FROM sparql_cache");
+      const [active] = await conn.execute<mysql.RowDataPacket[]>("SELECT COUNT(*) as cnt FROM sparql_cache WHERE expires_at > NOW()");
+      const [expired] = await conn.execute<mysql.RowDataPacket[]>("SELECT COUNT(*) as cnt FROM sparql_cache WHERE expires_at <= NOW()");
+      const [hits] = await conn.execute<mysql.RowDataPacket[]>("SELECT SUM(hit_count) as total_hits, AVG(hit_count) as avg_hits, MAX(hit_count) as max_hits FROM sparql_cache");
+      const [topQueries] = await conn.execute<mysql.RowDataPacket[]>(
+        "SELECT query_text, hit_count, result_count, execution_time_ms, expires_at FROM sparql_cache ORDER BY hit_count DESC LIMIT 5"
+      );
+      await conn.end();
+      return {
+        total: Number(total[0].cnt),
+        active: Number(active[0].cnt),
+        expired: Number(expired[0].cnt),
+        totalHits: Number(hits[0].total_hits ?? 0),
+        avgHits: Number(hits[0].avg_hits ?? 0),
+        maxHits: Number(hits[0].max_hits ?? 0),
+        topQueries: topQueries as Record<string, unknown>[],
+      };
+    } catch (e) {
+      return { total: 0, active: 0, expired: 0, totalHits: 0, avgHits: 0, maxHits: 0, topQueries: [], error: String(e) };
+    }
+  }),
+
+  /**
+   * Axe 2.5 — Vider le cache SPARQL DB (entrées expirées ou tout)
+   */
+  clearSparqlCache: protectedProcedure
+    .input(z.object({ expiredOnly: z.boolean().default(true) }))
+    .mutation(async ({ input }) => {
+      try {
+        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        let deleted = 0;
+        if (input.expiredOnly) {
+          const [result] = await conn.execute<mysql.OkPacket>("DELETE FROM sparql_cache WHERE expires_at <= NOW()");
+          deleted = result.affectedRows;
+        } else {
+          const [result] = await conn.execute<mysql.OkPacket>("DELETE FROM sparql_cache");
+          deleted = result.affectedRows;
+          _sparqlCache.clear();
+        }
+        await conn.end();
+        return { deleted, message: `${deleted} entrée(s) supprimée(s) du cache SPARQL` };
+      } catch (e) {
+        throw new Error(`Erreur nettoyage cache: ${e}`);
+      }
+    }),
 
   europeanaTemplates: publicProcedure.query(() => {
     return [

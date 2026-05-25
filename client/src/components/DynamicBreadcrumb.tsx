@@ -279,6 +279,8 @@ const routeConfig: Record<string, { label: string; parent?: string }> = {
   "/admin/plant-molecules": { label: "Plantes-Molécules", parent: "/admin" },
   "/admin/reclassify-molecules": { label: "Reclassification Molécules", parent: "/admin" },
   "/admin/sparql-explorer": { label: "Explorateur SPARQL", parent: "/admin" },
+  "/admin/knowledge-graph": { label: "Graphe de Connaissances", parent: "/admin" },
+  "/admin/v3-migration": { label: "Migration v3 & Rapport 7", parent: "/admin" },
   "/admin/storylines": { label: "Storylines", parent: "/admin" },
   "/admin/synergies": { label: "Synergies (Admin)", parent: "/admin" },
 

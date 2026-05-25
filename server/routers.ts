@@ -79,6 +79,8 @@ import { olfactiveExperiencesRouter } from './routers/olfactive-experiences';
 import { storylinesRouter } from './routers/storylines';
 import { wikidataRouter } from './routers/wikidata';
 import { sparqlRouter } from './routers/sparql';
+import { v3MigrationRouter } from './routers/v3-migration';
+import { crossrefRouter } from './routers/crossref';
 import { europeanaRouter } from './routers/europeana';
 import { p5dataRouter } from './routers/p5data';
 import { auditRouter } from './routers/audit';
@@ -960,6 +962,10 @@ export const appRouter = router({
   wikidata: wikidataRouter,
   // NOSE Phase 5 — SPARQL Wikidata/Europeana (requêtes croisées)
   sparql: sparqlRouter,
+  // Axe 1.4 Rapport 7 — Migration v3_references → bibliography_entries
+  v3Migration: v3MigrationRouter,
+  // Axe 3.3 Rapport 7 — Réseau de citations CrossRef
+  crossref: crossrefRouter,
   europeana: europeanaRouter,
   // API p5.js — Endpoints publics pour sketches p5.js externes (editor.p5js.org)
   p5data: p5dataRouter,

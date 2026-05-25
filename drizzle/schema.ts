@@ -38,4 +38,6 @@ export * from "./schema-modules/terp-profiles";
 export * from "./schema-modules/tobacco-cannabis";
 export * from "./schema-modules/tps-genes";
 export * from "./schema-modules/traditions";
+export * from "./schema-modules/sparql-cache";
+export * from "./schema-modules/bibliography-cross-citations";
 export * from "./schema-modules/_relations";

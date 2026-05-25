@@ -128,7 +128,7 @@
 - [x] 1.1 Extension wikidata_qid à plants, terroirSpecialties, recettes, researchAxes (migration Drizzle)
 - [x] 1.2 Alignement ontologique : MeSH/UNESCO pour researchDomain, ChEBI pour chemicalClass, Plant Ontology pour familyType
 - [x] 1.3 Normalisation auteurs : table bibliography_authors (ORCID, VIAF, Wikidata QID) + table de jonction bibliography_entry_authors
-- [ ] 1.4 Fusion bibliographique : migrer v3_references vers bibliography_entries, déprécier v3_references (planifié Rapport 7)
+- [x] 1.4 Fusion bibliographique : migrer v3_references vers bibliography_entries (166 entrées, déduplication DOI/entry_key)
 - [x] 1.5 Champ rdfType sur toutes les entités principales (families, raw-materials, bibliography_entries, v3_references)
 
 ### Axe 2 — Fonctionnalités SPARQL
@@ -136,9 +136,28 @@
 - [ ] 2.2 Requêtes fédérées PERFUMUM ↔ Wikidata ↔ OpenAlex (SERVICE SPARQL) (planifié Rapport 7)
 - [x] 2.3 Visualisation graphes /knowledge-graph (D3.js force-directed, filtres par type d'entité)
 - [ ] 2.4 Templates SPARQL temporels et généalogiques (planifié Rapport 7)
-- [ ] 2.5 Cache SPARQL (table sparql_cache, TTL 24h) (planifié Rapport 7)
+- [x] 2.5 Cache SPARQL (table sparql_cache, TTL 24h, hit count, stats, nettoyage)
 
 ### Axe 3 — Bibliographie et archives
 - [x] 3.1 Pipeline OpenAlex → bibliography_entries (searchOpenAlex, importFromOpenAlex, searchOpenAlexForMolecule)
 - [x] 3.2 Routeur OpenAlex intégré dans bibliography.ts (3 procédures : recherche libre, import, recherche par molécule)
-- [ ] 3.3 Table bibliography_cross_citations (CrossRef API, réseau de citations) (planifié Rapport 7)
+- [x] 3.3 Table bibliography_cross_citations (CrossRef API, réseau de citations)
+
+## Axes stratégiques — Plan Rapport 7 (Mai 2026)
+
+### Axe 1.4 — Fusion bibliographique
+- [x] Analyser la structure de v3_references et mapper les colonnes vers bibliography_entries
+- [x] Script de migration : copier les données v3_references → bibliography_entries (166 entrées, déduplication DOI/entry_key)
+- [x] Marquer v3_references comme dépréciée
+- [x] Routeur tRPC v3Migration (getMigrationStats, previewMigration, runMigration) + page admin /admin/v3-migration
+
+### Axe 2.5 — Cache SPARQL
+- [x] Créer table sparql_cache (hash SHA-256, résultats JSON, TTL 24h, hit count)
+- [x] Intégrer le cache DB dans le routeur SPARQL (readDbCache/writeDbCache, 2 niveaux : mémoire 5min + DB 24h)
+- [x] Procédures tRPC getCacheStats + clearSparqlCache
+
+### Axe 3.3 — Réseau de citations CrossRef
+- [x] Créer table bibliography_cross_citations (source_id, target_doi, target_id, target_title, cited_by_count, relation_type)
+- [x] Routeur tRPC crossref (getWorkByDoi, fetchCitations, getCitationNetwork, getCitationStats, batchFetchCitations)
+- [x] Page admin /admin/v3-migration onglet Citations CrossRef avec enrichissement par lots
+- [x] Breadcrumbs + navigation admin mis à jour

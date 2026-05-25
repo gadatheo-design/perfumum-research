@@ -129,6 +129,7 @@ const BibliographicEnrichment = React.lazy(() => import('./pages/admin/Bibliogra
 const WikidataBatch = React.lazy(() => import('./pages/admin/WikidataBatch'));
 const SparqlExplorer = React.lazy(() => import('./pages/admin/SparqlExplorer'));
 const KnowledgeGraph = React.lazy(() => import('./pages/admin/KnowledgeGraph'));
+const V3MigrationAdmin = React.lazy(() => import('./pages/admin/V3MigrationAdmin'));
 const EuropeanaExplorer = React.lazy(() => import('./pages/admin/EuropeanaExplorer'));
 const EuropeanaMap = React.lazy(() => import('./pages/admin/EuropeanaMap'));
 const ExtractionMethods = React.lazy(() => import('./pages/admin/ExtractionMethods'));
@@ -586,6 +587,7 @@ function Router() {
       <Route path="/admin/wikidata-batch" component={WikidataBatch} />
       <Route path="/admin/sparql-explorer" component={SparqlExplorer} />
       <Route path="/admin/knowledge-graph" component={KnowledgeGraph} />
+      <Route path="/admin/v3-migration" component={V3MigrationAdmin} />
       <Route path="/admin/europeana" component={EuropeanaExplorer} />
       <Route path="/europeana-map" component={EuropeanaMap} />
       <Route path="/admin/europeana-map" component={EuropeanaMap} />
