@@ -199,3 +199,9 @@
 
 ### Axe 3 — Enrichissement taxonomique par lot
 - [x] Déjà implémenté dans PhyloEnrichment.tsx + phylo-batch.ts : batchByGenus (5 APIs en parallèle), getCoverageReport (GBIF/POWO/NCBI/Wikidata), syncCrossIds (ncbiTaxId, powId, wikidataQid, gbifId)
+
+## Rapport 11 — Page /visualisations (Mai 2026)
+- [x] Mise à jour de la page /visualisations existante : ajout catégorie "Ontologie & Connaissances" (6 outils : Graphe de Connaissances, Arbre Taxonomique, Frise Bibliographique, Réseau de Citations CrossRef, Explorateur SPARQL, Graphe Publications-Molécules)
+- [x] Frise Bibliographique ajoutée dans la catégorie Timelines (badge Nouveau)
+- [x] Correction doublon breadcrumb /timeline/interactive dans DynamicBreadcrumb.tsx
+- [x] TypeScript 0 erreurs

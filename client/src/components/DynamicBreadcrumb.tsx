@@ -505,9 +505,6 @@ const routeConfig: Record<string, { label: string; parent?: string }> = {
   "/enrichissement": { label: "Enrichissement", parent: "/admin" },
   "/enrichment": { label: "Enrichissement", parent: "/admin" },
 
-  // ── TIMELINES ────────────────────────────────────────────────────────────
-  "/timeline/interactive": { label: "Timeline Interactive", parent: "/timeline" },
-
   // ── AUTRES ───────────────────────────────────────────────────────────────
   "/galerie": { label: "Galerie", parent: "/galerie-botaniques" },
   "/gammes-hub": { label: "Hub Gammes", parent: "/gammes" },

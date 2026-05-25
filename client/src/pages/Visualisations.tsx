@@ -26,7 +26,11 @@ import {
   Globe,
   TrendingUp,
   Sparkles,
-  ArrowRight
+  ArrowRight,
+  Brain,
+  TreePine,
+  Link2,
+  CalendarRange
 } from "lucide-react";
 
 interface VisualizationItem {
@@ -113,6 +117,56 @@ const VISUALIZATIONS: Record<string, VisualizationItem[]> = {
       path: "/recipe-network",
       icon: <Network className="h-6 w-6" />,
       tags: ["D3.js", "Recettes", "Réseau"]
+    }
+  ],
+  ontologie: [
+    {
+      title: "Graphe de Connaissances",
+      description: "Graphe D3.js force-directed de toutes les entités PERFUMUM avec filtres par type, zoom et réseau de citations CrossRef intégré",
+      path: "/admin/knowledge-graph",
+      icon: <Brain className="h-6 w-6" />,
+      tags: ["D3.js", "Ontologie", "SPARQL", "CrossRef"],
+      isFeatured: true,
+      isNew: true
+    },
+    {
+      title: "Arbre Taxonomique",
+      description: "Visualisation D3.js tree layout horizontal de la taxonomie botanique (famille → genre → espèce) avec navigation vers les fiches plantes",
+      path: "/plants",
+      icon: <TreePine className="h-6 w-6" />,
+      tags: ["D3.js", "Taxonomie", "Wikidata P171", "Botanique"],
+      isNew: true
+    },
+    {
+      title: "Frise Bibliographique",
+      description: "Frise chronologique D3.js multi-sources (PERFUMUM + OpenAlex + Wikidata) par décennie avec zoom, filtres et export SVG",
+      path: "/timeline/bibliographie",
+      icon: <CalendarRange className="h-6 w-6" />,
+      tags: ["D3.js", "Timeline", "OpenAlex", "Wikidata"],
+      isFeatured: true,
+      isNew: true
+    },
+    {
+      title: "Réseau de Citations CrossRef",
+      description: "Réseau de citations bibliographiques enrichi via l'API CrossRef, intégré dans le Graphe de Connaissances avec nœuds directionnels",
+      path: "/admin/v3-migration",
+      icon: <Link2 className="h-6 w-6" />,
+      tags: ["CrossRef", "Citations", "Bibliographie", "D3.js"],
+      isNew: true
+    },
+    {
+      title: "Explorateur SPARQL",
+      description: "Interface de requêtes SPARQL internes avec templates temporels, généalogiques et requêtes fédérées Wikidata/OpenAlex",
+      path: "/admin/sparql-explorer",
+      icon: <GitBranch className="h-6 w-6" />,
+      tags: ["SPARQL", "Wikidata", "OpenAlex", "Fédéré"]
+    },
+    {
+      title: "Graphe Publications-Molécules",
+      description: "Connexions entre publications bibliographiques et molécules PERFUMUM",
+      path: "/graphe-publications-molecules",
+      icon: <Network className="h-6 w-6" />,
+      tags: ["D3.js", "Publications", "Molécules"]
     }
   ],
   cartes: [
@@ -239,6 +293,14 @@ const VISUALIZATIONS: Record<string, VisualizationItem[]> = {
       tags: ["Timeline", "Interactif", "Filtres"]
     },
     {
+      title: "Frise Bibliographique",
+      description: "Frise D3.js multi-sources (PERFUMUM + OpenAlex + Wikidata) par décennie avec zoom et export SVG",
+      path: "/timeline/bibliographie",
+      icon: <CalendarRange className="h-6 w-6" />,
+      tags: ["D3.js", "Bibliographie", "Multi-sources"],
+      isNew: true
+    },
+    {
       title: "Timeline Botanique",
       description: "Chronologie des découvertes botaniques",
       path: "/timeline-botanique",
@@ -323,6 +385,12 @@ const CATEGORY_INFO: Record<string, { title: string; description: string; icon: 
     description: "Chronologies interactives du projet et des découvertes",
     icon: <Clock className="h-5 w-5" />,
     color: "from-rose-500/20 to-rose-600/10"
+  },
+  ontologie: {
+    title: "Ontologie & Connaissances",
+    description: "Graphes de connaissances, arbres taxonomiques, SPARQL et réseaux de citations — outils des Rapports 8–10",
+    icon: <Brain className="h-5 w-5" />,
+    color: "from-violet-500/20 to-violet-600/10"
   },
   comparaisons: {
     title: "Comparaisons",
