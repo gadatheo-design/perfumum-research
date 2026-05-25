@@ -308,6 +308,14 @@ export default function Admin() {
       bgColor: "bg-indigo-50",
     },
     {
+      title: "Enrichissement Taxonomique — Plantes (Rapport 16)",
+      description: "Compléter la famille botanique des 126 plantes sans family via Wikidata (QID direct ou recherche) et GBIF. Batch automatique avec score de confiance + validation manuelle individuelle.",
+      icon: Leaf,
+      href: "/admin/taxonomy-enrichment",
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-50",
+    },
+    {
       title: "COCONUT — Enrichissement Produits Naturels",
       description: "Enrichir les molécules avec l'identifiant COCONUT, score NP-likeness, organismes sources et citations (716 000+ molécules, 70 000+ organismes).",
       icon: Globe,

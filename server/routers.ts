@@ -81,6 +81,7 @@ import { wikidataRouter } from './routers/wikidata';
 import { sparqlRouter } from './routers/sparql';
 import { sparqlQidRouter } from './routers/sparql-qid';
 import { moleculesQidRouter } from './routers/molecules-qid';
+import { taxonomyEnrichmentRouter } from './routers/taxonomy-enrichment';
 import { v3MigrationRouter } from './routers/v3-migration';
 import { crossrefRouter } from './routers/crossref';
 import { europeanaRouter } from './routers/europeana';
@@ -968,6 +969,8 @@ export const appRouter = router({
   sparqlQid: sparqlQidRouter,
   // Rapport 15 — Enrichissement QID Wikidata pour les molécules sans identifiant
   moleculesQid: moleculesQidRouter,
+  // Rapport 16 — Enrichissement taxonomique (family/genus) pour les plantes sans famille
+  taxonomyEnrichment: taxonomyEnrichmentRouter,
   // Axe 1.4 Rapport 7 — Migration v3_references → bibliography_entries
   v3Migration: v3MigrationRouter,
   // Axe 3.3 Rapport 7 — Réseau de citations CrossRef

@@ -131,6 +131,7 @@ const SparqlExplorer = React.lazy(() => import('./pages/admin/SparqlExplorer'));
 const KnowledgeGraph = React.lazy(() => import('./pages/admin/KnowledgeGraph'));
 const V3MigrationAdmin = React.lazy(() => import('./pages/admin/V3MigrationAdmin'));
 const MoleculeQidEnrichment = React.lazy(() => import('./pages/admin/MoleculeQidEnrichment'));
+const TaxonomyEnrichment = React.lazy(() => import('./pages/admin/TaxonomyEnrichment'));
 const EuropeanaExplorer = React.lazy(() => import('./pages/admin/EuropeanaExplorer'));
 const EuropeanaMap = React.lazy(() => import('./pages/admin/EuropeanaMap'));
 const ExtractionMethods = React.lazy(() => import('./pages/admin/ExtractionMethods'));
@@ -591,6 +592,7 @@ function Router() {
       <Route path="/admin/knowledge-graph" component={KnowledgeGraph} />
       <Route path="/admin/v3-migration" component={V3MigrationAdmin} />
       <Route path="/admin/molecule-qid-enrichment" component={MoleculeQidEnrichment} />
+      <Route path="/admin/taxonomy-enrichment" component={TaxonomyEnrichment} />
       <Route path="/admin/europeana" component={EuropeanaExplorer} />
       <Route path="/europeana-map" component={EuropeanaMap} />
       <Route path="/admin/europeana-map" component={EuropeanaMap} />
