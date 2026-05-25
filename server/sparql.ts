@@ -6,17 +6,17 @@
  * - Europeana API (via Wikidata depictions / Europeana linked data)
  *
  * Requêtes disponibles :
- * 1. Œuvres d'art Europeana contenant une molécule PERFUMUM
- * 2. Plantes PERFUMUM dans des collections muséales
- * 3. Molécules PERFUMUM citées dans des publications scientifiques (Wikidata)
- * 4. Requête SPARQL libre (mode expert)
+ * 1. Publications scientifiques citant une molécule PERFUMUM (Wikidata)
+ * 2. Propriétés chimiques et usages documentés d'une molécule (Wikidata)
+ * 3. Plantes PERFUMUM dans des collections muséales / herbiers (Wikidata)
+ * 4. Œuvres d'art liées à une plante (Wikidata)
+ * 5. Requête SPARQL libre (mode expert)
  */
 
 const WIKIDATA_SPARQL_ENDPOINT = "https://query.wikidata.org/sparql";
-const EUROPEANA_API_BASE = "https://api.europeana.eu/record/v2";
 
-// Timeout pour les requêtes SPARQL (30s)
-const SPARQL_TIMEOUT_MS = 30_000;
+// Timeout pour les requêtes SPARQL (45s — Wikidata peut être lent)
+const SPARQL_TIMEOUT_MS = 45_000;
 
 // Headers requis par Wikidata
 const SPARQL_HEADERS = {
@@ -74,6 +74,27 @@ export interface PlantCollectionResult {
   plantQid: string;
 }
 
+export interface MoleculeWikidataInfo {
+  qid: string;
+  label: string;
+  description?: string;
+  iupacName?: string;
+  casNumber?: string;
+  molecularFormula?: string;
+  molecularMass?: string;
+  boilingPoint?: string;
+  meltingPoint?: string;
+  inchi?: string;
+  smiles?: string;
+  image?: string;
+  wikidataUrl: string;
+  // Usages documentés
+  usedIn?: string[];
+  foundIn?: string[];
+  // Propriétés olfactives
+  odorDescriptors?: string[];
+}
+
 /**
  * Exécute une requête SPARQL sur Wikidata
  */
@@ -102,34 +123,147 @@ export async function executeSparqlQuery(sparql: string): Promise<SparqlResults>
 }
 
 /**
- * Requête 1 : Œuvres d'art Europeana/musées contenant une molécule PERFUMUM
- * Cherche les œuvres d'art qui dépeignent ou sont liées à la molécule via Wikidata
+ * Requête 1 : Publications scientifiques citant une molécule PERFUMUM
+ * Recherche via le QID Wikidata de la molécule — résultats réels disponibles
+ */
+export async function findPapersForMolecule(
+  wikidataQid: string,
+  moleculeName: string,
+  limit = 20
+): Promise<ScientificPaperResult[]> {
+  // Requête élargie : sujet principal OU composant chimique OU étudié dans
+  const sparql = `
+SELECT DISTINCT ?paper ?paperLabel ?doi ?date ?journalLabel ?authorLabel WHERE {
+  {
+    ?paper wdt:P921 wd:${wikidataQid} .
+  } UNION {
+    ?paper wdt:P527 wd:${wikidataQid} .
+  } UNION {
+    ?paper wdt:P2860 wd:${wikidataQid} .
+  }
+  ?paper wdt:P31 wd:Q13442814 .
+  OPTIONAL { ?paper wdt:P356 ?doi . }
+  OPTIONAL { ?paper wdt:P577 ?date . }
+  OPTIONAL { ?paper wdt:P1433 ?journal . }
+  OPTIONAL { ?paper wdt:P50 ?author . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+ORDER BY DESC(?date)
+LIMIT ${limit}
+  `.trim();
+
+  try {
+    const results = await executeSparqlQuery(sparql);
+    return results.results.bindings.map((b) => ({
+      qid: b.paper?.value.split("/").pop() || "",
+      title: b.paperLabel?.value || "Sans titre",
+      doi: b.doi?.value,
+      date: b.date?.value?.substring(0, 10),
+      journal: b.journalLabel?.value,
+      authors: b.authorLabel?.value,
+      wikidataUrl: b.paper?.value || "",
+      moleculeName,
+      moleculeQid: wikidataQid,
+    }));
+  } catch (e) {
+    console.error(`[SPARQL] findPapersForMolecule error for ${wikidataQid}:`, e);
+    return [];
+  }
+}
+
+/**
+ * Requête 2 : Propriétés chimiques et usages documentés d'une molécule sur Wikidata
+ * Retourne les données structurées disponibles (formule, CAS, SMILES, usages, etc.)
+ */
+export async function findMoleculeWikidataInfo(
+  wikidataQid: string,
+  moleculeName: string
+): Promise<MoleculeWikidataInfo | null> {
+  const sparql = `
+SELECT DISTINCT
+  ?item ?itemLabel ?itemDescription
+  ?iupac ?cas ?formula ?mass ?boiling ?melting ?inchi ?smiles ?image
+  ?usedInLabel ?foundInLabel
+WHERE {
+  BIND(wd:${wikidataQid} AS ?item)
+  OPTIONAL { ?item wdt:P2561 ?iupac . }
+  OPTIONAL { ?item wdt:P231 ?cas . }
+  OPTIONAL { ?item wdt:P274 ?formula . }
+  OPTIONAL { ?item wdt:P2067 ?mass . }
+  OPTIONAL { ?item wdt:P2102 ?boiling . }
+  OPTIONAL { ?item wdt:P2101 ?melting . }
+  OPTIONAL { ?item wdt:P234 ?inchi . }
+  OPTIONAL { ?item wdt:P233 ?smiles . }
+  OPTIONAL { ?item wdt:P18 ?image . }
+  OPTIONAL { ?item wdt:P366 ?usedIn . }
+  OPTIONAL { ?item wdt:P1582 ?foundIn . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+LIMIT 20
+  `.trim();
+
+  try {
+    const results = await executeSparqlQuery(sparql);
+    if (!results.results.bindings.length) return null;
+
+    const b = results.results.bindings[0];
+    const usedIn = [...new Set(results.results.bindings
+      .map(r => r.usedInLabel?.value)
+      .filter(Boolean) as string[])];
+    const foundIn = [...new Set(results.results.bindings
+      .map(r => r.foundInLabel?.value)
+      .filter(Boolean) as string[])];
+
+    return {
+      qid: wikidataQid,
+      label: b.itemLabel?.value || moleculeName,
+      description: b.itemDescription?.value,
+      iupacName: b.iupac?.value,
+      casNumber: b.cas?.value,
+      molecularFormula: b.formula?.value,
+      molecularMass: b.mass?.value,
+      boilingPoint: b.boiling?.value,
+      meltingPoint: b.melting?.value,
+      inchi: b.inchi?.value,
+      smiles: b.smiles?.value,
+      image: b.image?.value,
+      wikidataUrl: `https://www.wikidata.org/wiki/${wikidataQid}`,
+      usedIn,
+      foundIn,
+    };
+  } catch (e) {
+    console.error(`[SPARQL] findMoleculeWikidataInfo error for ${wikidataQid}:`, e);
+    return null;
+  }
+}
+
+/**
+ * Requête 3 : Œuvres d'art liées à une molécule (via sujet principal ou matériau)
+ * Requête plus large que "depicts" — inclut les parfums, compositions, etc.
  */
 export async function findArtworksForMolecule(
   wikidataQid: string,
   moleculeName: string,
   limit = 20
 ): Promise<ArtworkResult[]> {
+  // Chercher les parfums/compositions qui contiennent cette molécule
+  // OU les œuvres dont c'est le sujet principal
   const sparql = `
 SELECT DISTINCT ?artwork ?artworkLabel ?image ?creatorLabel ?date ?collectionLabel ?europeana WHERE {
-  # Œuvres liées à la molécule (via dépiction, sujet, ou ingrédient)
   {
-    ?artwork wdt:P180 wd:${wikidataQid} .  # depicts
+    ?artwork wdt:P921 wd:${wikidataQid} .
   } UNION {
-    ?artwork wdt:P921 wd:${wikidataQid} .  # main subject
+    ?artwork wdt:P186 wd:${wikidataQid} .
   } UNION {
-    ?artwork wdt:P186 wd:${wikidataQid} .  # made from material
+    ?artwork wdt:P527 wd:${wikidataQid} .
+  } UNION {
+    ?artwork wdt:P180 wd:${wikidataQid} .
   }
-  
-  # Filtrer sur les œuvres d'art / objets culturels
-  ?artwork wdt:P31/wdt:P279* wd:Q838948 .  # instance of artwork
-  
   OPTIONAL { ?artwork wdt:P18 ?image . }
   OPTIONAL { ?artwork wdt:P170 ?creator . }
   OPTIONAL { ?artwork wdt:P571 ?date . }
   OPTIONAL { ?artwork wdt:P195 ?collection . }
-  OPTIONAL { ?artwork wdt:P727 ?europeana . }  # Europeana ID
-  
+  OPTIONAL { ?artwork wdt:P727 ?europeana . }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
 }
 LIMIT ${limit}
@@ -158,76 +292,29 @@ LIMIT ${limit}
 }
 
 /**
- * Requête 2 : Publications scientifiques citant une molécule PERFUMUM
- */
-export async function findPapersForMolecule(
-  wikidataQid: string,
-  moleculeName: string,
-  limit = 20
-): Promise<ScientificPaperResult[]> {
-  const sparql = `
-SELECT DISTINCT ?paper ?paperLabel ?doi ?date ?journalLabel ?authorLabel WHERE {
-  {
-    ?paper wdt:P921 wd:${wikidataQid} .  # main subject
-  } UNION {
-    ?paper wdt:P527 wd:${wikidataQid} .  # has part
-  }
-  
-  # Filtrer sur les articles scientifiques
-  ?paper wdt:P31 wd:Q13442814 .  # scholarly article
-  
-  OPTIONAL { ?paper wdt:P356 ?doi . }
-  OPTIONAL { ?paper wdt:P577 ?date . }
-  OPTIONAL { ?paper wdt:P1433 ?journal . }
-  OPTIONAL { ?paper wdt:P50 ?author . }
-  
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
-}
-ORDER BY DESC(?date)
-LIMIT ${limit}
-  `.trim();
-
-  try {
-    const results = await executeSparqlQuery(sparql);
-    return results.results.bindings.map((b) => ({
-      qid: b.paper?.value.split("/").pop() || "",
-      title: b.paperLabel?.value || "Sans titre",
-      doi: b.doi?.value,
-      date: b.date?.value?.substring(0, 10),
-      journal: b.journalLabel?.value,
-      authors: b.authorLabel?.value,
-      wikidataUrl: b.paper?.value || "",
-      moleculeName,
-      moleculeQid: wikidataQid,
-    }));
-  } catch (e) {
-    console.error(`[SPARQL] findPapersForMolecule error for ${wikidataQid}:`, e);
-    return [];
-  }
-}
-
-/**
- * Requête 3 : Collections muséales contenant une plante PERFUMUM
+ * Requête 4 : Collections muséales / herbiers contenant une plante PERFUMUM
+ * Cherche les spécimens d'herbier, illustrations botaniques, et collections
  */
 export async function findCollectionsForPlant(
   wikidataQid: string,
   plantName: string,
   limit = 20
 ): Promise<PlantCollectionResult[]> {
+  // Chercher : spécimens d'herbier, illustrations botaniques, taxons dans des collections
   const sparql = `
 SELECT DISTINCT ?item ?itemLabel ?collectionLabel ?countryLabel ?image WHERE {
   {
-    ?item wdt:P180 wd:${wikidataQid} .  # depicts
+    ?item wdt:P180 wd:${wikidataQid} .
   } UNION {
-    ?item wdt:P921 wd:${wikidataQid} .  # main subject
+    ?item wdt:P921 wd:${wikidataQid} .
   } UNION {
-    ?item wdt:P527 wd:${wikidataQid} .  # has part (herbier)
+    ?item wdt:P527 wd:${wikidataQid} .
+  } UNION {
+    ?item wdt:P703 wd:${wikidataQid} .
   }
-  
   OPTIONAL { ?item wdt:P195 ?collection . }
   OPTIONAL { ?item wdt:P17 ?country . }
   OPTIONAL { ?item wdt:P18 ?image . }
-  
   SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
 }
 LIMIT ${limit}
@@ -252,33 +339,31 @@ LIMIT ${limit}
 }
 
 /**
- * Requête 4 : Molécules PERFUMUM présentes dans des œuvres d'art (batch)
- * Prend une liste de QIDs et retourne les œuvres associées
+ * Requête 5 : Molécules PERFUMUM présentes dans des œuvres d'art (batch)
  */
 export async function findArtworksForMoleculesBatch(
   qids: string[],
   limit = 50
 ): Promise<ArtworkResult[]> {
   if (!qids.length) return [];
-  
+
   const valuesClause = qids.map((q) => `wd:${q}`).join(" ");
-  
+
   const sparql = `
 SELECT DISTINCT ?molecule ?moleculeLabel ?artwork ?artworkLabel ?image ?creatorLabel ?date ?collectionLabel ?europeana WHERE {
   VALUES ?molecule { ${valuesClause} }
-  
   {
-    ?artwork wdt:P180 ?molecule .
-  } UNION {
     ?artwork wdt:P921 ?molecule .
+  } UNION {
+    ?artwork wdt:P186 ?molecule .
+  } UNION {
+    ?artwork wdt:P180 ?molecule .
   }
-  
   OPTIONAL { ?artwork wdt:P18 ?image . }
   OPTIONAL { ?artwork wdt:P170 ?creator . }
   OPTIONAL { ?artwork wdt:P571 ?date . }
   OPTIONAL { ?artwork wdt:P195 ?collection . }
   OPTIONAL { ?artwork wdt:P727 ?europeana . }
-  
   SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
 }
 LIMIT ${limit}
@@ -307,13 +392,11 @@ LIMIT ${limit}
 }
 
 /**
- * Requête 5 : Requête SPARQL libre (mode expert)
- * Valide et exécute une requête SPARQL arbitraire
+ * Requête 6 : Requête SPARQL libre (mode expert)
  */
 export async function executeFreeSparqlQuery(
   sparql: string
 ): Promise<{ vars: string[]; bindings: SparqlBinding[]; error?: string }> {
-  // Validation basique de sécurité (pas d'UPDATE, DELETE, INSERT)
   const normalized = sparql.toUpperCase().trim();
   if (
     normalized.startsWith("INSERT") ||
@@ -345,7 +428,7 @@ export async function executeFreeSparqlQuery(
 }
 
 /**
- * Requête 6 : Statistiques NOSE — combien de molécules PERFUMUM ont des œuvres d'art
+ * Requête 7 : Statistiques NOSE — combien de molécules PERFUMUM ont des données Wikidata
  */
 export async function getNoseStats(qids: string[]): Promise<{
   totalWithArtworks: number;
@@ -353,15 +436,14 @@ export async function getNoseStats(qids: string[]): Promise<{
   sampleArtworks: ArtworkResult[];
 }> {
   if (!qids.length) return { totalWithArtworks: 0, totalWithPapers: 0, sampleArtworks: [] };
-  
-  // Limiter à 50 QIDs pour éviter les timeouts SPARQL
+
   const sample = qids.slice(0, 50);
   const valuesClause = sample.map((q) => `wd:${q}`).join(" ");
-  
+
   const sparqlArtworks = `
 SELECT (COUNT(DISTINCT ?molecule) AS ?count) WHERE {
   VALUES ?molecule { ${valuesClause} }
-  { ?artwork wdt:P180 ?molecule . } UNION { ?artwork wdt:P921 ?molecule . }
+  { ?artwork wdt:P921 ?molecule . } UNION { ?artwork wdt:P186 ?molecule . } UNION { ?artwork wdt:P180 ?molecule . }
 }
   `.trim();
 
@@ -386,7 +468,6 @@ SELECT (COUNT(DISTINCT ?molecule) AS ?count) WHERE {
       papRes.results.bindings[0]?.count?.value || "0"
     );
 
-    // Quelques exemples d'œuvres
     const sampleArtworks = await findArtworksForMoleculesBatch(sample.slice(0, 10), 6);
 
     return { totalWithArtworks, totalWithPapers, sampleArtworks };

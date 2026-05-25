@@ -16,7 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import {
   Search, Globe, BookOpen, Palette, FlaskConical, Leaf,
   ExternalLink, Image, AlertCircle, Loader2, Sparkles, Code,
-  Building2, Calendar, Layers, Clock, GitBranch, Copy
+  Building2, Calendar, Layers, Clock, GitBranch, Copy, Atom
 } from "lucide-react";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 import { EntityQidPicker, QidBadge } from "@/components/EntityQidPicker";
@@ -198,7 +198,7 @@ function NoseStatsTab() {
 // ─── Onglet Recherche par molécule ────────────────────────────────────────────
 function MoleculeSearchTab() {
   const [moleculeId, setMoleculeId] = useState<string>("");
-  const [searchType, setSearchType] = useState<"artworks" | "papers">("artworks");
+  const [searchType, setSearchType] = useState<"artworks" | "papers" | "properties">("properties");
   const [submitted, setSubmitted] = useState(false);
   const [currentId, setCurrentId] = useState<number | null>(null);
 
@@ -207,9 +207,16 @@ function MoleculeSearchTab() {
     { enabled: submitted && searchType === "artworks" && currentId !== null }
   );
 
-  const papersQuery = trpc.sparql.papersForMolecule.useQuery(
+  // Utilise le fallback OpenAlex si Wikidata retourne 0 résultats
+  const papersQuery = trpc.sparql.papersForMoleculeWithFallback.useQuery(
     { moleculeId: currentId!, limit: 20 },
     { enabled: submitted && searchType === "papers" && currentId !== null }
+  );
+
+  // Propriétés chimiques Wikidata (formule, CAS, SMILES, usages)
+  const wikidataInfoQuery = trpc.sparql.moleculeWikidataInfo.useQuery(
+    { moleculeId: currentId! },
+    { enabled: submitted && searchType === "properties" && currentId !== null }
   );
 
   const handleSearch = () => {
@@ -232,9 +239,12 @@ function MoleculeSearchTab() {
     }
   };
 
-  const isLoading = searchType === "artworks" ? artworksQuery.isLoading : papersQuery.isLoading;
+  const isLoading = searchType === "artworks" ? artworksQuery.isLoading
+    : searchType === "papers" ? papersQuery.isLoading
+    : wikidataInfoQuery.isLoading;
   const artworks = artworksQuery.data?.artworks ?? [];
   const papers = papersQuery.data?.papers ?? [];
+  const paperSource = papersQuery.data?.source;
   const error = artworksQuery.data?.error || papersQuery.data?.error;
 
   return (
@@ -265,6 +275,11 @@ function MoleculeSearchTab() {
               <SelectItem value="papers">
                 <span className="flex items-center gap-2">
                   <BookOpen className="h-4 w-4" /> Publications
+                </span>
+              </SelectItem>
+              <SelectItem value="properties">
+                <span className="flex items-center gap-2">
+                  <Atom className="h-4 w-4" /> Propriétés Wikidata
                 </span>
               </SelectItem>
             </SelectContent>
@@ -326,10 +341,22 @@ function MoleculeSearchTab() {
 
       {submitted && !isLoading && !error && searchType === "papers" && (
         <div>
-          <p className="text-sm text-muted-foreground mb-3">
-            {papers.length} publication(s) trouvée(s)
-            {papersQuery.data?.moleculeName && ` pour ${papersQuery.data.moleculeName}`}
-          </p>
+          <div className="flex items-center gap-3 mb-3">
+            <p className="text-sm text-muted-foreground">
+              {papers.length} publication(s) trouvée(s)
+              {papersQuery.data?.moleculeName && ` pour ${papersQuery.data.moleculeName}`}
+            </p>
+            {paperSource === "openalex" && (
+              <span className="text-xs bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 px-2 py-0.5 rounded-full">
+                via OpenAlex (fallback Wikidata vide)
+              </span>
+            )}
+            {paperSource === "wikidata" && (
+              <span className="text-xs bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 rounded-full">
+                via Wikidata SPARQL
+              </span>
+            )}
+          </div>
           {papers.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {papers.map((paper, i) => (
@@ -339,9 +366,110 @@ function MoleculeSearchTab() {
           ) : (
             <Card className="border-dashed">
               <CardContent className="p-8 text-center text-muted-foreground">
-                <p className="text-sm">Aucune publication trouvée sur Wikidata pour cette molécule</p>
+                <BookOpen className="h-8 w-8 mx-auto mb-2 opacity-30" />
+                <p className="text-sm">Aucune publication trouvée sur Wikidata ni OpenAlex pour cette molécule</p>
+                {papersQuery.data?.qid && (
+                  <a href={`https://www.wikidata.org/wiki/${papersQuery.data.qid}`} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline mt-2 block">
+                    Voir {papersQuery.data.qid} sur Wikidata ↗
+                  </a>
+                )}
               </CardContent>
             </Card>
+          )}
+        </div>
+      )}
+
+      {submitted && !isLoading && searchType === "properties" && (
+        <div className="space-y-4">
+          {!wikidataInfoQuery.data?.found ? (
+            <Card className="border-dashed"><CardContent className="p-8 text-center text-muted-foreground"><p className="text-sm">Molécule introuvable</p></CardContent></Card>
+          ) : !wikidataInfoQuery.data.hasQid ? (
+            <Card className="border-amber-200 bg-amber-50 dark:bg-amber-950/20">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-3">
+                  <AlertCircle className="h-5 w-5 text-amber-600 mt-0.5" />
+                  <div>
+                    <p className="font-medium text-amber-800 dark:text-amber-300">{wikidataInfoQuery.data.moleculeName} — pas de QID Wikidata</p>
+                    <p className="text-sm text-amber-700 dark:text-amber-400 mt-1">Enrichissez d'abord le QID Wikidata via l'outil d'enrichissement phylogénique ou l'admin molécules.</p>
+                    {wikidataInfoQuery.data.perfumumData?.casNumber && (
+                      <p className="text-xs mt-2 text-muted-foreground">CAS PERFUMUM : {wikidataInfoQuery.data.perfumumData.casNumber}</p>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Identité Wikidata */}
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Atom className="h-4 w-4 text-primary" />
+                    {wikidataInfoQuery.data.moleculeName}
+                    <a href={wikidataInfoQuery.data.wikidataUrl!} target="_blank" rel="noopener noreferrer"
+                      className="text-xs text-primary hover:underline font-normal">
+                      {wikidataInfoQuery.data.qid} ↗
+                    </a>
+                  </CardTitle>
+                  {wikidataInfoQuery.data.wikidataInfo?.description && (
+                    <p className="text-sm text-muted-foreground">{wikidataInfoQuery.data.wikidataInfo.description}</p>
+                  )}
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  {[
+                    { label: "Formule", value: wikidataInfoQuery.data.wikidataInfo?.molecularFormula },
+                    { label: "Masse mol.", value: wikidataInfoQuery.data.wikidataInfo?.molecularMass ? `${wikidataInfoQuery.data.wikidataInfo.molecularMass} g/mol` : undefined },
+                    { label: "CAS", value: wikidataInfoQuery.data.wikidataInfo?.casNumber || wikidataInfoQuery.data.perfumumData?.casNumber },
+                    { label: "IUPAC", value: wikidataInfoQuery.data.wikidataInfo?.iupacName || wikidataInfoQuery.data.perfumumData?.iupacName },
+                    { label: "SMILES", value: wikidataInfoQuery.data.wikidataInfo?.smiles },
+                    { label: "InChI", value: wikidataInfoQuery.data.wikidataInfo?.inchi },
+                    { label: "Pt. ébullition", value: wikidataInfoQuery.data.wikidataInfo?.boilingPoint ? `${wikidataInfoQuery.data.wikidataInfo.boilingPoint}°C` : undefined },
+                    { label: "Pt. fusion", value: wikidataInfoQuery.data.wikidataInfo?.meltingPoint ? `${wikidataInfoQuery.data.wikidataInfo.meltingPoint}°C` : undefined },
+                  ].filter(p => p.value).map(p => (
+                    <div key={p.label} className="flex justify-between text-sm">
+                      <span className="text-muted-foreground">{p.label}</span>
+                      <span className="font-mono text-xs max-w-[60%] text-right break-all">{p.value}</span>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+              {/* Usages & Sources naturelles */}
+              <div className="space-y-4">
+                {wikidataInfoQuery.data.wikidataInfo?.usedIn && wikidataInfoQuery.data.wikidataInfo.usedIn.length > 0 && (
+                  <Card>
+                    <CardHeader className="pb-2"><CardTitle className="text-sm">Usages documentés</CardTitle></CardHeader>
+                    <CardContent>
+                      <div className="flex flex-wrap gap-1.5">
+                        {wikidataInfoQuery.data.wikidataInfo.usedIn.map((u, i) => (
+                          <span key={i} className="text-xs bg-primary/10 text-primary px-2 py-0.5 rounded-full">{u}</span>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+                {wikidataInfoQuery.data.wikidataInfo?.foundIn && wikidataInfoQuery.data.wikidataInfo.foundIn.length > 0 && (
+                  <Card>
+                    <CardHeader className="pb-2"><CardTitle className="text-sm">Sources naturelles</CardTitle></CardHeader>
+                    <CardContent>
+                      <div className="flex flex-wrap gap-1.5">
+                        {wikidataInfoQuery.data.wikidataInfo.foundIn.map((f, i) => (
+                          <span key={i} className="text-xs bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-2 py-0.5 rounded-full">{f}</span>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+                {wikidataInfoQuery.data.wikidataInfo?.image && (
+                  <Card>
+                    <CardHeader className="pb-2"><CardTitle className="text-sm">Structure moléculaire</CardTitle></CardHeader>
+                    <CardContent>
+                      <img src={wikidataInfoQuery.data.wikidataInfo.image} alt={wikidataInfoQuery.data.moleculeName}
+                        className="max-h-40 object-contain mx-auto" />
+                    </CardContent>
+                  </Card>
+                )}
+              </div>
+            </div>
           )}
         </div>
       )}

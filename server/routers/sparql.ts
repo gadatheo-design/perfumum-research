@@ -65,6 +65,7 @@ import {
   findPapersForMolecule,
   findCollectionsForPlant,
   findArtworksForMoleculesBatch,
+  findMoleculeWikidataInfo,
   executeFreeSparqlQuery,
   getNoseStats,
 } from "../sparql";
@@ -1086,5 +1087,100 @@ LIMIT 15`,
         }
         return { found: true, perfumumData, wikidataData, qid };
       } finally { await conn.end(); }
+    }),
+
+  /**
+   * Propriétés chimiques complètes d'une molécule via Wikidata
+   * Retourne formule, CAS, SMILES, InChI, usages, sources naturelles
+   */
+  moleculeWikidataInfo: publicProcedure
+    .input(z.object({
+      moleculeId: z.number().int().positive(),
+    }))
+    .query(async ({ input }) => {
+      const conn = await getDb();
+      try {
+        const [rows] = await conn.execute<any[]>(
+          "SELECT id, name, wikidata_qid, cas_number, iupac_name FROM molecules WHERE id = ? LIMIT 1",
+          [input.moleculeId]
+        );
+        if (!rows.length) return { found: false, error: "Molécule introuvable" };
+        const mol = rows[0];
+        if (!mol.wikidata_qid) {
+          return {
+            found: true,
+            hasQid: false,
+            moleculeName: mol.name,
+            perfumumData: { casNumber: mol.cas_number, iupacName: mol.iupac_name },
+            wikidataInfo: null,
+            wikidataUrl: null,
+          };
+        }
+        const wikidataInfo = await findMoleculeWikidataInfo(mol.wikidata_qid, mol.name);
+        return {
+          found: true,
+          hasQid: true,
+          moleculeName: mol.name,
+          qid: mol.wikidata_qid,
+          wikidataUrl: `https://www.wikidata.org/wiki/${mol.wikidata_qid}`,
+          perfumumData: { casNumber: mol.cas_number, iupacName: mol.iupac_name },
+          wikidataInfo,
+        };
+      } finally {
+        await conn.end();
+      }
+    }),
+
+  /**
+   * Publications pour une molécule avec fallback OpenAlex si Wikidata retourne 0 résultats
+   */
+  papersForMoleculeWithFallback: publicProcedure
+    .input(z.object({
+      moleculeId: z.number().int().positive(),
+      limit: z.number().int().min(1).max(50).default(20),
+    }))
+    .query(async ({ input }) => {
+      const conn = await getDb();
+      try {
+        const [rows] = await conn.execute<any[]>(
+          "SELECT id, name, wikidata_qid, cas_number FROM molecules WHERE id = ? AND wikidata_qid IS NOT NULL LIMIT 1",
+          [input.moleculeId]
+        );
+        if (!rows.length || !rows[0].wikidata_qid) {
+          return { papers: [], source: "none", error: "Molécule sans QID Wikidata" };
+        }
+        const mol = rows[0];
+        // 1. Essayer Wikidata d'abord
+        const wikidataPapers = await findPapersForMolecule(mol.wikidata_qid, mol.name, input.limit);
+        if (wikidataPapers.length > 0) {
+          return { papers: wikidataPapers, source: "wikidata", moleculeName: mol.name, qid: mol.wikidata_qid };
+        }
+        // 2. Fallback OpenAlex si Wikidata retourne 0
+        try {
+          const searchQuery = mol.cas_number ? `${mol.name} ${mol.cas_number}` : mol.name;
+          const oaUrl = `https://api.openalex.org/works?search=${encodeURIComponent(searchQuery)}&filter=type:article&sort=cited_by_count:desc&per-page=${input.limit}&mailto=perfumum@research.fr`;
+          const oaRes = await fetch(oaUrl, { signal: AbortSignal.timeout(15000) });
+          if (oaRes.ok) {
+            const oaData = await oaRes.json() as Record<string, unknown>;
+            const results = (oaData.results as Record<string, unknown>[]) ?? [];
+            const papers = results.map((r: Record<string, unknown>) => ({
+              qid: "",
+              title: (r.title as string) || "Sans titre",
+              doi: r.doi ? String(r.doi).replace("https://doi.org/", "") : undefined,
+              date: r.publication_date ? String(r.publication_date).substring(0, 10) : undefined,
+              journal: (r.primary_location as Record<string, unknown>)?.source ? ((r.primary_location as Record<string, unknown>).source as Record<string, unknown>)?.display_name as string : undefined,
+              authors: (r.authorships as Record<string, unknown>[])?.slice(0, 3).map((a: Record<string, unknown>) => (a.author as Record<string, unknown>)?.display_name).filter(Boolean).join(", "),
+              wikidataUrl: r.doi ? `https://doi.org/${String(r.doi).replace("https://doi.org/", "")}` : "",
+              moleculeName: mol.name,
+              moleculeQid: mol.wikidata_qid,
+              citedByCount: r.cited_by_count as number,
+            }));
+            return { papers, source: "openalex", moleculeName: mol.name, qid: mol.wikidata_qid };
+          }
+        } catch { /* fallback failed */ }
+        return { papers: [], source: "wikidata", moleculeName: mol.name, qid: mol.wikidata_qid };
+      } finally {
+        await conn.end();
+      }
     }),
 });
