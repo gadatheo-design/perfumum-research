@@ -378,4 +378,190 @@ export const plantsRouter = router({
           total: Number((countRows as Record<string, unknown>[])[0]?.total ?? 0),
         };
       }),
+
+    /**
+     * Rapport 9 — Arbre taxonomique visuel
+     * Combine les données PERFUMUM (famille, genre, espèce) avec Wikidata (P171 parent taxon)
+     * pour construire un arbre hiérarchique navigable depuis la fiche plante.
+     */
+    getTaxonomyTree: publicProcedure
+      .input(z.object({
+        plantId: z.number(),
+        useWikidata: z.boolean().default(true),
+      }))
+      .query(async ({ input }) => {
+        const mysql2 = await import('mysql2/promise');
+        const conn = await mysql2.createConnection(process.env.DATABASE_URL!);
+
+        try {
+          // 1. Récupérer la plante cible avec ses métadonnées taxonomiques
+          const [plantRows] = await conn.query(
+            `SELECT id, name, latin_name, family, wikidata_qid, ncbi_tax_id, gbif_id, pow_id
+             FROM plants WHERE id = ? LIMIT 1`,
+            [input.plantId]
+          );
+          const plant = (plantRows as Record<string, unknown>[])[0];
+          if (!plant) throw new TRPCError({ code: 'NOT_FOUND', message: 'Plante introuvable' });
+
+          const latinName = (plant.latin_name as string) || '';
+          const genus = latinName.trim().split(/\s+/)[0] || '';
+          const family = (plant.family as string) || '';
+
+          // 2. Espèces sœurs (même genre)
+          let siblingsRows: Record<string, unknown>[] = [];
+          if (genus) {
+            const [sib] = await conn.query(
+              `SELECT id, name, latin_name, family, wikidata_qid
+               FROM plants WHERE latin_name LIKE ? AND id != ? ORDER BY latin_name LIMIT 30`,
+              [`${genus} %`, input.plantId]
+            );
+            siblingsRows = sib as Record<string, unknown>[];
+          }
+
+          // 3. Autres genres de la même famille
+          let familyRows: Record<string, unknown>[] = [];
+          if (family) {
+            const [fam] = await conn.query(
+              `SELECT id, name, latin_name, family, wikidata_qid
+               FROM plants WHERE family = ? AND (latin_name IS NULL OR latin_name NOT LIKE ?)
+               ORDER BY name LIMIT 20`,
+              [family, `${genus} %`]
+            );
+            familyRows = fam as Record<string, unknown>[];
+          }
+
+          // 4. Ancêtres Wikidata via P171 (parent taxon)
+          let wikidataAncestors: Array<{
+            qid: string; label: string; rank: string; rankLabel: string; parentQid?: string;
+          }> = [];
+
+          if (input.useWikidata && plant.wikidata_qid) {
+            try {
+              const qid = plant.wikidata_qid as string;
+              const sparqlQuery = `SELECT ?taxon ?taxonLabel ?rank ?rankLabel ?parent WHERE {
+  VALUES ?startTaxon { wd:${qid} }
+  ?startTaxon wdt:P171* ?taxon .
+  ?taxon wdt:P105 ?rank .
+  OPTIONAL { ?taxon wdt:P171 ?parent . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+ORDER BY ?rank
+LIMIT 20`;
+              const wikidataUrl = `https://query.wikidata.org/sparql?query=${encodeURIComponent(sparqlQuery)}&format=json`;
+              const controller = new AbortController();
+              const timeout = setTimeout(() => controller.abort(), 8000);
+              const resp = await fetch(wikidataUrl, {
+                headers: { 'Accept': 'application/sparql-results+json', 'User-Agent': 'PERFUMUM-Research/1.0' },
+                signal: controller.signal,
+              });
+              clearTimeout(timeout);
+              if (resp.ok) {
+                const data = await resp.json() as { results?: { bindings?: Record<string, { value: string }>[] } };
+                const bindings = data.results?.bindings || [];
+                wikidataAncestors = bindings.map((b) => ({
+                  qid: b.taxon?.value?.replace('http://www.wikidata.org/entity/', '') || '',
+                  label: b.taxonLabel?.value || '',
+                  rank: b.rank?.value?.replace('http://www.wikidata.org/entity/', '') || '',
+                  rankLabel: b.rankLabel?.value || '',
+                  parentQid: b.parent?.value?.replace('http://www.wikidata.org/entity/', '') || undefined,
+                })).filter((a) => a.qid && a.label);
+              }
+            } catch {
+              // Wikidata indisponible — on continue sans les ancêtres
+            }
+          }
+
+          // 5. Construire l'arbre hiérarchique PERFUMUM
+          const otherGenera: Record<string, Record<string, unknown>[]> = {};
+          for (const fp of familyRows) {
+            const fpGenus = ((fp.latin_name as string) || '').trim().split(/\s+/)[0] || (fp.name as string);
+            if (!otherGenera[fpGenus]) otherGenera[fpGenus] = [];
+            otherGenera[fpGenus].push(fp);
+          }
+
+          const tree = {
+            id: `family-${family}`,
+            name: family || 'Famille inconnue',
+            type: 'family' as const,
+            level: 0,
+            perfumumId: null as number | null,
+            wikidataQid: null as string | null,
+            latinName: null as string | null,
+            children: [
+              {
+                id: `genus-${genus}`,
+                name: genus || 'Genre inconnu',
+                type: 'genus' as const,
+                level: 1,
+                perfumumId: null as number | null,
+                wikidataQid: null as string | null,
+                latinName: null as string | null,
+                children: [
+                  {
+                    id: `plant-${plant.id}`,
+                    name: (plant.name as string) || '',
+                    type: 'target' as const,
+                    level: 2,
+                    perfumumId: plant.id as number,
+                    wikidataQid: (plant.wikidata_qid as string) || null,
+                    latinName: latinName || null,
+                    children: [],
+                  },
+                  ...siblingsRows.map((s) => ({
+                    id: `plant-${s.id}`,
+                    name: (s.name as string) || '',
+                    type: 'sibling' as const,
+                    level: 2,
+                    perfumumId: s.id as number,
+                    wikidataQid: (s.wikidata_qid as string) || null,
+                    latinName: (s.latin_name as string) || null,
+                    children: [],
+                  })),
+                ],
+              },
+              ...Object.entries(otherGenera).slice(0, 8).map(([g, plants_]) => ({
+                id: `genus-other-${g}`,
+                name: g,
+                type: 'genus' as const,
+                level: 1,
+                perfumumId: null as number | null,
+                wikidataQid: null as string | null,
+                latinName: null as string | null,
+                children: plants_.slice(0, 5).map((p_) => ({
+                  id: `plant-${p_.id}`,
+                  name: (p_.name as string) || '',
+                  type: 'other' as const,
+                  level: 2,
+                  perfumumId: p_.id as number,
+                  wikidataQid: (p_.wikidata_qid as string) || null,
+                  latinName: (p_.latin_name as string) || null,
+                  children: [],
+                })),
+              })),
+            ],
+          };
+
+          return {
+            tree,
+            plant: {
+              id: plant.id as number,
+              name: plant.name as string,
+              latinName,
+              family,
+              genus,
+              wikidataQid: (plant.wikidata_qid as string) || null,
+              gbifId: (plant.gbif_id as string) || null,
+              ncbiTaxId: (plant.ncbi_tax_id as string) || null,
+            },
+            wikidataAncestors,
+            stats: {
+              siblingCount: siblingsRows.length,
+              familyCount: familyRows.length,
+              ancestorCount: wikidataAncestors.length,
+            },
+          };
+        } finally {
+          await conn.end();
+        }
+      }),
 });

@@ -181,3 +181,11 @@
 - [x] 4 templates généalogiques : taxonomie plante (P171), dérivés molécule, cultivars, familles olfactives
 - [x] Catégories "temporal" (orange) et "genealogy" (teal) ajoutées dans TemplatesTab
 - [x] Icônes Clock (temporel) et GitBranch (généalogie) intégrées
+
+## Axes stratégiques — Plan Rapport 9 (Mai 2026)
+
+### Arbre taxonomique visuel D3.js
+- [x] Procédure tRPC getTaxonomyTree (Wikidata P171 + données PERFUMUM, espèces sœurs, ancêtres, stats)
+- [x] Composant TaxonomyTree.tsx (D3.js tree layout horizontal, zoom/pan, tooltip enrichi, légende)
+- [x] Intégration dans PlantDetail.tsx (onglet Généalogie — arbre taxonomique + généalogie variétés)
+- [x] Navigation vers fiches plantes en un clic depuis les nœuds de l'arbre

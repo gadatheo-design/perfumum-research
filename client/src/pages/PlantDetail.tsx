@@ -56,6 +56,7 @@ import { EntityConnectionBar } from "@/components/EntityConnectionBar";
 import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 import { PlantEnrichPanel } from "@/components/PlantEnrichPanel";
+import { TaxonomyTree } from "@/components/TaxonomyTree";
 
 // Mapping des axes climatiques vers des couleurs
 const axisColors: Record<string, string> = {
@@ -1349,20 +1350,39 @@ export default function PlantDetail() {
         {/* Généalogie */}
         <TabsContent value="genealogy" className="space-y-6">
           <TabErrorBoundary tabLabel="Généalogie">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <GitBranch className="h-5 w-5" />
-                Arbre généalogique
-              </CardTitle>
-              <CardDescription>
-                Visualisation interactive des relations parentales et des croisements
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <GenealogyTree varietyId={plant.id} varietyName={plant.name} />
-            </CardContent>
-          </Card>
+          <div className="space-y-6">
+            {/* Arbre taxonomique visuel D3.js (Rapport 9) */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <GitBranch className="h-5 w-5 text-indigo-500" />
+                  Arbre taxonomique
+                </CardTitle>
+                <CardDescription>
+                  Visualisation interactive de la position taxonomique de <span className="italic">{plant.latinName || plant.name}</span> dans la famille {plant.family || "—"} — cliquer sur un nœud pour ouvrir la fiche
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <TaxonomyTree plantId={plant.id} plantName={plant.name} />
+              </CardContent>
+            </Card>
+
+            {/* Arbre généalogique des variétés (croisements) */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <GitBranch className="h-5 w-5" />
+                  Généalogie des variétés
+                </CardTitle>
+                <CardDescription>
+                  Relations parentales et croisements entre variétés
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <GenealogyTree varietyId={plant.id} varietyName={plant.name} />
+              </CardContent>
+            </Card>
+          </div>
           </TabErrorBoundary>
         </TabsContent>
 
