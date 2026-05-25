@@ -376,6 +376,7 @@ const PlantMoleculeLinking = React.lazy(() => import('./pages/PlantMoleculeLinki
 const Manifeste = React.lazy(() => import('./pages/Manifeste'));
 const Timeline = React.lazy(() => import('./pages/Timeline').then(m => ({ default: m.Timeline })));
 const TimelineInteractive = React.lazy(() => import('./pages/TimelineInteractive'));
+const TimelineBibliographie = React.lazy(() => import('./pages/TimelineBibliographie'));
 const FormulesReference = React.lazy(() => import('./pages/FormulesReference'));
 const ComparaisonAvancee = React.lazy(() => import('./pages/ComparaisonAvancee'));
 const TimelinePerfumum = React.lazy(() => import('./pages/TimelinePerfumum'));
@@ -964,6 +965,7 @@ function Router() {
       <LazyRoute path="/plant-molecule-linking" component={PlantMoleculeLinking} />
       <LazyRoute path="/timeline" component={Timeline} />
       <LazyRoute path="/timeline/interactive" component={TimelineInteractive} />
+      <LazyRoute path="/timeline/bibliographie" component={TimelineBibliographie} />
       <LazyRoute path="/formules-reference" component={FormulesReference} />
       <LazyRoute path="/comparaison" component={ComparaisonAvancee} />
       {/* <Route path="/galerie-botaniques" component={GalerieBotaniques} /> */} {/* Intégré dans /plants?tab=gallery */}

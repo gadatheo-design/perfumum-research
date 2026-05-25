@@ -189,3 +189,13 @@
 - [x] Composant TaxonomyTree.tsx (D3.js tree layout horizontal, zoom/pan, tooltip enrichi, légende)
 - [x] Intégration dans PlantDetail.tsx (onglet Généalogie — arbre taxonomique + généalogie variétés)
 - [x] Navigation vers fiches plantes en un clic depuis les nœuds de l'arbre
+
+## Axes stratégiques — Plan Rapport 10 (Mai 2026)
+
+### Axe 1 — Frise chronologique /timeline
+- [x] Routeur tRPC timeline (getTimelineData + getTimelineStats : publications par année, sources Wikidata/OpenAlex/PERFUMUM)
+- [x] Page /timeline/bibliographie avec frise D3.js (axe horizontal décennie, zoom/pan, filtres source/type, export SVG)
+- [x] Breadcrumbs /timeline/bibliographie + /timeline/interactive ajoutés dans DynamicBreadcrumb.tsx
+
+### Axe 3 — Enrichissement taxonomique par lot
+- [x] Déjà implémenté dans PhyloEnrichment.tsx + phylo-batch.ts : batchByGenus (5 APIs en parallèle), getCoverageReport (GBIF/POWO/NCBI/Wikidata), syncCrossIds (ncbiTaxId, powId, wikidataQid, gbifId)

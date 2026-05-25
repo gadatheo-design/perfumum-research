@@ -183,6 +183,8 @@ const routeConfig: Record<string, { label: string; parent?: string }> = {
   "/glossaire-visuel-radar": { label: "Glossaire Visuel Radar" },
   "/contribuer": { label: "Contribuer" },
   "/timeline": { label: "Timeline" },
+  "/timeline/bibliographie": { label: "Frise Bibliographique", parent: "/timeline" },
+  "/timeline/interactive": { label: "Timeline Interactive", parent: "/timeline" },
   "/projet/timeline": { label: "Timeline du Projet" },
   "/galerie-botaniques": { label: "Galerie Botaniques" },
   "/galerie-olfactive": { label: "Galerie Olfactive", parent: "/storylines" },
