@@ -16,9 +16,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import {
   Search, Globe, BookOpen, Palette, FlaskConical, Leaf,
   ExternalLink, Image, AlertCircle, Loader2, Sparkles, Code,
-  Building2, Calendar, Layers, Clock, GitBranch
+  Building2, Calendar, Layers, Clock, GitBranch, Copy
 } from "lucide-react";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
+import { EntityQidPicker, QidBadge } from "@/components/EntityQidPicker";
 
 // ─── Composant carte œuvre d'art ─────────────────────────────────────────────
 function ArtworkCard({ artwork }: { artwork: any }) {
@@ -410,13 +411,44 @@ SELECT DISTINCT ?molecule ?moleculeLabel ?artwork ?artworkLabel ?image WHERE {
 }
 LIMIT 10`);
   const [results, setResults] = useState<any>(null);
+  const [injectedQid, setInjectedQid] = useState<string | null>(null);
 
   const mutation = trpc.sparql.freeQuery.useMutation({
     onSuccess: (data) => setResults(data),
   });
 
+  const handleQidInject = (qid: string, entityName: string) => {
+    if (sparql.includes("{{QID}}")) {
+      setSparql(sparql.replace(/\{\{QID\}\}/g, qid));
+    } else {
+      setSparql(sparql.replace(
+        /(VALUES \?(?:molecule|plant|entity) \{)([^}]*)(\})/,
+        `$1$2 wd:${qid}$3`
+      ));
+    }
+    setInjectedQid(qid);
+    setTimeout(() => setInjectedQid(null), 3000);
+  };
+
   return (
     <div className="space-y-4">
+      {/* Sélecteur QID intégré */}
+      <div className="rounded-lg border bg-muted/30 p-4">
+        <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
+          Sélecteur d'entité PERFUMUM — Injection de QID
+        </p>
+        <EntityQidPicker
+          onQidSelect={handleQidInject}
+          injectLabel="Injecter wd:QID"
+          onlyWithQid={true}
+        />
+        {injectedQid && (
+          <p className="text-xs text-green-600 dark:text-green-400 mt-2 flex items-center gap-1">
+            <span>✓</span> QID <QidBadge qid={injectedQid} size="xs" /> injecté dans la requête
+          </p>
+        )}
+      </div>
+
       <div className="space-y-2">
         <Label>Requête SPARQL (Wikidata)</Label>
         <Textarea
@@ -503,6 +535,10 @@ LIMIT 10`);
 // ─── Onglet Templates ─────────────────────────────────────────────────────────
 function TemplatesTab() {
   const { data: templates } = trpc.sparql.queryTemplates.useQuery();
+  const [selectedQid, setSelectedQid] = useState<string>("");
+  const [selectedEntityName, setSelectedEntityName] = useState<string>("");
+  const [expandedTemplate, setExpandedTemplate] = useState<string | null>(null);
+  const [copiedTemplate, setCopiedTemplate] = useState<string | null>(null);
 
   const categoryIcons: Record<string, any> = {
     art: Palette,
@@ -528,31 +564,100 @@ function TemplatesTab() {
     genealogy: "text-teal-600",
   };
 
+  const getResolvedSparql = (sparql: string) => {
+    if (!selectedQid) return sparql;
+    return sparql.replace(/\{\{QID\}\}/g, selectedQid);
+  };
+
+  const handleCopyTemplate = (templateId: string, sparql: string) => {
+    navigator.clipboard.writeText(getResolvedSparql(sparql)).then(() => {
+      setCopiedTemplate(templateId);
+      setTimeout(() => setCopiedTemplate(null), 2000);
+    });
+  };
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      {templates?.map((template) => {
-        const Icon = categoryIcons[template.category] || Globe;
-        const colorClass = categoryColors[template.category] || "text-primary";
-        return (
-          <Card key={template.id} className="hover:shadow-md transition-shadow">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm flex items-center gap-2">
-                <Icon className={`h-4 w-4 ${colorClass}`} />
-                {template.name}
-              </CardTitle>
-              <CardDescription className="text-xs">{template.description}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <pre className="text-xs bg-muted rounded p-2 overflow-x-auto max-h-32 font-mono">
-                {template.sparql}
-              </pre>
-              <p className="text-xs text-muted-foreground mt-2">
-                Remplacez <code className="bg-muted px-1 rounded">{"{{QID}}"}</code> par le QID Wikidata de la molécule/plante
-              </p>
-            </CardContent>
-          </Card>
-        );
-      })}
+    <div className="space-y-4">
+      {/* Sélecteur QID global pour les templates */}
+      <div className="rounded-lg border bg-blue-50/50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800 p-4">
+        <p className="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase tracking-wide mb-3 flex items-center gap-2">
+          <Search className="h-3.5 w-3.5" />
+          Sélectionner une entité pour pré-remplir les templates
+        </p>
+        <EntityQidPicker
+          onQidSelect={(qid, name) => { setSelectedQid(qid); setSelectedEntityName(name); }}
+          injectLabel="Utiliser ce QID"
+          onlyWithQid={true}
+        />
+        {selectedQid && (
+          <p className="text-xs text-blue-600 dark:text-blue-400 mt-2">
+            Templates pré-remplis avec <QidBadge qid={selectedQid} size="xs" /> ({selectedEntityName}) — les <code className="bg-blue-100 dark:bg-blue-900 px-1 rounded">{"{{QID}}"}</code> sont remplacés automatiquement.
+          </p>
+        )}
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {templates?.map((template) => {
+          const Icon = categoryIcons[template.category] || Globe;
+          const colorClass = categoryColors[template.category] || "text-primary";
+          const resolvedSparql = getResolvedSparql(template.sparql);
+          const isExpanded = expandedTemplate === template.id;
+          const hasQidPlaceholder = template.sparql.includes("{{QID}}");
+          const isResolved = hasQidPlaceholder && !!selectedQid;
+
+          return (
+            <Card key={template.id} className={`hover:shadow-md transition-shadow ${isResolved ? "border-blue-300 dark:border-blue-700" : ""}`}>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm flex items-center gap-2">
+                  <Icon className={`h-4 w-4 ${colorClass}`} />
+                  {template.name}
+                  {hasQidPlaceholder && (
+                    <Badge variant="outline" className={`text-[10px] px-1 py-0 ml-auto ${isResolved ? "bg-blue-50 border-blue-300 text-blue-700 dark:bg-blue-950/30 dark:border-blue-700 dark:text-blue-300" : "text-muted-foreground"}`}>
+                      {isResolved ? `QID: ${selectedQid}` : "{{QID}} requis"}
+                    </Badge>
+                  )}
+                </CardTitle>
+                <CardDescription className="text-xs">{template.description}</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <pre className={`text-xs bg-muted rounded p-2 overflow-x-auto font-mono transition-all ${isExpanded ? "" : "max-h-24"}`}>
+                  {resolvedSparql}
+                </pre>
+                <div className="flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs h-7 flex-1"
+                    onClick={() => setExpandedTemplate(isExpanded ? null : template.id)}
+                  >
+                    {isExpanded ? "Réduire" : "Voir tout"}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs h-7 flex-1"
+                    onClick={() => handleCopyTemplate(template.id, template.sparql)}
+                    disabled={hasQidPlaceholder && !selectedQid}
+                    title={hasQidPlaceholder && !selectedQid ? "Sélectionnez d'abord une entité avec QID" : "Copier la requête"}
+                  >
+                    {copiedTemplate === template.id ? (
+                      <><span className="text-green-600">✓</span> Copié</>
+                    ) : (
+                      <><Copy className="h-3 w-3 mr-1" />Copier</>
+                    )}
+                  </Button>
+                </div>
+                {hasQidPlaceholder && !selectedQid && (
+                  <p className="text-[10px] text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                    <AlertCircle className="h-3 w-3" />
+                    Sélectionnez une entité ci-dessus pour pré-remplir ce template
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
     </div>
   );
 }

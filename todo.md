@@ -205,3 +205,12 @@
 - [x] Frise Bibliographique ajoutée dans la catégorie Timelines (badge Nouveau)
 - [x] Correction doublon breadcrumb /timeline/interactive dans DynamicBreadcrumb.tsx
 - [x] TypeScript 0 erreurs
+
+## Rapport 12 — Amélioration SPARQL QID Picker (Mai 2026)
+
+- [x] Routeur tRPC sparqlQid (searchEntitiesWithQid, getQidCatalog, resolveQid)
+- [x] Composant EntityQidPicker.tsx (autocomplete, badge QID cliquable, catalogue, injection)
+- [x] QidBadge.tsx (copie presse-papier + lien Wikidata)
+- [x] Intégration dans FreeSparqlTab (sélecteur + injection automatique dans la requête)
+- [x] Intégration dans TemplatesTab (sélecteur QID global, pré-remplissage automatique, bouton copier)
+- [x] Import Copy dans SparqlExplorer.tsx

@@ -79,6 +79,7 @@ import { olfactiveExperiencesRouter } from './routers/olfactive-experiences';
 import { storylinesRouter } from './routers/storylines';
 import { wikidataRouter } from './routers/wikidata';
 import { sparqlRouter } from './routers/sparql';
+import { sparqlQidRouter } from './routers/sparql-qid';
 import { v3MigrationRouter } from './routers/v3-migration';
 import { crossrefRouter } from './routers/crossref';
 import { europeanaRouter } from './routers/europeana';
@@ -962,6 +963,8 @@ export const appRouter = router({
   wikidata: wikidataRouter,
   // NOSE Phase 5 — SPARQL Wikidata/Europeana (requêtes croisées)
   sparql: sparqlRouter,
+  // Rapport 12 — QID Picker : recherche d'entités avec QID, catalogue, résolution
+  sparqlQid: sparqlQidRouter,
   // Axe 1.4 Rapport 7 — Migration v3_references → bibliography_entries
   v3Migration: v3MigrationRouter,
   // Axe 3.3 Rapport 7 — Réseau de citations CrossRef
