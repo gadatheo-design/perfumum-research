@@ -144,6 +144,9 @@ export const rawMaterials = mysqlTable("raw_materials", {
     type: string;
   }[]>(),
   notes: text("notes"),
+  // Linked Data ontologique
+  wikidataQid: varchar("wikidata_qid", { length: 20 }), // Wikidata QID (ex: Q1234567)
+  rdfType: varchar("rdf_type", { length: 255 }), // URI classe ontologique (ex: http://purl.obolibrary.org/obo/CHEBI_25212)
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });

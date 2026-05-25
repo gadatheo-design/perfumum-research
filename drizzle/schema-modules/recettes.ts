@@ -50,6 +50,9 @@ export const recettes = mysqlTable("recettes", {
   dureeFondMin: int("duree_fond_min").default(120), // Durée notes de fond en minutes
   parentRecetteId: int("parent_recette_id"), // ID de la recette parente (pour les variations)
   gamme: varchar("gamme", { length: 100 }), // Gamme olfactive (Pétrichor, Volcanique, Colombie, etc.)
+  // Linked Data
+  wikidataQid: varchar("wikidata_qid", { length: 20 }), // Wikidata QID
+  rdfType: varchar("rdf_type", { length: 255 }), // URI ontologie (ex: http://schema.org/Recipe)
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

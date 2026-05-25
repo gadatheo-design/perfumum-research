@@ -121,3 +121,24 @@
 - [x] Créer barrel file client/src/components/molecule/index.ts
 - [x] Corriger test referenceEntityLinks.test.ts (IDs timestamp-based pour éviter collisions)
 - [x] 0 erreurs TypeScript, 1893 tests passés (126 fichiers), 0 échec
+
+## Axes stratégiques — Plan Rapport 6 (Mai 2026)
+
+### Axe 1 — Architecture des données
+- [x] 1.1 Extension wikidata_qid à plants, terroirSpecialties, recettes, researchAxes (migration Drizzle)
+- [x] 1.2 Alignement ontologique : MeSH/UNESCO pour researchDomain, ChEBI pour chemicalClass, Plant Ontology pour familyType
+- [x] 1.3 Normalisation auteurs : table bibliography_authors (ORCID, VIAF, Wikidata QID) + table de jonction bibliography_entry_authors
+- [ ] 1.4 Fusion bibliographique : migrer v3_references vers bibliography_entries, déprécier v3_references (planifié Rapport 7)
+- [x] 1.5 Champ rdfType sur toutes les entités principales (families, raw-materials, bibliography_entries, v3_references)
+
+### Axe 2 — Fonctionnalités SPARQL
+- [x] 2.1 Endpoint SPARQL interne /api/sparql (SELECT, CONSTRUCT, DESCRIBE)
+- [ ] 2.2 Requêtes fédérées PERFUMUM ↔ Wikidata ↔ OpenAlex (SERVICE SPARQL) (planifié Rapport 7)
+- [x] 2.3 Visualisation graphes /knowledge-graph (D3.js force-directed, filtres par type d'entité)
+- [ ] 2.4 Templates SPARQL temporels et généalogiques (planifié Rapport 7)
+- [ ] 2.5 Cache SPARQL (table sparql_cache, TTL 24h) (planifié Rapport 7)
+
+### Axe 3 — Bibliographie et archives
+- [x] 3.1 Pipeline OpenAlex → bibliography_entries (searchOpenAlex, importFromOpenAlex, searchOpenAlexForMolecule)
+- [x] 3.2 Routeur OpenAlex intégré dans bibliography.ts (3 procédures : recherche libre, import, recherche par molécule)
+- [ ] 3.3 Table bibliography_cross_citations (CrossRef API, réseau de citations) (planifié Rapport 7)

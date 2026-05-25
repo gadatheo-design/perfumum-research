@@ -60,6 +60,11 @@ export const researchAxes = mysqlTable("research_axes", {
   parentAxisId: int("parent_axis_id"), // Pour les sous-axes
   // Tags
   tags: json("tags").$type<string[]>(),
+  // Linked Data
+  wikidataQid: varchar("wikidata_qid", { length: 20 }), // Wikidata QID (ex: Q1234)
+  rdfType: varchar("rdf_type", { length: 255 }), // URI ontologie (ex: http://www.w3.org/2004/02/skos/core#Concept)
+  meshId: varchar("mesh_id", { length: 20 }), // MeSH ID (ex: D000001)
+  unescoCode: varchar("unesco_code", { length: 20 }), // Code UNESCO SKOS
   // Métadonnées
   createdBy: int("created_by").references(() => users.id),
   createdAt: timestamp("created_at").defaultNow().notNull(),

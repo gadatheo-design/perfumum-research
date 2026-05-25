@@ -106,6 +106,9 @@ export const plants = mysqlTable("plants", {
   ncbiTaxId: varchar("ncbi_tax_id", { length: 20 }), // NCBI Taxonomy ID (e.g., "3702" for Arabidopsis thaliana)
   wikidataQid: varchar("wikidata_qid", { length: 20 }), // Wikidata QID (e.g., "Q193178" for Rosa damascena)
   wikidataEnrichedAt: timestamp("wikidata_enriched_at"), // When Wikidata data was fetched
+  // Linked Data ontologique
+  rdfType: varchar("rdf_type", { length: 255 }), // URI classe ontologique (ex: http://purl.obolibrary.org/obo/PO_0000003)
+  dwcTaxonRank: varchar("dwc_taxon_rank", { length: 50 }), // Darwin Core taxon rank (Species, Genus, Family...)
   // Métadonnées
   notes: text("notes"),
   imageUrl: varchar("image_url", { length: 500 }),

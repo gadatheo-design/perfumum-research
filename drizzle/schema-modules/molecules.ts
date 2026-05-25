@@ -90,6 +90,8 @@ export const molecules = mysqlTable("molecules", {
   // Wikidata integration (NOSE Phase 4 / Odeuropa interoperability)
   wikidataQid: varchar("wikidata_qid", { length: 20 }), // Wikidata QID (e.g., "Q193178" for linalool)
   wikidataEnrichedAt: timestamp("wikidata_enriched_at"), // When Wikidata data was fetched
+  // Linked Data ontologique
+  rdfType: varchar("rdf_type", { length: 255 }), // URI classe ontologique (ex: http://purl.obolibrary.org/obo/CHEBI_25212)
   // IFRA regulatory data
   ifraStatus: mysqlEnum("ifra_status", ['not_regulated', 'banned', 'restricted', 'specification_required']).default('not_regulated'),
   ifraData: json("ifra_data").$type<{

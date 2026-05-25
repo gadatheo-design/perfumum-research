@@ -742,6 +742,198 @@ export const bibliographyRouter = router({
         }));
       }),
 
+    // ─── Pipeline OpenAlex — Axe 3.1 Rapport 6 ────────────────────────────────────
+    /**
+     * Recherche libre dans OpenAlex avec filtres avancés.
+     * Supporte : query textuelle, filtre par année, open-access, tri.
+     * Retourne jusqu'à 25 résultats enrichis (DOI, abstract, citations, OA).
+     */
+    searchOpenAlex: publicProcedure
+      .input(z.object({
+        query: z.string().min(1).max(500),
+        yearFrom: z.number().min(1900).max(2100).optional(),
+        yearTo: z.number().min(1900).max(2100).optional(),
+        openAccessOnly: z.boolean().default(false),
+        sortBy: z.enum(["relevance_score", "cited_by_count", "publication_date"]).default("relevance_score"),
+        limit: z.number().min(1).max(25).default(10),
+      }))
+      .query(async ({ input }) => {
+        const { query, yearFrom, yearTo, openAccessOnly, sortBy, limit } = input;
+        const filters: string[] = [];
+        if (yearFrom) filters.push(`from_publication_date:${yearFrom}-01-01`);
+        if (yearTo) filters.push(`to_publication_date:${yearTo}-12-31`);
+        if (openAccessOnly) filters.push(`is_oa:true`);
+        const filterStr = filters.length > 0 ? `&filter=${filters.join(",")}` : "";
+        const url = `https://api.openalex.org/works?search=${encodeURIComponent(query)}&per-page=${limit}&sort=${sortBy}:desc${filterStr}&mailto=research@perfumum.fr&select=id,doi,title,authorships,publication_year,primary_location,cited_by_count,is_oa,open_access,abstract_inverted_index`;
+        const res = await fetch(url, { signal: AbortSignal.timeout(12000) });
+        if (!res.ok) throw new Error(`OpenAlex API error: ${res.status}`);
+        const json = await res.json() as {
+          results?: Array<{
+            id?: string; doi?: string; title?: string;
+            authorships?: Array<{ author?: { display_name?: string } }>;
+            publication_year?: number;
+            primary_location?: { source?: { display_name?: string } };
+            cited_by_count?: number;
+            is_oa?: boolean;
+            open_access?: { oa_url?: string };
+            abstract_inverted_index?: Record<string, number[]>;
+          }>;
+          meta?: { count?: number };
+        };
+        const results = (json.results ?? []).map(w => {
+          // Reconstruire l'abstract depuis l'index inversé
+          let abstract: string | null = null;
+          if (w.abstract_inverted_index) {
+            const words: [string, number][] = [];
+            for (const [word, positions] of Object.entries(w.abstract_inverted_index)) {
+              for (const pos of positions) words.push([word, pos]);
+            }
+            words.sort((a, b) => a[1] - b[1]);
+            abstract = words.map(([w]) => w).join(" ").substring(0, 800);
+          }
+          const authors = (w.authorships ?? []).map(a => a.author?.display_name ?? "").filter(Boolean).slice(0, 5).join(", ");
+          const doi = w.doi ? w.doi.replace("https://doi.org/", "") : null;
+          return {
+            openAlexId: w.id ?? null,
+            doi,
+            title: w.title ?? "Sans titre",
+            authors,
+            year: w.publication_year ?? null,
+            journal: w.primary_location?.source?.display_name ?? null,
+            citedByCount: w.cited_by_count ?? 0,
+            isOA: w.is_oa ?? false,
+            oaUrl: w.open_access?.oa_url ?? null,
+            abstract,
+            url: doi ? `https://doi.org/${doi}` : (w.id ?? null),
+          };
+        });
+        return { results, total: json.meta?.count ?? results.length };
+      }),
+
+    /**
+     * Import automatique depuis OpenAlex vers la base PERFUMUM.
+     * Crée une entrée bibliographique si le DOI n'existe pas encore.
+     * Lie automatiquement à l'entité cible (molécule, plante, recette, axe).
+     */
+    importFromOpenAlex: protectedProcedure
+      .input(z.object({
+        openAlexId: z.string(),
+        doi: z.string().nullable(),
+        title: z.string().min(1),
+        authors: z.string(),
+        year: z.number().nullable(),
+        journal: z.string().nullable(),
+        abstract: z.string().nullable(),
+        isOA: z.boolean(),
+        oaUrl: z.string().nullable(),
+        citedByCount: z.number(),
+        linkTo: z.object({
+          entityType: z.enum(["molecule", "plant", "recipe", "research_axis", "terroir"]),
+          entityId: z.number(),
+        }).optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) throw new Error("DB non disponible");
+        const { sql } = await import("drizzle-orm");
+        // Vérifier si l'entrée existe déjà
+        const checkQuery = input.doi
+          ? `SELECT id FROM bibliography_entries WHERE doi = '${input.doi.replace(/'/g, "''")}' LIMIT 1`
+          : `SELECT id FROM bibliography_entries WHERE notes LIKE '%${input.openAlexId.replace(/'/g, "''")}%' LIMIT 1`;
+        const existing = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(checkQuery));
+        const existingRows = Array.isArray(existing) ? existing[0] as Record<string, unknown>[] : [];
+        let entryId: number;
+        if (existingRows.length > 0) {
+          entryId = Number(existingRows[0].id);
+        } else {
+          const entryKey = `openalex_${Date.now()}`;
+          const notesJson = JSON.stringify({ openAlexId: input.openAlexId, citedByCount: input.citedByCount, isOA: input.isOA, oaUrl: input.oaUrl });
+          const insertQuery = `INSERT INTO bibliography_entries
+            (entry_key, title, authors, year, journal, doi, abstract, notes, entry_type, created_at, updated_at)
+            VALUES (
+              '${entryKey.replace(/'/g, "''")}',
+              '${input.title.replace(/'/g, "''")}',
+              '${input.authors.replace(/'/g, "''")}',
+              ${input.year ?? "NULL"},
+              ${input.journal ? `'${input.journal.replace(/'/g, "''")}' ` : "NULL"},
+              ${input.doi ? `'${input.doi.replace(/'/g, "''")}' ` : "NULL"},
+              ${input.abstract ? `'${input.abstract.substring(0, 2000).replace(/'/g, "''")}' ` : "NULL"},
+              '${notesJson.replace(/'/g, "''")}',
+              'article',
+              NOW(), NOW()
+            )`;
+          const insertResult = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(insertQuery));
+          const insertRows = Array.isArray(insertResult) ? insertResult[0] as { insertId?: number } : {};
+          entryId = Number((insertRows as { insertId?: number }).insertId ?? 0);
+          if (!entryId) throw new Error("Erreur lors de la création de l'entrée bibliographique");
+        }
+        let linked = false;
+        if (input.linkTo) {
+          const { entityType, entityId } = input.linkTo;
+          const linkCheck = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(
+            sql.raw(`SELECT id FROM bibliography_entity_links WHERE bibliography_id = ${entryId} AND entity_type = '${entityType}' AND entity_id = ${entityId} LIMIT 1`)
+          );
+          const linkRows = Array.isArray(linkCheck) ? linkCheck[0] as Record<string, unknown>[] : [];
+          if (linkRows.length === 0) {
+            await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(
+              sql.raw(`INSERT INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, created_at) VALUES (${entryId}, '${entityType}', ${entityId}, NOW())`)
+            );
+            linked = true;
+          }
+        }
+        return { success: true, entryId, linked, wasExisting: existingRows.length > 0 };
+      }),
+
+    /**
+     * Recherche OpenAlex ciblée pour une molécule spécifique.
+     */
+    searchOpenAlexForMolecule: publicProcedure
+      .input(z.object({
+        moleculeId: z.number(),
+        limit: z.number().min(1).max(20).default(8),
+      }))
+      .query(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) return { results: [], total: 0, moleculeName: "" };
+        const { sql } = await import("drizzle-orm");
+        const molResult = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(
+          sql.raw(`SELECT name, cas_number, iupac_name FROM molecules WHERE id = ${input.moleculeId} LIMIT 1`)
+        );
+        const molRows = Array.isArray(molResult) ? molResult[0] as Record<string, unknown>[] : [];
+        if (!molRows[0]) return { results: [], total: 0, moleculeName: "" };
+        const mol = molRows[0];
+        const searchTerms = [mol.name, mol.iupac_name, mol.cas_number].filter(Boolean).slice(0, 2);
+        const query = searchTerms.join(" ");
+        const url = `https://api.openalex.org/works?search=${encodeURIComponent(String(query))}&per-page=${input.limit}&sort=cited_by_count:desc&filter=type:article&mailto=research@perfumum.fr&select=id,doi,title,authorships,publication_year,primary_location,cited_by_count,is_oa,open_access`;
+        const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
+        if (!res.ok) return { results: [], total: 0, moleculeName: String(mol.name) };
+        const json = await res.json() as {
+          results?: Array<{
+            id?: string; doi?: string; title?: string;
+            authorships?: Array<{ author?: { display_name?: string } }>;
+            publication_year?: number;
+            primary_location?: { source?: { display_name?: string } };
+            cited_by_count?: number;
+            is_oa?: boolean;
+            open_access?: { oa_url?: string };
+          }>;
+          meta?: { count?: number };
+        };
+        const results = (json.results ?? []).map(w => ({
+          openAlexId: w.id ?? null,
+          doi: w.doi ? w.doi.replace("https://doi.org/", "") : null,
+          title: w.title ?? "Sans titre",
+          authors: (w.authorships ?? []).map(a => a.author?.display_name ?? "").filter(Boolean).slice(0, 3).join(", "),
+          year: w.publication_year ?? null,
+          journal: w.primary_location?.source?.display_name ?? null,
+          citedByCount: w.cited_by_count ?? 0,
+          isOA: w.is_oa ?? false,
+          oaUrl: w.open_access?.oa_url ?? null,
+          url: w.doi ? `https://doi.org/${w.doi.replace("https://doi.org/", "")}` : (w.id ?? null),
+        }));
+        return { results, total: json.meta?.count ?? results.length, moleculeName: String(mol.name) };
+      }),
+
     // ─── Statistiques des liaisons bibliographiques ───────────────────────────────
     getLinkStats: publicProcedure.query(async () => {
         const dbConn = await db.getDb();

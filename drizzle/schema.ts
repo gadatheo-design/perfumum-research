@@ -9,6 +9,7 @@
 
 export * from "./schema-modules/accords";
 export * from "./schema-modules/bibliography";
+export * from "./schema-modules/bibliography-authors";
 export * from "./schema-modules/core";
 export * from "./schema-modules/extraction-methods";
 export * from "./schema-modules/families";

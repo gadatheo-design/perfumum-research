@@ -7,6 +7,12 @@
 
 import { z } from "zod";
 import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
+import * as dbModule from "../db";
+import { molecules as molTable, plants as plantTable, recettes as recTable, families as famTable, bibliographyEntries as bibTable } from "../../drizzle/schema";
+import { like, and, or } from "drizzle-orm";
+
+// Cache SPARQL interne (TTL 5 min)
+const _sparqlCache = new Map<string, { result: unknown; exp: number }>();
 import {
   findArtworksForMolecule,
   findPapersForMolecule,
@@ -437,6 +443,108 @@ LIMIT 20`,
    * Sprint 3.1 — Templates SPARQL EDM Europeana
    * Retourne les templates de requêtes SPARQL pour l'endpoint Europeana natif
    */
+  /**
+   * Axe 2.1 — Requête SPARQL interne PERFUMUM
+   * Traduit les requêtes SPARQL SELECT en requêtes SQL sur les données PERFUMUM
+   * Supporte : perfumum:Molecule, perfumum:Plant, perfumum:Recipe, perfumum:OlfactiveFamily, perfumum:BibliographyEntry
+   */
+  internalQuery: publicProcedure
+    .input(z.object({
+      query: z.string().min(1).max(5000),
+      useCache: z.boolean().default(true),
+    }))
+    .mutation(async ({ input }) => {
+      const cache = _sparqlCache;
+      const cacheKey = input.query;
+      if (input.useCache) {
+        const entry = cache.get(cacheKey);
+        if (entry && Date.now() < entry.exp) return entry.result;
+      }
+
+      // Parseur minimal SPARQL → type d'entité
+      const q = input.query.replace(/\s+/g, " ").trim();
+      const whereMatch = q.match(/WHERE\s*\{(.*?)\}/is);
+      const whereClause = whereMatch ? whereMatch[1] : "";
+      const limitMatch = q.match(/LIMIT\s+(\d+)/i);
+      const offsetMatch = q.match(/OFFSET\s+(\d+)/i);
+      const limit = limitMatch ? Math.min(parseInt(limitMatch[1]), 1000) : 100;
+      const offset = offsetMatch ? parseInt(offsetMatch[1]) : 0;
+
+      // Terme de recherche FILTER(CONTAINS(?name, "..."))
+      const filterMatch = whereClause.match(/FILTER\s*\(\s*CONTAINS\s*\(\s*\?\w+\s*,\s*"([^"]+)"\s*\)\s*\)/i);
+      const searchTerm = filterMatch ? filterMatch[1] : undefined;
+
+      // Détection du type d'entité
+      let entityType = "Unknown";
+      if (whereClause.includes("perfumum:Molecule")) entityType = "Molecule";
+      else if (whereClause.includes("perfumum:Plant")) entityType = "Plant";
+      else if (whereClause.includes("perfumum:Recipe")) entityType = "Recipe";
+      else if (whereClause.includes("perfumum:OlfactiveFamily")) entityType = "OlfactiveFamily";
+      else if (whereClause.includes("perfumum:BibliographyEntry") || whereClause.includes("perfumum:Bibliography")) entityType = "Bibliography";
+
+      const PERFUMUM_DATA = "http://perfumum.research/data/";
+      const uri = (t: string, id: number) => ({ type: "uri" as const, value: `${PERFUMUM_DATA}${t}/${id}` });
+      const lit = (v: unknown) => ({ type: "literal" as const, value: String(v ?? "") });
+
+      try {
+        const db = await dbModule.getDb();
+        if (!db) return { error: "DB_ERROR", message: "Base de données non disponible", query: input.query };
+
+        let bindings: Record<string, { type: string; value: string }>[] = [];
+        let vars: string[] = [];
+
+        if (entityType === "Molecule") {
+          const conds = searchTerm ? [like(molTable.name, `%${searchTerm}%`)] : [];
+          const rows = await db.select({ id: molTable.id, name: molTable.name, casNumber: molTable.casNumber, iupacName: molTable.iupacName, wikidataQid: molTable.wikidataQid }).from(molTable).where(conds.length ? and(...conds) : undefined).limit(limit).offset(offset);
+          vars = ["molecule", "name", "casNumber", "iupacName", "wikidataQid"];
+          bindings = rows.map((r: typeof rows[0]) => ({ molecule: uri("molecule", r.id), name: lit(r.name), casNumber: lit(r.casNumber), iupacName: lit(r.iupacName), wikidataQid: lit(r.wikidataQid) }));
+        } else if (entityType === "Plant") {
+          const conds = searchTerm ? [or(like(plantTable.name, `%${searchTerm}%`), like(plantTable.latinName, `%${searchTerm}%`))] : [];
+          const rows = await db.select({ id: plantTable.id, name: plantTable.name, latinName: plantTable.latinName, family: plantTable.family, wikidataQid: plantTable.wikidataQid }).from(plantTable).where(conds.length ? and(...conds) : undefined).limit(limit).offset(offset);
+          vars = ["plant", "name", "latinName", "family", "wikidataQid"];
+          bindings = rows.map((r: typeof rows[0]) => ({ plant: uri("plant", r.id), name: lit(r.name), latinName: lit(r.latinName), family: lit(r.family), wikidataQid: lit(r.wikidataQid) }));
+        } else if (entityType === "Recipe") {
+          const conds = searchTerm ? [like(recTable.name, `%${searchTerm}%`)] : [];
+          const rows = await db.select({ id: recTable.id, name: recTable.name, description: recTable.description, wikidataQid: recTable.wikidataQid }).from(recTable).where(conds.length ? and(...conds) : undefined).limit(limit).offset(offset);
+          vars = ["recipe", "name", "description", "wikidataQid"];
+          bindings = rows.map((r: typeof rows[0]) => ({ recipe: uri("recipe", r.id), name: lit(r.name), description: lit(r.description), wikidataQid: lit(r.wikidataQid) }));
+        } else if (entityType === "OlfactiveFamily") {
+          const conds = searchTerm ? [like(famTable.name, `%${searchTerm}%`)] : [];
+          const rows = await db.select({ id: famTable.id, name: famTable.name, type: famTable.type, description: famTable.description, wikidataQid: famTable.wikidataQid }).from(famTable).where(conds.length ? and(...conds) : undefined).limit(limit).offset(offset);
+          vars = ["family", "name", "type", "description", "wikidataQid"];
+          bindings = rows.map((r: typeof rows[0]) => ({ family: uri("family", r.id), name: lit(r.name), type: lit(r.type), description: lit(r.description), wikidataQid: lit(r.wikidataQid) }));
+        } else if (entityType === "Bibliography") {
+          const conds = searchTerm ? [like(bibTable.title, `%${searchTerm}%`)] : [];
+          const rows = await db.select({ id: bibTable.id, title: bibTable.title, authors: bibTable.authors, year: bibTable.year, doi: bibTable.doi, wikidataQid: bibTable.wikidataQid }).from(bibTable).where(conds.length ? and(...conds) : undefined).limit(limit).offset(offset);
+          vars = ["entry", "title", "authors", "year", "doi", "wikidataQid"];
+          bindings = rows.map((r: typeof rows[0]) => ({ entry: uri("bibliography", r.id), title: lit(r.title), authors: lit(r.authors), year: lit(r.year), doi: lit(r.doi), wikidataQid: lit(r.wikidataQid) }));
+        } else {
+          return { error: "UNSUPPORTED_ENTITY", message: "Type d'entité non supporté. Utilisez perfumum:Molecule, perfumum:Plant, perfumum:Recipe, perfumum:OlfactiveFamily, ou perfumum:BibliographyEntry.", query: input.query };
+        }
+
+        const result = { head: { vars }, results: { bindings } };
+        if (input.useCache) cache.set(cacheKey, { result, exp: Date.now() + 5 * 60 * 1000 });
+        return result;
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        return { error: "EXECUTION_ERROR", message, query: input.query };
+      }
+    }),
+
+  /**
+   * Axe 2.1 — Exemples de requêtes SPARQL internes PERFUMUM
+   */
+  internalExamples: publicProcedure.query(() => {
+    return [
+      { title: "Toutes les molécules", query: `SELECT ?molecule ?name ?casNumber WHERE {\n  ?molecule a perfumum:Molecule ;\n            perfumum:name ?name .\n} LIMIT 100` },
+      { title: "Recherche molécule", query: `SELECT ?molecule ?name ?casNumber WHERE {\n  ?molecule a perfumum:Molecule ;\n            perfumum:name ?name .\n  FILTER(CONTAINS(?name, "linalool"))\n} LIMIT 20` },
+      { title: "Plantes avec Wikidata", query: `SELECT ?plant ?name ?latinName ?wikidataQid WHERE {\n  ?plant a perfumum:Plant ;\n         perfumum:name ?name ;\n         perfumum:wikidataQid ?wikidataQid .\n} LIMIT 50` },
+      { title: "Recettes", query: `SELECT ?recipe ?name ?description WHERE {\n  ?recipe a perfumum:Recipe ;\n          perfumum:name ?name .\n} LIMIT 30` },
+      { title: "Familles olfactives", query: `SELECT ?family ?name ?type WHERE {\n  ?family a perfumum:OlfactiveFamily .\n} LIMIT 20` },
+      { title: "Bibliographie", query: `SELECT ?entry ?title ?authors ?year WHERE {\n  ?entry a perfumum:BibliographyEntry ;\n         perfumum:title ?title .\n  FILTER(CONTAINS(?title, "olfact"))\n} LIMIT 20` },
+    ];
+  }),
+
   europeanaTemplates: publicProcedure.query(() => {
     return [
       {

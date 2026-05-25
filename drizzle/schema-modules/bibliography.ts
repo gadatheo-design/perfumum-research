@@ -98,6 +98,9 @@ export const bibliographyEntries = mysqlTable("bibliography_entries", {
   linkedRecetteIds: json("linked_recette_ids").$type<number[]>(), // IDs des recettes liées
   // Métadonnées
   addedBy: int("added_by").references(() => users.id),
+  // Linked Data ontologique
+  wikidataQid: varchar("wikidata_qid", { length: 20 }), // Wikidata QID de la publication (ex: Q12345)
+  rdfType: varchar("rdf_type", { length: 255 }), // URI type RDF (ex: http://purl.org/ontology/bibo/Article)
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({
@@ -288,6 +291,9 @@ export const v3References = mysqlTable("v3_references", {
     "to_review"
   ]).default("unread"),
   relevanceScore: int("relevance_score").default(50), // 0-100
+  // Linked Data ontologique
+  wikidataQid: varchar("wikidata_qid", { length: 20 }), // Wikidata QID de la publication (ex: Q12345)
+  rdfType: varchar("rdf_type", { length: 255 }), // URI type RDF (ex: http://purl.org/ontology/bibo/Article)
   // Metadata
   importedAt: timestamp("imported_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),

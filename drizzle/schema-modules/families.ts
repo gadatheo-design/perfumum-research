@@ -18,6 +18,9 @@ export const families = mysqlTable("families", {
   ]).notNull(),
   description: text("description"),
   variationCount: int("variationCount").default(0),
+  // Linked Data ontologique
+  wikidataQid: varchar("wikidata_qid", { length: 20 }), // Wikidata QID (ex: Q1234567)
+  rdfType: varchar("rdf_type", { length: 255 }), // URI classe ontologique (ex: http://www.w3.org/2004/02/skos/core#Concept)
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
