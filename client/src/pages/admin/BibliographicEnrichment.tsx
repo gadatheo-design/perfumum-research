@@ -601,14 +601,24 @@ export default function BibliographicEnrichment() {
               <CardContent className="space-y-3">
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <Label className="text-xs">ID de la recette</Label>
-                    <Input value={linkRecetteId} onChange={e => setLinkRecetteId(e.target.value)}
-                      placeholder="ex: 42" type="number" className="h-8 text-xs mt-1" />
+                    <Label className="text-xs">Recette PERFUMUM</Label>
+                    <EntityAutocomplete
+                      entityType="recette"
+                      value={linkRecetteId ? parseInt(linkRecetteId) : null}
+                      onChange={(id) => setLinkRecetteId(id ? String(id) : "")}
+                      placeholder="Rechercher une recette..."
+                      className="mt-1"
+                    />
                   </div>
                   <div>
-                    <Label className="text-xs">ID de la référence bibliographique</Label>
-                    <Input value={linkRecetteBibId} onChange={e => setLinkRecetteBibId(e.target.value)}
-                      placeholder="ex: 17" type="number" className="h-8 text-xs mt-1" />
+                    <Label className="text-xs">Référence bibliographique</Label>
+                    <EntityAutocomplete
+                      entityType="bibliography"
+                      value={linkRecetteBibId ? parseInt(linkRecetteBibId) : null}
+                      onChange={(id) => setLinkRecetteBibId(id ? String(id) : "")}
+                      placeholder="Rechercher une référence..."
+                      className="mt-1"
+                    />
                   </div>
                 </div>
                 <div>
@@ -750,10 +760,14 @@ export default function BibliographicEnrichment() {
                   <p className="text-xs text-muted-foreground mt-1">{enrichTarget.authors} · {enrichTarget.year}</p>
                 </div>
                 <div>
-                  <Label className="text-sm">ID de l'entrée à enrichir</Label>
-                  <Input value={enrichEntryId} onChange={e => setEnrichEntryId(e.target.value)}
-                    placeholder="ID numérique de la référence PERFUMUM" type="number" className="mt-1" />
-                  <p className="text-xs text-muted-foreground mt-1">Trouvez l'ID dans l'onglet "Sans liaisons" ou la page Bibliothèque.</p>
+                  <Label className="text-sm">Référence PERFUMUM à enrichir</Label>
+                  <EntityAutocomplete
+                    entityType="bibliography"
+                    value={enrichEntryId ? parseInt(enrichEntryId) : null}
+                    onChange={(id) => setEnrichEntryId(id ? String(id) : "")}
+                    placeholder="Rechercher une référence bibliographique..."
+                    className="mt-1"
+                  />
                 </div>
               </div>
             )}

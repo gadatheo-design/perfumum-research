@@ -22,6 +22,7 @@ import {
   TrendingUp, Database, AlertCircle, CheckCircle2, Clock,
   Upload, Download, Eye, CheckCircle, XCircle
 } from "lucide-react";
+import { EntityAutocomplete } from "@/components/ui/EntityAutocomplete";
 
 const METHOD_LABELS: Record<string, string> = {
   gc_ms: "GC-MS", gc_fid: "GC-FID", hplc: "HPLC", rnm: "RMN",
@@ -134,12 +135,22 @@ function AddEmissionDialog({ onSuccess }: { onSuccess: () => void }) {
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1">
-              <Label>ID Plante</Label>
-              <Input placeholder="ex: 30010" value={form.plantId} onChange={e => setForm(f => ({ ...f, plantId: e.target.value }))} />
+              <Label>Plante</Label>
+              <EntityAutocomplete
+                entityType="plante"
+                value={form.plantId ? parseInt(form.plantId) : null}
+                onChange={(id) => setForm(f => ({ ...f, plantId: id ? String(id) : "" }))}
+                placeholder="Rechercher une plante..."
+              />
             </div>
             <div className="space-y-1">
-              <Label>ID Molécule</Label>
-              <Input placeholder="ex: 1290020" value={form.moleculeId} onChange={e => setForm(f => ({ ...f, moleculeId: e.target.value }))} />
+              <Label>Molécule</Label>
+              <EntityAutocomplete
+                entityType="molecule"
+                value={form.moleculeId ? parseInt(form.moleculeId) : null}
+                onChange={(id) => setForm(f => ({ ...f, moleculeId: id ? String(id) : "" }))}
+                placeholder="Rechercher une molécule..."
+              />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
@@ -277,12 +288,22 @@ function AddExperienceDialog({ onSuccess }: { onSuccess: () => void }) {
         <form onSubmit={handleSubmit} className="space-y-4 mt-2">
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-1">
-              <Label>ID Plante</Label>
-              <Input placeholder="ex: 30010" value={form.plantId} onChange={e => setForm(f => ({ ...f, plantId: e.target.value }))} />
+              <Label>Plante</Label>
+              <EntityAutocomplete
+                entityType="plante"
+                value={form.plantId ? parseInt(form.plantId) : null}
+                onChange={(id) => setForm(f => ({ ...f, plantId: id ? String(id) : "" }))}
+                placeholder="Rechercher une plante..."
+              />
             </div>
             <div className="space-y-1">
-              <Label>ID Molécule</Label>
-              <Input placeholder="ex: 1290020" value={form.moleculeId} onChange={e => setForm(f => ({ ...f, moleculeId: e.target.value }))} />
+              <Label>Molécule</Label>
+              <EntityAutocomplete
+                entityType="molecule"
+                value={form.moleculeId ? parseInt(form.moleculeId) : null}
+                onChange={(id) => setForm(f => ({ ...f, moleculeId: id ? String(id) : "" }))}
+                placeholder="Rechercher une molécule..."
+              />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">

@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 import { EntityQidPicker, QidBadge } from "@/components/EntityQidPicker";
+import { EntityAutocomplete } from "@/components/ui/EntityAutocomplete";
 
 // ─── Composant carte œuvre d'art ─────────────────────────────────────────────
 function ArtworkCard({ artwork }: { artwork: any }) {
@@ -219,6 +220,18 @@ function MoleculeSearchTab() {
     }
   };
 
+  const handleMoleculeSelect = (id: number | null) => {
+    if (id) {
+      setMoleculeId(String(id));
+      setCurrentId(id);
+      setSubmitted(true);
+    } else {
+      setMoleculeId("");
+      setCurrentId(null);
+      setSubmitted(false);
+    }
+  };
+
   const isLoading = searchType === "artworks" ? artworksQuery.isLoading : papersQuery.isLoading;
   const artworks = artworksQuery.data?.artworks ?? [];
   const papers = papersQuery.data?.papers ?? [];
@@ -228,13 +241,13 @@ function MoleculeSearchTab() {
     <div className="space-y-4">
       <div className="flex gap-3 items-end">
         <div className="flex-1">
-          <Label htmlFor="molecule-id">ID Molécule PERFUMUM</Label>
-          <Input
-            id="molecule-id"
-            placeholder="ex: 90021"
-            value={moleculeId}
-            onChange={(e) => setMoleculeId(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          <Label htmlFor="molecule-id">Molécule PERFUMUM</Label>
+          <EntityAutocomplete
+            entityType="molecule"
+            value={currentId}
+            onChange={handleMoleculeSelect}
+            placeholder="Rechercher une molécule..."
+            className="mt-1"
           />
         </div>
         <div>

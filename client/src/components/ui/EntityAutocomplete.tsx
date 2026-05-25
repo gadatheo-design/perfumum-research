@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, X, ChevronDown } from "lucide-react";
 
-export type EntityType = "recette" | "plante" | "molecule" | "terroir" | "axis" | "extractionMethod" | "extraction";
+export type EntityType = "recette" | "plante" | "molecule" | "terroir" | "axis" | "extractionMethod" | "extraction" | "bibliography";
 
 interface EntityAutocompleteProps {
   entityType: EntityType;
@@ -71,6 +71,12 @@ export function EntityAutocomplete({
   const { data: methodsAll, isLoading: loadingMethods } = trpc.extractionMethods.getAll.useQuery(
     undefined,
     { enabled: entityType === "extractionMethod" || entityType === "extraction" }
+  );
+
+  // ── Bibliographie : recherche par titre/auteur/DOI ──────────────────────────────
+  const { data: bibData, isLoading: loadingBib } = trpc.bibliography.search.useQuery(
+    { query: search, limit: 10 },
+    { enabled: entityType === "bibliography" && search.length >= 2 }
   );
 
   // ── Normalisation et filtrage côté client ────────────────────────────────
@@ -140,6 +146,15 @@ export function EntityAutocomplete({
         }));
       }
 
+      case "bibliography": {
+        const all = Array.isArray(bibData) ? (bibData as Record<string, unknown>[]) : [];
+        return all.slice(0, 10).map((b) => ({
+          id: b.id as number,
+          name: String(b.title ?? b.entryKey ?? `Ref #${b.id}`).slice(0, 80),
+          description: [b.authors ? String(b.authors).split(",")[0] : null, b.year].filter(Boolean).join(" · ") || undefined,
+        }));
+      }
+
       case "extractionMethod":
       case "extraction": {
         const all = Array.isArray(methodsAll) ? (methodsAll as Record<string, unknown>[]) : [];
@@ -163,7 +178,7 @@ export function EntityAutocomplete({
   }, [
     entityType, search,
     moleculesData, plantesData,
-    recettesAll, terroirsAll, axesAll, methodsAll,
+    recettesAll, terroirsAll, axesAll, methodsAll, bibData,
   ]);
 
   const loading =
@@ -172,7 +187,8 @@ export function EntityAutocomplete({
     (entityType === "recette" && loadingRecettes) ||
     (entityType === "terroir" && loadingTerroirs) ||
     (entityType === "axis" && loadingAxes) ||
-    ((entityType === "extractionMethod" || entityType === "extraction") && loadingMethods);
+    ((entityType === "extractionMethod" || entityType === "extraction") && loadingMethods) ||
+    (entityType === "bibliography" && loadingBib);
 
   // Fermer le dropdown quand on clique en dehors
   useEffect(() => {

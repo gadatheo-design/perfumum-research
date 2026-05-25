@@ -36,6 +36,7 @@ import {
   ClipboardList,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { EntityAutocomplete } from "@/components/ui/EntityAutocomplete";
 
 // ─── Composant Statistiques ──────────────────────────────────────────────────
 
@@ -395,21 +396,23 @@ function PlantMoleculeRelations() {
           <CardContent>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <div>
-                <Label className="text-xs">ID Plante *</Label>
-                <Input
-                  type="number"
-                  placeholder="ex: 1234"
-                  value={addForm.plantId}
-                  onChange={(e) => setAddForm({ ...addForm, plantId: e.target.value })}
+                <Label className="text-xs">Plante *</Label>
+                <EntityAutocomplete
+                  entityType="plante"
+                  value={addForm.plantId ? parseInt(addForm.plantId) : null}
+                  onChange={(id) => setAddForm({ ...addForm, plantId: id ? String(id) : "" })}
+                  placeholder="Rechercher une plante..."
+                  className="mt-1"
                 />
               </div>
               <div>
-                <Label className="text-xs">ID Molécule *</Label>
-                <Input
-                  type="number"
-                  placeholder="ex: 5678"
-                  value={addForm.moleculeId}
-                  onChange={(e) => setAddForm({ ...addForm, moleculeId: e.target.value })}
+                <Label className="text-xs">Molécule *</Label>
+                <EntityAutocomplete
+                  entityType="molecule"
+                  value={addForm.moleculeId ? parseInt(addForm.moleculeId) : null}
+                  onChange={(id) => setAddForm({ ...addForm, moleculeId: id ? String(id) : "" })}
+                  placeholder="Rechercher une molécule..."
+                  className="mt-1"
                 />
               </div>
               <div>

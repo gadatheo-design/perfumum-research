@@ -935,6 +935,30 @@ export const bibliographyRouter = router({
       }),
 
     // ─── Statistiques des liaisons bibliographiques ───────────────────────────────
+    // ─── Recherche rapide pour l'autocomplete EntityAutocomplete ────────────────────────────
+    search: publicProcedure
+      .input(z.object({
+        query: z.string().min(2),
+        limit: z.number().optional().default(10),
+      }))
+      .query(async ({ input }) => {
+        const dbConn = await db.getDb();
+        if (!dbConn) return [];
+        const { sql } = await import('drizzle-orm');
+        const q = input.query.replace(/'/g, "''");
+        const result = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(
+          sql.raw(`SELECT id, title, authors, year, doi, entry_key as entryKey
+            FROM bibliography_entries
+            WHERE (title LIKE '%${q}%'
+              OR authors LIKE '%${q}%'
+              OR doi LIKE '%${q}%')
+            AND deprecated_at IS NULL
+            ORDER BY year DESC
+            LIMIT ${input.limit}`)
+        );
+        return Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
+      }),
+
     getLinkStats: publicProcedure.query(async () => {
         const dbConn = await db.getDb();
         if (!dbConn) return { total: 0, byType: {} };
