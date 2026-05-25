@@ -161,3 +161,23 @@
 - [x] Routeur tRPC crossref (getWorkByDoi, fetchCitations, getCitationNetwork, getCitationStats, batchFetchCitations)
 - [x] Page admin /admin/v3-migration onglet Citations CrossRef avec enrichissement par lots
 - [x] Breadcrumbs + navigation admin mis à jour
+
+## Axes stratégiques — Plan Rapport 8 (Mai 2026)
+
+### Axe 2.2 — Requêtes fédérées SPARQL SERVICE
+- [x] Procédures tRPC federated SPARQL : PERFUMUM ↔ Wikidata (federatedWikidata)
+- [x] Procédures tRPC federated SPARQL : PERFUMUM ↔ OpenAlex (federatedOpenAlex, federatedEnrich)
+- [x] Cache DB 24h pour les requêtes fédérées (via sparql_cache existant)
+
+### Axe 3.3b — Citations dans KnowledgeGraph
+- [x] Charger bibliography_cross_citations dans le graphe D3.js (via getCitationStats)
+- [x] Nœuds de type "citation" (rouge #ef4444) + liens directionnels source→cible
+- [x] Filtre "Réseau de citations" + slider limite dans les contrôles KnowledgeGraph
+- [x] Tooltip enrichi avec DOI + lien DOI.org pour les nœuds citation
+- [x] Compteur de citations pour les nœuds bibliography
+
+### Axe 2.4 — Templates SPARQL temporels et généalogiques
+- [x] 4 templates temporels : évolution publications molécule/plante, chronologie œuvres d'art, histoire parfumerie
+- [x] 4 templates généalogiques : taxonomie plante (P171), dérivés molécule, cultivars, familles olfactives
+- [x] Catégories "temporal" (orange) et "genealogy" (teal) ajoutées dans TemplatesTab
+- [x] Icônes Clock (temporel) et GitBranch (généalogie) intégrées

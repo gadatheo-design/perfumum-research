@@ -34,7 +34,7 @@ import {
 interface GraphNode {
   id: string;
   label: string;
-  type: "molecule" | "plant" | "recipe" | "family" | "bibliography";
+  type: "molecule" | "plant" | "recipe" | "family" | "bibliography" | "citation";
   data: Record<string, string>;
   x?: number;
   y?: number;
@@ -59,6 +59,7 @@ const NODE_COLORS: Record<GraphNode["type"], string> = {
   recipe: "#f59e0b",     // ambre
   family: "#a855f7",     // violet
   bibliography: "#6b7280", // gris
+  citation: "#ef4444",   // rouge — réseau de citations CrossRef
 };
 
 const NODE_ICONS: Record<GraphNode["type"], string> = {
@@ -67,6 +68,7 @@ const NODE_ICONS: Record<GraphNode["type"], string> = {
   recipe: "📋",
   family: "🎨",
   bibliography: "📚",
+  citation: "🔗",
 };
 
 const ENTITY_LABELS: Record<GraphNode["type"], string> = {
@@ -75,6 +77,7 @@ const ENTITY_LABELS: Record<GraphNode["type"], string> = {
   recipe: "Recettes",
   family: "Familles olfactives",
   bibliography: "Bibliographie",
+  citation: "Réseau de citations",
 };
 
 // ─── Composant principal ──────────────────────────────────────────────────────
@@ -94,11 +97,16 @@ export default function KnowledgeGraph() {
   const [activeTypes, setActiveTypes] = useState<Set<GraphNode["type"]>>(
     new Set(["molecule", "plant", "recipe", "family"])
   );
+  const [showCitations, setShowCitations] = useState(false);
+  const [citationLimit, setCitationLimit] = useState(30);
   const [nodeLimit, setNodeLimit] = useState(50);
   const [linkStrength, setLinkStrength] = useState(0.3);
 
   // Mutations SPARQL
   const sparqlMutation = trpc.sparql.internalQuery.useMutation();
+
+  // Données CrossRef citations
+  const citationStatsQuery = trpc.crossref.getCitationStats.useQuery(undefined, { enabled: showCitations });
 
   // ─── Chargement des données ──────────────────────────────────────────────────
 
@@ -195,6 +203,45 @@ export default function KnowledgeGraph() {
           };
 
           allNodes.push(node);
+        }
+      }
+
+      // ─── Réseau de citations CrossRef (Axe 3.3b) ────────────────────────────
+      if (showCitations && citationStatsQuery.data) {
+        const stats = citationStatsQuery.data as unknown as { topCited?: { sourceId: number; sourceTitle: string; citationCount: number; targetDois: string[] }[] };
+        const topCited = stats.topCited ?? [];
+        const addedCitationIds = new Set<string>();
+
+        for (const entry of topCited.slice(0, citationLimit)) {
+          const sourceNodeId = `perfumum:bib:${entry.sourceId}`;
+          // Ajouter le nœud source (bibliographie) s'il n'existe pas
+          if (!allNodes.find(n => n.id === sourceNodeId)) {
+            allNodes.push({
+              id: sourceNodeId,
+              label: (entry.sourceTitle ?? "Référence").substring(0, 30) + (entry.sourceTitle?.length > 30 ? "…" : ""),
+              type: "bibliography",
+              data: { title: entry.sourceTitle ?? "", citationCount: String(entry.citationCount) },
+            });
+          }
+          // Ajouter les nœuds cibles (citations)
+          for (const doi of (entry.targetDois ?? []).slice(0, 5)) {
+            const citNodeId = `crossref:doi:${doi}`;
+            if (!addedCitationIds.has(citNodeId)) {
+              addedCitationIds.add(citNodeId);
+              allNodes.push({
+                id: citNodeId,
+                label: doi.substring(0, 28) + "…",
+                type: "citation",
+                data: { doi, source: "CrossRef" },
+              });
+              allLinks.push({
+                source: sourceNodeId,
+                target: citNodeId,
+                type: "cites",
+                label: "cite",
+              });
+            }
+          }
         }
       }
 
@@ -510,6 +557,49 @@ export default function KnowledgeGraph() {
             />
           </div>
 
+          {/* Réseau de citations CrossRef */}
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-3">
+              Citations CrossRef
+            </p>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <Checkbox
+                  id="show-citations"
+                  checked={showCitations}
+                  onCheckedChange={(v) => setShowCitations(!!v)}
+                />
+                <Label htmlFor="show-citations" className="flex items-center gap-1.5 cursor-pointer text-xs">
+                  <span className="inline-block w-3 h-3 rounded-full" style={{ backgroundColor: NODE_COLORS.citation }} />
+                  Réseau de citations
+                </Label>
+              </div>
+              {showCitations && (
+                <div className="pl-5">
+                  <p className="text-xs text-muted-foreground mb-1">Limite : {citationLimit}</p>
+                  <Slider
+                    value={[citationLimit]}
+                    onValueChange={([v]) => setCitationLimit(v)}
+                    min={5}
+                    max={100}
+                    step={5}
+                    className="w-full"
+                  />
+                  {citationStatsQuery.isLoading && (
+                    <p className="text-xs text-muted-foreground mt-1 flex items-center gap-1">
+                      <Loader2 className="h-3 w-3 animate-spin" /> Chargement CrossRef…
+                    </p>
+                  )}
+                  {citationStatsQuery.data && (
+                    <p className="text-xs text-green-600 mt-1">
+                      ✓ {(citationStatsQuery.data as { totalCitations?: number }).totalCitations ?? 0} citations chargées
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+
           {/* Bouton de rechargement */}
           <Button
             className="w-full"
@@ -657,6 +747,34 @@ export default function KnowledgeGraph() {
                   <Info className="h-3 w-3" />
                   Voir sur Wikidata ({selectedNode.data.wikidataQid})
                 </a>
+              )}
+
+              {/* CrossRef DOI link (nœuds citation) */}
+              {selectedNode.type === "citation" && selectedNode.data.doi && (
+                <div className="space-y-2">
+                  <div className="p-2 rounded bg-red-50 border border-red-100">
+                    <p className="text-xs font-semibold text-red-700 mb-1">🔗 Citation CrossRef</p>
+                    <p className="text-xs text-muted-foreground font-mono break-all">{selectedNode.data.doi}</p>
+                  </div>
+                  <a
+                    href={`https://doi.org/${selectedNode.data.doi}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-xs text-red-600 hover:underline"
+                  >
+                    <Info className="h-3 w-3" />
+                    Ouvrir via DOI.org
+                  </a>
+                </div>
+              )}
+
+              {/* Compteur de citations (nœuds bibliography avec citationCount) */}
+              {selectedNode.data.citationCount && parseInt(selectedNode.data.citationCount) > 0 && (
+                <div className="p-2 rounded bg-amber-50 border border-amber-100">
+                  <p className="text-xs text-amber-700">
+                    📊 <strong>{selectedNode.data.citationCount}</strong> citation(s) dans le réseau CrossRef
+                  </p>
+                </div>
               )}
             </div>
           </div>

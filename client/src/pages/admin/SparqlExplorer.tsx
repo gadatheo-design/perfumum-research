@@ -16,7 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import {
   Search, Globe, BookOpen, Palette, FlaskConical, Leaf,
   ExternalLink, Image, AlertCircle, Loader2, Sparkles, Code,
-  Building2, Calendar, Layers
+  Building2, Calendar, Layers, Clock, GitBranch
 } from "lucide-react";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 
@@ -511,6 +511,9 @@ function TemplatesTab() {
     usage: FlaskConical,
     parfumerie: Sparkles,
     europeana: Globe,
+    "europeana-federated": Globe,
+    temporal: Clock,
+    genealogy: GitBranch,
   };
 
   const categoryColors: Record<string, string> = {
@@ -520,6 +523,9 @@ function TemplatesTab() {
     usage: "text-violet-600",
     parfumerie: "text-pink-600",
     europeana: "text-cyan-600",
+    "europeana-federated": "text-cyan-700",
+    temporal: "text-orange-600",
+    genealogy: "text-teal-600",
   };
 
   return (

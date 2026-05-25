@@ -421,6 +421,141 @@ LIMIT 20`,
 }
 LIMIT 20`,
       },
+
+      // ─── AXE 2.4 : Templates temporels et généalogiques (Rapport 8) ────────────────────
+
+      {
+        id: "temporal_publications_molecule",
+        name: "[Temporel] Évolution chronologique des publications (molécule)",
+        description: "Visualise l'évolution dans le temps des publications scientifiques sur une molécule aromatique, groupées par année",
+        category: "temporal",
+        sparql: `SELECT ?year (COUNT(?paper) AS ?count) WHERE {
+  VALUES ?molecule { wd:Q{{QID}} }
+  ?paper wdt:P921 ?molecule ;
+         wdt:P31 wd:Q13442814 ;
+         wdt:P577 ?date .
+  BIND(YEAR(?date) AS ?year)
+  FILTER(?year >= 1900 && ?year <= 2025)
+}
+GROUP BY ?year
+ORDER BY ?year`,
+      },
+      {
+        id: "temporal_publications_plant",
+        name: "[Temporel] Évolution chronologique des publications (plante)",
+        description: "Visualise l'évolution dans le temps des publications scientifiques sur une plante aromatique, groupées par année",
+        category: "temporal",
+        sparql: `SELECT ?year (COUNT(?paper) AS ?count) WHERE {
+  VALUES ?plant { wd:Q{{QID}} }
+  ?paper wdt:P921 ?plant ;
+         wdt:P31 wd:Q13442814 ;
+         wdt:P577 ?date .
+  BIND(YEAR(?date) AS ?year)
+  FILTER(?year >= 1900 && ?year <= 2025)
+}
+GROUP BY ?year
+ORDER BY ?year`,
+      },
+      {
+        id: "temporal_artworks_timeline",
+        name: "[Temporel] Chronologie des œuvres d'art liées à une molécule",
+        description: "Explore la chronologie des œuvres d'art représentant ou liées à une molécule aromatique, de l'Antiquité à nos jours",
+        category: "temporal",
+        sparql: `SELECT ?artwork ?artworkLabel ?year ?creatorLabel ?collectionLabel WHERE {
+  VALUES ?molecule { wd:Q{{QID}} }
+  { ?artwork wdt:P180 ?molecule . } UNION { ?artwork wdt:P921 ?molecule . }
+  ?artwork wdt:P571 ?date .
+  BIND(YEAR(?date) AS ?year)
+  OPTIONAL { ?artwork wdt:P170 ?creator . }
+  OPTIONAL { ?artwork wdt:P195 ?collection . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+ORDER BY ?year
+LIMIT 50`,
+      },
+      {
+        id: "genealogy_plant_taxonomy",
+        name: "[Généalogie] Taxonomie complète d'une plante (famille → genre → espèce)",
+        description: "Reconstruit l'arbre taxonomique complet d'une plante aromatique depuis la famille jusqu'à l'espèce, avec les sous-taxons",
+        category: "genealogy",
+        sparql: `SELECT ?taxon ?taxonLabel ?rank ?rankLabel ?parentLabel WHERE {
+  VALUES ?plant { wd:Q{{QID}} }
+  ?plant wdt:P171* ?taxon .
+  ?taxon wdt:P105 ?rank .
+  OPTIONAL { ?taxon wdt:P171 ?parent . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+ORDER BY ?rank`,
+      },
+      {
+        id: "genealogy_molecule_derivatives",
+        name: "[Généalogie] Dérivés et analogues d'une molécule",
+        description: "Explore les dérivés chimiques, analogues structuraux et molécules parent d'une molécule aromatique",
+        category: "genealogy",
+        sparql: `SELECT DISTINCT ?related ?relatedLabel ?relation ?relationLabel ?formula WHERE {
+  VALUES ?molecule { wd:Q{{QID}} }
+  {
+    ?molecule wdt:P279 ?related .
+    BIND("sous-classe de" AS ?relation)
+  } UNION {
+    ?related wdt:P279 ?molecule .
+    BIND("super-classe de" AS ?relation)
+  } UNION {
+    ?molecule wdt:P527 ?related .
+    BIND("a pour partie" AS ?relation)
+  } UNION {
+    ?related wdt:P527 ?molecule .
+    BIND("partie de" AS ?relation)
+  }
+  OPTIONAL { ?related wdt:P274 ?formula . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+LIMIT 30`,
+      },
+      {
+        id: "genealogy_plant_cultivars",
+        name: "[Généalogie] Cultivars et variétés d'une plante aromatique",
+        description: "Liste tous les cultivars, variétés et sous-espèces d'une plante aromatique avec leur origine géographique",
+        category: "genealogy",
+        sparql: `SELECT DISTINCT ?cultivar ?cultivarLabel ?countryLabel ?date WHERE {
+  VALUES ?plant { wd:Q{{QID}} }
+  ?cultivar wdt:P171 ?plant .
+  ?cultivar wdt:P31/wdt:P279* wd:Q4886 .  # cultivar
+  OPTIONAL { ?cultivar wdt:P17 ?country . }
+  OPTIONAL { ?cultivar wdt:P571 ?date . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+LIMIT 30`,
+      },
+      {
+        id: "temporal_perfume_history",
+        name: "[Temporel] Histoire de la parfumerie par ère",
+        description: "Explore les parfums historiques et maisons de parfumerie groupés par période historique",
+        category: "temporal",
+        sparql: `SELECT ?perfume ?perfumeLabel ?year ?brandLabel WHERE {
+  ?perfume wdt:P31/wdt:P279* wd:Q131696 .
+  ?perfume wdt:P571 ?date .
+  BIND(YEAR(?date) AS ?year)
+  OPTIONAL { ?perfume wdt:P176 ?brand . }
+  FILTER(?year >= 1800)
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+ORDER BY ?year
+LIMIT 50`,
+      },
+      {
+        id: "genealogy_olfactive_family",
+        name: "[Généalogie] Arbre des familles olfactives",
+        description: "Reconstruit la hiérarchie des familles olfactives (accord → famille → sous-famille) depuis Wikidata",
+        category: "genealogy",
+        sparql: `SELECT DISTINCT ?family ?familyLabel ?parentLabel ?description WHERE {
+  ?family wdt:P31/wdt:P279* wd:Q1289248 .  # famille olfactive
+  OPTIONAL { ?family wdt:P279 ?parent . }
+  OPTIONAL { ?family schema:description ?description . FILTER(LANG(?description) = "fr") }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+LIMIT 50`,
+      },
     ];
   }),
 
@@ -734,4 +869,222 @@ LIMIT 15`,
       },
     ];
   }),
+
+  /**
+   * Axe 2.2 — Requête fédérée PERFUMUM ↔ Wikidata
+   * Enrichit les données PERFUMUM avec des informations Wikidata via SERVICE SPARQL
+   */
+  federatedWikidata: publicProcedure
+    .input(z.object({
+      entityType: z.enum(["molecule", "plant", "family"]),
+      entityId: z.number().int().positive(),
+      queryType: z.enum(["taxonomy", "publications", "images", "related", "timeline"]).default("publications"),
+      limit: z.number().min(1).max(50).default(20),
+      useCache: z.boolean().default(true),
+    }))
+    .query(async ({ input }) => {
+      // 1. Récupérer le QID Wikidata de l'entité
+      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      let qid: string | null = null;
+      let entityName = "";
+      try {
+        let table = "molecules"; let nameCol = "name";
+        if (input.entityType === "plant") { table = "plants"; nameCol = "name"; }
+        else if (input.entityType === "family") { table = "olfactive_families"; nameCol = "name"; }
+        const [rows] = await conn.execute<mysql.RowDataPacket[]>(
+          `SELECT wikidata_qid, ${nameCol} as name FROM ${table} WHERE id = ? LIMIT 1`,
+          [input.entityId]
+        );
+        if (rows.length > 0) { qid = rows[0].wikidata_qid as string | null; entityName = rows[0].name as string; }
+      } finally { await conn.end(); }
+
+      if (!qid) return { found: false, entityId: input.entityId, entityType: input.entityType, message: "Entité sans QID Wikidata — impossible d'interroger Wikidata" };
+
+      // 2. Construire la requête SPARQL Wikidata selon le type
+      const cacheKey = `federated_wikidata_${qid}_${input.queryType}_${input.limit}`;
+      if (input.useCache) {
+        const cached = _sparqlCache.get(cacheKey);
+        if (cached && Date.now() < cached.exp) return cached.result;
+        const qHash = hashQuery(cacheKey);
+        const dbCached = await readDbCache(qHash);
+        if (dbCached !== null) { _sparqlCache.set(cacheKey, { result: dbCached, exp: Date.now() + 5 * 60 * 1000 }); return dbCached; }
+      }
+
+      let sparqlQuery = "";
+      const WIKIDATA_SPARQL = "https://query.wikidata.org/sparql";
+
+      if (input.queryType === "taxonomy") {
+        sparqlQuery = `SELECT ?parent ?parentLabel ?rank ?rankLabel WHERE {
+  wd:${qid} wdt:P171* ?parent .
+  ?parent wdt:P105 ?rank .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+} LIMIT ${input.limit}`;
+      } else if (input.queryType === "publications") {
+        sparqlQuery = `SELECT ?work ?workLabel ?date ?doi WHERE {
+  ?work wdt:P921 wd:${qid} .
+  OPTIONAL { ?work wdt:P577 ?date . }
+  OPTIONAL { ?work wdt:P356 ?doi . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+} ORDER BY DESC(?date) LIMIT ${input.limit}`;
+      } else if (input.queryType === "images") {
+        sparqlQuery = `SELECT ?image ?depictsLabel WHERE {
+  wd:${qid} wdt:P18 ?image .
+  OPTIONAL { wd:${qid} rdfs:label ?depictsLabel . FILTER(LANG(?depictsLabel) = "fr") }
+} LIMIT ${input.limit}`;
+      } else if (input.queryType === "related") {
+        sparqlQuery = `SELECT ?related ?relatedLabel ?relation ?relationLabel WHERE {
+  { wd:${qid} ?relation ?related . ?related wdt:P31 wd:Q11173 . }
+  UNION
+  { ?related ?relation wd:${qid} . ?related wdt:P31 wd:Q11173 . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+} LIMIT ${input.limit}`;
+      } else if (input.queryType === "timeline") {
+        sparqlQuery = `SELECT ?year (COUNT(?work) AS ?count) WHERE {
+  ?work wdt:P921 wd:${qid} .
+  ?work wdt:P577 ?date .
+  BIND(YEAR(?date) AS ?year)
+  FILTER(?year >= 1900 && ?year <= 2030)
+} GROUP BY ?year ORDER BY ?year`;
+      }
+
+      try {
+        const startTime = Date.now();
+        const url = `${WIKIDATA_SPARQL}?query=${encodeURIComponent(sparqlQuery)}&format=json`;
+        const res = await fetch(url, {
+          headers: { "Accept": "application/sparql-results+json", "User-Agent": "PERFUMUM-Research/1.0 (https://perfumum-h2pjhhjb.manus.space)" },
+          signal: AbortSignal.timeout(20000),
+        });
+        if (!res.ok) return { found: true, qid, entityName, error: `Wikidata HTTP ${res.status}`, results: [] };
+        const data = await res.json() as Record<string, unknown>;
+        const bindings = ((data.results as Record<string, unknown>)?.bindings as Record<string, unknown>[]) ?? [];
+        const vars = ((data.head as Record<string, unknown>)?.vars as string[]) ?? [];
+        const execMs = Date.now() - startTime;
+        const result = { found: true, qid, entityName, entityType: input.entityType, queryType: input.queryType, vars, bindings, count: bindings.length, executionMs: execMs, sparqlQuery };
+        if (input.useCache) {
+          _sparqlCache.set(cacheKey, { result, exp: Date.now() + 5 * 60 * 1000 });
+          void writeDbCache(hashQuery(cacheKey), sparqlQuery, "FEDERATED_WIKIDATA", result, execMs);
+        }
+        return result;
+      } catch (err) {
+        return { found: true, qid, entityName, error: String(err instanceof Error ? err.message : err), results: [] };
+      }
+    }),
+
+  /**
+   * Axe 2.2 — Requête fédérée PERFUMUM ↔ OpenAlex
+   * Enrichit les données PERFUMUM avec les publications OpenAlex par entité
+   */
+  federatedOpenAlex: publicProcedure
+    .input(z.object({
+      entityType: z.enum(["molecule", "plant", "family"]),
+      entityId: z.number().int().positive(),
+      queryType: z.enum(["publications", "timeline", "authors", "concepts"]).default("publications"),
+      limit: z.number().min(1).max(50).default(20),
+      useCache: z.boolean().default(true),
+    }))
+    .query(async ({ input }) => {
+      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      let entityName = "";
+      let casNumber: string | null = null;
+      let latinName: string | null = null;
+      try {
+        if (input.entityType === "molecule") {
+          const [rows] = await conn.execute<mysql.RowDataPacket[]>("SELECT name, cas_number FROM molecules WHERE id = ? LIMIT 1", [input.entityId]);
+          if (rows.length > 0) { entityName = rows[0].name as string; casNumber = rows[0].cas_number as string | null; }
+        } else if (input.entityType === "plant") {
+          const [rows] = await conn.execute<mysql.RowDataPacket[]>("SELECT name, latin_name FROM plants WHERE id = ? LIMIT 1", [input.entityId]);
+          if (rows.length > 0) { entityName = rows[0].name as string; latinName = rows[0].latin_name as string | null; }
+        } else {
+          const [rows] = await conn.execute<mysql.RowDataPacket[]>("SELECT name FROM olfactive_families WHERE id = ? LIMIT 1", [input.entityId]);
+          if (rows.length > 0) entityName = rows[0].name as string;
+        }
+      } finally { await conn.end(); }
+
+      if (!entityName) return { found: false, entityId: input.entityId, message: "Entité introuvable" };
+
+      const searchTerm = latinName ?? casNumber ?? entityName;
+      const cacheKey = `federated_openalex_${input.entityType}_${input.entityId}_${input.queryType}_${input.limit}`;
+      if (input.useCache) {
+        const cached = _sparqlCache.get(cacheKey);
+        if (cached && Date.now() < cached.exp) return cached.result;
+        const dbCached = await readDbCache(hashQuery(cacheKey));
+        if (dbCached !== null) { _sparqlCache.set(cacheKey, { result: dbCached, exp: Date.now() + 5 * 60 * 1000 }); return dbCached; }
+      }
+
+      try {
+        const startTime = Date.now();
+        let url = "";
+        if (input.queryType === "publications") {
+          url = `https://api.openalex.org/works?search=${encodeURIComponent(searchTerm)}&per-page=${input.limit}&sort=cited_by_count:desc&mailto=perfumum-research@contact.fr`;
+        } else if (input.queryType === "timeline") {
+          url = `https://api.openalex.org/works?search=${encodeURIComponent(searchTerm)}&group_by=publication_year&mailto=perfumum-research@contact.fr`;
+        } else if (input.queryType === "authors") {
+          url = `https://api.openalex.org/authors?search=${encodeURIComponent(searchTerm)}&per-page=${input.limit}&mailto=perfumum-research@contact.fr`;
+        } else if (input.queryType === "concepts") {
+          url = `https://api.openalex.org/concepts?search=${encodeURIComponent(searchTerm)}&per-page=${input.limit}&mailto=perfumum-research@contact.fr`;
+        }
+        const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
+        if (!res.ok) return { found: true, entityName, error: `OpenAlex HTTP ${res.status}`, results: [] };
+        const data = await res.json() as Record<string, unknown>;
+        const execMs = Date.now() - startTime;
+        const result = { found: true, entityName, entityType: input.entityType, queryType: input.queryType, searchTerm, data, executionMs: execMs };
+        if (input.useCache) {
+          _sparqlCache.set(cacheKey, { result, exp: Date.now() + 5 * 60 * 1000 });
+          void writeDbCache(hashQuery(cacheKey), url, "FEDERATED_OPENALEX", result, execMs);
+        }
+        return result;
+      } catch (err) {
+        return { found: true, entityName, error: String(err instanceof Error ? err.message : err), results: [] };
+      }
+    }),
+
+  /**
+   * Axe 2.2 — Requête fédérée libre : PERFUMUM + Wikidata en parallèle
+   * Pour une molécule ou plante, retourne les données PERFUMUM + enrichissement Wikidata
+   */
+  federatedEnrich: publicProcedure
+    .input(z.object({
+      entityType: z.enum(["molecule", "plant"]),
+      entityId: z.number().int().positive(),
+    }))
+    .query(async ({ input }) => {
+      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      try {
+        let perfumumData: Record<string, unknown> = {};
+        let qid: string | null = null;
+        if (input.entityType === "molecule") {
+          const [rows] = await conn.execute<mysql.RowDataPacket[]>(
+            "SELECT id, name, cas_number, iupac_name, wikidata_qid, chemical_class, molecular_formula FROM molecules WHERE id = ? LIMIT 1",
+            [input.entityId]
+          );
+          if (rows.length > 0) { perfumumData = rows[0] as Record<string, unknown>; qid = rows[0].wikidata_qid as string | null; }
+        } else {
+          const [rows] = await conn.execute<mysql.RowDataPacket[]>(
+            "SELECT id, name, latin_name, family, wikidata_qid, origin_country FROM plants WHERE id = ? LIMIT 1",
+            [input.entityId]
+          );
+          if (rows.length > 0) { perfumumData = rows[0] as Record<string, unknown>; qid = rows[0].wikidata_qid as string | null; }
+        }
+        if (!perfumumData.id) return { found: false };
+
+        // Enrichissement Wikidata si QID disponible
+        let wikidataData: Record<string, unknown> | null = null;
+        if (qid) {
+          try {
+            const sparql = `SELECT ?prop ?propLabel ?value ?valueLabel WHERE {
+  wd:${qid} ?prop ?value .
+  FILTER(?prop IN (wdt:P31, wdt:P279, wdt:P171, wdt:P18, wdt:P117, wdt:P231, wdt:P2067, wdt:P274))
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+} LIMIT 30`;
+            const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(sparql)}&format=json`;
+            const res = await fetch(url, { headers: { "Accept": "application/sparql-results+json", "User-Agent": "PERFUMUM-Research/1.0" }, signal: AbortSignal.timeout(10000) });
+            if (res.ok) {
+              const data = await res.json() as Record<string, unknown>;
+              wikidataData = { qid, bindings: ((data.results as Record<string, unknown>)?.bindings ?? []) };
+            }
+          } catch { /* non-fatal */ }
+        }
+        return { found: true, perfumumData, wikidataData, qid };
+      } finally { await conn.end(); }
+    }),
 });
