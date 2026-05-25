@@ -105,6 +105,9 @@ export function TaxonomyTree({ plantId, plantName }: TaxonomyTreeProps) {
     // Construire la hiérarchie D3
     const root = d3.hierarchy<TaxonNode>(data.tree as TaxonNode);
 
+    // Garde : si l'arbre n'a qu'un seul nœud (pas d'enfants), ne pas tenter le rendu D3
+    if (root.descendants().length <= 1) return;
+
     // Layout arbre horizontal (gauche → droite)
     const treeLayout = d3.tree<TaxonNode>()
       .size([height - 80, width - 200])
@@ -254,7 +257,29 @@ export function TaxonomyTree({ plantId, plantName }: TaxonomyTreeProps) {
     );
   }
 
+  // ─── Garde : données taxonomiques manquantes ──────────────────────────────
   if (!data) return null;
+
+  // Garde : arbre vide ou données manquantes (plante sans latin_name/family)
+  const hasTaxonomicData =
+    (data.plant.family && data.plant.family.trim() !== '') ||
+    (data.plant.genus && data.plant.genus.trim() !== '') ||
+    (data.plant.latinName && data.plant.latinName.trim() !== '');
+
+  if (!hasTaxonomicData) {
+    return (
+      <div className="flex flex-col items-center justify-center h-48 gap-3 text-muted-foreground">
+        <GitBranch className="h-8 w-8 opacity-30" />
+        <div className="text-center">
+          <p className="text-sm font-medium">Données taxonomiques manquantes</p>
+          <p className="text-xs mt-1 max-w-sm">
+            Cette plante ne possède pas encore de nom latin, de famille ou de genre renseignés.
+            Enrichissez sa fiche pour visualiser l'arbre taxonomique.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">

@@ -404,7 +404,10 @@ export const plantsRouter = router({
           if (!plant) throw new TRPCError({ code: 'NOT_FOUND', message: 'Plante introuvable' });
 
           const latinName = (plant.latin_name as string) || '';
-          const genus = latinName.trim().split(/\s+/)[0] || '';
+          // Extraire le genre depuis le nom latin (premier mot) — ex: "Rosa damascena" → "Rosa"
+          // Ignorer si le premier mot n'est pas un genre valide (majuscule + lettres uniquement)
+          const rawGenus = latinName.trim().split(/\s+/)[0] || '';
+          const genus = /^[A-Z][a-z]+$/.test(rawGenus) ? rawGenus : '';
           const family = (plant.family as string) || '';
 
           // 2. Espèces sœurs (même genre)

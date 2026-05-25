@@ -214,3 +214,10 @@
 - [x] Intégration dans FreeSparqlTab (sélecteur + injection automatique dans la requête)
 - [x] Intégration dans TemplatesTab (sélecteur QID global, pré-remplissage automatique, bouton copier)
 - [x] Import Copy dans SparqlExplorer.tsx
+
+
+## Rapport 15 — Bug Généalogie + Enrichissement QID molécules (Mai 2026)
+
+- [ ] Corriger le bug de l'onglet Généalogie dans PlantDetail.tsx (TaxonomyTree)
+- [ ] Procédure tRPC : recherche QID Wikidata par nom/CAS/IUPAC pour molécules sans QID
+- [ ] Page admin /admin/molecule-qid-enrichment avec enrichissement par lot

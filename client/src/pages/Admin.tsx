@@ -300,6 +300,14 @@ export default function Admin() {
       bgColor: "bg-blue-50",
     },
     {
+      title: "Enrichissement QID Wikidata — Molécules (Rapport 15)",
+      description: "Associer des identifiants Wikidata aux molécules sans QID via l'API wbsearchentities. Recherche par nom, CAS et IUPAC avec score de confiance. Batch automatique + validation manuelle.",
+      icon: Globe,
+      href: "/admin/molecule-qid-enrichment",
+      color: "text-indigo-600",
+      bgColor: "bg-indigo-50",
+    },
+    {
       title: "COCONUT — Enrichissement Produits Naturels",
       description: "Enrichir les molécules avec l'identifiant COCONUT, score NP-likeness, organismes sources et citations (716 000+ molécules, 70 000+ organismes).",
       icon: Globe,
