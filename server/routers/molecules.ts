@@ -6,6 +6,7 @@ import { eq, or, lt } from "drizzle-orm";
 import { withCache, CACHE_KEYS, CACHE_TTL, invalidateMoleculeCache } from "../cache";
 import { families, molecules } from "../../drizzle/schema";
 import { invalidateRadarCache } from "../db-recettes-radar";
+import mysql from "mysql2/promise";
 
 export const moleculesRouter = router({
     list: publicProcedure.query(async () => {
@@ -612,3 +613,8 @@ export const moleculesRouter = router({
       }),
 
 });
+
+// ─── Rapport 17 : Gestion complète admin/molecule ─────────────────────────────
+// Ces procédures sont ajoutées au routeur moleculesRouter via Object.assign ci-dessous
+// car le fichier utilise un seul export router({...})
+

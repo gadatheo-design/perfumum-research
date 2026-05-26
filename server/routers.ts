@@ -121,6 +121,7 @@ import { bibliographyRouter } from "./routers/bibliography";
 import { plantsRouter } from "./routers/plants";
 import { importRouter } from "./routers/import";
 import { moleculesRouter } from "./routers/molecules";
+import { moleculesAdminRouter } from "./routers/molecules-admin";
 import type { SQL } from "drizzle-orm";
 import { laboratoireRouter } from "./routers/laboratoire";
 import { pubchemIupacRouter } from "./routers/pubchem-iupac";
@@ -297,6 +298,8 @@ export const appRouter = router({
 
   // Molecules (avec cache pour optimisation)
   molecules: moleculesRouter,
+  // Molecules admin (Rapport 17 : delete, updateFields, enrichFromWikidata, getFullById)
+  moleculesAdmin: moleculesAdminRouter,
 
   // PubChem IUPAC batch
   pubchemIupac: pubchemIupacRouter,
