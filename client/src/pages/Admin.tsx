@@ -92,6 +92,15 @@ export default function Admin() {
       bgColor: "bg-purple-50",
     },
     {
+      title: "Plantes (Admin)",
+      description: "Édition manuelle, enrichissement GBIF/Wikidata, suppression sécurisée",
+      icon: Leaf,
+      href: "/admin/plants-manage",
+      count: stats?.plants || 0,
+      color: "text-green-600",
+      bgColor: "bg-green-50",
+    },
+    {
       title: "Accords",
       description: "Créer et modifier les accords olfactifs",
       icon: Layers,

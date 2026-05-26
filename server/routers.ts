@@ -119,6 +119,7 @@ import {
 import { aiRouter } from "./routers/ai";
 import { bibliographyRouter } from "./routers/bibliography";
 import { plantsRouter } from "./routers/plants";
+import { plantsAdminRouter } from "./routers/plants-admin";
 import { importRouter } from "./routers/import";
 import { moleculesRouter } from "./routers/molecules";
 import { moleculesAdminRouter } from "./routers/molecules-admin";
@@ -295,6 +296,9 @@ export const appRouter = router({
 
   // Laboratoire (Matières Premières)
   laboratoire: laboratoireRouter,
+
+  // Plants admin (Rapport 18 : delete, updateFields, enrichFromGBIF, enrichFromWikidata)
+  plantsAdmin: plantsAdminRouter,
 
   // Molecules (avec cache pour optimisation)
   molecules: moleculesRouter,

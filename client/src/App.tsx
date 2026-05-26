@@ -82,6 +82,7 @@ const LiaisonRecettesMolecules = React.lazy(() => import('./pages/admin/LiaisonR
 const MoleculeOriginsAdmin = React.lazy(() => import('./pages/admin/MoleculeOriginsAdmin'));
 const TerroirsGeocode = React.lazy(() => import('./pages/admin/TerroirsGeocode'));
 const AdminMoleculesIndex = React.lazy(() => import('./pages/admin/AdminMoleculesIndex'));
+const AdminPlantsIndex = React.lazy(() => import('./pages/admin/AdminPlantsIndex'));
 const AdminAccords = React.lazy(() => import('./pages/admin/AdminAccords'));
 const AdminFamilles = React.lazy(() => import('./pages/admin/AdminFamilles'));
 const AdminMatieres = React.lazy(() => import('./pages/admin/AdminMatieres'));
@@ -558,6 +559,7 @@ function Router() {
       <LazyRoute path="/outils/editeur-formulation" component={EditeurFormulation} />
 
       <Route path="/admin/molecules" component={AdminMoleculesIndex} />
+      <Route path="/admin/plants-manage" component={AdminPlantsIndex} />
       <Route path="/admin/molecules/new" component={AdminMoleculeNew} />
       <Route path="/admin/accords" component={AdminAccords} />
       <Route path="/admin/familles" component={AdminFamilles} />
