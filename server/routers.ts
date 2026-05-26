@@ -120,6 +120,7 @@ import { aiRouter } from "./routers/ai";
 import { bibliographyRouter } from "./routers/bibliography";
 import { plantsRouter } from "./routers/plants";
 import { plantsAdminRouter } from "./routers/plants-admin";
+import { europeanaBookmarksRouter } from "./routers/europeana-bookmarks";
 import { importRouter } from "./routers/import";
 import { moleculesRouter } from "./routers/molecules";
 import { moleculesAdminRouter } from "./routers/molecules-admin";
@@ -299,6 +300,9 @@ export const appRouter = router({
 
   // Plants admin (Rapport 18 : delete, updateFields, enrichFromGBIF, enrichFromWikidata)
   plantsAdmin: plantsAdminRouter,
+
+  // Europeana Bookmarks (Rapport 20 : bibliothèque iconographique personnelle)
+  europeanaBookmarks: europeanaBookmarksRouter,
 
   // Molecules (avec cache pour optimisation)
   molecules: moleculesRouter,

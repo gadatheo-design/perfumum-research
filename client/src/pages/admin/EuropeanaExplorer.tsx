@@ -10,7 +10,7 @@
  * - Recherche libre avec facettes optionnelles
  */
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
 import {
@@ -32,10 +32,12 @@ import {
   Building2, MapPin, Calendar, BarChart2, Filter, Layers,
   Sparkles, Map, FlaskRound, TreePine, Flame, Scroll,
   Tag, MessageSquare, FileText, Link2, X, ChevronRight,
+  Bookmark, BookmarkCheck, Library, Trash2,
 } from "lucide-react";
 import {
   Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
 } from "@/components/ui/sheet";
+import { useToast } from "@/hooks/use-toast";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -286,6 +288,60 @@ function EuropeanaCard({ item }: { item: EuropeanaItem }) {
   const [imgError, setImgError] = useState(false);
   const [annotationOpen, setAnnotationOpen] = useState(false);
   const meta = THEME_META[item.theme || "libre"] || THEME_META.libre;
+  const { toast } = useToast();
+  const utils = trpc.useUtils();
+
+  // Vérifier si déjà sauvegardé
+  const { data: bookmarkStatus } = trpc.europeanaBookmarks.isBookmarked.useQuery(
+    { europeanaId: item.id },
+    { staleTime: 30_000 }
+  );
+  const isBookmarked = bookmarkStatus?.bookmarked ?? false;
+
+  const saveMutation = trpc.europeanaBookmarks.save.useMutation({
+    onSuccess: (result) => {
+      utils.europeanaBookmarks.isBookmarked.invalidate({ europeanaId: item.id });
+      utils.europeanaBookmarks.stats.invalidate();
+      toast({
+        title: result.action === "created" ? "Sauvegardé dans la bibliothèque" : "Bookmark mis à jour",
+        description: item.title.slice(0, 60),
+      });
+    },
+    onError: () => {
+      toast({ title: "Erreur", description: "Impossible de sauvegarder. Êtes-vous connecté ?", variant: "destructive" });
+    },
+  });
+
+  const removeMutation = trpc.europeanaBookmarks.remove.useMutation({
+    onSuccess: () => {
+      utils.europeanaBookmarks.isBookmarked.invalidate({ europeanaId: item.id });
+      utils.europeanaBookmarks.stats.invalidate();
+      toast({ title: "Retiré de la bibliothèque", description: item.title.slice(0, 60) });
+    },
+  });
+
+  const handleBookmark = () => {
+    if (isBookmarked) {
+      removeMutation.mutate({ europeanaId: item.id });
+    } else {
+      saveMutation.mutate({
+        europeanaId: item.id,
+        theme: item.theme,
+        title: item.title,
+        creator: item.creator,
+        date: item.date,
+        institution: item.institution,
+        country: item.country,
+        europeanaUrl: item.europeanaUrl,
+        thumbnailUrl: item.thumbnailUrl,
+        rights: item.rights,
+        rightsLabel: item.rightsLabel,
+        mediaType: item.type,
+        linkedPlantId: item.relatedPlantId,
+        linkedMoleculeId: item.relatedMoleculeId,
+      });
+    }
+  };
 
   return (
     <Card className={`overflow-hidden hover:shadow-lg transition-all duration-200 border-t-2 ${meta.borderColor} group`}>
@@ -388,6 +444,27 @@ function EuropeanaCard({ item }: { item: EuropeanaItem }) {
               <ExternalLink className="h-2 w-2 ml-1" />
             </Badge>
           </a>
+
+          {/* Bouton Sauvegarder (Rapport 20) */}
+          <button
+            onClick={handleBookmark}
+            disabled={saveMutation.isPending || removeMutation.isPending}
+            className={`inline-flex items-center gap-0.5 text-[10px] rounded-full border px-1.5 py-0.5 transition-colors ${
+              isBookmarked
+                ? "bg-amber-50 dark:bg-amber-950 border-amber-400 text-amber-700 hover:bg-red-50 hover:border-red-400 hover:text-red-700"
+                : "hover:bg-amber-50 dark:hover:bg-amber-950 hover:border-amber-400 text-muted-foreground hover:text-amber-700"
+            }`}
+            title={isBookmarked ? "Retirer de la bibliothèque" : "Sauvegarder dans la bibliothèque"}
+          >
+            {saveMutation.isPending || removeMutation.isPending ? (
+              <Loader2 className="h-2.5 w-2.5 animate-spin" />
+            ) : isBookmarked ? (
+              <BookmarkCheck className="h-2.5 w-2.5" />
+            ) : (
+              <Bookmark className="h-2.5 w-2.5" />
+            )}
+            {isBookmarked ? "Sauvegardé" : "Sauvegarder"}
+          </button>
 
           {/* Bouton Annotations (Sprint 3 bis) */}
           <button
@@ -1510,6 +1587,273 @@ function AnnotationsSearchTab() {
   );
 }
 
+// ─── Onglet Bibliothèque (bookmarks sauvegardés) ────────────────────────────
+
+function LibraryTab() {
+  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+  const [themeFilter, setThemeFilter] = useState<string | undefined>(undefined);
+  const { toast } = useToast();
+  const utils = trpc.useUtils();
+
+  const { data, isLoading } = trpc.europeanaBookmarks.list.useQuery(
+    { page, pageSize: 24, search: search || undefined, theme: themeFilter },
+    { staleTime: 10_000 }
+  );
+
+  const { data: stats } = trpc.europeanaBookmarks.stats.useQuery(
+    undefined,
+    { staleTime: 30_000 }
+  );
+
+  const removeMutation = trpc.europeanaBookmarks.remove.useMutation({
+    onSuccess: () => {
+      utils.europeanaBookmarks.list.invalidate();
+      utils.europeanaBookmarks.stats.invalidate();
+      toast({ title: "Retiré de la bibliothèque" });
+    },
+  });
+
+  const handleSearch = () => {
+    setSearch(searchInput.trim());
+    setPage(1);
+  };
+
+  const totalPages = data ? Math.ceil(data.total / 24) : 0;
+
+  return (
+    <div className="space-y-4">
+      {/* En-tête stats */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <Card>
+          <CardContent className="p-3 text-center">
+            <p className="text-2xl font-bold text-amber-600">{stats?.total ?? 0}</p>
+            <p className="text-xs text-muted-foreground">Œuvres sauvegardées</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-3 text-center">
+            <p className="text-2xl font-bold text-emerald-600">{stats?.withPlant ?? 0}</p>
+            <p className="text-xs text-muted-foreground">Liées à une plante</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-3 text-center">
+            <p className="text-2xl font-bold text-violet-600">{stats?.withMolecule ?? 0}</p>
+            <p className="text-xs text-muted-foreground">Liées à une molécule</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className="p-3 text-center">
+            <p className="text-2xl font-bold text-cyan-600">{stats?.byTheme?.length ?? 0}</p>
+            <p className="text-xs text-muted-foreground">Thèmes représentés</p>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Filtres */}
+      <div className="flex flex-col sm:flex-row gap-3 items-end flex-wrap">
+        <div className="flex-1 min-w-[200px]">
+          <Label>Rechercher dans la bibliothèque</Label>
+          <Input
+            placeholder="Titre, institution, créateur..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+          />
+        </div>
+        {stats && stats.byTheme.length > 0 && (
+          <div>
+            <Label>Filtrer par thème</Label>
+            <Select value={themeFilter ?? ""} onValueChange={(v) => { setThemeFilter(v || undefined); setPage(1); }}>
+              <SelectTrigger className="w-44">
+                <SelectValue placeholder="Tous les thèmes" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="">Tous les thèmes</SelectItem>
+                {stats.byTheme.map((t) => (
+                  <SelectItem key={t.theme} value={t.theme}>
+                    {THEME_META[t.theme]?.icon || ""} {t.theme} ({t.count})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
+        <Button onClick={handleSearch} variant="outline" size="sm">
+          <Search className="h-3.5 w-3.5 mr-1" />
+          Rechercher
+        </Button>
+        {(search || themeFilter) && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => { setSearch(""); setSearchInput(""); setThemeFilter(undefined); setPage(1); }}
+          >
+            <X className="h-3.5 w-3.5 mr-1" />
+            Réinitialiser
+          </Button>
+        )}
+      </div>
+
+      {/* Chargement */}
+      {isLoading && (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        </div>
+      )}
+
+      {/* Vide */}
+      {!isLoading && data && data.items.length === 0 && (
+        <Card className="border-dashed">
+          <CardContent className="p-12 text-center text-muted-foreground">
+            <Library className="h-10 w-10 mx-auto mb-3 opacity-30" />
+            <p className="text-sm font-medium">
+              {search || themeFilter ? "Aucun résultat pour ces filtres" : "Bibliothèque vide"}
+            </p>
+            <p className="text-xs mt-1">
+              {search || themeFilter
+                ? "Essayez d'autres termes ou réinitialisez les filtres."
+                : "Cliquez sur \"Sauvegarder\" sur une carte Europeana pour l'ajouter ici."}
+            </p>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Grille */}
+      {!isLoading && data && data.items.length > 0 && (
+        <>
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <p className="text-sm text-muted-foreground">
+              {data.total.toLocaleString()} œuvre(s) sauvegardée(s)
+              {themeFilter && ` — thème : ${themeFilter}`}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+            {data.items.map((bookmark: any) => (
+              <Card key={bookmark.id} className="overflow-hidden group relative">
+                {/* Miniature */}
+                <div className="aspect-square bg-muted overflow-hidden relative">
+                  {bookmark.thumbnailUrl ? (
+                    <img
+                      src={bookmark.thumbnailUrl}
+                      alt={bookmark.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <ImageIcon className="h-8 w-8 opacity-20" />
+                    </div>
+                  )}
+                  {/* Badge thème */}
+                  {bookmark.theme && (
+                    <div className="absolute top-1 left-1">
+                      <Badge className="text-[9px] px-1 h-4 bg-black/60 text-white">
+                        {THEME_META[bookmark.theme]?.icon || ""} {bookmark.theme}
+                      </Badge>
+                    </div>
+                  )}
+                  {/* Bouton supprimer */}
+                  <button
+                    onClick={() => removeMutation.mutate({ europeanaId: bookmark.europeanaId })}
+                    disabled={removeMutation.isPending}
+                    className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 text-white rounded-full p-0.5 hover:bg-red-700"
+                    title="Retirer de la bibliothèque"
+                  >
+                    <Trash2 className="h-3 w-3" />
+                  </button>
+                </div>
+
+                <CardContent className="p-2 space-y-1">
+                  <p className="text-xs font-medium line-clamp-2 leading-tight">{bookmark.title}</p>
+                  {bookmark.institution && (
+                    <p className="text-[10px] text-muted-foreground flex items-center gap-0.5">
+                      <Building2 className="h-2.5 w-2.5 shrink-0" />
+                      <span className="truncate">{bookmark.institution}</span>
+                    </p>
+                  )}
+                  {bookmark.date && (
+                    <p className="text-[10px] text-muted-foreground flex items-center gap-0.5">
+                      <Calendar className="h-2.5 w-2.5 shrink-0" />
+                      {bookmark.date}
+                    </p>
+                  )}
+                  {/* Tags */}
+                  {bookmark.tags && bookmark.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-0.5">
+                      {(bookmark.tags as string[]).slice(0, 3).map((tag: string) => (
+                        <Badge key={tag} variant="secondary" className="text-[9px] h-3.5 px-1">{tag}</Badge>
+                      ))}
+                    </div>
+                  )}
+                  {/* Notes */}
+                  {bookmark.researchNotes && (
+                    <p className="text-[10px] text-muted-foreground italic line-clamp-2 border-l-2 border-amber-400 pl-1">
+                      {bookmark.researchNotes}
+                    </p>
+                  )}
+                  {/* Liens */}
+                  <div className="flex gap-1 pt-0.5">
+                    {bookmark.europeanaUrl && (
+                      <a href={bookmark.europeanaUrl} target="_blank" rel="noopener noreferrer">
+                        <Button variant="ghost" size="icon" className="h-5 w-5" title="Voir sur Europeana">
+                          <ExternalLink className="h-2.5 w-2.5" />
+                        </Button>
+                      </a>
+                    )}
+                    {bookmark.linkedPlantId && (
+                      <Link href={`/plant/${bookmark.linkedPlantId}`}>
+                        <Button variant="ghost" size="icon" className="h-5 w-5" title="Voir la plante liée">
+                          <Leaf className="h-2.5 w-2.5 text-emerald-600" />
+                        </Button>
+                      </Link>
+                    )}
+                    {bookmark.linkedMoleculeId && (
+                      <Link href={`/molecule/${bookmark.linkedMoleculeId}`}>
+                        <Button variant="ghost" size="icon" className="h-5 w-5" title="Voir la molécule liée">
+                          <FlaskConical className="h-2.5 w-2.5 text-violet-600" />
+                        </Button>
+                      </Link>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page === 1}
+                onClick={() => setPage((p) => p - 1)}
+              >
+                ← Précédent
+              </Button>
+              <span className="text-sm text-muted-foreground">
+                Page {page} / {totalPages}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                disabled={page >= totalPages}
+                onClick={() => setPage((p) => p + 1)}
+              >
+                Suivant →
+              </Button>
+            </div>
+          )}
+        </>
+      )}
+    </div>
+  );
+}
+
 // ─── Page principale ──────────────────────────────────────────────────
 
 export default function EuropeanaExplorer() {
@@ -1591,6 +1935,11 @@ export default function EuropeanaExplorer() {
             Annotations
             <Badge className="ml-1 text-[10px] bg-violet-600 text-white h-3.5 px-1">S3</Badge>
           </TabsTrigger>
+          <TabsTrigger value="library" className="text-xs">
+            <Library className="h-3.5 w-3.5 mr-1" />
+            Bibliothèque
+            <Badge className="ml-1 text-[10px] bg-amber-600 text-white h-3.5 px-1">NEW</Badge>
+          </TabsTrigger>
         </TabsList>
 
         {/* Contenu des onglets */}
@@ -1610,6 +1959,7 @@ export default function EuropeanaExplorer() {
         <TabsContent value="libre" className="mt-4"><FreeSearchTab /></TabsContent>
         <TabsContent value="iiif_fulltext" className="mt-4"><IiifFullTextTab /></TabsContent>
         <TabsContent value="annotations" className="mt-4"><AnnotationsSearchTab /></TabsContent>
+        <TabsContent value="library" className="mt-4"><LibraryTab /></TabsContent>
       </Tabs>
     </div>
   );
