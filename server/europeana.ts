@@ -229,15 +229,13 @@ export const THEMATIC_QUERIES: Record<
   // ── Thèmes existants enrichis ────────────────────────────────────────────────
   rose_damas: {
     label: "Rose de Damas",
-    query: "Damascus rose OR Rosa damascena OR rose de Damas OR Damaszener Rose",
+    query: "rose OR Rosa damascena OR Rosa centifolia OR attar rose OR rose water OR eau de rose",
     description:
       "Œuvres d'art et objets culturels mentionnant la Rose de Damas dans les collections muséales européennes.",
     relatedPlants: ["Rosa damascena", "Rosa centifolia"],
     relatedMolecules: ["Géraniol", "Citronellol", "Néryl acétate", "Damascénone"],
     color: "#e11d48",
-    reusability: "open",
-    typeFilter: "IMAGE",
-    europeanaTheme: "art",
+    // NOTE: pas de typeFilter IMAGE — trop restrictif pour rose (1 résultat seulement)
     facetsEnabled: true,
   },
   encens: {
@@ -248,36 +246,31 @@ export const THEMATIC_QUERIES: Record<
     relatedPlants: ["Boswellia sacra", "Boswellia carterii", "Boswellia serrata"],
     relatedMolecules: ["α-Pinène", "Limonène", "Incensole acétate", "Boswellic acid"],
     color: "#d97706",
-    reusability: "open",
     typeFilter: "IMAGE",
-    europeanaTheme: "art",
+    // NOTE: pas de europeanaTheme — theme=art retourne 77/555, on prend tout
     facetsEnabled: true,
   },
   tabac_ottoman: {
     label: "Tabac ottoman",
-    query: "Ottoman tobacco OR tabac ottoman OR narghilé OR hookah OR chibouk OR tütün",
+    query: "Ottoman tobacco OR tabac ottoman OR narghié OR hookah OR chibouk OR tütün",
     description:
       "Iconographie du tabac ottoman — pipes, narguilés, scènes de café, portraits de fumeurs dans les collections européennes.",
     relatedPlants: ["Nicotiana tabacum", "Nicotiana rustica"],
-    relatedMolecules: ["Nicotine", "Solanone", "Mégastigmatrienone", "Phytol"],
+    relatedMolecules: ["Nicotine", "Solanone", "Mégastigmatriénone", "Phytol"],
     color: "#7c3aed",
-    reusability: "open",
     typeFilter: "IMAGE",
-    europeanaTheme: "art",
+    // NOTE: theme=art incompatible avec facets multiples → on enrichit la requête
     facetsEnabled: true,
   },
   houblon: {
     label: "Houblon & Brasserie",
-    query: "hops brewing OR houblon bière OR Humulus lupulus OR hop harvest",
+    query: "hops OR houblon OR Humulus lupulus OR brewing OR brasserie OR bier brewing",
     description:
       "Représentations du houblon et de la brasserie dans les collections européennes — récolte, brassage, scènes rurales.",
     relatedPlants: ["Humulus lupulus"],
     relatedMolecules: ["Myrcène", "Humulone", "Lupulone", "Linalol"],
     color: "#16a34a",
-    reusability: "open",
-    typeFilter: "IMAGE",
-    europeanaTheme: "nature",
-    objectTypeFilter: "botanical illustration",
+    // NOTE: objectTypeFilter supprimé — incompatible avec media=true (0 résultats)
     facetsEnabled: true,
   },
   nard: {
@@ -288,9 +281,8 @@ export const THEMATIC_QUERIES: Record<
     relatedPlants: ["Nardostachys jatamansi", "Valeriana officinalis"],
     relatedMolecules: ["Nardol", "Jatamansone", "Patchoulol", "Valeranone"],
     color: "#0891b2",
-    reusability: "open",
     typeFilter: "IMAGE",
-    europeanaTheme: "art",
+    // NOTE: pas de europeanaTheme — theme=art trop restrictif pour nard
     facetsEnabled: true,
   },
   myrrhe: {
@@ -301,9 +293,8 @@ export const THEMATIC_QUERIES: Record<
     relatedPlants: ["Commiphora myrrha", "Commiphora gileadensis"],
     relatedMolecules: ["Furanosesquiterpènes", "Curzerene", "Lindestrene"],
     color: "#b45309",
-    reusability: "open",
     typeFilter: "IMAGE",
-    europeanaTheme: "art",
+    // NOTE: pas de europeanaTheme — theme=art trop restrictif pour myrrhe
     facetsEnabled: true,
   },
 
@@ -316,47 +307,41 @@ export const THEMATIC_QUERIES: Record<
     relatedPlants: ["Rosa damascena", "Commiphora myrrha", "Boswellia sacra"],
     relatedMolecules: ["Géraniol", "Nardol", "Incensole acétate"],
     color: "#8b5cf6",
-    reusability: "open",
     typeFilter: "IMAGE",
-    europeanaTheme: "art",
+    // NOTE: theme=art incompatible avec facets multiples → requête libre
     facetsEnabled: true,
   },
   illustrations_botaniques: {
     label: "Illustrations botaniques",
-    query: "botanical illustration OR planche botanique OR herbarium plate OR Kräuterbuch OR hortus",
+    query: "botanical illustration OR herbarium OR planche botanique OR hortus botanicus OR flora",
     description:
       "Planches botaniques, herbiers illustrés et illustrations scientifiques de plantes aromatiques et médicinales — du Moyen Âge aux Lumières.",
     relatedPlants: ["Rosa damascena", "Lavandula angustifolia", "Jasminum grandiflorum"],
     relatedMolecules: ["Linalol", "Géraniol", "Benzyl acétate"],
     color: "#059669",
-    reusability: "open",
-    typeFilter: "IMAGE",
-    europeanaTheme: "nature",
-    objectTypeFilter: "botanical illustration",
+    // NOTE: typeFilter IMAGE et objectTypeFilter supprimés — causent 0 résultats
     facetsEnabled: true,
   },
   routes_epices: {
     label: "Routes des épices",
-    query: "spice trade route OR route épices OR silk road map OR via della seta OR ruta de las especias",
+    query: "spice trade OR silk road OR route épices OR Spice Islands OR Gewürzhandel OR spezie",
     description:
       "Cartographie historique des routes commerciales des épices et des matières aromatiques — de la Route de la Soie aux comptoirs hollandais.",
     relatedPlants: ["Boswellia sacra", "Commiphora myrrha", "Nardostachys jatamansi"],
     relatedMolecules: ["α-Pinène", "Eugenol", "Cinnamaldéhyde"],
     color: "#f59e0b",
-    reusability: "open",
-    europeanaTheme: "map",
+    // NOTE: theme=map incompatible avec facets multiples → requête libre
     facetsEnabled: true,
   },
   distillation_alchimie: {
     label: "Distillation & Alchimie",
-    query: "distillation alembic OR alchimie parfum OR alchemy still OR athanor distillation OR aqua vitae",
+    query: "alchemy OR alchimie OR distillation OR alembic OR athanor OR aqua vitae OR philosopher stone",
     description:
       "Représentations de la distillation et de l'alchimie dans les manuscrits et gravures — alambics, athanors, recettes de parfums et d'eaux aromatiques.",
     relatedPlants: ["Lavandula angustifolia", "Rosa damascena", "Boswellia sacra"],
     relatedMolecules: ["Linalol", "Géraniol", "α-Pinène"],
     color: "#6366f1",
-    reusability: "open",
-    europeanaTheme: "manuscript",
+    // NOTE: theme=manuscript incompatible avec facets multiples → requête libre
     facetsEnabled: true,
   },
   jardins_botaniques: {
@@ -367,9 +352,8 @@ export const THEMATIC_QUERIES: Record<
     relatedPlants: ["Lavandula angustifolia", "Rosa damascena", "Jasminum grandiflorum"],
     relatedMolecules: ["Linalol", "Géraniol", "Benzyl acétate"],
     color: "#10b981",
-    reusability: "open",
     typeFilter: "IMAGE",
-    europeanaTheme: "photography",
+    // NOTE: theme=photography incompatible avec facets multiples → requête libre
     facetsEnabled: true,
   },
   rituels_olfactifs: {
@@ -380,9 +364,8 @@ export const THEMATIC_QUERIES: Record<
     relatedPlants: ["Boswellia sacra", "Commiphora myrrha", "Styrax benzoin"],
     relatedMolecules: ["Incensole acétate", "Furanosesquiterpènes", "Benzyl benzoate"],
     color: "#dc2626",
-    reusability: "open",
     typeFilter: "IMAGE",
-    europeanaTheme: "art",
+    // NOTE: pas de europeanaTheme — theme=art trop restrictif pour rituels
     facetsEnabled: true,
   },
 };
@@ -831,16 +814,16 @@ export async function searchEuropeanaThematic(
       url.searchParams.append("qf", `TYPE:${themeConfig.typeFilter}`);
     }
 
-    // Filtre par réutilisabilité si défini
-    if (themeConfig.reusability) {
-      url.searchParams.set("reusability", themeConfig.reusability);
-    }
-
     // ── Nouveaux filtres Sprint 1 ──────────────────────────────────────────────
 
     // Filtre par collection thématique Europeana (nature, art, manuscript, map, photography)
+    // NOTE: reusability=open est incompatible avec theme= (retourne 0 résultats)
+    // On n'applique reusability QUE si aucun theme n'est défini
     if (themeConfig.europeanaTheme) {
       url.searchParams.set("theme", themeConfig.europeanaTheme);
+    } else if (themeConfig.reusability) {
+      // Seulement sans theme pour éviter 0 résultats
+      url.searchParams.set("reusability", themeConfig.reusability);
     }
 
     // Filtre par type d'objet (herbier, manuscrit, peinture botanique)
@@ -853,12 +836,12 @@ export async function searchEuropeanaThematic(
       url.searchParams.append("qf", `proxy_dcterms_spatial:"${themeConfig.spatialFilter}"`);
     }
 
-    // Facettes : agrégations statistiques (COUNTRY, YEAR, DATA_PROVIDER, TYPE)
+    // Facettes : agrégations statistiques (COUNTRY, YEAR, DATA_PROVIDER)
+    // NOTE: facet=TYPE entre en conflit avec qf=TYPE:IMAGE → on l'exclut
     if (themeConfig.facetsEnabled) {
       url.searchParams.append("facet", "COUNTRY");
       url.searchParams.append("facet", "YEAR");
       url.searchParams.append("facet", "DATA_PROVIDER");
-      url.searchParams.append("facet", "TYPE");
       // Activer le profil facets dans la réponse
       url.searchParams.set("profile", "rich facets");
     }
@@ -888,6 +871,7 @@ export async function searchEuropeanaThematic(
     }
 
     const data = await response.json() as any;
+
 
     const items: EuropeanaItem[] = (data.items || []).map((item: any) =>
       mapApiItem(item, theme)

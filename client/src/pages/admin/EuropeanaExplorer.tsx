@@ -485,17 +485,35 @@ function DemoBanner({ error }: { error?: string }) {
 // ─── Onglet thématique ────────────────────────────────────────────────────────
 
 function ThematicTab({ theme }: { theme: string }) {
-  const [enabled, setEnabled] = useState(false);
   const [showFacets, setShowFacets] = useState(false);
+  const [pageSize, setPageSize] = useState<24 | 48 | 96>(24);
+  const [cursor, setCursor] = useState<string | undefined>(undefined);
+  const [cursorHistory, setCursorHistory] = useState<string[]>([]);
   const meta = THEME_META[theme] || THEME_META.libre;
 
   const { data: config } = trpc.europeana.thematicConfig.useQuery();
   const themeConfig = config?.find((t) => t.key === theme);
 
   const { data, isLoading, error } = trpc.europeana.thematicSearch.useQuery(
-    { theme: theme as any, limit: 24 },
-    { enabled }
+    { theme: theme as any, limit: pageSize, cursor },
+    { staleTime: 5 * 60 * 1000 }
   );
+
+  const handleNextPage = () => {
+    if (data?.nextCursor) {
+      setCursorHistory((h) => [...h, cursor ?? ""]);
+      setCursor(data.nextCursor);
+    }
+  };
+
+  const handlePrevPage = () => {
+    const prev = [...cursorHistory];
+    const last = prev.pop();
+    setCursorHistory(prev);
+    setCursor(last || undefined);
+  };
+
+  const isFirstPage = cursorHistory.length === 0;
 
   return (
     <div className="space-y-4">
@@ -542,15 +560,52 @@ function ThematicTab({ theme }: { theme: string }) {
         </Card>
       )}
 
-      {/* Bouton de lancement */}
-      {!enabled && (
-        <div className="flex justify-center py-4">
-          <Button onClick={() => setEnabled(true)} size="lg" className="gap-2">
-            <Globe className="h-4 w-4" />
-            Interroger les collections Europeana
-          </Button>
+      {/* Contrôles de pagination + taille */}
+      {!isLoading && (
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-muted-foreground">Résultats par page :</span>
+            {([24, 48, 96] as const).map((n) => (
+              <Button
+                key={n}
+                variant={pageSize === n ? "default" : "outline"}
+                size="sm"
+                className="h-6 px-2 text-xs"
+                onClick={() => { setPageSize(n); setCursor(undefined); setCursorHistory([]); }}
+              >
+                {n}
+              </Button>
+            ))}
+          </div>
+          {data && data.apiAvailable && (
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-7 text-xs gap-1"
+                disabled={isFirstPage}
+                onClick={handlePrevPage}
+              >
+                ← Précédent
+              </Button>
+              <span className="text-xs text-muted-foreground">
+                Page {cursorHistory.length + 1}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                className="h-7 text-xs gap-1"
+                disabled={!data?.nextCursor}
+                onClick={handleNextPage}
+              >
+                Suivant →
+              </Button>
+            </div>
+          )}
         </div>
       )}
+
+      {/* Chargement automatique — plus de bouton requis */}
 
       {/* Chargement */}
       {isLoading && (
@@ -630,6 +685,13 @@ function ThematicTab({ theme }: { theme: string }) {
 
 // ─── Onglet recherche libre ───────────────────────────────────────────────────
 
+const FREE_SEARCH_SUGGESTIONS = [
+  "Rosa damascena", "olibanum frankincense", "oud agarwood",
+  "amber resin", "jasmine grandiflorum", "sandalwood",
+  "vetiver roots", "patchouli", "bergamot citrus",
+  "lavender botanical", "myrrh commiphora", "ylang ylang",
+];
+
 function FreeSearchTab() {
   const [query, setQuery] = useState("");
   const [typeFilter, setTypeFilter] = useState<string>("IMAGE");
@@ -637,17 +699,36 @@ function FreeSearchTab() {
   const [showFacets, setShowFacets] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [currentQuery, setCurrentQuery] = useState("");
+  const [pageSize, setPageSize] = useState<24 | 48>(24);
+  const [cursor, setCursor] = useState<string | undefined>(undefined);
+  const [cursorHistory, setCursorHistory] = useState<string[]>([]);
 
   const { data, isLoading } = trpc.europeana.freeSearch.useQuery(
-    { query: currentQuery, limit: 24, typeFilter: typeFilter as any, withFacets },
+    { query: currentQuery, limit: pageSize, typeFilter: typeFilter as any, withFacets, cursor },
     { enabled: submitted && currentQuery.length > 1 }
   );
 
   const handleSearch = () => {
     if (query.trim().length > 1) {
       setCurrentQuery(query.trim());
+      setCursor(undefined);
+      setCursorHistory([]);
       setSubmitted(true);
     }
+  };
+
+  const handleNextPage = () => {
+    if (data?.nextCursor) {
+      setCursorHistory((h) => [...h, cursor ?? ""]);
+      setCursor(data.nextCursor);
+    }
+  };
+
+  const handlePrevPage = () => {
+    const prev = [...cursorHistory];
+    const last = prev.pop();
+    setCursorHistory(prev);
+    setCursor(last || undefined);
   };
 
   return (
@@ -698,6 +779,22 @@ function FreeSearchTab() {
         </div>
       </div>
 
+      {/* Suggestions rapides */}
+      {!submitted && (
+        <div className="flex flex-wrap gap-1.5">
+          <span className="text-xs text-muted-foreground mr-1">Suggestions :</span>
+          {FREE_SEARCH_SUGGESTIONS.map((s) => (
+            <button
+              key={s}
+              onClick={() => { setQuery(s); }}
+              className="text-xs px-2 py-0.5 rounded-full bg-muted hover:bg-muted/80 text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {s}
+            </button>
+          ))}
+        </div>
+      )}
+
       {withFacets && (
         <p className="text-xs text-muted-foreground flex items-center gap-1">
           <BarChart2 className="h-3 w-3" />
@@ -729,19 +826,39 @@ function FreeSearchTab() {
             <>
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <p className="text-sm text-muted-foreground">
-                  {data.total.toLocaleString()} résultat(s) — affichage des {data.items.length} premiers
+                  {data.total.toLocaleString()} résultat(s) — page {cursorHistory.length + 1}
                 </p>
-                {data.facets && data.facets.length > 0 && (
+                <div className="flex items-center gap-2">
+                  {data.facets && data.facets.length > 0 && (
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-xs h-7 gap-1"
+                      onClick={() => setShowFacets(!showFacets)}
+                    >
+                      <BarChart2 className="h-3 w-3" />
+                      {showFacets ? "Masquer" : "Voir"} les facettes
+                    </Button>
+                  )}
                   <Button
                     variant="outline"
                     size="sm"
-                    className="text-xs h-7 gap-1"
-                    onClick={() => setShowFacets(!showFacets)}
+                    className="h-7 text-xs"
+                    disabled={cursorHistory.length === 0}
+                    onClick={handlePrevPage}
                   >
-                    <BarChart2 className="h-3 w-3" />
-                    {showFacets ? "Masquer" : "Voir"} les facettes
+                    ← Précédent
                   </Button>
-                )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-7 text-xs"
+                    disabled={!data.nextCursor}
+                    onClick={handleNextPage}
+                  >
+                    Suivant →
+                  </Button>
+                </div>
               </div>
 
               {showFacets && data.facets && <FacetsPanel facets={data.facets} />}
@@ -972,7 +1089,7 @@ function IiifFullTextTab() {
 // ─── Onglet statistiques ──────────────────────────────────────────────────────
 
 function StatsTab() {
-  const { data: stats, isLoading } = trpc.europeana.stats?.useQuery();
+  const { data: stats, isLoading } = trpc.europeana.stats.useQuery();
 
   if (isLoading) {
     return (

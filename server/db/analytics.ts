@@ -268,6 +268,7 @@ export async function getAdminStats() {
   const [familiesCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(families);
   const [recettesCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(recettes);
   const [matieresCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(laboratoire);
+  const [plantsCount] = await db.select({ count: sql<number>`cast(count(*) as unsigned)` }).from(plants);
   
   return {
     prototypes: Number(prototypesCount?.count || 0),
@@ -276,6 +277,7 @@ export async function getAdminStats() {
     families: Number(familiesCount?.count || 0),
     recettes: Number(recettesCount?.count || 0),
     matieres: Number(matieresCount?.count || 0),
+    plants: Number(plantsCount?.count || 0),
   };
 }
 
