@@ -46,7 +46,7 @@ export const sparqlQidRouter = router({
         if (input.entityType === "all" || input.entityType === "family") {
           const qidFilter = input.onlyWithQid ? " AND wikidata_qid IS NOT NULL" : "";
           const [rows] = await conn.execute<mysql.RowDataPacket[]>(
-            `SELECT id, name, wikidata_qid, description FROM chemical_families WHERE name LIKE ?${qidFilter} ORDER BY wikidata_qid IS NULL ASC, name ASC LIMIT ${limitVal}`,
+            `SELECT id, name, wikidata_qid, description FROM families WHERE name LIKE ?${qidFilter} ORDER BY wikidata_qid IS NULL ASC, name ASC LIMIT ${limitVal}`,
             [q]
           );
           for (const r of rows) results.push({ id: r.id, name: r.name, qid: r.wikidata_qid ?? null, type: "family", extra: r.description ?? null });
@@ -89,7 +89,7 @@ export const sparqlQidRouter = router({
 
         if (input.entityType === "all" || input.entityType === "family") {
           const [rows] = await conn.execute<mysql.RowDataPacket[]>(
-            `SELECT id, name, wikidata_qid, description FROM chemical_families WHERE wikidata_qid IS NOT NULL ORDER BY name ASC LIMIT ${perType}`,
+            `SELECT id, name, wikidata_qid, description FROM families WHERE wikidata_qid IS NOT NULL ORDER BY name ASC LIMIT ${perType}`,
             []
           );
           for (const r of rows) catalog.push({ id: r.id, name: r.name, qid: r.wikidata_qid, type: "family", extra: r.description ?? null });
@@ -101,8 +101,8 @@ export const sparqlQidRouter = router({
             (SELECT COUNT(*) FROM molecules) AS molecules_total,
             (SELECT COUNT(*) FROM plants WHERE wikidata_qid IS NOT NULL) AS plants_with_qid,
             (SELECT COUNT(*) FROM plants) AS plants_total,
-            (SELECT COUNT(*) FROM chemical_families WHERE wikidata_qid IS NOT NULL) AS families_with_qid,
-            (SELECT COUNT(*) FROM chemical_families) AS families_total
+            (SELECT COUNT(*) FROM families WHERE wikidata_qid IS NOT NULL) AS families_with_qid,
+            (SELECT COUNT(*) FROM families) AS families_total
         `);
         const stats = statsRows[0] as Record<string, number>;
 
@@ -127,7 +127,7 @@ export const sparqlQidRouter = router({
           "SELECT id, name, latin_name FROM plants WHERE wikidata_qid = ? LIMIT 1", [input.qid]
         );
         const [famRows] = await conn.execute<mysql.RowDataPacket[]>(
-          "SELECT id, name FROM chemical_families WHERE wikidata_qid = ? LIMIT 1", [input.qid]
+          "SELECT id, name FROM families WHERE wikidata_qid = ? LIMIT 1", [input.qid]
         );
 
         if (molRows[0]) return { found: true, type: "molecule" as const, id: molRows[0].id, name: molRows[0].name, extra: molRows[0].cas_number ?? null };
