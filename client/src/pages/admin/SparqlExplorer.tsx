@@ -17,7 +17,7 @@ import {
   Search, Globe, BookOpen, Palette, FlaskConical, Leaf,
   ExternalLink, Image, AlertCircle, Loader2, Sparkles, Code,
   Building2, Calendar, Layers, Clock, GitBranch, Copy, Atom,
-  Save, Star, StarOff, Library, Trash2, Play, Download, History, Pin
+  Save, Star, StarOff, Library, Trash2, Play, Download, History, Pin, X
 } from "lucide-react";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 import { EntityQidPicker, QidBadge } from "@/components/EntityQidPicker";
@@ -856,6 +856,8 @@ function TemplatesTab() {
   const [copiedTemplate, setCopiedTemplate] = useState<string | null>(null);
   const [saveDialogQuery, setSaveDialogQuery] = useState<string | null>(null);
   const [saveDialogCategory, setSaveDialogCategory] = useState<string>("free");
+  const [templateSearch, setTemplateSearch] = useState<string>("");
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
 
   const categoryIcons: Record<string, any> = {
     art: Palette,
@@ -922,8 +924,79 @@ function TemplatesTab() {
         )}
       </div>
 
+      {/* Barre de recherche + filtre catégorie */}
+      <div className="flex flex-wrap gap-3 items-end">
+        <div className="flex-1 min-w-[200px]">
+          <Label className="text-xs">Rechercher un template</Label>
+          <div className="relative mt-1">
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground" />
+            <Input
+              value={templateSearch}
+              onChange={(e) => setTemplateSearch(e.target.value)}
+              placeholder="Nom, description, catégorie..."
+              className="pl-8 text-sm"
+            />
+            {templateSearch && (
+              <button
+                onClick={() => setTemplateSearch("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            )}
+          </div>
+        </div>
+        <div>
+          <Label className="text-xs">Catégorie</Label>
+          <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+            <SelectTrigger className="w-40 mt-1 text-sm">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Toutes</SelectItem>
+              <SelectItem value="art">Art</SelectItem>
+              <SelectItem value="science">Science</SelectItem>
+              <SelectItem value="botanique">Botanique</SelectItem>
+              <SelectItem value="usage">Usage</SelectItem>
+              <SelectItem value="parfumerie">Parfumerie</SelectItem>
+              <SelectItem value="europeana">Europeana</SelectItem>
+              <SelectItem value="europeana-federated">Europeana fédéré</SelectItem>
+              <SelectItem value="temporal">Temporel</SelectItem>
+              <SelectItem value="genealogy">Généalogie</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        {(templateSearch || categoryFilter !== "all") && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-xs h-9 gap-1 text-muted-foreground"
+            onClick={() => { setTemplateSearch(""); setCategoryFilter("all"); }}
+          >
+            <X className="h-3.5 w-3.5" /> Réinitialiser
+          </Button>
+        )}
+      </div>
+
+      {/* Compteur de résultats */}
+      {(templateSearch || categoryFilter !== "all") && (
+        <p className="text-xs text-muted-foreground">
+          {templates?.filter(t =>
+            (categoryFilter === "all" || t.category === categoryFilter) &&
+            (!templateSearch || t.name.toLowerCase().includes(templateSearch.toLowerCase()) ||
+              t.description?.toLowerCase().includes(templateSearch.toLowerCase()) ||
+              t.category?.toLowerCase().includes(templateSearch.toLowerCase()))
+          ).length ?? 0} template(s) trouvé(s)
+        </p>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {templates?.map((template) => {
+        {templates?.filter(t =>
+          (categoryFilter === "all" || t.category === categoryFilter) &&
+          (!templateSearch || t.name.toLowerCase().includes(templateSearch.toLowerCase()) ||
+            t.description?.toLowerCase().includes(templateSearch.toLowerCase()) ||
+            t.category?.toLowerCase().includes(templateSearch.toLowerCase()))
+        ).map((template) => {
           const Icon = categoryIcons[template.category] || Globe;
           const colorClass = categoryColors[template.category] || "text-primary";
           const resolvedSparql = getResolvedSparql(template.sparql);

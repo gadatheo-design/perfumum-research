@@ -23,12 +23,13 @@ export const sparqlQidRouter = router({
         const q = `%${input.query}%`;
         const results: Array<{ id: number; name: string; qid: string | null; type: string; extra: string | null }> = [];
         const perType = Math.floor(input.limit / (input.entityType === "all" ? 3 : 1));
+        const limitVal = Number(perType);
 
         if (input.entityType === "all" || input.entityType === "molecule") {
           const qidFilter = input.onlyWithQid ? " AND wikidata_qid IS NOT NULL" : "";
           const [rows] = await conn.execute<mysql.RowDataPacket[]>(
             `SELECT id, name, wikidata_qid, cas_number FROM molecules WHERE (name LIKE ? OR cas_number LIKE ? OR iupac_name LIKE ?)${qidFilter} ORDER BY wikidata_qid IS NULL ASC, name ASC LIMIT ?`,
-            [q, q, q, perType]
+            [q, q, q, limitVal]
           );
           for (const r of rows) results.push({ id: r.id, name: r.name, qid: r.wikidata_qid ?? null, type: "molecule", extra: r.cas_number ?? null });
         }
@@ -37,7 +38,7 @@ export const sparqlQidRouter = router({
           const qidFilter = input.onlyWithQid ? " AND wikidata_qid IS NOT NULL" : "";
           const [rows] = await conn.execute<mysql.RowDataPacket[]>(
             `SELECT id, name, wikidata_qid, latin_name FROM plants WHERE (name LIKE ? OR latin_name LIKE ?)${qidFilter} ORDER BY wikidata_qid IS NULL ASC, name ASC LIMIT ?`,
-            [q, q, perType]
+            [q, q, limitVal]
           );
           for (const r of rows) results.push({ id: r.id, name: r.name, qid: r.wikidata_qid ?? null, type: "plant", extra: r.latin_name ?? null });
         }
@@ -46,7 +47,7 @@ export const sparqlQidRouter = router({
           const qidFilter = input.onlyWithQid ? " AND wikidata_qid IS NOT NULL" : "";
           const [rows] = await conn.execute<mysql.RowDataPacket[]>(
             `SELECT id, name, wikidata_qid, description FROM chemical_families WHERE name LIKE ?${qidFilter} ORDER BY wikidata_qid IS NULL ASC, name ASC LIMIT ?`,
-            [q, perType]
+            [q, limitVal]
           );
           for (const r of rows) results.push({ id: r.id, name: r.name, qid: r.wikidata_qid ?? null, type: "family", extra: r.description ?? null });
         }
@@ -67,7 +68,8 @@ export const sparqlQidRouter = router({
       const conn = await mysql.createConnection(process.env.DATABASE_URL!);
       try {
         const catalog: Array<{ id: number; name: string; qid: string; type: string; extra: string | null }> = [];
-        const perType = input.entityType === "all" ? Math.floor(input.limit / 3) : input.limit;
+        const perTypeRaw = input.entityType === "all" ? Math.floor(input.limit / 3) : input.limit;
+        const perType = Number(perTypeRaw);
 
         if (input.entityType === "all" || input.entityType === "molecule") {
           const [rows] = await conn.execute<mysql.RowDataPacket[]>(
