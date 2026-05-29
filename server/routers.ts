@@ -121,6 +121,7 @@ import { bibliographyRouter } from "./routers/bibliography";
 import { plantsRouter } from "./routers/plants";
 import { plantsAdminRouter } from "./routers/plants-admin";
 import { europeanaBookmarksRouter } from "./routers/europeana-bookmarks";
+import { sparqlSavedQueriesRouter } from "./routers/sparql-saved-queries";
 import { importRouter } from "./routers/import";
 import { moleculesRouter } from "./routers/molecules";
 import { moleculesAdminRouter } from "./routers/molecules-admin";
@@ -303,6 +304,8 @@ export const appRouter = router({
 
   // Europeana Bookmarks (Rapport 20 : bibliothèque iconographique personnelle)
   europeanaBookmarks: europeanaBookmarksRouter,
+  // SPARQL Saved Queries (Rapport 21 : bibliothèque de requêtes SPARQL personnelles)
+  sparqlSaved: sparqlSavedQueriesRouter,
 
   // Molecules (avec cache pour optimisation)
   molecules: moleculesRouter,

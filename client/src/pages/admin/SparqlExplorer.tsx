@@ -16,11 +16,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import {
   Search, Globe, BookOpen, Palette, FlaskConical, Leaf,
   ExternalLink, Image, AlertCircle, Loader2, Sparkles, Code,
-  Building2, Calendar, Layers, Clock, GitBranch, Copy, Atom
+  Building2, Calendar, Layers, Clock, GitBranch, Copy, Atom,
+  Save, Star, StarOff, Library, Trash2, Play, Download, History, Pin
 } from "lucide-react";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 import { EntityQidPicker, QidBadge } from "@/components/EntityQidPicker";
 import { EntityAutocomplete } from "@/components/ui/EntityAutocomplete";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
+import { LibrarySparqlTab } from "./LibrarySparqlTab";
 
 // ─── Composant carte œuvre d'art ─────────────────────────────────────────────
 function ArtworkCard({ artwork }: { artwork: any }) {
@@ -541,6 +545,116 @@ function BatchArtworksTab() {
   );
 }
 
+// ─── Dialog de sauvegarde d'une requête SPARQL ───────────────────────────────
+function SaveQueryDialog({
+  open, onClose, sparqlQuery, defaultCategory = "free", defaultEndpoint = "wikidata"
+}: {
+  open: boolean;
+  onClose: () => void;
+  sparqlQuery: string;
+  defaultCategory?: string;
+  defaultEndpoint?: string;
+}) {
+  const { toast } = useToast();
+  const utils = trpc.useUtils();
+  const [title, setTitle] = useState("");
+  const [notes, setNotes] = useState("");
+  const [tags, setTags] = useState("");
+  const [category, setCategory] = useState(defaultCategory);
+
+  const saveMutation = trpc.sparqlSaved.save.useMutation({
+    onSuccess: () => {
+      toast({ title: "Requête sauvegardée", description: `"${title}" ajoutée à votre bibliothèque SPARQL.` });
+      utils.sparqlSaved.list.invalidate();
+      utils.sparqlSaved.stats.invalidate();
+      setTitle(""); setNotes(""); setTags("");
+      onClose();
+    },
+    onError: (e) => toast({ title: "Erreur", description: e.message, variant: "destructive" }),
+  });
+
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="max-w-lg">
+        <DialogHeader>
+          <DialogTitle className="flex items-center gap-2">
+            <Save className="h-4 w-4 text-primary" />
+            Sauvegarder la requête SPARQL
+          </DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4 py-2">
+          <div className="space-y-1">
+            <Label className="text-xs">Titre <span className="text-red-500">*</span></Label>
+            <Input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="ex: Molécules PERFUMUM dans l'art Wikidata"
+              className="text-sm"
+            />
+          </div>
+          <div className="space-y-1">
+            <Label className="text-xs">Catégorie</Label>
+            <Select value={category} onValueChange={setCategory}>
+              <SelectTrigger className="text-sm">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="free">Libre</SelectItem>
+                <SelectItem value="molecule">Molécule</SelectItem>
+                <SelectItem value="plant">Plante</SelectItem>
+                <SelectItem value="artwork">Œuvre d'art</SelectItem>
+                <SelectItem value="temporal">Temporel</SelectItem>
+                <SelectItem value="genealogy">Généalogie</SelectItem>
+                <SelectItem value="europeana">Europeana</SelectItem>
+                <SelectItem value="internal">Interne PERFUMUM</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="space-y-1">
+            <Label className="text-xs">Tags (séparés par virgule)</Label>
+            <Input
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              placeholder="ex: wikidata, rose, iconographie"
+              className="text-sm"
+            />
+          </div>
+          <div className="space-y-1">
+            <Label className="text-xs">Notes de recherche</Label>
+            <Textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Contexte, résultats attendus, observations..."
+              className="text-sm min-h-[80px]"
+            />
+          </div>
+          <div className="rounded-md bg-muted/50 p-3">
+            <p className="text-xs font-mono text-muted-foreground line-clamp-3">{sparqlQuery}</p>
+          </div>
+        </div>
+        <DialogFooter>
+          <Button variant="outline" onClick={onClose} size="sm">Annuler</Button>
+          <Button
+            onClick={() => saveMutation.mutate({
+              title,
+              notes: notes || undefined,
+              tags: tags || undefined,
+              category: category as any,
+              sparqlQuery,
+              endpoint: (defaultEndpoint === "europeana" ? "europeana-edm" : defaultEndpoint) as any,
+            })}
+            disabled={!title.trim() || saveMutation.isPending}
+            size="sm"
+          >
+            {saveMutation.isPending ? <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" /> : <Save className="h-3.5 w-3.5 mr-1" />}
+            Sauvegarder
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 // ─── Onglet Requête libre (mode expert) ──────────────────────────────────────
 function FreeSparqlTab() {
   const [sparql, setSparql] = useState(`# Exemple : molécules PERFUMUM dans des œuvres d'art
@@ -553,9 +667,14 @@ SELECT DISTINCT ?molecule ?moleculeLabel ?artwork ?artworkLabel ?image WHERE {
 LIMIT 10`);
   const [results, setResults] = useState<any>(null);
   const [injectedQid, setInjectedQid] = useState<string | null>(null);
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [execTime, setExecTime] = useState<number | null>(null);
 
   const mutation = trpc.sparql.freeQuery.useMutation({
-    onSuccess: (data) => setResults(data),
+    onSuccess: (data) => {
+      setResults(data);
+      setExecTime(Date.now());
+    },
   });
 
   const handleQidInject = (qid: string, entityName: string) => {
@@ -571,8 +690,42 @@ LIMIT 10`);
     setTimeout(() => setInjectedQid(null), 3000);
   };
 
+  const handleExportCSV = () => {
+    if (!results?.bindings?.length) return;
+    const header = results.vars.join(",");
+    const rows = results.bindings.map((row: any) =>
+      results.vars.map((v: string) => `"${(row[v]?.value ?? "").replace(/"/g, '""')}"`).join(",")
+    );
+    const csv = [header, ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a"); a.href = url; a.download = "sparql_results.csv"; a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleExportJSON = () => {
+    if (!results?.bindings?.length) return;
+    const flat = results.bindings.map((row: any) =>
+      Object.fromEntries(results.vars.map((v: string) => [v, row[v]?.value ?? null]))
+    );
+    const blob = new Blob([JSON.stringify(flat, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a"); a.href = url; a.download = "sparql_results.json"; a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <div className="space-y-4">
+      {showSaveDialog && (
+        <SaveQueryDialog
+          open={showSaveDialog}
+          onClose={() => setShowSaveDialog(false)}
+          sparqlQuery={sparql}
+          defaultCategory="free"
+          defaultEndpoint="wikidata"
+        />
+      )}
+
       {/* Sélecteur QID intégré */}
       <div className="rounded-lg border bg-muted/30 p-4">
         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide mb-3">
@@ -603,17 +756,38 @@ LIMIT 10`);
         </p>
       </div>
 
-      <Button
-        onClick={() => mutation.mutate({ sparql })}
-        disabled={mutation.isPending || !sparql.trim()}
-      >
-        {mutation.isPending ? (
-          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-        ) : (
-          <Code className="h-4 w-4 mr-2" />
+      <div className="flex items-center gap-2 flex-wrap">
+        <Button
+          onClick={() => mutation.mutate({ sparql })}
+          disabled={mutation.isPending || !sparql.trim()}
+        >
+          {mutation.isPending ? (
+            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+          ) : (
+            <Play className="h-4 w-4 mr-2" />
+          )}
+          Exécuter
+        </Button>
+        <Button
+          variant="outline"
+          onClick={() => setShowSaveDialog(true)}
+          disabled={!sparql.trim()}
+          className="gap-2"
+        >
+          <Save className="h-4 w-4" />
+          Sauvegarder
+        </Button>
+        {results?.bindings?.length > 0 && (
+          <>
+            <Button variant="outline" size="sm" onClick={handleExportCSV} className="gap-1.5 text-xs">
+              <Download className="h-3.5 w-3.5" /> CSV
+            </Button>
+            <Button variant="outline" size="sm" onClick={handleExportJSON} className="gap-1.5 text-xs">
+              <Download className="h-3.5 w-3.5" /> JSON
+            </Button>
+          </>
         )}
-        Exécuter
-      </Button>
+      </div>
 
       {results?.error && (
         <Card className="border-red-200 bg-red-50 dark:bg-red-950/20">
@@ -639,7 +813,7 @@ LIMIT 10`);
                 </tr>
               </thead>
               <tbody>
-                {results.bindings.slice(0, 50).map((row: any, i: number) => (
+                {results.bindings.slice(0, 100).map((row: any, i: number) => (
                   <tr key={i} className="border-t hover:bg-muted/50">
                     {results.vars.map((v: string) => (
                       <td key={v} className="px-3 py-2 max-w-xs truncate">
@@ -662,9 +836,9 @@ LIMIT 10`);
               </tbody>
             </table>
           </div>
-          {results.bindings.length > 50 && (
+          {results.bindings.length > 100 && (
             <p className="text-xs text-muted-foreground mt-1">
-              Affichage limité à 50 résultats sur {results.bindings.length}
+              Affichage limité à 100 résultats sur {results.bindings.length}
             </p>
           )}
         </div>
@@ -680,6 +854,8 @@ function TemplatesTab() {
   const [selectedEntityName, setSelectedEntityName] = useState<string>("");
   const [expandedTemplate, setExpandedTemplate] = useState<string | null>(null);
   const [copiedTemplate, setCopiedTemplate] = useState<string | null>(null);
+  const [saveDialogQuery, setSaveDialogQuery] = useState<string | null>(null);
+  const [saveDialogCategory, setSaveDialogCategory] = useState<string>("free");
 
   const categoryIcons: Record<string, any> = {
     art: Palette,
@@ -719,6 +895,15 @@ function TemplatesTab() {
 
   return (
     <div className="space-y-4">
+      {saveDialogQuery && (
+        <SaveQueryDialog
+          open={!!saveDialogQuery}
+          onClose={() => setSaveDialogQuery(null)}
+          sparqlQuery={saveDialogQuery}
+          defaultCategory={saveDialogCategory}
+          defaultEndpoint="wikidata"
+        />
+      )}
       {/* Sélecteur QID global pour les templates */}
       <div className="rounded-lg border bg-blue-50/50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800 p-4">
         <p className="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase tracking-wide mb-3 flex items-center gap-2">
@@ -787,6 +972,19 @@ function TemplatesTab() {
                       <><Copy className="h-3 w-3 mr-1" />Copier</>
                     )}
                   </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    className="text-xs h-7"
+                    onClick={() => {
+                      setSaveDialogCategory(template.category || "free");
+                      setSaveDialogQuery(resolvedSparql);
+                    }}
+                    disabled={hasQidPlaceholder && !selectedQid}
+                    title="Sauvegarder dans la bibliothèque"
+                  >
+                    <Save className="h-3 w-3" />
+                  </Button>
                 </div>
                 {hasQidPlaceholder && !selectedQid && (
                   <p className="text-[10px] text-amber-600 dark:text-amber-400 flex items-center gap-1">
@@ -830,7 +1028,7 @@ export default function SparqlExplorer() {
 
       {/* Onglets */}
       <Tabs defaultValue={defaultTab}>
-        <TabsList className="grid grid-cols-7 w-full">
+        <TabsList className="grid grid-cols-8 w-full">
           <TabsTrigger value="stats" className="text-xs">
             <Sparkles className="h-3.5 w-3.5 mr-1" />
             Stats
@@ -859,6 +1057,10 @@ export default function SparqlExplorer() {
             <Layers className="h-3.5 w-3.5 mr-1 text-violet-600" />
             <span className="text-violet-600 font-medium">EDM SPARQL</span>
           </TabsTrigger>
+          <TabsTrigger value="library" className="text-xs">
+            <Library className="h-3.5 w-3.5 mr-1 text-emerald-600" />
+            <span className="text-emerald-600 font-medium">Bibliothèque</span>
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="stats" className="mt-4">
@@ -886,6 +1088,9 @@ export default function SparqlExplorer() {
         </TabsContent>
         <TabsContent value="europeana-sparql" className="mt-4">
           <EuropeanaSparqlTab initialQid={initialQid} initialPlantName={initialPlantName} />
+        </TabsContent>
+        <TabsContent value="library" className="mt-4">
+          <LibrarySparqlTab />
         </TabsContent>
       </Tabs>
     </div>
