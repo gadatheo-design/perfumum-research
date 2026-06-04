@@ -129,6 +129,7 @@ const LOTUSBatch = React.lazy(() => import('./pages/admin/LOTUSBatch'));
 const BibliographicEnrichment = React.lazy(() => import('./pages/admin/BibliographicEnrichment'));
 const WikidataBatch = React.lazy(() => import('./pages/admin/WikidataBatch'));
 const SparqlExplorer = React.lazy(() => import('./pages/admin/SparqlExplorer'));
+const CinemaSmellscapes = React.lazy(() => import('./pages/admin/CinemaSmellscapes'));
 const KnowledgeGraph = React.lazy(() => import('./pages/admin/KnowledgeGraph'));
 const V3MigrationAdmin = React.lazy(() => import('./pages/admin/V3MigrationAdmin'));
 const MoleculeQidEnrichment = React.lazy(() => import('./pages/admin/MoleculeQidEnrichment'));
@@ -591,6 +592,7 @@ function Router() {
       <Route path="/admin/extraction-methods" component={ExtractionMethods} />
       <Route path="/admin/wikidata-batch" component={WikidataBatch} />
       <Route path="/admin/sparql-explorer" component={SparqlExplorer} />
+      <Route path="/admin/cinema-smellscapes" component={CinemaSmellscapes} />
       <Route path="/admin/knowledge-graph" component={KnowledgeGraph} />
       <Route path="/admin/v3-migration" component={V3MigrationAdmin} />
       <Route path="/admin/molecule-qid-enrichment" component={MoleculeQidEnrichment} />

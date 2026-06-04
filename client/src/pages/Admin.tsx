@@ -36,7 +36,8 @@ import {
   Network,
   FileInput,
   FileStack,
-  TrendingUp
+  TrendingUp,
+  Film
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -427,6 +428,14 @@ export default function Admin() {
       href: "/admin/sparql-explorer",
       color: "text-cyan-600",
       bgColor: "bg-cyan-50",
+    },
+    {
+      title: "Smellscapes Cinématographiques",
+      description: "Identifiez et documentez les occurrences olfactives dans les films du patrimoine mondial. Croisez Wikidata (films, réalisateurs, lieux) avec la base moléculaire PERFUMUM.",
+      icon: Film,
+      href: "/admin/cinema-smellscapes",
+      color: "text-amber-600",
+      bgColor: "bg-amber-50",
     },
     {
       title: "Graphe de Connaissances — Axe 2.3",
