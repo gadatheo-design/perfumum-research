@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
+import { EnrichTab } from "./EnrichTab";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -317,6 +318,9 @@ export default function ApiCoverage() {
             )}
           </div>
         )}
+
+        {/* Onglet Enrichir */}
+        {activeTab === "enrich" && <EnrichTab />}
 
         {/* Onglet Par genre */}
         {activeTab === "genres" && (
