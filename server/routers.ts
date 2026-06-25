@@ -123,6 +123,7 @@ import { plantsAdminRouter } from "./routers/plants-admin";
 import { europeanaBookmarksRouter } from "./routers/europeana-bookmarks";
 import { sparqlSavedQueriesRouter } from "./routers/sparql-saved-queries";
 import { cinemaSmellscapesRouter } from "./routers/cinema-smellscapes";
+import { apiEnrichmentsRouter } from "./routers/api-enrichments";
 import { importRouter } from "./routers/import";
 import { moleculesRouter } from "./routers/molecules";
 import { moleculesAdminRouter } from "./routers/molecules-admin";
