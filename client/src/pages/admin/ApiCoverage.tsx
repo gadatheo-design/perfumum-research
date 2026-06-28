@@ -56,7 +56,7 @@ export default function ApiCoverage() {
   const [genus, setGenus] = useState("");
   const [genusInput, setGenusInput] = useState("");
   const [category, setCategory] = useState("");
-  const [activeTab, setActiveTab] = useState<"plants" | "genres">("plants");
+  const [activeTab, setActiveTab] = useState<"plants" | "genres" | "enrich">("plants");
 
   const { data, isLoading, refetch } = trpc.apiCoverage.getGlobalCoverage.useQuery({
     filter,
@@ -166,6 +166,7 @@ export default function ApiCoverage() {
           {[
             { key: "plants", label: "Par plante", icon: <Leaf className="h-4 w-4" /> },
             { key: "genres", label: "Par genre", icon: <BarChart3 className="h-4 w-4" /> },
+            { key: "enrich", label: "Enrichir", icon: <RefreshCw className="h-4 w-4" /> },
           ].map(({ key, label, icon }) => (
             <button
               key={key}
