@@ -218,6 +218,15 @@
 
 ## Rapport 15 — Bug Généalogie + Enrichissement QID molécules (Mai 2026)
 
-- [ ] Corriger le bug de l'onglet Généalogie dans PlantDetail.tsx (TaxonomyTree)
-- [ ] Procédure tRPC : recherche QID Wikidata par nom/CAS/IUPAC pour molécules sans QID
-- [ ] Page admin /admin/molecule-qid-enrichment avec enrichissement par lot
+- [x] Corriger le bug de l'onglet Généalogie dans PlantDetail.tsx (TaxonomyTree) — routeur getTaxonomyTree validé
+- [x] Procédure tRPC : recherche QID Wikidata par nom/CAS/IUPAC pour molécules sans QID — implémenté Rapport 16
+- [x] Page admin /admin/molecule-qid-enrichment avec enrichissement par lot — implémenté Rapport 16
+
+## Session Juin 2026 — Onglet Enrichir API Coverage
+
+- [x] Table DB api_enrichments (plant_id, api_type, identifier, source_url, notes, created_at, updated_at)
+- [x] Routeur tRPC api-enrichments (searchPlants, saveEnrichment, removeEnrichment, getEnrichments)
+- [x] Composant EnrichTab.tsx (formulaires GBIF, POWO, NCBI, Wikidata, ITIS)
+- [x] Intégration dans ApiCoverage.tsx (onglet "Enrichir")
+- [x] Résoudre erreur TypeScript EnrichTab.tsx — créé server/routers/api-enrichments.ts manquant
+- [x] Synchronisation GitHub — checkpoint sauvegardé
