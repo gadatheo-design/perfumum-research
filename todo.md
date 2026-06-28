@@ -230,3 +230,4 @@
 - [x] Intégration dans ApiCoverage.tsx (onglet "Enrichir")
 - [x] Résoudre erreur TypeScript EnrichTab.tsx — créé server/routers/api-enrichments.ts manquant
 - [x] Synchronisation GitHub — checkpoint sauvegardé
+- [x] Onglet Enrichir visible dans l'interface — ajout du bouton dans la liste des onglets
