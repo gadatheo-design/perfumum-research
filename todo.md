@@ -248,3 +248,12 @@
 - [x] Onglet "Enrichir en lot" intégré dans ApiCoverage.tsx
 - [x] Affichage des résultats avec résumé de succès/erreurs
 - [x] Checkpoint sauvegardé
+
+## Session Juillet 2026 (Suite 2) — Scraper Pred-O3 pour extraction de données olfactives
+
+- [x] Développer scraper Pred-O3 (extraction molécules + descripteurs olfactifs) — scraper-pred-o3.ts créé
+- [x] Créer tables DB pour molécules_descripteurs et récepteurs olfactifs — schema-pred-o3.ts créé
+- [x] Procédure tRPC pour importer données Pred-O3 — pred-o3-import.ts créé
+- [ ] Interface d'import et de mapping des données (page admin)
+- [ ] Tests et validation des données importées
+- [ ] Checkpoint sauvegardé

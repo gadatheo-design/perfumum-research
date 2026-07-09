@@ -13,7 +13,7 @@ export const apiEnrichmentsRouter = router({
         .select({
           id: plants.id,
           name: plants.name,
-          latin_name: plants.latin_name,
+          latinName: plants.latinName,
           family: plants.family,
         })
         .from(plants)
@@ -113,9 +113,9 @@ export const apiEnrichmentsRouter = router({
         .select({
           id: plants.id,
           name: plants.name,
-          latin_name: plants.latin_name,
-          gbif_id: plants.gbif_id,
-          wikidata_qid: plants.wikidata_qid,
+          latinName: plants.latinName,
+          gbifId: plants.gbifId,
+          wikidataQid: plants.wikidataQid,
         })
         .from(plants)
         .where(eq(plants.id, input.plant_id))
@@ -130,11 +130,11 @@ export const apiEnrichmentsRouter = router({
 
       const plantData = plant[0];
       const results: Array<{ api_type: string; identifier: string; source: string }> = [];
-      const searchName = plantData.latin_name || plantData.name;
+      const searchName = plantData.latinName || plantData.name;
 
       try {
         // Recherche Wikidata
-        if (!plantData.wikidata_qid) {
+        if (!plantData.wikidataQid) {
           try {
             const wikidataResponse = await fetch(
               `https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${encodeURIComponent(searchName)}&language=en&format=json`
@@ -167,7 +167,7 @@ export const apiEnrichmentsRouter = router({
         }
 
         // Recherche GBIF
-        if (!plantData.gbif_id) {
+        if (!plantData.gbifId) {
           try {
             const gbifResponse = await fetch(
               `https://api.gbif.org/v1/species/search?q=${encodeURIComponent(searchName)}&limit=1`
