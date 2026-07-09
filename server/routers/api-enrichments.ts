@@ -104,4 +104,108 @@ export const apiEnrichmentsRouter = router({
         .where(eq(apiEnrichments.plant_id, input.plant_id));
       return results;
     }),
+
+  autoEnrich: protectedProcedure
+    .input(z.object({ plant_id: z.number() }))
+    .mutation(async ({ input }) => {
+      // Récupérer la plante avec son nom latin
+      const plant = await db
+        .select({
+          id: plants.id,
+          name: plants.name,
+          latin_name: plants.latin_name,
+          gbif_id: plants.gbif_id,
+          wikidata_qid: plants.wikidata_qid,
+        })
+        .from(plants)
+        .where(eq(plants.id, input.plant_id))
+        .limit(1);
+
+      if (!plant || plant.length === 0) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Plante non trouvée",
+        });
+      }
+
+      const plantData = plant[0];
+      const results: Array<{ api_type: string; identifier: string; source: string }> = [];
+      const searchName = plantData.latin_name || plantData.name;
+
+      try {
+        // Recherche Wikidata
+        if (!plantData.wikidata_qid) {
+          try {
+            const wikidataResponse = await fetch(
+              `https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${encodeURIComponent(searchName)}&language=en&format=json`
+            );
+            const wikidataData = (await wikidataResponse.json()) as any;
+            if (wikidataData.search && wikidataData.search.length > 0) {
+              const qid = wikidataData.search[0].id;
+              await db
+                .delete(apiEnrichments)
+                .where(
+                  and(
+                    eq(apiEnrichments.plant_id, input.plant_id),
+                    eq(apiEnrichments.api_type, "wikidata")
+                  )
+                );
+              await db.insert(apiEnrichments).values({
+                plant_id: input.plant_id,
+                api_type: "wikidata",
+                identifier: qid,
+                source_url: `https://www.wikidata.org/entity/${qid}`,
+                notes: "Auto-enrichi depuis Wikidata",
+                created_at: new Date(),
+                updated_at: new Date(),
+              });
+              results.push({ api_type: "wikidata", identifier: qid, source: "Wikidata" });
+            }
+          } catch (error) {
+            console.error("Erreur Wikidata:", error);
+          }
+        }
+
+        // Recherche GBIF
+        if (!plantData.gbif_id) {
+          try {
+            const gbifResponse = await fetch(
+              `https://api.gbif.org/v1/species/search?q=${encodeURIComponent(searchName)}&limit=1`
+            );
+            const gbifData = (await gbifResponse.json()) as any;
+            if (gbifData.results && gbifData.results.length > 0) {
+              const gbifId = gbifData.results[0].key.toString();
+              await db
+                .delete(apiEnrichments)
+                .where(
+                  and(
+                    eq(apiEnrichments.plant_id, input.plant_id),
+                    eq(apiEnrichments.api_type, "gbif")
+                  )
+                );
+              await db.insert(apiEnrichments).values({
+                plant_id: input.plant_id,
+                api_type: "gbif",
+                identifier: gbifId,
+                source_url: `https://www.gbif.org/species/${gbifId}`,
+                notes: "Auto-enrichi depuis GBIF",
+                created_at: new Date(),
+                updated_at: new Date(),
+              });
+              results.push({ api_type: "gbif", identifier: gbifId, source: "GBIF" });
+            }
+          } catch (error) {
+            console.error("Erreur GBIF:", error);
+          }
+        }
+      } catch (error) {
+        console.error("Erreur enrichissement automatique:", error);
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Erreur lors de l'enrichissement automatique",
+        });
+      }
+
+      return { success: true, results };
+    }),
 });

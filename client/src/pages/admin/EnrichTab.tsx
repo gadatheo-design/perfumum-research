@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Leaf, TreeDeciduous, Dna, Globe, BookOpen } from "lucide-react";
+import { Leaf, TreeDeciduous, Dna, Globe, BookOpen, Zap } from "lucide-react";
 
 const API_CONFIG = [
   { key: "gbif", label: "GBIF", icon: <Leaf className="h-3.5 w-3.5" /> },
@@ -27,8 +27,11 @@ export function EnrichTab() {
     { enabled: searchQuery.length >= 2 }
   );
 
+  const [autoEnrichMessage, setAutoEnrichMessage] = useState("");
+
   const saveMutation = trpc.apiEnrichments.saveEnrichment.useMutation();
   const removeMutation = trpc.apiEnrichments.removeEnrichment.useMutation();
+  const autoEnrichMutation = trpc.apiEnrichments.autoEnrich.useMutation();
   const { data: enrichments, refetch: refetchEnrichments } = trpc.apiEnrichments.getEnrichments.useQuery(
     { plant_id: selectedPlantId || 0 },
     { enabled: !!selectedPlantId }
@@ -66,6 +69,24 @@ export function EnrichTab() {
     }
   };
 
+  const handleAutoEnrich = async () => {
+    if (!selectedPlantId) return;
+    setAutoEnrichMessage("");
+    try {
+      const result = await autoEnrichMutation.mutateAsync({ plant_id: selectedPlantId });
+      if (result.results.length > 0) {
+        const enrichedApis = result.results.map((r) => `${r.api_type} (${r.identifier})`).join(", ");
+        setAutoEnrichMessage(`✅ Enrichissement réussi : ${enrichedApis}`);
+      } else {
+        setAutoEnrichMessage("ℹ️ Aucun nouvel identifiant trouvé");
+      }
+      refetchEnrichments();
+    } catch (error) {
+      console.error("Erreur lors de l'enrichissement automatique", error);
+      setAutoEnrichMessage("❌ Erreur lors de l'enrichissement automatique");
+    }
+  };
+
   return (
     <div className="space-y-6">
       <Card>
@@ -91,6 +112,7 @@ export function EnrichTab() {
                     onClick={() => {
                       setSelectedPlantId(plant.id);
                       setSearchQuery("");
+                      setAutoEnrichMessage("");
                     }}
                     className="w-full text-left px-4 py-2 hover:bg-muted/50 border-b border-border last:border-b-0 text-sm"
                   >
@@ -104,9 +126,27 @@ export function EnrichTab() {
 
           {selectedPlantId && (
             <>
+              {/* Bouton d'enrichissement automatique */}
+              <div className="space-y-2">
+                <Button
+                  onClick={handleAutoEnrich}
+                  disabled={autoEnrichMutation.isPending}
+                  variant="outline"
+                  className="w-full gap-2"
+                >
+                  <Zap className="h-4 w-4" />
+                  {autoEnrichMutation.isPending ? "Enrichissement en cours..." : "Enrichir automatiquement depuis Wikidata & GBIF"}
+                </Button>
+                {autoEnrichMessage && (
+                  <div className="text-sm p-3 rounded-lg bg-muted/50 border border-border">
+                    {autoEnrichMessage}
+                  </div>
+                )}
+              </div>
+
               {/* Sélection de l'API */}
               <div className="space-y-2">
-                <label className="text-sm font-medium">API à enrichir</label>
+                <label className="text-sm font-medium">API à enrichir manuellement</label>
                 <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
                   {API_CONFIG.map((api) => (
                     <button
