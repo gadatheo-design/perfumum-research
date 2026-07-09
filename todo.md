@@ -231,3 +231,11 @@
 - [x] Résoudre erreur TypeScript EnrichTab.tsx — créé server/routers/api-enrichments.ts manquant
 - [x] Synchronisation GitHub — checkpoint sauvegardé
 - [x] Onglet Enrichir visible dans l'interface — ajout du bouton dans la liste des onglets
+
+## Session Juillet 2026 — Enrichissement automatique Wikidata & GBIF
+
+- [x] Procédure tRPC autoEnrich (recherche identifiants manquants via Wikidata et GBIF)
+- [x] Bouton "Enrichir automatiquement" dans EnrichTab.tsx avec icône Zap
+- [x] Messages de feedback (succès, aucun résultat, erreur)
+- [x] Sauvegarde automatique des identifiants trouvés dans api_enrichments
+- [x] Checkpoint sauvegardé avec version 3e70445e
