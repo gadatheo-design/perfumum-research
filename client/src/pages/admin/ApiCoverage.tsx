@@ -24,6 +24,7 @@ import {
   ArrowLeft,
   ExternalLink,
   RefreshCw,
+  Zap,
 } from "lucide-react";
 
 type FilterType = "all" | "missing_gbif" | "missing_powo" | "missing_ncbi" | "missing_wikidata" | "missing_itis" | "incomplete" | "complete";
@@ -167,6 +168,7 @@ export default function ApiCoverage() {
             { key: "plants", label: "Par plante", icon: <Leaf className="h-4 w-4" /> },
             { key: "genres", label: "Par genre", icon: <BarChart3 className="h-4 w-4" /> },
             { key: "enrich", label: "Enrichir", icon: <RefreshCw className="h-4 w-4" /> },
+            { key: "batch", label: "Enrichir en lot", icon: <Zap className="h-4 w-4" /> },
           ].map(({ key, label, icon }) => (
             <button
               key={key}

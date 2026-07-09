@@ -239,3 +239,12 @@
 - [x] Messages de feedback (succès, aucun résultat, erreur)
 - [x] Sauvegarde automatique des identifiants trouvés dans api_enrichments
 - [x] Checkpoint sauvegardé avec version 3e70445e
+
+## Session Juillet 2026 (Suite) — Enrichissement automatique en lot
+
+- [x] Procédure tRPC getPlantsNeedingEnrichment (liste des plantes manquant d'identifiants)
+- [x] Procédure tRPC batchAutoEnrich (enrichissement en lot pour plusieurs plantes)
+- [x] Composant BatchEnrich.tsx avec sélection des plantes et checkboxes
+- [x] Onglet "Enrichir en lot" intégré dans ApiCoverage.tsx
+- [x] Affichage des résultats avec résumé de succès/erreurs
+- [x] Checkpoint sauvegardé
