@@ -266,3 +266,15 @@
 - [x] Suppression des imports du routeur principal
 - [x] Serveur stable — compilation réussie
 - [x] Checkpoint final sauvegardé
+
+
+## Session Juillet 2026 (Suite 4) — Script d'import Pred-O3 simplifié
+
+- [x] Creation du README.md pour documenter l'import
+- [x] Script pred-o3-import.mjs (50 lignes) — import par lot
+- [x] Fichier pred-o3-data.json avec 25 descripteurs olfactifs
+- [x] Scripts npm (import:pred-o3, import:pred-o3:dry-run)
+- [x] Test du script avec succes (25 descripteurs importes)
+- [ ] Creer la table odor_descriptors en DB
+- [ ] Implementer l'insertion en DB
+- [ ] Checkpoint final
