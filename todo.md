@@ -257,3 +257,12 @@
 - [ ] Interface d'import et de mapping des données (page admin)
 - [ ] Tests et validation des données importées
 - [ ] Checkpoint sauvegardé
+
+
+## Session Juillet 2026 (Suite 3) — Pred-O3 Import progressif (ROLLBACK)
+
+- [x] Rollback au checkpoint 1d1edaf8 (approche trop complexe, erreurs de compilation)
+- [x] Nettoyage des fichiers Pred-O3 problématiques (schema-pred-o3.ts, pred-o3-import.ts, etc.)
+- [x] Suppression des imports du routeur principal
+- [x] Serveur stable — compilation réussie
+- [x] Checkpoint final sauvegardé

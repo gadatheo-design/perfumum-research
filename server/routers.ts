@@ -124,7 +124,6 @@ import { europeanaBookmarksRouter } from "./routers/europeana-bookmarks";
 import { sparqlSavedQueriesRouter } from "./routers/sparql-saved-queries";
 import { cinemaSmellscapesRouter } from "./routers/cinema-smellscapes";
 import { apiEnrichmentsRouter } from "./routers/api-enrichments";
-import { predO3ImportRouter } from "./routers/pred-o3-import";
 import { importRouter } from "./routers/import";
 import { moleculesRouter } from "./routers/molecules";
 import { moleculesAdminRouter } from "./routers/molecules-admin";
@@ -1026,8 +1025,7 @@ export const appRouter = router({
   phyloBatch: phyloBatchRouter,
   // API Coverage — Dashboard de couverture des APIs pour chaque plante
   apiCoverage: apiCoverageRouter,
-  // Pred-O3 Import — Import de données olfactives depuis Pred-O3
-  predO3Import: predO3ImportRouter,
+
   extractionProcesses: extractionProcessesRouter,
   resinTobaccoRecipes: resinTobaccoRecipesRouter,
   // Resin Maturation
