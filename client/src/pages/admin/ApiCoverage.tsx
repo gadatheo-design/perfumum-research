@@ -2,6 +2,7 @@ import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
 import { EnrichTab } from "./EnrichTab";
+import { OlfactoryDescriptors } from "./OlfactoryDescriptors";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -57,7 +58,7 @@ export default function ApiCoverage() {
   const [genus, setGenus] = useState("");
   const [genusInput, setGenusInput] = useState("");
   const [category, setCategory] = useState("");
-  const [activeTab, setActiveTab] = useState<"plants" | "genres" | "enrich">("plants");
+  const [activeTab, setActiveTab] = useState<"plants" | "genres" | "enrich" | "olfactory">("plants");
 
   const { data, isLoading, refetch } = trpc.apiCoverage.getGlobalCoverage.useQuery({
     filter,
@@ -169,6 +170,7 @@ export default function ApiCoverage() {
             { key: "genres", label: "Par genre", icon: <BarChart3 className="h-4 w-4" /> },
             { key: "enrich", label: "Enrichir", icon: <RefreshCw className="h-4 w-4" /> },
             { key: "batch", label: "Enrichir en lot", icon: <Zap className="h-4 w-4" /> },
+            { key: "olfactory", label: "Descripteurs Olfactifs", icon: <Database className="h-4 w-4" /> },
           ].map(({ key, label, icon }) => (
             <button
               key={key}
@@ -326,6 +328,9 @@ export default function ApiCoverage() {
         {activeTab === "enrich" && <EnrichTab />}
 
         {/* Onglet Par genre */}
+        {/* Onglet Descripteurs Olfactifs */}
+        {activeTab === "olfactory" && <OlfactoryDescriptors />}
+
         {activeTab === "genres" && (
           <div className="space-y-4">
             {isLoadingGenres ? (
