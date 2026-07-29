@@ -1930,6 +1930,8 @@ export default function EuropeanaExplorer() {
             Citations
             <Badge className="ml-1 text-[10px] bg-cyan-600 text-white h-3.5 px-1">S2</Badge>
           </TabsTrigger>
+          {/* Onglets désactivés temporairement - procédures tRPC manquantes */}
+          {/*
           <TabsTrigger value="annotations" className="text-xs">
             <Tag className="h-3.5 w-3.5 mr-1" />
             Annotations
@@ -1940,6 +1942,7 @@ export default function EuropeanaExplorer() {
             Bibliothèque
             <Badge className="ml-1 text-[10px] bg-amber-600 text-white h-3.5 px-1">NEW</Badge>
           </TabsTrigger>
+          */}
         </TabsList>
 
         {/* Contenu des onglets */}
@@ -1958,8 +1961,9 @@ export default function EuropeanaExplorer() {
         <TabsContent value="rituels_olfactifs" className="mt-4"><ThematicTab theme="rituels_olfactifs" /></TabsContent>
         <TabsContent value="libre" className="mt-4"><FreeSearchTab /></TabsContent>
         <TabsContent value="iiif_fulltext" className="mt-4"><IiifFullTextTab /></TabsContent>
-        <TabsContent value="annotations" className="mt-4"><AnnotationsSearchTab /></TabsContent>
-        <TabsContent value="library" className="mt-4"><LibraryTab /></TabsContent>
+        {/* TabsContent désactivés - procédures tRPC manquantes */}
+        {/* <TabsContent value="annotations" className="mt-4"><AnnotationsSearchTab /></TabsContent>
+        <TabsContent value="library" className="mt-4"><LibraryTab /></TabsContent> */}
       </Tabs>
     </div>
   );
