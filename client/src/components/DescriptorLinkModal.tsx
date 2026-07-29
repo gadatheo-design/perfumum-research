@@ -32,24 +32,25 @@ export function DescriptorLinkModal({
   const [notes, setNotes] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Récupérer les plantes pour la recherche
-  const { data: plantsData } = trpc.plants.searchPlants.useQuery(
-    { query: searchTerm, limit: 20 },
-    { enabled: activeTab === "plant" && searchTerm.length > 0 }
+  // Récupérer les plantes pour la recherche (via apiEnrichments.searchPlants)
+  const { data: plantsData } = trpc.apiEnrichments.searchPlants.useQuery(
+    { query: searchTerm },
+    { enabled: activeTab === "plant" && searchTerm.length >= 2 }
   );
 
-  // Récupérer les molécules pour la recherche
-  const { data: moleculesData } = trpc.molecules.searchMolecules.useQuery(
+  // Récupérer les molécules pour la recherche (via molecules.search)
+  const { data: moleculesRaw } = trpc.molecules.search.useQuery(
     { query: searchTerm, limit: 20 },
     { enabled: activeTab === "molecule" && searchTerm.length > 0 }
   );
+  const moleculesData = moleculesRaw?.molecules ?? [];
 
   // Mutations
   const linkPlantMutation = trpc.descriptorLinks.linkPlantToDescriptor.useMutation();
   const linkMoleculeMutation = trpc.descriptorLinks.linkMoleculeToDescriptor.useMutation();
 
-  const plants = useMemo(() => plantsData || [], [plantsData]);
-  const molecules = useMemo(() => moleculesData || [], [moleculesData]);
+  const plants = useMemo(() => plantsData ?? [], [plantsData]);
+  const molecules = useMemo(() => moleculesData, [moleculesData]);
 
   const handleLinkPlant = async () => {
     if (!selectedId) {
