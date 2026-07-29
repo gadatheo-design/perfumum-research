@@ -22,7 +22,7 @@ export function OlfactoryDescriptors() {
 
   // Récupérer les statistiques
   const { data: stats } = trpc.predO3.getStats.useQuery(
-    {},
+    undefined,
     { staleTime: 1000 * 60 * 5 }
   );
 

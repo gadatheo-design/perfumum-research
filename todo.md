@@ -275,9 +275,9 @@
 - [x] Fichier pred-o3-data.json avec 25 descripteurs olfactifs
 - [x] Scripts npm (import:pred-o3, import:pred-o3:dry-run)
 - [x] Test du script avec succes (25 descripteurs importes)
-- [ ] Creer la table odor_descriptors en DB
-- [ ] Implementer l'insertion en DB
-- [ ] Checkpoint final
+- [x] Creer la table odor_descriptors en DB — créée via SQL direct
+- [x] Implementer l'insertion en DB — routeur pred-o3.ts mis à jour
+- [x] Checkpoint final
 
 
 ## Session Juillet 2026 (Suite 5) — Gestion des terroirs et suggestions GBIF
@@ -301,8 +301,17 @@
 
 ## Session Juillet 2026 (Suite 7) — Onglets Europeana manquants + Fix TypeScript
 
-- [ ] Implémenter trpc.europeana.searchAnnotations dans server/routers/europeana.ts
-- [ ] Implémenter trpc.europeanaBookmarks (list, stats, remove) dans server/routers/europeana-bookmarks.ts
-- [ ] Réactiver les onglets Annotations et Bibliothèque dans EuropeanaExplorer.tsx
-- [ ] Corriger l'erreur TypeScript dans PredO3Associations.tsx (useMutation sur une Query)
-- [ ] Checkpoint sauvegardé
+- [x] Implémenter trpc.europeana.searchAnnotations dans server/routers/europeana.ts — existait déjà
+- [x] Implémenter trpc.europeanaBookmarks (list, stats, remove) dans server/routers/europeana-bookmarks.ts — existait déjà
+- [x] Réactiver les onglets Annotations et Bibliothèque dans EuropeanaExplorer.tsx — commentaires supprimés
+- [x] Corriger l'erreur TypeScript dans PredO3Associations.tsx (useMutation sur une Query) — validateAssociations converti en .mutation()
+- [x] Checkpoint sauvegardé — version 08083e34
+
+
+## Session Juillet 2026 (Suite 8) — Intégration DB pour descripteurs olfactifs
+
+- [x] Routeur pred-o3.ts mis à jour pour lire depuis la table odor_descriptors (await getDb())
+- [x] Correction de OlfactoryDescriptors.tsx : getStats.useQuery({}) → undefined
+- [x] Serveur stable, 0 erreurs TypeScript dans les logs
+- [x] Table odor_descriptors confirmée en DB avec 25 descripteurs
+- [x] Checkpoint sauvegardé
