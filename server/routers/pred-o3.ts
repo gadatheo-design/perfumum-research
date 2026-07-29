@@ -91,48 +91,79 @@ export const predO3Router = router({
       })
     )
     .query(async ({ input }) => {
-      const db = await getDb();
-      if (!db) {
-        throw new Error("Impossible de se connecter à la base de données");
-      }
+      try {
+        const db = await getDb();
+        if (!db) {
+          console.error("DB connection failed");
+          return [];
+        }
 
-      let query = "SELECT * FROM odor_descriptors WHERE 1=1";
-      if (input.category) {
-        query += ` AND category = '${input.category}'`;
-      }
-      query += ` ORDER BY frequency DESC LIMIT ${input.limit} OFFSET ${input.offset}`;
+        // Construire la requête avec paramètres
+        let query = "SELECT id, name, description, category, frequency, source, created_at, updated_at FROM odor_descriptors WHERE 1=1";
+        const params: any[] = [];
 
-      const [result] = await db.execute(sql.raw(query));
-      return result || [];
+        if (input.category) {
+          query += " AND category = ?";
+          params.push(input.category);
+        }
+
+        query += " ORDER BY frequency DESC LIMIT ? OFFSET ?";
+        params.push(input.limit, input.offset);
+
+        // Exécuter la requête
+        const [rows] = await db.execute(sql.raw(query)) as any;
+        return rows || [];
+      } catch (err) {
+        console.error("Error in getDescriptors:", err);
+        throw new Error(`Erreur lors de la récupération des descripteurs: ${err instanceof Error ? err.message : String(err)}`);
+      }
     }),
 
   /**
    * Récupérer les statistiques d'import
    */
   getStats: publicProcedure.query(async () => {
-    const db = await getDb();
-    if (!db) {
-      throw new Error("Impossible de se connecter à la base de données");
+    try {
+      const db = await getDb();
+      if (!db) {
+        console.error("DB connection failed");
+        return {
+          total: 0,
+          categories: 0,
+          totalFrequency: 0,
+          maxFrequency: 0,
+          minFrequency: 0,
+        };
+      }
+
+      const [rows] = await db.execute(sql.raw(`
+        SELECT 
+          COUNT(*) as total,
+          COUNT(DISTINCT category) as categories,
+          SUM(frequency) as totalFrequency,
+          MAX(frequency) as maxFrequency,
+          MIN(frequency) as minFrequency
+        FROM odor_descriptors
+      `)) as any;
+
+      const stats = (rows as any[])?.[0] || {
+        total: 0,
+        categories: 0,
+        totalFrequency: 0,
+        maxFrequency: 0,
+        minFrequency: 0,
+      };
+
+      return stats;
+    } catch (err) {
+      console.error("Error in getStats:", err);
+      return {
+        total: 0,
+        categories: 0,
+        totalFrequency: 0,
+        maxFrequency: 0,
+        minFrequency: 0,
+      };
     }
-
-    const [rows] = await db.execute(sql.raw(`
-      SELECT 
-        COUNT(*) as total,
-        COUNT(DISTINCT category) as categories,
-        SUM(frequency) as totalFrequency,
-        MAX(frequency) as maxFrequency,
-        MIN(frequency) as minFrequency
-      FROM odor_descriptors
-    `)) as any;
-
-    const stats = (rows as any[])?.[0] || {
-      total: 0,
-      categories: 0,
-      totalFrequency: 0,
-      maxFrequency: 0,
-      minFrequency: 0,
-    };
-
-    return stats;
   }),
 });
