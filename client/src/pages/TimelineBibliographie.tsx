@@ -18,8 +18,9 @@ import { Footer } from "@/components/layout/Footer";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import {
   Clock, Download, Filter, Loader2, RefreshCw,
-  BookOpen, Globe, Database, ExternalLink, ChevronRight,
+  BookOpen, Globe, Database, ExternalLink, ChevronRight, FlaskConical,
 } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -440,7 +441,7 @@ export default function TimelineBibliographie() {
           )}
 
           {/* Sources */}
-          <div className="flex flex-wrap gap-4 text-xs text-muted-foreground pb-6">
+          <div className="flex flex-wrap gap-4 text-xs text-muted-foreground">
             <div className="flex items-center gap-1.5">
               <Database className="h-3.5 w-3.5" style={{ color: SOURCE_COLORS.perfumum }} />
               Base PERFUMUM (bibliographie interne)
@@ -455,9 +456,101 @@ export default function TimelineBibliographie() {
             </div>
           </div>
 
+          {/* Onglet Découvertes moléculaires */}
+          <MoleculeDiscoveriesPanel />
+
         </div>
       </main>
       <Footer />
     </div>
   );
 }
+
+// ── Panneau Découvertes moléculaires (Wikidata SPARQL) ──────────────────────────────────
+function MoleculeDiscoveriesPanel() {
+  const [yearFrom, setYearFrom] = useState(1800);
+  const [yearTo, setYearTo] = useState(new Date().getFullYear());
+  const [enabled, setEnabled] = useState(false);
+
+  const { data, isLoading, refetch } = trpc.timeline.getMoleculeDiscoveries.useQuery(
+    { yearFrom, yearTo, limit: 60 },
+    { enabled, staleTime: 10 * 60 * 1000 }
+  );
+
+  return (
+    <Card className="border-emerald-200 dark:border-emerald-800">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <FlaskConical className="h-5 w-5 text-emerald-600" />
+          Découvertes moléculaires aromatiques
+          <span className="ml-auto text-xs font-normal text-muted-foreground bg-emerald-100 dark:bg-emerald-900 px-2 py-0.5 rounded-full">Wikidata SPARQL</span>
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="flex flex-wrap items-end gap-3">
+          <div className="space-y-1">
+            <Label className="text-xs">De</Label>
+            <Input type="number" value={yearFrom} min={1700} max={2100}
+              onChange={(e) => setYearFrom(Number(e.target.value))} className="h-8 text-sm w-24" />
+          </div>
+          <div className="space-y-1">
+            <Label className="text-xs">À</Label>
+            <Input type="number" value={yearTo} min={1700} max={2100}
+              onChange={(e) => setYearTo(Number(e.target.value))} className="h-8 text-sm w-24" />
+          </div>
+          <Button size="sm" onClick={() => { setEnabled(true); setTimeout(() => refetch(), 50); }}
+            disabled={isLoading}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white">
+            {isLoading ? <Loader2 className="h-4 w-4 animate-spin mr-1.5" /> : <FlaskConical className="h-4 w-4 mr-1.5" />}
+            {enabled ? "Relancer" : "Interroger Wikidata"}
+          </Button>
+        </div>
+
+        {data?.error && (
+          <p className="text-sm text-red-600 dark:text-red-400">{data.error}</p>
+        )}
+
+        {enabled && !isLoading && data?.events && data.events.length > 0 && (
+          <>
+            <p className="text-xs text-muted-foreground">{data.events.length} molécule(s) trouvée(s) sur Wikidata</p>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse">
+                <thead>
+                  <tr className="border-b border-border">
+                    <th className="text-left py-2 px-3 font-medium">Année</th>
+                    <th className="text-left py-2 px-3 font-medium">Molécule</th>
+                    <th className="text-left py-2 px-3 font-medium">Formule</th>
+                    <th className="text-left py-2 px-3 font-medium">Découvreur</th>
+                    <th className="text-left py-2 px-3 font-medium">Lien</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.events.map((e: any) => (
+                    <tr key={e.id} className="border-b border-border/50 hover:bg-muted/30">
+                      <td className="py-2 px-3 font-mono text-emerald-600 dark:text-emerald-400 font-semibold">{e.year}</td>
+                      <td className="py-2 px-3 font-medium italic">{e.label}</td>
+                      <td className="py-2 px-3 text-muted-foreground font-mono text-xs">{e.formula || '—'}</td>
+                      <td className="py-2 px-3 text-muted-foreground">{e.discoverer || '—'}</td>
+                      <td className="py-2 px-3">
+                        <a href={e.wikidataUrl} target="_blank" rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline text-xs flex items-center gap-1">
+                          <ExternalLink className="h-3 w-3" />Wikidata
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
+
+        {enabled && !isLoading && data?.events?.length === 0 && !data?.error && (
+          <p className="text-sm text-muted-foreground text-center py-4">Aucune molécule trouvée pour cette période.</p>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+

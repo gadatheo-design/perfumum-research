@@ -333,4 +333,62 @@ export const timelineRouter = router({
         topDecades: decades.map((r) => ({ decade: Number(r.decade || 0), count: Number(r.cnt || 0) })),
       };
     }),
+
+  /**
+   * getMoleculeDiscoveries — Frise des découvertes moléculaires aromatiques via Wikidata SPARQL
+   * Implémente le template temporal_molecule_discovery du Rapport 7
+   */
+  getMoleculeDiscoveries: publicProcedure
+    .input(z.object({
+      yearFrom: z.number().int().min(1700).max(2100).optional().default(1800),
+      yearTo: z.number().int().min(1700).max(2100).optional().default(new Date().getFullYear()),
+      limit: z.number().int().min(10).max(100).optional().default(50),
+    }))
+    .query(async ({ input }) => {
+      try {
+        const sparql = `SELECT DISTINCT ?molecule ?moleculeLabel ?discoveryDate ?discovererLabel ?formulaLabel WHERE {
+  ?molecule wdt:P31/wdt:P279* wd:Q11173 .
+  ?molecule wdt:P575 ?discoveryDate .
+  FILTER(YEAR(?discoveryDate) >= ${input.yearFrom} && YEAR(?discoveryDate) <= ${input.yearTo})
+  OPTIONAL { ?molecule wdt:P61 ?discoverer . }
+  OPTIONAL { ?molecule wdt:P274 ?formula . }
+  FILTER EXISTS {
+    { ?molecule wdt:P366 wd:Q81513 . }
+    UNION { ?molecule wdt:P366 wd:Q12140 . }
+    UNION { ?molecule wdt:P31 wd:Q2832070 . }
+    UNION { ?molecule wdt:P31 wd:Q59199015 . }
+  }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+ORDER BY ?discoveryDate
+LIMIT ${Math.min(input.limit, 100)}`;
+
+        const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(sparql)}&format=json`;
+        const res = await fetch(url, {
+          headers: { "User-Agent": "PERFUMUM-Research/1.0 (perfumum@research.fr)" },
+          signal: AbortSignal.timeout(15000),
+        });
+        if (!res.ok) return { events: [], error: `Wikidata HTTP ${res.status}` };
+        const json = await res.json() as { results?: { bindings?: Record<string, { value: string }>[] } };
+        const events = (json.results?.bindings || [])
+          .map((b) => {
+            const year = b.discoveryDate?.value ? new Date(b.discoveryDate.value).getFullYear() : 0;
+            if (!year || year < 1700) return null;
+            const qid = b.molecule?.value?.split("/").pop() || "";
+            return {
+              id: `mol-${qid}`,
+              year,
+              label: b.moleculeLabel?.value || "Molécule inconnue",
+              formula: b.formulaLabel?.value || null,
+              discoverer: b.discovererLabel?.value || null,
+              wikidataUrl: `https://www.wikidata.org/wiki/${qid}`,
+            };
+          })
+          .filter((e): e is NonNullable<typeof e> => e !== null);
+        return { events, error: null };
+      } catch (err) {
+        console.error("getMoleculeDiscoveries error:", err);
+        return { events: [], error: String(err) };
+      }
+    }),
 });

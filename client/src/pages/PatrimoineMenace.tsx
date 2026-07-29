@@ -5,10 +5,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { AlertTriangle, Leaf, Shield, MapPin, Map as MapIcon, BarChart3, Clock, BookOpen, ExternalLink, Skull, TrendingDown, TreePine, Dna, FlaskConical, Globe } from 'lucide-react';
+import { AlertTriangle, Leaf, Shield, MapPin, Map as MapIcon, BarChart3, Clock, BookOpen, ExternalLink, Skull, TrendingDown, TreePine, Dna, FlaskConical, Globe, Network } from 'lucide-react';
 import { Link } from 'wouter';
 import { MapView } from '@/components/Map';
 import { ZoneSpeciesPanel } from '@/components/ZoneSpeciesPanel';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function PatrimoineMenace() {
   const [iucnFilter, setIucnFilter] = useState<string | undefined>(undefined);
@@ -811,6 +812,150 @@ export default function PatrimoineMenace() {
             </p>
           </CardContent>
         </Card>
+      )}
+      {/* Section SPARQL Wikidata — Plantes menacées */}
+      <Card className="border-orange-200 dark:border-orange-800">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Network className="h-5 w-5 text-orange-600" />
+            Données Wikidata — Espèces aromatiques menacées
+          </CardTitle>
+          <CardDescription>
+            Requête SPARQL fédérée sur Wikidata : plantes aromatiques classées CR, EN, VU ou EW selon l'UICN
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <WikidataEndangeredPanel />
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
+// ── Panneau SPARQL Wikidata inline ──────────────────────────────────────────
+function WikidataEndangeredPanel() {
+  const [results, setResults] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [hasRun, setHasRun] = useState(false);
+
+  const SPARQL_QUERY = `SELECT DISTINCT ?plant ?plantLabel ?statusLabel ?distributionLabel ?iucnId WHERE {
+  ?plant wdt:P31/wdt:P279* wd:Q756 .
+  ?plant wdt:P141 ?status .
+  VALUES ?status {
+    wd:Q11394
+    wd:Q278113
+    wd:Q719675
+    wd:Q237350
+  }
+  OPTIONAL { ?plant wdt:P627 ?iucnId . }
+  OPTIONAL { ?plant wdt:P183 ?distribution . }
+  FILTER EXISTS {
+    { ?plant wdt:P366 wd:Q81513 . }
+    UNION { ?plant wdt:P366 wd:Q12140 . }
+  }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+ORDER BY ?statusLabel
+LIMIT 50`;
+
+  const statusColors: Record<string, string> = {
+    'éteint': 'bg-black text-white',
+    'éteint à l\'état sauvage': 'bg-gray-900 text-white',
+    'en danger critique d\'extinction': 'bg-red-600 text-white',
+    'en danger': 'bg-orange-600 text-white',
+    'vulnérable': 'bg-yellow-600 text-white',
+  };
+
+  async function runQuery() {
+    setLoading(true);
+    setError(null);
+    setHasRun(true);
+    try {
+      const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(SPARQL_QUERY)}&format=json`;
+      const resp = await fetch(url, { headers: { Accept: 'application/sparql-results+json' } });
+      if (!resp.ok) throw new Error(`Wikidata HTTP ${resp.status}`);
+      const data = await resp.json();
+      const rows = (data.results?.bindings || []).map((b: any) => ({
+        plant: b.plant?.value,
+        label: b.plantLabel?.value,
+        status: b.statusLabel?.value,
+        distribution: b.distributionLabel?.value,
+        iucnId: b.iucnId?.value,
+      }));
+      setResults(rows);
+    } catch (e: any) {
+      setError(e.message || 'Erreur inconnue');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <p className="text-sm text-muted-foreground">
+          {hasRun ? `${results.length} espèce(s) trouvée(s) sur Wikidata` : 'Cliquez pour interroger Wikidata en temps réel'}
+        </p>
+        <Button onClick={runQuery} disabled={loading} size="sm" className="bg-orange-600 hover:bg-orange-700 text-white">
+          {loading ? (
+            <span className="flex items-center gap-2"><span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>Interrogation…</span>
+          ) : (
+            <span className="flex items-center gap-2"><Network className="h-4 w-4" />{hasRun ? 'Relancer' : 'Interroger Wikidata'}</span>
+          )}
+        </Button>
+      </div>
+
+      {error && (
+        <div className="p-3 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-lg text-sm text-red-700 dark:text-red-300">
+          <AlertTriangle className="h-4 w-4 inline mr-2" />{error}
+        </div>
+      )}
+
+      {hasRun && !loading && results.length > 0 && (
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse">
+            <thead>
+              <tr className="border-b border-border">
+                <th className="text-left py-2 px-3 font-medium">Espèce</th>
+                <th className="text-left py-2 px-3 font-medium">Statut UICN</th>
+                <th className="text-left py-2 px-3 font-medium">Répartition</th>
+                <th className="text-left py-2 px-3 font-medium">Liens</th>
+              </tr>
+            </thead>
+            <tbody>
+              {results.map((r, i) => (
+                <tr key={i} className="border-b border-border/50 hover:bg-muted/30">
+                  <td className="py-2 px-3 font-medium italic">{r.label}</td>
+                  <td className="py-2 px-3">
+                    <Badge className={`text-xs ${Object.entries(statusColors).find(([k]) => r.status?.toLowerCase().includes(k))?.[1] || 'bg-gray-500 text-white'}`}>
+                      {r.status}
+                    </Badge>
+                  </td>
+                  <td className="py-2 px-3 text-muted-foreground">{r.distribution || '—'}</td>
+                  <td className="py-2 px-3">
+                    <div className="flex gap-2">
+                      {r.plant && (
+                        <a href={r.plant} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-xs flex items-center gap-1">
+                          <ExternalLink className="h-3 w-3" />Wikidata
+                        </a>
+                      )}
+                      {r.iucnId && (
+                        <a href={`https://www.iucnredlist.org/species/${r.iucnId}`} target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:underline text-xs flex items-center gap-1">
+                          <ExternalLink className="h-3 w-3" />UICN
+                        </a>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {hasRun && !loading && results.length === 0 && !error && (
+        <p className="text-sm text-muted-foreground text-center py-4">Aucun résultat retourné par Wikidata.</p>
       )}
     </div>
   );

@@ -338,3 +338,11 @@
   - [x] genealogy_variety_lineage — Lignée génétique d'une variété (tabac, cannabis, rose)
   - [x] genealogy_terroir_molecules — Comparaison moléculaire terroir à terroir
 - [x] Checkpoint sauvegardé
+
+## Session Juillet 2026 (Suite 11) — Corrections api-coverage + SPARQL fédéré enrichi
+
+- [x] Corriger /admin/api-coverage (routeur api-enrichments.ts réécrit avec getDb() + SQL brut)
+- [x] Ajouter panneau WikidataEndangeredPanel dans PatrimoineMenace.tsx (requête SPARQL UICN live)
+- [x] Ajouter procédure getMoleculeDiscoveries dans timeline.ts (template temporal_molecule_discovery)
+- [x] Ajouter composant MoleculeDiscoveriesPanel dans TimelineBibliographie.tsx
+- [x] Checkpoint sauvegardé
