@@ -126,6 +126,7 @@ import { cinemaSmellscapesRouter } from "./routers/cinema-smellscapes";
 import { apiEnrichmentsRouter } from "./routers/api-enrichments";
 import { predO3Router } from "./routers/pred-o3";
 import { descriptorLinksRouter } from "./routers/descriptor-links";
+import { predO3AssociationsRouter } from "./routers/pred-o3-associations";
 import { importRouter } from "./routers/import";
 import { moleculesRouter } from "./routers/molecules";
 import { moleculesAdminRouter } from "./routers/molecules-admin";
@@ -1031,6 +1032,8 @@ export const appRouter = router({
   predO3: predO3Router,
   // Descriptor Links — Associations descripteur-plante et descripteur-molécule
   descriptorLinks: descriptorLinksRouter,
+  // Pred-O3 Associations — Données brutes Pred-O3 avec associations
+  predO3Associations: predO3AssociationsRouter,
 
   extractionProcesses: extractionProcessesRouter,
   resinTobaccoRecipes: resinTobaccoRecipesRouter,
