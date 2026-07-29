@@ -557,6 +557,166 @@ LIMIT 50`,
 }
 LIMIT 50`,
       },
+      // ── Nouveaux templates enrichis (Session 10 — Rapport 7) ─────────────────────────
+      {
+        id: "temporal_molecule_discovery",
+        name: "[Temporel] Chronologie des découvertes moléculaires",
+        description: "Retrace la date de découverte ou de synthèse première de molécules aromatiques, groupées par décennie",
+        category: "temporal",
+        sparql: `SELECT ?molecule ?moleculeLabel ?discoveryDate ?discovererLabel ?formula WHERE {
+  ?molecule wdt:P31/wdt:P279* wd:Q11173 .
+  ?molecule wdt:P575 ?discoveryDate .
+  OPTIONAL { ?molecule wdt:P61 ?discoverer . }
+  OPTIONAL { ?molecule wdt:P274 ?formula . }
+  FILTER EXISTS { ?molecule wdt:P234 ?inchi . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+ORDER BY ?discoveryDate
+LIMIT 50`,
+      },
+      {
+        id: "temporal_plant_domestication",
+        name: "[Temporel] Frise de domestication des plantes aromatiques",
+        description: "Explore la chronologie de domestication et de première culture des plantes aromatiques et médicinales",
+        category: "temporal",
+        sparql: `SELECT ?plant ?plantLabel ?domesticationDate ?originCountryLabel ?useLabel WHERE {
+  ?plant wdt:P31/wdt:P279* wd:Q756 .
+  ?plant wdt:P571 ?domesticationDate .
+  OPTIONAL { ?plant wdt:P495 ?originCountry . }
+  OPTIONAL { ?plant wdt:P366 ?use . }
+  FILTER EXISTS {
+    { ?plant wdt:P366 wd:Q81513 . }
+    UNION { ?plant wdt:P366 wd:Q12140 . }
+    UNION { ?plant wdt:P366 wd:Q2095 . }
+  }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+ORDER BY ?domesticationDate
+LIMIT 40`,
+      },
+      {
+        id: "genealogy_endangered_plants",
+        name: "[Généalogie] Plantes aromatiques menacées ou éteintes",
+        description: "Liste les plantes aromatiques classées en danger ou éteintes selon l'UICN, avec leur statut et aire de répartition",
+        category: "genealogy",
+        sparql: `SELECT DISTINCT ?plant ?plantLabel ?statusLabel ?distributionLabel ?iucnId WHERE {
+  ?plant wdt:P31/wdt:P279* wd:Q756 .
+  ?plant wdt:P141 ?status .
+  VALUES ?status {
+    wd:Q11394
+    wd:Q278113
+    wd:Q719675
+    wd:Q237350
+  }
+  OPTIONAL { ?plant wdt:P627 ?iucnId . }
+  OPTIONAL { ?plant wdt:P183 ?distribution . }
+  FILTER EXISTS {
+    { ?plant wdt:P366 wd:Q81513 . }
+    UNION { ?plant wdt:P366 wd:Q12140 . }
+  }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+ORDER BY ?statusLabel
+LIMIT 50`,
+      },
+      {
+        id: "genealogy_variety_lineage",
+        name: "[Généalogie] Lignée génétique d'une variété (tabac, cannabis, rose)",
+        description: "Retrace la généalogie complète d'une variété aromatique : parents, croisements et descendants connus",
+        category: "genealogy",
+        sparql: `SELECT ?variety ?varietyLabel ?parentLabel ?childLabel ?crossingDate ?originLabel WHERE {
+  VALUES ?rootVariety { wd:Q{{QID}} }
+  {
+    ?rootVariety wdt:P171 ?parent .
+    BIND(?rootVariety AS ?variety)
+  } UNION {
+    ?child wdt:P171 ?rootVariety .
+    BIND(?rootVariety AS ?variety)
+  }
+  OPTIONAL { ?variety wdt:P571 ?crossingDate . }
+  OPTIONAL { ?variety wdt:P17 ?origin . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+LIMIT 40`,
+      },
+      {
+        id: "temporal_molecule_citations_network",
+        name: "[Temporel] Réseau de citations inter-molécules",
+        description: "Analyse les publications scientifiques citant plusieurs molécules simultanément, révélant les synergies de recherche",
+        category: "temporal",
+        sparql: `SELECT ?paper ?paperLabel ?year (GROUP_CONCAT(?moleculeLabel; separator=", ") AS ?molecules) WHERE {
+  VALUES ?mol1 { wd:Q{{QID1}} }
+  VALUES ?mol2 { wd:Q{{QID2}} }
+  ?paper wdt:P921 ?mol1 .
+  ?paper wdt:P921 ?mol2 .
+  ?paper wdt:P577 ?date .
+  BIND(YEAR(?date) AS ?year)
+  ?paper wdt:P921 ?molecule .
+  ?molecule rdfs:label ?moleculeLabel . FILTER(LANG(?moleculeLabel) = "fr")
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+GROUP BY ?paper ?paperLabel ?year
+ORDER BY ?year
+LIMIT 30`,
+      },
+      {
+        id: "genealogy_terroir_molecules",
+        name: "[Généalogie] Comparaison moléculaire terroir à terroir",
+        description: "Compare les molécules aromatiques caractéristiques de deux taxons différents, en croisant Wikidata",
+        category: "genealogy",
+        sparql: `SELECT DISTINCT ?molecule ?moleculeLabel ?formula ?boilingPoint WHERE {
+  VALUES ?taxon1 { wd:Q{{QID_PLANT1}} }
+  VALUES ?taxon2 { wd:Q{{QID_PLANT2}} }
+  {
+    ?molecule wdt:P703 ?taxon1 .
+    BIND("terroir 1" AS ?source)
+  } UNION {
+    ?molecule wdt:P703 ?taxon2 .
+    BIND("terroir 2" AS ?source)
+  }
+  OPTIONAL { ?molecule wdt:P274 ?formula . }
+  OPTIONAL { ?molecule wdt:P2101 ?boilingPoint . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+ORDER BY ?moleculeLabel
+LIMIT 50`,
+      },
+      {
+        id: "temporal_pyrolysis_products",
+        name: "[Temporel] Produits de pyrolyse et transformation thermique",
+        description: "Identifie les molécules aromatiques générées par pyrolyse (combustion, torréfaction, fumage) depuis Wikidata",
+        category: "temporal",
+        sparql: `SELECT DISTINCT ?product ?productLabel ?precursorLabel ?formula WHERE {
+  ?reaction wdt:P31/wdt:P279* wd:Q179630 .
+  ?reaction wdt:P1056 ?product .
+  OPTIONAL { ?reaction wdt:P186 ?precursor . }
+  OPTIONAL { ?product wdt:P274 ?formula . }
+  FILTER EXISTS { ?product wdt:P234 ?inchi . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+LIMIT 40`,
+      },
+      {
+        id: "temporal_trade_routes",
+        name: "[Temporel] Routes commerciales historiques des aromates",
+        description: "Cartographie les routes historiques du commerce des épices et aromates, de l'Antiquité à l'ère moderne",
+        category: "temporal",
+        sparql: `SELECT ?route ?routeLabel ?startDate ?endDate ?startPointLabel ?endPointLabel WHERE {
+  ?route wdt:P31/wdt:P279* wd:Q1788716 .
+  OPTIONAL { ?route wdt:P580 ?startDate . }
+  OPTIONAL { ?route wdt:P582 ?endDate . }
+  OPTIONAL { ?route wdt:P1427 ?startPoint . }
+  OPTIONAL { ?route wdt:P1429 ?endPoint . }
+  FILTER EXISTS {
+    { ?route wdt:P921 wd:Q42527 . }
+    UNION { ?route wdt:P921 wd:Q131696 . }
+    UNION { ?route wdt:P921 wd:Q11172 . }
+  }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+}
+ORDER BY ?startDate
+LIMIT 30`,
+      },
     ];
   }),
 

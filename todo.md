@@ -321,3 +321,20 @@
 - [x] Intégrer AdvancedSearchFilter dans Home.tsx (layout asymétrique sidebar + contexte narratif)
 - [x] Corriger les erreurs TypeScript dans pred-o3.ts et OlfactoryDescriptors.tsx
 - [x] Checkpoint sauvegardé
+
+## Session Juillet 2026 (Suite 10) — Améliorations SPARQL fédéré
+
+- [x] Analyse de l'état actuel du système SPARQL (sparql.ts, SparqlExplorer.tsx, templates)
+- [x] Correction erreur TypeScript dans advanced-search.ts (getDb() → mysql.createConnection)
+- [x] Création du composant FederatedSparqlTab.tsx (onglet dédié aux requêtes fédérées)
+- [x] Intégration de l'onglet "Fédéré" dans SparqlExplorer.tsx (9 onglets total)
+- [x] Ajout de 8 nouveaux templates SPARQL dans sparql.ts :
+  - [x] temporal_molecule_discovery — Chronologie des découvertes moléculaires
+  - [x] temporal_plant_domestication — Frise de domestication des plantes
+  - [x] temporal_trade_routes — Routes commerciales historiques des aromates
+  - [x] temporal_molecule_citations_network — Réseau de citations inter-molécules
+  - [x] temporal_pyrolysis_products — Produits de pyrolyse et transformation thermique
+  - [x] genealogy_endangered_plants — Plantes aromatiques menacées/éteintes (UICN)
+  - [x] genealogy_variety_lineage — Lignée génétique d'une variété (tabac, cannabis, rose)
+  - [x] genealogy_terroir_molecules — Comparaison moléculaire terroir à terroir
+- [x] Checkpoint sauvegardé

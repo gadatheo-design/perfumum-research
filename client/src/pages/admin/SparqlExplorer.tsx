@@ -25,6 +25,7 @@ import { EntityAutocomplete } from "@/components/ui/EntityAutocomplete";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { LibrarySparqlTab } from "./LibrarySparqlTab";
+import { FederatedSparqlTab } from "./FederatedSparqlTab";
 
 // ─── Composant carte œuvre d'art ─────────────────────────────────────────────
 function ArtworkCard({ artwork }: { artwork: any }) {
@@ -1101,7 +1102,7 @@ export default function SparqlExplorer() {
 
       {/* Onglets */}
       <Tabs defaultValue={defaultTab}>
-        <TabsList className="grid grid-cols-8 w-full">
+        <TabsList className="grid grid-cols-9 w-full">
           <TabsTrigger value="stats" className="text-xs">
             <Sparkles className="h-3.5 w-3.5 mr-1" />
             Stats
@@ -1129,6 +1130,11 @@ export default function SparqlExplorer() {
           <TabsTrigger value="europeana-sparql" className="text-xs">
             <Layers className="h-3.5 w-3.5 mr-1 text-violet-600" />
             <span className="text-violet-600 font-medium">EDM SPARQL</span>
+          </TabsTrigger>
+          <TabsTrigger value="federated" className="text-xs">
+            <span className="text-orange-600 font-medium flex items-center gap-1">
+              🔗 Fédéré
+            </span>
           </TabsTrigger>
           <TabsTrigger value="library" className="text-xs">
             <Library className="h-3.5 w-3.5 mr-1 text-emerald-600" />
@@ -1161,6 +1167,9 @@ export default function SparqlExplorer() {
         </TabsContent>
         <TabsContent value="europeana-sparql" className="mt-4">
           <EuropeanaSparqlTab initialQid={initialQid} initialPlantName={initialPlantName} />
+        </TabsContent>
+        <TabsContent value="federated" className="mt-4">
+          <FederatedSparqlTab />
         </TabsContent>
         <TabsContent value="library" className="mt-4">
           <LibrarySparqlTab />

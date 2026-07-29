@@ -10,8 +10,8 @@
  */
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
-import { getDb } from "../db";
 import * as db from "../db";
+import * as mysql from "mysql2/promise";
 
 export const advancedSearchRouter = router({
   // ── Recherche par plante source ──────────────────────────────────────────
@@ -60,32 +60,30 @@ export const advancedSearchRouter = router({
       limit: z.number().min(1).max(20).default(8),
     }))
     .query(async ({ input }) => {
+      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
       try {
-        const conn = await getDb();
-        if (!conn) return { molecules: [], plants: [], terroirs: [] };
-
         const term = `%${input.query}%`;
         const lim = input.limit;
 
         // Requêtes parallèles pour les 3 entités
         const [molResult, plantResult, terroirResult] = await Promise.all([
-          conn.execute(
+          conn.execute<mysql.RowDataPacket[]>(
             `SELECT id, name, family FROM molecules WHERE name LIKE ? ORDER BY name LIMIT ?`,
             [term, lim]
           ),
-          conn.execute(
+          conn.execute<mysql.RowDataPacket[]>(
             `SELECT id, name, latin_name as latinName, category FROM plants WHERE name LIKE ? OR latin_name LIKE ? ORDER BY name LIMIT ?`,
             [term, term, lim]
           ),
-          conn.execute(
+          conn.execute<mysql.RowDataPacket[]>(
             `SELECT id, name, country, climate_type as climateType FROM terroirs WHERE name LIKE ? OR country LIKE ? ORDER BY name LIMIT ?`,
             [term, term, lim]
           ),
         ]);
 
-        const [molRows] = molResult as any;
-        const [plantRows] = plantResult as any;
-        const [terroirRows] = terroirResult as any;
+        const [molRows] = molResult;
+        const [plantRows] = plantResult;
+        const [terroirRows] = terroirResult;
 
         return {
           molecules: (molRows ?? []).map((r: any) => ({
@@ -112,6 +110,8 @@ export const advancedSearchRouter = router({
       } catch (err) {
         console.error("Error in getSearchSuggestions:", err);
         return { molecules: [], plants: [], terroirs: [] };
+      } finally {
+        await conn.end();
       }
     }),
 
