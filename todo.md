@@ -312,3 +312,12 @@
 - [x] Serveur stable, 0 erreurs TypeScript dans les logs
 - [x] Table odor_descriptors confirmée en DB avec 25 descripteurs
 - [x] Checkpoint sauvegardé
+
+## Session Juillet 2026 (Suite 9) — Interface de filtrage avancée SPARQL-ready
+
+- [x] Créer le composant AdvancedSearchFilter.tsx avec architecture SPARQL-ready
+- [x] Étendre le routeur advanced-search.ts avec getSearchSuggestions et getFederatedSourcesStatus
+- [x] Ajouter les stubs SPARQL (templates Wikidata, OpenAlex, Europeana) dans le routeur
+- [x] Intégrer AdvancedSearchFilter dans Home.tsx (layout asymétrique sidebar + contexte narratif)
+- [x] Corriger les erreurs TypeScript dans pred-o3.ts et OlfactoryDescriptors.tsx
+- [x] Checkpoint sauvegardé

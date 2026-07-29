@@ -132,7 +132,7 @@ export function OlfactoryDescriptors() {
               >
                 Tous
               </Button>
-              {categories.map((category) => (
+              {categories.map((category: any) => (
                 <Button
                   key={category}
                   variant={selectedCategory === category ? "default" : "outline"}

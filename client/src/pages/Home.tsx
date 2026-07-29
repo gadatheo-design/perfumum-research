@@ -15,6 +15,7 @@ import { trackPageView } from "@/lib/analytics";
 // Guided navigation
 import { StartGuidedTourButton } from "@/components/GuidedNavigation";
 import { Play } from "lucide-react";
+import { AdvancedSearchFilter } from "@/components/AdvancedSearchFilter";
 
 export default function Home() {
   // Récupérer les statistiques dynamiques depuis l'API
@@ -70,6 +71,60 @@ export default function Home() {
                   </Link>
                 </Button>
                 <StartGuidedTourButton />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ── Recherche Avancée SPARQL-ready ──────────────────────────────────── */}
+        <section className="py-8 bg-muted/5 border-b border-border/20">
+          <div className="container">
+            <div className="max-w-5xl mx-auto">
+              {/* Layout asymétrique : filtre à gauche, info à droite */}
+              <div className="flex flex-col lg:flex-row gap-8 items-start">
+                {/* Colonne gauche : filtre (sidebar) */}
+                <div className="w-full lg:w-2/3">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-1 h-6 bg-primary rounded-full" />
+                    <h3 className="text-sm font-bold uppercase tracking-widest text-foreground/70">
+                      Recherche transversale
+                    </h3>
+                  </div>
+                  <AdvancedSearchFilter />
+                </div>
+                {/* Colonne droite : contexte narratif */}
+                <div className="w-full lg:w-1/3 pt-0 lg:pt-10">
+                  <div className="bg-card border border-border/40 rounded-xl p-5 space-y-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Network className="w-4 h-4 text-violet-500" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-foreground/80 mb-1">Architecture fédérée</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">
+                          Cette interface prépare les requêtes SPARQL fédérées du Rapport 7 — interrogation simultanée de PERFUMUM, Wikidata et OpenAlex.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Leaf className="w-4 h-4 text-emerald-500" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-semibold text-foreground/80 mb-1">Données croisées</p>
+                        <p className="text-[11px] text-muted-foreground leading-relaxed">
+                          Terroirs, plantes et molécules sont interconnectés. Chaque résultat est une porte vers un autre chemin narratif.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="pt-2 border-t border-border/30">
+                      <Link href="/admin/sparql" className="flex items-center gap-2 text-[11px] text-primary/70 hover:text-primary transition-colors group">
+                        <span>Explorateur SPARQL complet</span>
+                        <ArrowRight className="w-3 h-3 ml-auto group-hover:translate-x-0.5 transition-transform" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

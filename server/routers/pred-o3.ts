@@ -105,7 +105,7 @@ export const predO3Router = router({
         SELECT DISTINCT category FROM odor_descriptors WHERE category IS NOT NULL ORDER BY category
       `);
       const [rows] = result as any;
-      return (rows ?? []).map(r => String(r.category));
+      return (rows ?? []).map((r: any) => String(r.category));
     } catch (err) {
       console.error("Error in getCategories:", err);
       return [];
