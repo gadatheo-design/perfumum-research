@@ -269,7 +269,7 @@ export const predO3BulkImportRouter = router({
         ),
       })
     )
-    .query(async ({ input }) => {
+    .mutation(async ({ input }) => {
       const validation = {
         total: input.associations.length,
         valid: 0,

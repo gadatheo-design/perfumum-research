@@ -297,3 +297,12 @@
 - [x] Sélection multiple de terroirs pour fusion consolidée — checkboxes implémentées
 - [x] Fusion multi-terroirs en un seul enregistrement — handleMergeSelected implémenté
 - [x] Checkpoint sauvegardé
+
+
+## Session Juillet 2026 (Suite 7) — Onglets Europeana manquants + Fix TypeScript
+
+- [ ] Implémenter trpc.europeana.searchAnnotations dans server/routers/europeana.ts
+- [ ] Implémenter trpc.europeanaBookmarks (list, stats, remove) dans server/routers/europeana-bookmarks.ts
+- [ ] Réactiver les onglets Annotations et Bibliothèque dans EuropeanaExplorer.tsx
+- [ ] Corriger l'erreur TypeScript dans PredO3Associations.tsx (useMutation sur une Query)
+- [ ] Checkpoint sauvegardé
