@@ -20,6 +20,7 @@ import {
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 type EntityType = "molecule" | "plant" | "family";
+type AutocompleteEntityType = "molecule" | "plante" | "recette" | "terroir" | "axis" | "extractionMethod" | "extraction" | "bibliography";
 type WikidataQueryType = "taxonomy" | "publications" | "images" | "related" | "timeline";
 type OpenAlexQueryType = "publications" | "timeline" | "authors" | "concepts";
 type FederatedSource = "wikidata" | "openalex" | "enrich";
@@ -332,7 +333,7 @@ export function FederatedSparqlTab() {
             {entityType === "molecule" ? "Molécule" : entityType === "plant" ? "Plante" : "Famille olfactive"}
           </Label>
           <EntityAutocomplete
-            entityType={entityType === "family" ? "molecule" : entityType}
+            entityType={(entityType === "family" ? "molecule" : entityType === "plant" ? "plante" : entityType) as AutocompleteEntityType}
             value={entityId}
             onChange={(id, label) => { setEntityId(id); setEntityLabel(label); setSubmitted(false); }}
             placeholder={`Rechercher une ${entityType === "molecule" ? "molécule" : entityType === "plant" ? "plante" : "famille"}…`}

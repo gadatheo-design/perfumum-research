@@ -133,9 +133,9 @@
 
 ### Axe 2 — Fonctionnalités SPARQL
 - [x] 2.1 Endpoint SPARQL interne /api/sparql (SELECT, CONSTRUCT, DESCRIBE)
-- [ ] 2.2 Requêtes fédérées PERFUMUM ↔ Wikidata ↔ OpenAlex (SERVICE SPARQL) (planifié Rapport 7)
+- [x] 2.2 Requêtes fédérées PERFUMUM ↔ Wikidata ↔ OpenAlex (SERVICE SPARQL) — implémenté via FederatedSparqlTab + routeur advanced-search.ts (Session 10)
 - [x] 2.3 Visualisation graphes /knowledge-graph (D3.js force-directed, filtres par type d'entité)
-- [ ] 2.4 Templates SPARQL temporels et généalogiques (planifié Rapport 7)
+- [x] 2.4 Templates SPARQL temporels et généalogiques — 8 nouveaux templates ajoutés dans sparql.ts (Session 10)
 - [x] 2.5 Cache SPARQL (table sparql_cache, TTL 24h, hit count, stats, nettoyage)
 
 ### Axe 3 — Bibliographie et archives
