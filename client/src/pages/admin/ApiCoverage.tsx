@@ -28,6 +28,7 @@ import {
   ExternalLink,
   RefreshCw,
   Zap,
+  MapPin,
 } from "lucide-react";
 
 type FilterType = "all" | "missing_gbif" | "missing_powo" | "missing_ncbi" | "missing_wikidata" | "missing_itis" | "incomplete" | "complete";
