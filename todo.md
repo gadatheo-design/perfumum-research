@@ -278,3 +278,14 @@
 - [ ] Creer la table odor_descriptors en DB
 - [ ] Implementer l'insertion en DB
 - [ ] Checkpoint final
+
+
+## Session Juillet 2026 (Suite 5) — Gestion des terroirs et suggestions GBIF
+
+- [x] Procédures tRPC pour gestion des terroirs (CRUD, détection doublons) — territories-admin.ts créé
+- [x] Procédures tRPC pour suggestions de terroirs basées sur GBIF — 10 procédures implémentées
+- [x] Page admin TerritoriesManagement.tsx — 3 onglets (Liste, Doublons, Suggestions GBIF)
+- [x] Détection et fusion de doublons — mergeTerritories implémenté
+- [x] Suggestions GBIF avec création automatique — createFromGBIFSuggestion implémenté
+- [x] Associations terroir-plante à l'import — associatePlantToTerritory implémenté
+- [x] Checkpoint sauvegardé

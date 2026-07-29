@@ -128,6 +128,7 @@ import { predO3Router } from "./routers/pred-o3";
 import { descriptorLinksRouter } from "./routers/descriptor-links";
 import { predO3AssociationsRouter } from "./routers/pred-o3-associations";
 import { predO3BulkImportRouter } from "./routers/pred-o3-bulk-import";
+import { territoriesAdminRouter } from "./routers/territories-admin";
 import { importRouter } from "./routers/import";
 import { moleculesRouter } from "./routers/molecules";
 import { moleculesAdminRouter } from "./routers/molecules-admin";
@@ -1037,6 +1038,8 @@ export const appRouter = router({
   predO3Associations: predO3AssociationsRouter,
   // Pred-O3 Bulk Import — Import en lot des associations Pred-O3
   predO3BulkImport: predO3BulkImportRouter,
+  // Territories Admin — Gestion des terroirs et suggestions GBIF
+  territoriesAdmin: territoriesAdminRouter,
 
   extractionProcesses: extractionProcessesRouter,
   resinTobaccoRecipes: resinTobaccoRecipesRouter,
