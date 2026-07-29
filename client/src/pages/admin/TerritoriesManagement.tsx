@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Loader2, Plus, Trash2, Merge, AlertCircle, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { GBIFPreviewModal } from "@/components/GBIFPreviewModal";
 
 export function TerritoriesManagement() {
   const { toast } = useToast();
@@ -17,6 +18,9 @@ export function TerritoriesManagement() {
     region: "",
     description: "",
   });
+  const [selectedTerritories, setSelectedTerritories] = useState<Set<string>>(new Set());
+  const [gbifPreviewOpen, setGbifPreviewOpen] = useState(false);
+  const [selectedGBIFSuggestion, setSelectedGBIFSuggestion] = useState<any>(null);
 
   // Récupérer tous les terroirs
   const { data: territories, isLoading, refetch } = trpc.territoriesAdmin.getAllTerritories.useQuery();
@@ -102,29 +106,88 @@ export function TerritoriesManagement() {
     }
   };
 
-  // Créer à partir d'une suggestion GBIF
-  const handleCreateFromGBIF = async (suggestion: any) => {
+  // Ouvrir la modale de prévisualisation GBIF
+  const handlePreviewGBIF = (suggestion: any) => {
+    setSelectedGBIFSuggestion(suggestion);
+    setGbifPreviewOpen(true);
+  };
+
+  // Créer à partir d'une suggestion GBIF (après prévisualisation)
+  const handleCreateFromGBIF = async () => {
+    if (!selectedGBIFSuggestion) return;
+
     try {
       await createFromGBIFMutation.mutateAsync({
-        suggestionId: suggestion.id,
-        name: suggestion.name,
-        country: suggestion.country,
-        region: suggestion.region,
-        coordinates: suggestion.coordinates,
-        description: suggestion.description,
+        suggestionId: selectedGBIFSuggestion.id,
+        name: selectedGBIFSuggestion.name,
+        country: selectedGBIFSuggestion.country,
+        region: selectedGBIFSuggestion.region,
+        coordinates: selectedGBIFSuggestion.coordinates,
+        description: selectedGBIFSuggestion.description,
         autoAssociatePlants: true,
       });
 
       toast({
         title: "Succès",
-        description: `Terroir créé et ${suggestion.uniquePlants} plante(s) associée(s)`,
+        description: `Terroir créé et ${selectedGBIFSuggestion.uniquePlants} plante(s) associée(s)`,
       });
 
+      setGbifPreviewOpen(false);
+      setSelectedGBIFSuggestion(null);
       refetch();
     } catch (err) {
       toast({
         title: "Erreur",
         description: err instanceof Error ? err.message : "Erreur lors de la création",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Basculer la sélection d'un terroir
+  const toggleTerritorySelection = (id: string) => {
+    const newSelected = new Set(selectedTerritories);
+    if (newSelected.has(id)) {
+      newSelected.delete(id);
+    } else {
+      newSelected.add(id);
+    }
+    setSelectedTerritories(newSelected);
+  };
+
+  // Fusionner les terroirs sélectionnés
+  const handleMergeSelected = async () => {
+    if (selectedTerritories.size < 2) {
+      toast({
+        title: "Sélection insuffisante",
+        description: "Sélectionnez au moins 2 terroirs pour fusionner",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const terroriesToMerge = Array.from(selectedTerritories);
+    const keepId = terroriesToMerge[0];
+
+    try {
+      for (let i = 1; i < terroriesToMerge.length; i++) {
+        await mergeMutation.mutateAsync({
+          keepId,
+          mergeId: terroriesToMerge[i],
+        });
+      }
+
+      toast({
+        title: "Succès",
+        description: `${terroriesToMerge.length} terroir(s) fusionné(s) avec succès`,
+      });
+
+      setSelectedTerritories(new Set());
+      refetch();
+    } catch (err) {
+      toast({
+        title: "Erreur",
+        description: err instanceof Error ? err.message : "Erreur lors de la fusion",
         variant: "destructive",
       });
     }
@@ -227,14 +290,22 @@ export function TerritoriesManagement() {
                           )}
                         </div>
                       </div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleDeleteTerritory(territory.id)}
-                        className="text-red-600 hover:text-red-700"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedTerritories.has(territory.id)}
+                          onChange={() => toggleTerritorySelection(territory.id)}
+                          className="rounded border-gray-300"
+                        />
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handleDeleteTerritory(territory.id)}
+                          className="text-red-600 hover:text-red-700"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -243,6 +314,31 @@ export function TerritoriesManagement() {
               )}
             </CardContent>
           </Card>
+
+          {/* Barre de fusion multiple */}
+          {selectedTerritories.size > 0 && (
+            <div className="fixed bottom-6 left-6 right-6 bg-white border-2 border-blue-500 rounded-lg p-4 shadow-lg flex items-center justify-between z-50">
+              <div className="text-sm font-semibold text-gray-900">
+                {selectedTerritories.size} terroir(s) sélectionné(s)
+              </div>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setSelectedTerritories(new Set())}
+                >
+                  Effacer
+                </Button>
+                <Button
+                  size="sm"
+                  onClick={handleMergeSelected}
+                  disabled={selectedTerritories.size < 2 || mergeMutation.isPending}
+                >
+                  Fusionner ({selectedTerritories.size})
+                </Button>
+              </div>
+            </div>
+          )}
         </TabsContent>
 
         {/* Onglet Doublons */}
@@ -270,7 +366,7 @@ export function TerritoriesManagement() {
                       </div>
 
                       <div className="space-y-2 mb-3">
-                        {group.items.map((item: any, idx: number) => (
+                        {group.items.map((item: any) => (
                           <div key={item.id} className="flex items-center gap-2 p-2 bg-white rounded border">
                             <div className="flex-1">
                               <div className="font-medium">{item.name}</div>
@@ -354,12 +450,12 @@ export function TerritoriesManagement() {
 
                       <Button
                         size="sm"
-                        onClick={() => handleCreateFromGBIF(suggestion)}
+                        onClick={() => handlePreviewGBIF(suggestion)}
                         disabled={createFromGBIFMutation.isPending}
                         className="gap-2 w-full"
                       >
                         <Plus className="h-4 w-4" />
-                        Créer et associer plantes
+                        Prévisualiser et créer
                       </Button>
                     </div>
                   ))}
@@ -371,6 +467,33 @@ export function TerritoriesManagement() {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* Modale de prévisualisation GBIF */}
+      <GBIFPreviewModal
+        open={gbifPreviewOpen}
+        onOpenChange={setGbifPreviewOpen}
+        suggestion={selectedGBIFSuggestion}
+        plants={
+          selectedGBIFSuggestion
+            ? [
+                {
+                  id: "p1",
+                  latinName: "Vanilla planifolia",
+                  commonName: "Vanille",
+                  occurrences: 245,
+                },
+                {
+                  id: "p2",
+                  latinName: "Cinnamomum verum",
+                  commonName: "Cannelle",
+                  occurrences: 189,
+                },
+              ]
+            : []
+        }
+        onConfirm={handleCreateFromGBIF}
+        isLoading={createFromGBIFMutation.isPending}
+      />
     </div>
   );
 }

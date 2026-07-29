@@ -289,3 +289,11 @@
 - [x] Suggestions GBIF avec création automatique — createFromGBIFSuggestion implémenté
 - [x] Associations terroir-plante à l'import — associatePlantToTerritory implémenté
 - [x] Checkpoint sauvegardé
+
+
+## Session Juillet 2026 (Suite 6) — Améliorations Gestion Terroirs
+
+- [x] Modale de prévisualisation GBIF avec détails avant création — GBIFPreviewModal.tsx créé
+- [x] Sélection multiple de terroirs pour fusion consolidée — checkboxes implémentées
+- [x] Fusion multi-terroirs en un seul enregistrement — handleMergeSelected implémenté
+- [x] Checkpoint sauvegardé
