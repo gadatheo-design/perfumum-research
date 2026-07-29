@@ -101,7 +101,8 @@ export default defineConfig({
     host: true,
     allowedHosts: true,
     hmr: {
-      clientPort: 443,
+      host: process.env.VITE_HMR_HOST || undefined,
+      port: process.env.VITE_HMR_PORT ? parseInt(process.env.VITE_HMR_PORT) : 443,
       protocol: "wss",
       overlay: false,
     },
