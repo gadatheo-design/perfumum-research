@@ -140,8 +140,8 @@ function EnrichResultPanel({ data }: { data: Record<string, unknown> }) {
           <CardTitle className="text-xs flex items-center gap-2">
             <Globe className="h-3.5 w-3.5 text-violet-600" />
             Wikidata
-            {data.qid && (
-              <a href={`https://www.wikidata.org/wiki/${data.qid}`} target="_blank" rel="noopener noreferrer">
+            {data.qid != null && (
+              <a href={`https://www.wikidata.org/wiki/${String(data.qid)}`} target="_blank" rel="noopener noreferrer">
                 <Badge variant="outline" className="text-[10px] font-mono text-violet-600 border-violet-300">
                   {String(data.qid)}
                 </Badge>

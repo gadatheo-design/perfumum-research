@@ -75,7 +75,7 @@ export function EnrichTab() {
     try {
       const result = await autoEnrichMutation.mutateAsync({ plant_id: selectedPlantId });
       if (result.results.length > 0) {
-        const enrichedApis = result.results.map((r) => `${r.api_type} (${r.identifier})`).join(", ");
+        const enrichedApis = result.results.map((r: { api_type: string; identifier: string }) => `${r.api_type} (${r.identifier})`).join(", ");
         setAutoEnrichMessage(`✅ Enrichissement réussi : ${enrichedApis}`);
       } else {
         setAutoEnrichMessage("ℹ️ Aucun nouvel identifiant trouvé");
