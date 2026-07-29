@@ -1045,6 +1045,8 @@ export const appRouter = router({
   resinTobaccoRecipes: resinTobaccoRecipesRouter,
   // Resin Maturation
   resinMaturation: resinMaturationRouter,
+  // API Enrichments — Gestion des identifiants API des plantes (GBIF, Wikidata, POWO, NCBI, ITIS)
+  apiEnrichments: apiEnrichmentsRouter,
 });
 export type AppRouter = typeof appRouter;
 
