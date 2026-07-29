@@ -253,13 +253,10 @@
 
 - [x] Développer scraper Pred-O3 (extraction molécules + descripteurs olfactifs) — scraper-pred-o3.ts créé
 - [x] Créer tables DB pour molécules_descripteurs et récepteurs olfactifs — schema-pred-o3.ts créé
-- [x] Procédure tRPC pour importer données Pred-O3 — pred-o3-import.ts créé
-- [ ] Interface d'import et de mapping des données (page admin)
-- [ ] Tests et validation des données importées
-- [ ] Checkpoint sauvegardé
-
-
-## Session Juillet 2026 (Suite 3) — Pred-O3 Import progressif (ROLLBACK)
+- [x] Procédure tRPC pour importer données Pred-O3 — pred-o3-import.ts créé- [x] Interface d'import et de mapping des données (page admin) — remplacé par PredO3BatchImport.tsx (Sessions 4-8)
+- [x] Tests et validation des données importées — test réussi avec 25 descripteurs
+- [x] Checkpoint sauvegardé — remplacé par checkpoint 725fc825
+## Session Juillet 2026 (Suite 3)) — Pred-O3 Import progressif (ROLLBACK)
 
 - [x] Rollback au checkpoint 1d1edaf8 (approche trop complexe, erreurs de compilation)
 - [x] Nettoyage des fichiers Pred-O3 problématiques (schema-pred-o3.ts, pred-o3-import.ts, etc.)

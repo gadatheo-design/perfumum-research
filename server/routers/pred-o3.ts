@@ -35,7 +35,7 @@ export const predO3Router = router({
           `);
         }
 
-        const [rows] = result as [Record<string, unknown>[]];
+        const [rows] = result as any;
         return rows ?? [];
       } catch (err) {
         console.error("Error in getDescriptors:", err);
@@ -58,7 +58,7 @@ export const predO3Router = router({
         FROM odor_descriptors
       `);
 
-      const [rows] = result as [Record<string, unknown>[]];
+      const [rows] = result as any;
       const row = (rows ?? [])[0] ?? {};
       return {
         total: Number(row.total ?? 0),
@@ -88,7 +88,7 @@ export const predO3Router = router({
           ORDER BY frequency DESC
           LIMIT 50
         `);
-        const [rows] = result as [Record<string, unknown>[]];
+        const [rows] = result as any;
         return rows ?? [];
       } catch (err) {
         console.error("Error in searchDescriptors:", err);
@@ -104,7 +104,7 @@ export const predO3Router = router({
       const result = await db.execute(sql`
         SELECT DISTINCT category FROM odor_descriptors WHERE category IS NOT NULL ORDER BY category
       `);
-      const [rows] = result as [Record<string, unknown>[]];
+      const [rows] = result as any;
       return (rows ?? []).map(r => String(r.category));
     } catch (err) {
       console.error("Error in getCategories:", err);
