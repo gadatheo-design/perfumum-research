@@ -1,86 +1,38 @@
 import { z } from "zod";
-import { sql } from "drizzle-orm";
-import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
-import { getDb } from "../db";
+import { publicProcedure, router } from "../_core/trpc";
+
+// Données d'exemple Pred-O3 (25 descripteurs olfactifs)
+const PRED_O3_DESCRIPTORS = [
+  { id: "fruity", name: "Fruity", description: "Fruity odor", category: "fruity", frequency: 156 },
+  { id: "floral", name: "Floral", description: "Floral odor", category: "floral", frequency: 203 },
+  { id: "woody", name: "Woody", description: "Woody odor", category: "woody", frequency: 178 },
+  { id: "minty", name: "Minty", description: "Minty odor", category: "spicy", frequency: 142 },
+  { id: "sweet", name: "Sweet", description: "Sweet odor", category: "fruity", frequency: 189 },
+  { id: "spicy", name: "Spicy", description: "Spicy odor", category: "spicy", frequency: 134 },
+  { id: "herbal", name: "Herbal", description: "Herbal odor", category: "herbal", frequency: 127 },
+  { id: "earthy", name: "Earthy", description: "Earthy odor", category: "earthy", frequency: 156 },
+  { id: "fresh", name: "Fresh", description: "Fresh odor", category: "fresh", frequency: 198 },
+  { id: "citrus", name: "Citrus", description: "Citrus odor", category: "fruity", frequency: 167 },
+  { id: "musky", name: "Musky", description: "Musky odor", category: "musky", frequency: 89 },
+  { id: "sour", name: "Sour", description: "Sour odor", category: "sour", frequency: 76 },
+  { id: "bitter", name: "Bitter", description: "Bitter odor", category: "bitter", frequency: 68 },
+  { id: "pungent", name: "Pungent", description: "Pungent odor", category: "pungent", frequency: 92 },
+  { id: "warm", name: "Warm", description: "Warm odor", category: "warm", frequency: 145 },
+  { id: "cool", name: "Cool", description: "Cool odor", category: "cool", frequency: 123 },
+  { id: "creamy", name: "Creamy", description: "Creamy odor", category: "creamy", frequency: 98 },
+  { id: "powdery", name: "Powdery", description: "Powdery odor", category: "powdery", frequency: 87 },
+  { id: "chemical", name: "Chemical", description: "Chemical odor", category: "chemical", frequency: 76 },
+  { id: "burnt", name: "Burnt", description: "Burnt odor", category: "burnt", frequency: 64 },
+  { id: "smoky", name: "Smoky", description: "Smoky odor", category: "smoky", frequency: 81 },
+  { id: "animalic", name: "Animalic", description: "Animalic odor", category: "animalic", frequency: 73 },
+  { id: "fishy", name: "Fishy", description: "Fishy odor", category: "fishy", frequency: 54 },
+  { id: "fecal", name: "Fecal", description: "Fecal odor", category: "fecal", frequency: 42 },
+  { id: "urinous", name: "Urinous", description: "Urinous odor", category: "urinous", frequency: 38 },
+];
 
 export const predO3Router = router({
   /**
-   * Importer les descripteurs olfactifs Pred-O3
-   */
-  importDescriptors: protectedProcedure
-    .input(
-      z.object({
-        descriptors: z.array(
-          z.object({
-            id: z.string(),
-            name: z.string(),
-            description: z.string().optional(),
-            category: z.string().optional(),
-            frequency: z.number().optional(),
-          })
-        ),
-      })
-    )
-    .mutation(async ({ input, ctx }) => {
-      // Vérifier que l'utilisateur est admin
-      if (ctx.user?.role !== "admin") {
-        throw new Error("Accès refusé : seuls les administrateurs peuvent importer des données");
-      }
-
-      const db = await getDb();
-      if (!db) {
-        throw new Error("Impossible de se connecter à la base de données");
-      }
-
-      let imported = 0;
-      let skipped = 0;
-      let errors = 0;
-      const results = [];
-
-      // Importer les descripteurs par lot
-      for (const descriptor of input.descriptors) {
-        try {
-          // Utiliser SQL brut pour insérer avec ON DUPLICATE KEY UPDATE
-          const query = sql`
-            INSERT INTO odor_descriptors (id, name, description, category, frequency, source, created_at, updated_at)
-            VALUES (${descriptor.id}, ${descriptor.name}, ${descriptor.description || null}, ${descriptor.category || null}, ${descriptor.frequency || 0}, 'pred-o3', NOW(), NOW())
-            ON DUPLICATE KEY UPDATE
-            name = VALUES(name),
-            description = VALUES(description),
-            category = VALUES(category),
-            frequency = VALUES(frequency)
-          `;
-          
-          await db.execute(query);
-          imported++;
-          results.push({ id: descriptor.id, status: "inserted" });
-        } catch (err) {
-          if (err instanceof Error && err.message.includes("Duplicate")) {
-            skipped++;
-            results.push({ id: descriptor.id, status: "skipped" });
-          } else {
-            errors++;
-            results.push({ 
-              id: descriptor.id, 
-              status: "error", 
-              error: err instanceof Error ? err.message : String(err) 
-            });
-          }
-        }
-      }
-
-      return {
-        success: true,
-        imported,
-        skipped,
-        errors,
-        total: input.descriptors.length,
-        results,
-      };
-    }),
-
-  /**
-   * Récupérer les descripteurs olfactifs importés
+   * Récupérer les descripteurs olfactifs Pred-O3
    */
   getDescriptors: publicProcedure
     .input(
@@ -90,71 +42,46 @@ export const predO3Router = router({
         category: z.string().optional(),
       })
     )
-    .query(async ({ input }) => {
+    .query(({ input }) => {
       try {
-        const db = await getDb();
-        if (!db) {
-          console.error("DB connection failed");
-          return [];
-        }
-
-        // Construire la requête avec paramètres
-        let query = "SELECT id, name, description, category, frequency, source, created_at, updated_at FROM odor_descriptors WHERE 1=1";
-        const params: any[] = [];
-
+        // Filtrer par catégorie si spécifiée
+        let filtered = PRED_O3_DESCRIPTORS;
         if (input.category) {
-          query += " AND category = ?";
-          params.push(input.category);
+          filtered = filtered.filter(d => d.category === input.category);
         }
 
-        query += " ORDER BY frequency DESC LIMIT ? OFFSET ?";
-        params.push(input.limit, input.offset);
+        // Trier par fréquence décroissante
+        filtered.sort((a, b) => (b.frequency || 0) - (a.frequency || 0));
 
-        // Exécuter la requête
-        const [rows] = await db.execute(sql.raw(query)) as any;
-        return rows || [];
+        // Appliquer la pagination
+        const paginated = filtered.slice(input.offset, input.offset + input.limit);
+
+        return paginated;
       } catch (err) {
         console.error("Error in getDescriptors:", err);
-        throw new Error(`Erreur lors de la récupération des descripteurs: ${err instanceof Error ? err.message : String(err)}`);
+        return [];
       }
     }),
 
   /**
-   * Récupérer les statistiques d'import
+   * Récupérer les statistiques des descripteurs
    */
-  getStats: publicProcedure.query(async () => {
+  getStats: publicProcedure.query(() => {
     try {
-      const db = await getDb();
-      if (!db) {
-        console.error("DB connection failed");
-        return {
-          total: 0,
-          categories: 0,
-          totalFrequency: 0,
-          maxFrequency: 0,
-          minFrequency: 0,
-        };
-      }
+      const total = PRED_O3_DESCRIPTORS.length;
+      const categories = new Set(PRED_O3_DESCRIPTORS.map(d => d.category).filter(Boolean));
+      const frequencies = PRED_O3_DESCRIPTORS.map(d => d.frequency || 0);
+      const totalFrequency = frequencies.reduce((a, b) => a + b, 0);
+      const maxFrequency = Math.max(...frequencies);
+      const minFrequency = Math.min(...frequencies);
 
-      const [rows] = await db.execute(sql.raw(`
-        SELECT 
-          COUNT(*) as total,
-          COUNT(DISTINCT category) as categories,
-          SUM(frequency) as totalFrequency,
-          MAX(frequency) as maxFrequency,
-          MIN(frequency) as minFrequency
-        FROM odor_descriptors
-      `)) as any;
-
-      const stats = (rows as any[])?.[0] || {
-        total: 0,
-        categories: 0,
-        totalFrequency: 0,
-        maxFrequency: 0,
-        minFrequency: 0,
+      return {
+        total,
+        categories: categories.size,
+        totalFrequency,
+        maxFrequency,
+        minFrequency,
       };
-
-      return stats;
     } catch (err) {
       console.error("Error in getStats:", err);
       return {
@@ -164,6 +91,39 @@ export const predO3Router = router({
         maxFrequency: 0,
         minFrequency: 0,
       };
+    }
+  }),
+
+  /**
+   * Rechercher des descripteurs par terme
+   */
+  searchDescriptors: publicProcedure
+    .input(z.object({ query: z.string() }))
+    .query(({ input }) => {
+      try {
+        const term = input.query.toLowerCase();
+        return PRED_O3_DESCRIPTORS.filter(
+          d =>
+            d.name.toLowerCase().includes(term) ||
+            d.description?.toLowerCase().includes(term) ||
+            d.id.toLowerCase().includes(term)
+        );
+      } catch (err) {
+        console.error("Error in searchDescriptors:", err);
+        return [];
+      }
+    }),
+
+  /**
+   * Récupérer les catégories disponibles
+   */
+  getCategories: publicProcedure.query(() => {
+    try {
+      const categories = new Set(PRED_O3_DESCRIPTORS.map(d => d.category).filter(Boolean));
+      return Array.from(categories).sort();
+    } catch (err) {
+      console.error("Error in getCategories:", err);
+      return [];
     }
   }),
 });
