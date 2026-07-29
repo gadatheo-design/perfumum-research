@@ -4,13 +4,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, Search, AlertCircle } from "lucide-react";
+import { Loader2, Search, AlertCircle, ChevronDown, ChevronUp } from "lucide-react";
+import { DescriptorOccurrences } from "@/components/DescriptorOccurrences";
 
 export function OlfactoryDescriptors() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [limit] = useState(100);
   const [offset, setOffset] = useState(0);
+  const [expandedDescriptor, setExpandedDescriptor] = useState<string | null>(null);
 
   // Récupérer les descripteurs
   const { data: descriptors, isLoading, error } = trpc.predO3.getDescriptors.useQuery(
@@ -48,6 +50,10 @@ export function OlfactoryDescriptors() {
   const handleCategoryFilter = (category: string | null) => {
     setSelectedCategory(category);
     setOffset(0);
+  };
+
+  const toggleExpanded = (descriptorId: string) => {
+    setExpandedDescriptor(expandedDescriptor === descriptorId ? null : descriptorId);
   };
 
   return (
@@ -170,40 +176,60 @@ export function OlfactoryDescriptors() {
               <p>Aucun descripteur trouvé</p>
             </div>
           ) : (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {filteredDescriptors.map((descriptor: any) => (
-                <div
-                  key={descriptor.id}
-                  className="flex items-start justify-between p-4 border rounded-lg hover:bg-gray-50 transition"
-                >
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="font-semibold text-gray-900">{descriptor.name}</h3>
-                      {descriptor.category && (
-                        <Badge variant="secondary" className="text-xs">
-                          {descriptor.category}
-                        </Badge>
-                      )}
-                    </div>
-                    {descriptor.description && (
-                      <p className="text-sm text-gray-600 mb-2">{descriptor.description}</p>
-                    )}
-                    <div className="flex items-center gap-4 text-xs text-gray-500">
-                      <span>ID: {descriptor.id}</span>
-                      {descriptor.frequency && (
-                        <span>Fréquence: {descriptor.frequency}</span>
-                      )}
-                      {descriptor.source && (
-                        <span>Source: {descriptor.source}</span>
-                      )}
-                    </div>
-                  </div>
-                  {descriptor.frequency && (
-                    <div className="ml-4 text-right">
-                      <div className="text-2xl font-bold text-blue-600">
-                        {descriptor.frequency}
+                <div key={descriptor.id} className="border rounded-lg overflow-hidden">
+                  {/* En-tête du descripteur */}
+                  <button
+                    onClick={() => toggleExpanded(descriptor.id)}
+                    className="w-full flex items-start justify-between p-4 hover:bg-gray-50 transition text-left"
+                  >
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h3 className="font-semibold text-gray-900">{descriptor.name}</h3>
+                        {descriptor.category && (
+                          <Badge variant="secondary" className="text-xs">
+                            {descriptor.category}
+                          </Badge>
+                        )}
                       </div>
-                      <div className="text-xs text-gray-500">occurrences</div>
+                      {descriptor.description && (
+                        <p className="text-sm text-gray-600 mb-2">{descriptor.description}</p>
+                      )}
+                      <div className="flex items-center gap-4 text-xs text-gray-500">
+                        <span>ID: {descriptor.id}</span>
+                        {descriptor.frequency && (
+                          <span>Fréquence: {descriptor.frequency}</span>
+                        )}
+                        {descriptor.source && (
+                          <span>Source: {descriptor.source}</span>
+                        )}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 ml-4">
+                      {descriptor.frequency && (
+                        <div className="text-right">
+                          <div className="text-2xl font-bold text-blue-600">
+                            {descriptor.frequency}
+                          </div>
+                          <div className="text-xs text-gray-500">occurrences</div>
+                        </div>
+                      )}
+                      {expandedDescriptor === descriptor.id ? (
+                        <ChevronUp className="h-5 w-5 text-gray-400" />
+                      ) : (
+                        <ChevronDown className="h-5 w-5 text-gray-400" />
+                      )}
+                    </div>
+                  </button>
+
+                  {/* Contenu expansible */}
+                  {expandedDescriptor === descriptor.id && (
+                    <div className="border-t bg-gray-50 p-4">
+                      <DescriptorOccurrences
+                        descriptorId={descriptor.id}
+                        descriptorName={descriptor.name}
+                      />
                     </div>
                   )}
                 </div>
