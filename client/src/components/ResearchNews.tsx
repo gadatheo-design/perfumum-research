@@ -95,7 +95,7 @@ export function ResearchNews() {
                     {phaseLabels[milestone.phase] || milestone.phase}
                   </Badge>
                   <Badge variant="outline" className="text-xs">
-                    {categoryLabels[(milestone as Record<string, string>).category ?? ""] || (milestone as Record<string, string>).category}
+                    {categoryLabels[(milestone as unknown as { category?: string }).category ?? ""] || (milestone as unknown as { category?: string }).category}
                   </Badge>
                   {(milestone as unknown as { progress?: number }).progress !== undefined && (milestone as unknown as { progress?: number }).progress! > 0 && (
                     <Badge variant="outline" className="text-xs">
