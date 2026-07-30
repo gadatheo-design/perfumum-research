@@ -89,38 +89,47 @@ export function PredO3Associations() {
     setSelectedAssociations(newSelected);
   };
 
-  // Préparer les données pour l'import
+  // Préparer les données pour l'import — résolution depuis associations (source de vérité)
   const prepareImportData = () => {
     const importData: any[] = [];
+    if (!associations) return importData;
 
     selectedAssociations.forEach((key) => {
       const [type, descriptorId, ...rest] = key.split("-");
+      // Trouver le groupe de descripteur correspondant dans la liste complète
+      const group = (associations as any[]).find((g: any) => g.descriptorId === descriptorId);
+      if (!group) return;
 
       if (type === "plant") {
         const latinName = rest.join("-");
-        const result = plantResults?.find((r: any) => r.plant.latinName === latinName);
-        if (result) {
+        const plant = group.associations?.find(
+          (a: any) => a.type === "plant" && a.latinName === latinName
+        );
+        if (plant) {
           importData.push({
             type: "plant",
-            descriptorId: result.descriptorId,
-            descriptorName: result.descriptorName,
-            latinName: result.plant.latinName,
-            commonName: result.plant.commonName,
+            descriptorId: group.descriptorId,
+            descriptorName: group.descriptorName,
+            latinName: plant.latinName,
+            commonName: plant.commonName || "",
             force: 3,
             notes: "Importé depuis Pred-O3",
           });
         }
       } else {
-        const moleculeName = rest.join("-");
-        const result = moleculeResults?.find((r: any) => r.molecule.name === moleculeName);
-        if (result) {
+        // type === "molecule" — la clé utilise casNumber ou name
+        const keyPart = rest.join("-");
+        const molecule = group.associations?.find(
+          (a: any) => a.type === "molecule" && (a.casNumber === keyPart || a.name === keyPart)
+        );
+        if (molecule) {
           importData.push({
             type: "molecule",
-            descriptorId: result.descriptorId,
-            descriptorName: result.descriptorName,
-            name: result.molecule.name,
-            iupacName: result.molecule.iupacName,
-            casNumber: result.molecule.casNumber,
+            descriptorId: group.descriptorId,
+            descriptorName: group.descriptorName,
+            name: molecule.name,
+            iupacName: molecule.iupacName || "",
+            casNumber: molecule.casNumber || "",
             force: 3,
             notes: "Importé depuis Pred-O3",
           });
