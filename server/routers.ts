@@ -139,6 +139,8 @@ import { aiEnrichPlantRouter } from "./routers/ai-enrich-plant";
 import { aiEnrichRawMaterialRouter } from "./routers/ai-enrich-raw-material";
 import { aiEnrichMoleculeRouter } from "./routers/ai-enrich-molecule";
 import { pubchemBatchRouter } from "./routers/pubchem-batch";
+import { pubchemExtendedRouter } from "./routers/pubchem-extended";
+import { wikidataKgRouter } from "./routers/wikidata-kg";
 import { networkGraphRouter } from "./routers/network-graph";
 import { recettesInlineRouter } from "./routers/recettes-inline";
 import { rawMaterialsInlineRouter } from "./routers/raw-materials-inline";
@@ -1047,6 +1049,10 @@ export const appRouter = router({
   resinMaturation: resinMaturationRouter,
   // API Enrichments — Gestion des identifiants API des plantes (GBIF, Wikidata, POWO, NCBI, ITIS)
   apiEnrichments: apiEnrichmentsRouter,
+  // Phase A — PubChem Extended (InChI, InChIKey, xlogP, TPSA, identifiants croisés)
+  pubchemExtended: pubchemExtendedRouter,
+  // Phase B — Knowledge Graph Wikidata (classes, biosynthèse, organismes, huiles essentielles)
+  wikidataKg: wikidataKgRouter,
 });
 export type AppRouter = typeof appRouter;
 

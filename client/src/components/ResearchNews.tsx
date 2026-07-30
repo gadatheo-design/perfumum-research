@@ -6,7 +6,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 
 export function ResearchNews() {
-  const { data: milestones, isLoading } = trpc.timeline.list.useQuery();
+  const { data: milestones, isLoading } = trpc.milestones.listResearch.useQuery();
 
   if (isLoading) {
     return (
@@ -95,11 +95,11 @@ export function ResearchNews() {
                     {phaseLabels[milestone.phase] || milestone.phase}
                   </Badge>
                   <Badge variant="outline" className="text-xs">
-                    {categoryLabels[milestone.category] || milestone.category}
+                    {categoryLabels[(milestone as Record<string, string>).category ?? ""] || (milestone as Record<string, string>).category}
                   </Badge>
-                  {milestone.progress !== undefined && milestone.progress > 0 && (
+                  {(milestone as unknown as { progress?: number }).progress !== undefined && (milestone as unknown as { progress?: number }).progress! > 0 && (
                     <Badge variant="outline" className="text-xs">
-                      {milestone.progress}% complété
+                      {(milestone as unknown as { progress?: number }).progress}% complété
                     </Badge>
                   )}
                 </div>

@@ -327,6 +327,14 @@ export default function Admin() {
       bgColor: "bg-violet-50",
     },
     {
+      title: "Knowledge Graph Moléculaire — Phase A+B",
+      description: "Phase A : enrichissement PubChem étendu (InChI, InChIKey, XLogP, TPSA, identifiants croisés ChEBI/KEGG/HMDB). Phase B : Knowledge Graph Wikidata SPARQL (classes chimiques, biosynthèse, organismes producteurs, huiles essentielles, résines, odèurs, usages). 7 494 molécules à enrichir.",
+      icon: Network,
+      href: "/admin/molecule-kg-enrichment",
+      color: "text-cyan-600",
+      bgColor: "bg-cyan-50",
+    },
+    {
       title: "Enrichissement Taxonomique — Plantes (Rapport 16)",
       description: "Compléter la famille botanique des 126 plantes sans family via Wikidata (QID direct ou recherche) et GBIF. Batch automatique avec score de confiance + validation manuelle individuelle.",
       icon: Leaf,
