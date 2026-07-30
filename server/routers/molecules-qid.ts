@@ -280,6 +280,182 @@ export const moleculesQidRouter = router({
     }),
 
   /**
+   * Valide un QID existant via le numéro CAS (propriété P231 Wikidata).
+   * Retourne le statut et propose un QID corrigé si le QID actuel est incorrect.
+   */
+  validateQidViaCas: publicProcedure
+    .input(z.object({ moleculeId: z.number().int().positive() }))
+    .query(async ({ input }) => {
+      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      try {
+        const [rows] = await conn.execute<mysql.RowDataPacket[]>(
+          "SELECT id, name, cas_number, iupac_name, wikidata_qid FROM molecules WHERE id = ? LIMIT 1",
+          [input.moleculeId]
+        );
+        if (!rows[0]) throw new Error("Molécule introuvable");
+        const mol = rows[0] as Record<string, unknown>;
+        const currentQid = (mol.wikidata_qid as string) || null;
+        const casNumber = (mol.cas_number as string) || null;
+        const name = mol.name as string;
+        const iupacName = (mol.iupac_name as string) || null;
+
+        if (!casNumber) {
+          return { moleculeId: input.moleculeId, name, currentQid, casNumber: null, status: "no_cas" as const, suggestedQid: null, suggestedLabel: null, casMatch: false };
+        }
+
+        let casMatch = false;
+        let qidLabel: string | null = null;
+        if (currentQid) {
+          try {
+            const sparql = `SELECT ?cas ?label WHERE { wd:${currentQid} wdt:P231 ?cas . OPTIONAL { wd:${currentQid} rdfs:label ?label FILTER(LANG(?label)="fr" || LANG(?label)="en") } } LIMIT 3`;
+            const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(sparql)}&format=json`;
+            const resp = await fetch(url, { headers: { "Accept": "application/json", "User-Agent": "PERFUMUM-Research/1.0" }, signal: AbortSignal.timeout(8000) });
+            if (resp.ok) {
+              const data = await resp.json() as { results?: { bindings?: Array<Record<string, { value: string }>> } };
+              const bindings = data.results?.bindings ?? [];
+              casMatch = bindings.map(b => b.cas?.value ?? "").some(c => c.toLowerCase() === casNumber.toLowerCase());
+              const lb = bindings.find(b => b.label);
+              if (lb) qidLabel = lb.label?.value ?? null;
+            }
+          } catch { /* timeout */ }
+        }
+
+        if (currentQid && casMatch) {
+          return { moleculeId: input.moleculeId, name, currentQid, casNumber, status: "valid" as const, suggestedQid: null, suggestedLabel: qidLabel, casMatch: true };
+        }
+
+        let suggestedQid: string | null = null;
+        let suggestedLabel: string | null = null;
+        let suggestedScore = 0;
+        try {
+          const sparql = `SELECT ?item ?label WHERE { ?item wdt:P231 "${casNumber}" . OPTIONAL { ?item rdfs:label ?label FILTER(LANG(?label)="fr" || LANG(?label)="en") } } LIMIT 3`;
+          const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(sparql)}&format=json`;
+          const resp = await fetch(url, { headers: { "Accept": "application/json", "User-Agent": "PERFUMUM-Research/1.0" }, signal: AbortSignal.timeout(8000) });
+          if (resp.ok) {
+            const data = await resp.json() as { results?: { bindings?: Array<Record<string, { value: string }>> } };
+            const bindings = data.results?.bindings ?? [];
+            if (bindings[0]) {
+              suggestedQid = (bindings[0].item?.value ?? "").split("/").pop() ?? null;
+              suggestedLabel = bindings[0].label?.value ?? null;
+              suggestedScore = 98;
+            }
+          }
+        } catch { /* timeout */ }
+
+        if (!suggestedQid) {
+          const candidates = await searchWikidataForMolecule(name, casNumber, iupacName);
+          if (candidates[0] && candidates[0].score >= 70) {
+            suggestedQid = candidates[0].qid;
+            suggestedLabel = candidates[0].label;
+            suggestedScore = candidates[0].score;
+          }
+        }
+
+        const status = currentQid
+          ? (suggestedQid ? "wrong_qid" as const : "unverifiable" as const)
+          : (suggestedQid ? "missing_qid" as const : "not_found" as const);
+
+        return { moleculeId: input.moleculeId, name, currentQid, casNumber, status, suggestedQid, suggestedLabel, suggestedScore, casMatch: false };
+      } finally {
+        await conn.end();
+      }
+    }),
+
+  /**
+   * Validation en batch : vérifie les QIDs de N molécules avec CAS via SPARQL Wikidata.
+   * Séquentiel avec délai 350ms pour respecter les rate limits.
+   */
+  batchValidateQids: publicProcedure
+    .input(z.object({
+      limit: z.number().int().min(1).max(200).default(50),
+      onlyWithQid: z.boolean().default(true),
+      familyFilter: z.string().optional(),
+    }))
+    .query(async ({ input }) => {
+      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      let molecules: Array<{ id: number; name: string; cas_number: string | null; iupac_name: string | null; wikidata_qid: string | null; family: string | null }> = [];
+      try {
+        let sql = "SELECT id, name, cas_number, iupac_name, wikidata_qid, family FROM molecules WHERE cas_number IS NOT NULL AND cas_number != ''";
+        const params: (string | number)[] = [];
+        if (input.onlyWithQid) {
+          sql += " AND wikidata_qid IS NOT NULL AND wikidata_qid != ''";
+        } else {
+          sql += " AND (wikidata_qid IS NULL OR wikidata_qid = '')";
+        }
+        if (input.familyFilter) { sql += " AND family = ?"; params.push(input.familyFilter); }
+        sql += ` ORDER BY RAND() LIMIT ${Math.floor(input.limit)}`;
+        const [rows] = await conn.execute<mysql.RowDataPacket[]>(sql, params);
+        molecules = rows as typeof molecules;
+      } finally {
+        await conn.end();
+      }
+
+      const results: Array<{
+        moleculeId: number; name: string; casNumber: string; currentQid: string | null;
+        status: "valid" | "wrong_qid" | "missing_qid" | "not_found" | "unverifiable" | "error";
+        suggestedQid: string | null; suggestedLabel: string | null; suggestedScore?: number;
+      }> = [];
+
+      for (const mol of molecules) {
+        try {
+          const casNumber = mol.cas_number!;
+          const currentQid = mol.wikidata_qid || null;
+          let casMatch = false;
+          let suggestedQid: string | null = null;
+          let suggestedLabel: string | null = null;
+          let suggestedScore = 0;
+
+          if (currentQid) {
+            try {
+              const sparql = `SELECT ?cas WHERE { wd:${currentQid} wdt:P231 ?cas } LIMIT 5`;
+              const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(sparql)}&format=json`;
+              const resp = await fetch(url, { headers: { "Accept": "application/json", "User-Agent": "PERFUMUM-Research/1.0" }, signal: AbortSignal.timeout(6000) });
+              if (resp.ok) {
+                const data = await resp.json() as { results?: { bindings?: Array<Record<string, { value: string }>> } };
+                casMatch = (data.results?.bindings ?? []).map(b => b.cas?.value ?? "").some(c => c.toLowerCase() === casNumber.toLowerCase());
+              }
+            } catch { /* timeout */ }
+          }
+
+          if (currentQid && casMatch) {
+            results.push({ moleculeId: mol.id, name: mol.name, casNumber, currentQid, status: "valid", suggestedQid: null, suggestedLabel: null });
+          } else {
+            try {
+              const sparql = `SELECT ?item ?label WHERE { ?item wdt:P231 "${casNumber}" . OPTIONAL { ?item rdfs:label ?label FILTER(LANG(?label)="fr" || LANG(?label)="en") } } LIMIT 3`;
+              const url = `https://query.wikidata.org/sparql?query=${encodeURIComponent(sparql)}&format=json`;
+              const resp = await fetch(url, { headers: { "Accept": "application/json", "User-Agent": "PERFUMUM-Research/1.0" }, signal: AbortSignal.timeout(6000) });
+              if (resp.ok) {
+                const data = await resp.json() as { results?: { bindings?: Array<Record<string, { value: string }>> } };
+                const bindings = data.results?.bindings ?? [];
+                if (bindings[0]) {
+                  suggestedQid = (bindings[0].item?.value ?? "").split("/").pop() ?? null;
+                  suggestedLabel = bindings[0].label?.value ?? null;
+                  suggestedScore = 98;
+                }
+              }
+            } catch { /* timeout */ }
+            const status = currentQid ? (suggestedQid ? "wrong_qid" : "unverifiable") : (suggestedQid ? "missing_qid" : "not_found");
+            results.push({ moleculeId: mol.id, name: mol.name, casNumber, currentQid, status, suggestedQid, suggestedLabel, suggestedScore });
+          }
+          await new Promise(r => setTimeout(r, 350));
+        } catch {
+          results.push({ moleculeId: mol.id, name: mol.name, casNumber: mol.cas_number!, currentQid: mol.wikidata_qid || null, status: "error", suggestedQid: null, suggestedLabel: null });
+        }
+      }
+
+      const summary = {
+        total: results.length,
+        valid: results.filter(r => r.status === "valid").length,
+        wrongQid: results.filter(r => r.status === "wrong_qid").length,
+        missingQid: results.filter(r => r.status === "missing_qid").length,
+        notFound: results.filter(r => r.status === "not_found").length,
+        unverifiable: results.filter(r => r.status === "unverifiable").length,
+        errors: results.filter(r => r.status === "error").length,
+      };
+      return { results, summary };
+    }),
+
+  /**
    * Statistiques globales sur la couverture QID des molécules
    */
   getQidCoverageStats: publicProcedure.query(async () => {

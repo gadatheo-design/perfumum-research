@@ -37,7 +37,8 @@ import {
   FileInput,
   FileStack,
   TrendingUp,
-  Film
+  Film,
+  ShieldCheck
 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -316,6 +317,14 @@ export default function Admin() {
       href: "/admin/molecule-qid-enrichment",
       color: "text-indigo-600",
       bgColor: "bg-indigo-50",
+    },
+    {
+      title: "Validation QID via CAS — Correction Automatique",
+      description: "Vérifier et corriger automatiquement les QIDs Wikidata erronés en les croisant avec les numéros CAS (propriété P231). Détecte les QIDs incorrects, propose les corrections et applique en batch.",
+      icon: ShieldCheck,
+      href: "/admin/qid-cas-validator",
+      color: "text-violet-600",
+      bgColor: "bg-violet-50",
     },
     {
       title: "Enrichissement Taxonomique — Plantes (Rapport 16)",
