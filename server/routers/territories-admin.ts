@@ -200,7 +200,8 @@ export const territoriesAdminRouter = router({
       try {
         // Requête GBIF pour statistiques par pays
         const countriesUrl = `https://api.gbif.org/v1/occurrence/search?family=${encodeURIComponent(family)}&facet=countryCode&limit=0&facetMincount=50`;
-        const countriesResp = await fetch(countriesUrl, { timeout: 8000 });
+        const countriesRespAbortCtrl = new AbortController(); setTimeout(() => countriesRespAbortCtrl.abort(), 8000);
+        const countriesResp = await fetch(countriesUrl, { signal: countriesRespAbortCtrl.signal });
         if (!countriesResp.ok) continue;
         const countriesData = await countriesResp.json() as any;
         const facets = countriesData.facets?.[0]?.counts || [];

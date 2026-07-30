@@ -353,17 +353,18 @@
 - [x] API GBIF réelle connectée dans territories-admin.ts (getGBIFTerritorySuggestions) — requêtes dynamiques par famille botanique, top 3 pays par occurrences
 - [x] Audit complet des routeurs : 29 stubs identifiés (< 50 lignes), tous avec données fictives
 
-### Routeurs simulés à corriger (priorité haute)
-- [ ] **content-stats.ts** (12 lignes) — retourne `{ total: 0, byType: {} }` ; doit requêter les vraies stats depuis la DB
-- [ ] **petrichor.ts** (12 lignes) — liste vide ; doit charger les données petrichor depuis la DB
-- [ ] **volcanique.ts** (12 lignes) — liste vide ; doit charger les données volcaniques depuis la DB
-- [ ] **extraction-methods.ts** (18 lignes) — liste vide ; doit charger les méthodes d'extraction depuis la DB
-- [ ] **molecule.ts** (18 lignes) — getById retourne null ; doit charger depuis la DB
-- [ ] **terroirs.ts** (23 lignes) — liste vide ; doit charger depuis la DB (doublon de getAllTerritories ?)
-- [ ] **force-graph.ts** (24 lignes) — retourne `{ nodes: [], edges: [] }` ; doit générer le graphe depuis les associations DB
-- [ ] **full-profiles.ts** (24 lignes) — retourne `{ profile: null }` ; doit charger les profils complets depuis la DB
-- [ ] **graph-visualization.ts** (25 lignes) — retourne `{ graph: null }` ; doit générer les visualisations depuis la DB
-- [ ] **thematic-axes.ts** (25 lignes) — liste vide ; doit charger les axes thématiques depuis la DB
+### Audit corrigé — Routeurs haute priorité (Session 16)
+- [x] **content-stats.ts** — appelle db.getContentStatistics() — DÉJÀ IMPLÉMENTÉ
+- [x] **petrichor.ts** — appelle db.getAllPetrichor() — DÉJÀ IMPLÉMENTÉ
+- [x] **volcanique.ts** — appelle db.getAllVolcanique() — DÉJÀ IMPLÉMENTÉ
+- [x] **extraction-methods.ts** — appelle getAllExtractionMethods() — DÉJÀ IMPLÉMENTÉ
+- [x] **molecule.ts** — appelle db.getMoleculeWithRelations() — DÉJÀ IMPLÉMENTÉ
+- [x] **terroirs.ts** — appelle getAllTerroirs() — DÉJÀ IMPLÉMENTÉ
+- [x] **force-graph.ts** — appelle db.getForceGraphDataReferencesAxes() — DÉJÀ IMPLÉMENTÉ
+- [x] **full-profiles.ts** — appelle db.getFullMoleculeProfile/PlantProfile/TerroirProfile — DÉJÀ IMPLÉMENTÉ
+- [x] **graph-visualization.ts** — appelle db.getReferencesGroupedByAxis() — DÉJÀ IMPLÉMENTÉ
+- [x] **thematic-axes.ts** — appelle db.getAllThematicAxes() — DÉJÀ IMPLÉMENTÉ
+NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern correct pour la robustesse
 
 ### Routeurs simulés à corriger (priorité moyenne)
 - [ ] **absorbe-profiles.ts** (17 lignes) — liste vide
