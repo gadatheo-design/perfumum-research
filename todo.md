@@ -367,27 +367,27 @@
 NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern correct pour la robustesse
 
 ### Routeurs simulés à corriger (priorité moyenne)
-- [ ] **absorbe-profiles.ts** (17 lignes) — liste vide
-- [ ] **climate-studies.ts** (17 lignes) — liste vide
-- [ ] **field-archives.ts** (17 lignes) — liste vide
-- [ ] **navigation.ts** (17 lignes) — liste vide
-- [ ] **situated-smells.ts** (17 lignes) — liste vide
-- [ ] **civilisation.ts** (14 lignes) — getById retourne null
-- [ ] **prototype.ts** (14 lignes) — getById retourne null
-- [ ] **recette.ts** (14 lignes) — getById retourne null
-- [ ] **civilisations.ts** (20 lignes) — liste vide
-- [ ] **experimental-accords.ts** (20 lignes) — liste vide
-- [ ] **installations.ts** (20 lignes) — liste vide
-- [ ] **prototypes.ts** (20 lignes) — liste vide
-- [ ] **terpene-synergies.ts** (20 lignes) — liste vide
+- [x] **absorbe-profiles.ts** (17 lignes) — liste vide
+- [x] **climate-studies.ts** (17 lignes) — liste vide
+- [x] **field-archives.ts** (17 lignes) — liste vide
+- [x] **navigation.ts** (17 lignes) — liste vide
+- [x] **situated-smells.ts** (17 lignes) — liste vide
+- [x] **civilisation.ts** (14 lignes) — getById retourne null
+- [x] **prototype.ts** (14 lignes) — getById retourne null
+- [x] **recette.ts** (14 lignes) — getById retourne null
+- [x] **civilisations.ts** (20 lignes) — liste vide
+- [x] **experimental-accords.ts** (20 lignes) — liste vide
+- [x] **installations.ts** (20 lignes) — liste vide
+- [x] **prototypes.ts** (20 lignes) — liste vide
+- [x] **terpene-synergies.ts** (20 lignes) — liste vide
 
 ### Routeurs simulés à corriger (priorité basse / à supprimer)
-- [ ] **extraction-tests.ts** (22 lignes) — liste vide
-- [ ] **molecular-protocols.ts** (22 lignes) — liste vide
-- [ ] **recherche-radicale.ts** (22 lignes) — liste vide
-- [ ] **plant-analyses.ts** (23 lignes) — liste vide
-- [ ] **plant-samples.ts** (23 lignes) — liste vide
-- [ ] **molecule-scientific-data.ts** (26 lignes) — liste vide
+- [x] **extraction-tests.ts** (22 lignes) — liste vide
+- [x] **molecular-protocols.ts** (22 lignes) — liste vide
+- [x] **recherche-radicale.ts** (22 lignes) — liste vide
+- [x] **plant-analyses.ts** (23 lignes) — liste vide
+- [x] **plant-samples.ts** (23 lignes) — liste vide
+- [x] **molecule-scientific-data.ts** (26 lignes) — liste vide
 
 ### Checkpoint Session 15
 - [x] API GBIF réelle connectée
