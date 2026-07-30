@@ -5,7 +5,7 @@ import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { ReferencesList } from "@/components/ReferencesList";
 import { trpc } from "@/lib/trpc";
 import { useEffect, useCallback } from "react";
-import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box, Flame, ArrowRight, GitBranch, Dna, Download, RefreshCw, Star, Wine, Plus, Trash2, Search, BookOpen, Copy, Check, FlaskConical } from "lucide-react";
+import { ArrowLeft, Loader2, Atom, Droplet, Thermometer, Zap, Sparkles, Leaf, FileDown, Globe, AlertTriangle, Beaker, MapPin, Shield, ExternalLink, Box, Flame, ArrowRight, GitBranch, Dna, Download, RefreshCw, Star, Wine, Plus, Trash2, Search, BookOpen, Copy, Check, FlaskConical, Network } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { MoleculeDetailSkeleton } from "@/components/skeletons";
 import { Button } from "@/components/ui/button";
@@ -30,7 +30,7 @@ import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 import { useBreadcrumbSegments } from "@/contexts/BreadcrumbContext";
 import type { MoleculeExtended } from "../../../../shared/domain-types";
-import { PerfumesTab, Structure3DTab, SynergiesTab, RecetteSynergiesSection, PyrfumeSection, SimilarMolecules, MoleculeNomenclatureTab, MoleculeOverviewTab, MoleculeScientificTab, MoleculeTransformationsTab, MoleculeBiosynthesisTab } from '@/components/molecule';
+import { PerfumesTab, Structure3DTab, SynergiesTab, RecetteSynergiesSection, PyrfumeSection, SimilarMolecules, MoleculeNomenclatureTab, MoleculeOverviewTab, MoleculeScientificTab, MoleculeTransformationsTab, MoleculeBiosynthesisTab, MoleculeKGTab } from '@/components/molecule';
 
 // Composant carte article PubMed avec bouton d'import dans PERFUMUM
 function PubMedArticleCard({ art, moleculeId, moleculeName }: {
@@ -1376,6 +1376,10 @@ export default function MoleculeDetail() {
                   <span className="hidden sm:inline">Fils narratifs ({(moleculeStorylines as unknown[]).length})</span>
                 </TabsTrigger>
               )}
+              <TabsTrigger value="knowledge-graph" className="flex items-center gap-1">
+                <Network className="h-3 w-3 text-cyan-600" />
+                <span className="hidden sm:inline">Knowledge Graph</span>
+              </TabsTrigger>
               <TabsTrigger value="pyrfume" className="flex items-center gap-1">
                 <FlaskConical className="h-3 w-3 text-purple-600" />
                 <span className="hidden sm:inline">Pyrfume</span>
@@ -2052,6 +2056,15 @@ export default function MoleculeDetail() {
               </TabErrorBoundary>
             </TabsContent>
           )}
+
+            {/* Onglet Knowledge Graph — Phase A (PubChem étendu) + Phase B (Wikidata KG) */}
+            {molecule?.id && (
+              <MoleculeKGTab
+                moleculeId={molecule.id}
+                moleculeName={molecule.name || ""}
+                wikidataQid={molecule.wikidataQid ?? null}
+              />
+            )}
 
             <TabsContent value="pyrfume" className="space-y-4 mt-6">
               <TabErrorBoundary tabLabel="Pyrfume">

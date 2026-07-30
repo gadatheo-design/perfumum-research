@@ -12,3 +12,4 @@ export { MoleculeOverviewTab } from './MoleculeOverviewTab';
 export { MoleculeScientificTab } from './MoleculeScientificTab';
 export { MoleculeTransformationsTab } from './MoleculeTransformationsTab';
 export { MoleculeBiosynthesisTab } from './MoleculeBiosynthesisTab';
+export { MoleculeKGTab } from './MoleculeKGTab';
