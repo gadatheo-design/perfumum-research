@@ -346,3 +346,49 @@
 - [x] Ajouter procédure getMoleculeDiscoveries dans timeline.ts (template temporal_molecule_discovery)
 - [x] Ajouter composant MoleculeDiscoveriesPanel dans TimelineBibliographie.tsx
 - [x] Checkpoint sauvegardé
+
+## Session Juillet 2026 (Suite 15) — Audit des routeurs simulés et API GBIF réelle
+
+### Routeurs corrigés
+- [x] API GBIF réelle connectée dans territories-admin.ts (getGBIFTerritorySuggestions) — requêtes dynamiques par famille botanique, top 3 pays par occurrences
+- [x] Audit complet des routeurs : 29 stubs identifiés (< 50 lignes), tous avec données fictives
+
+### Routeurs simulés à corriger (priorité haute)
+- [ ] **content-stats.ts** (12 lignes) — retourne `{ total: 0, byType: {} }` ; doit requêter les vraies stats depuis la DB
+- [ ] **petrichor.ts** (12 lignes) — liste vide ; doit charger les données petrichor depuis la DB
+- [ ] **volcanique.ts** (12 lignes) — liste vide ; doit charger les données volcaniques depuis la DB
+- [ ] **extraction-methods.ts** (18 lignes) — liste vide ; doit charger les méthodes d'extraction depuis la DB
+- [ ] **molecule.ts** (18 lignes) — getById retourne null ; doit charger depuis la DB
+- [ ] **terroirs.ts** (23 lignes) — liste vide ; doit charger depuis la DB (doublon de getAllTerritories ?)
+- [ ] **force-graph.ts** (24 lignes) — retourne `{ nodes: [], edges: [] }` ; doit générer le graphe depuis les associations DB
+- [ ] **full-profiles.ts** (24 lignes) — retourne `{ profile: null }` ; doit charger les profils complets depuis la DB
+- [ ] **graph-visualization.ts** (25 lignes) — retourne `{ graph: null }` ; doit générer les visualisations depuis la DB
+- [ ] **thematic-axes.ts** (25 lignes) — liste vide ; doit charger les axes thématiques depuis la DB
+
+### Routeurs simulés à corriger (priorité moyenne)
+- [ ] **absorbe-profiles.ts** (17 lignes) — liste vide
+- [ ] **climate-studies.ts** (17 lignes) — liste vide
+- [ ] **field-archives.ts** (17 lignes) — liste vide
+- [ ] **navigation.ts** (17 lignes) — liste vide
+- [ ] **situated-smells.ts** (17 lignes) — liste vide
+- [ ] **civilisation.ts** (14 lignes) — getById retourne null
+- [ ] **prototype.ts** (14 lignes) — getById retourne null
+- [ ] **recette.ts** (14 lignes) — getById retourne null
+- [ ] **civilisations.ts** (20 lignes) — liste vide
+- [ ] **experimental-accords.ts** (20 lignes) — liste vide
+- [ ] **installations.ts** (20 lignes) — liste vide
+- [ ] **prototypes.ts** (20 lignes) — liste vide
+- [ ] **terpene-synergies.ts** (20 lignes) — liste vide
+
+### Routeurs simulés à corriger (priorité basse / à supprimer)
+- [ ] **extraction-tests.ts** (22 lignes) — liste vide
+- [ ] **molecular-protocols.ts** (22 lignes) — liste vide
+- [ ] **recherche-radicale.ts** (22 lignes) — liste vide
+- [ ] **plant-analyses.ts** (23 lignes) — liste vide
+- [ ] **plant-samples.ts** (23 lignes) — liste vide
+- [ ] **molecule-scientific-data.ts** (26 lignes) — liste vide
+
+### Checkpoint Session 15
+- [x] API GBIF réelle connectée
+- [x] Audit documenté dans todo.md
+- [x] Serveur stable HTTP 200
