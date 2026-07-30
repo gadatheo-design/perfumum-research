@@ -8,6 +8,16 @@ export const milestonesRouter = router({
   list: publicProcedure.query(async () => {
     return await db.getMilestones();
   }),
+
+  // Jalons de recherche (researchTimeline) avec quarter, status, priority, phase, progress
+  listResearch: publicProcedure.query(async () => {
+    return await db.getAllMilestones();
+  }),
+
+  // Stats des jalons de recherche
+  statsResearch: publicProcedure.query(async () => {
+    return await db.getTimelineStats();
+  }),
   
   getById: publicProcedure
     .input(z.number())
