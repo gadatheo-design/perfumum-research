@@ -26,6 +26,8 @@ interface TimelineEvent {
   url?: string;
   description?: string;
   citedByCount?: number;
+  startDate?: string;
+  endDate?: string;
 }
 
 interface TimelineStats {

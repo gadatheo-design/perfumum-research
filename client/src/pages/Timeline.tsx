@@ -15,8 +15,8 @@ import {
 
 export function Timeline() {
   const [selectedYear, setSelectedYear] = useState<number | null>(null);
-  const { data: milestones = [], isLoading } = trpc.timeline.list.useQuery();
-  const { data: stats } = trpc.timeline.stats?.useQuery();
+  const { data: milestones = [], isLoading } = trpc.milestones.list.useQuery();
+  const { data: stats } = trpc.timeline.stats.useQuery();
 
   // Group milestones by quarter
   const groupedByQuarter = milestones?.reduce((acc, milestone) => {

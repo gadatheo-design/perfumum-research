@@ -1044,25 +1044,169 @@ LIMIT 15`,
       useCache: z.boolean().default(true),
     }))
     .query(async ({ input }) => {
-      // 1. Récupérer le QID Wikidata de l'entité
+      // 1. Récupérer le QID Wikidata + métadonnées de l'entité
       const conn = await mysql.createConnection(process.env.DATABASE_URL!);
       let qid: string | null = null;
       let entityName = "";
+      let latinName: string | null = null;   // plantes uniquement
+      let casNumber: string | null = null;   // molécules uniquement
+      let iupacName: string | null = null;   // molécules uniquement
+      let formula: string | null = null;     // molécules uniquement
+      let familyName: string | null = null;  // molécules uniquement
       try {
-        let table = "molecules"; let nameCol = "name";
-        if (input.entityType === "plant") { table = "plants"; nameCol = "name"; }
-        else if (input.entityType === "family") { table = "olfactive_families"; nameCol = "name"; }
-        const [rows] = await conn.execute<mysql.RowDataPacket[]>(
-          `SELECT wikidata_qid, ${nameCol} as name FROM ${table} WHERE id = ? LIMIT 1`,
-          [input.entityId]
-        );
-        if (rows.length > 0) { qid = rows[0].wikidata_qid as string | null; entityName = rows[0].name as string; }
+        if (input.entityType === "molecule") {
+          const [rows] = await conn.execute<mysql.RowDataPacket[]>(
+            "SELECT wikidata_qid, name, cas_number, iupac_name, formula, family FROM molecules WHERE id = ? LIMIT 1",
+            [input.entityId]
+          );
+          if (rows.length > 0) {
+            qid = rows[0].wikidata_qid as string | null;
+            entityName = rows[0].name as string;
+            casNumber = rows[0].cas_number as string | null;
+            iupacName = rows[0].iupac_name as string | null;
+            formula = rows[0].formula as string | null;
+            familyName = rows[0].family as string | null;
+          }
+        } else if (input.entityType === "plant") {
+          const [rows] = await conn.execute<mysql.RowDataPacket[]>(
+            "SELECT wikidata_qid, name, latin_name FROM plants WHERE id = ? LIMIT 1",
+            [input.entityId]
+          );
+          if (rows.length > 0) {
+            qid = rows[0].wikidata_qid as string | null;
+            entityName = rows[0].name as string;
+            latinName = rows[0].latin_name as string | null;
+          }
+        } else {
+          const [rows] = await conn.execute<mysql.RowDataPacket[]>(
+            "SELECT wikidata_qid, name FROM olfactive_families WHERE id = ? LIMIT 1",
+            [input.entityId]
+          );
+          if (rows.length > 0) {
+            qid = rows[0].wikidata_qid as string | null;
+            entityName = rows[0].name as string;
+          }
+        }
       } finally { await conn.end(); }
 
-      if (!qid) return { found: false, entityId: input.entityId, entityType: input.entityType, message: "Entité sans QID Wikidata — impossible d'interroger Wikidata" };
+      // 2. Fallback : si pas de QID, tenter de résoudre via nom latin (plante) ou CAS/IUPAC (molécule)
+      const WIKIDATA_SPARQL = "https://query.wikidata.org/sparql";
+      const WD_HEADERS = { "Accept": "application/sparql-results+json", "User-Agent": "PERFUMUM-Research/1.0 (https://perfumum-h2pjhhjb.manus.space)" };
 
-      // 2. Construire la requête SPARQL Wikidata selon le type
-      const cacheKey = `federated_wikidata_${qid}_${input.queryType}_${input.limit}`;
+      // Helper : résoudre un QID via CAS (molécule) ou nom latin (plante)
+      const resolveQidFromIdentifiers = async (): Promise<string | null> => {
+        if (input.entityType === "molecule" && casNumber) {
+          const safeCas = casNumber.replace(/"/g, "\\\"");
+          const q = `SELECT ?item WHERE { ?item wdt:P231 "${safeCas}" . } LIMIT 1`;
+          try {
+            const res = await fetch(`${WIKIDATA_SPARQL}?query=${encodeURIComponent(q)}&format=json`, { headers: WD_HEADERS, signal: AbortSignal.timeout(8000) });
+            if (res.ok) {
+              const data = await res.json() as Record<string, unknown>;
+              const b = ((data.results as Record<string, unknown>)?.bindings as Record<string, { value: string }>[]) ?? [];
+              if (b.length > 0) return b[0].item?.value.split("/").pop() ?? null;
+            }
+          } catch { /* ignore */ }
+        } else if (input.entityType === "plant" && latinName) {
+          const safeLatin = latinName.replace(/"/g, "\\\"");
+          const q = `SELECT ?item WHERE { ?item wdt:P225 "${safeLatin}" . } LIMIT 1`;
+          try {
+            const res = await fetch(`${WIKIDATA_SPARQL}?query=${encodeURIComponent(q)}&format=json`, { headers: WD_HEADERS, signal: AbortSignal.timeout(8000) });
+            if (res.ok) {
+              const data = await res.json() as Record<string, unknown>;
+              const b = ((data.results as Record<string, unknown>)?.bindings as Record<string, { value: string }>[]) ?? [];
+              if (b.length > 0) return b[0].item?.value.split("/").pop() ?? null;
+            }
+          } catch { /* ignore */ }
+        }
+        return null;
+      };
+
+      if (!qid) {
+        // Tentative de résolution du QID via Wikidata
+        let resolveQuery = "";
+        if (input.entityType === "plant" && latinName) {
+          // Recherche par nom scientifique (taxon)
+          const safeName = latinName.replace(/"/g, "\\\"");
+          resolveQuery = `SELECT ?item WHERE {
+  ?item wdt:P225 "${safeName}" .
+} LIMIT 1`;
+        } else if (input.entityType === "plant") {
+          // Fallback : recherche par label fr/en
+          const safeName = entityName.replace(/"/g, "\\\"");
+          resolveQuery = `SELECT ?item WHERE {
+  ?item wdt:P31/wdt:P279* wd:Q756 .
+  ?item rdfs:label ?label .
+  FILTER(LANG(?label) = "fr" || LANG(?label) = "en")
+  FILTER(LCASE(?label) = LCASE("${safeName}"))
+} LIMIT 1`;
+        } else if (input.entityType === "molecule" && casNumber) {
+          // Recherche par numéro CAS
+          const safeCas = casNumber.replace(/"/g, "\\\"");
+          resolveQuery = `SELECT ?item WHERE {
+  ?item wdt:P231 "${safeCas}" .
+} LIMIT 1`;
+        } else if (input.entityType === "molecule" && iupacName) {
+          // Recherche par nom IUPAC
+          const safeIupac = iupacName.replace(/"/g, "\\\"");
+          resolveQuery = `SELECT ?item WHERE {
+  ?item wdt:P31/wdt:P279* wd:Q11173 .
+  ?item rdfs:label ?label .
+  FILTER(LANG(?label) = "en")
+  FILTER(LCASE(?label) = LCASE("${safeIupac}"))
+} LIMIT 1`;
+        } else if (entityName) {
+          // Fallback générique par label
+          const safeName = entityName.replace(/"/g, "\\\"");
+          resolveQuery = `SELECT ?item WHERE {
+  ?item rdfs:label ?label .
+  FILTER(LANG(?label) = "fr" || LANG(?label) = "en")
+  FILTER(LCASE(?label) = LCASE("${safeName}"))
+} LIMIT 1`;
+        }
+
+        if (resolveQuery) {
+          try {
+            const resolveUrl = `${WIKIDATA_SPARQL}?query=${encodeURIComponent(resolveQuery)}&format=json`;
+            const resolveRes = await fetch(resolveUrl, { headers: WD_HEADERS, signal: AbortSignal.timeout(10000) });
+            if (resolveRes.ok) {
+              const resolveData = await resolveRes.json() as Record<string, unknown>;
+              const resolveBindings = ((resolveData.results as Record<string, unknown>)?.bindings as Record<string, { value: string }>[]) ?? [];
+              if (resolveBindings.length > 0 && resolveBindings[0].item?.value) {
+                const resolvedQid = resolveBindings[0].item.value.split("/").pop() ?? null;
+                if (resolvedQid?.startsWith("Q")) qid = resolvedQid;
+              }
+            }
+          } catch { /* ignore fallback errors */ }
+        }
+
+        if (!qid) {
+          // Dernier recours : recherche textuelle large via l'API Wikidata
+          const searchLabel = latinName ?? casNumber ?? iupacName ?? entityName;
+          try {
+            const searchUrl = `https://www.wikidata.org/w/api.php?action=wbsearchentities&search=${encodeURIComponent(searchLabel)}&language=fr&limit=1&format=json&origin=*`;
+            const searchRes = await fetch(searchUrl, { signal: AbortSignal.timeout(8000) });
+            if (searchRes.ok) {
+              const searchData = await searchRes.json() as { search?: { id: string }[] };
+              if (searchData.search?.length) qid = searchData.search[0].id;
+            }
+          } catch { /* ignore */ }
+        }
+
+        if (!qid) {
+          return {
+            found: false,
+            entityId: input.entityId,
+            entityType: input.entityType,
+            entityName,
+            latinName,
+            casNumber,
+            message: `Aucun QID Wikidata trouvé pour « ${entityName}${latinName ? ` (${latinName})` : ""} » — ni en base, ni via la recherche de secours.`,
+          };
+        }
+      }
+
+      // 3. Construire la requête SPARQL Wikidata selon le type
+      const cacheKey = `federated_wikidata_v2_${qid}_${input.queryType}_${input.limit}`;
       if (input.useCache) {
         const cached = _sparqlCache.get(cacheKey);
         if (cached && Date.now() < cached.exp) return cached.result;
@@ -1072,39 +1216,135 @@ LIMIT 15`,
       }
 
       let sparqlQuery = "";
-      const WIKIDATA_SPARQL = "https://query.wikidata.org/sparql";
+      const L = Math.min(input.limit, 50);
 
       if (input.queryType === "taxonomy") {
-        sparqlQuery = `SELECT ?parent ?parentLabel ?rank ?rankLabel WHERE {
-  wd:${qid} wdt:P171* ?parent .
-  ?parent wdt:P105 ?rank .
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
-} LIMIT ${input.limit}`;
+        // Taxonomie élargie : remonte la hiérarchie ET descend les sous-taxons directs
+        sparqlQuery = `SELECT DISTINCT ?taxon ?taxonLabel ?rank ?rankLabel ?parent ?parentLabel WHERE {
+  {
+    # Ancêtres (remonte la hiérarchie)
+    wd:${qid} wdt:P171+ ?taxon .
+    ?taxon wdt:P105 ?rank .
+    OPTIONAL { ?taxon wdt:P171 ?parent . }
+  } UNION {
+    # Sous-taxons directs
+    ?taxon wdt:P171 wd:${qid} .
+    ?taxon wdt:P105 ?rank .
+    BIND(wd:${qid} AS ?parent)
+  } UNION {
+    # L'entité elle-même
+    BIND(wd:${qid} AS ?taxon)
+    OPTIONAL { wd:${qid} wdt:P105 ?rank . }
+    OPTIONAL { wd:${qid} wdt:P171 ?parent . }
+  }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en,la" . }
+} LIMIT ${L}`;
+
       } else if (input.queryType === "publications") {
-        sparqlQuery = `SELECT ?work ?workLabel ?date ?doi WHERE {
-  ?work wdt:P921 wd:${qid} .
+        // Publications élargies : sujet principal + sous-concepts + tout type de publication
+        sparqlQuery = `SELECT DISTINCT ?work ?workLabel ?date ?doi ?journalLabel ?typeLabel WHERE {
+  {
+    # Sujet principal de l'\u0153uvre
+    ?work wdt:P921 wd:${qid} .
+  } UNION {
+    # L'\u0153uvre porte sur un sous-concept lié (ex. énantiomère, dérivé)
+    wd:${qid} wdt:P279 ?related .
+    ?work wdt:P921 ?related .
+  } UNION {
+    # Sous-classes directes
+    ?related wdt:P279 wd:${qid} .
+    ?work wdt:P921 ?related .
+  }
   OPTIONAL { ?work wdt:P577 ?date . }
   OPTIONAL { ?work wdt:P356 ?doi . }
+  OPTIONAL { ?work wdt:P1433 ?journal . }
+  OPTIONAL { ?work wdt:P31 ?type . }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
-} ORDER BY DESC(?date) LIMIT ${input.limit}`;
+} ORDER BY DESC(?date) LIMIT ${L}`;
+
       } else if (input.queryType === "images") {
-        sparqlQuery = `SELECT ?image ?depictsLabel WHERE {
-  wd:${qid} wdt:P18 ?image .
-  OPTIONAL { wd:${qid} rdfs:label ?depictsLabel . FILTER(LANG(?depictsLabel) = "fr") }
-} LIMIT ${input.limit}`;
+        // Images élargies : image principale + dépôts Wikimedia + structures chimiques
+        sparqlQuery = `SELECT DISTINCT ?image ?imageType ?caption WHERE {
+  {
+    BIND("photo" AS ?imageType)
+    wd:${qid} wdt:P18 ?image .
+  } UNION {
+    BIND("structure" AS ?imageType)
+    wd:${qid} wdt:P117 ?image .  # structure chimique
+  } UNION {
+    BIND("illustration" AS ?imageType)
+    wd:${qid} wdt:P94 ?image .   # blason/logo
+  } UNION {
+    BIND("depiction" AS ?imageType)
+    wd:${qid} wdt:P8592 ?image . # image représentative
+  } UNION {
+    BIND("taxon" AS ?imageType)
+    wd:${qid} wdt:P18 ?image .   # taxon image
+  }
+  OPTIONAL { wd:${qid} schema:description ?caption . FILTER(LANG(?caption) = "fr") }
+} LIMIT ${L}`;
+
       } else if (input.queryType === "related") {
-        sparqlQuery = `SELECT ?related ?relatedLabel ?relation ?relationLabel WHERE {
-  { wd:${qid} ?relation ?related . ?related wdt:P31 wd:Q11173 . }
-  UNION
-  { ?related ?relation wd:${qid} . ?related wdt:P31 wd:Q11173 . }
+        // Entités liées : sous-classes, super-classes, composants, plantes productrices
+        // Note : le bloc P31 (même famille) est exclu car il cause des timeouts Wikidata
+        sparqlQuery = `SELECT DISTINCT ?related ?relatedLabel ?relation ?formula WHERE {
+  {
+    # Sous-classes directes
+    ?related wdt:P279 wd:${qid} .
+    BIND("sous-classe" AS ?relation)
+  } UNION {
+    # Super-classes
+    wd:${qid} wdt:P279 ?related .
+    BIND("super-classe" AS ?relation)
+  } UNION {
+    # Composants chimiques (P527)
+    wd:${qid} wdt:P527 ?related .
+    BIND("composé de" AS ?relation)
+  } UNION {
+    # Produits dérivés (P527 inverse)
+    ?related wdt:P527 wd:${qid} .
+    BIND("dérivé de" AS ?relation)
+  } UNION {
+    # Plantes productrices (si molécule) — P1582
+    ?related wdt:P1582 wd:${qid} .
+    BIND("produit par" AS ?relation)
+  } UNION {
+    # Molécules produites (si plante) — P1582
+    wd:${qid} wdt:P1582 ?related .
+    BIND("produit" AS ?relation)
+  } UNION {
+    # Taxons frères (même parent taxonomique)
+    wd:${qid} wdt:P171 ?parent .
+    ?related wdt:P171 ?parent .
+    FILTER(?related != wd:${qid})
+    BIND("taxon frère" AS ?relation)
+  }
+  OPTIONAL { ?related wdt:P274 ?formula . }
+  FILTER(?related != wd:${qid})
   SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
-} LIMIT ${input.limit}`;
+} LIMIT ${L}`;
+
       } else if (input.queryType === "timeline") {
-        sparqlQuery = `SELECT ?year (COUNT(?work) AS ?count) WHERE {
-  ?work wdt:P921 wd:${qid} .
-  ?work wdt:P577 ?date .
-  BIND(YEAR(?date) AS ?year)
-  FILTER(?year >= 1900 && ?year <= 2030)
+        // Frise temporelle élargie : publications + événements notables + découvertes
+        sparqlQuery = `SELECT ?year (COUNT(DISTINCT ?work) AS ?publications) (COUNT(DISTINCT ?event) AS ?events) WHERE {
+  {
+    # Publications scientifiques (sujet principal)
+    ?work wdt:P921 wd:${qid} .
+    ?work wdt:P577 ?date .
+    BIND(YEAR(?date) AS ?year)
+  } UNION {
+    # Publications sur les sous-concepts
+    ?related wdt:P279 wd:${qid} .
+    ?work wdt:P921 ?related .
+    ?work wdt:P577 ?date .
+    BIND(YEAR(?date) AS ?year)
+  } UNION {
+    # Événements notables (découverte, brevet, etc.)
+    BIND(wd:${qid} AS ?event)
+    wd:${qid} wdt:P575 ?date .  # date de découverte
+    BIND(YEAR(?date) AS ?year)
+  }
+  FILTER(?year >= 1800 && ?year <= 2030)
 } GROUP BY ?year ORDER BY ?year`;
       }
 
@@ -1112,7 +1352,7 @@ LIMIT 15`,
         const startTime = Date.now();
         const url = `${WIKIDATA_SPARQL}?query=${encodeURIComponent(sparqlQuery)}&format=json`;
         const res = await fetch(url, {
-          headers: { "Accept": "application/sparql-results+json", "User-Agent": "PERFUMUM-Research/1.0 (https://perfumum-h2pjhhjb.manus.space)" },
+          headers: WD_HEADERS,
           signal: AbortSignal.timeout(20000),
         });
         if (!res.ok) return { found: true, qid, entityName, error: `Wikidata HTTP ${res.status}`, results: [] };
@@ -1120,7 +1360,79 @@ LIMIT 15`,
         const bindings = ((data.results as Record<string, unknown>)?.bindings as Record<string, unknown>[]) ?? [];
         const vars = ((data.head as Record<string, unknown>)?.vars as string[]) ?? [];
         const execMs = Date.now() - startTime;
-        const result = { found: true, qid, entityName, entityType: input.entityType, queryType: input.queryType, vars, bindings, count: bindings.length, executionMs: execMs, sparqlQuery };
+
+        // Si 0 résultat, tenter de corriger le QID via CAS/nom latin (QID en base potentiellement erroné)
+        let finalBindings = bindings;
+        let finalVars = vars;
+        let fallbackUsed = false;
+        let correctedQid: string | null = null;
+
+        if (bindings.length === 0) {
+          // Tenter de résoudre un QID plus précis via identifiants chimiques
+          const resolvedQid = await resolveQidFromIdentifiers();
+          if (resolvedQid && resolvedQid !== qid) {
+            correctedQid = resolvedQid;
+            // Reconstruire la requête avec le QID corrigé
+            const correctedQuery = sparqlQuery.replace(new RegExp(`wd:${qid}`, 'g'), `wd:${resolvedQid}`);
+            try {
+              const corrUrl = `${WIKIDATA_SPARQL}?query=${encodeURIComponent(correctedQuery)}&format=json`;
+              const corrRes = await fetch(corrUrl, { headers: WD_HEADERS, signal: AbortSignal.timeout(15000) });
+              if (corrRes.ok) {
+                const corrData = await corrRes.json() as Record<string, unknown>;
+                const corrBindings = ((corrData.results as Record<string, unknown>)?.bindings as Record<string, unknown>[]) ?? [];
+                if (corrBindings.length > 0) {
+                  finalBindings = corrBindings;
+                  finalVars = ((corrData.head as Record<string, unknown>)?.vars as string[]) ?? vars;
+                  fallbackUsed = true;
+                }
+              }
+            } catch { /* ignore */ }
+          }
+        }
+
+        // Deuxième fallback : recherche textuelle si toujours 0 résultat pour publications
+        if (finalBindings.length === 0 && input.queryType === "publications") {
+          const searchLabel = latinName ?? casNumber ?? iupacName ?? entityName;
+          const fallbackSparql = `SELECT DISTINCT ?work ?workLabel ?date ?doi ?journalLabel WHERE {
+  ?work wdt:P921 ?subject .
+  ?subject rdfs:label ?subjectLabel .
+  FILTER(LANG(?subjectLabel) = "en")
+  FILTER(CONTAINS(LCASE(STR(?subjectLabel)), LCASE("${searchLabel.replace(/"/g, "\\\"").slice(0, 40)}"))) .
+  OPTIONAL { ?work wdt:P577 ?date . }
+  OPTIONAL { ?work wdt:P356 ?doi . }
+  OPTIONAL { ?work wdt:P1433 ?journal . }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "fr,en" . }
+} ORDER BY DESC(?date) LIMIT ${L}`;
+          try {
+            const fbUrl = `${WIKIDATA_SPARQL}?query=${encodeURIComponent(fallbackSparql)}&format=json`;
+            const fbRes = await fetch(fbUrl, { headers: WD_HEADERS, signal: AbortSignal.timeout(15000) });
+            if (fbRes.ok) {
+              const fbData = await fbRes.json() as Record<string, unknown>;
+              const fbBindings = ((fbData.results as Record<string, unknown>)?.bindings as Record<string, unknown>[]) ?? [];
+              if (fbBindings.length > 0) {
+                finalBindings = fbBindings;
+                finalVars = ((fbData.head as Record<string, unknown>)?.vars as string[]) ?? vars;
+                fallbackUsed = true;
+              }
+            }
+          } catch { /* ignore fallback */ }
+        }
+
+        const result = {
+          found: true,
+          qid,
+          entityName,
+          latinName,
+          casNumber,
+          entityType: input.entityType,
+          queryType: input.queryType,
+          vars: finalVars,
+          bindings: finalBindings,
+          count: finalBindings.length,
+          executionMs: execMs,
+          sparqlQuery,
+          fallbackUsed,
+        };
         if (input.useCache) {
           _sparqlCache.set(cacheKey, { result, exp: Date.now() + 5 * 60 * 1000 });
           void writeDbCache(hashQuery(cacheKey), sparqlQuery, "FEDERATED_WIKIDATA", result, execMs);
