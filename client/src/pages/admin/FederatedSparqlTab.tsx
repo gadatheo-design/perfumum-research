@@ -109,6 +109,223 @@ function SparqlResultTable({ vars, bindings }: {
   );
 }
 
+// ─── Sous-composant : Résultats OpenAlex dédiés ──────────────────────────────
+interface OAWork {
+  id?: string;
+  title?: string;
+  publication_year?: number;
+  doi?: string;
+  cited_by_count?: number;
+  primary_location?: { source?: { display_name?: string } };
+  authorships?: { author?: { display_name?: string } }[];
+}
+interface OAAuthor {
+  id?: string;
+  display_name?: string;
+  works_count?: number;
+  cited_by_count?: number;
+  last_known_institution?: { display_name?: string };
+}
+interface OAConcept {
+  id?: string;
+  display_name?: string;
+  level?: number;
+  description?: string;
+}
+interface OAGroupBy {
+  key: string;
+  count: number;
+}
+
+function OpenAlexResultPanel({ data, queryType }: { data: Record<string, unknown>; queryType: string }) {
+  const results = Array.isArray(data.results) ? data.results as unknown[] : [];
+  const groupBy = Array.isArray(data.group_by) ? data.group_by as OAGroupBy[] : [];
+  const meta = data.meta as Record<string, unknown> | undefined;
+  const totalCount = meta?.count as number | undefined;
+
+  // Frise temporelle (group_by publication_year)
+  if (queryType === "timeline") {
+    if (groupBy.length === 0) {
+      return <p className="text-sm text-muted-foreground text-center py-6">Aucune donnée de frise temporelle disponible.</p>;
+    }
+    const sorted = [...groupBy].sort((a, b) => Number(a.key) - Number(b.key));
+    const maxCount = Math.max(...sorted.map((r) => r.count), 1);
+    return (
+      <div className="space-y-2">
+        {totalCount !== undefined && (
+          <p className="text-xs text-muted-foreground">{totalCount.toLocaleString("fr-FR")} publications au total</p>
+        )}
+        <div className="overflow-x-auto rounded-lg border border-border/60">
+          <table className="w-full text-xs">
+            <thead className="bg-muted/50">
+              <tr>
+                <th className="px-3 py-2 text-left font-medium text-muted-foreground">Année</th>
+                <th className="px-3 py-2 text-left font-medium text-muted-foreground">Publications</th>
+                <th className="px-3 py-2 text-left font-medium text-muted-foreground w-48">Barre</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sorted.map((row) => {
+                const pct = Math.round((row.count / maxCount) * 100);
+                return (
+                  <tr key={row.key} className="border-t hover:bg-muted/30">
+                    <td className="px-3 py-1.5 font-mono font-medium">{row.key}</td>
+                    <td className="px-3 py-1.5">{row.count}</td>
+                    <td className="px-3 py-1.5">
+                      <div className="h-2 bg-blue-100 dark:bg-blue-900/30 rounded-full overflow-hidden">
+                        <div className="h-full bg-blue-500 rounded-full" style={{ width: `${pct}%` }} />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+  }
+
+  // Auteurs
+  if (queryType === "authors") {
+    const authors = results as OAAuthor[];
+    if (authors.length === 0) {
+      return <p className="text-sm text-muted-foreground text-center py-6">Aucun auteur trouvé pour cette entité.</p>;
+    }
+    return (
+      <div className="overflow-x-auto rounded-lg border border-border/60">
+        <table className="w-full text-xs">
+          <thead className="bg-muted/50">
+            <tr>
+              <th className="px-3 py-2 text-left font-medium text-muted-foreground">Auteur</th>
+              <th className="px-3 py-2 text-left font-medium text-muted-foreground">Institution</th>
+              <th className="px-3 py-2 text-right font-medium text-muted-foreground">Publications</th>
+              <th className="px-3 py-2 text-right font-medium text-muted-foreground">Citations</th>
+              <th className="px-3 py-2 text-left font-medium text-muted-foreground">Lien</th>
+            </tr>
+          </thead>
+          <tbody>
+            {authors.slice(0, 50).map((a, i) => (
+              <tr key={a.id ?? i} className="border-t hover:bg-muted/30">
+                <td className="px-3 py-2 font-medium">{a.display_name ?? "—"}</td>
+                <td className="px-3 py-2 text-muted-foreground truncate max-w-[180px]">{a.last_known_institution?.display_name ?? "—"}</td>
+                <td className="px-3 py-2 text-right font-mono">{a.works_count ?? "—"}</td>
+                <td className="px-3 py-2 text-right font-mono">{a.cited_by_count ?? "—"}</td>
+                <td className="px-3 py-2">
+                  {a.id && (
+                    <a href={a.id} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline flex items-center gap-1">
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  // Concepts
+  if (queryType === "concepts") {
+    const concepts = results as OAConcept[];
+    if (concepts.length === 0) {
+      return <p className="text-sm text-muted-foreground text-center py-6">Aucun concept trouvé pour cette entité.</p>;
+    }
+    return (
+      <div className="overflow-x-auto rounded-lg border border-border/60">
+        <table className="w-full text-xs">
+          <thead className="bg-muted/50">
+            <tr>
+              <th className="px-3 py-2 text-left font-medium text-muted-foreground">Concept</th>
+              <th className="px-3 py-2 text-left font-medium text-muted-foreground">Niveau</th>
+              <th className="px-3 py-2 text-left font-medium text-muted-foreground">Description</th>
+              <th className="px-3 py-2 text-left font-medium text-muted-foreground">Lien</th>
+            </tr>
+          </thead>
+          <tbody>
+            {concepts.slice(0, 50).map((c, i) => (
+              <tr key={c.id ?? i} className="border-t hover:bg-muted/30">
+                <td className="px-3 py-2 font-medium">{c.display_name ?? "—"}</td>
+                <td className="px-3 py-2 text-center">
+                  <span className="px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-[10px] font-mono">
+                    L{c.level ?? "?"}
+                  </span>
+                </td>
+                <td className="px-3 py-2 text-muted-foreground truncate max-w-[240px]">{c.description ?? "—"}</td>
+                <td className="px-3 py-2">
+                  {c.id && (
+                    <a href={c.id} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline flex items-center gap-1">
+                      <ExternalLink className="h-3 w-3" />
+                    </a>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  // Publications (défaut)
+  const works = results as OAWork[];
+  if (works.length === 0) {
+    return <p className="text-sm text-muted-foreground text-center py-6">Aucune publication OpenAlex trouvée pour cette entité.</p>;
+  }
+  return (
+    <div className="space-y-2">
+      {totalCount !== undefined && (
+        <p className="text-xs text-muted-foreground">
+          {totalCount.toLocaleString("fr-FR")} publications trouvées
+          {works.length < totalCount ? ` — affichage des ${works.length} premières` : ""}
+        </p>
+      )}
+      <div className="overflow-x-auto rounded-lg border border-border/60">
+        <table className="w-full text-xs">
+          <thead className="bg-muted/50">
+            <tr>
+              <th className="px-3 py-2 text-left font-medium text-muted-foreground">Titre</th>
+              <th className="px-3 py-2 text-left font-medium text-muted-foreground">Année</th>
+              <th className="px-3 py-2 text-left font-medium text-muted-foreground">Journal</th>
+              <th className="px-3 py-2 text-left font-medium text-muted-foreground">Auteurs</th>
+              <th className="px-3 py-2 text-right font-medium text-muted-foreground">Citations</th>
+              <th className="px-3 py-2 text-left font-medium text-muted-foreground">DOI</th>
+            </tr>
+          </thead>
+          <tbody>
+            {works.slice(0, 50).map((w, i) => {
+              const journal = w.primary_location?.source?.display_name;
+              const authors = (w.authorships ?? []).slice(0, 3).map((a) => a.author?.display_name ?? "").filter(Boolean).join(", ");
+              const doi = w.doi ? w.doi.replace("https://doi.org/", "") : null;
+              return (
+                <tr key={w.id ?? i} className="border-t hover:bg-muted/30">
+                  <td className="px-3 py-2 max-w-[240px]">
+                    <span className="line-clamp-2 leading-tight" title={w.title}>{w.title ?? "Sans titre"}</span>
+                  </td>
+                  <td className="px-3 py-2 font-mono whitespace-nowrap">{w.publication_year ?? "—"}</td>
+                  <td className="px-3 py-2 text-muted-foreground truncate max-w-[140px]">{journal ?? "—"}</td>
+                  <td className="px-3 py-2 text-muted-foreground truncate max-w-[160px]">{authors || "—"}</td>
+                  <td className="px-3 py-2 text-right font-mono">{w.cited_by_count ?? "—"}</td>
+                  <td className="px-3 py-2">
+                    {doi ? (
+                      <a href={`https://doi.org/${doi}`} target="_blank" rel="noopener noreferrer"
+                        className="text-blue-600 hover:underline flex items-center gap-1 whitespace-nowrap">
+                        <ExternalLink className="h-3 w-3" />
+                        <span className="font-mono text-[10px]">{doi.slice(0, 20)}{doi.length > 20 ? "…" : ""}</span>
+                      </a>
+                    ) : "—"}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
 // ─── Sous-composant : Résultats enrichis (federatedEnrich) ───────────────────
 function EnrichResultPanel({ data }: { data: Record<string, unknown> }) {
   const perfumum = data.perfumumData as Record<string, unknown> | undefined;
@@ -510,6 +727,9 @@ export function FederatedSparqlTab() {
                 {(data as FederatedResult).executionMs !== undefined && (
                   <span className="font-mono">{(data as FederatedResult).executionMs}ms</span>
                 )}
+                {source === "openalex" && (data as Record<string, unknown>).executionMs !== undefined && (
+                  <span className="font-mono">{String((data as Record<string, unknown>).executionMs)}ms</span>
+                )}
               </div>
             </div>
           )}
@@ -536,16 +756,17 @@ export function FederatedSparqlTab() {
             </div>
           )}
 
-          {/* Résultats Wikidata / OpenAlex */}
-          {!isLoading && !error && data && source !== "enrich" && (
+          {/* Résultats Wikidata SPARQL */}
+          {!isLoading && !error && data && source === "wikidata" && (
             <div className="space-y-3">
-              {(data as FederatedResult).vars && (data as FederatedResult).bindings && (
+              {(data as FederatedResult).vars && (data as FederatedResult).bindings ? (
                 <SparqlResultTable
                   vars={(data as FederatedResult).vars!}
                   bindings={(data as FederatedResult).bindings!}
                 />
+              ) : (
+                <p className="text-sm text-muted-foreground text-center py-6">Aucun résultat Wikidata pour cette entité.</p>
               )}
-              {/* Requête SPARQL générée */}
               {(data as FederatedResult).sparqlQuery && (
                 <details className="group">
                   <summary className="text-xs text-muted-foreground cursor-pointer hover:text-foreground flex items-center gap-1">
@@ -555,6 +776,22 @@ export function FederatedSparqlTab() {
                     {(data as FederatedResult).sparqlQuery}
                   </pre>
                 </details>
+              )}
+            </div>
+          )}
+
+          {/* Résultats OpenAlex — renderer dédié */}
+          {!isLoading && !error && data && source === "openalex" && (
+            <div className="space-y-3">
+              {(data as Record<string, unknown>).found === false ? (
+                <p className="text-sm text-muted-foreground text-center py-6">
+                  {String((data as Record<string, unknown>).message ?? "Entité introuvable dans PERFUMUM.")}
+                </p>
+              ) : (
+                <OpenAlexResultPanel
+                  data={(data as Record<string, unknown>).data as Record<string, unknown> ?? {}}
+                  queryType={String((data as Record<string, unknown>).queryType ?? currentParams?.openalexQueryType ?? "publications")}
+                />
               )}
             </div>
           )}

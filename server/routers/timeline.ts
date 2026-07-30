@@ -7,7 +7,7 @@
 
 import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
-import * as dbModule from "../db";
+import * as mysql from "mysql2/promise";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -54,48 +54,44 @@ async function getDbTimelineEvents(filters: {
   entityId?: number;
   limit: number;
 }): Promise<TimelineEvent[]> {
-  const dbPromise = dbModule.getDb();
-  const db = await Promise.resolve(dbPromise);
-  if (!db) return [];
-
-  let sql = `
-    SELECT be.id, be.year, be.title, be.doi, be.journal, be.authors,
-           be.abstract, be.cited_by_count, be.url, be.entry_type
-    FROM bibliography_entries be
-    WHERE be.year IS NOT NULL AND be.year > 1600 AND be.year <= YEAR(NOW()) + 1
-  `;
-  const params: (string | number)[] = [];
-
-  if (filters.yearFrom) { sql += ` AND be.year >= ?`; params.push(filters.yearFrom); }
-  if (filters.yearTo)   { sql += ` AND be.year <= ?`; params.push(filters.yearTo); }
-
-  if (filters.entityType === "molecule" && filters.entityId) {
-    sql += ` AND EXISTS (SELECT 1 FROM bibliography_molecule_links bml WHERE bml.bibliography_entry_id = be.id AND bml.molecule_id = ?)`;
-    params.push(filters.entityId);
-  } else if (filters.entityType === "plant" && filters.entityId) {
-    sql += ` AND EXISTS (SELECT 1 FROM bibliography_plant_links bpl WHERE bpl.bibliography_entry_id = be.id AND bpl.plant_id = ?)`;
-    params.push(filters.entityId);
+  const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+  try {
+    let sql = `
+      SELECT be.id, be.year, be.title, be.doi, be.journal, be.authors,
+             be.abstract, be.url, be.entry_type
+      FROM bibliography_entries be
+      WHERE be.year IS NOT NULL AND be.year > 1600 AND be.year <= YEAR(NOW()) + 1
+    `;
+    const params: (string | number)[] = [];
+    if (filters.yearFrom) { sql += ` AND be.year >= ?`; params.push(filters.yearFrom); }
+    if (filters.yearTo)   { sql += ` AND be.year <= ?`; params.push(filters.yearTo); }
+    if (filters.entityType === "molecule" && filters.entityId) {
+      sql += ` AND EXISTS (SELECT 1 FROM bibliography_molecule_links bml WHERE bml.bibliography_entry_id = be.id AND bml.molecule_id = ?)`;
+      params.push(filters.entityId);
+    } else if (filters.entityType === "plant" && filters.entityId) {
+      sql += ` AND EXISTS (SELECT 1 FROM bibliography_plant_links bpl WHERE bpl.bibliography_entry_id = be.id AND bpl.plant_id = ?)`;
+      params.push(filters.entityId);
+    }
+    sql += ` ORDER BY be.year DESC LIMIT ${Math.max(1, Math.floor(filters.limit))}`;
+    const [rows] = await conn.execute<mysql.RowDataPacket[]>(sql, params);
+    return rows.map((row) => ({
+      id: `perfumum-${row.id}`,
+      year: Number(row.year),
+      title: String(row.title || "Sans titre"),
+      source: "perfumum" as const,
+      type: mapEntryType(String(row.entry_type || "")),
+      doi: row.doi ? String(row.doi) : undefined,
+      journal: row.journal ? String(row.journal) : undefined,
+      authors: row.authors ? String(row.authors) : undefined,
+      url: row.url ? String(row.url) : undefined,
+      description: row.abstract ? String(row.abstract).slice(0, 200) : undefined,
+    }));
+  } catch (err) {
+    console.error("[timeline] getDbTimelineEvents error:", err);
+    return [];
+  } finally {
+    await conn.end();
   }
-
-  sql += ` ORDER BY be.year DESC LIMIT ?`;
-  params.push(filters.limit);
-
-  const rows = await (db as any).execute(sql, params) as [Record<string, unknown>[], unknown];
-  const data = Array.isArray(rows[0]) ? rows[0] : [];
-
-  return data.map((row) => ({
-    id: `perfumum-${row.id}`,
-    year: Number(row.year),
-    title: String(row.title || "Sans titre"),
-    source: "perfumum" as const,
-    type: mapEntryType(String(row.entry_type || "")),
-    doi: row.doi ? String(row.doi) : undefined,
-    journal: row.journal ? String(row.journal) : undefined,
-    authors: row.authors ? String(row.authors) : undefined,
-    url: row.url ? String(row.url) : undefined,
-    description: row.abstract ? String(row.abstract).slice(0, 200) : undefined,
-    citedByCount: row.cited_by_count ? Number(row.cited_by_count) : undefined,
-  }));
 }
 
 async function getOpenAlexTimelineEvents(filters: {
@@ -198,20 +194,40 @@ export const timelineRouter = router({
 
   // ── Procédures legacy (conservées) ──────────────────────────────────────────
   list: publicProcedure.query(async () => {
-    return await dbModule.getAllMilestones?.() ?? [];
+    return getDbTimelineEvents({ limit: 100 });
   }),
   getByPhase: publicProcedure
     .input((val: unknown) => { if (typeof val !== "string") throw new Error("Expected string"); return val; })
     .query(async ({ input }) => {
-      return await dbModule.getMilestonesByPhase?.(input) ?? [];
+      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      try {
+        const [rows] = await conn.execute<mysql.RowDataPacket[]>(
+          "SELECT * FROM bibliography_entries WHERE entry_type = ? ORDER BY year DESC LIMIT 50",
+          [input]
+        );
+        return rows;
+      } catch { return []; } finally { await conn.end(); }
     }),
   getByYear: publicProcedure
     .input((val: unknown) => { if (typeof val !== "number") throw new Error("Expected number"); return val; })
     .query(async ({ input }) => {
-      return await dbModule.getMilestonesByYear?.(input) ?? [];
+      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      try {
+        const [rows] = await conn.execute<mysql.RowDataPacket[]>(
+          "SELECT * FROM bibliography_entries WHERE year = ? ORDER BY title LIMIT 50",
+          [input]
+        );
+        return rows;
+      } catch { return []; } finally { await conn.end(); }
     }),
   stats: publicProcedure.query(async () => {
-    return await dbModule.getTimelineStats?.() ?? {};
+    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    try {
+      const [rows] = await conn.execute<mysql.RowDataPacket[]>(
+        "SELECT COUNT(*) AS total, MIN(year) AS min_year, MAX(year) AS max_year FROM bibliography_entries WHERE year IS NOT NULL"
+      );
+      return rows[0] || { total: 0, min_year: null, max_year: null };
+    } catch { return { total: 0, min_year: null, max_year: null }; } finally { await conn.end(); }
   }),
 
   // ── Nouvelles procédures Rapport 10 ─────────────────────────────────────────
@@ -290,12 +306,16 @@ export const timelineRouter = router({
       limit: z.number().int().min(5).max(100).optional().default(50),
     }))
     .query(async ({ input }) => {
-      const db = dbModule.getDb();
-      if (!db) return { events: [], entityName: "" };
-
-      const table = input.entityType === "molecule" ? "molecules" : "plants";
-      const rows = await (db as any).execute(`SELECT name FROM ${table} WHERE id = ? LIMIT 1`, [input.entityId]) as [Record<string, unknown>[], unknown];
-      const entityName = Array.isArray(rows[0]) && rows[0][0] ? String((rows[0][0] as Record<string, unknown>).name || "") : "";
+      let entityName = "";
+      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      try {
+        const table = input.entityType === "molecule" ? "molecules" : "plants";
+        const [rows] = await conn.execute<mysql.RowDataPacket[]>(
+          `SELECT name FROM ${table} WHERE id = ? LIMIT 1`,
+          [input.entityId]
+        );
+        entityName = rows[0]?.name ? String(rows[0].name) : "";
+      } catch { /* ignore */ } finally { await conn.end(); }
 
       const [dbEvents, oaEvents] = await Promise.allSettled([
         getDbTimelineEvents({ entityType: input.entityType, entityId: input.entityId, limit: input.limit }),
@@ -315,23 +335,25 @@ export const timelineRouter = router({
    */
   getTimelineStats: publicProcedure
     .query(async () => {
-      const db = dbModule.getDb();
-      if (!db) return { totalBiblio: 0, yearRange: { min: 1900, max: 2025 }, topDecades: [] };
-
-      const dbAny = db as any;
-      const [totalRows, decadeRows] = await Promise.all([
-        dbAny.execute("SELECT COUNT(*) AS total, MIN(year) AS min_year, MAX(year) AS max_year FROM bibliography_entries WHERE year IS NOT NULL AND year > 1600") as Promise<[Record<string, unknown>[], unknown]>,
-        dbAny.execute("SELECT FLOOR(year/10)*10 AS decade, COUNT(*) AS cnt FROM bibliography_entries WHERE year IS NOT NULL AND year > 1600 GROUP BY decade ORDER BY cnt DESC LIMIT 10") as Promise<[Record<string, unknown>[], unknown]>,
-      ]);
-
-      const totals = Array.isArray(totalRows[0]) && totalRows[0][0] ? totalRows[0][0] as Record<string, unknown> : {};
-      const decades = Array.isArray(decadeRows[0]) ? decadeRows[0] as Record<string, unknown>[] : [];
-
-      return {
-        totalBiblio: Number(totals.total || 0),
-        yearRange: { min: Number(totals.min_year || 1900), max: Number(totals.max_year || 2025) },
-        topDecades: decades.map((r) => ({ decade: Number(r.decade || 0), count: Number(r.cnt || 0) })),
-      };
+      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      try {
+        const [totalRows] = await conn.execute<mysql.RowDataPacket[]>(
+          "SELECT COUNT(*) AS total, MIN(year) AS min_year, MAX(year) AS max_year FROM bibliography_entries WHERE year IS NOT NULL AND year > 1600"
+        );
+        const [decadeRows] = await conn.execute<mysql.RowDataPacket[]>(
+          "SELECT FLOOR(year/10)*10 AS decade, COUNT(*) AS cnt FROM bibliography_entries WHERE year IS NOT NULL AND year > 1600 GROUP BY decade ORDER BY cnt DESC LIMIT 10"
+        );
+        const totals = totalRows[0] || {};
+        return {
+          totalBiblio: Number(totals.total || 0),
+          yearRange: { min: Number(totals.min_year || 1900), max: Number(totals.max_year || 2026) },
+          topDecades: decadeRows.map((r) => ({ decade: Number(r.decade || 0), count: Number(r.cnt || 0) })),
+        };
+      } catch {
+        return { totalBiblio: 0, yearRange: { min: 1900, max: 2026 }, topDecades: [] };
+      } finally {
+        await conn.end();
+      }
     }),
 
   /**
