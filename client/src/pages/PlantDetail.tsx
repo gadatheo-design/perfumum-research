@@ -34,7 +34,8 @@ import {
   ExternalLink,
   Copy,
   Check,
-  Globe
+  Globe,
+  Network
 } from "lucide-react";
 import { RegulatoryProfile, RegulatoryBadge } from "@/components/RegulatoryProfile";
 import { PlantImageUpload } from "@/components/PlantImageUpload";
@@ -1280,11 +1281,19 @@ export default function PlantDetail() {
                       <div key={pm.moleculeId} className="p-4 border rounded-lg">
                         <div className="flex items-start justify-between mb-2">
                           <div>
-                            <Link href={`/molecule/${pm.moleculeId}`}>
-                              <span className="font-medium hover:text-primary cursor-pointer">
-                                {pm.molecule?.name || `Molécule #${pm.moleculeId}`}
-                              </span>
-                            </Link>
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <Link href={`/molecules/${pm.moleculeId}`}>
+                                <span className="font-medium hover:text-primary cursor-pointer">
+                                  {pm.molecule?.name || `Molécule #${pm.moleculeId}`}
+                                </span>
+                              </Link>
+                              <Link href={`/molecules/${pm.moleculeId}?tab=knowledge-graph`}>
+                                <Badge variant="outline" className="text-xs cursor-pointer hover:bg-violet-50 hover:border-violet-400 hover:text-violet-700 gap-1 flex items-center transition-colors">
+                                  <Network className="h-3 w-3" />
+                                  KG
+                                </Badge>
+                              </Link>
+                            </div>
                             {pm.percentageTypical && (
                               <span className="text-sm text-muted-foreground ml-2">
                                 ({pm.percentageTypical}%)
@@ -1516,9 +1525,17 @@ export default function PlantDetail() {
                             <tr key={e.id} className="border-b hover:bg-muted/30 transition-colors">
                               <td className="py-2 pr-4">
                                 {e.molecule_id ? (
-                                  <Link href={`/molecules/${e.molecule_id}`} className="text-primary hover:underline font-medium">
-                                    {e.molecule_name || '—'}
-                                  </Link>
+                                  <span className="flex items-center gap-1.5">
+                                    <Link href={`/molecules/${e.molecule_id}`} className="text-primary hover:underline font-medium">
+                                      {e.molecule_name || '—'}
+                                    </Link>
+                                    <Link href={`/molecules/${e.molecule_id}?tab=knowledge-graph`}>
+                                      <Badge variant="outline" className="text-xs cursor-pointer hover:bg-violet-50 hover:border-violet-400 hover:text-violet-700 gap-1 flex items-center transition-colors px-1 py-0">
+                                        <Network className="h-2.5 w-2.5" />
+                                        KG
+                                      </Badge>
+                                    </Link>
+                                  </span>
                                 ) : (
                                   <span className="text-muted-foreground">{e.molecule_name || '—'}</span>
                                 )}

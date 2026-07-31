@@ -698,7 +698,14 @@ function PlantSourcesSection({ moleculeId }: { moleculeId: number }) {
 export default function MoleculeDetail() {
   const params = useParams();
   const id = params.id ? parseInt(params.id) : 0;
-
+  // Lire le param ?tab= pour navigation directe (ex: depuis fiche plante → KG)
+  const [activeTab, setActiveTab] = React.useState(() => {
+    if (typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('tab') || 'overview';
+    }
+    return 'overview';
+  });
   const { data: molecule, isLoading } = trpc.molecules.getById.useQuery(id);
   const trackEvent = trpc.analytics.trackEvent.useMutation();
   const [isExporting, setIsExporting] = useState(false);
@@ -1329,7 +1336,7 @@ export default function MoleculeDetail() {
           </div>
 
           {/* Tabs pour organiser le contenu */}
-          <Tabs defaultValue="overview" className="w-full">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 md:grid-cols-10">
               <TabsTrigger value="overview">Vue d'ensemble</TabsTrigger>
               <TabsTrigger value="gcms" className="flex items-center gap-1">
