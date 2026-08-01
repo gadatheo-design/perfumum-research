@@ -128,3 +128,4 @@ client/.vite/
 # Navigation audit report
 navigation-audit-report.json
 .project-config.json
+.github/workflows/ci.yml
