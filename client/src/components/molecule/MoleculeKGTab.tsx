@@ -167,6 +167,110 @@ function IdentifierLink({
   );
 }
 
+// ─── Squelettes terpéniques — couleurs statiques ───────────────────────────
+
+const SKELETON_COLORS: Record<string, { bg: string; text: string; border: string }> = {
+  cadinane:      { bg: "#8B5E3C20", text: "#8B5E3C", border: "#8B5E3C50" },
+  eudesmane:     { bg: "#5C8A3C20", text: "#5C8A3C", border: "#5C8A3C50" },
+  guaiane:       { bg: "#3C6E8A20", text: "#3C6E8A", border: "#3C6E8A50" },
+  germacrane:    { bg: "#7A3C8A20", text: "#7A3C8A", border: "#7A3C8A50" },
+  bisabolane:    { bg: "#8A6E3C20", text: "#8A6E3C", border: "#8A6E3C50" },
+  caryophyllane: { bg: "#3C8A6E20", text: "#3C8A6E", border: "#3C8A6E50" },
+  drimane:       { bg: "#8A3C3C20", text: "#8A3C3C", border: "#8A3C3C50" },
+  bourbonane:    { bg: "#6E8A3C20", text: "#6E8A3C", border: "#6E8A3C50" },
+  copaane:       { bg: "#3C3C8A20", text: "#3C3C8A", border: "#3C3C8A50" },
+  cedrene:       { bg: "#8A7A3C20", text: "#8A7A3C", border: "#8A7A3C50" },
+};
+
+function SkeletonBadge({ skeleton }: { skeleton: { qid: string; label: string; labelFr?: string } }) {
+  const colors = SKELETON_COLORS[skeleton.label] ?? { bg: "#64748b20", text: "#64748b", border: "#64748b50" };
+  return (
+    <a
+      href={`https://www.wikidata.org/wiki/${skeleton.qid}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      title={`Squelette terpénique : ${skeleton.labelFr ?? skeleton.label} (${skeleton.qid})`}
+      style={{ backgroundColor: colors.bg, color: colors.text, borderColor: colors.border }}
+      className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-opacity hover:opacity-80"
+    >
+      <span className="text-base leading-none">⬡</span>
+      {skeleton.labelFr ?? skeleton.label}
+      <ExternalLink className="h-2.5 w-2.5 opacity-60" />
+    </a>
+  );
+}
+
+// ─── Organismes producteurs avec résolution PERFUMUM ───────────────────────
+
+function ProducingOrganismsList({
+  organisms,
+}: {
+  organisms: Array<{ qid: string; label: string }>;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const MAX_VISIBLE = 15;
+
+  const qids = organisms.map(o => o.qid).filter(Boolean);
+  const { data: resolved } = trpc.wikidataKg.resolveOrganismPlant.useQuery(
+    { wikidataQids: qids.slice(0, 50) },
+    { enabled: qids.length > 0, staleTime: 10 * 60 * 1000, retry: false }
+  );
+
+  const qidToPlant = new Map<string, { plantId: number; name: string }>();
+  resolved?.matches.forEach(m => qidToPlant.set(m.wikidataQid, { plantId: m.plantId, name: m.name }));
+
+  const visible = expanded ? organisms : organisms.slice(0, MAX_VISIBLE);
+
+  if (!organisms.length) return null;
+
+  return (
+    <div className="space-y-2">
+      <div className="flex flex-wrap gap-1.5">
+        {visible.map((org) => {
+          const plant = qidToPlant.get(org.qid);
+          if (plant) {
+            return (
+              <Link
+                key={org.qid}
+                href={`/plants/${plant.plantId}`}
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300 border border-emerald-300/50 hover:opacity-80 transition-opacity"
+                title={`Fiche plante PERFUMUM : ${plant.name}`}
+              >
+                <Leaf className="h-2.5 w-2.5" />
+                {org.label || org.qid}
+              </Link>
+            );
+          }
+          return (
+            <a
+              key={org.qid}
+              href={`https://www.wikidata.org/wiki/${org.qid}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-muted text-muted-foreground hover:opacity-80 transition-opacity"
+            >
+              {org.label || org.qid}
+              <ExternalLink className="h-2.5 w-2.5 opacity-60" />
+            </a>
+          );
+        })}
+      </div>
+      {organisms.length > MAX_VISIBLE && (
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="text-xs text-primary hover:underline flex items-center gap-1 mt-1"
+        >
+          {expanded ? (
+            <><ChevronUp className="h-3 w-3" /> Réduire</>
+          ) : (
+            <><ChevronDown className="h-3 w-3" /> Voir {organisms.length - MAX_VISIBLE} de plus</>
+          )}
+        </button>
+      )}
+    </div>
+  );
+}
+
 // ─── Composant principal ────────────────────────────────────────────────────
 
 interface MoleculeKGTabProps {
@@ -176,6 +280,12 @@ interface MoleculeKGTabProps {
 }
 
 export function MoleculeKGTab({ moleculeId, moleculeName, wikidataQid }: MoleculeKGTabProps) {
+  // Détection du squelette terpénique local
+  const { data: skeletonData } = trpc.wikidataKg.detectSkeleton.useQuery(
+    { moleculeName, moleculeId },
+    { staleTime: 30 * 60 * 1000, retry: false }
+  );
+
   // Essayer d'abord les données stockées en base (getStoredKG)
   const { data: storedKG, isLoading: isLoadingStored, refetch: refetchStored } = trpc.wikidataKg.getStoredKG.useQuery(
     { moleculeId },
@@ -309,7 +419,7 @@ export function MoleculeKGTab({ moleculeId, moleculeName, wikidataQid }: Molecul
             {/* ── Colonne gauche ── */}
             <div className="space-y-6">
               {/* Classification chimique */}
-              {(kg.classes?.length > 0 || kg.subclasses?.length > 0 || kg.skeletons?.length > 0) && (
+              {(kg.classes?.length > 0 || kg.subclasses?.length > 0 || kg.skeletons?.length > 0 || skeletonData?.skeleton) && (
                 <div className="bg-card p-5 rounded-lg border shadow-sm space-y-4">
                   <h3 className="font-semibold text-base flex items-center gap-2">
                     <Atom className="h-4 w-4 text-violet-600" />
@@ -327,12 +437,28 @@ export function MoleculeKGTab({ moleculeId, moleculeName, wikidataQid }: Molecul
                     label="Sous-classes (P279)"
                     colorClass="bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-300"
                   />
-                  <EntityList
-                    items={kg.skeletons || []}
-                    icon={Atom}
-                    label="Squelettes terpéniques"
-                    colorClass="bg-indigo-100 text-indigo-800 dark:bg-indigo-900/30 dark:text-indigo-300"
-                  />
+                  {/* Squelettes terpéniques — badges colorés */}
+                  {(kg.skeletons?.length > 0 || skeletonData?.skeleton) && (
+                    <div className="space-y-2">
+                      <h4 className="text-sm font-semibold flex items-center gap-2 text-foreground">
+                        <Atom className="h-4 w-4 text-indigo-600" />
+                        Squelette terpénique
+                        {skeletonData?.source && (
+                          <span className="text-xs text-muted-foreground font-normal">
+                            ({skeletonData.source === "name" ? "détecté par nom" : skeletonData.source === "chemical_family" ? "famille chimique" : "Wikidata"})
+                          </span>
+                        )}
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {(kg.skeletons || []).map(sk => (
+                          <SkeletonBadge key={sk.qid} skeleton={sk} />
+                        ))}
+                        {skeletonData?.skeleton && !kg.skeletons?.some(s => s.qid === skeletonData.skeleton!.qid) && (
+                          <SkeletonBadge skeleton={skeletonData.skeleton} />
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -411,20 +537,19 @@ export function MoleculeKGTab({ moleculeId, moleculeName, wikidataQid }: Molecul
 
             {/* ── Colonne droite ── */}
             <div className="space-y-6">
-              {/* Organismes producteurs */}
+              {/* Organismes producteurs — avec résolution vers fiches plantes PERFUMUM */}
               {kg.producingOrganisms?.length > 0 && (
                 <div className="bg-card p-5 rounded-lg border shadow-sm">
-                  <h3 className="font-semibold text-base flex items-center gap-2 mb-4">
+                  <h3 className="font-semibold text-base flex items-center gap-2 mb-3">
                     <Leaf className="h-4 w-4 text-emerald-600" />
                     Organismes producteurs
                     <Badge variant="secondary" className="text-xs">{kg.producingOrganisms.length}</Badge>
                   </h3>
-                  <EntityList
-                    items={kg.producingOrganisms}
-                    icon={Leaf}
-                    label=""
-                    colorClass="bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300"
-                  />
+                  <p className="text-xs text-muted-foreground mb-3">
+                    Badges <span className="text-emerald-700 dark:text-emerald-400 font-medium">verts</span> = fiche plante PERFUMUM disponible.
+                    Autres = lien Wikidata direct.
+                  </p>
+                  <ProducingOrganismsList organisms={kg.producingOrganisms} />
                 </div>
               )}
 

@@ -384,6 +384,89 @@ export const wikidataKgRouter = router({
     }),
 
   /**
+   * Détecte le squelette terpénique d'une molécule par son nom et sa famille chimique
+   */
+  detectSkeleton: publicProcedure
+    .input(z.object({
+      moleculeName: z.string(),
+      moleculeId: z.number().int().positive(),
+    }))
+    .query(async ({ input }) => {
+      const SKELETONS = [
+        { qid: "Q27116864", label: "cadinane",      labelFr: "Cadinane",      keywords: ["cadinane", "cadinol", "cadinene", "muurolene", "muurolol", "bulnesene", "bulnesol", "guaiol", "elemol"] },
+        { qid: "Q27116869", label: "eudesmane",     labelFr: "Eudesmane",     keywords: ["eudesmane", "eudesmanolide", "eudesmanone", "eudesmanyl", "santonin", "artabsin", "eudesm"] },
+        { qid: "Q27116871", label: "guaiane",       labelFr: "Guaiane",       keywords: ["guaiane", "guaiol", "guaiene", "guaianolide", "azulene", "azulenyl", "chamazulene"] },
+        { qid: "Q27116865", label: "germacrane",    labelFr: "Germacrane",    keywords: ["germacrane", "germacrene", "germacranolide", "germacradiene"] },
+        { qid: "Q27116852", label: "bisabolane",    labelFr: "Bisabolane",    keywords: ["bisabolane", "bisabolene", "bisabolol", "bisabolyl", "zingiberene", "ar-turmerone"] },
+        { qid: "Q27116855", label: "caryophyllane", labelFr: "Caryophyllane", keywords: ["caryophyllane", "caryophyllene", "caryophyllenol", "caryophyllol", "humulene", "humulyl"] },
+        { qid: "Q5814281",  label: "drimane",       labelFr: "Drimane",       keywords: ["drimane", "drimanyl", "drimenol", "drimenyl", "drimenone", "muzigadial"] },
+        { qid: "Q27116853", label: "bourbonane",    labelFr: "Bourbonane",    keywords: ["bourbonane", "bourbonyl", "bourbonene"] },
+        { qid: "Q27116858", label: "copaane",       labelFr: "Copaane",       keywords: ["copaane", "copaene", "copayl", "copaanyl"] },
+        { qid: "Q27116856", label: "cedrene",       labelFr: "Cédrène",       keywords: ["cedrene", "cedrol", "cedrenol", "cedranone", "cedryl", "cedrane"] },
+        { qid: "Q27116866", label: "himachalane",   labelFr: "Himachalane",   keywords: ["himachalane", "himachalene", "himachalol", "himachalenol"] },
+        { qid: "Q27116870", label: "patchoulane",   labelFr: "Patchoulane",   keywords: ["patchoulane", "patchoulol", "patchouli", "norpatchoulenol", "seychellene"] },
+        { qid: "Q27116872", label: "vetivane",      labelFr: "Vétivane",      keywords: ["vetivane", "vetivene", "vetivenol", "vetiverol", "vetivyl", "khusimol", "zizaene", "zizanol"] },
+      ];
+
+      const nameLower = input.moleculeName.toLowerCase();
+      for (const sk of SKELETONS) {
+        if (sk.keywords.some(kw => nameLower.includes(kw))) {
+          return { skeleton: { qid: sk.qid, label: sk.label, labelFr: sk.labelFr }, source: "name" };
+        }
+      }
+
+      // Chercher dans la famille chimique en base
+      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      try {
+        const [rows] = await conn.execute<mysql.RowDataPacket[]>(
+          "SELECT chemical_family, sub_family FROM molecules WHERE id = ? LIMIT 1",
+          [input.moleculeId]
+        );
+        if (rows[0]) {
+          const family = ((rows[0].chemical_family ?? "") + " " + (rows[0].sub_family ?? "")).toLowerCase();
+          for (const sk of SKELETONS) {
+            if (sk.keywords.some(kw => family.includes(kw))) {
+              return { skeleton: { qid: sk.qid, label: sk.label, labelFr: sk.labelFr }, source: "chemical_family" };
+            }
+          }
+        }
+      } finally {
+        await conn.end();
+      }
+      return { skeleton: null, source: null };
+    }),
+
+  /**
+   * Résout une liste de QIDs Wikidata d'organismes vers les plantes PERFUMUM correspondantes
+   */
+  resolveOrganismPlant: publicProcedure
+    .input(z.object({
+      wikidataQids: z.array(z.string()).max(100),
+    }))
+    .query(async ({ input }) => {
+      if (!input.wikidataQids.length) return { matches: [] };
+      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      try {
+        const placeholders = input.wikidataQids.map(() => "?").join(",");
+        const [rows] = await conn.execute<mysql.RowDataPacket[]>(
+          `SELECT id AS plantId, name, wikidata_qid AS wikidataQid
+           FROM plants
+           WHERE wikidata_qid IN (${placeholders})
+           LIMIT 100`,
+          input.wikidataQids
+        );
+        const matches = rows.map(r => ({
+          plantId: r.plantId as number,
+          name: r.name as string,
+          wikidataQid: r.wikidataQid as string,
+        }));
+        return { matches };
+      } finally {
+        await conn.end();
+      }
+    }),
+
+  /**
    * Statistiques de couverture KG
    */
   getKGCoverageStats: publicProcedure.query(async () => {
