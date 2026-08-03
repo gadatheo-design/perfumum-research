@@ -209,16 +209,70 @@ const normalizeToolChoice = (
   return toolChoice;
 };
 
-const resolveApiUrl = () =>
-  ENV.forgeApiUrl && ENV.forgeApiUrl.trim().length > 0
-    ? `${ENV.forgeApiUrl.replace(/\/$/, "")}/v1/chat/completions`
-    : "https://forge.manus.im/v1/chat/completions";
+/**
+ * Lot 4 — Abstraction du provider LLM.
+ *
+ * Contrôlé par `LLM_PROVIDER` :
+ *  - "manus"    (défaut) — comportement historique inchangé : passe par
+ *    `forge.manus.im` (ou `BUILT_IN_FORGE_API_URL` si défini), modèle
+ *    `gemini-2.5-flash`, paramètre `thinking` propre à ce endpoint.
+ *  - "openai"   — endpoint compatible OpenAI (`OPENAI_API_URL`, défaut
+ *    `https://api.openai.com`), clé `OPENAI_API_KEY`, modèle `OPENAI_MODEL`
+ *    (défaut `gpt-4o-mini`). Aucun appel réseau vers Forge dans ce mode.
+ *  - "disabled" — `invokeLLM()` lève une erreur immédiatement, avant tout
+ *    `fetch`. Utile pour les tests / environnements sans clé LLM du tout.
+ *
+ * Le défaut reste "manus" pour ne rien changer au comportement de prod
+ * existant tant que personne ne positionne explicitement la variable.
+ */
+export type LlmProviderName = "manus" | "openai" | "disabled";
 
-const assertApiKey = () => {
-  if (!ENV.forgeApiKey) {
-    throw new Error("OPENAI_API_KEY is not configured");
-  }
+export type LlmProviderConfig = {
+  name: LlmProviderName;
+  baseUrl: string;
+  apiKey: string;
+  model: string;
+  extraPayload?: Record<string, unknown>;
 };
+
+function resolveProviderName(): LlmProviderName {
+  const raw = (process.env.LLM_PROVIDER ?? "manus").trim().toLowerCase();
+  return raw === "openai" || raw === "disabled" ? raw : "manus";
+}
+
+export function getLlmProvider(): LlmProviderConfig {
+  const name = resolveProviderName();
+
+  if (name === "disabled") {
+    return { name, baseUrl: "", apiKey: "", model: "" };
+  }
+
+  if (name === "openai") {
+    return {
+      name,
+      baseUrl: (process.env.OPENAI_API_URL || "https://api.openai.com").replace(
+        /\/$/,
+        ""
+      ),
+      apiKey: process.env.OPENAI_API_KEY ?? "",
+      model: process.env.OPENAI_MODEL || "gpt-4o-mini",
+    };
+  }
+
+  // "manus" (défaut) — comportement historique inchangé.
+  return {
+    name,
+    baseUrl:
+      ENV.forgeApiUrl && ENV.forgeApiUrl.trim().length > 0
+        ? ENV.forgeApiUrl.replace(/\/$/, "")
+        : "https://forge.manus.im",
+    apiKey: ENV.forgeApiKey,
+    model: "gemini-2.5-flash",
+    extraPayload: {
+      thinking: { budget_tokens: 128 },
+    },
+  };
+}
 
 const normalizeResponseFormat = ({
   responseFormat,
@@ -266,7 +320,21 @@ const normalizeResponseFormat = ({
 };
 
 export async function invokeLLM(params: InvokeParams): Promise<InvokeResult> {
-  assertApiKey();
+  const provider = getLlmProvider();
+
+  if (provider.name === "disabled") {
+    throw new Error(
+      "LLM invocation is disabled (LLM_PROVIDER=disabled) — no network call was made."
+    );
+  }
+
+  if (!provider.apiKey) {
+    throw new Error(
+      provider.name === "openai"
+        ? "OPENAI_API_KEY is not configured"
+        : "BUILT_IN_FORGE_API_KEY is not configured"
+    );
+  }
 
   const {
     messages,
@@ -280,8 +348,9 @@ export async function invokeLLM(params: InvokeParams): Promise<InvokeResult> {
   } = params;
 
   const payload: Record<string, unknown> = {
-    model: "gemini-2.5-flash",
+    model: provider.model,
     messages: messages.map(normalizeMessage),
+    ...(provider.extraPayload ?? {}),
   };
 
   if (tools && tools.length > 0) {
@@ -296,10 +365,7 @@ export async function invokeLLM(params: InvokeParams): Promise<InvokeResult> {
     payload.tool_choice = normalizedToolChoice;
   }
 
-  payload.max_tokens = 32768
-  payload.thinking = {
-    "budget_tokens": 128
-  }
+  payload.max_tokens = 32768;
 
   const normalizedResponseFormat = normalizeResponseFormat({
     responseFormat,
@@ -312,11 +378,11 @@ export async function invokeLLM(params: InvokeParams): Promise<InvokeResult> {
     payload.response_format = normalizedResponseFormat;
   }
 
-  const response = await fetch(resolveApiUrl(), {
+  const response = await fetch(`${provider.baseUrl}/v1/chat/completions`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
-      authorization: `Bearer ${ENV.forgeApiKey}`,
+      authorization: `Bearer ${provider.apiKey}`,
     },
     body: JSON.stringify(payload),
   });

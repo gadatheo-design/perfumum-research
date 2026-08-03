@@ -4,6 +4,7 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import { defineConfig } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
+import { isManusPlatform } from "./server/_core/platform";
 
 // Plugin qui supprime les location.reload() du client Vite HMR
 // Le proxy Manus ne supporte pas les WebSockets → les reconnexions HMR
@@ -20,12 +21,15 @@ const noHmrReload = (): import('vite').Plugin => ({
   },
 });
 
+// Lot 3 — le runtime Manus (script injecté + patch HMR spécifique à son
+// proxy sans WebSocket) n'est chargé qu'en mode "manus" (défaut). En mode
+// standalone (PERFUMUM_PLATFORM=standalone), aucun des deux n'est ajouté :
+// le HTML généré ne contient plus aucun script Manus.
 const plugins = [
   react(),
   tailwindcss(),
   jsxLocPlugin(),
-  vitePluginManusRuntime({ injectTo: "body" }),
-  noHmrReload(),
+  ...(isManusPlatform ? [vitePluginManusRuntime({ injectTo: "body" }), noHmrReload()] : []),
 ];
 
 export default defineConfig({

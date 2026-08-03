@@ -8,6 +8,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { initWebSocket } from "./websocket";
+import { trpcRateLimiter } from "./rateLimiter";
 import cors from "cors";
 
 function isPortAvailable(port: number): Promise<boolean> {
@@ -52,7 +53,10 @@ async function startServer() {
   // Le middleware CORS doit intercepter les requêtes OPTIONS AVANT tRPC
   app.use("/api/trpc/p5data", p5Cors);
   app.options("/api/trpc/p5data*", p5Cors); // Pré-vol CORS explicite
-  
+
+  // Lot 2 — Rate limiting sur toute l'API tRPC (voir ./rateLimiter.ts)
+  app.use("/api/trpc", trpcRateLimiter);
+
   // tRPC API
   app.use(
     "/api/trpc",

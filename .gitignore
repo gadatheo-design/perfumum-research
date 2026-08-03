@@ -106,6 +106,13 @@ temp/
 *.sqlite
 *.sqlite3
 
+# Manus internal files (DB query dev logs, TypeScript remediation backups) —
+# already tracked in git history as of this commit; this only stops future
+# growth, it does not retroactively remove what's already committed.
+.manus/
+.manus-logs/
+.wave1-backups/
+
 # Drizzle migration snapshots (large JSON, not needed in production)
 drizzle/meta/
 
