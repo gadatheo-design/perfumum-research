@@ -12,7 +12,7 @@
  *  - getCoverageReport : rapport de couverture avant/après enrichissement
  */
 import { z } from "zod";
-import { publicProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { plants } from "../../drizzle/schema";
 import { count, eq, like, sql } from "drizzle-orm";
@@ -200,7 +200,7 @@ export const phyloBatchRouter = router({
    * Batch par genre : lance les 5 APIs en parallèle pour toutes les plantes
    * du genre donné et retourne un rapport de couverture avant/après.
    */
-  batchByGenus: publicProcedure
+  batchByGenus: adminProcedure
     .input(z.object({
       genus: z.string().min(2),
       dryRun: z.boolean().default(true),
@@ -363,7 +363,7 @@ export const phyloBatchRouter = router({
    * Synchronise les cross-IDs d'une plante individuelle depuis les données
    * retournées par les APIs (bouton "Appliquer" dans la fiche)
    */
-  syncCrossIds: publicProcedure
+  syncCrossIds: adminProcedure
     .input(z.object({
       plantId: z.number(),
       gbifId: z.string().optional().nullable(),
@@ -457,7 +457,7 @@ export const phyloBatchRouter = router({
    * Synchronisation en lot : applique les cross-IDs pour plusieurs plantes
    * (résultats d'un batchByGenus)
    */
-  syncBatchResults: publicProcedure
+  syncBatchResults: adminProcedure
     .input(z.object({
       updates: z.array(z.object({
         plantId: z.number(),

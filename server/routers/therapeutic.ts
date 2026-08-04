@@ -3,7 +3,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { 
   getTherapeuticData, 
   getTherapeuticStats, 
@@ -34,7 +34,7 @@ export const therapeuticRouter = router({
     }),
 
   // Enrichir une molécule avec ses propriétés thérapeutiques
-  enrichMolecule: publicProcedure
+  enrichMolecule: adminProcedure
     .input(z.object({ 
       moleculeId: z.number(),
       name: z.string(),

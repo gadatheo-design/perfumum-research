@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as dbHelpers from "../db";
 import { laboratoire, plants, molecules, laboratoireMolecules, laboratoireRecettes, recettes } from "../../drizzle/schema";
@@ -16,7 +16,7 @@ export const laboratoireRouter = router({
     return await dbHelpers.getAllMatieres();
   }),
 
-  create: publicProcedure
+  create: adminProcedure
     .input(z.object({
       name: z.string().min(1),
       botanicalName: z.string().optional(),
@@ -39,7 +39,7 @@ export const laboratoireRouter = router({
       return await dbHelpers.createMatiere(input);
     }),
 
-  updateStock: publicProcedure
+  updateStock: adminProcedure
     .input(z.object({
       id: z.number(),
       stock: z.number(),
@@ -50,7 +50,7 @@ export const laboratoireRouter = router({
       return { success: true };
     }),
 
-  update: publicProcedure
+  update: adminProcedure
     .input(z.object({
       id: z.number(),
       name: z.string().optional(),
@@ -75,7 +75,7 @@ export const laboratoireRouter = router({
       return await dbHelpers.updateMatiereFull(id, data);
     }),
 
-  delete: publicProcedure
+  delete: adminProcedure
     .input(z.number())
     .mutation(async ({ input }) => {
       return await dbHelpers.deleteMatiere(input);

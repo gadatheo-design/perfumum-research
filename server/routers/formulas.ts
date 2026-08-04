@@ -5,7 +5,7 @@ import * as db from "../db";
 import { SQL } from "drizzle-orm";
 
 export const formulasRouter = router({
-  save: publicProcedure
+  save: protectedProcedure
     .input(z.object({
       radarProfile: z.object({
         intensity: z.number().min(0).max(100),
@@ -49,7 +49,7 @@ export const formulasRouter = router({
       return await db.getFormulaById(input);
     }),
   
-  delete: publicProcedure
+  delete: protectedProcedure
     .input(z.number())
     .mutation(async ({ input, ctx }) => {
       if (!ctx.user) throw new Error("Not authenticated");
@@ -57,7 +57,7 @@ export const formulasRouter = router({
       return { success: true };
     }),
   
-  updateNotes: publicProcedure
+  updateNotes: protectedProcedure
     .input(z.object({
       id: z.number(),
       notes: z.string(),

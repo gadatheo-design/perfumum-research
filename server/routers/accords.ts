@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
@@ -16,7 +16,7 @@ export const accordsRouter = router({
     .query(async ({ input }) => {
       return await db.getAccordById(input);
     }),
-  create: publicProcedure
+  create: adminProcedure
     .input(z.object({
       name: z.string().min(1),
       familyId: z.number().nullable().optional(),
@@ -28,7 +28,7 @@ export const accordsRouter = router({
     .mutation(async ({ input }) => {
       return await db.createAccord(input);
     }),
-  update: publicProcedure
+  update: adminProcedure
     .input(z.object({
       id: z.number(),
       name: z.string().optional(),
@@ -42,7 +42,7 @@ export const accordsRouter = router({
       const { id, ...data } = input;
       return await db.updateAccordFull(id, data);
     }),
-  delete: publicProcedure
+  delete: adminProcedure
     .input(z.number())
     .mutation(async ({ input }) => {
       return await db.deleteAccord(input);

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
@@ -16,7 +16,7 @@ export const ifraRestrictionsRouter = router({
   getRestricted: publicProcedure.query(async () => {
     return await db.getRestrictedMolecules();
   }),
-  create: publicProcedure
+  create: adminProcedure
     .input(z.object({
       moleculeId: z.number(),
       ifraAmendment: z.string().optional(),
@@ -47,7 +47,7 @@ export const ifraRestrictionsRouter = router({
     .mutation(async ({ input }) => {
       return await db.createIfraRestriction(input);
     }),
-  update: publicProcedure
+  update: adminProcedure
     .input(z.object({
       id: z.number(),
       data: z.object({
@@ -81,7 +81,7 @@ export const ifraRestrictionsRouter = router({
       await db.updateIfraRestriction(input.id, input.data);
       return { success: true };
     }),
-  delete: publicProcedure
+  delete: adminProcedure
     .input(z.number())
     .mutation(async ({ input }) => {
       await db.deleteIfraRestriction(input);

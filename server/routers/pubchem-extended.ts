@@ -8,7 +8,7 @@
  *   - Identifiants croisés : ChEBI, ChemSpider, NIST, DSSTox
  *   - Données physicochimiques étendues (point d'ébullition, solubilité, densité)
  */
-import { router, publicProcedure } from "../_core/trpc";
+import { adminProcedure, router, publicProcedure } from "../_core/trpc";
 import { z } from "zod";
 import * as mysql from "mysql2/promise";
 
@@ -173,7 +173,7 @@ export const pubchemExtendedRouter = router({
   /**
    * Enrichit une seule molécule avec toutes les données PubChem étendues
    */
-  enrichSingle: publicProcedure
+  enrichSingle: adminProcedure
     .input(z.object({ moleculeId: z.number().int().positive() }))
     .mutation(async ({ input }) => {
       const conn = await mysql.createConnection(process.env.DATABASE_URL!);
@@ -262,7 +262,7 @@ export const pubchemExtendedRouter = router({
   /**
    * Enrichissement en batch : traite N molécules séquentiellement avec délai
    */
-  enrichBatch: publicProcedure
+  enrichBatch: adminProcedure
     .input(z.object({
       moleculeIds: z.array(z.number().int().positive()).min(1).max(50),
     }))

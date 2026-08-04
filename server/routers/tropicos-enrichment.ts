@@ -8,7 +8,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -194,7 +194,7 @@ export const tropicosEnrichmentRouter = router({
     }),
 
   /** Full enrichment: search + synonyms + distribution + images */
-  enrichPlant: publicProcedure
+  enrichPlant: adminProcedure
     .input(z.object({ scientificName: z.string().min(2) }))
     .mutation(async ({ input }) => {
       const searchResults = await tropicosGet<Record<string, unknown>[]>("/Search", {

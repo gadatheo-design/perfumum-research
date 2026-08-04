@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
@@ -44,7 +44,7 @@ export const leafEconomiesRouter = router({
   withoutAnalysis: publicProcedure.query(async () => {
     return await db.getLeafEconomiesWithoutAnalysis();
   }),
-  create: publicProcedure
+  create: adminProcedure
     .input(z.object({
       sampleId: z.string().min(1),
       date: z.date().optional(),
@@ -79,7 +79,7 @@ export const leafEconomiesRouter = router({
     .mutation(async ({ input }) => {
       return await db.createLeafEconomy(input);
     }),
-  update: publicProcedure
+  update: adminProcedure
     .input(z.object({
       id: z.number(),
       data: z.object({
@@ -117,7 +117,7 @@ export const leafEconomiesRouter = router({
     .mutation(async ({ input }) => {
       return await db.updateLeafEconomy(input.id, input.data);
     }),
-  delete: publicProcedure
+  delete: adminProcedure
     .input(z.number())
     .mutation(async ({ input }) => {
       await db.deleteLeafEconomy(input);

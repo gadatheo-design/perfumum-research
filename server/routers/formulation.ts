@@ -5,6 +5,7 @@ import * as db from "../db";
 import { SQL } from "drizzle-orm";
 
 export const formulationRouter = router({
+  // public-write: justifié — calcul pur (dilution), aucun effet de bord, aucune écriture en base
   calculateDilution: publicProcedure
     .input(z.object({
       moleculeName: z.string(),

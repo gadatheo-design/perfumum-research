@@ -726,6 +726,7 @@ LIMIT 30`,
    * Modèle de données : EDM (Europeana Data Model)
    * Préfixes disponibles : edm:, dc:, dcterms:, skos:, ore:, foaf:
    */
+  // public-write: justifié — proxy en lecture seule vers l'endpoint SPARQL Europeana pour la page publique SparqlExplorer, n'écrit aucune donnée PERFUMUM
   europeanaQuery: publicProcedure
     .input(
       z.object({
@@ -792,6 +793,7 @@ LIMIT 30`,
    * Traduit les requêtes SPARQL SELECT en requêtes SQL sur les données PERFUMUM
    * Supporte : perfumum:Molecule, perfumum:Plant, perfumum:Recipe, perfumum:OlfactiveFamily, perfumum:BibliographyEntry
    */
+  // public-write: justifié — traduction SPARQL->SQL en lecture seule (cache interne), n'écrit aucune donnée de contenu PERFUMUM
   internalQuery: publicProcedure
     .input(z.object({
       query: z.string().min(1).max(5000),

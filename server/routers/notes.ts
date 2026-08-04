@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
 
 export const notesRouter = router({
-  create: publicProcedure
+  create: adminProcedure
     .input(z.object({
       entityType: z.string(),
       entityId: z.number(),
@@ -15,7 +15,7 @@ export const notesRouter = router({
       return await db.createUserNote(input.entityType, input.entityId, input.content);
     }),
   
-  update: publicProcedure
+  update: adminProcedure
     .input(z.object({
       id: z.number(),
       content: z.string(),
@@ -24,7 +24,7 @@ export const notesRouter = router({
       return await db.updateUserNote(input.id, input.content);
     }),
   
-  delete: publicProcedure
+  delete: adminProcedure
     .input(z.number())
     .mutation(async ({ input }) => {
       return await db.deleteUserNote(input);

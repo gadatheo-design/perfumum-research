@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
 
 export const moleculeScientificDataRouter = router({
-  update: publicProcedure
+  update: adminProcedure
     .input(z.object({
       id: z.number(),
       iupacName: z.string().optional(),

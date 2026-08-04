@@ -5,7 +5,7 @@
  */
 
 import { z } from 'zod';
-import { router, publicProcedure, protectedProcedure } from '../_core/trpc';
+import { router, publicProcedure, protectedProcedure, adminProcedure } from '../_core/trpc';
 import mysql from 'mysql2/promise';
 import { searchMoleculeQid, searchPlantQid, getWikidataProperties, generateJsonLd } from '../wikidata';
 
@@ -117,7 +117,7 @@ export const wikidataRouter = router({
   /**
    * Batch enrichissement automatique des molécules
    */
-  batchEnrichMolecules: publicProcedure
+  batchEnrichMolecules: adminProcedure
     .input(z.object({
       limit: z.number().min(1).max(200).default(50),
       delayMs: z.number().min(200).max(2000).default(500),
@@ -187,7 +187,7 @@ export const wikidataRouter = router({
   /**
    * Batch enrichissement automatique des plantes
    */
-  batchEnrichPlants: publicProcedure
+  batchEnrichPlants: adminProcedure
     .input(z.object({
       limit: z.number().min(1).max(200).default(50),
       delayMs: z.number().min(200).max(2000).default(500),

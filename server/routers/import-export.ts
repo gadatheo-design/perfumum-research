@@ -2,7 +2,7 @@
  * Routeur tRPC pour l'import/export bidirectionnel avec modèles de fichiers
  */
 
-import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
+import { adminProcedure, router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { z } from "zod";
 import { importMolecules, importRecettes, importAccords, importFamilles, importPlantes, importTerroirs, importMatieresPremières, importRegions, exportMoleculesAsCSVReal, exportMoleculesAsJSONReal, exportPlantesAsCSVReal, exportPlantesAsJSONReal, linkMoleculesToPlantBatch, type ImportResult } from "../import-utils";
 
@@ -355,7 +355,7 @@ export const importExportRouter = router({
     }),
 
   // Valider fichier d'import
-  validateImportFile: publicProcedure
+  validateImportFile: adminProcedure
     .input(
       z.object({
         entity: z.string(),
@@ -418,7 +418,7 @@ export const importExportRouter = router({
     }),
 
   // Aperçu données
-  previewImportData: publicProcedure
+  previewImportData: adminProcedure
     .input(
       z.object({
         entity: z.string(),

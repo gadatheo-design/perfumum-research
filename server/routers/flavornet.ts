@@ -6,7 +6,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, router } from "../_core/trpc";
 import { 
   getFlavornetData, 
   getFlavornetStats, 
@@ -56,7 +56,7 @@ export const flavornetRouter = router({
   /**
    * Enrich a single molecule with Flavornet data
    */
-  enrichMolecule: publicProcedure
+  enrichMolecule: adminProcedure
     .input(z.object({
       moleculeId: z.number(),
     }))
@@ -91,7 +91,7 @@ export const flavornetRouter = router({
   /**
    * Batch enrich molecules with Flavornet data
    */
-  enrichBatch: publicProcedure
+  enrichBatch: adminProcedure
     .input(z.object({
       limit: z.number().optional().default(100),
     }))

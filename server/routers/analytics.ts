@@ -51,6 +51,7 @@ export const analyticsRouter = router({
     };
   }),
   
+  // public-write: justifié — beacon analytics anonyme, fonctionne avec ou sans utilisateur connecté, écrit uniquement dans analytics_events
   trackEvent: publicProcedure
     .input(z.object({
       eventType: z.enum(['molecule_view', 'recipe_view', 'terpene_view', 'pdf_export', 'favorite_add', 'favorite_remove', 'search_query']),

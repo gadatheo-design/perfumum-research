@@ -2,7 +2,7 @@
  * Router tRPC pour l'enrichissement d'images de plantes via Wikimedia Commons
  * Feature 4.7 — Images botaniques automatiques (v2 — batchs 1000)
  */
-import { router, publicProcedure } from "../_core/trpc";
+import { adminProcedure, router, publicProcedure } from "../_core/trpc";
 import { z } from "zod";
 import { getDb } from "../db";
 import { sql, eq } from "drizzle-orm";
@@ -106,7 +106,7 @@ export const wikimediaImagesRouter = router({
    * Le frontend appelle cette mutation en boucle pour traiter jusqu'à 1000 plantes.
    * Chaque appel retourne les résultats + nextStartIndex pour la pagination.
    */
-  enrichImagesBatch: publicProcedure
+  enrichImagesBatch: adminProcedure
     .input(z.object({
       batchSize: z.number().min(1).max(50).default(20),
       startIndex: z.number().min(0).default(0),
@@ -191,7 +191,7 @@ export const wikimediaImagesRouter = router({
     }),
 
   // Mise à jour manuelle de l'image d'une plante
-  updatePlantImage: publicProcedure
+  updatePlantImage: adminProcedure
     .input(z.object({ plantId: z.number(), imageUrl: z.string().url() }))
     .mutation(async ({ input }) => {
       const db = await getDb();

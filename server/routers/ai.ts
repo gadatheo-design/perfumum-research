@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import * as db from "../db";
 import { or, lt } from "drizzle-orm";
@@ -8,7 +8,7 @@ import { molecules, plants } from "../../drizzle/schema";
 
 export const aiRouter = router({
     // Classifier une molécule avec l'IA
-    classifyMolecule: publicProcedure
+    classifyMolecule: adminProcedure
       .input(z.object({
         name: z.string(),
         iupacName: z.string().optional(),
@@ -257,7 +257,7 @@ Réponds avec un JSON contenant:
       }),
 
     // Suggérer un profil olfactif basé sur le nom et la structure
-    suggestOlfactiveProfile: publicProcedure
+    suggestOlfactiveProfile: adminProcedure
       .input(z.object({
         name: z.string(),
         chemicalClass: z.string().optional(),

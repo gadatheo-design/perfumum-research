@@ -2,7 +2,7 @@
  * Router tRPC pour l'enrichissement SMILES et CAS
  * Feature 4.6 — Enrichissement SMILES via PubChem CID
  */
-import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
+import { adminProcedure, router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { z } from "zod";
 import { 
   previewSmilesAndCasEnrichment, 
@@ -68,7 +68,7 @@ export const smilesEnrichmentRouter = router({
   }),
 
   // Enrichir les SMILES en batch via PubChem CID (méthode principale)
-  enrichSmilesByCid: publicProcedure
+  enrichSmilesByCid: adminProcedure
     .input(z.object({
       batchSize: z.number().min(1).max(50).default(20),
       startIndex: z.number().min(0).default(0),
@@ -148,7 +148,7 @@ export const smilesEnrichmentRouter = router({
     }),
 
   // Enrichir les SMILES via CAS number (fallback pour molécules sans CID)
-  enrichSmilesByCas: publicProcedure
+  enrichSmilesByCas: adminProcedure
     .input(z.object({
       batchSize: z.number().min(1).max(20).default(10),
       startIndex: z.number().min(0).default(0),

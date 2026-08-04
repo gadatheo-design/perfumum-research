@@ -9,7 +9,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { plants } from "../../drizzle/schema";
 import { avg, count, eq, sql, sum } from "drizzle-orm";
@@ -203,7 +203,7 @@ export const gbifRouter = router({
   /**
    * Enrichir une seule plante via GBIF + Open-Meteo + CITES
    */
-  enrichPlant: publicProcedure
+  enrichPlant: adminProcedure
     .input(z.object({
       plantId: z.number(),
       includeClimate: z.boolean().default(true),

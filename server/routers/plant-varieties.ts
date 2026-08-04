@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
@@ -63,7 +63,7 @@ export const plantVarietiesRouter = router({
   getUniqueCountries: publicProcedure.query(async () => {
     return db.getUniqueVarietyCountries();
   }),
-  updateConservationStatus: publicProcedure
+  updateConservationStatus: adminProcedure
     .input(z.object({
       varietyId: z.number(),
       conservationStatus: z.string().optional(),
@@ -75,7 +75,7 @@ export const plantVarietiesRouter = router({
       return db.updateVarietyConservationStatus(input.varietyId, input);
     }),
   // CRUD complet pour les variétés
-  create: publicProcedure
+  create: adminProcedure
     .input(z.object({
       plantId: z.number(),
       name: z.string().min(1),
@@ -129,7 +129,7 @@ export const plantVarietiesRouter = router({
       const varietyId = `${prefix}-${String(count + 1).padStart(3, '0')}`;
       return createPlantVariety({ ...input, varietyId });
     }),
-  update: publicProcedure
+  update: adminProcedure
     .input(z.object({
       id: z.number(),
       name: z.string().min(1).optional(),
@@ -180,7 +180,7 @@ export const plantVarietiesRouter = router({
       const { id, ...data } = input;
       return updatePlantVariety(id, data);
     }),
-  delete: publicProcedure
+  delete: adminProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
       return deletePlantVariety(input.id);

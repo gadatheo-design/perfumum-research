@@ -10,7 +10,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { plants, molecules, plantMolecules } from "../../drizzle/schema";
 import { and, count, eq, like, or, sql } from "drizzle-orm";
@@ -182,7 +182,7 @@ export const lotusRouter = router({
   /**
    * Enrichir les liaisons plante-molécule d'une plante via LOTUS
    */
-  enrichPlantLinks: publicProcedure
+  enrichPlantLinks: adminProcedure
     .input(z.object({
       plantId: z.number(),
       dryRun: z.boolean().default(false),
@@ -256,7 +256,7 @@ export const lotusRouter = router({
   /**
    * Enrichissement batch de toutes les plantes via LOTUS
    */
-  enrichBatch: publicProcedure
+  enrichBatch: adminProcedure
     .input(z.object({
       limit: z.number().min(1).max(1000).default(20),
       onlyWithoutLinks: z.boolean().default(true),

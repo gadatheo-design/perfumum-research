@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
@@ -16,7 +16,7 @@ export const familiesRouter = router({
     .query(async ({ input }) => {
       return await db.getFamilyById(input);
     }),
-  create: publicProcedure
+  create: adminProcedure
     .input(z.object({
       name: z.string().min(1),
       description: z.string().optional(),
@@ -25,7 +25,7 @@ export const familiesRouter = router({
     .mutation(async ({ input }) => {
       return await db.createFamily(input);
     }),
-  update: publicProcedure
+  update: adminProcedure
     .input(z.object({
       id: z.number(),
       name: z.string().optional(),
@@ -36,7 +36,7 @@ export const familiesRouter = router({
       const { id, ...data } = input;
       return await db.updateFamilyFull(id, data);
     }),
-  delete: publicProcedure
+  delete: adminProcedure
     .input(z.number())
     .mutation(async ({ input }) => {
       return await db.deleteFamily(input);

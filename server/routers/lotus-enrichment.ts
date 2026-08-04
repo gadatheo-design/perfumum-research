@@ -17,7 +17,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db/core";
 import { plants, molecules, plantMolecules } from "../../drizzle/schema";
@@ -155,7 +155,7 @@ export const lotusEnrichmentRouter = router({
   /**
    * Get all molecules found in a plant species (LOTUS P703 lookup)
    */
-  getMoleculesByPlant: publicProcedure
+  getMoleculesByPlant: adminProcedure
     .input(z.object({
       scientificName: z.string().min(1),
       limit: z.number().min(1).max(100).optional().default(30),
@@ -177,7 +177,7 @@ export const lotusEnrichmentRouter = router({
   /**
    * Get plants that produce a given molecule (reverse lookup)
    */
-  getPlantsByMolecule: publicProcedure
+  getPlantsByMolecule: adminProcedure
     .input(z.object({
       moleculeName: z.string().min(1),
       limit: z.number().min(1).max(50).optional().default(20),
@@ -197,7 +197,7 @@ export const lotusEnrichmentRouter = router({
   /**
    * Get molecular profile for a plant: molecules grouped by chemical class
    */
-  getMolecularProfile: publicProcedure
+  getMolecularProfile: adminProcedure
     .input(z.object({ scientificName: z.string().min(1) }))
     .mutation(async ({ input }) => {
       const compounds = await getMoleculesByTaxon(input.scientificName, 50);
@@ -228,7 +228,7 @@ export const lotusEnrichmentRouter = router({
   /**
    * Batch lookup: get molecule counts for multiple plants
    */
-  batchMoleculeCount: publicProcedure
+  batchMoleculeCount: adminProcedure
     .input(z.object({
       scientificNames: z.array(z.string().min(1)).min(1).max(10),
     }))
@@ -256,7 +256,7 @@ export const lotusEnrichmentRouter = router({
    * Full import: create or find molecule, then create plant_molecules link
    * This is the "real" import that creates a proper DB relationship
    */
-  importLotusToPlant: publicProcedure
+  importLotusToPlant: adminProcedure
     .input(z.object({
       plantId: z.number(),
       moleculeName: z.string().min(1),
@@ -371,7 +371,7 @@ export const lotusEnrichmentRouter = router({
    * Import LOTUS molecule data into the molecules table
    * Links a molecule from LOTUS/Wikidata to a plant in the DB
    */
-  importMoleculeLink: publicProcedure
+  importMoleculeLink: adminProcedure
     .input(z.object({
       plantLatinName: z.string().min(1),
       moleculeName: z.string().min(1),
@@ -496,7 +496,7 @@ export const lotusEnrichmentRouter = router({
    * Preview: fetch all LOTUS molecules for a genus from Wikidata
    * Returns aggregated data without writing to DB (dry-run)
    */
-  previewGenusImport: publicProcedure
+  previewGenusImport: adminProcedure
     .input(z.object({
       genus: z.string().min(1),
       limitPerSpecies: z.number().min(1).max(100).default(30),
@@ -636,7 +636,7 @@ export const lotusEnrichmentRouter = router({
    * Batch import all LOTUS molecules for a genus
    * Processes species one by one, returns per-species results
    */
-  batchImportByGenus: publicProcedure
+  batchImportByGenus: adminProcedure
     .input(z.object({
       genus: z.string().min(1),
       limitPerSpecies: z.number().min(1).max(100).default(30),

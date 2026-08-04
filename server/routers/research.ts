@@ -3,7 +3,7 @@
  * Provides tRPC procedures for research claims and sources
  */
 
-import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
+import { adminProcedure, router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { z } from "zod";
 import { getDb } from "../db";
 import { sql } from "drizzle-orm";
@@ -523,7 +523,7 @@ export const researchRouter = router({
   /**
    * Create a TPS gene-molecule link
    */
-  createTpsGeneMoleculeLink: publicProcedure
+  createTpsGeneMoleculeLink: adminProcedure
     .input(
       z.object({
         tpsGeneId: z.number(),
@@ -559,7 +559,7 @@ export const researchRouter = router({
   /**
    * Delete a TPS gene-molecule link
    */
-  deleteTpsGeneMoleculeLink: publicProcedure
+  deleteTpsGeneMoleculeLink: adminProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
       try {
@@ -985,7 +985,7 @@ export const researchRouter = router({
   /**
    * Create a new molecular transformation
    */
-  createMolecularTransformation: publicProcedure
+  createMolecularTransformation: adminProcedure
     .input(
       z.object({
         sourceMoleculeName: z.string(),
@@ -1304,7 +1304,7 @@ export const researchRouter = router({
   /**
    * Create a transformation-recipe impact link
    */
-  createTransformationRecipeImpact: publicProcedure
+  createTransformationRecipeImpact: adminProcedure
     .input(
       z.object({
         transformationId: z.number(),
@@ -1359,7 +1359,7 @@ export const researchRouter = router({
   /**
    * Delete a transformation-recipe impact link
    */
-  deleteTransformationRecipeImpact: publicProcedure
+  deleteTransformationRecipeImpact: adminProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
       try {

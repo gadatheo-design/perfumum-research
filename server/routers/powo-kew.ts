@@ -17,7 +17,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { plants } from "../../drizzle/schema";
 import { eq, sql } from "drizzle-orm";
@@ -201,7 +201,7 @@ export const powoKewRouter = router({
    * Enrichissement d'une plante PERFUMUM via POWO
    * Met à jour powId, synonymes, authorCitation
    */
-  enrichPlant: publicProcedure
+  enrichPlant: adminProcedure
     .input(z.object({
       plantId: z.number(),
       dryRun: z.boolean().default(true),
@@ -280,7 +280,7 @@ export const powoKewRouter = router({
   /**
    * Batch enrichissement POWO pour toutes les plantes sans powId
    */
-  batchEnrichPlants: publicProcedure
+  batchEnrichPlants: adminProcedure
     .input(z.object({
       limit: z.number().default(20),
       dryRun: z.boolean().default(true),
