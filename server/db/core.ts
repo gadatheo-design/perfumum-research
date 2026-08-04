@@ -5,245 +5,7 @@
  */
 import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, lte, inArray, notInArray, count, type SQL } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { 
-  InsertUser, 
-  users, 
-  userFavorites,
-  milestones,
-  prototypes,
-  families,
-  tabacs,
-  molecules,
-  accords,
-  recettes,
-  civilisations,
-  petrichor,
-  volcanique,
-  installations,
-  laboratoire,
-  glossary,
-  absorbeProfiles,
-  prototypeChemicalFamilies,
-  chemicalFamilies,
-  moleculeChemicalFamilies,
-  accordCivilisations,
-  researchTimeline,
-  experimentalAccords,
-  moleculesRecettes,
-  recettesFormulesReference,
-  Prototype,
-  Family,
-  Tabac,
-  Molecule,
-  Accord,
-  Recette,
-  InsertRecette,
-  Civilisation,
-  Petrichor,
-  Volcanique,
-  Installation,
-  Laboratoire,
-  GlossaryTerm,
-  ResearchMilestone,
-  ExperimentalAccord,
-  synergies,
-  Synergie,
-  terpeneSynergies,
-  userNotes,
-  TerpeneSynergy,
-  sharedCollections,
-  moleculeNotes,
-  citations,
-  analyticsEvents,
-  suppliers,
-  supplierMaterials,
-  Supplier,
-  InsertSupplier,
-  SupplierMaterial,
-  InsertSupplierMaterial,
-  rechercheRadicale,
-  modificationHistory,
-  moleculeSynergies,
-  MoleculeSynergie,
-  savedFormulas,
-  SavedFormula,
-  InsertSavedFormula,
-  climateStudies,
-  ClimateStudy,
-  InsertClimateStudy,
-  molecularProtocols,
-  MolecularProtocol,
-  InsertMolecularProtocol,
-  fieldArchives,
-  FieldArchive,
-  InsertFieldArchive,
-  extractionTests,
-  ExtractionTest,
-  InsertExtractionTest,
-  situatedSmells,
-  SituatedSmell,
-  InsertSituatedSmell,
-  leafEconomies,
-  LeafEconomy,
-  InsertLeafEconomy,
-  leafEconomyMolecules,
-  geographicOrigins,
-  GeographicOrigin,
-  InsertGeographicOrigin,
-  moleculeOrigins,
-  MoleculeOrigin,
-  InsertMoleculeOrigin,
-  ifraRestrictions,
-  IfraRestriction,
-  InsertIfraRestriction,
-  plants,
-  Plant,
-  InsertPlant,
-  geographicZones,
-  plantGeographicZones,
-  terpProfiles,
-  TerpProfile,
-  InsertTerpProfile,
-  finalRecipes,
-  FinalRecipe,
-  InsertFinalRecipe,
-  terpProfilePlants,
-  terpProfileMolecules,
-  plantMolecules,
-  finalRecipeTerpProfiles,
-  // Point 3 étendu
-  plantVarieties,
-  PlantVariety,
-  InsertPlantVariety,
-  terroirs,
-  Terroir,
-  InsertTerroir,
-  extractionMethods,
-  ExtractionMethod,
-  InsertExtractionMethod,
-  plantAnalyses,
-  PlantAnalysis,
-  InsertPlantAnalysis,
-  plantSamples,
-  PlantSample,
-  InsertPlantSample,
-  extendedSuppliers,
-  ExtendedSupplier,
-  InsertExtendedSupplier,
-  plantTerroirs,
-  PlantTerroir,
-  InsertPlantTerroir,
-  plantExtractions,
-  PlantExtraction,
-  InsertPlantExtraction,
-  extendedSupplierMaterials,
-  ExtendedSupplierMaterial,
-  InsertExtendedSupplierMaterial,
-  // Nouvelles tables pour les relations molécule-plante-terroir
-  rawMaterials,
-  RawMaterial,
-  InsertRawMaterial,
-  rawMaterialMolecules,
-  RawMaterialMolecule,
-  InsertRawMaterialMolecule,
-  moleculePlantSources,
-  MoleculePlantSource,
-  InsertMoleculePlantSource,
-  terroirSpecialties,
-  TerroirSpecialty,
-  InsertTerroirSpecialty,
-  // Chémotypes
-  chemotypes,
-  Chemotype,
-  // Conservation & Archives (Jour 1-2)
-  olfactiveArchives,
-  OlfactiveArchive,
-  InsertOlfactiveArchive,
-  civilizationalMarkers,
-  CivilizationalMarker,
-  InsertCivilizationalMarker,
-  varietyGenealogy,
-  VarietyGenealogy,
-  InsertVarietyGenealogy,
-  InsertChemotype,
-  // Catégories IFRA
-  ifraCategories,
-  IfraCategory,
-  InsertIfraCategory,
-  // Sample Images (Galerie)
-  sampleImages,
-  SampleImage,
-  InsertSampleImage,
-  // Sustainable Alternatives
-  sustainableAlternatives,
-  SustainableAlternative,
-  InsertSustainableAlternative,
-  // Bibliography & Research Axes
-  bibliographyEntries,
-  BibliographyEntry,
-  InsertBibliographyEntry,
-  researchAxes,
-  ResearchAxis,
-  InsertResearchAxis,
-  researchEntries,
-  ResearchEntry,
-  InsertResearchEntry,
-  bibliographyAxisLinks,
-  BibliographyAxisLink,
-  InsertBibliographyAxisLink,
-  // Reference Citations
-  referenceCitations,
-  ReferenceCitation,
-  InsertReferenceCitation,
-  // V3 References (Pack Niche Innovations)
-  thematicAxes,
-  ThematicAxis,
-  InsertThematicAxis,
-  v3References,
-  V3Reference,
-  InsertV3Reference,
-  referenceTags,
-  ReferenceTag,
-  InsertReferenceTag,
-  v3ReferenceTagLinks,
-  V3ReferenceTagLink,
-  InsertV3ReferenceTagLink,
-  referenceNotes,
-  ReferenceNote,
-  InsertReferenceNote,
-  axisConnections,
-  AxisConnection,
-  InsertAxisConnection,
-  // Reference Entity Links & Olfactory Traditions
-  referenceEntityLinks,
-  ReferenceEntityLink,
-  InsertReferenceEntityLink,
-  olfactoryTraditions,
-  OlfactoryTradition,
-  InsertOlfactoryTradition,
-  // Curated Journeys
-  curatedJourneys,
-  CuratedJourney,
-  InsertCuratedJourney,
-  journeyItems,
-  JourneyItem,
-  InsertJourneyItem,
-  // Axis Reference Links
-  axisReferenceLinks,
-  AxisReferenceLink,
-  InsertAxisReferenceLink,
-  // Recette <-> Molecule (table recette_molecules)
-  recetteMolecules,
-  RecetteMolecule,
-  InsertRecetteMolecule,
-  // Recette <-> Raw Materials (liaison directe)
-  recetteRawMaterials,
-  RecetteRawMaterial,
-  InsertRecetteRawMaterial,
-  varietyImages,
-  VarietyImage,
-  InsertVarietyImage,
-} from "../../drizzle/schema";
+import * as schema from "../../drizzle/schema";
 import { ENV } from '../_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
 import { expandWithScientificNames, getScientificDictionaryStats } from '../../shared/botanicalLatinNames';
@@ -254,49 +16,13 @@ let _db: ReturnType<typeof drizzle> | null = null;
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {
+      // Lot 5 — schéma Drizzle complet (toutes les tables de drizzle/schema-modules/,
+      // pas seulement les 39 précédemment listées à la main). Sans risque connu :
+      // aucun fichier du dépôt n'utilise l'API relationnelle db.query.*, qui est la
+      // seule à dépendre de ce schema; .select().from(table) fonctionne indépendamment.
       _db = drizzle(process.env.DATABASE_URL, {
         mode: "default",
-        schema: {
-          users,
-          userFavorites,
-          milestones,
-          prototypes,
-          families,
-          tabacs,
-          molecules,
-          accords,
-          recettes,
-          civilisations,
-          petrichor,
-          volcanique,
-          installations,
-          laboratoire,
-          glossary,
-          absorbeProfiles,
-          prototypeChemicalFamilies,
-          chemicalFamilies,
-          moleculeChemicalFamilies,
-          accordCivilisations,
-          researchTimeline,
-          experimentalAccords,
-          moleculesRecettes,
-  recettesFormulesReference,
-          synergies,
-          terpeneSynergies,
-          userNotes,
-          sharedCollections,
-          savedFormulas,
-          moleculeNotes,
-          citations,
-          analyticsEvents,
-          suppliers,
-          supplierMaterials,
-          rechercheRadicale,
-          modificationHistory,
-          plantTerroirs,
-          plantMolecules,
-          varietyImages,
-        },
+        schema,
       });
     } catch (error) {
       console.warn("[Database] Failed to connect:", error);
@@ -306,7 +32,7 @@ export async function getDb() {
   return _db;
 }
 
-export async function upsertUser(user: InsertUser): Promise<void> {
+export async function upsertUser(user: schema.InsertUser): Promise<void> {
   if (!user.openId) {
     throw new Error("User openId is required for upsert");
   }
@@ -318,7 +44,7 @@ export async function upsertUser(user: InsertUser): Promise<void> {
   }
 
   try {
-    const values: InsertUser = {
+    const values: schema.InsertUser = {
       openId: user.openId,
     };
     const updateSet: Record<string, unknown> = {};
@@ -356,7 +82,7 @@ export async function upsertUser(user: InsertUser): Promise<void> {
       updateSet.lastSignedIn = new Date();
     }
 
-    await db.insert(users).values(values).onDuplicateKeyUpdate({
+    await db.insert(schema.users).values(values).onDuplicateKeyUpdate({
       set: updateSet,
     });
   } catch (error) {
@@ -372,7 +98,7 @@ export async function getUserByOpenId(openId: string) {
     return undefined;
   }
 
-  const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
+  const result = await db.select().from(schema.users).where(eq(schema.users.openId, openId)).limit(1);
 
   return result.length > 0 ? result[0] : undefined;
 }
