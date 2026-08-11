@@ -8,9 +8,10 @@ import { z } from 'zod';
 import { router, publicProcedure, protectedProcedure, adminProcedure } from '../_core/trpc';
 import mysql from 'mysql2/promise';
 import { searchMoleculeQid, searchPlantQid, getWikidataProperties, generateJsonLd } from '../wikidata';
+import { getMysqlConnection } from "../db/mysqlPool";
 
 async function getDb() {
-  return mysql.createConnection(process.env.DATABASE_URL!);
+  return getMysqlConnection();
 }
 
 export const wikidataRouter = router({

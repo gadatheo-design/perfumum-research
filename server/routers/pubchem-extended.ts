@@ -11,6 +11,7 @@
 import { adminProcedure, router, publicProcedure } from "../_core/trpc";
 import { z } from "zod";
 import * as mysql from "mysql2/promise";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 const PUBCHEM_BASE = "https://pubchem.ncbi.nlm.nih.gov/rest/pug";
 const DELAY_MS = 400; // Respecter rate limit PubChem (5 req/s max)
@@ -101,7 +102,7 @@ export const pubchemExtendedRouter = router({
    * Statistiques de couverture des colonnes PubChem étendues
    */
   getCoverageStats: publicProcedure.query(async () => {
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     try {
       const [rows] = await conn.execute<mysql.RowDataPacket[]>(`
         SELECT
@@ -147,7 +148,7 @@ export const pubchemExtendedRouter = router({
       familyFilter: z.string().optional(),
     }))
     .query(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         let where = "pubchem_cid IS NOT NULL";
         if (input.mode === "missing_inchi") where += " AND (inchi IS NULL OR inchi = '')";
@@ -176,7 +177,7 @@ export const pubchemExtendedRouter = router({
   enrichSingle: adminProcedure
     .input(z.object({ moleculeId: z.number().int().positive() }))
     .mutation(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const [rows] = await conn.execute<mysql.RowDataPacket[]>(
           "SELECT id, name, pubchem_cid, cas_number, iupac_name FROM molecules WHERE id = ? LIMIT 1",
@@ -277,7 +278,7 @@ export const pubchemExtendedRouter = router({
         error?: string;
       }> = [];
 
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         for (const moleculeId of input.moleculeIds) {
           try {

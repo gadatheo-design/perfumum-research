@@ -13,10 +13,11 @@ import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import mysql from "mysql2/promise";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 // ── Connexion DB ──────────────────────────────────────────────────────────────
 async function getConn() {
-  return mysql.createConnection(process.env.DATABASE_URL as string);
+  return getMysqlConnection();
 }
 
 // ── Schéma de mise à jour des champs ─────────────────────────────────────────

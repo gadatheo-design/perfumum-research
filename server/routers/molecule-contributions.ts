@@ -5,6 +5,7 @@ import * as db from "../db";
 import { SQL } from "drizzle-orm";
 import { molecules } from "../../drizzle/schema";
 import { TRPCError } from "@trpc/server";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 export const moleculeContributionsRouter = router({
   submit: protectedProcedure
@@ -31,8 +32,7 @@ export const moleculeContributionsRouter = router({
       bibliographyRefs: z.string().optional(),
     }))
     .mutation(async ({ input, ctx }) => {
-      const mysql = await import('mysql2/promise');
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       await conn.execute(`
         INSERT INTO molecule_contributions
           (molecule_id, user_id, user_name, contribution_type,
@@ -61,8 +61,7 @@ export const moleculeContributionsRouter = router({
   getByMolecule: publicProcedure
     .input(z.object({ moleculeId: z.number(), status: z.enum(['pending','approved','rejected']).optional() }))
     .query(async ({ input }) => {
-      const mysql = await import('mysql2/promise');
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       const [rows] = await conn.execute(
         `SELECT * FROM molecule_contributions WHERE molecule_id = ?${input.status ? ' AND status = ?' : ''} ORDER BY created_at DESC`,
         input.status ? [input.moleculeId, input.status] : [input.moleculeId]
@@ -74,8 +73,7 @@ export const moleculeContributionsRouter = router({
     .input(z.object({ status: z.enum(['pending','approved','rejected']).optional() }).optional())
     .query(async ({ input, ctx }) => {
       if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
-      const mysql = await import('mysql2/promise');
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       const [rows] = await conn.execute(
         `SELECT mc.*, m.name as molecule_name FROM molecule_contributions mc
          LEFT JOIN molecules m ON mc.molecule_id = m.id
@@ -90,8 +88,7 @@ export const moleculeContributionsRouter = router({
     .input(z.object({ id: z.number(), status: z.enum(['approved','rejected']), adminNotes: z.string().optional() }))
     .mutation(async ({ input, ctx }) => {
       if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
-      const mysql = await import('mysql2/promise');
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       await conn.execute(
         `UPDATE molecule_contributions SET status=?, admin_notes=?, reviewed_by=?, reviewed_at=NOW() WHERE id=?`,
         [input.status, input.adminNotes || null, ctx.user.name || ctx.user.openId, input.id]

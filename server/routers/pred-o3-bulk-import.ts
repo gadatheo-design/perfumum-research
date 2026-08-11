@@ -2,6 +2,7 @@ import { z } from "zod";
 import { adminProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import mysql from "mysql2/promise";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 /**
  * Routeur pour l'import en lot des associations Pred-O3
@@ -27,7 +28,7 @@ export const predO3BulkImportRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       const results = { success: 0, failed: 0, errors: [] as string[] };
       try {
         for (const assoc of input.associations) {
@@ -76,7 +77,7 @@ export const predO3BulkImportRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       const results = { success: 0, failed: 0, errors: [] as string[] };
       try {
         for (const assoc of input.associations) {
@@ -138,7 +139,7 @@ export const predO3BulkImportRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       const results = {
         success: 0,
         failed: 0,
@@ -236,7 +237,7 @@ export const predO3BulkImportRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       const validation = {
         total: input.associations.length,
         valid: 0,
@@ -307,7 +308,7 @@ export const predO3BulkImportRouter = router({
    * Récupérer les statistiques des associations importées
    */
   getImportStats: adminProcedure.query(async () => {
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     try {
       const [plantLinks] = await conn.execute(
         "SELECT COUNT(*) as cnt, COUNT(plant_id) as linked FROM descriptor_plant_links WHERE source = 'pred-o3'"

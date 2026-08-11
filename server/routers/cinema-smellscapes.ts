@@ -10,9 +10,10 @@
 import { z } from "zod";
 import mysql from "mysql2/promise";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 async function getConn() {
-  return mysql.createConnection(process.env.DATABASE_URL!);
+  return getMysqlConnection();
 }
 
 // ─── Types ────────────────────────────────────────────────────────────────────

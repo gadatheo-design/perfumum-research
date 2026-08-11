@@ -5,6 +5,7 @@
 import { z } from "zod";
 import mysql from "mysql2/promise";
 import { publicProcedure, router } from "../_core/trpc";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 export const sparqlQidRouter = router({
   /**
@@ -18,7 +19,7 @@ export const sparqlQidRouter = router({
       limit: z.number().int().min(1).max(50).default(20),
     }))
     .query(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const q = `%${input.query}%`;
         const results: Array<{ id: number; name: string; qid: string | null; type: string; extra: string | null }> = [];
@@ -65,7 +66,7 @@ export const sparqlQidRouter = router({
       limit: z.number().int().min(1).max(200).default(50),
     }))
     .query(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const catalog: Array<{ id: number; name: string; qid: string; type: string; extra: string | null }> = [];
         // perType est un entier validé par Zod (min:1, max:200) — interpolation directe sûre
@@ -118,7 +119,7 @@ export const sparqlQidRouter = router({
       qid: z.string().regex(/^Q\d+$/),
     }))
     .query(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const [molRows] = await conn.execute<mysql.RowDataPacket[]>(
           "SELECT id, name, cas_number FROM molecules WHERE wikidata_qid = ? LIMIT 1", [input.qid]

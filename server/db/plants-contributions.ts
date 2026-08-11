@@ -265,11 +265,11 @@ import { getMoleculeIfraRestrictions } from './ifra';
 
 import { ENV } from '../_core/env';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
+import { getMysqlConnection } from "./mysqlPool";
 
 export async function getPlantContributions(plantId: number, status?: string) {
   try {
-    const mysql = await import('mysql2/promise');
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     let query = `SELECT * FROM plant_contributions WHERE plant_id = ?`;
     const params: (string | number | null)[] = [plantId];
     if (status) {
@@ -288,8 +288,7 @@ export async function getPlantContributions(plantId: number, status?: string) {
 
 export async function getAllPendingContributionsForAdmin() {
   try {
-    const mysql = await import('mysql2/promise');
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     const [rows] = await conn.execute(`
       SELECT pc.*, p.name as plant_name, p.latin_name as plant_latin_name,
              p.family as plant_family
@@ -308,8 +307,7 @@ export async function getAllPendingContributionsForAdmin() {
 
 export async function getAllContributionsForAdmin(status?: string) {
   try {
-    const mysql = await import('mysql2/promise');
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     let query = `
       SELECT pc.*, p.name as plant_name, p.latin_name as plant_latin_name
       FROM plant_contributions pc
@@ -369,8 +367,7 @@ export async function submitPlantContribution(data: {
   traditionSources?: string;
 }) {
   try {
-    const mysql = await import('mysql2/promise');
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     const [result] = await conn.execute(`
       INSERT INTO plant_contributions
         (plant_id, user_id, user_name, contribution_type,
@@ -411,8 +408,7 @@ export async function reviewPlantContribution(
   adminNotes?: string
 ) {
   try {
-    const mysql = await import('mysql2/promise');
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
 
     // Récupérer la contribution AVANT de la mettre à jour
     const [rows] = await conn.execute(
@@ -599,8 +595,7 @@ export async function reviewPlantContribution(
 
 export async function getContributionStats() {
   try {
-    const mysql = await import('mysql2/promise');
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     const [rows] = await conn.execute(`
       SELECT
         COUNT(*) as total,

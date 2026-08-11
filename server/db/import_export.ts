@@ -6,6 +6,7 @@
 
 import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, lte, inArray, notInArray, count, type SQL } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
+import { getMysqlConnection } from "./mysqlPool";
 import { 
   InsertUser, 
   users, 
@@ -599,8 +600,7 @@ export async function exportMoleculeChemicalFamilyLinksJSON() {
 
 export async function searchPlantsForGcms(query: string) {
   try {
-    const mysql = await import('mysql2/promise');
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     const [rows] = await conn.execute(
       `SELECT id, name, latin_name, category FROM plants
        WHERE name LIKE ? OR latin_name LIKE ?
@@ -614,8 +614,7 @@ export async function searchPlantsForGcms(query: string) {
 
 export async function searchMoleculesForGcms(query: string) {
   try {
-    const mysql = await import('mysql2/promise');
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     const [rows] = await conn.execute(
       `SELECT id, name, cas_number, olfactive_family FROM molecules
        WHERE name LIKE ? OR cas_number LIKE ?
@@ -629,8 +628,7 @@ export async function searchMoleculesForGcms(query: string) {
 
 export async function getGcmsProfile(plantId: number) {
   try {
-    const mysql = await import('mysql2/promise');
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     const [rows] = await conn.execute(
       `SELECT pm.*, m.name as molecule_name, m.cas_number, m.olfactive_family
        FROM plant_molecules pm
@@ -662,8 +660,7 @@ export async function previewGcmsImport(
   overwriteExisting: boolean
 ) {
   try {
-    const mysql = await import('mysql2/promise');
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
 
     const results: Array<{ moleculeName: string; moleculeDbName: string; moleculeId: number | undefined; percentageTypical: number | undefined; percentageMin: number | undefined; percentageMax: number | undefined; role: string; isSignature: boolean; source: string | undefined; status: string }> = [];
     for (const mol of molecules) {
@@ -729,8 +726,7 @@ export async function importGcmsBatch(
   bibliography?: string[]
 ) {
   try {
-    const mysql = await import('mysql2/promise');
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
 
     let created = 0, updated = 0, skipped = 0, notFound = 0;
     const errors: string[] = [];
@@ -823,8 +819,7 @@ export async function importGcmsFromCsv(
   overwriteExisting: boolean
 ) {
   try {
-    const mysql = await import('mysql2/promise');
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
 
     let created = 0, updated = 0, skipped = 0, notFound = 0;
     const errors: string[] = [];

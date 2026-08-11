@@ -12,6 +12,7 @@ import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import * as db from "../db";
 import * as mysql from "mysql2/promise";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 export const advancedSearchRouter = router({
   // ── Recherche par plante source ──────────────────────────────────────────
@@ -60,7 +61,7 @@ export const advancedSearchRouter = router({
       limit: z.number().min(1).max(20).default(8),
     }))
     .query(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const term = `%${input.query}%`;
         const lim = input.limit;

@@ -6,6 +6,7 @@
 
 import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, lte, inArray, notInArray, count, type SQL } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
+import { getMysqlConnection } from "./mysqlPool";
 import { 
   InsertUser, 
   users, 
@@ -856,8 +857,7 @@ export async function getPlantPerfumes(plantId: number) {
   try {
     const dbConn = await getDb();
     if (!dbConn) return [];
-    const mysql = await import('mysql2/promise');
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     const [rows] = await conn.execute(
       `SELECT id, plant_id, perfume_name, perfume_house, perfumer, year,
               role_in_perfume, ingredient_type, description, created_at

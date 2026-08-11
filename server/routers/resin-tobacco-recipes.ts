@@ -2,9 +2,10 @@ import { z } from 'zod';
 import { publicProcedure, router } from '../_core/trpc';
 import { getDb } from '../db/core';
 import mysql from 'mysql2/promise';
+import { getMysqlConnection } from "../db/mysqlPool";
 
 async function getRawConn() {
-  return mysql.createConnection(process.env.DATABASE_URL!);
+  return getMysqlConnection();
 }
 
 export const resinTobaccoRecipesRouter = router({

@@ -8,9 +8,10 @@ import { z } from "zod";
 import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import mysql from "mysql2/promise";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 async function getDb() {
-  return mysql.createConnection(process.env.DATABASE_URL!);
+  return getMysqlConnection();
 }
 
 export const olfactiveEmissionsRouter = router({

@@ -7,6 +7,7 @@
 import { z } from "zod";
 import mysql from "mysql2/promise";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -25,7 +26,7 @@ interface TaxonomyCandidate {
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 async function getDbConn() {
-  return mysql.createConnection(process.env.DATABASE_URL!);
+  return getMysqlConnection();
 }
 
 /** Extraire le genre depuis un nom latin (premier mot si majuscule+lettres) */

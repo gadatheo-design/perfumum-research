@@ -11,9 +11,10 @@ import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { invalidateMoleculeCache } from "../cache";
 import mysql from "mysql2/promise";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 async function getConn() {
-  return mysql.createConnection(process.env.DATABASE_URL!);
+  return getMysqlConnection();
 }
 
 export const moleculesAdminRouter = router({
