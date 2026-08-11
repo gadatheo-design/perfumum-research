@@ -43,4 +43,5 @@ export * from "./schema-modules/sparql-cache";
 export * from "./schema-modules/bibliography-cross-citations";
 export * from "./schema-modules/europeana-bookmarks";
 export * from "./schema-modules/sparql-saved-queries";
+export * from "./schema-modules/shadow-tables";
 export * from "./schema-modules/_relations";
