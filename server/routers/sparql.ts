@@ -25,7 +25,7 @@ function hashQuery(query: string): string {
 /** Lit le cache DB pour une requête donnée */
 async function readDbCache(queryHash: string): Promise<unknown | null> {
   try {
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     const [rows] = await conn.execute<mysql.RowDataPacket[]>(
       "SELECT results_json, expires_at FROM sparql_cache WHERE query_hash = ? AND expires_at > NOW() LIMIT 1",
       [queryHash]
@@ -44,7 +44,7 @@ async function readDbCache(queryHash: string): Promise<unknown | null> {
 /** Écrit le résultat dans le cache DB */
 async function writeDbCache(queryHash: string, queryText: string, queryType: string, result: unknown, executionTimeMs: number): Promise<void> {
   try {
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     const expiresAt = new Date(Date.now() + SPARQL_CACHE_TTL_MS);
     const resultsJson = JSON.stringify(result);
     const resultObj = (result as Record<string, unknown>)?.results;
@@ -71,9 +71,10 @@ import {
 } from "../sparql";
 import mysql from "mysql2/promise";
 import crypto from "crypto";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 async function getDb() {
-  return mysql.createConnection(process.env.DATABASE_URL!);
+  return getMysqlConnection();
 }
 
 export const sparqlRouter = router({
@@ -910,7 +911,7 @@ LIMIT 30`,
    */
   getCacheStats: publicProcedure.query(async () => {
     try {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       const [total] = await conn.execute<mysql.RowDataPacket[]>("SELECT COUNT(*) as cnt FROM sparql_cache");
       const [active] = await conn.execute<mysql.RowDataPacket[]>("SELECT COUNT(*) as cnt FROM sparql_cache WHERE expires_at > NOW()");
       const [expired] = await conn.execute<mysql.RowDataPacket[]>("SELECT COUNT(*) as cnt FROM sparql_cache WHERE expires_at <= NOW()");
@@ -940,7 +941,7 @@ LIMIT 30`,
     .input(z.object({ expiredOnly: z.boolean().default(true) }))
     .mutation(async ({ input }) => {
       try {
-        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        const conn = await getMysqlConnection();
         let deleted = 0;
         if (input.expiredOnly) {
           const [result] = await conn.execute<mysql.OkPacket>("DELETE FROM sparql_cache WHERE expires_at <= NOW()");
@@ -1047,7 +1048,7 @@ LIMIT 15`,
     }))
     .query(async ({ input }) => {
       // 1. Récupérer le QID Wikidata + métadonnées de l'entité
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       let qid: string | null = null;
       let entityName = "";
       let latinName: string | null = null;   // plantes uniquement
@@ -1458,7 +1459,7 @@ LIMIT 15`,
       useCache: z.boolean().default(true),
     }))
     .query(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       let entityName = "";
       let casNumber: string | null = null;
       let latinName: string | null = null;
@@ -1523,7 +1524,7 @@ LIMIT 15`,
       entityId: z.number().int().positive(),
     }))
     .query(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         let perfumumData: Record<string, unknown> = {};
         let qid: string | null = null;

@@ -10,6 +10,7 @@
 import { z } from "zod";
 import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import mysql from "mysql2/promise";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 const CROSSREF_BASE = "https://api.crossref.org/works";
 const CROSSREF_EMAIL = "perfumum-research@contact.fr"; // Polite pool CrossRef
@@ -50,7 +51,7 @@ function extractYear(work: Record<string, unknown>): number | null {
 }
 
 async function getDb() {
-  return mysql.createConnection(process.env.DATABASE_URL!);
+  return getMysqlConnection();
 }
 
 export const crossrefRouter = router({

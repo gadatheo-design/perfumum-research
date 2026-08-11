@@ -4,6 +4,7 @@ import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 export const recipeContributionsRouter = router({
   submit: protectedProcedure
@@ -24,8 +25,7 @@ export const recipeContributionsRouter = router({
       bibliographyRefs: z.string().optional(),
     }))
     .mutation(async ({ input, ctx }) => {
-      const mysql = await import('mysql2/promise');
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       await conn.execute(`
         INSERT INTO recipe_contributions
           (recipe_id, user_id, user_name, contribution_type,
@@ -50,8 +50,7 @@ export const recipeContributionsRouter = router({
     .input(z.object({ status: z.enum(['pending','approved','rejected']).optional() }).optional())
     .query(async ({ input, ctx }) => {
       if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
-      const mysql = await import('mysql2/promise');
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       const [rows] = await conn.execute(
         `SELECT rc.* FROM recipe_contributions rc
          ${input?.status ? 'WHERE rc.status = ?' : ''}
@@ -65,8 +64,7 @@ export const recipeContributionsRouter = router({
     .input(z.object({ id: z.number(), status: z.enum(['approved','rejected']), adminNotes: z.string().optional() }))
     .mutation(async ({ input, ctx }) => {
       if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
-      const mysql = await import('mysql2/promise');
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       await conn.execute(
         `UPDATE recipe_contributions SET status=?, admin_notes=?, reviewed_by=?, reviewed_at=NOW() WHERE id=?`,
         [input.status, input.adminNotes || null, ctx.user.name || ctx.user.openId, input.id]

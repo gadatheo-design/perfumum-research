@@ -6,6 +6,7 @@
 import { z } from "zod";
 import mysql from "mysql2/promise";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -124,7 +125,7 @@ export const moleculesQidRouter = router({
       search: z.string().optional(),
     }))
     .query(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const offset = (input.page - 1) * input.pageSize;
         let whereClause = "wikidata_qid IS NULL OR wikidata_qid = ''";
@@ -179,7 +180,7 @@ export const moleculesQidRouter = router({
       overrideName: z.string().optional(), // Permet de tester un nom alternatif
     }))
     .query(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const [rows] = await conn.execute<mysql.RowDataPacket[]>(
           "SELECT id, name, cas_number, iupac_name, wikidata_qid FROM molecules WHERE id = ? LIMIT 1",
@@ -218,7 +219,7 @@ export const moleculesQidRouter = router({
       qid: z.string().regex(/^Q\d+$/, "Format QID invalide (ex: Q12345)"),
     }))
     .mutation(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         // Vérifier que la molécule existe
         const [rows] = await conn.execute<mysql.RowDataPacket[]>(
@@ -256,7 +257,7 @@ export const moleculesQidRouter = router({
       })).min(1).max(500),
     }))
     .mutation(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         let applied = 0;
         const errors: Array<{ moleculeId: number; error: string }> = [];
@@ -286,7 +287,7 @@ export const moleculesQidRouter = router({
   validateQidViaCas: publicProcedure
     .input(z.object({ moleculeId: z.number().int().positive() }))
     .query(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const [rows] = await conn.execute<mysql.RowDataPacket[]>(
           "SELECT id, name, cas_number, iupac_name, wikidata_qid FROM molecules WHERE id = ? LIMIT 1",
@@ -372,7 +373,7 @@ export const moleculesQidRouter = router({
       familyFilter: z.string().optional(),
     }))
     .query(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       let molecules: Array<{ id: number; name: string; cas_number: string | null; iupac_name: string | null; wikidata_qid: string | null; family: string | null }> = [];
       try {
         let sql = "SELECT id, name, cas_number, iupac_name, wikidata_qid, family FROM molecules WHERE cas_number IS NOT NULL AND cas_number != ''";
@@ -459,7 +460,7 @@ export const moleculesQidRouter = router({
    * Statistiques globales sur la couverture QID des molécules
    */
   getQidCoverageStats: publicProcedure.query(async () => {
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     try {
       const [rows] = await conn.execute<mysql.RowDataPacket[]>(`
         SELECT

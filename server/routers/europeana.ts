@@ -36,9 +36,10 @@ import {
   THEMATIC_QUERIES,
 } from "../europeana";
 import mysql from "mysql2/promise";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 async function getDbConn() {
-  return mysql.createConnection(process.env.DATABASE_URL!);
+  return getMysqlConnection();
 }
 
 // Tous les thèmes disponibles (existants + nouveaux Sprint 1)

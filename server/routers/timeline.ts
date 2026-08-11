@@ -8,6 +8,7 @@
 import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
 import * as mysql from "mysql2/promise";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -56,7 +57,7 @@ async function getDbTimelineEvents(filters: {
   entityId?: number;
   limit: number;
 }): Promise<TimelineEvent[]> {
-  const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+  const conn = await getMysqlConnection();
   try {
     let sql = `
       SELECT be.id, be.year, be.title, be.doi, be.journal, be.authors,
@@ -201,7 +202,7 @@ export const timelineRouter = router({
   getByPhase: publicProcedure
     .input((val: unknown) => { if (typeof val !== "string") throw new Error("Expected string"); return val; })
     .query(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const [rows] = await conn.execute<mysql.RowDataPacket[]>(
           "SELECT * FROM bibliography_entries WHERE entry_type = ? ORDER BY year DESC LIMIT 50",
@@ -213,7 +214,7 @@ export const timelineRouter = router({
   getByYear: publicProcedure
     .input((val: unknown) => { if (typeof val !== "number") throw new Error("Expected number"); return val; })
     .query(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const [rows] = await conn.execute<mysql.RowDataPacket[]>(
           "SELECT * FROM bibliography_entries WHERE year = ? ORDER BY title LIMIT 50",
@@ -223,7 +224,7 @@ export const timelineRouter = router({
       } catch { return []; } finally { await conn.end(); }
     }),
   stats: publicProcedure.query(async () => {
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     try {
       const [rows] = await conn.execute<mysql.RowDataPacket[]>(
         "SELECT COUNT(*) AS total, MIN(year) AS min_year, MAX(year) AS max_year FROM bibliography_entries WHERE year IS NOT NULL"
@@ -309,7 +310,7 @@ export const timelineRouter = router({
     }))
     .query(async ({ input }) => {
       let entityName = "";
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const table = input.entityType === "molecule" ? "molecules" : "plants";
         const [rows] = await conn.execute<mysql.RowDataPacket[]>(
@@ -337,7 +338,7 @@ export const timelineRouter = router({
    */
   getTimelineStats: publicProcedure
     .query(async () => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const [totalRows] = await conn.execute<mysql.RowDataPacket[]>(
           "SELECT COUNT(*) AS total, MIN(year) AS min_year, MAX(year) AS max_year FROM bibliography_entries WHERE year IS NOT NULL AND year > 1600"

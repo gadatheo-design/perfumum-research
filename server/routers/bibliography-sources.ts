@@ -3,6 +3,7 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 export const bibliographySourcesRouter = router({
   // Publications liées à une molécule (toutes sources : OpenAlex, NEZ, etc.)
@@ -90,8 +91,7 @@ export const bibliographySourcesRouter = router({
     .mutation(async ({ input }) => {
       const dbConn = await db.getDb();
       if (!dbConn) throw new Error('DB not available');
-      const mysql = await import('mysql2/promise');
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         await conn.execute(
           `INSERT INTO publication_extraction_methods (publication_id, extraction_method_id, is_key_finding, notes)
@@ -109,8 +109,7 @@ export const bibliographySourcesRouter = router({
     .query(async ({ input }) => {
       const dbConn = await db.getDb();
       if (!dbConn) return [];
-      const mysql = await import('mysql2/promise');
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const [rows] = await conn.execute(
           `SELECT rp.id, rp.title, rp.authors, rp.year, rp.doi, rp.url, rp.journal,
@@ -131,8 +130,7 @@ export const bibliographySourcesRouter = router({
     .query(async ({ input }) => {
       const dbConn = await db.getDb();
       if (!dbConn) return [];
-      const mysql = await import('mysql2/promise');
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const [rows] = await conn.execute(
           `SELECT em.id, em.name, em.type, em.description, em.temperature, em.pressure, em.solvent,

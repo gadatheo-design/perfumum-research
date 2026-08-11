@@ -14,11 +14,12 @@
 import { z } from "zod";
 import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
 import mysql from "mysql2/promise";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 // ─── Helpers DB ──────────────────────────────────────────────────────────────
 
 async function getConn() {
-  return mysql.createConnection(process.env.DATABASE_URL!);
+  return getMysqlConnection();
 }
 
 // ─── Routeur ─────────────────────────────────────────────────────────────────

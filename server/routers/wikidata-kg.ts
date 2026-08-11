@@ -21,6 +21,7 @@
 import { adminProcedure, router, publicProcedure } from "../_core/trpc";
 import { z } from "zod";
 import * as mysql from "mysql2/promise";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 const SPARQL_ENDPOINT = "https://query.wikidata.org/sparql";
 const DELAY_MS = 600;
@@ -189,7 +190,7 @@ export const wikidataKgRouter = router({
       let qidToUse = input.wikidataQid;
 
       if (!qidToUse && input.moleculeId) {
-        const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+        const conn = await getMysqlConnection();
         try {
           const [rows] = await conn.execute<mysql.RowDataPacket[]>(
             "SELECT id, name, wikidata_qid, cas_number FROM molecules WHERE id = ? LIMIT 1",
@@ -223,7 +224,7 @@ export const wikidataKgRouter = router({
   enrichSingleWithKG: adminProcedure
     .input(z.object({ moleculeId: z.number().int().positive() }))
     .mutation(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const [rows] = await conn.execute<mysql.RowDataPacket[]>(
           "SELECT id, name, wikidata_qid, cas_number, chebi_id, inchi, inchi_key FROM molecules WHERE id = ? LIMIT 1",
@@ -289,7 +290,7 @@ export const wikidataKgRouter = router({
       familyFilter: z.string().optional(),
     }))
     .mutation(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       let molecules: Array<{ id: number; name: string; wikidata_qid: string | null; cas_number: string | null }> = [];
       try {
         let where = "(wikidata_qid IS NOT NULL AND wikidata_qid != '') OR (cas_number IS NOT NULL AND cas_number != '')";
@@ -309,7 +310,7 @@ export const wikidataKgRouter = router({
       }> = [];
 
       for (const mol of molecules) {
-        const conn2 = await mysql.createConnection(process.env.DATABASE_URL!);
+        const conn2 = await getMysqlConnection();
         try {
           let qidToUse = mol.wikidata_qid;
           if (!qidToUse && mol.cas_number) {
@@ -362,7 +363,7 @@ export const wikidataKgRouter = router({
   getStoredKG: publicProcedure
     .input(z.object({ moleculeId: z.number().int().positive() }))
     .query(async ({ input }) => {
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const [rows] = await conn.execute<mysql.RowDataPacket[]>(
           "SELECT id, name, wikidata_qid, wikidata_kg_data, wikidata_enriched_at FROM molecules WHERE id = ? LIMIT 1",
@@ -416,7 +417,7 @@ export const wikidataKgRouter = router({
       }
 
       // Chercher dans la famille chimique en base
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const [rows] = await conn.execute<mysql.RowDataPacket[]>(
           "SELECT chemical_family, sub_family FROM molecules WHERE id = ? LIMIT 1",
@@ -445,7 +446,7 @@ export const wikidataKgRouter = router({
     }))
     .query(async ({ input }) => {
       if (!input.wikidataQids.length) return { matches: [] };
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       try {
         const placeholders = input.wikidataQids.map(() => "?").join(",");
         const [rows] = await conn.execute<mysql.RowDataPacket[]>(
@@ -470,7 +471,7 @@ export const wikidataKgRouter = router({
    * Statistiques de couverture KG
    */
   getKGCoverageStats: publicProcedure.query(async () => {
-    const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     try {
       const [rows] = await conn.execute<mysql.RowDataPacket[]>(`
         SELECT

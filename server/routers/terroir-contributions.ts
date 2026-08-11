@@ -5,6 +5,7 @@ import * as db from "../db";
 import { SQL } from "drizzle-orm";
 import { terroirs } from "../../drizzle/schema";
 import { TRPCError } from "@trpc/server";
+import { getMysqlConnection } from "../db/mysqlPool";
 
 export const terroirContributionsRouter = router({
   submit: protectedProcedure
@@ -27,8 +28,7 @@ export const terroirContributionsRouter = router({
       bibliographyRefs: z.string().optional(),
     }))
     .mutation(async ({ input, ctx }) => {
-      const mysql = await import('mysql2/promise');
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       await conn.execute(`
         INSERT INTO terroir_contributions
           (terroir_id, user_id, user_name, contribution_type,
@@ -53,8 +53,7 @@ export const terroirContributionsRouter = router({
     .input(z.object({ status: z.enum(['pending','approved','rejected']).optional() }).optional())
     .query(async ({ input, ctx }) => {
       if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
-      const mysql = await import('mysql2/promise');
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       const [rows] = await conn.execute(
         `SELECT tc.*, t.name as terroir_name FROM terroir_contributions tc
          LEFT JOIN terroirs t ON tc.terroir_id = t.id
@@ -69,8 +68,7 @@ export const terroirContributionsRouter = router({
     .input(z.object({ id: z.number(), status: z.enum(['approved','rejected']), adminNotes: z.string().optional() }))
     .mutation(async ({ input, ctx }) => {
       if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
-      const mysql = await import('mysql2/promise');
-      const conn = await mysql.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       await conn.execute(
         `UPDATE terroir_contributions SET status=?, admin_notes=?, reviewed_by=?, reviewed_at=NOW() WHERE id=?`,
         [input.status, input.adminNotes || null, ctx.user.name || ctx.user.openId, input.id]
