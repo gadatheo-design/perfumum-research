@@ -3,7 +3,6 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
-import { suppliers } from "../../drizzle/schema";
 
 export const sustainableAlternativesRouter = router({
   // Liste toutes les alternatives
