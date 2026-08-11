@@ -1,8 +1,8 @@
 import { Server as HttpServer, IncomingMessage } from "http";
 import { WebSocketServer, WebSocket, RawData } from "ws";
 import { parse as parseCookie } from "cookie";
-import jwt from "jsonwebtoken";
-import { ENV } from "./env";
+import { COOKIE_NAME } from "@shared/const";
+import { sdk } from "./sdk";
 
 // Types pour la collaboration temps réel
 interface CollaboratorPresence {
@@ -51,20 +51,36 @@ const connectedClients = new Map<string, ConnectedClient>();
 const recentActivities: ActivityRecord[] = [];
 const MAX_ACTIVITIES = 50;
 
-// Vérifier le token JWT depuis les cookies
-function verifyToken(cookieHeader: string | undefined): { userId: string; userName: string } | null {
+/**
+ * Vérifie la session depuis les cookies de la requête d'upgrade.
+ *
+ * Cette fonction lisait auparavant un cookie `auth_token` qui n'est jamais
+ * posé, et le décodait avec `jsonwebtoken` en attendant un payload
+ * `{ sub, id, name }`. Le vrai cookie de session s'appelle `app_session_id`
+ * (COOKIE_NAME, posé par oauth.ts), est signé avec `jose` et porte
+ * `{ openId, appId, name }` — la vérification échouait donc toujours et tout
+ * le monde apparaissait en « Visiteur » anonyme dans la présence temps réel.
+ *
+ * On délègue désormais à `sdk.verifySession()`, la même primitive que celle
+ * utilisée par le contexte tRPC, pour éviter que les deux implémentations
+ * redivergent.
+ */
+async function verifyToken(
+  cookieHeader: string | undefined
+): Promise<{ userId: string; userName: string } | null> {
   if (!cookieHeader) return null;
-  
+
   try {
     const cookies = parseCookie(cookieHeader);
-    const token = cookies["auth_token"];
-    
+    const token = cookies[COOKIE_NAME];
     if (!token) return null;
-    
-    const decoded = jwt.verify(token, ENV.cookieSecret) as { sub?: string; id?: string; name?: string };
+
+    const session = await sdk.verifySession(token);
+    if (!session) return null;
+
     return {
-      userId: decoded.sub || decoded.id || "unknown",
-      userName: decoded.name || "Utilisateur",
+      userId: session.openId,
+      userName: session.name || "Utilisateur",
     };
   } catch {
     return null;
@@ -140,10 +156,13 @@ export function initWebSocket(server: HttpServer) {
   
   console.log("[WebSocket] Collaboration WebSocket server initialized on /ws/collaboration");
   
-  wss.on("connection", (ws: WebSocket, req: IncomingMessage) => {
-    // Vérifier l'authentification
-    const auth = verifyToken(req.headers.cookie);
-    
+  wss.on("connection", async (ws: WebSocket, req: IncomingMessage) => {
+    // Vérifier l'authentification. La vérification est asynchrone (jose) :
+    // on met le socket en pause le temps de la résoudre pour ne pas perdre
+    // un message qui arriverait avant l'attachement des handlers ci-dessous.
+    ws.pause();
+    const auth = await verifyToken(req.headers.cookie);
+
     const clientId = auth?.userId || `anon-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     const clientName = auth?.userName || "Visiteur";
     
@@ -303,6 +322,10 @@ export function initWebSocket(server: HttpServer) {
     ws.on("error", (error: Error) => {
       console.error(`[WebSocket] Error for client ${clientId}:`, error);
     });
+
+    // Tous les handlers sont attachés : on peut relivrer ce qui a été mis en
+    // tampon pendant la vérification asynchrone de la session.
+    ws.resume();
   });
   
   // Ping périodique pour maintenir les connexions

@@ -27,7 +27,7 @@ PERFUMUM est une plateforme web complète de gestion et documentation d'un proje
 ## 🛠 Stack Technique
 
 ### Frontend
-- **React 19** avec TypeScript
+- **React 18.3** avec TypeScript
 - **Wouter** pour le routing
 - **Tailwind CSS 4** pour le styling
 - **shadcn/ui** pour les composants UI

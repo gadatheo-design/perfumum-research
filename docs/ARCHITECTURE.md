@@ -24,7 +24,7 @@
 
 ## Vue d'ensemble
 
-**PERFUMUM** est une plateforme web complète de recherche olfactive expérimentale. Elle combine une **interface utilisateur riche** (React 19 + Tailwind 4) avec un **backend robuste** (Express 4 + tRPC 11) et une **base de données complexe** (MySQL + Drizzle ORM).
+**PERFUMUM** est une plateforme web complète de recherche olfactive expérimentale. Elle combine une **interface utilisateur riche** (React 18.3 + Tailwind 4) avec un **backend robuste** (Express 4 + tRPC 11) et une **base de données complexe** (MySQL + Drizzle ORM).
 
 ### Principes de conception
 
@@ -42,7 +42,7 @@
 
 ### Frontend
 ```
-React 19              → Framework UI moderne
+React 18.3            → Framework UI moderne
 Tailwind CSS 4        → Utility-first CSS
 shadcn/ui             → Composants réutilisables
 Wouter                → Routage léger
@@ -77,7 +77,7 @@ Vite                  → Build tool moderne
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                         CLIENT (React 19)                       │
+│                       CLIENT (React 18.3)                       │
 │  ┌──────────────────────────────────────────────────────────┐  │
 │  │  Pages (267)  │  Composants (193)  │  Hooks  │  Contexts │  │
 │  │  Home, Gammes, Molécules, Recettes, Admin, etc.         │  │
