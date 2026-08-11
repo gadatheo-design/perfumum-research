@@ -6,6 +6,7 @@
 import { adminProcedure, router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { z } from "zod";
 import { getDb } from "../db";
+import { sqlLike, sqlLiteral } from "../db/sqlEscape";
 import { sql } from "drizzle-orm";
 
 // Import the tables from schema
@@ -56,8 +57,8 @@ export const researchRouter = router({
         }
         
         if (input.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          queryParts.push(` AND (claim LIKE '%${searchTerm}%' OR claimId LIKE '%${searchTerm}%')`);
+          const searchTerm = sqlLike(input.search);
+          queryParts.push(` AND (claim LIKE ${searchTerm} OR claimId LIKE ${searchTerm})`);
         }
         
         queryParts.push(` LIMIT ${input.limit} OFFSET ${input.offset}`);
@@ -118,8 +119,8 @@ export const researchRouter = router({
         }
         
         if (input.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          queryParts.push(` AND (reference LIKE '%${searchTerm}%' OR sourceId LIKE '%${searchTerm}%')`);
+          const searchTerm = sqlLike(input.search);
+          queryParts.push(` AND (reference LIKE ${searchTerm} OR sourceId LIKE ${searchTerm})`);
         }
         
         queryParts.push(` LIMIT ${input.limit} OFFSET ${input.offset}`);
@@ -932,8 +933,8 @@ export const researchRouter = router({
         }
         if (input.sourceMoleculeName) {
           // Search in both source and product molecule names, case-insensitive
-          const searchTerm = input.sourceMoleculeName.replace(/'/g, "''");
-          query += ` AND (LOWER(mt.source_molecule_name) LIKE LOWER('%${searchTerm}%') OR LOWER(mt.product_molecule_name) LIKE LOWER('%${searchTerm}%'))`;
+          const searchTerm = sqlLike(input.sourceMoleculeName);
+          query += ` AND (LOWER(mt.source_molecule_name) LIKE LOWER(${searchTerm}) OR LOWER(mt.product_molecule_name) LIKE LOWER(${searchTerm}))`;
         }
 
         query += ` ORDER BY mt.source_molecule_name LIMIT ${input.limit} OFFSET ${input.offset}`;
@@ -1020,9 +1021,8 @@ export const researchRouter = router({
           return { success: false, error: "Database connection failed" };
         }
 
-        const escapeSql = (str: string) => str.replace(/'/g, "''");
-
-        const [result] = await db.execute(sql.raw(`
+        // Requête paramétrée (template `sql` = placeholders liés).
+        const [result] = await db.execute(sql`
           INSERT INTO molecular_transformations (
             source_molecule_name, product_molecule_name, transformation_type,
             source_molecule_id, product_molecule_id,
@@ -1031,23 +1031,23 @@ export const researchRouter = router({
             source_olfactory_notes, product_olfactory_notes,
             relevance_context, source_reference, notes
           ) VALUES (
-            '${escapeSql(input.sourceMoleculeName)}',
-            '${escapeSql(input.productMoleculeName)}',
-            '${input.transformationType}',
-            ${input.sourceMoleculeId || 'NULL'},
-            ${input.productMoleculeId || 'NULL'},
-            ${input.temperatureMin || 'NULL'},
-            ${input.temperatureMax || 'NULL'},
-            ${input.temperatureOptimal || 'NULL'},
-            ${input.yieldPercent || 'NULL'},
-            ${input.olfactoryChangeDescription ? `'${escapeSql(input.olfactoryChangeDescription)}'` : 'NULL'},
-            ${input.sourceOlfactoryNotes ? `'${escapeSql(input.sourceOlfactoryNotes)}'` : 'NULL'},
-            ${input.productOlfactoryNotes ? `'${escapeSql(input.productOlfactoryNotes)}'` : 'NULL'},
-            '${input.relevanceContext}',
-            ${input.sourceReference ? `'${escapeSql(input.sourceReference)}'` : 'NULL'},
-            ${input.notes ? `'${escapeSql(input.notes)}'` : 'NULL'}
+            ${input.sourceMoleculeName},
+            ${input.productMoleculeName},
+            ${input.transformationType},
+            ${input.sourceMoleculeId ?? null},
+            ${input.productMoleculeId ?? null},
+            ${input.temperatureMin ?? null},
+            ${input.temperatureMax ?? null},
+            ${input.temperatureOptimal ?? null},
+            ${input.yieldPercent ?? null},
+            ${input.olfactoryChangeDescription ?? null},
+            ${input.sourceOlfactoryNotes ?? null},
+            ${input.productOlfactoryNotes ?? null},
+            ${input.relevanceContext},
+            ${input.sourceReference ?? null},
+            ${input.notes ?? null}
           )
-        `)) as unknown as [SqlRow[]];
+        `) as unknown as [SqlRow[]];
 
         return { success: true, message: "Transformation created successfully" };
       } catch (error: unknown) {
@@ -1325,9 +1325,8 @@ export const researchRouter = router({
           return { success: false, error: "Database connection failed" };
         }
 
-        const escapeSql = (str: string) => str.replace(/'/g, "''");
-
-        const [result] = await db.execute(sql.raw(`
+        // Requête paramétrée (template `sql` = placeholders liés).
+        const [result] = await db.execute(sql`
           INSERT INTO transformation_recipe_impacts (
             transformation_id, recette_id, impact_type,
             impact_description, olfactory_contribution,
@@ -1336,15 +1335,15 @@ export const researchRouter = router({
           ) VALUES (
             ${input.transformationId},
             ${input.recetteId},
-            '${input.impactType}',
-            ${input.impactDescription ? `'${escapeSql(input.impactDescription)}'` : 'NULL'},
-            ${input.olfactoryContribution ? `'${escapeSql(input.olfactoryContribution)}'` : 'NULL'},
-            ${input.percentageContribution || 'NULL'},
-            ${input.temperatureRange ? `'${escapeSql(input.temperatureRange)}'` : 'NULL'},
-            ${input.notes ? `'${escapeSql(input.notes)}'` : 'NULL'},
-            ${input.sourceReference ? `'${escapeSql(input.sourceReference)}'` : 'NULL'}
+            ${input.impactType},
+            ${input.impactDescription ?? null},
+            ${input.olfactoryContribution ?? null},
+            ${input.percentageContribution ?? null},
+            ${input.temperatureRange ?? null},
+            ${input.notes ?? null},
+            ${input.sourceReference ?? null}
           )
-        `)) as unknown as [SqlRow[]];
+        `) as unknown as [SqlRow[]];
 
         return { success: true, message: "Impact link created successfully" };
       } catch (error: unknown) {
@@ -1569,9 +1568,9 @@ export const researchRouter = router({
           sourceCondition = `mt.source_molecule_id = ${input.moleculeId}`;
           productCondition = `mt.product_molecule_id = ${input.moleculeId}`;
         } else if (input.moleculeName) {
-          const name = input.moleculeName.replace(/'/g, "''");
-          sourceCondition = `LOWER(mt.source_molecule_name) = LOWER('${name}')`;
-          productCondition = `LOWER(mt.product_molecule_name) = LOWER('${name}')`;
+          const name = sqlLiteral(input.moleculeName);
+          sourceCondition = `LOWER(mt.source_molecule_name) = LOWER(${name})`;
+          productCondition = `LOWER(mt.product_molecule_name) = LOWER(${name})`;
         }
 
         // Get transformations where molecule is source
@@ -1670,8 +1669,8 @@ export const researchRouter = router({
           query += ` AND subject_matter = '${input.subject}'`;
         }
         if (input?.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          query += ` AND (title LIKE '%${searchTerm}%' OR authors LIKE '%${searchTerm}%' OR key_findings LIKE '%${searchTerm}%')`;
+          const searchTerm = sqlLike(input.search);
+          query += ` AND (title LIKE ${searchTerm} OR authors LIKE ${searchTerm} OR key_findings LIKE ${searchTerm})`;
         }
         
         query += ` ORDER BY citations DESC LIMIT ${input?.limit || 50} OFFSET ${input?.offset || 0}`;
@@ -1738,8 +1737,8 @@ export const researchRouter = router({
           query += ` AND category = '${input.category}'`;
         }
         if (input?.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          query += ` AND (name LIKE '%${searchTerm}%' OR code LIKE '%${searchTerm}%' OR description LIKE '%${searchTerm}%')`;
+          const searchTerm = sqlLike(input.search);
+          query += ` AND (name LIKE ${searchTerm} OR code LIKE ${searchTerm} OR description LIKE ${searchTerm})`;
         }
         
         query += ` ORDER BY performance_score DESC`;
@@ -1780,8 +1779,8 @@ export const researchRouter = router({
           query += ` AND status = '${input.status}'`;
         }
         if (input?.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          query += ` AND (name LIKE '%${searchTerm}%' OR bio LIKE '%${searchTerm}%')`;
+          const searchTerm = sqlLike(input.search);
+          query += ` AND (name LIKE ${searchTerm} OR bio LIKE ${searchTerm})`;
         }
         
         query += ` ORDER BY total_citations DESC`;
@@ -1826,8 +1825,8 @@ export const researchRouter = router({
           query += ` AND institution_type = '${input.type}'`;
         }
         if (input?.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          query += ` AND (name LIKE '%${searchTerm}%' OR description LIKE '%${searchTerm}%')`;
+          const searchTerm = sqlLike(input.search);
+          query += ` AND (name LIKE ${searchTerm} OR description LIKE ${searchTerm})`;
         }
         
         query += ` ORDER BY total_citations DESC`;
@@ -1985,12 +1984,12 @@ export const researchRouter = router({
         let query = `SELECT * FROM analytical_methods WHERE 1=1`;
         
         if (input?.category) {
-          query += ` AND category = '${input.category.replace(/'/g, "''")}'`;
+          query += ` AND category = ${sqlLiteral(input.category)}`;
         }
         
         if (input?.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          query += ` AND (name LIKE '%${searchTerm}%' OR description LIKE '%${searchTerm}%' OR acronym LIKE '%${searchTerm}%')`;
+          const searchTerm = sqlLike(input.search);
+          query += ` AND (name LIKE ${searchTerm} OR description LIKE ${searchTerm} OR acronym LIKE ${searchTerm})`;
         }
         
         query += ` ORDER BY name ASC`;
@@ -2032,12 +2031,12 @@ export const researchRouter = router({
         let query = `SELECT * FROM molecular_transformations WHERE 1=1`;
         
         if (input?.type) {
-          query += ` AND transformation_type = '${input.type.replace(/'/g, "''")}'`;
+          query += ` AND transformation_type = ${sqlLiteral(input.type)}`;
         }
         
         if (input?.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          query += ` AND (source_molecule_name LIKE '%${searchTerm}%' OR product_molecule_name LIKE '%${searchTerm}%' OR notes LIKE '%${searchTerm}%')`;
+          const searchTerm = sqlLike(input.search);
+          query += ` AND (source_molecule_name LIKE ${searchTerm} OR product_molecule_name LIKE ${searchTerm} OR notes LIKE ${searchTerm})`;
         }
         
         query += ` ORDER BY id DESC`;
@@ -2102,7 +2101,7 @@ export const researchRouter = router({
           query += ` AND pml.molecule_id = ${input.moleculeId}`;
         }
         if (input?.relationshipType) {
-          query += ` AND pml.relationship_type = '${input.relationshipType.replace(/'/g, "''")}'`;
+          query += ` AND pml.relationship_type = ${sqlLiteral(input.relationshipType)}`;
         }
         
         query += ` ORDER BY rp.year DESC, m.name ASC`;

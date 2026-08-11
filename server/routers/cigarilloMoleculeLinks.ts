@@ -57,15 +57,12 @@ export const cigarilloMoleculeLinksRouter = router({
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
-      const role = input.role ? `'${input.role.replace(/'/g, "''")}'` : "NULL";
-      const pct = input.percentage != null ? input.percentage : "NULL";
-      const notes = input.notes ? `'${input.notes.replace(/'/g, "''")}'` : "NULL";
-
       try {
-        await db.execute(sql.raw(`
+        // Requête paramétrée (template `sql` = placeholders liés).
+        await db.execute(sql`
           INSERT INTO cigarillo_molecule_links (cigarillo_recipe_id, molecule_id, role, percentage, notes)
-          VALUES (${input.cigarilloRecipeId}, ${input.moleculeId}, ${role}, ${pct}, ${notes})
-        `));
+          VALUES (${input.cigarilloRecipeId}, ${input.moleculeId}, ${input.role ?? null}, ${input.percentage ?? null}, ${input.notes ?? null})
+        `);
         return { success: true };
       } catch (e: any) {
         if (e.code === "ER_DUP_ENTRY") {
@@ -82,7 +79,7 @@ export const cigarilloMoleculeLinksRouter = router({
       if (ctx.user.role !== "admin") throw new TRPCError({ code: "FORBIDDEN" });
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
-      await db.execute(sql.raw(`DELETE FROM cigarillo_molecule_links WHERE id = ${input.id}`));
+      await db.execute(sql`DELETE FROM cigarillo_molecule_links WHERE id = ${input.id}`);
       return { success: true };
     }),
 

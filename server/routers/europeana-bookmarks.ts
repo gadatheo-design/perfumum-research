@@ -168,8 +168,10 @@ export const europeanaBookmarksRouter = router({
           .limit(pageSize)
           .offset(offset);
 
+        const countWhere = buildWhereCondition(input);
         const [[countRow]] = await conn.query(
-          `SELECT COUNT(*) as total FROM europeana_bookmarks${buildWhereCondition(input)}`
+          `SELECT COUNT(*) as total FROM europeana_bookmarks${countWhere.clause}`,
+          countWhere.params
         ) as any;
 
         await conn.end();
@@ -269,28 +271,42 @@ export const europeanaBookmarksRouter = router({
 
 // ─── Helpers internes ─────────────────────────────────────────────────────────
 
+/**
+ * Construit la clause WHERE du COUNT sous forme paramétrée : le texte SQL ne
+ * contient que des placeholders `?`, les valeurs partent séparément. Remplace
+ * une version qui interpolait `theme` et `search` avec un simple doublage de
+ * quotes, contournable en MySQL (le backslash y est un caractère
+ * d'échappement).
+ */
 function buildWhereCondition(input: {
   theme?: string;
   search?: string;
   linkedPlantId?: number;
   linkedMoleculeId?: number;
-}): string {
+}): { clause: string; params: (string | number)[] } {
   const parts: string[] = [];
-  if (input.theme) parts.push(`theme = '${input.theme.replace(/'/g, "''")}'`);
-  if (input.search) {
-    const s = input.search.replace(/'/g, "''");
-    parts.push(`(title LIKE '%${s}%' OR institution LIKE '%${s}%' OR creator LIKE '%${s}%')`);
-  }
-  if (input.linkedPlantId) parts.push(`linked_plant_id = ${input.linkedPlantId}`);
-  if (input.linkedMoleculeId) parts.push(`linked_molecule_id = ${input.linkedMoleculeId}`);
-  return parts.length > 0 ? ` WHERE ${parts.join(" AND ")}` : "";
-}
+  const params: (string | number)[] = [];
 
-function buildWhereSQL(input: {
-  theme?: string;
-  search?: string;
-  linkedPlantId?: number;
-  linkedMoleculeId?: number;
-}): string {
-  return buildWhereCondition(input).replace(/^ WHERE /, "");
+  if (input.theme) {
+    parts.push("theme = ?");
+    params.push(input.theme);
+  }
+  if (input.search) {
+    parts.push("(title LIKE ? OR institution LIKE ? OR creator LIKE ?)");
+    const pattern = `%${input.search}%`;
+    params.push(pattern, pattern, pattern);
+  }
+  if (input.linkedPlantId) {
+    parts.push("linked_plant_id = ?");
+    params.push(input.linkedPlantId);
+  }
+  if (input.linkedMoleculeId) {
+    parts.push("linked_molecule_id = ?");
+    params.push(input.linkedMoleculeId);
+  }
+
+  return {
+    clause: parts.length > 0 ? ` WHERE ${parts.join(" AND ")}` : "",
+    params,
+  };
 }

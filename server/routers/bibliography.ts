@@ -837,10 +837,11 @@ export const bibliographyRouter = router({
         if (!dbConn) throw new Error("DB non disponible");
         const { sql } = await import("drizzle-orm");
         // Vérifier si l'entrée existe déjà
+        // Requêtes paramétrées (template `sql` = placeholders liés).
         const checkQuery = input.doi
-          ? `SELECT id FROM bibliography_entries WHERE doi = '${input.doi.replace(/'/g, "''")}' LIMIT 1`
-          : `SELECT id FROM bibliography_entries WHERE notes LIKE '%${input.openAlexId.replace(/'/g, "''")}%' LIMIT 1`;
-        const existing = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(checkQuery));
+          ? sql`SELECT id FROM bibliography_entries WHERE doi = ${input.doi} LIMIT 1`
+          : sql`SELECT id FROM bibliography_entries WHERE notes LIKE ${`%${input.openAlexId}%`} LIMIT 1`;
+        const existing = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(checkQuery);
         const existingRows = Array.isArray(existing) ? existing[0] as Record<string, unknown>[] : [];
         let entryId: number;
         if (existingRows.length > 0) {
@@ -848,21 +849,21 @@ export const bibliographyRouter = router({
         } else {
           const entryKey = `openalex_${Date.now()}`;
           const notesJson = JSON.stringify({ openAlexId: input.openAlexId, citedByCount: input.citedByCount, isOA: input.isOA, oaUrl: input.oaUrl });
-          const insertQuery = `INSERT INTO bibliography_entries
+          const insertQuery = sql`INSERT INTO bibliography_entries
             (entry_key, title, authors, year, journal, doi, abstract, notes, entry_type, created_at, updated_at)
             VALUES (
-              '${entryKey.replace(/'/g, "''")}',
-              '${input.title.replace(/'/g, "''")}',
-              '${input.authors.replace(/'/g, "''")}',
-              ${input.year ?? "NULL"},
-              ${input.journal ? `'${input.journal.replace(/'/g, "''")}' ` : "NULL"},
-              ${input.doi ? `'${input.doi.replace(/'/g, "''")}' ` : "NULL"},
-              ${input.abstract ? `'${input.abstract.substring(0, 2000).replace(/'/g, "''")}' ` : "NULL"},
-              '${notesJson.replace(/'/g, "''")}',
+              ${entryKey},
+              ${input.title},
+              ${input.authors},
+              ${input.year ?? null},
+              ${input.journal ?? null},
+              ${input.doi ?? null},
+              ${input.abstract ? input.abstract.substring(0, 2000) : null},
+              ${notesJson},
               'article',
               NOW(), NOW()
             )`;
-          const insertResult = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(insertQuery));
+          const insertResult = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(insertQuery);
           const insertRows = Array.isArray(insertResult) ? insertResult[0] as { insertId?: number } : {};
           entryId = Number((insertRows as { insertId?: number }).insertId ?? 0);
           if (!entryId) throw new Error("Erreur lors de la création de l'entrée bibliographique");
@@ -871,12 +872,12 @@ export const bibliographyRouter = router({
         if (input.linkTo) {
           const { entityType, entityId } = input.linkTo;
           const linkCheck = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(
-            sql.raw(`SELECT id FROM bibliography_entity_links WHERE bibliography_id = ${entryId} AND entity_type = '${entityType}' AND entity_id = ${entityId} LIMIT 1`)
+            sql`SELECT id FROM bibliography_entity_links WHERE bibliography_id = ${entryId} AND entity_type = ${entityType} AND entity_id = ${entityId} LIMIT 1`
           );
           const linkRows = Array.isArray(linkCheck) ? linkCheck[0] as Record<string, unknown>[] : [];
           if (linkRows.length === 0) {
             await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(
-              sql.raw(`INSERT INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, created_at) VALUES (${entryId}, '${entityType}', ${entityId}, NOW())`)
+              sql`INSERT INTO bibliography_entity_links (bibliography_id, entity_type, entity_id, created_at) VALUES (${entryId}, ${entityType}, ${entityId}, NOW())`
             );
             linked = true;
           }
@@ -945,16 +946,17 @@ export const bibliographyRouter = router({
         const dbConn = await db.getDb();
         if (!dbConn) return [];
         const { sql } = await import('drizzle-orm');
-        const q = input.query.replace(/'/g, "''");
+        // Requête paramétrée : le motif LIKE part en valeur liée.
+        const pattern = `%${input.query}%`;
         const result = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(
-          sql.raw(`SELECT id, title, authors, year, doi, entry_key as entryKey
+          sql`SELECT id, title, authors, year, doi, entry_key as entryKey
             FROM bibliography_entries
-            WHERE (title LIKE '%${q}%'
-              OR authors LIKE '%${q}%'
-              OR doi LIKE '%${q}%')
+            WHERE (title LIKE ${pattern}
+              OR authors LIKE ${pattern}
+              OR doi LIKE ${pattern})
             AND deprecated_at IS NULL
             ORDER BY year DESC
-            LIMIT ${input.limit}`)
+            LIMIT ${input.limit}`
         );
         return Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
       }),
