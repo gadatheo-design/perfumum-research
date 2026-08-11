@@ -350,15 +350,24 @@ export async function updateMoleculeCOCONUTData(moleculeId: number, data: {
   const db = await getDb();
   if (!db) return;
   
-  const organismsJson = data.organisms ? JSON.stringify(data.organisms).replace(/'/g, "''") : null;
-  const citationsJson = data.citations ? JSON.stringify(data.citations).replace(/'/g, "''") : null;
-  
-  const query = "UPDATE molecules SET coconut_id = '" + data.coconutId + "'" +
-    (data.npLikenessScore !== undefined ? ", np_likeness_score = " + data.npLikenessScore : "") +
-    (organismsJson ? ", coconut_organisms = '" + organismsJson + "'" : "") +
-    (citationsJson ? ", coconut_citations = '" + citationsJson + "'" : "") +
-    ", coconut_enriched_at = NOW() WHERE id = " + moleculeId;
-  await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(query);
+  // Requête paramétrée : `coconutId` venait d'une API externe (COCONUT) et
+  // était interpolé sans aucun échappement.
+  const organismsJson = data.organisms ? JSON.stringify(data.organisms) : null;
+  const citationsJson = data.citations ? JSON.stringify(data.citations) : null;
+
+  await db.execute(
+    sql`UPDATE molecules
+        SET coconut_id = ${data.coconutId}${
+          data.npLikenessScore !== undefined
+            ? sql`, np_likeness_score = ${data.npLikenessScore}`
+            : sql``
+        }${
+          organismsJson ? sql`, coconut_organisms = ${organismsJson}` : sql``
+        }${
+          citationsJson ? sql`, coconut_citations = ${citationsJson}` : sql``
+        }, coconut_enriched_at = NOW()
+        WHERE id = ${moleculeId}`
+  );
 }
 
 /**

@@ -503,8 +503,16 @@ export async function updateMoleculeIFRAData(moleculeId: number, ifraData: IFRAD
   const db = await getDb();
   if (!db) return;
   
-  const query = "UPDATE molecules SET ifra_status = '" + ifraData.status + "', ifra_data = '" + JSON.stringify(ifraData).replace(/'/g, "''") + "', ifra_enriched_at = NOW() WHERE id = " + moleculeId;
-  await (db as unknown as { execute: (q: string) => Promise<unknown> }).execute(query);
+  // Requête paramétrée (le template `sql` de Drizzle produit des placeholders,
+  // contrairement à `sql.raw`) — remplace une concaténation où `status`
+  // n'était pas échappé du tout.
+  await db.execute(
+    sql`UPDATE molecules
+        SET ifra_status = ${ifraData.status},
+            ifra_data = ${JSON.stringify(ifraData)},
+            ifra_enriched_at = NOW()
+        WHERE id = ${moleculeId}`
+  );
 }
 
 /**

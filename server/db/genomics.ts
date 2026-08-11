@@ -332,7 +332,10 @@ export async function createMolecularTransformation(data: {
   if (!db) return null;
   
   try {
-    const result = await (db as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(`
+    // Requête paramétrée (template `sql` = placeholders liés, pas `sql.raw`).
+    // Avant : sourceMoleculeName / productMoleculeName / transformationType /
+    // relevanceContext étaient interpolés sans aucun échappement.
+    const result = await db.execute(sql`
       INSERT INTO molecular_transformations (
         source_molecule_name, product_molecule_name, transformation_type,
         source_molecule_id, product_molecule_id,
@@ -341,17 +344,17 @@ export async function createMolecularTransformation(data: {
         source_olfactory_notes, product_olfactory_notes,
         relevance_context, source_reference, notes
       ) VALUES (
-        '${data.sourceMoleculeName}', '${data.productMoleculeName}', '${data.transformationType}',
-        ${data.sourceMoleculeId || 'NULL'}, ${data.productMoleculeId || 'NULL'},
-        ${data.temperatureMin || 'NULL'}, ${data.temperatureMax || 'NULL'}, ${data.temperatureOptimal || 'NULL'},
-        ${data.yieldPercent || 'NULL'}, ${data.olfactoryChangeDescription ? `'${data.olfactoryChangeDescription.replace(/'/g, "''")}'` : 'NULL'},
-        ${data.sourceOlfactoryNotes ? `'${data.sourceOlfactoryNotes.replace(/'/g, "''")}'` : 'NULL'},
-        ${data.productOlfactoryNotes ? `'${data.productOlfactoryNotes.replace(/'/g, "''")}'` : 'NULL'},
-        '${data.relevanceContext || 'tobacco_combustion'}',
-        ${data.sourceReference ? `'${data.sourceReference.replace(/'/g, "''")}'` : 'NULL'},
-        ${data.notes ? `'${data.notes.replace(/'/g, "''")}'` : 'NULL'}
+        ${data.sourceMoleculeName}, ${data.productMoleculeName}, ${data.transformationType},
+        ${data.sourceMoleculeId ?? null}, ${data.productMoleculeId ?? null},
+        ${data.temperatureMin ?? null}, ${data.temperatureMax ?? null}, ${data.temperatureOptimal ?? null},
+        ${data.yieldPercent ?? null}, ${data.olfactoryChangeDescription ?? null},
+        ${data.sourceOlfactoryNotes ?? null},
+        ${data.productOlfactoryNotes ?? null},
+        ${data.relevanceContext || 'tobacco_combustion'},
+        ${data.sourceReference ?? null},
+        ${data.notes ?? null}
       )
-    `));
+    `);
     return result;
   } catch (error) {
     console.error("Error creating molecular transformation:", error);

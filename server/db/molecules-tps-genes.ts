@@ -312,34 +312,30 @@ export async function getTpsGeneMoleculeLinks(filters?: {
       WHERE 1=1
     `;
     
-    const params: (string | number | null)[] = [];
-    
-    if (filters?.tpsGeneId) {
-      query += ` AND tgm.tps_gene_id = ?`;
-      params.push(filters.tpsGeneId);
-    }
-    
-    if (filters?.moleculeId) {
-      query += ` AND tgm.molecule_id = ?`;
-      params.push(filters.moleculeId);
-    }
-    
-    if (filters?.relationshipType) {
-      query += ` AND tgm.relationship_type = ?`;
-      params.push(filters.relationshipType);
-    }
-    
-    if (filters?.confidenceLevel) {
-      query += ` AND tgm.confidence_level = ?`;
-      params.push(filters.confidenceLevel);
-    }
-    
-    query += ` ORDER BY tg.name, m.name`;
-    
+    // Filtres construits comme fragments `sql` paramétrés.
+    //
+    // L'implémentation précédente accumulait des placeholders `?` dans une
+    // chaîne puis les ré-inlinait avec
+    //   query.replace(/\?/g, (_, i) => `'${params[i]}'`)
+    // ce qui était doublement faux : (1) l'échappement par doublage de quotes
+    // est contournable en MySQL (le backslash y est un caractère d'échappement),
+    // et (2) le 2e argument du callback de String.replace sur une regex sans
+    // groupe de capture est l'OFFSET, pas l'index — `params[offset]` valait
+    // donc `undefined` et chaque filtre était comparé à '' (aucun filtre n'a
+    // jamais fonctionné, la requête filtrée ne renvoyait rien).
+    const conditions = [
+      filters?.tpsGeneId ? sql` AND tgm.tps_gene_id = ${filters.tpsGeneId}` : sql``,
+      filters?.moleculeId ? sql` AND tgm.molecule_id = ${filters.moleculeId}` : sql``,
+      filters?.relationshipType ? sql` AND tgm.relationship_type = ${filters.relationshipType}` : sql``,
+      filters?.confidenceLevel ? sql` AND tgm.confidence_level = ${filters.confidenceLevel}` : sql``,
+    ];
+
     const db = await getDb();
     if (!db) return [];
-    const result = await (db as unknown as { execute: (q: unknown) => Promise<unknown[]> }).execute(sql.raw(query.replace(/\?/g, (_, i) => `'${String(params[i] || '').replace(/'/g, "''")}'`)));
-    return (result[0] as Record<string, unknown>[]);
+    const result = await db.execute(
+      sql`${sql.raw(query)}${sql.join(conditions, sql``)} ORDER BY tg.name, m.name`
+    );
+    return (result[0] as unknown as Record<string, unknown>[]);
   } catch (error: unknown) {
     console.error('Error getting TPS gene-molecule links:', error);
     return [];
@@ -358,13 +354,13 @@ export async function createTpsGeneMoleculeLink(data: {
   try {
     const db = await getDb();
     if (!db) return { success: false, error: 'Database connection failed' };
-    const evidenceSource = data.evidenceSource ? `'${data.evidenceSource.replace(/'/g, "''")}'` : 'NULL';
-    const notes = data.notes ? `'${data.notes.replace(/'/g, "''")}'` : 'NULL';
-    await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`
-      INSERT INTO tps_gene_molecules 
+    // Requête paramétrée : relationshipType / confidenceLevel n'étaient pas
+    // échappés du tout auparavant.
+    await db.execute(sql`
+      INSERT INTO tps_gene_molecules
         (tps_gene_id, molecule_id, relationship_type, confidence_level, evidence_source, notes)
-       VALUES (${data.tpsGeneId}, ${data.moleculeId}, '${data.relationshipType || 'produces'}', '${data.confidenceLevel || 'inferred'}', ${evidenceSource}, ${notes})
-    `));
+       VALUES (${data.tpsGeneId}, ${data.moleculeId}, ${data.relationshipType || 'produces'}, ${data.confidenceLevel || 'inferred'}, ${data.evidenceSource ?? null}, ${data.notes ?? null})
+    `);
     return { success: true, id: 0 };
   } catch (error: unknown) {
     if ((error as NodeJS.ErrnoException).code === 'ER_DUP_ENTRY') {
@@ -386,36 +382,24 @@ export async function updateTpsGeneMoleculeLink(
   }
 ) {
   try {
-    const updates: string[] = [];
-    const params: (string | number | null)[] = [];
-    
-    if (data.relationshipType) {
-      updates.push('relationship_type = ?');
-      params.push(data.relationshipType);
-    }
-    if (data.confidenceLevel) {
-      updates.push('confidence_level = ?');
-      params.push(data.confidenceLevel);
-    }
-    if (data.evidenceSource !== undefined) {
-      updates.push('evidence_source = ?');
-      params.push(data.evidenceSource);
-    }
-    if (data.notes !== undefined) {
-      updates.push('notes = ?');
-      params.push(data.notes);
-    }
-    
+    // Fragments `sql` paramétrés (remplace un SET reconstruit à la main avec
+    // doublage de quotes, contournable en MySQL).
+    const updates = [
+      data.relationshipType ? sql`relationship_type = ${data.relationshipType}` : null,
+      data.confidenceLevel ? sql`confidence_level = ${data.confidenceLevel}` : null,
+      data.evidenceSource !== undefined ? sql`evidence_source = ${data.evidenceSource}` : null,
+      data.notes !== undefined ? sql`notes = ${data.notes}` : null,
+    ].filter((fragment): fragment is SQL => fragment !== null);
+
     if (updates.length === 0) {
       return { success: false, error: 'Aucune mise à jour fournie' };
     }
-    
-    params.push(id);
-    
+
     const db = await getDb();
     if (!db) return { success: false, error: 'Database connection failed' };
-    const setClause = updates.map((u, i) => u.replace('?', `'${String(params[i]).replace(/'/g, "''")}'`)).join(', ');
-    await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`UPDATE tps_gene_molecules SET ${setClause} WHERE id = ${id}`));
+    await db.execute(
+      sql`UPDATE tps_gene_molecules SET ${sql.join(updates, sql`, `)} WHERE id = ${id}`
+    );
     
     return { success: true };
   } catch (error: unknown) {
@@ -591,22 +575,24 @@ export async function searchMoleculeMatchesForTpsGene(tpsGeneId: number) {
     // Search for molecules that might match
     const mainProduct = gene.main_product || '';
     const olfactoryNotes = gene.olfactory_notes || '';
-    const searchTerm = String(mainProduct ?? '').toLowerCase().replace(/'/g, "''");
-    const olfactoryTerm = (String(olfactoryNotes ?? '').split(',')[0] || '').replace(/'/g, "''");
-    const matchesResult = await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(sql.raw(`
-      SELECT 
+    // Requête paramétrée : les motifs LIKE sont passés en valeurs liées, avec
+    // les `%` ajoutés côté paramètre plutôt que dans le texte de la requête.
+    const searchTerm = String(mainProduct ?? '').toLowerCase();
+    const olfactoryTerm = String(olfactoryNotes ?? '').split(',')[0] || '';
+    const matchesResult = await db.execute(sql`
+      SELECT
         m.id,
         m.name,
         m.formula,
         m.olfactiveProfile,
         m.chemicalClass
       FROM molecules m
-      WHERE 
-        LOWER(m.name) LIKE '%${searchTerm}%'
-        OR '${searchTerm}' LIKE CONCAT('%', LOWER(m.name), '%')
-        OR (m.olfactiveProfile IS NOT NULL AND m.olfactiveProfile LIKE '%${olfactoryTerm}%')
+      WHERE
+        LOWER(m.name) LIKE ${`%${searchTerm}%`}
+        OR ${searchTerm} LIKE CONCAT('%', LOWER(m.name), '%')
+        OR (m.olfactiveProfile IS NOT NULL AND m.olfactiveProfile LIKE ${`%${olfactoryTerm}%`})
       LIMIT 20
-    `));
+    `);
     const matches = (matchesResult[0] as unknown) as Record<string,unknown>[];
     
     return {
@@ -656,8 +642,10 @@ export async function getTpsGenesByMolecule(moleculeId: number) {
     
     // Search for TPS genes that produce this molecule
     // Using gene_terpene_links table and matching by terpene_product field
-    const result = await (db as unknown as { execute: (q: unknown) => Promise<unknown[]> }).execute(sql.raw(`
-      SELECT 
+    // Requête paramétrée : motifs LIKE passés en valeurs liées.
+    const fuzzyName = moleculeName.replace(/[\u03b1\u03b2\u03b3\u03b4-]/g, '%');
+    const result = await db.execute(sql`
+      SELECT
         gtl.id,
         gtl.gene_name,
         gtl.gene_id,
@@ -674,10 +662,10 @@ export async function getTpsGenesByMolecule(moleculeId: number) {
         NULL as uniprot_id,
         gtl.created_at
       FROM gene_terpene_links gtl
-      WHERE LOWER(gtl.terpene_product) LIKE '%${moleculeName.replace(/'/g, "''")}%'
-         OR LOWER(gtl.terpene_product) LIKE '%${moleculeName.replace(/'/g, "''").replace(/[\u03b1\u03b2\u03b3\u03b4-]/g, '%')}%'
+      WHERE LOWER(gtl.terpene_product) LIKE ${`%${moleculeName}%`}
+         OR LOWER(gtl.terpene_product) LIKE ${`%${fuzzyName}%`}
       ORDER BY gtl.gene_name
-    `));
+    `);
     const rows = (result[0] as unknown) as Record<string,unknown>[];
     return rows.map((row: Record<string,unknown>) => ({
       id: row.id,

@@ -285,13 +285,18 @@ export async function updateMoleculeFlavornetData(moleculeId: number, data: Flav
   const db = await getDb();
   if (!db) return;
   
-  const perceptsJson = JSON.stringify(data.percepts).replace(/'/g, "''");
-  const kovatsJson = data.kovatsRI ? JSON.stringify(data.kovatsRI).replace(/'/g, "''") : null;
-  
-  const query = "UPDATE molecules SET flavornet_percepts = '" + perceptsJson + "'" +
-    (kovatsJson ? ", flavornet_kovats_ri = '" + kovatsJson + "'" : "") +
-    ", flavornet_enriched_at = NOW() WHERE id = " + moleculeId;
-  await (db as unknown as {execute:(q:unknown)=>Promise<[Record<string,unknown>[],unknown]>}).execute(query);
+  // Requête paramétrée (le template `sql` de Drizzle produit des placeholders
+  // liés, contrairement à `sql.raw` / la concaténation de chaînes).
+  const perceptsJson = JSON.stringify(data.percepts);
+  const kovatsJson = data.kovatsRI ? JSON.stringify(data.kovatsRI) : null;
+
+  await db.execute(
+    sql`UPDATE molecules
+        SET flavornet_percepts = ${perceptsJson}${
+          kovatsJson ? sql`, flavornet_kovats_ri = ${kovatsJson}` : sql``
+        }, flavornet_enriched_at = NOW()
+        WHERE id = ${moleculeId}`
+  );
 }
 
 /**
