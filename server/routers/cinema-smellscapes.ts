@@ -11,6 +11,7 @@ import { z } from "zod";
 import mysql from "mysql2/promise";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getMysqlConnection } from "../db/mysqlPool";
+import { OUTBOUND_USER_AGENT } from "../_core/env";
 
 async function getConn() {
   return getMysqlConnection();
@@ -53,7 +54,7 @@ async function queryWikidata(sparql: string): Promise<any[]> {
   const res = await fetch(url, {
     headers: {
       "Accept": "application/sparql-results+json",
-      "User-Agent": "PERFUMUM-Research/1.0 (https://perfumum-h2pjhhjb.manus.space; research@perfumum.art)",
+      "User-Agent": OUTBOUND_USER_AGENT,
     },
   });
   if (!res.ok) throw new Error(`Wikidata SPARQL error: ${res.status}`);

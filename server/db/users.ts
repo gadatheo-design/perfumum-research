@@ -508,17 +508,17 @@ export async function generateCitation(
     const year = new Date(molecule.createdAt).getFullYear();
     
     if (format === 'apa') {
-      citationText = `PERFUMUM Research. (${year}). ${molecule.name}${molecule.chemicalFormula ? ` [${molecule.chemicalFormula}]` : ''}. PERFUMUM Molecular Database. https://perfumum.manus.space/molecule/${entityId}`;
+      citationText = `PERFUMUM Research. (${year}). ${molecule.name}${molecule.chemicalFormula ? ` [${molecule.chemicalFormula}]` : ''}. PERFUMUM Molecular Database. ${ENV.publicBaseUrl}/molecule/${entityId}`;
     } else if (format === 'mla') {
-      citationText = `"${molecule.name}." PERFUMUM Molecular Database, PERFUMUM Research, ${year}, perfumum.manus.space/molecule/${entityId}.`;
+      citationText = `"${molecule.name}." PERFUMUM Molecular Database, PERFUMUM Research, ${year}, ${ENV.publicBaseUrl.replace(/^https?:\/\//, "")}/molecule/${entityId}.`;
     } else if (format === 'chicago') {
-      citationText = `PERFUMUM Research. "${molecule.name}." PERFUMUM Molecular Database. Accessed ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. https://perfumum.manus.space/molecule/${entityId}.`;
+      citationText = `PERFUMUM Research. "${molecule.name}." PERFUMUM Molecular Database. Accessed ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. ${ENV.publicBaseUrl}/molecule/${entityId}.`;
     } else if (format === 'bibtex') {
       citationText = `@misc{perfumum_molecule_${entityId},
   title={${molecule.name}${molecule.chemicalFormula ? ` [${molecule.chemicalFormula}]` : ''}},
   author={PERFUMUM Research},
   year={${year}},
-  howpublished={\\url{https://perfumum.manus.space/molecule/${entityId}}},
+  howpublished={\\url{${ENV.publicBaseUrl}/molecule/${entityId}}},
   note={PERFUMUM Molecular Database}
 }`;
     }
@@ -530,17 +530,17 @@ export async function generateCitation(
     const year = new Date(recipe.createdAt).getFullYear();
     
     if (format === 'apa') {
-      citationText = `PERFUMUM Research. (${year}). ${recipe.name}. PERFUMUM Recipe Database. https://perfumum.manus.space/recette/${entityId}`;
+      citationText = `PERFUMUM Research. (${year}). ${recipe.name}. PERFUMUM Recipe Database. ${ENV.publicBaseUrl}/recette/${entityId}`;
     } else if (format === 'mla') {
-      citationText = `"${recipe.name}." PERFUMUM Recipe Database, PERFUMUM Research, ${year}, perfumum.manus.space/recette/${entityId}.`;
+      citationText = `"${recipe.name}." PERFUMUM Recipe Database, PERFUMUM Research, ${year}, ${ENV.publicBaseUrl.replace(/^https?:\/\//, "")}/recette/${entityId}.`;
     } else if (format === 'chicago') {
-      citationText = `PERFUMUM Research. "${recipe.name}." PERFUMUM Recipe Database. Accessed ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. https://perfumum.manus.space/recette/${entityId}.`;
+      citationText = `PERFUMUM Research. "${recipe.name}." PERFUMUM Recipe Database. Accessed ${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. ${ENV.publicBaseUrl}/recette/${entityId}.`;
     } else if (format === 'bibtex') {
       citationText = `@misc{perfumum_recipe_${entityId},
   title={${recipe.name}},
   author={PERFUMUM Research},
   year={${year}},
-  howpublished={\\url{https://perfumum.manus.space/recette/${entityId}}},
+  howpublished={\\url{${ENV.publicBaseUrl}/recette/${entityId}}},
   note={PERFUMUM Recipe Database}
 }`;
     }
@@ -552,7 +552,7 @@ export async function generateCitation(
     entityId,
     format,
     citationText,
-    url: `https://perfumum.manus.space/${entityType}/${entityId}`,
+    url: `${ENV.publicBaseUrl}/${entityType}/${entityId}`,
   }).$returningId();
   
   return {

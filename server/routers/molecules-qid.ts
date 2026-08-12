@@ -7,6 +7,7 @@ import { z } from "zod";
 import mysql from "mysql2/promise";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getMysqlConnection } from "../db/mysqlPool";
+import { OUTBOUND_USER_AGENT } from "../_core/env";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -54,7 +55,7 @@ async function searchWikidataForMolecule(
       const resp = await fetch(url.toString(), {
         headers: {
           "Accept": "application/json",
-          "User-Agent": "PERFUMUM-Research/1.0 (https://perfumum.manus.space)",
+          "User-Agent": OUTBOUND_USER_AGENT,
         },
         signal: controller.signal,
       });

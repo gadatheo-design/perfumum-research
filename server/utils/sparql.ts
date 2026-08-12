@@ -6,10 +6,11 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
+import { OUTBOUND_USER_AGENT } from "../_core/env";
+
 export const SPARQL_ENDPOINT = "https://query.wikidata.org/sparql";
 
-const WIKIDATA_USER_AGENT =
-  "PERFUMUM-Research/1.0 (https://perfumum.manus.space; olfactory-research-project) Node.js/fetch";
+const WIKIDATA_USER_AGENT = OUTBOUND_USER_AGENT;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONFIG
