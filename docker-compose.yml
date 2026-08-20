@@ -62,6 +62,13 @@ services:
       JWT_SECRET: ${JWT_SECRET:?définir JWT_SECRET dans .env}
       PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:?définir PUBLIC_BASE_URL dans .env}
       PUBLIC_CONTACT_EMAIL: ${PUBLIC_CONTACT_EMAIL:-}
+      # Connexion autonome (voir server/_core/localAuth.ts). Sans
+      # ADMIN_PASSWORD_HASH, la route de connexion répond 503 et le site
+      # reste consultable mais non administrable.
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH:-}
+      ADMIN_NAME: ${ADMIN_NAME:-}
+      SESSION_LIFETIME_DAYS: ${SESSION_LIFETIME_DAYS:-}
       LLM_PROVIDER: ${LLM_PROVIDER:-disabled}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       OPENAI_MODEL: ${OPENAI_MODEL:-}

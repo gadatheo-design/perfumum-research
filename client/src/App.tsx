@@ -26,6 +26,7 @@ import { GlobalSearchAdvanced } from "@/components/GlobalSearchAdvanced";
 import { MobileBottomNav } from "./components/MobileBottomNav";
 import { ScrollToTop } from "./components/ScrollToTop";
 import NotFound from "@/pages/NotFound";
+import Login from "@/pages/Login";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -1166,6 +1167,7 @@ function Router() {
       <LazyRoute path="/extraction-procedes" component={ExtractionProcesses} />
       
       {/* === ERREURS === */}
+      <Route path="/login" component={Login} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

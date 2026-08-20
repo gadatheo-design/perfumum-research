@@ -4,6 +4,7 @@ import { createServer } from "http";
 import net from "net";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
+import { registerLocalAuthRoutes } from "./localAuth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic } from "./static";
@@ -39,6 +40,10 @@ async function startServer() {
   
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
+
+  // Connexion autonome (mode standalone uniquement). En mode "manus", cet
+  // appel ne monte aucune route : le comportement existant est inchangé.
+  registerLocalAuthRoutes(app);
   
   // CORS pour les endpoints p5data — permet l'accès depuis editor.p5js.org
   // et d'autres origines (localhost, fichiers locaux, etc.)
