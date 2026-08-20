@@ -1,0 +1,115 @@
+# ==============================================================================
+# PERFUMUM — stack de production
+#
+#   caddy  : reverse proxy public, TLS Let's Encrypt automatique
+#   app    : le serveur Node (Express + tRPC + WebSocket)
+#   db     : MySQL 8, hébergé localement
+#
+# Pourquoi MySQL en local plutôt que TiDB Cloud : la base actuelle est en
+# AWS us-east-1. Depuis un VPS suisse, chaque requête coûterait ~95 ms
+# d'aller-retour, et plusieurs routes enchaînent 6 requêtes ou davantage en
+# séquence. En local, la latence tombe sous la milliseconde.
+#
+# Seul Caddy expose des ports sur l'hôte. `app` et `db` ne sont joignables
+# que depuis le réseau interne Docker : la base n'est jamais exposée à
+# l'extérieur.
+# ==============================================================================
+
+services:
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      # La base tient dans quelques centaines de Mo ; 512 Mo de buffer pool
+      # suffisent largement et laissent de la marge à l'app sur un VPS 4 Go.
+      - --innodb-buffer-pool-size=512M
+      - --max-connections=50
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?définir MYSQL_ROOT_PASSWORD dans .env}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-perfumum}
+      MYSQL_USER: ${MYSQL_USER:-perfumum}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?définir MYSQL_PASSWORD dans .env}
+    volumes:
+      - db_data:/var/lib/mysql
+      # Déposer ici le dump à importer (voir scripts/db-import.sh).
+      - ./backups:/backups
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 40s
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${APP_IMAGE:-perfumum:local}
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      PERFUMUM_PLATFORM: standalone
+      # Le nom d'hôte `db` est résolu par le DNS interne de Docker.
+      DATABASE_URL: mysql://${MYSQL_USER:-perfumum}:${MYSQL_PASSWORD}@db:3306/${MYSQL_DATABASE:-perfumum}
+      JWT_SECRET: ${JWT_SECRET:?définir JWT_SECRET dans .env}
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:?définir PUBLIC_BASE_URL dans .env}
+      PUBLIC_CONTACT_EMAIL: ${PUBLIC_CONTACT_EMAIL:-}
+      LLM_PROVIDER: ${LLM_PROVIDER:-disabled}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-}
+      EUROPEANA_API_KEY: ${EUROPEANA_API_KEY:-}
+    networks:
+      - internal
+    # Durcissement : système de fichiers en lecture seule, aucun privilège
+    # supplémentaire possible. /tmp reste inscriptible en mémoire.
+    read_only: true
+    tmpfs:
+      - /tmp:size=256m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "5" }
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN:?définir DOMAIN dans .env}
+      ACME_EMAIL: ${ACME_EMAIL:?définir ACME_EMAIL dans .env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - internal
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "5" }
+
+networks:
+  internal:
+    driver: bridge
+
+volumes:
+  db_data:
+  caddy_data:
+  caddy_config:

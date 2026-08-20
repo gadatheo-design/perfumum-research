@@ -106,6 +106,13 @@ temp/
 *.sqlite
 *.sqlite3
 
+# Sauvegardes et dumps de base : contiennent des données réelles, dont
+# probablement des données personnelles de chercheurs. Ne jamais versionner.
+backups/*
+!backups/.gitkeep
+*.sql.gz
+!drizzle/*.sql
+
 # Manus internal files (DB query dev logs, TypeScript remediation backups) —
 # already tracked in git history as of this commit; this only stops future
 # growth, it does not retroactively remove what's already committed.
