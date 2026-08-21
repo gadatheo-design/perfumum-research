@@ -17,6 +17,18 @@ export const plants = mysqlTable("plants", {
   name: varchar("name", { length: 255 }).notNull(), // Nom commun (ex: "Lemongrass")
   latinName: varchar("latin_name", { length: 255 }), // Nom latin (ex: "Cymbopogon citratus")
   family: varchar("family", { length: 100 }), // Famille botanique (ex: "Poaceae")
+  // Rangs taxonomiques.
+  //
+  // Ces six colonnes EXISTENT en base — `server/routers/plants-admin.ts` les
+  // sélectionne nommément en SQL brut — mais n'étaient pas déclarées ici.
+  // `db.select().from(plants)` ne ramenant que les colonnes déclarées, le bloc
+  // « Classification » de la fiche plante ne s'affichait jamais.
+  kingdom: varchar("kingdom", { length: 100 }),      // Règne (ex: "Plantae")
+  division: varchar("division", { length: 100 }),    // Division / embranchement
+  orderName: varchar("order_name", { length: 100 }), // Ordre (`order` est réservé en SQL)
+  genus: varchar("genus", { length: 100 }),
+  species: varchar("species", { length: 100 }),
+  subspecies: varchar("subspecies", { length: 100 }),
   // Classification
   category: mysqlEnum("category", [
     "aromatique",

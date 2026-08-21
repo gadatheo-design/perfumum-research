@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useParams, Link } from "wouter";
 import { AddInventoryModal } from "@/components/AddInventoryModal";
 import { CombinedChromatogram } from "@/components/CombinedChromatogram";
