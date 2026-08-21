@@ -1,0 +1,93 @@
+name: Image Docker
+
+# Construit l'image de production et la publie sur GitHub Container Registry.
+#
+# Raison d'être : le build du client atteint ~3,2 Go de mémoire au pic. Sur le
+# VPS de production (4 Go, MySQL déjà en marche) cela passe en swap et
+# monopolise la machine plusieurs minutes. Construire ici et récupérer l'image
+# avec `docker compose pull` supprime complètement cette contrainte.
+#
+# Sur une pull request, l'image est construite mais PAS publiée : on veut
+# détecter une rupture du Dockerfile sans polluer le registre.
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: docker-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    name: Construire et publier
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # Nécessaire pour pousser sur GHCR avec le GITHUB_TOKEN, sans avoir à
+      # créer et gérer un jeton personnel.
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurer Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Authentification au registre
+        # Inutile sur une pull request : rien n'est publié. Cela évite aussi
+        # d'exposer des identifiants à une PR venant d'un dépôt forké.
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Calculer les étiquettes
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=semver,pattern={{version}}
+            type=sha,format=long
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Construire (et publier hors pull request)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # Cache partagé entre exécutions : sans lui, les 1166 paquets sont
+          # réinstallés à chaque fois.
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Récapitulatif
+        if: github.event_name != 'pull_request'
+        run: |
+          {
+            echo "### Image publiée"
+            echo ""
+            echo '```'
+            echo "${{ steps.meta.outputs.tags }}"
+            echo '```'
+            echo ""
+            echo "Pour déployer sur le VPS :"
+            echo '```bash'
+            echo "# dans .env : APP_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
+            echo "docker compose pull app && docker compose up -d app"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
