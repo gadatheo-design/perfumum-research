@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Carte interactive des terroirs PERFUMUM avec Leaflet/OpenStreetMap
  * Alternative à Google Maps pour une meilleure fiabilité

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useCallback, useRef } from "react";
 import { Link, useParams, useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";

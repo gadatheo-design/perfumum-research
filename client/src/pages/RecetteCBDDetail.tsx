@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useParams, Link } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Breadcrumbs } from "@/components/Breadcrumbs";

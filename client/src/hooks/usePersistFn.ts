@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useRef } from "react";
 
 type noop = (...args: any[]) => any;

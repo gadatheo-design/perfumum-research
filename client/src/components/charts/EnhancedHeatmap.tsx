@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Heatmap améliorée avec D3.js, animations et interactions avancées
  * Visualise les synergies moléculaires avec zoom interactif, clustering par famille chimique et export

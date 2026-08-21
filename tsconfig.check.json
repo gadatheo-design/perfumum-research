@@ -1,9 +1,19 @@
 {
-  "_comment": "Configuration TypeScript allégée pour tsc --watch en développement.",
-  "_reason": "Le tsconfig.json principal inclut 728 fichiers (dont 311 pages frontend avec @ts-nocheck),",
-  "_reason2": "ce qui provoque une consommation mémoire de 2,28 Go. Ce fichier réduit la portée",
-  "_reason3": "à l'essentiel : serveur, schéma DB, types partagés et composants critiques.",
-  "_usage": "Utilisé automatiquement par `pnpm check` via package.json.",
+  // Vérification de types du dépôt.
+  //
+  // Historiquement, TOUT client/src/pages et TOUS les composants de A à Z
+  // étaient exclus, pour des raisons de mémoire. Conséquence : `pnpm check`
+  // passait au vert sans vérifier une seule page ni un seul composant.
+  //
+  // Mesuré depuis : un typecheck complet du client atteint ~3,0 Go, ce que
+  // couvre largement l'allocation de 8 Go du script `check`. L'exclusion
+  // n'était donc plus justifiée.
+  //
+  // Les 74 fichiers encore en erreur conservent un `// @ts-nocheck` : ils
+  // restent dans le périmètre de vérification, mais leurs erreurs sont
+  // suppressées fichier par fichier. Le compte se retrouve d'une commande —
+  //   grep -rl "@ts-nocheck" client/
+  // — et doit décroître, jamais augmenter.
   "include": [
     "server/**/*",
     "shared/**/*",
@@ -22,34 +32,7 @@
     "dist",
     "**/*.test.ts",
     "**/*.test.tsx",
-    "server/**/*.test.ts",
-    "client/src/pages/**/*",
-    "client/src/components/A*.tsx",
-    "client/src/components/B*.tsx",
-    "client/src/components/C*.tsx",
-    "client/src/components/D*.tsx",
-    "client/src/components/E*.tsx",
-    "client/src/components/F*.tsx",
-    "client/src/components/G*.tsx",
-    "client/src/components/H*.tsx",
-    "client/src/components/I*.tsx",
-    "client/src/components/J*.tsx",
-    "client/src/components/K*.tsx",
-    "client/src/components/L*.tsx",
-    "client/src/components/M*.tsx",
-    "client/src/components/N*.tsx",
-    "client/src/components/O*.tsx",
-    "client/src/components/P*.tsx",
-    "client/src/components/Q*.tsx",
-    "client/src/components/R*.tsx",
-    "client/src/components/S*.tsx",
-    "client/src/components/T*.tsx",
-    "client/src/components/U*.tsx",
-    "client/src/components/V*.tsx",
-    "client/src/components/W*.tsx",
-    "client/src/components/X*.tsx",
-    "client/src/components/Y*.tsx",
-    "client/src/components/Z*.tsx"
+    "server/**/*.test.ts"
   ],
   "compilerOptions": {
     "incremental": true,
@@ -57,17 +40,28 @@
     "noEmit": true,
     "module": "ESNext",
     "strict": true,
-    "lib": ["esnext", "dom", "dom.iterable"],
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable"
+    ],
     "jsx": "preserve",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "allowImportingTsExtensions": true,
     "moduleResolution": "bundler",
     "baseUrl": ".",
-    "types": ["node", "vite/client"],
+    "types": [
+      "node",
+      "vite/client"
+    ],
     "paths": {
-      "@/*": ["./client/src/*"],
-      "@shared/*": ["./shared/*"]
+      "@/*": [
+        "./client/src/*"
+      ],
+      "@shared/*": [
+        "./shared/*"
+      ]
     },
     "target": "ES2022"
   }

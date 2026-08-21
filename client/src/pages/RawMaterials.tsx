@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState } from "react";
 import { Link } from "wouter";
 import { toast } from "sonner";

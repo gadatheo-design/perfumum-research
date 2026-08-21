@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { Header } from "@/components/layout/Header";

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * EntityConnectionBar — Barre de navigation contextuelle inter-entités
  * 

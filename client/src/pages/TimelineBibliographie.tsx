@@ -1,10 +1,10 @@
+// @ts-nocheck
 /**
  * TimelineBibliographie.tsx — Rapport 10 + Session 12
  * Frise chronologique D3.js multi-sources : PERFUMUM + OpenAlex + Wikidata
  * Couche 2 : Découvertes moléculaires aromatiques (points verts ♦) superposées
  * Axe horizontal par décennie, zoom/pan, filtres, export SVG
  */
-// @ts-nocheck
 import { useEffect, useRef, useState, useCallback } from "react";
 import * as d3 from "d3";
 import { trpc } from "@/lib/trpc";

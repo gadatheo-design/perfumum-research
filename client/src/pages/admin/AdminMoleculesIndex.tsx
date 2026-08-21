@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useCallback } from "react";
 import { Link } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";

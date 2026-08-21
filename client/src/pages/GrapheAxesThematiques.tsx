@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Page Graphe des Axes Thématiques
  * Visualise les connexions entre entités PERFUMUM avec un graphe de force D3.js

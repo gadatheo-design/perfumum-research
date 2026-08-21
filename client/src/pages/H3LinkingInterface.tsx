@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useMemo } from 'react';
 import { trpc } from '@/lib/trpc';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';

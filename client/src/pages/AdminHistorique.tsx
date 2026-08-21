@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState } from "react";
 import { History, Undo2, Clock, Database } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";

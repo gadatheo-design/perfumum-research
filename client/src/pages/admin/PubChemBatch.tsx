@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useRef, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { safeToFixed } from "@/lib/utils";

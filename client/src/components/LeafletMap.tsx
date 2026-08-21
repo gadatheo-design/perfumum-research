@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Composant de carte Leaflet/OpenStreetMap
  * Alternative à Google Maps pour les visualisations géographiques
