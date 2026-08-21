@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -162,8 +161,8 @@ export function TerroirsContent() {
   const [selectedQuality, setSelectedQuality] = useState<string>("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
-  const { data: terroirs, isLoading } = trpc.terroirs.list.useQuery();
-  const { data: plantTerroirs } = trpc.plantTerroirs.list.useQuery();
+  const { data: terroirs, isLoading } = trpc.terroirs.getAll.useQuery();
+  const { data: plantTerroirs } = trpc.plantTerroirs.getAll.useQuery();
 
   // Count plants per terroir
   const plantCountByTerroir = useMemo(() => {

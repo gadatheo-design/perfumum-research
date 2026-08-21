@@ -55,9 +55,9 @@ export default function InventoryDashboard() {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
   // Données
-  const { data: inventoryStats, isLoading: isLoadingStats } = trpc.rawMaterials?.getInventoryStats.useQuery();
-  const { data: allInventory, isLoading: isLoadingInventory } = trpc.rawMaterials?.getAllInventory.useQuery();
-  const { data: rawMaterials } = trpc.rawMaterials?.getAll.useQuery({ limit: 500 });
+  const { data: inventoryStats, isLoading: isLoadingStats } = trpc.rawMaterials.getInventoryStats.useQuery();
+  const { data: allInventory, isLoading: isLoadingInventory } = trpc.rawMaterials.getAllInventory.useQuery();
+  const { data: rawMaterials } = trpc.rawMaterials.getAll.useQuery();
 
   // Extraire les catégories et fournisseurs uniques
   const categories = useMemo(() => {
@@ -327,7 +327,10 @@ export default function InventoryDashboard() {
                           </span>
                         </div>
                         <Badge variant="outline" className="text-amber-500 border-amber-500/50">
-                          {(alert).toFixed(1)} {alert.unit}
+                          {/* `alert` est l'objet, pas le nombre : appeler
+                              `.toFixed()` dessus lève un TypeError dès qu'une
+                              alerte existe. La quantité est dans `stock`. */}
+                          {alert.stock.toFixed(1)} {alert.unit}
                         </Badge>
                       </div>
                     </Link>

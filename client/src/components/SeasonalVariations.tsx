@@ -279,7 +279,9 @@ export function SeasonalVariations({ plantName, plantId }: SeasonalVariationsPro
 
           {currentVariation.yieldModifier != null && (
             <p className="mt-2 text-xs text-muted-foreground">
-              📊 Modificateur de rendement : <strong>×{(currentVariation).toFixed(2)}</strong>
+              {/* `currentVariation` est l'objet, pas le nombre : `.toFixed()`
+                  dessus lève un TypeError dès qu'un modificateur est renseigné. */}
+              📊 Modificateur de rendement : <strong>×{currentVariation.yieldModifier.toFixed(2)}</strong>
             </p>
           )}
         </CardContent>

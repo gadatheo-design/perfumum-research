@@ -8,6 +8,11 @@ const t = initTRPC.context<TrpcContext>().create({
 });
 
 export const router = t.router;
+/**
+ * Fusionne plusieurs routeurs en un seul. Si un nom de procédure existe dans
+ * deux d'entre eux, c'est celui du DERNIER argument qui l'emporte.
+ */
+export const mergeRouters = t.mergeRouters;
 export const publicProcedure = t.procedure;
 
 const requireUser = t.middleware(async opts => {

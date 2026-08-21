@@ -407,7 +407,12 @@ function AddPlantSourceModal({ moleculeId, onSuccess }: { moleculeId: number; on
   const { toast } = useToast();
   const utils = trpc.useUtils();
 
-  const { data: searchResults, isLoading: searching } = trpc.plants.search.useQuery(
+  // Le routeur `plants` n'expose aucune procédure `search` : cet appel partait
+  // sur un chemin tRPC inexistant, et l'auto-complétion « ajouter une plante
+  // source » ne renvoyait jamais rien. `contributor.searchPlants` est
+  // exactement cette recherche, avec les mêmes champs (id, name, latinName,
+  // category).
+  const { data: searchResults, isLoading: searching } = trpc.contributor.searchPlants.useQuery(
     { query: searchQuery },
     { enabled: searchQuery.length >= 2 }
   );
@@ -2094,7 +2099,7 @@ export default function MoleculeDetail() {
                 items: (linkedRecettes || []).map((r) => ({
                   id: r.id,
                   label: r.name,
-                  sublabel: r.family || r.category || undefined,
+                  sublabel: r.category || undefined,
                   href: `/recettes/${r.id}`,
                   type: "recette" as const,
                 })),

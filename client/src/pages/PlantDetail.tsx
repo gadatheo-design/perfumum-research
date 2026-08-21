@@ -2032,7 +2032,9 @@ export default function PlantDetail() {
             items: (varieties || []).map((v) => ({
               id: v.id,
               label: v.name,
-              sublabel: v.type || undefined,
+              // La colonne s'appelle `varietyType` : `v.type` était toujours
+              // `undefined`, donc aucun sous-titre ne s'affichait.
+              sublabel: v.varietyType || undefined,
               href: `/varieties/${v.id}`,
               type: "variety" as const,
             })),
