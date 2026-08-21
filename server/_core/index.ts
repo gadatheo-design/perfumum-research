@@ -5,6 +5,7 @@ import net from "net";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
 import { registerLocalAuthRoutes } from "./localAuth";
+import { registerFilesRoute } from "./filesRoute";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic } from "./static";
@@ -58,6 +59,10 @@ async function startServer() {
   // Le middleware CORS doit intercepter les requêtes OPTIONS AVANT tRPC
   app.use("/api/trpc/p5data", p5Cors);
   app.options("/api/trpc/p5data*", p5Cors); // Pré-vol CORS explicite
+
+  // Fichiers stockés, servis sous une URL stable (voir ./filesRoute.ts).
+  // Monté AVANT le repli SPA pour ne pas être intercepté par celui-ci.
+  registerFilesRoute(app);
 
   // Lot 2 — Rate limiting sur toute l'API tRPC (voir ./rateLimiter.ts)
   app.use("/api/trpc", trpcRateLimiter);

@@ -69,6 +69,16 @@ services:
       ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH:-}
       ADMIN_NAME: ${ADMIN_NAME:-}
       SESSION_LIFETIME_DAYS: ${SESSION_LIFETIME_DAYS:-}
+      # Stockage de fichiers (voir server/storage.ts).
+      STORAGE_PROVIDER: ${STORAGE_PROVIDER:-local}
+      STORAGE_LOCAL_DIR: /app/uploads
+      S3_BUCKET: ${S3_BUCKET:-}
+      S3_REGION: ${S3_REGION:-}
+      S3_ENDPOINT: ${S3_ENDPOINT:-}
+      S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:-}
+      S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY:-}
+      S3_FORCE_PATH_STYLE: ${S3_FORCE_PATH_STYLE:-}
+      NOTIFICATION_PROVIDER: ${NOTIFICATION_PROVIDER:-}
       LLM_PROVIDER: ${LLM_PROVIDER:-disabled}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       OPENAI_MODEL: ${OPENAI_MODEL:-}
@@ -77,6 +87,10 @@ services:
       - internal
     # Durcissement : système de fichiers en lecture seule, aucun privilège
     # supplémentaire possible. /tmp reste inscriptible en mémoire.
+    volumes:
+      # Le conteneur est en lecture seule : les fichiers envoyés ont besoin
+      # d'un volume inscriptible et PERSISTANT.
+      - uploads_data:/app/uploads
     read_only: true
     tmpfs:
       - /tmp:size=256m,mode=1777
@@ -118,5 +132,6 @@ networks:
 
 volumes:
   db_data:
+  uploads_data:
   caddy_data:
   caddy_config:

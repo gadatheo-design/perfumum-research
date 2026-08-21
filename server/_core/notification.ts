@@ -1,5 +1,21 @@
 import { TRPCError } from "@trpc/server";
 import { ENV } from "./env";
+import { isStandalonePlatform } from "./platform";
+
+export type NotificationProviderName = "manus" | "disabled";
+
+/**
+ * Fournisseur de notifications.
+ *
+ * En standalone, le service de la plateforme d'origine n'existe pas : le
+ * défaut bascule sur "disabled", qui journalise sans échouer.
+ */
+export function getNotificationProvider(): NotificationProviderName {
+  const raw = (process.env.NOTIFICATION_PROVIDER ?? "").trim().toLowerCase();
+  if (raw === "manus") return "manus";
+  if (raw === "disabled") return "disabled";
+  return isStandalonePlatform ? "disabled" : "manus";
+}
 
 export type NotificationPayload = {
   title: string;
@@ -67,6 +83,16 @@ export async function notifyOwner(
   payload: NotificationPayload
 ): Promise<boolean> {
   const { title, content } = validatePayload(payload);
+
+  // Hors plateforme d'origine, aucun service de notification n'existe. On
+  // journalise sans échouer : les trois appelants (validation.ts,
+  // systemRouter.ts, cacheMonitor.ts) signalent des événements utiles mais
+  // non critiques. Faire échouer la validation d'une contribution parce
+  // qu'une notification ne part pas serait disproportionné.
+  if (getNotificationProvider() === "disabled") {
+    console.log(`[Notification] (désactivée) ${title} — ${content}`);
+    return false;
+  }
 
   if (!ENV.forgeApiUrl) {
     throw new TRPCError({
