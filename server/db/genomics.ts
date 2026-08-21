@@ -6,6 +6,7 @@
 
 import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, lte, inArray, notInArray, count, type SQL } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
+import { sqlLike, sqlLiteral } from "./sqlEscape";
 import { 
   InsertUser, 
   users, 
@@ -282,13 +283,13 @@ export async function getMolecularTransformations(options?: {
     `;
     
     if (options?.transformationType) {
-      query += ` AND mt.transformation_type = '${options.transformationType}'`;
+      query += ` AND mt.transformation_type = ${sqlLiteral(options.transformationType)}`;
     }
     if (options?.relevanceContext) {
-      query += ` AND mt.relevance_context = '${options.relevanceContext}'`;
+      query += ` AND mt.relevance_context = ${sqlLiteral(options.relevanceContext)}`;
     }
     if (options?.sourceMoleculeName) {
-      query += ` AND mt.source_molecule_name LIKE '%${options.sourceMoleculeName}%'`;
+      query += ` AND mt.source_molecule_name LIKE ${sqlLike(options.sourceMoleculeName)}`;
     }
     
     query += ` ORDER BY mt.source_molecule_name`;

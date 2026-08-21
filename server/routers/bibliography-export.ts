@@ -1,6 +1,7 @@
 import { router, publicProcedure } from "../_core/trpc";
 import { z } from "zod";
 import { getDb } from "../db";
+import { sqlLiteral } from "../db/sqlEscape";
 
 export const bibliographyExportRouter = router({
   // ─── Export CSV des liaisons bibliographiques ─────────────────────────────────────────────
@@ -10,7 +11,7 @@ export const bibliographyExportRouter = router({
       const dbConn = await getDb();
       if (!dbConn) return "";
       const { sql } = await import('drizzle-orm');
-      const whereClause = input?.entityType ? `WHERE entity_type = '${input.entityType}'` : '';
+      const whereClause = input?.entityType ? `WHERE entity_type = ${sqlLiteral(input.entityType)}` : '';
       const result = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
         `SELECT bel.id, bel.bibliography_id, bel.entity_type, bel.entity_id, bel.relevance_score, bel.notes,
                 bs.title, bs.authors, bs.publication_year, bs.journal, bs.doi

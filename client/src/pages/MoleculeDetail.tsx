@@ -806,8 +806,8 @@ export default function MoleculeDetail() {
 
   // Publications PubChem en temps réel (via PubMed)
   const { data: pubchemLiterature, isLoading: loadingPubchemLit } = trpc.bibliographySources.getPubChemLiterature.useQuery(
-    { pubchemCid: molecule?.pubchem_cid ?? 0 },
-    { enabled: !!molecule?.pubchem_cid }
+    { pubchemCid: molecule?.pubchemCid ?? 0 },
+    { enabled: !!molecule?.pubchemCid }
   );
 
   // Badge Bibliographie — références PERFUMUM liées à cette molécule
@@ -1157,12 +1157,12 @@ export default function MoleculeDetail() {
                   )}
                   {/* Indicateurs de statut d'enrichissement */}
                   <PubChemStatusBadge 
-                    hasPubChem={!!mol.pubchem_cid} 
-                    pubchemCid={mol.pubchem_cid ?? undefined} 
+                    hasPubChem={!!mol.pubchemCid} 
+                    pubchemCid={mol.pubchemCid ?? undefined} 
                   />
                   <ChEBIStatusBadge 
-                    hasChebi={!!mol.chebi_id} 
-                    chebiId={mol.chebi_id ?? undefined} 
+                    hasChebi={!!mol.chebiId} 
+                    chebiId={mol.chebiId ?? undefined} 
                   />
                   {/* Badge IFRA pour le statut réglementaire */}
                   <IFRAStatusBadge 
@@ -1564,7 +1564,7 @@ export default function MoleculeDetail() {
                                 {[...Array(5)].map((_, i) => (
                                   <span 
                                     key={i} 
-                                    className={`text-lg ${i < origin.qualityRating ? 'text-yellow-500' : 'text-gray-300'}`}
+                                    className={`text-lg ${i < (origin.qualityRating ?? 0) ? 'text-yellow-500' : 'text-gray-300'}`}
                                   >
                                     ★
                                   </span>
@@ -1803,7 +1803,7 @@ export default function MoleculeDetail() {
                 moleculeName={molecule?.name}
                 formula={molecule?.chemicalFormula}
                 smiles={mol.smiles ?? undefined}
-                pubchemCid={mol.pubchem_cid ?? undefined}
+                pubchemCid={mol.pubchemCid ?? undefined}
               />
               </TabErrorBoundary>
             </TabsContent>
@@ -1910,7 +1910,7 @@ export default function MoleculeDetail() {
               <TabErrorBoundary tabLabel="Publications scientifiques">
 
                 {/* Section PubChem / PubMed */}
-                {molecule?.pubchem_cid && (
+                {molecule?.pubchemCid && (
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="h-5 w-1 rounded-full bg-blue-500" />
@@ -1924,7 +1924,7 @@ export default function MoleculeDetail() {
                       </div>
                     ) : pubchemLiterature?.articles && pubchemLiterature?.articles.length > 0 ? (
                       <div className="space-y-2">
-                        <p className="text-xs text-muted-foreground">{pubchemLiterature?.articles.length} article{pubchemLiterature?.articles.length > 1 ? 's' : ''} référencé{pubchemLiterature?.articles.length > 1 ? 's' : ''} sur PubMed (CID {molecule?.pubchem_cid})</p>
+                        <p className="text-xs text-muted-foreground">{pubchemLiterature?.articles.length} article{pubchemLiterature?.articles.length > 1 ? 's' : ''} référencé{pubchemLiterature?.articles.length > 1 ? 's' : ''} sur PubMed (CID {molecule?.pubchemCid})</p>
                         {pubchemLiterature?.articles.map((art) => (
                           <PubMedArticleCard
                             key={art.pmid}
@@ -1935,7 +1935,7 @@ export default function MoleculeDetail() {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-sm text-muted-foreground italic py-2">Aucune publication PubMed trouvée pour ce composé (CID {molecule?.pubchem_cid}).</p>
+                      <p className="text-sm text-muted-foreground italic py-2">Aucune publication PubMed trouvée pour ce composé (CID {molecule?.pubchemCid}).</p>
                     )}
                   </div>
                 )}
@@ -1985,7 +1985,7 @@ export default function MoleculeDetail() {
                 )}
 
                 {/* État vide */}
-                {(!molecule?.pubchem_cid) && (!scientificPubs || scientificPubs?.length === 0) && (
+                {(!molecule?.pubchemCid) && (!scientificPubs || scientificPubs?.length === 0) && (
                   <div className="text-center py-8 text-muted-foreground">
                     <BookOpen className="h-8 w-8 mx-auto mb-2 opacity-40" />
                     <p>Aucune publication scientifique répertoriée pour cette molécule.</p>

@@ -5,6 +5,21 @@ import * as db from "../db";
 import { SQL } from "drizzle-orm";
 import { getMysqlConnection } from "../db/mysqlPool";
 
+/**
+ * Colonnes GBIF/IUCN de la table `plants`, telles que renvoyées par
+ * `getGbifData`. Les noms sont ceux du SQL — cette requête est écrite à la
+ * main, elle ne passe pas par le mappage camelCase de Drizzle.
+ */
+export interface GbifData {
+  gbif_id: number | null;
+  gbif_occurrence_count: number | null;
+  /** Colonne JSON : tableau de codes pays, ou chaîne JSON selon les lignes. */
+  gbif_countries: string | string[] | null;
+  gbif_enriched_at: Date | null;
+  iucn_id: string | null;
+  conservation_status: string | null;
+}
+
 export const bibliographySourcesRouter = router({
   // Publications liées à une molécule (toutes sources : OpenAlex, NEZ, etc.)
   getByMolecule: publicProcedure
@@ -148,16 +163,17 @@ export const bibliographySourcesRouter = router({
   // Données GBIF d'une plante (occurrences + pays)
   getGbifData: publicProcedure
     .input(z.object({ plantId: z.number() }))
-    .query(async ({ input }) => {
+    .query(async ({ input }): Promise<GbifData | null> => {
       const dbConn = await db.getDb();
       if (!dbConn) return null;
       const { sql } = await import('drizzle-orm');
-      const result = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(sql.raw(
-        `SELECT gbif_id, gbif_occurrence_count, gbif_countries, gbif_enriched_at,
-                iucn_id, conservation_status
-         FROM plants WHERE id = ${input.plantId}`
-      ));
-      const rows = Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
+      // Gabarit `sql` et non `sql.raw` : la valeur passe en paramètre lié.
+      const result = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(
+        sql`SELECT gbif_id, gbif_occurrence_count, gbif_countries, gbif_enriched_at,
+                   iucn_id, conservation_status
+            FROM plants WHERE id = ${input.plantId}`
+      );
+      const rows = Array.isArray(result) ? result[0] as GbifData[] : [];
       return rows[0] || null;
     }),
 });

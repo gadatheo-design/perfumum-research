@@ -1,4 +1,3 @@
-// @ts-nocheck
 /*
  * PhylogeneticTree.tsxx
  * ─────────────────────────────────────────────────────────────────────────────
@@ -157,10 +156,12 @@ export const PhylogeneticTree: React.FC<PhylogeneticTreeProps> = ({
         setSelectedNode(d.data);
         onNodeSelect?.(d.data);
       })
-      .on("mouseover", function () {
+      // `this` doit être annoté : d3 le lie au cercle survolé, mais TypeScript
+      // ne peut pas le déduire d'une fonction anonyme.
+      .on("mouseover", function (this: SVGCircleElement) {
         d3.select(this).transition().duration(200).attr("r", 8);
       })
-      .on("mouseout", function () {
+      .on("mouseout", function (this: SVGCircleElement) {
         d3.select(this).transition().duration(200).attr("r", 6);
       });
 

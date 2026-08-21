@@ -950,10 +950,10 @@ export default function Molecules() {
                       }`}>
                         <CardHeader>
                           {/* Image 2D PubChem */}
-                          {(molecule as any).pubchem_cid && (
+                          {(molecule as any).pubchemCid && (
                             <div className="w-full h-28 mb-3 rounded-lg overflow-hidden bg-white/5 border border-border flex items-center justify-center">
                               <img
-                                src={`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${(molecule as any).pubchem_cid}/PNG?image_size=200x150`}
+                                src={`https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/${(molecule as any).pubchemCid}/PNG?image_size=200x150`}
                                 alt={`Structure 2D de ${molecule.name}`}
                                 className="max-h-full max-w-full object-contain p-1"
                                 loading="lazy"
@@ -1001,12 +1001,12 @@ export default function Molecules() {
                                 </Badge>
                               )}
                               {/* Indicateurs de source d'enrichissement */}
-                              {(molecule as any).pubchem_cid && (
+                              {(molecule as any).pubchemCid && (
                                 <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200 dark:bg-green-950/50 dark:text-green-400 dark:border-green-800">
                                   PubChem
                                 </Badge>
                               )}
-                              {(molecule as any).chebi_id && !(molecule as any).pubchem_cid && (
+                              {(molecule as any).chebiId && !(molecule as any).pubchemCid && (
                                 <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/50 dark:text-blue-400 dark:border-blue-800">
                                   ChEBI
                                 </Badge>

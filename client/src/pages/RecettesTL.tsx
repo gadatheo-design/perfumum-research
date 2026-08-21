@@ -291,13 +291,11 @@ function TLRecipeCard({ recipe, expanded, onToggle }: { recipe: any; expanded: b
 
 // Comparison Table Component
 function ComparisonTable({ recipes }: { recipes: any[] }) {
-  const parseFormula = (formula: string) => {
-    try {
-      return safeJsonParse(formula, null);
-    } catch {
-      return {};
-    }
-  };
+  // `safeJsonParse` ne lève pas : le `catch` était mort, et le repli `null`
+  // faisait planter `Object.keys(formula)` puis `formula[ingredient]` dès
+  // qu'une recette avait une formule vide ou mal formée.
+  const parseFormula = (formula: string): Record<string, { percent?: number; note?: string }> =>
+    safeJsonParse(formula, {});
 
   // Get all unique ingredients across all recipes
   const allIngredients = useMemo(() => {

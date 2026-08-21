@@ -365,8 +365,11 @@ export async function getMoleculeWithRelations(id: number) {
   // Get molecule
   const moleculesList = await db.select().from(molecules).where(eq(molecules.id, id));
   if (moleculesList.length === 0) return null;
-  const mol = parseMoleculeJsonFields(moleculesList[0] as Record<string, unknown>);
-  
+  // Même remise en type que `getMoleculeById` : sans elle, la molécule sort
+  // en `Record<string, unknown>` et tous ses champs arrivent en `unknown`
+  // jusque dans les pages qui la consomment.
+  const mol = parseMoleculeJsonFields(moleculesList[0] as Record<string, unknown>) as Molecule;
+
   // Get related recettes via molecule_recettes
   const relatedRecettes = await db
     .select({

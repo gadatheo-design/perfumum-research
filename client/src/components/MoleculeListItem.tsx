@@ -24,8 +24,8 @@ interface MoleculeListItemProps {
     radarSweetness: number | null;
     radarSpiciness: number | null;
     radarEarthiness: number | null;
-    pubchem_cid?: number | null;
-    chebi_id?: string | null;
+    pubchemCid?: number | null;
+    chebiId?: string | null;
     validationStatus?: string | null;
   };
   isSelected: boolean;
@@ -102,12 +102,12 @@ export function MoleculeListItem({
               </Badge>
             )}
             {/* Indicateurs de source d'enrichissement */}
-            {molecule.pubchem_cid && (
+            {molecule.pubchemCid && (
               <Badge variant="outline" className="shrink-0 text-xs bg-green-50 text-green-700 border-green-200 dark:bg-green-950/50 dark:text-green-400 dark:border-green-800">
                 PubChem
               </Badge>
             )}
-            {molecule.chebi_id && !molecule.pubchem_cid && (
+            {molecule.chebiId && !molecule.pubchemCid && (
               <Badge variant="outline" className="shrink-0 text-xs bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/50 dark:text-blue-400 dark:border-blue-800">
                 ChEBI
               </Badge>

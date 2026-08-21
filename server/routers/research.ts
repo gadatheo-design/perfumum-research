@@ -49,11 +49,11 @@ export const researchRouter = router({
         let queryParts: string[] = [`SELECT * FROM research_claims WHERE 1=1`];
         
         if (input.type) {
-          queryParts.push(` AND claimType = '${input.type}'`);
+          queryParts.push(` AND claimType = ${sqlLiteral(input.type)}`);
         }
         
         if (input.status) {
-          queryParts.push(` AND status = '${input.status}'`);
+          queryParts.push(` AND status = ${sqlLiteral(input.status)}`);
         }
         
         if (input.search) {
@@ -111,11 +111,11 @@ export const researchRouter = router({
         let queryParts: string[] = [`SELECT * FROM research_sources WHERE 1=1`];
         
         if (input.quality) {
-          queryParts.push(` AND quality = '${input.quality}'`);
+          queryParts.push(` AND quality = ${sqlLiteral(input.quality)}`);
         }
         
         if (input.status) {
-          queryParts.push(` AND status = '${input.status}'`);
+          queryParts.push(` AND status = ${sqlLiteral(input.status)}`);
         }
         
         if (input.search) {
@@ -288,8 +288,12 @@ export const researchRouter = router({
       return {
         success: true,
         data: {
-          totalClaims: ((claimsResult as CountRow[])[0]?.total || 0),
-          totalSources: ((sourcesResult as CountRow[])[0]?.total || 0),
+          // `Number(...)` : selon la configuration du pilote, un COUNT(*) peut
+          // revenir sous forme de chaîne. Sans conversion, le client comparait
+          // et divisait des chaînes — la moyenne « sources par claim »
+          // devenait fausse.
+          totalClaims: Number((claimsResult as CountRow[])[0]?.total ?? 0),
+          totalSources: Number((sourcesResult as CountRow[])[0]?.total ?? 0),
           claimsByType: claimsByType as SqlRow[],
           sourcesByQuality: sourcesByQuality as SqlRow[],
         },
@@ -369,14 +373,19 @@ export const researchRouter = router({
         
         let query = `SELECT * FROM tps_genes WHERE 1=1`;
         
+        // Les trois filtres arrivaient bruts dans la requête : une chaîne
+        // contenant une quote suffisait à sortir du littéral. La procédure est
+        // publique, donc l'entrée n'est contrainte par rien d'autre que zod,
+        // qui n'accepte ici qu'un `string` quelconque.
         if (input?.productClass) {
-          query += ` AND product_class = '${input.productClass}'`;
+          query += ` AND product_class = ${sqlLiteral(input.productClass)}`;
         }
         if (input?.pathway) {
-          query += ` AND pathway = '${input.pathway}'`;
+          query += ` AND pathway = ${sqlLiteral(input.pathway)}`;
         }
         if (input?.search) {
-          query += ` AND (name LIKE '%${input.search}%' OR main_product LIKE '%${input.search}%' OR olfactory_notes LIKE '%${input.search}%')`;
+          const pattern = sqlLike(input.search);
+          query += ` AND (name LIKE ${pattern} OR main_product LIKE ${pattern} OR olfactory_notes LIKE ${pattern})`;
         }
         
         query += ` ORDER BY product_class, name`;
@@ -504,17 +513,23 @@ export const researchRouter = router({
         if (input?.moleculeId) {
           query += ` AND tgm.molecule_id = ${input.moleculeId}`;
         }
+        // `tpsGeneId` et `moleculeId` sont des `z.number()` : rien à échapper.
+        // Les deux filtres suivants sont des chaînes libres, et arrivaient
+        // brutes dans la requête.
         if (input?.relationshipType) {
-          query += ` AND tgm.relationship_type = '${input.relationshipType}'`;
+          query += ` AND tgm.relationship_type = ${sqlLiteral(input.relationshipType)}`;
         }
         if (input?.confidenceLevel) {
-          query += ` AND tgm.confidence_level = '${input.confidenceLevel}'`;
+          query += ` AND tgm.confidence_level = ${sqlLiteral(input.confidenceLevel)}`;
         }
-        
+
         query += ` ORDER BY tg.name, m.name`;
-        
+
         const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
-        return (result as SqlRow[])[0] || [];
+        // `result` EST déjà la liste des lignes : renvoyer `result[0]` ne
+        // rendait que la première, sous forme d'objet là où le client attend
+        // un tableau.
+        return Array.isArray(result) ? result : [];
       } catch (error: unknown) {
         console.error("Error fetching TPS gene-molecule links:", error);
         return [];
@@ -543,7 +558,7 @@ export const researchRouter = router({
         const query = `
           INSERT INTO tps_gene_molecules 
             (tps_gene_id, molecule_id, relationship_type, confidence_level, evidence_source, notes)
-          VALUES (${input.tpsGeneId}, ${input.moleculeId}, '${input.relationshipType}', '${input.confidenceLevel}', ${input.evidenceSource ? `'${input.evidenceSource}'` : 'NULL'}, ${input.notes ? `'${input.notes}'` : 'NULL'})
+          VALUES (${input.tpsGeneId}, ${input.moleculeId}, ${sqlLiteral(input.relationshipType)}, ${sqlLiteral(input.confidenceLevel)}, ${sqlLiteral(input.evidenceSource ?? null)}, ${sqlLiteral(input.notes ?? null)})
         `;
         
         const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
@@ -774,7 +789,7 @@ export const researchRouter = router({
           geneFilter = ` AND tg.id = ${input.geneId}`;
         }
         if (input.pathway !== "all") {
-          geneFilter += ` AND tg.pathway = '${input.pathway}'`;
+          geneFilter += ` AND tg.pathway = ${sqlLiteral(input.pathway)}`;
         }
 
         const pathsQuery = `
@@ -926,10 +941,10 @@ export const researchRouter = router({
         `;
 
         if (input.transformationType && input.transformationType !== 'all') {
-          query += ` AND mt.transformation_type = '${input.transformationType}'`;
+          query += ` AND mt.transformation_type = ${sqlLiteral(input.transformationType)}`;
         }
         if (input.relevanceContext && input.relevanceContext !== 'all') {
-          query += ` AND mt.relevance_context = '${input.relevanceContext}'`;
+          query += ` AND mt.relevance_context = ${sqlLiteral(input.relevanceContext)}`;
         }
         if (input.sourceMoleculeName) {
           // Search in both source and product molecule names, case-insensitive
@@ -1115,7 +1130,7 @@ export const researchRouter = router({
           conditions.push(`tri.recette_id = ${input.recetteId}`);
         }
         if (input?.impactType) {
-          conditions.push(`tri.impact_type = '${input.impactType}'`);
+          conditions.push(`tri.impact_type = ${sqlLiteral(input.impactType)}`);
         }
         
         if (conditions.length > 0) {
@@ -1410,10 +1425,10 @@ export const researchRouter = router({
         `;
 
         if (input?.startMolecule) {
-          query += ` AND (mt.source_molecule_name LIKE '%${input.startMolecule}%' OR mt.product_molecule_name LIKE '%${input.startMolecule}%')`;
+          query += ` AND (mt.source_molecule_name LIKE ${sqlLike(input.startMolecule)} OR mt.product_molecule_name LIKE ${sqlLike(input.startMolecule)})`;
         }
         if (input?.transformationType && input.transformationType !== 'all') {
-          query += ` AND mt.transformation_type = '${input.transformationType}'`;
+          query += ` AND mt.transformation_type = ${sqlLiteral(input.transformationType)}`;
         }
 
         query += ` ORDER BY mt.source_molecule_name`;
@@ -1663,10 +1678,10 @@ export const researchRouter = router({
         let query = `SELECT * FROM research_publications WHERE 1=1`;
         
         if (input?.focus) {
-          query += ` AND research_focus = '${input.focus}'`;
+          query += ` AND research_focus = ${sqlLiteral(input.focus)}`;
         }
         if (input?.subject) {
-          query += ` AND subject_matter = '${input.subject}'`;
+          query += ` AND subject_matter = ${sqlLiteral(input.subject)}`;
         }
         if (input?.search) {
           const searchTerm = sqlLike(input.search);
@@ -1734,7 +1749,7 @@ export const researchRouter = router({
         let query = `SELECT * FROM analytical_methods WHERE 1=1`;
         
         if (input?.category) {
-          query += ` AND category = '${input.category}'`;
+          query += ` AND category = ${sqlLiteral(input.category)}`;
         }
         if (input?.search) {
           const searchTerm = sqlLike(input.search);
@@ -1776,7 +1791,7 @@ export const researchRouter = router({
         let query = `SELECT * FROM researchers WHERE 1=1`;
         
         if (input?.status) {
-          query += ` AND status = '${input.status}'`;
+          query += ` AND status = ${sqlLiteral(input.status)}`;
         }
         if (input?.search) {
           const searchTerm = sqlLike(input.search);
@@ -1819,10 +1834,10 @@ export const researchRouter = router({
         let query = `SELECT * FROM research_institutions WHERE 1=1`;
         
         if (input?.country) {
-          query += ` AND country = '${input.country}'`;
+          query += ` AND country = ${sqlLiteral(input.country)}`;
         }
         if (input?.type) {
-          query += ` AND institution_type = '${input.type}'`;
+          query += ` AND institution_type = ${sqlLiteral(input.type)}`;
         }
         if (input?.search) {
           const searchTerm = sqlLike(input.search);

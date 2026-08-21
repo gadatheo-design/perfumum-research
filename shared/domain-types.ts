@@ -81,10 +81,14 @@ export interface MoleculeExtended {
   radarSweetness?: number | null;
   radarSpiciness?: number | null;
   radarEarthiness?: number | null;
-  pubchem_cid?: number | null;
+  // Les colonnes SQL s'appellent `pubchem_cid` et `chebi_id`, mais Drizzle
+  // expose les propriétés en camelCase (drizzle/schema-modules/molecules.ts).
+  // Ce type déclarait les noms SQL : toute lecture renvoyait `undefined` en
+  // silence, et les badges PubChem/ChEBI ne s'affichaient jamais.
+  pubchemCid?: number | null;
   pubchemSynonyms?: string[] | null;
   pubchemEnrichedAt?: Date | null;
-  chebi_id?: string | null;
+  chebiId?: string | null;
   chebiEnrichedAt?: Date | null;
   coconutId?: string | null;
   npLikenessScore?: string | null;
