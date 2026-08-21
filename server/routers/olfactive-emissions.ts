@@ -14,6 +14,48 @@ async function getDb() {
   return getMysqlConnection();
 }
 
+/**
+ * Colonnes communes aux deux requêtes d'émissions. Les noms sont ceux du SQL :
+ * ces requêtes sont écrites à la main et ne passent pas par le mappage
+ * camelCase de Drizzle.
+ */
+export interface OlfactiveEmissionRow {
+  id: number;
+  plant_id: number | null;
+  molecule_id: number | null;
+  plant_part: string | null;
+  extraction_method: string | null;
+  percentage: string | number | null;
+  percentage_min: string | number | null;
+  percentage_max: string | number | null;
+  concentration_ppm: string | number | null;
+  concentration_unit: string | null;
+  analysis_method: string | null;
+  analysis_source: string | null;
+  geographic_origin: string | null;
+  role: string | null;
+  is_signature: number | boolean | null;
+  notes: string | null;
+  source_table: string | null;
+}
+
+/** Émissions vues depuis une plante : la molécule est jointe. */
+export interface OlfactiveEmissionByPlantRow extends OlfactiveEmissionRow {
+  molecule_name: string | null;
+  cas_number: string | null;
+  formula: string | null;
+  chemical_family: string | null;
+}
+
+/** Émissions vues depuis une molécule : la plante et le tabac sont joints. */
+export interface OlfactiveEmissionByMoleculeRow extends OlfactiveEmissionRow {
+  tabac_id: number | null;
+  plant_name: string | null;
+  latin_name: string | null;
+  plant_family: string | null;
+  tabac_name: string | null;
+}
+
 export const olfactiveEmissionsRouter = router({
 
   /**
@@ -87,7 +129,7 @@ export const olfactiveEmissionsRouter = router({
         );
 
         return {
-          emissions: rows,
+          emissions: rows as unknown as OlfactiveEmissionByPlantRow[],
           total: (countRow[0] as { total: number }).total,
         };
       } finally {
@@ -145,7 +187,7 @@ export const olfactiveEmissionsRouter = router({
         );
 
         return {
-          emissions: rows,
+          emissions: rows as unknown as OlfactiveEmissionByMoleculeRow[],
           total: (countRow[0] as { total: number }).total,
         };
       } finally {

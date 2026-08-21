@@ -1504,7 +1504,7 @@ export default function PlantDetail() {
                   <div className="space-y-4">
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Badge variant="outline">{olfactiveEmissions?.total} composés identifiés</Badge>
-                      {olfactiveEmissions?.emissions.some((e: React.ChangeEvent<HTMLInputElement>) => e.role === 'signature') && (
+                      {olfactiveEmissions?.emissions.some((e) => e.role === 'signature') && (
                         <Badge className="bg-amber-500/10 text-amber-700 border-amber-300">Molécules signature présentes</Badge>
                       )}
                     </div>
@@ -1521,7 +1521,7 @@ export default function PlantDetail() {
                           </tr>
                         </thead>
                         <tbody>
-                          {olfactiveEmissions?.emissions.map((e: React.ChangeEvent<HTMLInputElement>) => (
+                          {olfactiveEmissions?.emissions.map((e) => (
                             <tr key={e.id} className="border-b hover:bg-muted/30 transition-colors">
                               <td className="py-2 pr-4">
                                 {e.molecule_id ? (

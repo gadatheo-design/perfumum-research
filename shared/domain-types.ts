@@ -128,12 +128,34 @@ export interface MoleculeExtended {
 
 // ─── PlantExtended ───────────────────────────────────────────────────────────
 
+/**
+ * Certification / traçabilité affichée sur la fiche plante.
+ *
+ * ⚠ La table `plants` ne déclare AUCUNE colonne `certifications`, ni dans
+ * `drizzle/schema-modules/plants.ts`, ni dans une seule des 96 migrations
+ * (`terroirs` et `plant_samples` en ont une, pas `plants`). Comme
+ * `getPlantById` fait un `db.select()` Drizzle, qui ne ramène que les colonnes
+ * déclarées, `plant.certifications` est toujours `undefined` : l'onglet
+ * « Traçabilité » de PlantDetail ne s'affiche jamais. À trancher avec Ted —
+ * soit la colonne existe en base et il faut la déclarer, soit la
+ * fonctionnalité n'a jamais été terminée.
+ *
+ * Les champs ci-dessous sont ceux que la page lit réellement ; les quatre
+ * premiers étaient seuls déclarés, et `status`, `notes`, `certifier`,
+ * `sourceUrl` manquaient.
+ */
 export interface PlantCertification {
   name?: string;
   type?: string;
   body?: string;
   year?: number;
   scope?: string;
+  status?: string;
+  notes?: string;
+  certifier?: string;
+  sourceUrl?: string;
+  /** Certaines entrées utilisent le nom SQL plutôt que le camelCase. */
+  source_url?: string;
 }
 
 export interface PlantThreatFactors {
@@ -162,6 +184,18 @@ export interface PlantExtended {
   family?: string | null;
   genus?: string | null;
   species?: string | null;
+  subspecies?: string | null;
+  // Rangs taxonomiques supérieurs : colonnes réelles de `plants`, désormais
+  // déclarées dans drizzle/schema-modules/plants.ts.
+  kingdom?: string | null;
+  division?: string | null;
+  orderName?: string | null;
+  // Colonnes de `plants` que ce type omettait, alors que la fiche plante les
+  // lit : elles ressortaient en `undefined` à la vérification de types.
+  category?: string | null;
+  origin?: string | null;
+  climaticAxis?: string | null;
+  chemotypes?: string | null;
   commonNames?: string | null;
   description?: string | null;
   materialType?: string | null;
