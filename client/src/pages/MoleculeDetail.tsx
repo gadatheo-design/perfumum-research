@@ -11,6 +11,7 @@ import { MoleculeDetailSkeleton } from "@/components/skeletons";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from "recharts";
+import { Card, CardContent } from "@/components/ui/card";
 import { RecommendationsCard } from "@/components/RecommendationsCard";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -29,7 +30,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 import { useBreadcrumbSegments } from "@/contexts/BreadcrumbContext";
-import type { MoleculeExtended } from "../../../../shared/domain-types";
+import type { MoleculeExtended } from "@shared/domain-types";
 import { PerfumesTab, Structure3DTab, SynergiesTab, RecetteSynergiesSection, PyrfumeSection, SimilarMolecules, MoleculeNomenclatureTab, MoleculeOverviewTab, MoleculeScientificTab, MoleculeTransformationsTab, MoleculeBiosynthesisTab, MoleculeKGTab } from '@/components/molecule';
 
 // Composant carte article PubMed avec bouton d'import dans PERFUMUM
@@ -319,7 +320,7 @@ function PyrolysisSection({ moleculeName }: { moleculeName: string }) {
         
         {hasTransformations ? (
           <div className="space-y-4">
-            {transformations?.map((t: unknown, idx: number) => (
+            {transformations?.map((t, idx: number) => (
               <div key={idx} className="p-4 bg-muted/50 rounded-lg border">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
@@ -470,7 +471,7 @@ function AddPlantSourceModal({ moleculeId, onSuccess }: { moleculeId: number; on
             {searching && <p className="text-xs text-muted-foreground mt-1">Recherche...</p>}
             {searchResults && searchResults?.length > 0 && !selectedPlant && (
               <div className="mt-1 border rounded-md bg-popover shadow-md max-h-48 overflow-y-auto">
-                {searchResults?.map((plant: unknown) => (
+                {searchResults?.map((plant) => (
                   <button
                     key={plant.id}
                     className="w-full text-left px-3 py-2 hover:bg-muted transition-colors text-sm"
@@ -596,7 +597,7 @@ function PlantSourcesSection({ moleculeId }: { moleculeId: number }) {
         
         {plantSources && plantSources?.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {plantSources?.map((source: unknown) => (
+            {plantSources?.map((source) => (
               <div key={source.plant.id} className="relative group">
                 <Link href={`/plants/${source.plant.id}`}>
                   <div className="p-4 bg-muted/50 rounded-lg border hover:border-primary/50 transition-colors cursor-pointer">
@@ -1537,7 +1538,7 @@ export default function MoleculeDetail() {
                   </div>
                 ) : moleculeOrigins && moleculeOrigins?.length > 0 ? (
                   <div className="space-y-4">
-                    {moleculeOrigins?.map((origin: unknown) => (
+                    {moleculeOrigins?.map((origin) => (
                       <div 
                         key={origin.id} 
                         className={`p-4 rounded-lg border ${origin.isPrimaryOrigin ? 'bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800' : 'bg-muted/50'}`}
@@ -1655,7 +1656,7 @@ export default function MoleculeDetail() {
                   </div>
                 ) : hasIfraRestrictions ? (
                   <div className="space-y-6">
-                    {ifraRestrictions?.map((restriction: unknown) => (
+                    {ifraRestrictions?.map((restriction) => (
                       <div key={restriction.id} className="space-y-4">
                         {/* En-tête de la restriction */}
                         <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
@@ -1844,7 +1845,7 @@ export default function MoleculeDetail() {
                             </tr>
                           </thead>
                           <tbody>
-                            {olfactiveEmissions?.emissions.map((e: unknown) => (
+                            {olfactiveEmissions?.emissions.map((e) => (
                               <tr key={e.id} className="border-b hover:bg-muted/30 transition-colors">
                                 <td className="py-2 pr-4">
                                   {e.plant_id ? (
@@ -1950,7 +1951,7 @@ export default function MoleculeDetail() {
                     <p className="text-xs text-muted-foreground">
                       {scientificPubs?.length} publication{scientificPubs?.length > 1 ? 's' : ''} répertoriée{scientificPubs?.length > 1 ? 's' : ''} dans la base PERFUMUM
                     </p>
-                    {(scientificPubs as unknown[]).map((pub: unknown) => (
+                    {(scientificPubs as unknown[]).map((pub) => (
                       <Card key={pub.id} className="hover:shadow-sm transition-shadow">
                         <CardContent className="p-4 space-y-1.5">
                           <div className="flex items-start justify-between gap-2">
@@ -2014,7 +2015,7 @@ export default function MoleculeDetail() {
                       </Button>
                     </Link>
                   </div>
-                  {(moleculeStorylines as unknown[]).map((storyline: unknown) => (
+                  {(moleculeStorylines as unknown[]).map((storyline) => (
                     <div key={storyline.id} className="p-4 rounded-lg border hover:shadow-sm transition-shadow">
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex-1 min-w-0">
@@ -2090,7 +2091,7 @@ export default function MoleculeDetail() {
               {
                 label: "Recettes utilisant cette molécule",
                 type: "recette",
-                items: (linkedRecettes || []).map((r: unknown) => ({
+                items: (linkedRecettes || []).map((r) => ({
                   id: r.id,
                   label: r.name,
                   sublabel: r.family || r.category || undefined,
@@ -2103,7 +2104,7 @@ export default function MoleculeDetail() {
               {
                 label: "Molécules similaires",
                 type: "molecule",
-                items: (similarMolecules || []).map((m: unknown) => ({
+                items: (similarMolecules || []).map((m) => ({
                   id: m.id,
                   label: m.name,
                   sublabel: m.family || m.chemicalClass || undefined,
