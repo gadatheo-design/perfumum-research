@@ -7,6 +7,7 @@ import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, lte, in
 import { drizzle } from "drizzle-orm/mysql2";
 import * as schema from "../../drizzle/schema";
 import { ENV } from '../_core/env';
+import { logger } from '../_core/logger';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
 import { expandWithScientificNames, getScientificDictionaryStats } from '../../shared/botanicalLatinNames';
 
@@ -25,7 +26,9 @@ export async function getDb() {
         schema,
       });
     } catch (error) {
-      console.warn("[Database] Failed to connect:", error);
+      // Le plus important à voir en production : sans base, l'application
+      // répond mais ne sert plus rien d'utile.
+      logger.error("connexion à la base impossible", { error });
       _db = null;
     }
   }
@@ -86,7 +89,7 @@ export async function upsertUser(user: schema.InsertUser): Promise<void> {
       set: updateSet,
     });
   } catch (error) {
-    console.error("[Database] Failed to upsert user:", error);
+    logger.error("échec de l'enregistrement utilisateur", { error });
     throw error;
   }
 }

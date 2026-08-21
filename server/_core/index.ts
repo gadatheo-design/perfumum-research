@@ -11,6 +11,12 @@ import { createContext } from "./context";
 import { serveStatic } from "./static";
 import { initWebSocket } from "./websocket";
 import { trpcRateLimiter } from "./rateLimiter";
+import { logger } from "./logger";
+import {
+  registerErrorHandler,
+  registerHttpLogging,
+  registerProcessHandlers,
+} from "./httpLogging";
 import cors from "cors";
 
 function isPortAvailable(port: number): Promise<boolean> {
@@ -35,6 +41,10 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 async function startServer() {
   const app = express();
   const server = createServer(app);
+
+  // Journalisation en tout premier : on veut voir même les requêtes rejetées
+  // par les middlewares suivants (corps trop volumineux, quota atteint…).
+  registerHttpLogging(app);
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
@@ -87,6 +97,10 @@ async function startServer() {
     serveStatic(app);
   }
 
+  // Doit être enregistré APRÈS toutes les routes : Express sélectionne le
+  // gestionnaire d'erreurs par ordre de déclaration.
+  registerErrorHandler(app);
+
   // Initialiser le WebSocket pour la collaboration temps réel
   initWebSocket(server);
 
@@ -94,12 +108,20 @@ async function startServer() {
   const port = await findAvailablePort(preferredPort);
 
   if (port !== preferredPort) {
-    console.log(`Port ${preferredPort} is busy, using port ${port} instead`);
+    logger.warn("port occupé, repli", { demandé: preferredPort, utilisé: port });
   }
 
   server.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}/`);
+    logger.info("serveur démarré", {
+      url: `http://localhost:${port}/`,
+      env: process.env.NODE_ENV ?? "development",
+    });
   });
 }
 
-startServer().catch(console.error);
+registerProcessHandlers();
+
+startServer().catch(error => {
+  logger.error("échec du démarrage du serveur", { error });
+  process.exit(1);
+});

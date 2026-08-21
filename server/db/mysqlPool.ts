@@ -21,6 +21,7 @@
 
 import mysql from "mysql2/promise";
 import { ENV } from "../_core/env";
+import { logger } from "../_core/logger";
 
 let _pool: mysql.Pool | null = null;
 
@@ -30,6 +31,7 @@ function getPool(): mysql.Pool {
     if (!uri) {
       throw new Error("DATABASE_URL is not configured");
     }
+    logger.info("création du pool MySQL", { connectionLimit: 10 });
     _pool = mysql.createPool({
       uri,
       waitForConnections: true,
