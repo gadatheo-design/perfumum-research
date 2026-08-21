@@ -3,7 +3,7 @@ import { COOKIE_NAME } from "@shared/const";
 import { z } from "zod";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
+import { publicProcedure, protectedProcedure, router, mergeRouters } from "./_core/trpc";
 import { TRPCError } from "@trpc/server";
 import * as db from "./db";
 import {
@@ -521,7 +521,20 @@ export const appRouter = router({
   // MATIÈRES PREMIÈRES ET RELATIONS MOLÉCULE-PLANTE-TERROIR
   // ============================================================================
   
-  rawMaterials: rawMaterialsInlineRouter,
+  // `rawMaterialsRouter` était importé mais jamais monté : seul le routeur
+  // « inline » l'était. Toutes les procédures d'inventaire (getAllInventory,
+  // addInventoryEntry, getInventoryStats, getInventory,
+  // updateInventoryQuantity), ainsi que getCategories, getOrigins,
+  // getMsSpectra, searchByMolecule et updateThermalData, étaient donc
+  // injoignables — la page Inventaire, la modale d'ajout et l'onglet spectres
+  // appelaient des chemins tRPC inexistants.
+  //
+  // `mergeRouters` refuse les noms en double. Les sept procédures que les deux
+  // fichiers définissaient à l'identique (getAll, getById, getByMaterialId,
+  // getMolecules, getStats, create, getThermalMatrix) ont donc été retirées de
+  // `raw-materials.ts` : celles du routeur inline étaient les seules
+  // atteignables, aucune page ne change de forme de réponse.
+  rawMaterials: mergeRouters(rawMaterialsRouter, rawMaterialsInlineRouter),
   recetteRawMaterials: recetteRawMaterialsRouter,
   moleculePlantSources: moleculePlantSourcesRouter,
 

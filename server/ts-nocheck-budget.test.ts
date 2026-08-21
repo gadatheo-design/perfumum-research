@@ -17,7 +17,7 @@ import path from "path";
 import { describe, expect, it } from "vitest";
 
 /** Ne doit JAMAIS être augmenté. */
-const MAX_NOCHECK_FILES = 70;
+const MAX_NOCHECK_FILES = 66;
 
 function collect(dir: string, out: string[] = []): string[] {
   if (!fs.existsSync(dir)) return out;

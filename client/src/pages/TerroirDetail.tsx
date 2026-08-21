@@ -36,11 +36,16 @@ export default function TerroirDetail() {
     { enabled: terroirId > 0 }
   );
 
-  // Matières premières liées via les plantes
-  const { data: rawMaterialsByTerroir = [] } = trpc.crossLinks.getRawMaterialsByTerroir?.useQuery?.(
+  // Matières premières liées via les plantes.
+  // `crossLinks` n'expose aucun `getRawMaterialsByTerroir` : l'ancien appel
+  // partait sur un chemin tRPC inexistant. Le `?.` ne protégeait rien — le
+  // proxy tRPC répond à n'importe quelle clé — la requête échouait donc
+  // silencieusement et la section restait vide. La procédure existe sous
+  // `rawMaterials.getByTerroir`, adossée à la même fonction de base.
+  const { data: rawMaterialsByTerroir = [] } = trpc.rawMaterials.getByTerroir.useQuery(
     terroirId,
     { enabled: terroirId > 0 }
-  ) ?? { data: [] };
+  );
   
   // Terroirs similaires - désactivé pour l'instant
   const similarTerroirs: any[] = [];

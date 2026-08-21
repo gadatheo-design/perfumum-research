@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
@@ -46,13 +45,16 @@ export default function ChemotypesExplorer() {
   const [expandedPlant, setExpandedPlant] = useState<number | null>(null);
 
   // Récupérer les plantes avec chémotypes
-  const { data: plantsData, isLoading } = trpc.plants.list.useQuery({});
+  // `plants.list` ne prend aucun argument et renvoie directement le tableau
+  // des plantes. Le code lisait `plantsData.plants`, toujours `undefined` :
+  // la page n'affichait jamais un seul chémotype.
+  const { data: plantsData, isLoading } = trpc.plants.list.useQuery();
 
   // Filtrer et transformer les données
   const plantsWithChemotypes = useMemo(() => {
-    if (!plantsData?.plants) return [];
-    
-    return plantsData?.plants
+    if (!plantsData) return [];
+
+    return plantsData
       .filter((plant: any) => plant.chemotypes && plant.chemotypes.length > 2)
       .map((plant: any) => {
         let chemotypes: Chemotype[] = [];

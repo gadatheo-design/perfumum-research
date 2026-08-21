@@ -4,120 +4,17 @@ import { getDb } from "../db";
 import { rawMaterials, rawMaterialMolecules, molecules, extendedSuppliers, extendedSupplierMaterials, inventoryEntries } from "../../drizzle/schema";
 import { eq, like, desc, asc, sql, and, or } from "drizzle-orm";
 
+/**
+ * Complément du routeur `rawMaterialsInlineRouter`.
+ *
+ * Ce fichier définissait aussi getAll, getById, getByMaterialId, getMolecules,
+ * getStats, create et getThermalMatrix, en doublon du routeur inline. Comme
+ * `rawMaterialsRouter` n'était monté nulle part, ces doublons n'ont jamais été
+ * exécutés : ils ont été supprimés. Ne restent ici que les procédures que le
+ * routeur inline n'a pas — inventaire, catégories, origines, spectres MS —,
+ * fusionnées avec lui dans `server/routers.ts`.
+ */
 export const rawMaterialsRouter = router({
-  getAll: publicProcedure
-    .input(z.object({
-      category: z.string().optional(),
-      search: z.string().optional(),
-      limit: z.number().optional().default(50),
-      offset: z.number().optional().default(0),
-    }).optional())
-    .query(async ({ input }) => {
-      const db = await getDb();
-      if (!db) return [];
-      const conditions = [];
-      if (input?.category) conditions.push(eq(rawMaterials.category, input.category as any));
-      if (input?.search) {
-        conditions.push(or(
-          like(rawMaterials.name, `%${input.search}%`),
-          like(rawMaterials.latinName, `%${input.search}%`)
-        ));
-      }
-      return db.select().from(rawMaterials)
-        .where(conditions.length > 0 ? and(...conditions) : undefined)
-        .orderBy(desc(rawMaterials.createdAt))
-        .limit(input?.limit || 50)
-        .offset(input?.offset || 0);
-    }),
-
-  getById: publicProcedure
-    .input(z.object({ id: z.number() }))
-    .query(async ({ input }) => {
-      const db = await getDb();
-      if (!db) return null;
-      const [result] = await db.select().from(rawMaterials).where(eq(rawMaterials.id, input.id)).limit(1);
-      return result || null;
-    }),
-
-  getByMaterialId: publicProcedure
-    .input(z.object({ materialId: z.string() }))
-    .query(async ({ input }) => {
-      const db = await getDb();
-      if (!db) return null;
-      const [result] = await db.select().from(rawMaterials).where(eq(rawMaterials.materialId, input.materialId)).limit(1);
-      return result || null;
-    }),
-
-  getMolecules: publicProcedure
-    .input(z.object({ rawMaterialId: z.number() }))
-    .query(async ({ input }) => {
-      const db = await getDb();
-      if (!db) return [];
-      return db.select({
-        id: rawMaterialMolecules.id,
-        percentage: rawMaterialMolecules.percentage,
-        isSignature: rawMaterialMolecules.isSignature,
-        variability: rawMaterialMolecules.variability,
-        notes: rawMaterialMolecules.notes,
-        molecule: {
-          id: molecules.id,
-          name: molecules.name,
-          casNumber: molecules.casNumber,
-          chemicalFormula: molecules.chemicalFormula,
-          family: molecules.family,
-        }
-      })
-        .from(rawMaterialMolecules)
-        .innerJoin(molecules, eq(rawMaterialMolecules.moleculeId, molecules.id))
-        .where(eq(rawMaterialMolecules.rawMaterialId, input.rawMaterialId))
-        .orderBy(desc(rawMaterialMolecules.percentage));
-    }),
-
-  getStats: publicProcedure.query(async () => {
-    const db = await getDb();
-    if (!db) return { total: 0, byCategory: [], byOrigin: [] };
-    const [totalCount] = await db.select({ count: sql<number>`COUNT(*)` }).from(rawMaterials);
-    const categoryStats = await db.select({
-      category: rawMaterials.category,
-      count: sql<number>`COUNT(*)`
-    }).from(rawMaterials).groupBy(rawMaterials.category);
-    const originStats = await db.select({
-      origin: rawMaterials.originCountry,
-      count: sql<number>`COUNT(*)`
-    }).from(rawMaterials).groupBy(rawMaterials.originCountry).orderBy(desc(sql`COUNT(*)`)).limit(10);
-    return { total: totalCount?.count || 0, byCategory: categoryStats, byOrigin: originStats };
-  }),
-
-  create: protectedProcedure
-    .input(z.object({
-      materialId: z.string(),
-      name: z.string(),
-      latinName: z.string().optional(),
-      category: z.enum([
-        "huile_essentielle", "absolue", "concrete", "resinoid",
-        "co2_extract", "teinture", "infusion", "attar",
-        "resine", "baume", "cire", "hydrolat",
-        "dilution", "matiere_brute", "autre"
-      ]),
-      originCountry: z.string().optional(),
-      extractionNotes: z.string().optional(),
-      usageNotes: z.string().optional(),
-    }))
-    .mutation(async ({ input }) => {
-      const db = await getDb();
-      if (!db) throw new Error("Database not available");
-      const [result] = await db.insert(rawMaterials).values({
-        materialId: input.materialId,
-        name: input.name,
-        latinName: input.latinName,
-        category: input.category as any,
-        originCountry: input.originCountry,
-        extractionNotes: input.extractionNotes,
-        usageNotes: input.usageNotes,
-      });
-      return { success: true, id: (result as any).insertId };
-    }),
-
   searchByMolecule: publicProcedure
     .input(z.object({ moleculeName: z.string() }))
     .query(async ({ input }) => {
@@ -166,7 +63,7 @@ export const rawMaterialsRouter = router({
     .query(async ({ input }) => {
       const db = await getDb();
       if (!db) return [];
-      return db.select({
+      const rows = await db.select({
         entry: inventoryEntries,
         rawMaterial: {
           id: rawMaterials.id,
@@ -180,6 +77,12 @@ export const rawMaterialsRouter = router({
         .orderBy(desc(inventoryEntries.purchaseDate))
         .limit(input?.limit || 50)
         .offset(input?.offset || 0);
+
+      // Forme à plat : la page Inventaire lit `entry.quantity`,
+      // `entry.rawMaterialId`, `entry.purchaseDate`… directement. Cette
+      // procédure n'était montée nulle part, donc aucun autre appelant ne
+      // dépend de l'ancienne forme imbriquée.
+      return rows.map(({ entry, rawMaterial }) => ({ ...entry, rawMaterial }));
     }),
 
   addInventoryEntry: protectedProcedure
@@ -251,23 +154,6 @@ export const rawMaterialsRouter = router({
       .orderBy(desc(inventoryEntries.purchaseDate))
       .limit(5);
     return { totalEntries: totalEntries?.count || 0, totalValue: totalValue?.total || 0, recentEntries };
-  }),
-
-  getThermalMatrix: publicProcedure.query(async () => {
-    const db = await getDb();
-    if (!db) return [];
-    const [result] = await db.execute(sql`
-      SELECT id, name, material_id,
-        thermal_tri, thermal_sai, thermal_hpi,
-        thermal_volatility, thermal_survival, thermal_transformation,
-        thermal_smoke_harmony, thermal_irritant_risk,
-        thermal_fate, thermal_best_mode, thermal_constellation,
-        absorbe_behavior_water, absorbe_behavior_fat, absorbe_key_metrics
-      FROM raw_materials
-      WHERE thermal_tri IS NOT NULL
-      ORDER BY thermal_tri DESC, thermal_sai DESC
-    `) as unknown as [any[]];
-    return result as any[];
   }),
 
   updateThermalData: protectedProcedure

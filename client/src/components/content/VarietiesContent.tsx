@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -208,7 +207,7 @@ export function VarietiesContent() {
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
 
-  const { data: varieties, isLoading } = trpc.plantVarieties.list.useQuery();
+  const { data: varieties, isLoading } = trpc.plantVarieties.getAll.useQuery();
 
   const filteredVarieties = useMemo(() => {
     if (!varieties) return [];

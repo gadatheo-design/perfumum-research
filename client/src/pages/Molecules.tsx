@@ -288,8 +288,11 @@ export default function Molecules() {
   // Apply chemical family filter on top of other filters
   const finalFilteredMolecules = useMemo(() => {
     if (chemicalFamilyFilter === "all") return filteredMolecules;
-    if (!chemicalFamilyMoleculesData?.molecules) return [];
-    const moleculeIdsInFamily = new Set((chemicalFamilyMoleculesData as any).molecules?.map((m: any) => m.id) || []);
+    // `chemicalFamilies.getMoleculesById` renvoie directement le tableau des
+    // molécules. Le code cherchait une clé `.molecules` inexistante : filtrer
+    // par famille chimique ne renvoyait jamais aucun résultat.
+    if (!chemicalFamilyMoleculesData) return [];
+    const moleculeIdsInFamily = new Set(chemicalFamilyMoleculesData.map(m => m.id));
     return filteredMolecules.filter(m => moleculeIdsInFamily.has(m.id));
   }, [filteredMolecules, chemicalFamilyFilter, chemicalFamilyMoleculesData]);
 
@@ -629,7 +632,7 @@ export default function Molecules() {
                       </Select>
                       {chemicalFamilyFilter !== "all" && (
                         <p className="text-xs text-muted-foreground mt-2">
-                          {chemicalFamilyMoleculesData?.total || 0} molécule(s) dans cette famille
+                          {chemicalFamilyMoleculesData?.length ?? 0} molécule(s) dans cette famille
                         </p>
                       )}
                     </div>

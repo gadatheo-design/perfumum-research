@@ -78,7 +78,7 @@ export default function ReferenceEntityLinkManager() {
   const { data: references } = trpc.v3References.getAll.useQuery();
   const { data: links, isLoading: loadingLinks, refetch: refetchLinks } = trpc.referenceEntityLinks.getStats.useQuery();
   const { data: molecules } = trpc.molecules?.getAll.useQuery();
-  const { data: plants } = trpc.plants?.getAll.useQuery();
+  const { data: plants } = trpc.plants.list.useQuery();
   
   // Mutations
   const createLinkMutation = trpc.referenceEntityLinks.create.useMutation();

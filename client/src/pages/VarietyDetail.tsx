@@ -145,8 +145,11 @@ export default function VarietyDetail() {
     { varietyId },
     { enabled: varietyId > 0 }
   );
+  // `getAll` ne prend aucun argument (la pagination passée ici était ignorée)
+  // et renvoie directement le tableau. Le code lisait `.items` plus bas :
+  // la liste de sélection des variétés parentes était toujours vide.
   const { data: allVarieties } = trpc.plantVarieties.getAll.useQuery(
-    { page: 1, limit: 500 },
+    undefined,
     { enabled: addGenealogyOpen }
   );
   const addRelationshipMutation = trpc.genealogy.addRelationship.useMutation({
@@ -166,7 +169,7 @@ export default function VarietyDetail() {
     onError: (err) => toast({ title: "Erreur", description: err.message, variant: "destructive" }),
   });
 
-  const filteredVarieties = (allVarieties?.items ?? []).filter((v: any) =>
+  const filteredVarieties = (allVarieties ?? []).filter((v: any) =>
     v.id !== varietyId &&
     (varietySearch === "" ||
       v.name?.toLowerCase().includes(varietySearch.toLowerCase()) ||

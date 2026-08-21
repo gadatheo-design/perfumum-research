@@ -65,7 +65,9 @@ export default function SmilesBatch() {
           addLog({
             id: ++logIdRef.current,
             name: r.moleculeName,
-            identifier: mode === "cid" ? ("CID: " + r.pubchemCid) : ("CAS: " + r.casNumber),
+            // Les deux mutations renvoient des formes différentes ; le test
+            // `in` restreint l'union là où `mode` ne suffit pas à TypeScript.
+            identifier: "pubchemCid" in r ? `CID: ${r.pubchemCid}` : `CAS: ${r.casNumber}`,
             status: r.status,
             message: r.message,
             smiles: r.smiles,
