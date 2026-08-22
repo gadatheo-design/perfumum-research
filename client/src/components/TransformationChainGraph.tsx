@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * TransformationChainGraph - D3.js visualization of molecular transformation chains
  * Displays connected transformation sequences (e.g., limonène → p-cymène → toluène)
@@ -15,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, ZoomIn, ZoomOut, RotateCcw, Info, GitBranch, Network, X, ArrowRight } from "lucide-react";
 
-interface Node {
+interface Node extends d3.SimulationNodeDatum {
   id: string;
   name: string;
   type: "source" | "product" | "both";
@@ -27,7 +26,7 @@ interface Node {
   fy?: number | null;
 }
 
-interface Link {
+interface Link extends d3.SimulationLinkDatum<Node> {
   source: string | Node;
   target: string | Node;
   transformationType: string;
@@ -123,8 +122,8 @@ export function TransformationChainGraph({ initialMolecule = "", initialCascadeM
     const linkMap = new Map<string, Link>();
     
     for (const link of data.links) {
-      const sourceId = typeof link.source === "string" ? link.source : link.source.id;
-      const targetId = typeof link.target === "string" ? link.target : link.target.id;
+      const sourceId = link.source;
+      const targetId = link.target;
       
       if (!downstream.has(sourceId)) downstream.set(sourceId, new Set());
       downstream.get(sourceId)!.add(targetId);
@@ -172,8 +171,8 @@ export function TransformationChainGraph({ initialMolecule = "", initialCascadeM
     // Filter nodes and links
     const filteredNodes = data.nodes.filter(n => connectedNodes.has(n.id));
     const filteredLinks = data.links.filter(l => {
-      const sourceId = typeof l.source === "string" ? l.source : l.source.id;
-      const targetId = typeof l.target === "string" ? l.target : l.target.id;
+      const sourceId = l.source;
+      const targetId = l.target;
       return connectedLinks.has(`${sourceId}->${targetId}`);
     });
 
@@ -275,8 +274,8 @@ export function TransformationChainGraph({ initialMolecule = "", initialCascadeM
     const nodes: Node[] = displayData.nodes.map(n => ({ ...n }));
     const links: Link[] = displayData.links.map(l => ({
       ...l,
-      source: typeof l.source === "string" ? l.source : l.source.id,
-      target: typeof l.target === "string" ? l.target : l.target.id,
+      source: l.source,
+      target: l.target,
     }));
 
     // Different layout for cascade mode
@@ -295,7 +294,7 @@ export function TransformationChainGraph({ initialMolecule = "", initialCascadeM
       // Draw links with animation
       const link = g.append("g")
         .attr("class", "links")
-        .selectAll("line")
+        .selectAll<SVGLineElement, Link>("line")
         .data(links)
         .join("line")
         .attr("stroke", d => TRANSFORMATION_COLORS[d.transformationType] || "#6b7280")
@@ -312,7 +311,7 @@ export function TransformationChainGraph({ initialMolecule = "", initialCascadeM
       // Draw nodes with highlight for cascade molecule
       const node = g.append("g")
         .attr("class", "nodes")
-        .selectAll("g")
+        .selectAll<SVGGElement, Node>("g")
         .data(nodes)
         .join("g")
         .style("cursor", "pointer")
@@ -365,7 +364,7 @@ export function TransformationChainGraph({ initialMolecule = "", initialCascadeM
         node.attr("transform", d => `translate(${d.x},${d.y})`);
       });
 
-      return () => simulation.stop();
+      return () => { simulation.stop(); };
     } else {
       // Standard force-directed layout
       const simulation = d3.forceSimulation<Node>(nodes)
@@ -379,7 +378,7 @@ export function TransformationChainGraph({ initialMolecule = "", initialCascadeM
 
       const link = g.append("g")
         .attr("class", "links")
-        .selectAll("line")
+        .selectAll<SVGLineElement, Link>("line")
         .data(links)
         .join("line")
         .attr("stroke", d => TRANSFORMATION_COLORS[d.transformationType] || "#6b7280")
@@ -401,7 +400,7 @@ export function TransformationChainGraph({ initialMolecule = "", initialCascadeM
 
       const node = g.append("g")
         .attr("class", "nodes")
-        .selectAll("g")
+        .selectAll<SVGGElement, Node>("g")
         .data(nodes)
         .join("g")
         .style("cursor", "pointer")
@@ -469,7 +468,7 @@ export function TransformationChainGraph({ initialMolecule = "", initialCascadeM
         setSelectedLink(null);
       });
 
-      return () => simulation.stop();
+      return () => { simulation.stop(); };
     }
   }, [data, cascadeData, viewMode, cascadeMolecule, dimensions]);
 

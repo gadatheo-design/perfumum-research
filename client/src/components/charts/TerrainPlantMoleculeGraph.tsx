@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useEffect, useRef, useState, useMemo } from "react";
 import * as d3 from "d3";
 import type { D3SimulationNode, D3SimulationLink, d3NodeId as getNodeId } from "../../../../shared/domain-types";
@@ -204,7 +203,7 @@ export function TerrainPlantMoleculeGraph({
     if (!svgRef.current || filteredData.nodes.length === 0) return;
 
     const { width: w, height: h } = dimensions;
-    const svg = d3.select(svgRef.current);
+    const svg = d3.select<SVGSVGElement, unknown>(svgRef.current!);
     
     // Clear previous content
     svg.selectAll("*").remove();
@@ -232,7 +231,7 @@ export function TerrainPlantMoleculeGraph({
       .force(
         "link",
         d3
-          .forceLink(linksCopy)
+          .forceLink<TerrainNode, TerrainLink>(linksCopy)
           .id((d) => d.id)
           .distance((d) => {
             // Distance plus grande pour les liens terroir-plante
@@ -285,7 +284,7 @@ export function TerrainPlantMoleculeGraph({
     const link = g
       .append("g")
       .attr("class", "links")
-      .selectAll("line")
+      .selectAll<SVGLineElement, TerrainLink>("line")
       .data(linksCopy)
       .join("line")
       .attr("stroke", (d: TerrainLink) => {
@@ -304,7 +303,7 @@ export function TerrainPlantMoleculeGraph({
     const node = g
       .append("g")
       .attr("class", "nodes")
-      .selectAll("g")
+      .selectAll<SVGGElement, TerrainNode>("g")
       .data(nodesCopy)
       .join("g")
       .attr("cursor", "pointer");
@@ -427,7 +426,7 @@ export function TerrainPlantMoleculeGraph({
         tooltip.html(html);
         
         // Highlight node
-        d3.select(this).select("circle")
+        d3.select<SVGGElement, TerrainNode>(this).select<SVGCircleElement>("circle")
           .transition()
           .duration(200)
           .attr("r", (d: TerrainNode) => {
@@ -475,7 +474,7 @@ export function TerrainPlantMoleculeGraph({
       .on("mouseout", function (this: SVGGElement, event: MouseEvent, d: TerrainNode) {
         tooltip.style("visibility", "hidden");
         
-        d3.select(this).select("circle")
+        d3.select<SVGGElement, TerrainNode>(this).select<SVGCircleElement>("circle")
           .transition()
           .duration(200)
           .attr("r", (d: TerrainNode) => {
@@ -559,27 +558,27 @@ export function TerrainPlantMoleculeGraph({
   // Fonctions de zoom
   const handleZoomIn = () => {
     if (svgRef.current) {
-      const svg = d3.select(svgRef.current);
+      const svg = d3.select<SVGSVGElement, unknown>(svgRef.current!);
       svg.transition().duration(300).call(
-        d3.zoom().scaleBy, 1.3
+        d3.zoom<SVGSVGElement, unknown>().scaleBy, 1.3
       );
     }
   };
 
   const handleZoomOut = () => {
     if (svgRef.current) {
-      const svg = d3.select(svgRef.current);
+      const svg = d3.select<SVGSVGElement, unknown>(svgRef.current!);
       svg.transition().duration(300).call(
-        d3.zoom().scaleBy, 0.7
+        d3.zoom<SVGSVGElement, unknown>().scaleBy, 0.7
       );
     }
   };
 
   const handleReset = () => {
     if (svgRef.current) {
-      const svg = d3.select(svgRef.current);
+      const svg = d3.select<SVGSVGElement, unknown>(svgRef.current!);
       svg.transition().duration(500).call(
-        d3.zoom().transform,
+        d3.zoom<SVGSVGElement, unknown>().transform,
         d3.zoomIdentity
       );
     }
