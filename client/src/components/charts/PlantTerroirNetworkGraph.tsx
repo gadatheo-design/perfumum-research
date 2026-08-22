@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useEffect, useRef, useState, useMemo } from "react";
 import * as d3 from "d3";
 import { Card } from "@/components/ui/card";
@@ -99,9 +98,9 @@ export function PlantTerroirNetworkGraph({
     if (!svgRef.current || nodes.length === 0) return;
 
     // Clear previous content
-    d3.select(svgRef.current).selectAll("*").remove();
+    d3.select<SVGSVGElement, unknown>(svgRef.current!).selectAll("*").remove();
 
-    const svg = d3.select(svgRef.current);
+    const svg = d3.select<SVGSVGElement, unknown>(svgRef.current!);
     const g = svg.append("g");
 
     // Zoom behavior
@@ -121,7 +120,7 @@ export function PlantTerroirNetworkGraph({
       .force(
         "link",
         d3
-          .forceLink(links)
+          .forceLink<NetworkNode, NetworkLink>(links)
           .id((d) => d.id)
           .distance((d) => {
             // Distance plus grande pour les liens plante-terroir
@@ -129,17 +128,17 @@ export function PlantTerroirNetworkGraph({
             return 80;
           })
       )
-      .force("charge", d3.forceManyBody().strength(-400))
+      .force("charge", d3.forceManyBody<NetworkNode>().strength(-400))
       .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("collision", d3.forceCollide().radius(40))
-      .force("x", d3.forceX(width / 2).strength(0.05))
-      .force("y", d3.forceY(height / 2).strength(0.05));
+      .force("collision", d3.forceCollide<NetworkNode>().radius(40))
+      .force("x", d3.forceX<NetworkNode>(width / 2).strength(0.05))
+      .force("y", d3.forceY<NetworkNode>(height / 2).strength(0.05));
 
     // Links
     const link = g
       .append("g")
       .attr("class", "links")
-      .selectAll("line")
+      .selectAll<SVGLineElement, NetworkLink>("line")
       .data(links)
       .join("line")
       .attr("stroke", (d) => linkColors[d.type] || "oklch(0.5 0 0)")
@@ -151,7 +150,7 @@ export function PlantTerroirNetworkGraph({
     const node = g
       .append("g")
       .attr("class", "nodes")
-      .selectAll("g")
+      .selectAll<SVGGElement, NetworkNode>("g")
       .data(nodes)
       .join("g");
     
@@ -259,7 +258,7 @@ export function PlantTerroirNetworkGraph({
         tooltip.html(html);
         
         // Highlight node
-        d3.select(this).select("circle")
+        d3.select<SVGGElement, NetworkNode>(this).select<SVGCircleElement>("circle")
           .transition()
           .duration(200)
           .attr("r", (d: NetworkNode) => {
@@ -293,7 +292,7 @@ export function PlantTerroirNetworkGraph({
       .on("mouseout", function (this: SVGGElement, event: MouseEvent, d: NetworkNode) {
         tooltip.style("visibility", "hidden");
         
-        d3.select(this).select("circle")
+        d3.select<SVGGElement, NetworkNode>(this).select<SVGCircleElement>("circle")
           .transition()
           .duration(200)
           .attr("r", (d: NetworkNode) => {
@@ -352,7 +351,7 @@ export function PlantTerroirNetworkGraph({
   }, [nodes, links, width, height, showLabels]);
 
   const handleZoomIn = () => {
-    const svg = d3.select(svgRef.current);
+    const svg = d3.select<SVGSVGElement, unknown>(svgRef.current!);
     svg.transition().call(
       (t: d3.Transition<SVGSVGElement, unknown, null, undefined>) =>
         d3.zoom<SVGSVGElement, unknown>().scaleBy(t, 1.3)
@@ -360,7 +359,7 @@ export function PlantTerroirNetworkGraph({
   };
 
   const handleZoomOut = () => {
-    const svg = d3.select(svgRef.current);
+    const svg = d3.select<SVGSVGElement, unknown>(svgRef.current!);
     svg.transition().call(
       (t: d3.Transition<SVGSVGElement, unknown, null, undefined>) =>
         d3.zoom<SVGSVGElement, unknown>().scaleBy(t, 0.7)
@@ -368,7 +367,7 @@ export function PlantTerroirNetworkGraph({
   };
 
   const handleReset = () => {
-    const svg = d3.select(svgRef.current);
+    const svg = d3.select<SVGSVGElement, unknown>(svgRef.current!);
     svg
       .transition()
       .duration(750)

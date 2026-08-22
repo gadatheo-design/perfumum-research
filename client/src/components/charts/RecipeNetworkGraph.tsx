@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { Card } from "@/components/ui/card";
@@ -6,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
 
-interface RecipeNode {
+interface RecipeNode extends d3.SimulationNodeDatum {
   id: string;
   name: string;
   type: "recipe" | "molecule";
@@ -21,9 +20,9 @@ interface RecipeNode {
   index?: number;
 }
 
-interface RecipeLink {
-  source: string;
-  target: string;
+interface RecipeLink extends d3.SimulationLinkDatum<RecipeNode> {
+  source: string | RecipeNode;
+  target: string | RecipeNode;
   value: number; // Proportion ou force du lien
 }
 
@@ -47,9 +46,9 @@ export function RecipeNetworkGraph({
     if (!svgRef.current || nodes.length === 0) return;
 
     // Clear previous content
-    d3.select(svgRef.current).selectAll("*").remove();
+    d3.select<SVGSVGElement, unknown>(svgRef.current!).selectAll("*").remove();
 
-    const svg = d3.select(svgRef.current);
+    const svg = d3.select<SVGSVGElement, unknown>(svgRef.current!);
     const g = svg.append("g");
 
     // Zoom behavior
@@ -74,19 +73,19 @@ export function RecipeNetworkGraph({
       .force(
         "link",
         d3
-          .forceLink(links)
+          .forceLink<RecipeNode, RecipeLink>(links)
           .id((d) => d.id)
           .distance(100)
       )
-      .force("charge", d3.forceManyBody().strength(-300))
+      .force("charge", d3.forceManyBody<RecipeNode>().strength(-300))
       .force("center", d3.forceCenter(width / 2, height / 2))
-      .force("collision", d3.forceCollide().radius(30));
+      .force("collision", d3.forceCollide<RecipeNode>().radius(30));
 
     // Links
     const link = g
       .append("g")
       .attr("class", "links")
-      .selectAll("line")
+      .selectAll<SVGLineElement, RecipeLink>("line")
       .data(links)
       .join("line")
       .attr("stroke", "oklch(0.5 0 0)")
@@ -97,7 +96,7 @@ export function RecipeNetworkGraph({
     const node = g
       .append("g")
       .attr("class", "nodes")
-      .selectAll("g")
+      .selectAll<SVGGElement, RecipeNode>("g")
       .data(nodes)
       .join("g");
     
@@ -158,7 +157,7 @@ export function RecipeNetworkGraph({
             d.count ? `<br/>Utilisée dans ${d.count} recettes` : ""
           }`
         );
-        d3.select(this).select("circle").attr("r", d.type === "recipe" ? 16 : 12);
+        d3.select<SVGGElement, RecipeNode>(this).select<SVGCircleElement>("circle").attr("r", d.type === "recipe" ? 16 : 12);
       })
       .on("mousemove", function (this: SVGGElement, event: MouseEvent) {
         tooltip
@@ -167,7 +166,7 @@ export function RecipeNetworkGraph({
       })
       .on("mouseout", function (this: SVGGElement, event: MouseEvent, d: RecipeNode) {
         tooltip.style("visibility", "hidden");
-        d3.select(this).select("circle").attr("r", d.type === "recipe" ? 12 : 8);
+        d3.select<SVGGElement, RecipeNode>(this).select<SVGCircleElement>("circle").attr("r", d.type === "recipe" ? 12 : 8);
       });
 
     // Update positions on tick
@@ -207,7 +206,7 @@ export function RecipeNetworkGraph({
   }, [nodes, links, width, height]);
 
   const handleZoomIn = () => {
-    const svg = d3.select(svgRef.current);
+    const svg = d3.select<SVGSVGElement, unknown>(svgRef.current!);
     svg.transition().call(
       (t: d3.Transition<SVGSVGElement, unknown, null, undefined>) =>
         d3.zoom<SVGSVGElement, unknown>().scaleBy(t, 1.3)
@@ -215,7 +214,7 @@ export function RecipeNetworkGraph({
   };
 
   const handleZoomOut = () => {
-    const svg = d3.select(svgRef.current);
+    const svg = d3.select<SVGSVGElement, unknown>(svgRef.current!);
     svg.transition().call(
       (t: d3.Transition<SVGSVGElement, unknown, null, undefined>) =>
         d3.zoom<SVGSVGElement, unknown>().scaleBy(t, 0.7)
@@ -223,7 +222,7 @@ export function RecipeNetworkGraph({
   };
 
   const handleReset = () => {
-    const svg = d3.select(svgRef.current);
+    const svg = d3.select<SVGSVGElement, unknown>(svgRef.current!);
     svg
       .transition()
       .duration(750)

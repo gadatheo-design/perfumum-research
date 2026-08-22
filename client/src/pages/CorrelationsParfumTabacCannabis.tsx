@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Page /correlations — Corrélations Moléculaires Parfum × Tabac × Cannabis
  * Exploite la table molecule_synergies et les données plant_molecules
@@ -46,7 +45,7 @@ const DOMAIN_ICONS: Record<string, typeof Leaf> = {
   parfum: Flower2,
 };
 
-const SYNERGY_COLORS = {
+const SYNERGY_COLORS: Record<string, string> = {
   potentialisation: "bg-green-500/20 text-green-400 border-green-500/40",
   stabilisation: "bg-blue-500/20 text-blue-400 border-blue-500/40",
   transformation: "bg-orange-500/20 text-orange-400 border-orange-500/40",
@@ -247,8 +246,8 @@ function NetworkGraph({ molecules, selectedMol, onSelect }: {
 // ─── Page principale ─────────────────────────────────────────────────────────
 export default function CorrelationsParfumTabacCannabis() {
   const [search, setSearch] = useState("");
-  const [filterDomain, setFilterDomain] = useState<string>("all");
-  const [selectedMol, setSelectedMol] = useState<any>(null);
+  const [filterDomain, setFilterDomain] = useState<CorrelationDomain | "all">("all");
+  const [selectedMol, setSelectedMol] = useState<CrossDomainMolecule | null>(null);
   const [minDomains, setMinDomains] = useState<2 | 3>(2);
 
   const { data: crossData, isLoading } = trpc.correlations.getCrossDomainMolecules.useQuery({
@@ -374,7 +373,7 @@ export default function CorrelationsParfumTabacCannabis() {
                 />
               </div>
               <div className="flex gap-2">
-                {["all", "cannabis", "tabac", "parfum"].map((d) => (
+                {(["all", "cannabis", "tabac", "parfum"] as const).map((d) => (
                   <Button
                     key={d}
                     size="sm"
@@ -425,7 +424,7 @@ export default function CorrelationsParfumTabacCannabis() {
                         <MoleculeCard
                           key={mol.id}
                           mol={mol}
-                          synergies={synergiesData}
+                          synergies={synergiesData ?? []}
                           onSelect={setSelectedMol}
                           isSelected={selectedMol?.id === mol.id}
                         />
@@ -506,7 +505,7 @@ export default function CorrelationsParfumTabacCannabis() {
                                 <div key={s.id} className="p-2 rounded bg-white/5 border border-white/10">
                                   <div className="flex items-center justify-between mb-1">
                                     <span className="text-xs font-medium text-white/80">{partner}</span>
-                                    <span className={`text-xs px-1.5 py-0.5 rounded border ${SYNERGY_COLORS[s.type] || "bg-gray-500/20 text-gray-400 border-gray-500/40"}`}>
+                                    <span className={`text-xs px-1.5 py-0.5 rounded border ${SYNERGY_COLORS[s.type ?? ''] || "bg-gray-500/20 text-gray-400 border-gray-500/40"}`}>
                                       {s.type}
                                     </span>
                                   </div>
