@@ -1102,6 +1102,42 @@ export async function compareSoilAnalyses(terroir1: string, terroir2: string) {
 
 // --- Pyrolysis Transformations ---
 
+/**
+ * Ligne de `pyrolysis_transformations` telle que la lit l'interface.
+ *
+ * ⚠ ÉCART DE SCHÉMA NON RÉSOLU. La table versionnée (migration
+ * `0000_ambitious_wolfpack.sql`, jamais modifiée par un ALTER) déclare
+ * `original_molecule_id`, `product_molecule_id`, `temperature`, `duration`,
+ * `oxygen`, `yield_percentage`, `conditions` — AUCUNE des colonnes ci-dessous.
+ * Or les trois requêtes de ce fichier filtrent sur `source_molecule` et
+ * trient sur `temperature_range`, et la fiche molécule lit `zone_name`,
+ * `toxicity_level`, `temperature_min` / `temperature_max`.
+ *
+ * De deux choses l'une : soit la table a été remaniée en production sans
+ * migration (comme les 114 autres tables identifiées par l'audit), soit ces
+ * requêtes échouent en « Unknown column » et le panneau Pyrolyse est mort.
+ * Impossible de trancher sans interroger la base — à vérifier avec Ted par un
+ * `SHOW CREATE TABLE pyrolysis_transformations`.
+ *
+ * Le type décrit ce que le code attend ; il ne prouve pas que la base
+ * l'expose.
+ */
+export interface PyrolysisTransformationRow {
+  id: number;
+  source_molecule: string | null;
+  product_molecule: string | null;
+  temperature_min: number | null;
+  temperature_max: number | null;
+  temperature_range: string | null;
+  zone_name: string | null;
+  toxicity_level: string | null;
+  olfactory_before: string | null;
+  olfactory_after: string | null;
+  mechanism: string | null;
+  notes: string | null;
+  yield_percentage: string | number | null;
+}
+
 export async function getPyrolysisTransformationsByMolecule(moleculeName: string) {
   const db = await getDb();
   if (!db) return [];
@@ -1111,7 +1147,7 @@ export async function getPyrolysisTransformationsByMolecule(moleculeName: string
     WHERE source_molecule = ${moleculeName}
     ORDER BY temperature_range ASC
   `) as unknown as [any[]];
-   return result as unknown[];
+   return result as unknown as PyrolysisTransformationRow[];
 }
 export async function getPyrolysisTransformationsByProduct(productName: string) {
   const db = await getDb();
@@ -1122,7 +1158,7 @@ export async function getPyrolysisTransformationsByProduct(productName: string) 
     WHERE product_molecule = ${productName}
     ORDER BY temperature_range ASC
   `) as unknown as [any[]];
-   return result as unknown[];
+   return result as unknown as PyrolysisTransformationRow[];
 }
 export async function getAllPyrolysisTransformations() {
   const db = await getDb();

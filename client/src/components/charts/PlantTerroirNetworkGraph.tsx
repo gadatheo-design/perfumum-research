@@ -8,7 +8,13 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { ZoomIn, ZoomOut, Maximize2, Leaf, MapPin, Beaker, FlaskConical } from "lucide-react";
 
-export interface NetworkNode {
+/**
+ * `d3.forceSimulation` écrit `x`, `y`, `vx`, `vy`, `index` et `fx`/`fy` sur
+ * chaque nœud qu'on lui confie. Étendre `SimulationNodeDatum` déclare ces
+ * champs : sans cela, aucune force ne s'appliquait à un type connu, et toutes
+ * les lectures de `d.x` / `d.id` dans les callbacks de rendu étaient en erreur.
+ */
+export interface NetworkNode extends d3.SimulationNodeDatum {
   id: string;
   name: string;
   type: 'plant' | 'terroir' | 'molecule' | 'rawMaterial';
@@ -24,9 +30,14 @@ export interface NetworkNode {
   };
 }
 
-export interface NetworkLink {
-  source: string;
-  target: string;
+/**
+ * `d3.forceLink` remplace les identifiants `source`/`target` par les objets
+ * nœuds correspondants pendant la simulation : d'où l'union, et non `string`
+ * seul.
+ */
+export interface NetworkLink extends d3.SimulationLinkDatum<NetworkNode> {
+  source: string | NetworkNode;
+  target: string | NetworkNode;
   type: 'plant-terroir' | 'plant-molecule' | 'rawMaterial-terroir' | 'rawMaterial-molecule';
   value?: number;
 }

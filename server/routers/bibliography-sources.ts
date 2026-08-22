@@ -20,6 +20,23 @@ export interface GbifData {
   conservation_status: string | null;
 }
 
+/**
+ * Publication renvoyée par `getByMolecule` / `getByPlant`. Noms SQL : ces
+ * requêtes sont écrites à la main.
+ */
+export interface BibliographySourceRow {
+  id: number;
+  title: string | null;
+  authors: string | null;
+  /** Alias SQL de `publication_year`. */
+  year: number | null;
+  journal: string | null;
+  doi: string | null;
+  url: string | null;
+  notes: string | null;
+  source_type: string | null;
+}
+
 export const bibliographySourcesRouter = router({
   // Publications liées à une molécule (toutes sources : OpenAlex, NEZ, etc.)
   getByMolecule: publicProcedure
@@ -37,7 +54,7 @@ export const bibliographySourcesRouter = router({
          ORDER BY bs.publication_year DESC, bs.id DESC
          LIMIT 30`
       ));
-      return Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
+      return Array.isArray(result) ? result[0] as BibliographySourceRow[] : [];
     }),
 
   // Publications liées à une plante (toutes sources : OpenAlex, NEZ, etc.)
@@ -56,7 +73,7 @@ export const bibliographySourcesRouter = router({
          ORDER BY bs.publication_year DESC, bs.id DESC
          LIMIT 30`
       ));
-      return Array.isArray(result) ? result[0] as Record<string, unknown>[] : [];
+      return Array.isArray(result) ? result[0] as BibliographySourceRow[] : [];
     }),
 
   // Publications PubChem pour une molécule (via API PubChem en temps réel)
@@ -91,7 +108,9 @@ export const bibliographySourcesRouter = router({
           doi,
           url: doi ? `https://doi.org/${doi}` : `https://pubmed.ncbi.nlm.nih.gov/${pmid}/`,
         };
-      }).filter(Boolean);
+      // `filter(Boolean)` ne restreint pas le type : sans ce prédicat, les
+      // articles restent `T | null` jusque dans la page, qui les déréférence.
+      }).filter((a): a is NonNullable<typeof a> => a !== null);
       return { pmids, articles };
     }),
 
