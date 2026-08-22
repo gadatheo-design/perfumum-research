@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Modal de gestion des doublons
  * Permet de comparer, sélectionner et fusionner les entrées dupliquées
@@ -29,22 +28,25 @@ import {
   AlertTriangle
 } from "lucide-react";
 import { toast } from "sonner";
+import type { inferRouterOutputs } from "@trpc/server";
+import type { AppRouter } from "../../../server/routers";
 
-interface Molecule {
-  id: number;
-  nom: string | null;
-  cas_number: string | null;
-  smiles: string | null;
-  description: string | null;
-}
+type RouterOutput = inferRouterOutputs<AppRouter>;
 
-interface Plant {
-  id: number;
-  scientific_name: string | null;
-  common_name: string | null;
-  family: string | null;
-  description: string | null;
-}
+/**
+ * Ces deux types étaient écrits à la main et ne correspondaient à aucune
+ * colonne réelle : `nom`, `cas_number`, `scientific_name`, `common_name` et
+ * `description` n'existent nulle part — les vraies colonnes sont `name`,
+ * `casNumber`, `latinName`, `name` et `notes`. Conséquence : la modale de
+ * comparaison affichait « N/A » pour le nom de chaque candidat, sur l'écran
+ * qui sert justement à choisir l'entrée à CONSERVER avant une fusion
+ * irréversible.
+ *
+ * On les dérive maintenant du routeur : `getMoleculeDuplicateDetails` et
+ * `getPlantDuplicateDetails` renvoient des lignes Drizzle complètes.
+ */
+type Molecule = RouterOutput["duplicates"]["getMoleculeDuplicateDetails"][number];
+type Plant = RouterOutput["duplicates"]["getPlantDuplicateDetails"][number];
 
 interface DuplicateManagementModalProps {
   open: boolean;
@@ -168,11 +170,11 @@ export function DuplicateManagementModal({
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <span className="text-muted-foreground">Nom:</span>
-                  <p className="font-medium">{molecule.nom || "N/A"}</p>
+                  <p className="font-medium">{molecule.name || "N/A"}</p>
                 </div>
                 <div>
                   <span className="text-muted-foreground">CAS:</span>
-                  <p className="font-medium">{molecule.cas_number || "N/A"}</p>
+                  <p className="font-medium">{molecule.casNumber || "N/A"}</p>
                 </div>
                 <div className="col-span-2">
                   <span className="text-muted-foreground">SMILES:</span>
@@ -180,7 +182,7 @@ export function DuplicateManagementModal({
                 </div>
                 <div className="col-span-2">
                   <span className="text-muted-foreground">Description:</span>
-                  <p className="text-xs">{molecule.description || "N/A"}</p>
+                  <p className="text-xs">{molecule.notes || "N/A"}</p>
                 </div>
               </div>
             </div>
@@ -213,11 +215,11 @@ export function DuplicateManagementModal({
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
                   <span className="text-muted-foreground">Nom scientifique:</span>
-                  <p className="font-medium italic">{plant.scientific_name || "N/A"}</p>
+                  <p className="font-medium italic">{plant.latinName || "N/A"}</p>
                 </div>
                 <div>
                   <span className="text-muted-foreground">Nom commun:</span>
-                  <p className="font-medium">{plant.common_name || "N/A"}</p>
+                  <p className="font-medium">{plant.name || "N/A"}</p>
                 </div>
                 <div className="col-span-2">
                   <span className="text-muted-foreground">Famille:</span>
@@ -225,7 +227,7 @@ export function DuplicateManagementModal({
                 </div>
                 <div className="col-span-2">
                   <span className="text-muted-foreground">Description:</span>
-                  <p className="text-xs">{plant.description || "N/A"}</p>
+                  <p className="text-xs">{plant.notes || "N/A"}</p>
                 </div>
               </div>
             </div>
@@ -311,8 +313,8 @@ export function DuplicateManagementModal({
               <p className="font-medium">ID: {selectedEntry.id}</p>
               <p className="text-sm text-muted-foreground">
                 {type === "molecule" 
-                  ? (selectedEntry as Molecule).nom
-                  : (selectedEntry as Plant).scientific_name
+                  ? (selectedEntry as Molecule).name
+                  : (selectedEntry as Plant).latinName
                 }
               </p>
             </div>

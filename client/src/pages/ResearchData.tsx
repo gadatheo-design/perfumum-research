@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Research Data Page
  * 

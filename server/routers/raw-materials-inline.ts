@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getMysqlConnection } from "../db/mysqlPool";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
@@ -201,8 +202,7 @@ export const rawMaterialsInlineRouter = router({
       if (input.filter === 'missingDescription') where = "(notes IS NULL OR notes = '')";
       if (input.filter === 'missingOlfactiveNotes') where = "(olfactive_profile IS NULL OR olfactive_profile = '')";
       if (input.filter === 'missingUsages') where = "(usage_notes IS NULL OR usage_notes = '')";
-      const mysql2 = await import('mysql2/promise');
-      const conn = await mysql2.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       const limit = Number(input.limit);
       const offset = Number(input.offset);
       const [rows] = await conn.query(`SELECT id, name, category, olfactive_family FROM raw_materials WHERE ${where} ORDER BY name LIMIT ${limit} OFFSET ${offset}`);

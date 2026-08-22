@@ -1943,11 +1943,11 @@ export const researchRouter = router({
       return {
         success: true,
         data: {
-          publicationCount: extractRows(pubCount)[0]?.count || 0,
-          methodCount: extractRows(methodCount)[0]?.count || 0,
-          researcherCount: extractRows(researcherCount)[0]?.count || 0,
-          institutionCount: extractRows(instCount)[0]?.count || 0,
-          totalCitations: extractRows(totalCitations)[0]?.total || 0,
+          publicationCount: Number(extractRows(pubCount)[0]?.count || 0),
+          methodCount: Number(extractRows(methodCount)[0]?.count || 0),
+          researcherCount: Number(extractRows(researcherCount)[0]?.count || 0),
+          institutionCount: Number(extractRows(instCount)[0]?.count || 0),
+          totalCitations: Number(extractRows(totalCitations)[0]?.total || 0),
           publicationsBySubject: extractRows(pubBySubject),
           publicationsByYear: extractRows(pubByYear),
           methodsByCategory: extractRows(methodsByCategory),
