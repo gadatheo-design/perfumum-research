@@ -32,6 +32,10 @@ export const plantMoleculeLinksRouter = router({
       percentageTypical: z.number().optional(),
       isSignature: z.number().optional(),
       role: z.string().optional(),
+      // `update` acceptait déjà `source`, pas `create` : zod écarte les clés
+      // inconnues sans rien dire, donc la référence bibliographique saisie
+      // dans l'écran d'administration était perdue à chaque création.
+      source: z.string().optional(),
     }))
     .mutation(async ({ input }) => {
       return db.createPlantMoleculeLink(input);

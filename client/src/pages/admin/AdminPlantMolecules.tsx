@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
 import { useToast } from "@/hooks/use-toast";
@@ -222,11 +221,11 @@ export default function AdminPlantMolecules() {
           {stats.data && (
             <div className="hidden md:flex gap-4 text-sm">
               <div className="text-center">
-                <div className="text-xl font-bold text-emerald-400">{stats.data.totalLinks ?? "—"}</div>
+                <div className="text-xl font-bold text-emerald-400">{stats.data.total ?? "—"}</div>
                 <div className="text-zinc-500">liaisons</div>
               </div>
               <div className="text-center">
-                <div className="text-xl font-bold text-zinc-300">{stats.data.plantsWithMolecules ?? "—"}</div>
+                <div className="text-xl font-bold text-zinc-300">{stats.data.plantsWithLinks ?? "—"}</div>
                 <div className="text-zinc-500">plantes liées</div>
               </div>
             </div>

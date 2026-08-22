@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { motion } from "framer-motion";
 import { useState, useMemo } from "react";
 import { trpc } from "../lib/trpc";
@@ -65,7 +64,7 @@ const SYNERGY_TYPES = [
     textColor: "text-red-600 dark:text-red-400",
     bgColor: "bg-red-100 dark:bg-red-900/30",
   },
-];
+] as const;
 
 export function SynergiesHeatmap() {
   const { data: synergies, isLoading, error } = trpc.synergies?.getAllMoleculeSynergies.useQuery();
