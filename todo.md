@@ -430,4 +430,4 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Aligner les déclarations Drizzle des tables de liens de descripteurs sur le schéma MySQL réel, sans générer de migration (génération Drizzle annulée avant toute écriture SQL).
 - [x] Corriger la pré-optimisation Vite qui référence une dépendance absente et fragilise l’aperçu de développement.
 - [x] Valider les correctifs par tests, compilation et nouvel audit des dépendances (133 fichiers, 1 908 réussites ; TypeScript vert ; nanoid corrigé, alertes résiduelles documentées).
-- [ ] Planifier la mise à niveau testée des dépendances majeures ou transitives encore vulnérables (axios, mermaid, react-force-graph, jsPDF) dans une branche de sécurité dédiée.
+- [x] Planifier la mise à niveau testée des dépendances majeures ou transitives encore vulnérables (axios, mermaid, react-force-graph, jsPDF) dans une branche de sécurité dédiée (voir `docs/security/dependency-remediation-plan.md`).
