@@ -98,9 +98,9 @@ export default function SuggestReferenceLinks() {
     <div className="min-h-screen bg-background">
       <div className="container py-8">
         <Breadcrumbs
-          items={[
-            { label: 'Accueil', href: '/' },
-            { label: 'Références', href: '/references-v3' },
+          customItems={[
+            { label: 'Accueil', path: '/' },
+            { label: 'Références', path: '/references-v3' },
             { label: 'Suggestions automatiques' }
           ]}
         />

@@ -1,10 +1,60 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { importMolecules, importPlantes } from "../import-utils";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
 
 export const batchImportRouter = router({
+  // ── Import de lignes déjà mappées (écrans ImportCSVPreview et
+  //    CSVValidationImport) ────────────────────────────────────────────────
+  //
+  // Ces deux pages appelaient `batchImport.importMolecules` et
+  // `batchImport.importPlants` depuis leur bouton « Importer » final. Aucune
+  // des deux procédures n'existait : tout le parcours d'import CSV échouait
+  // au dernier clic, après le téléversement, le mappage des colonnes et
+  // l'aperçu.
+  //
+  // La logique d'import, elle, existe bien — `server/import-utils.ts`, déjà
+  // utilisée par le routeur `importExport` qui, lui, prend le CSV brut. On
+  // l'expose ici pour la forme « lignes déjà mappées » que produisent ces
+  // deux écrans. Réservé aux administrateurs, comme `importExport.importData`.
+
+  importMolecules: adminProcedure
+    .input(z.object({
+      molecules: z.array(z.record(z.string(), z.unknown())),
+      mode: z.enum(["create", "merge", "replace"]).default("create"),
+    }))
+    .mutation(async ({ input }) => {
+      const result = await importMolecules(
+        input.molecules as Record<string, unknown>[],
+        input.mode,
+      );
+      return {
+        // Les pages lisent `imported` et une liste de messages.
+        imported: result.rowsCreated + result.rowsUpdated,
+        errors: result.errors.map(e => e.message),
+        details: result,
+      };
+    }),
+
+  importPlants: adminProcedure
+    .input(z.object({
+      plants: z.array(z.record(z.string(), z.unknown())),
+      mode: z.enum(["create", "merge", "replace"]).default("create"),
+    }))
+    .mutation(async ({ input }) => {
+      const result = await importPlantes(
+        input.plants as Record<string, unknown>[],
+        input.mode,
+      );
+      return {
+        imported: result.rowsCreated + result.rowsUpdated,
+        errors: result.errors.map(e => e.message),
+        details: result,
+      };
+    }),
+
   getCsvTemplate: publicProcedure.query(() => {
     return {
       headers: ['filename', 'title', 'description', 'category', 'leaf_economy_id', 'plant_id', 'tags', 'location', 'captured_at'],

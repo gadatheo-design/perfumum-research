@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
 import { Input } from "@/components/ui/input";
@@ -409,7 +408,7 @@ export default function Ifra() {
                             <TableCell className="text-center">
                               {result.margin !== null ? (
                                 <span className={result.margin >= 0 ? "text-green-600" : "text-red-600"}>
-                                  {result.margin >= 0 ? "+" : ""}{(result).toFixed(3)}%
+                                  {result.margin >= 0 ? "+" : ""}{result.margin.toFixed(3)}%
                                 </span>
                               ) : (
                                 <span className="text-muted-foreground">—</span>
@@ -634,7 +633,7 @@ export default function Ifra() {
                         Limite IFRA: <strong>{complianceResult?.limit}%</strong>
                         {complianceResult?.margin !== undefined && (
                           <span className="ml-2 text-muted-foreground">
-                            (marge: {(complianceResult).toFixed(3)}%)
+                            (marge: {complianceResult.margin.toFixed(3)}%)
                           </span>
                         )}
                       </p>

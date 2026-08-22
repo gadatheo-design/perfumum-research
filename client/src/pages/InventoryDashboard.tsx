@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
 import { Link } from "wouter";
@@ -289,7 +288,7 @@ export default function InventoryDashboard() {
                           backgroundColor: CHART_COLORS[i % CHART_COLORS.length],
                           minHeight: stat.value > 0 ? "4px" : "0"
                         }}
-                        title={`${(stat).toFixed(2)} CHF`}
+                        title={`${stat.value.toFixed(2)} CHF`}
                       />
                       <span className="text-xs text-muted-foreground">{stat.label}</span>
                     </div>

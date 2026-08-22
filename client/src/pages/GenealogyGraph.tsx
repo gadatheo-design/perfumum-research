@@ -392,9 +392,9 @@ export default function GenealogyGraph() {
       <div className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="container py-4">
           <Breadcrumbs
-            items={[
-              { label: "Accueil", href: "/" },
-              { label: "Variétés", href: "/varietes" },
+            customItems={[
+              { label: "Accueil", path: "/" },
+              { label: "Variétés", path: "/varietes" },
               { label: "Arbre Généalogique" },
             ]}
           />
