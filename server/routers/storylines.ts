@@ -11,6 +11,44 @@ async function requireDb() {
   return db;
 }
 
+/**
+ * Ligne de `storylines` telle que renvoyée par les requêtes SQL brutes de ce
+ * routeur. Les noms sont ceux des colonnes : ces `SELECT s.*` ne passent pas
+ * par le mappage camelCase de Drizzle.
+ *
+ * Voir `drizzle/schema-modules/shadow-tables.ts` pour la table elle-même —
+ * elle fait partie de celles qui existaient en base sans être versionnées.
+ */
+export interface StorylineRow {
+  id: number;
+  title: string;
+  slug: string;
+  subtitle: string | null;
+  description: string | null;
+  narrative_axis: string | null;
+  period_label: string | null;
+  period_start_year: number | null;
+  period_end_year: number | null;
+  geographic_scope: string | null;
+  status: string | null;
+  cover_image_url: string | null;
+  wikidata_id: string | null;
+  odeuropa_story_type: string | null;
+  smellscape_description: string | null;
+  sensory_experience: string | null;
+  cross_storyline_ids: string | null;
+  lat: string | null;
+  lng: string | null;
+  created_at: number;
+  updated_at: number;
+}
+
+/** Fil narratif joint à l'élément qui le relie à l'entité consultée. */
+export interface StorylineWithRoleRow extends StorylineRow {
+  role_in_story: string | null;
+  narrative_note: string | null;
+}
+
 export const storylinesRouter = router({
   // Lister tous les fils narratifs
   list: publicProcedure
@@ -40,7 +78,7 @@ export const storylinesRouter = router({
         SELECT COUNT(*) as n FROM storylines WHERE 1=1 ${statusFilter} ${axisFilter}
       `);
       return {
-        storylines: rows as unknown[],
+        storylines: rows as unknown as (StorylineRow & { element_count: number })[],
         total: (totalRow as unknown as Record<string, unknown>)?.n ?? 0,
       };
     }),
@@ -87,7 +125,7 @@ export const storylinesRouter = router({
         AND s.status = 'active'
         ORDER BY s.created_at DESC
       `) as unknown as [any[]];
-      return rows as unknown[];
+      return rows as unknown as StorylineWithRoleRow[];
     }),
 
   // Récupérer les fils narratifs liés à une molécule
@@ -103,7 +141,7 @@ export const storylinesRouter = router({
         AND s.status = 'active'
         ORDER BY s.created_at DESC
       `) as unknown as [any[]];
-      return rows as unknown[];
+      return rows as unknown as StorylineWithRoleRow[];
     }),
 
   // Créer un fil narratif (protégé)

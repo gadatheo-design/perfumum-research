@@ -429,7 +429,7 @@ function AddPlantSourceModal({ moleculeId, onSuccess }: { moleculeId: number; on
       setIsSignature(false);
       onSuccess();
     },
-    onError: (err: Error) => {
+    onError: (err) => {
       toast({ title: 'Erreur', description: err.message, variant: 'destructive' });
     },
   });
@@ -483,8 +483,8 @@ function AddPlantSourceModal({ moleculeId, onSuccess }: { moleculeId: number; on
                     onClick={() => { setSelectedPlant(plant); setSearchQuery(plant.name); }}
                   >
                     <span className="font-medium">{plant.name}</span>
-                    {(plant.latinName || plant.latin_name) && (
-                      <span className="ml-2 text-xs italic text-muted-foreground">{plant.latinName || plant.latin_name}</span>
+                    {plant.latinName && (
+                      <span className="ml-2 text-xs italic text-muted-foreground">{plant.latinName}</span>
                     )}
                     <span className="ml-2 text-xs text-muted-foreground capitalize">[{plant.category}]</span>
                   </button>
@@ -571,7 +571,7 @@ function PlantSourcesSection({ moleculeId }: { moleculeId: number }) {
       toast({ title: 'Liaison supprimée' });
       utils.plantMoleculeLinks.getByMolecule.invalidate({ moleculeId });
     },
-    onError: (err: Error) => {
+    onError: (err) => {
       toast({ title: 'Erreur', description: err.message, variant: 'destructive' });
     },
   });
@@ -1383,10 +1383,10 @@ export default function MoleculeDetail() {
                   <span className="hidden sm:inline">Publications ({scientificPubs?.length})</span>
                 </TabsTrigger>
               )}
-              {moleculeStorylines && (moleculeStorylines as unknown[]).length > 0 && (
+              {moleculeStorylines && moleculeStorylines.length > 0 && (
                 <TabsTrigger value="storylines" className="flex items-center gap-1">
                   <BookOpen className="h-3 w-3 text-emerald-600" />
-                  <span className="hidden sm:inline">Fils narratifs ({(moleculeStorylines as unknown[]).length})</span>
+                  <span className="hidden sm:inline">Fils narratifs ({moleculeStorylines.length})</span>
                 </TabsTrigger>
               )}
               <TabsTrigger value="knowledge-graph" className="flex items-center gap-1">
@@ -1706,7 +1706,11 @@ export default function MoleculeDetail() {
                           <h3 className="font-medium mb-3">Limites de concentration par catégorie de produit</h3>
                           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                             {Object.entries(ifraCategoryDescriptions).map(([key, description]) => {
-                              const value = restriction[key];
+                              // Les clés de `ifraCategoryDescriptions` sont
+                              // exactement les colonnes `categoryN` de la
+                              // restriction ; TypeScript ne peut pas le déduire
+                              // d'un `Record<string, string>`.
+                              const value = restriction[key as keyof typeof restriction];
                               if (!value) return null;
                               return (
                                 <TooltipProvider key={key}>
@@ -1956,7 +1960,7 @@ export default function MoleculeDetail() {
                     <p className="text-xs text-muted-foreground">
                       {scientificPubs?.length} publication{scientificPubs?.length > 1 ? 's' : ''} répertoriée{scientificPubs?.length > 1 ? 's' : ''} dans la base PERFUMUM
                     </p>
-                    {(scientificPubs as unknown[]).map((pub) => (
+                    {scientificPubs.map((pub) => (
                       <Card key={pub.id} className="hover:shadow-sm transition-shadow">
                         <CardContent className="p-4 space-y-1.5">
                           <div className="flex items-start justify-between gap-2">
@@ -2002,7 +2006,7 @@ export default function MoleculeDetail() {
             </TabsContent>
 
           {/* Onglet Fils Narratifs */}
-          {moleculeStorylines && (moleculeStorylines as unknown[]).length > 0 && (
+          {moleculeStorylines && moleculeStorylines.length > 0 && (
             <TabsContent value="storylines" className="space-y-4">
               <TabErrorBoundary tabLabel="Fils narratifs">
                 <div className="space-y-4">
@@ -2010,7 +2014,7 @@ export default function MoleculeDetail() {
                     <div>
                       <h3 className="text-base font-semibold">Fils narratifs</h3>
                       <p className="text-sm text-muted-foreground mt-0.5">
-                        Cette molécule apparaît dans {(moleculeStorylines as unknown[]).length} fil{(moleculeStorylines as unknown[]).length > 1 ? 's' : ''} narratif{(moleculeStorylines as unknown[]).length > 1 ? 's' : ''} du projet PERFUMUM.
+                        Cette molécule apparaît dans {moleculeStorylines.length} fil{(moleculeStorylines as unknown[]).length > 1 ? 's' : ''} narratif{(moleculeStorylines as unknown[]).length > 1 ? 's' : ''} du projet PERFUMUM.
                       </p>
                     </div>
                     <Link href="/admin/storylines">
@@ -2020,7 +2024,7 @@ export default function MoleculeDetail() {
                       </Button>
                     </Link>
                   </div>
-                  {(moleculeStorylines as unknown[]).map((storyline) => (
+                  {moleculeStorylines.map((storyline) => (
                     <div key={storyline.id} className="p-4 rounded-lg border hover:shadow-sm transition-shadow">
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex-1 min-w-0">
