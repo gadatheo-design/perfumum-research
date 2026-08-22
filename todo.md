@@ -431,3 +431,10 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Corriger la pré-optimisation Vite qui référence une dépendance absente et fragilise l’aperçu de développement.
 - [x] Valider les correctifs par tests, compilation et nouvel audit des dépendances (133 fichiers, 1 908 réussites ; TypeScript vert ; nanoid corrigé, alertes résiduelles documentées).
 - [x] Planifier la mise à niveau testée des dépendances majeures ou transitives encore vulnérables (axios, mermaid, react-force-graph, jsPDF) dans une branche de sécurité dédiée (voir `docs/security/dependency-remediation-plan.md`).
+
+## Août 2026 — Lot A de résolutions transitives
+
+- [x] Identifier les versions corrigées compatibles pour les dépendances transitives du lot A (`path-to-regexp`, `qs`, `lodash`, `ws`, `uuid`).
+- [x] Migrer les overrides pnpm ignorés depuis package.json vers pnpm-workspace.yaml afin de rendre les résolutions de sécurité effectives.
+- [x] Appliquer uniquement les résolutions compatibles validées, sans mise à niveau majeure du framework (ws 8.21.0, overrides qs 6.15.2 et path-to-regexp 0.1.13).
+- [x] Vérifier la réduction des alertes et les régressions TypeScript, Vitest et de démarrage (3 critiques, 26 hautes, 54 modérées ; 1 908 tests et HTTP 200).

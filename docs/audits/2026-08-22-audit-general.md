@@ -18,7 +18,7 @@ Cet audit couvre la stabilité applicative, la dette TypeScript, l’architectur
 | Bibliographie | 1 499 références ; 576 années et 1 208 DOI manquent. | Normalisation bibliographique nécessaire. |
 | Intégrité | Deux liens descripteur→plante et deux liens descripteur→molécule sont orphelins. | Correction simple et prioritaire. |
 | Sécurité applicative | Les protections de mutations tRPC et l’usage du pool MySQL sont couverts par tests. | Socle nettement amélioré. |
-| Dépendances | `pnpm audit --prod` signale 3 vulnérabilités critiques, 27 hautes et 55 modérées dans 863 dépendances de production après correctif nanoid 5.1.16. | Action de sécurité prioritaire. |
+| Dépendances | `pnpm audit --prod` signale 3 vulnérabilités critiques, 26 hautes et 54 modérées dans 863 dépendances de production après les correctifs nanoid, ws, qs et path-to-regexp. | Action de sécurité prioritaire. |
 | CI | TypeScript et build passent sur GitHub ; les tests d’intégration attendent un secret `CI_DATABASE_URL`. | Contrôle distant incomplet. |
 
 ## Correctif inclus dans cette itération
