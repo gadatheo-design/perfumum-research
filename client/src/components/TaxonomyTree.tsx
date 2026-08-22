@@ -152,7 +152,18 @@ export function TaxonomyTree({ plantId, plantName }: TaxonomyTreeProps) {
       .join("g")
       .attr("class", "node")
       .attr("transform", (d) => `translate(${d.y},${d.x})`)
-      .style("cursor", (d) => d.data.perfumumId ? "pointer" : "default");
+      .attr("tabindex", 0)
+      .attr("role", "button")
+      .attr("aria-label", (d) => {
+        const nodeName = d.data.latinName || d.data.name;
+        const typeLabel = d.data.type === "target" ? "espèce courante"
+          : d.data.type === "sibling" ? "espèce sœur"
+          : d.data.type === "genus" ? "genre"
+          : d.data.type === "family" ? "famille"
+          : "autre espèce";
+        return `${nodeName}, ${typeLabel}${d.data.perfumumId ? ". Entrée pour ouvrir la fiche plante." : ""}`;
+      })
+      .style("cursor", (d) => d.data.perfumumId || d.data.wikidataQid ? "pointer" : "default");
 
     // Cercle de fond (halo pour la cible)
     nodes.filter((d) => d.data.type === "target")
@@ -210,9 +221,44 @@ export function TaxonomyTree({ plantId, plantName }: TaxonomyTreeProps) {
           .attr("stroke-width", 2);
         setHoveredNode(null);
       })
+      .on("focus", function (_, d) {
+        d3.select(this).select("circle:last-of-type")
+          .attr("stroke", "#f59e0b")
+          .attr("stroke-width", 3);
+        setHoveredNode(d.data);
+        // Position stable, pour ne pas dépendre de la transformation D3 active.
+        setTooltipPos({ x: 18, y: 18 });
+      })
+      .on("blur", function () {
+        d3.select(this).select("circle:last-of-type")
+          .attr("stroke", "#fff")
+          .attr("stroke-width", 2);
+        setHoveredNode(null);
+      })
+      .on("touchstart", function (event, d) {
+        event.preventDefault();
+        d3.select(this).select("circle:last-of-type")
+          .attr("stroke", "#f59e0b")
+          .attr("stroke-width", 3);
+        setHoveredNode(d.data);
+        const rect = (svgRef.current as SVGSVGElement).getBoundingClientRect();
+        setTooltipPos({ x: event.touches[0].clientX - rect.left + 12, y: event.touches[0].clientY - rect.top - 10 });
+      })
+      .on("keydown", function (event, d) {
+        const keyEvent = event as KeyboardEvent;
+        if (keyEvent.key !== "Enter" && keyEvent.key !== " ") return;
+        keyEvent.preventDefault();
+        if (d.data.perfumumId) {
+          navigate(`/plants/${d.data.perfumumId}`);
+        } else if (d.data.wikidataQid) {
+          window.open(`https://www.wikidata.org/wiki/${d.data.wikidataQid}`, "_blank", "noopener,noreferrer");
+        }
+      })
       .on("click", (_, d) => {
         if (d.data.perfumumId) {
           navigate(`/plants/${d.data.perfumumId}`);
+        } else if (d.data.wikidataQid) {
+          window.open(`https://www.wikidata.org/wiki/${d.data.wikidataQid}`, "_blank", "noopener,noreferrer");
         }
       });
 
@@ -350,6 +396,8 @@ export function TaxonomyTree({ plantId, plantName }: TaxonomyTreeProps) {
         {/* Tooltip */}
         {hoveredNode && (
           <div
+            role="status"
+            aria-live="polite"
             className="absolute z-10 pointer-events-none bg-popover border rounded-lg shadow-lg p-3 text-sm max-w-xs"
             style={{ left: tooltipPos.x, top: tooltipPos.y }}
           >
@@ -379,7 +427,12 @@ export function TaxonomyTree({ plantId, plantName }: TaxonomyTreeProps) {
             </div>
             {hoveredNode.perfumumId && (
               <p className="text-xs text-muted-foreground mt-1.5">
-                Cliquer pour ouvrir la fiche →
+                Cliquer ou appuyer sur Entrée pour ouvrir la fiche →
+              </p>
+            )}
+            {!hoveredNode.perfumumId && hoveredNode.wikidataQid && (
+              <p className="text-xs text-muted-foreground mt-1.5">
+                Cliquer ou appuyer sur Entrée pour consulter Wikidata →
               </p>
             )}
           </div>
