@@ -400,4 +400,4 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Lot 2 : auditer et intégrer sans migration destructive le pool MySQL et les déclarations de schéma Drizzle manquantes.
 - [x] Vérifier les parcours anonymes, utilisateur et administrateur affectés par le durcissement des mutations tRPC.
 - [x] Générer et examiner un rapport de divergence schéma Drizzle / base MySQL avant toute migration.
-- [ ] Exécuter les tests TypeScript, Vitest et build de production après intégration des deux lots.
+- [x] Exécuter les tests TypeScript, Vitest et build de production après intégration des deux lots (Vitest local : 1 901 réussites ; CI GitHub : TypeScript et build réussis).
