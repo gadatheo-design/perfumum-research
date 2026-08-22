@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useRef, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
@@ -130,9 +129,10 @@ export default function COCONUTBatch() {
 
         if (res.success) {
           setSucceeded(prev => prev + 1);
-          if (res.data?.organisms && (res.data.organisms as unknown as { length?: number })?.length
-            ? (res.data.organisms as unknown as unknown[]).length > 0
-            : (res.data.organisms as unknown as number) > 0) {
+          // `organisms` est le tableau renvoyé par LOTUS. L'ancienne écriture
+          // mélangeait un `?.` d'un côté du ternaire et un accès direct de
+          // l'autre : `res.data` absent aurait planté sur la branche « else ».
+          if ((res.data?.organisms?.length ?? 0) > 0) {
             setWithOrganisms(prev => prev + 1);
           }
           addLog({

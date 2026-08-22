@@ -22,7 +22,12 @@ import {
 } from "lucide-react";
 
 // Types pour le graphe
-export interface TerrainNode {
+/**
+ * Étend `SimulationNodeDatum` : la déclaration manuelle de x/y/fx/fy plus bas
+ * oubliait `vx`, `vy` et `index`, que `forceSimulation` écrit aussi — elle ne
+ * satisfaisait donc pas les génériques de d3.
+ */
+export interface TerrainNode extends d3.SimulationNodeDatum {
   id: string;
   name: string;
   type: 'terroir' | 'plant' | 'molecule';
@@ -48,7 +53,7 @@ export interface TerrainNode {
   fy?: number | null;
 }
 
-export interface TerrainLink {
+export interface TerrainLink extends d3.SimulationLinkDatum<TerrainNode> {
   source: string | TerrainNode;
   target: string | TerrainNode;
   type: 'terroir-plant' | 'plant-molecule';
