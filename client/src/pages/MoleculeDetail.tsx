@@ -11,6 +11,7 @@ import { MoleculeDetailSkeleton } from "@/components/skeletons";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from "recharts";
+import { Card, CardContent } from "@/components/ui/card";
 import { RecommendationsCard } from "@/components/RecommendationsCard";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -29,7 +30,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { TabErrorBoundary } from "@/components/TabErrorBoundary";
 import { EuropeanaWidget } from "@/components/EuropeanaWidget";
 import { useBreadcrumbSegments } from "@/contexts/BreadcrumbContext";
-import type { MoleculeExtended } from "../../../../shared/domain-types";
+import type { MoleculeExtended } from "@shared/domain-types";
 import { PerfumesTab, Structure3DTab, SynergiesTab, RecetteSynergiesSection, PyrfumeSection, SimilarMolecules, MoleculeNomenclatureTab, MoleculeOverviewTab, MoleculeScientificTab, MoleculeTransformationsTab, MoleculeBiosynthesisTab, MoleculeKGTab } from '@/components/molecule';
 
 // Composant carte article PubMed avec bouton d'import dans PERFUMUM
@@ -319,7 +320,7 @@ function PyrolysisSection({ moleculeName }: { moleculeName: string }) {
         
         {hasTransformations ? (
           <div className="space-y-4">
-            {transformations?.map((t: unknown, idx: number) => (
+            {transformations?.map((t, idx: number) => (
               <div key={idx} className="p-4 bg-muted/50 rounded-lg border">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
@@ -470,7 +471,7 @@ function AddPlantSourceModal({ moleculeId, onSuccess }: { moleculeId: number; on
             {searching && <p className="text-xs text-muted-foreground mt-1">Recherche...</p>}
             {searchResults && searchResults?.length > 0 && !selectedPlant && (
               <div className="mt-1 border rounded-md bg-popover shadow-md max-h-48 overflow-y-auto">
-                {searchResults?.map((plant: unknown) => (
+                {searchResults?.map((plant) => (
                   <button
                     key={plant.id}
                     className="w-full text-left px-3 py-2 hover:bg-muted transition-colors text-sm"
@@ -596,7 +597,7 @@ function PlantSourcesSection({ moleculeId }: { moleculeId: number }) {
         
         {plantSources && plantSources?.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {plantSources?.map((source: unknown) => (
+            {plantSources?.map((source) => (
               <div key={source.plant.id} className="relative group">
                 <Link href={`/plants/${source.plant.id}`}>
                   <div className="p-4 bg-muted/50 rounded-lg border hover:border-primary/50 transition-colors cursor-pointer">
@@ -805,8 +806,8 @@ export default function MoleculeDetail() {
 
   // Publications PubChem en temps réel (via PubMed)
   const { data: pubchemLiterature, isLoading: loadingPubchemLit } = trpc.bibliographySources.getPubChemLiterature.useQuery(
-    { pubchemCid: molecule?.pubchem_cid ?? 0 },
-    { enabled: !!molecule?.pubchem_cid }
+    { pubchemCid: molecule?.pubchemCid ?? 0 },
+    { enabled: !!molecule?.pubchemCid }
   );
 
   // Badge Bibliographie — références PERFUMUM liées à cette molécule
@@ -1156,12 +1157,12 @@ export default function MoleculeDetail() {
                   )}
                   {/* Indicateurs de statut d'enrichissement */}
                   <PubChemStatusBadge 
-                    hasPubChem={!!mol.pubchem_cid} 
-                    pubchemCid={mol.pubchem_cid ?? undefined} 
+                    hasPubChem={!!mol.pubchemCid} 
+                    pubchemCid={mol.pubchemCid ?? undefined} 
                   />
                   <ChEBIStatusBadge 
-                    hasChebi={!!mol.chebi_id} 
-                    chebiId={mol.chebi_id ?? undefined} 
+                    hasChebi={!!mol.chebiId} 
+                    chebiId={mol.chebiId ?? undefined} 
                   />
                   {/* Badge IFRA pour le statut réglementaire */}
                   <IFRAStatusBadge 
@@ -1537,7 +1538,7 @@ export default function MoleculeDetail() {
                   </div>
                 ) : moleculeOrigins && moleculeOrigins?.length > 0 ? (
                   <div className="space-y-4">
-                    {moleculeOrigins?.map((origin: unknown) => (
+                    {moleculeOrigins?.map((origin) => (
                       <div 
                         key={origin.id} 
                         className={`p-4 rounded-lg border ${origin.isPrimaryOrigin ? 'bg-green-50 dark:bg-green-950/30 border-green-200 dark:border-green-800' : 'bg-muted/50'}`}
@@ -1563,7 +1564,7 @@ export default function MoleculeDetail() {
                                 {[...Array(5)].map((_, i) => (
                                   <span 
                                     key={i} 
-                                    className={`text-lg ${i < origin.qualityRating ? 'text-yellow-500' : 'text-gray-300'}`}
+                                    className={`text-lg ${i < (origin.qualityRating ?? 0) ? 'text-yellow-500' : 'text-gray-300'}`}
                                   >
                                     ★
                                   </span>
@@ -1655,7 +1656,7 @@ export default function MoleculeDetail() {
                   </div>
                 ) : hasIfraRestrictions ? (
                   <div className="space-y-6">
-                    {ifraRestrictions?.map((restriction: unknown) => (
+                    {ifraRestrictions?.map((restriction) => (
                       <div key={restriction.id} className="space-y-4">
                         {/* En-tête de la restriction */}
                         <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
@@ -1802,7 +1803,7 @@ export default function MoleculeDetail() {
                 moleculeName={molecule?.name}
                 formula={molecule?.chemicalFormula}
                 smiles={mol.smiles ?? undefined}
-                pubchemCid={mol.pubchem_cid ?? undefined}
+                pubchemCid={mol.pubchemCid ?? undefined}
               />
               </TabErrorBoundary>
             </TabsContent>
@@ -1844,7 +1845,7 @@ export default function MoleculeDetail() {
                             </tr>
                           </thead>
                           <tbody>
-                            {olfactiveEmissions?.emissions.map((e: unknown) => (
+                            {olfactiveEmissions?.emissions.map((e) => (
                               <tr key={e.id} className="border-b hover:bg-muted/30 transition-colors">
                                 <td className="py-2 pr-4">
                                   {e.plant_id ? (
@@ -1909,7 +1910,7 @@ export default function MoleculeDetail() {
               <TabErrorBoundary tabLabel="Publications scientifiques">
 
                 {/* Section PubChem / PubMed */}
-                {molecule?.pubchem_cid && (
+                {molecule?.pubchemCid && (
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="h-5 w-1 rounded-full bg-blue-500" />
@@ -1923,7 +1924,7 @@ export default function MoleculeDetail() {
                       </div>
                     ) : pubchemLiterature?.articles && pubchemLiterature?.articles.length > 0 ? (
                       <div className="space-y-2">
-                        <p className="text-xs text-muted-foreground">{pubchemLiterature?.articles.length} article{pubchemLiterature?.articles.length > 1 ? 's' : ''} référencé{pubchemLiterature?.articles.length > 1 ? 's' : ''} sur PubMed (CID {molecule?.pubchem_cid})</p>
+                        <p className="text-xs text-muted-foreground">{pubchemLiterature?.articles.length} article{pubchemLiterature?.articles.length > 1 ? 's' : ''} référencé{pubchemLiterature?.articles.length > 1 ? 's' : ''} sur PubMed (CID {molecule?.pubchemCid})</p>
                         {pubchemLiterature?.articles.map((art) => (
                           <PubMedArticleCard
                             key={art.pmid}
@@ -1934,7 +1935,7 @@ export default function MoleculeDetail() {
                         ))}
                       </div>
                     ) : (
-                      <p className="text-sm text-muted-foreground italic py-2">Aucune publication PubMed trouvée pour ce composé (CID {molecule?.pubchem_cid}).</p>
+                      <p className="text-sm text-muted-foreground italic py-2">Aucune publication PubMed trouvée pour ce composé (CID {molecule?.pubchemCid}).</p>
                     )}
                   </div>
                 )}
@@ -1950,7 +1951,7 @@ export default function MoleculeDetail() {
                     <p className="text-xs text-muted-foreground">
                       {scientificPubs?.length} publication{scientificPubs?.length > 1 ? 's' : ''} répertoriée{scientificPubs?.length > 1 ? 's' : ''} dans la base PERFUMUM
                     </p>
-                    {(scientificPubs as unknown[]).map((pub: unknown) => (
+                    {(scientificPubs as unknown[]).map((pub) => (
                       <Card key={pub.id} className="hover:shadow-sm transition-shadow">
                         <CardContent className="p-4 space-y-1.5">
                           <div className="flex items-start justify-between gap-2">
@@ -1984,7 +1985,7 @@ export default function MoleculeDetail() {
                 )}
 
                 {/* État vide */}
-                {(!molecule?.pubchem_cid) && (!scientificPubs || scientificPubs?.length === 0) && (
+                {(!molecule?.pubchemCid) && (!scientificPubs || scientificPubs?.length === 0) && (
                   <div className="text-center py-8 text-muted-foreground">
                     <BookOpen className="h-8 w-8 mx-auto mb-2 opacity-40" />
                     <p>Aucune publication scientifique répertoriée pour cette molécule.</p>
@@ -2014,7 +2015,7 @@ export default function MoleculeDetail() {
                       </Button>
                     </Link>
                   </div>
-                  {(moleculeStorylines as unknown[]).map((storyline: unknown) => (
+                  {(moleculeStorylines as unknown[]).map((storyline) => (
                     <div key={storyline.id} className="p-4 rounded-lg border hover:shadow-sm transition-shadow">
                       <div className="flex items-start justify-between gap-3">
                         <div className="flex-1 min-w-0">
@@ -2090,7 +2091,7 @@ export default function MoleculeDetail() {
               {
                 label: "Recettes utilisant cette molécule",
                 type: "recette",
-                items: (linkedRecettes || []).map((r: unknown) => ({
+                items: (linkedRecettes || []).map((r) => ({
                   id: r.id,
                   label: r.name,
                   sublabel: r.family || r.category || undefined,
@@ -2103,7 +2104,7 @@ export default function MoleculeDetail() {
               {
                 label: "Molécules similaires",
                 type: "molecule",
-                items: (similarMolecules || []).map((m: unknown) => ({
+                items: (similarMolecules || []).map((m) => ({
                   id: m.id,
                   label: m.name,
                   sublabel: m.family || m.chemicalClass || undefined,

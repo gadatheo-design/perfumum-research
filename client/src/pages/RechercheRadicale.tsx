@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { safeJsonParse } from "@/lib/utils";
 import { trpc } from '@/lib/trpc';
 import { AlertTriangle, Beaker, Sparkles } from 'lucide-react';
@@ -71,7 +70,10 @@ export default function RechercheRadicale() {
       <div className="container py-12">
         <div className="grid gap-8 max-w-5xl mx-auto">
           {accords?.map((accord) => {
-            const architecture = safeJsonParse(accord.architecture, null);
+            // Repli sur un tableau vide, pas sur `null` : la colonne
+            // `architecture` est NULL sur certains accords, et le `.map()`
+            // plus bas plantait alors toute la page.
+            const architecture = safeJsonParse<unknown[]>(accord.architecture, []);
             
             return (
               <div

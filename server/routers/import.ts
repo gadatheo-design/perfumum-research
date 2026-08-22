@@ -1,12 +1,12 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import * as db from "../db";
 import { molecules } from "../../drizzle/schema";
 
 export const importRouter = router({
     // Validate and preview CSV data before import
-    validateCSV: publicProcedure
+    validateCSV: adminProcedure
       .input(z.object({
         entityType: z.enum(["molecules", "recettes", "accords", "familles", "matieres"]),
         csvData: z.string(),
@@ -113,7 +113,7 @@ export const importRouter = router({
       }),
 
     // Import molecules from CSV
-    molecules: publicProcedure
+    molecules: adminProcedure
       .input(z.object({
         csvData: z.string(),
         mode: z.enum(["create", "update", "upsert"]).default("create"),
@@ -177,7 +177,7 @@ export const importRouter = router({
       }),
 
     // Import recettes from CSV
-    recettes: publicProcedure
+    recettes: adminProcedure
       .input(z.object({
         csvData: z.string(),
         mode: z.enum(["create", "update", "upsert"]).default("create"),
@@ -246,7 +246,7 @@ export const importRouter = router({
       }),
 
     // Import accords from CSV
-    accords: publicProcedure
+    accords: adminProcedure
       .input(z.object({
         csvData: z.string(),
         mode: z.enum(["create", "update", "upsert"]).default("create"),
@@ -301,7 +301,7 @@ export const importRouter = router({
       }),
 
     // Import familles from CSV
-    familles: publicProcedure
+    familles: adminProcedure
       .input(z.object({
         csvData: z.string(),
         mode: z.enum(["create", "update", "upsert"]).default("create"),
@@ -355,7 +355,7 @@ export const importRouter = router({
       }),
 
     // Import matieres from CSV
-    matieres: publicProcedure
+    matieres: adminProcedure
       .input(z.object({
         csvData: z.string(),
         mode: z.enum(["create", "update", "upsert"]).default("create"),

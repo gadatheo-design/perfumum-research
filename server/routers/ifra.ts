@@ -5,7 +5,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getIFRAData, getAllIFRARestrictions, getIFRAStats, type IFRAData } from "../ifra";
 import * as db from "../db";
 
@@ -39,7 +39,7 @@ export const ifraRouter = router({
   /**
    * Enrich a single molecule with IFRA data
    */
-  enrichMolecule: publicProcedure
+  enrichMolecule: adminProcedure
     .input(z.object({
       moleculeId: z.number(),
     }))
@@ -67,7 +67,7 @@ export const ifraRouter = router({
   /**
    * Batch enrich molecules with IFRA data
    */
-  enrichBatch: publicProcedure
+  enrichBatch: adminProcedure
     .input(z.object({
       limit: z.number().optional().default(100),
     }))

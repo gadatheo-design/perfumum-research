@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
@@ -23,7 +23,7 @@ export const plantMoleculeLinksRouter = router({
     .query(async ({ input }) => {
       return db.getSignatureMolecules(input.plantId);
     }),
-  create: publicProcedure
+  create: adminProcedure
     .input(z.object({
       plantId: z.number(),
       moleculeId: z.number(),
@@ -36,7 +36,7 @@ export const plantMoleculeLinksRouter = router({
     .mutation(async ({ input }) => {
       return db.createPlantMoleculeLink(input);
     }),
-  delete: publicProcedure
+  delete: adminProcedure
     .input(z.object({
       plantId: z.number(),
       moleculeId: z.number(),
@@ -44,7 +44,7 @@ export const plantMoleculeLinksRouter = router({
     .mutation(async ({ input }) => {
       return db.deletePlantMoleculeLink(input.plantId, input.moleculeId);
     }),
-  update: publicProcedure
+  update: adminProcedure
     .input(z.object({
       plantId: z.number(),
       moleculeId: z.number(),

@@ -7,7 +7,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db/core";
 import { plants, plantVarieties, varietyImages } from "../../drizzle/schema";
@@ -166,7 +166,7 @@ export const wikidataSyncRouter = router({
   /**
    * Search for a taxon on Wikidata by scientific name
    */
-  searchTaxon: publicProcedure
+  searchTaxon: adminProcedure
     .input(z.object({ scientificName: z.string().min(1) }))
     .mutation(async ({ input }) => {
       const entity = await queryWikidataForTaxon(input.scientificName);
@@ -182,7 +182,7 @@ export const wikidataSyncRouter = router({
   /**
    * Get detailed information about a taxon including hybrids and distribution
    */
-  getTaxonDetails: publicProcedure
+  getTaxonDetails: adminProcedure
     .input(z.object({ scientificName: z.string().min(1) }))
     .mutation(async ({ input }) => {
       const entity = await queryWikidataForTaxon(input.scientificName);
@@ -204,7 +204,7 @@ export const wikidataSyncRouter = router({
   /**
    * Batch search for multiple taxa (max 20 per request to avoid rate limiting)
    */
-  batchSearchTaxa: publicProcedure
+  batchSearchTaxa: adminProcedure
     .input(
       z.object({
         scientificNames: z.array(z.string().min(1)).min(1).max(20),
@@ -237,7 +237,7 @@ export const wikidataSyncRouter = router({
    * Import IUCN conservation status from Wikidata into a plant record
    * Searches the plants table by latin name and updates conservationStatus + wikidataQid
    */
-  importConservationStatus: publicProcedure
+  importConservationStatus: adminProcedure
     .input(
       z.object({
         latinName: z.string().min(1),
@@ -320,7 +320,7 @@ export const wikidataSyncRouter = router({
   /**
    * Import Wikidata image URL into a plant record
    */
-  importWikidataImage: publicProcedure
+  importWikidataImage: adminProcedure
     .input(
       z.object({
         latinName: z.string().min(1),
@@ -420,7 +420,7 @@ export const wikidataSyncRouter = router({
   /**
    * Import Wikidata QID into a plant record (link the plant to Wikidata)
    */
-  linkToWikidata: publicProcedure
+  linkToWikidata: adminProcedure
     .input(
       z.object({
         latinName: z.string().min(1),
@@ -495,7 +495,7 @@ export const wikidataSyncRouter = router({
       return results;
     }),
 
-  getEnrichmentRecommendations: publicProcedure
+  getEnrichmentRecommendations: adminProcedure
     .input(
       z.object({
         genus: z.string().min(1),

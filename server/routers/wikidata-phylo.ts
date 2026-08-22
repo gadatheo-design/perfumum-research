@@ -17,7 +17,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, router } from "../_core/trpc";
 import { sparqlQuery } from "../utils/sparql";
 import { getDb } from "../db";
 import { plants } from "../../drizzle/schema";
@@ -300,7 +300,7 @@ LIMIT ${input.limit}`;
    * Enrichissement batch : récupère les identifiants croisés pour les plantes PERFUMUM
    * et met à jour gbifId, powId, wikidataQid
    */
-  batchEnrichCrossIds: publicProcedure
+  batchEnrichCrossIds: adminProcedure
     .input(z.object({
       limit: z.number().default(15),
       dryRun: z.boolean().default(true),
@@ -445,7 +445,7 @@ LIMIT 5`;
       };
     }),
 
-  importChildTaxaToPlants: publicProcedure
+  importChildTaxaToPlants: adminProcedure
     .input(z.object({
       taxa: z.array(z.object({
         wikidataId: z.string().min(1),

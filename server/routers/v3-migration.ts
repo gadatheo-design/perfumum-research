@@ -182,40 +182,32 @@ export const v3MigrationRouter = router({
           // Vérifier collision entry_key
           let entryKey = String(v3.entry_key);
           const keyCheckResult = await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(
-            sql.raw(`SELECT id FROM bibliography_entries WHERE entry_key = '${entryKey.replace(/'/g, "''")}' LIMIT 1`)
+            sql`SELECT id FROM bibliography_entries WHERE entry_key = ${entryKey} LIMIT 1`
           );
           const keyCheck = Array.isArray(keyCheckResult) ? keyCheckResult[0] as Record<string, unknown>[] : [];
           if (keyCheck.length > 0) {
             entryKey = `v3_migrated_${v3.id}_${Date.now()}`;
           }
 
-          const tagsJson = tags.length > 0 ? `'${JSON.stringify(tags).replace(/'/g, "''")}'` : "NULL";
-          const notesEscaped = combinedNotes ? `'${combinedNotes.substring(0, 5000).replace(/'/g, "''")}'` : "NULL";
-          const titleEscaped = `'${String(v3.title).replace(/'/g, "''")}'`;
-          const authorsEscaped = v3.authors ? `'${String(v3.authors).replace(/'/g, "''")}'` : "NULL";
-          const journalEscaped = v3.container_title ? `'${String(v3.container_title).replace(/'/g, "''")}'` : "NULL";
-          const publisherEscaped = v3.publisher ? `'${String(v3.publisher).replace(/'/g, "''")}'` : "NULL";
-          const doiEscaped = v3.doi ? `'${String(v3.doi).replace(/'/g, "''")}'` : "NULL";
-          const isbnEscaped = v3.isbn ? `'${String(v3.isbn).replace(/'/g, "''")}'` : "NULL";
-          const urlEscaped = v3.url ? `'${String(v3.url).replace(/'/g, "''")}'` : "NULL";
-          const wikidataEscaped = v3.wikidata_qid ? `'${String(v3.wikidata_qid).replace(/'/g, "''")}'` : "NULL";
-          const rdfTypeEscaped = v3.rdf_type ? `'${String(v3.rdf_type).replace(/'/g, "''")}'` : "NULL";
+          // Requête paramétrée : toutes les valeurs partent en placeholders
+          // liés (entryType et read_status n'étaient d'ailleurs pas échappés).
+          const tagsJson = tags.length > 0 ? JSON.stringify(tags) : null;
 
           await (dbConn as unknown as { execute: (q: unknown) => Promise<unknown> }).execute(
-            sql.raw(`
+            sql`
               INSERT INTO bibliography_entries (
                 entry_key, entry_type, title, authors, year,
                 journal, publisher, doi, isbn, url,
                 notes, tags, read_status, relevance_score,
                 wikidata_qid, rdf_type, created_at, updated_at
               ) VALUES (
-                '${entryKey.replace(/'/g, "''")}', '${entryType}',
-                ${titleEscaped}, ${authorsEscaped}, ${v3.year ?? "NULL"},
-                ${journalEscaped}, ${publisherEscaped}, ${doiEscaped}, ${isbnEscaped}, ${urlEscaped},
-                ${notesEscaped}, ${tagsJson}, '${v3.read_status || "unread"}', ${v3.relevance_score ?? 50},
-                ${wikidataEscaped}, ${rdfTypeEscaped}, NOW(), NOW()
+                ${entryKey}, ${entryType},
+                ${String(v3.title)}, ${v3.authors ? String(v3.authors) : null}, ${v3.year ?? null},
+                ${v3.container_title ? String(v3.container_title) : null}, ${v3.publisher ? String(v3.publisher) : null}, ${v3.doi ? String(v3.doi) : null}, ${v3.isbn ? String(v3.isbn) : null}, ${v3.url ? String(v3.url) : null},
+                ${combinedNotes ? combinedNotes.substring(0, 5000) : null}, ${tagsJson}, ${v3.read_status || "unread"}, ${v3.relevance_score ?? 50},
+                ${v3.wikidata_qid ? String(v3.wikidata_qid) : null}, ${v3.rdf_type ? String(v3.rdf_type) : null}, NOW(), NOW()
               )
-            `)
+            `
           );
           migrated++;
         } catch (err) {

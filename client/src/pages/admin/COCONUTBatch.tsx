@@ -216,7 +216,9 @@ export default function COCONUTBatch() {
             <div className="text-xs text-muted-foreground mt-1">Enrichies LOTUS</div>
           </Card>
           <Card className="p-4 text-center">
-            <div className="text-2xl font-bold text-amber-600">{stats.unenriched ?? 0}</div>
+            {/* Le serveur ne renvoie pas `unenriched` (server/db/molecules-coconut.ts) :
+                l'ancienne lecture affichait toujours 0. On le déduit. */}
+            <div className="text-2xl font-bold text-amber-600">{Math.max(0, (stats.total ?? 0) - (stats.enriched ?? 0))}</div>
             <div className="text-xs text-muted-foreground mt-1">À enrichir</div>
           </Card>
           <Card className="p-4 text-center">

@@ -8,7 +8,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db/core";
 import { plants } from "../../drizzle/schema";
@@ -223,7 +223,7 @@ export const gbifEnrichmentRouter = router({
   /**
    * Get full details for a species: taxonomy + distributions + vernacular names
    */
-  getSpeciesDetails: publicProcedure
+  getSpeciesDetails: adminProcedure
     .input(z.object({ scientificName: z.string().min(1) }))
     .mutation(async ({ input }) => {
       const species = await matchSpecies(input.scientificName);
@@ -260,7 +260,7 @@ export const gbifEnrichmentRouter = router({
   /**
    * Batch match multiple species names
    */
-  batchMatchSpecies: publicProcedure
+  batchMatchSpecies: adminProcedure
     .input(z.object({
       scientificNames: z.array(z.string().min(1)).min(1).max(20),
     }))
@@ -288,7 +288,7 @@ export const gbifEnrichmentRouter = router({
    * Import GBIF data into a plant record:
    * - Sets gbifKey, family, order, kingdom, vernacular names, distribution countries
    */
-  importGbifData: publicProcedure
+  importGbifData: adminProcedure
     .input(z.object({
       latinName: z.string().min(1),
       gbifKey: z.number(),

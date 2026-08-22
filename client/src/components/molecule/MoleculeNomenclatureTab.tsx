@@ -74,7 +74,7 @@ export function MoleculeNomenclatureTab({
                     <BookOpen className="h-5 w-5 text-primary" />
                     Identité Chimique
                   </h2>
-                  {!mol.pubchem_cid && (
+                  {!mol.pubchemCid && (
                     <PubChemEnrichButton moleculeId={id} moleculeName={molecule?.name} />
                   )}
                 </div>
@@ -157,22 +157,22 @@ export function MoleculeNomenclatureTab({
               </div>
 
               {/* Liens externes */}
-              {(mol.pubchem_cid || molecule?.casNumber || mol.formula) && (
+              {(mol.pubchemCid || molecule?.casNumber || mol.formula) && (
                 <div className="bg-card p-6 rounded-lg border shadow-sm">
                   <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
                     <Globe className="h-5 w-5 text-primary" />
                     Bases de données externes
                   </h2>
                   <div className="flex flex-wrap gap-3">
-                    {mol.pubchem_cid && (
+                    {mol.pubchemCid && (
                       <a
-                        href={`https://pubchem.ncbi.nlm.nih.gov/compound/${mol.pubchem_cid}`}
+                        href={`https://pubchem.ncbi.nlm.nih.gov/compound/${mol.pubchemCid}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/40 transition-colors text-sm font-medium"
                       >
                         <ExternalLink className="h-4 w-4" />
-                        PubChem CID {mol.pubchem_cid}
+                        PubChem CID {mol.pubchemCid}
                       </a>
                     )}
                     {molecule?.casNumber && (
@@ -200,17 +200,17 @@ export function MoleculeNomenclatureTab({
                     {molecule?.name && (
                       <a
                         href={
-                          mol.chebi_id
-                            ? `https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${mol.chebi_id}`
+                          mol.chebiId
+                            ? `https://www.ebi.ac.uk/chebi/searchId.do?chebiId=${mol.chebiId}`
                             : `https://www.ebi.ac.uk/chebi/advancedSearchFT.do?searchString=${encodeURIComponent(molecule?.name)}`
                         }
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-50 dark:bg-teal-950/30 border border-teal-200 dark:border-teal-800 text-teal-700 dark:text-teal-300 hover:bg-teal-100 dark:hover:bg-teal-900/40 transition-colors text-sm font-medium"
-                        title={mol.chebi_id ? `ChEBI ID: ${mol.chebi_id}` : 'Rechercher dans ChEBI'}
+                        title={mol.chebiId ? `ChEBI ID: ${mol.chebiId}` : 'Rechercher dans ChEBI'}
                       >
                         <ExternalLink className="h-4 w-4" />
-                        ChEBI{mol.chebi_id ? ` · ${mol.chebi_id}` : ''}
+                        ChEBI{mol.chebiId ? ` · ${mol.chebiId}` : ''}
                       </a>
                     )}
                     {mol.wikidataQid && (

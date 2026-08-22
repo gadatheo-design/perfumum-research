@@ -5,14 +5,14 @@ import * as db from "../db";
 import { SQL } from "drizzle-orm";
 
 export const favoritesRouter = router({
-  add: publicProcedure
+  add: protectedProcedure
     .input(z.object({ moleculeId: z.number() }))
     .mutation(async ({ input, ctx }) => {
       if (!ctx.user) throw new Error("Not authenticated");
       return await db.addFavorite(ctx.user.id, input.moleculeId);
     }),
   
-  remove: publicProcedure
+  remove: protectedProcedure
     .input(z.object({ moleculeId: z.number() }))
     .mutation(async ({ input, ctx }) => {
       if (!ctx.user) throw new Error("Not authenticated");

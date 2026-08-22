@@ -18,7 +18,7 @@
  *
  * Les données sont stockées dans la colonne JSON `wikidata_kg_data` de la table molecules.
  */
-import { router, publicProcedure } from "../_core/trpc";
+import { adminProcedure, router, publicProcedure } from "../_core/trpc";
 import { z } from "zod";
 import * as mysql from "mysql2/promise";
 
@@ -220,7 +220,7 @@ export const wikidataKgRouter = router({
    * Enrichit une molécule en base avec son KG Wikidata
    * (stocke le résultat dans wikidata_kg_data + met à jour les colonnes directes)
    */
-  enrichSingleWithKG: publicProcedure
+  enrichSingleWithKG: adminProcedure
     .input(z.object({ moleculeId: z.number().int().positive() }))
     .mutation(async ({ input }) => {
       const conn = await mysql.createConnection(process.env.DATABASE_URL!);
@@ -282,7 +282,7 @@ export const wikidataKgRouter = router({
   /**
    * Enrichissement KG en batch pour N molécules avec QID
    */
-  enrichBatchWithKG: publicProcedure
+  enrichBatchWithKG: adminProcedure
     .input(z.object({
       limit: z.number().int().min(1).max(50).default(20),
       onlyMissingKg: z.boolean().default(true),

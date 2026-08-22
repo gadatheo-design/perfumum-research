@@ -15,7 +15,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { plants } from "../../drizzle/schema";
 import { eq, isNull, or, sql } from "drizzle-orm";
@@ -234,7 +234,7 @@ export const ncbiTaxonomyRouter = router({
   /**
    * Enrichissement batch : récupère le taxon ID NCBI pour les plantes sans données
    */
-  batchEnrichPlants: publicProcedure
+  batchEnrichPlants: adminProcedure
     .input(z.object({
       limit: z.number().default(20),
       dryRun: z.boolean().default(true),

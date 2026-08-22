@@ -8,6 +8,7 @@ import { getSessionCookieOptions } from "../_core/cookies";
 
 export const authRouter = router({
   me: publicProcedure.query(opts => opts.ctx.user),
+  // public-write: justifié — doit rester appelable même si la session est déjà invalide, ne fait que nettoyer un cookie côté client
   logout: publicProcedure.mutation(({ ctx }) => {
     const cookieOptions = getSessionCookieOptions(ctx.req);
     ctx.res.clearCookie(COOKIE_NAME, { ...cookieOptions, maxAge: -1 });

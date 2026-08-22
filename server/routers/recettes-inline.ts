@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
@@ -81,7 +81,7 @@ export const recettesInlineRouter = router({
       return await db.getRecetteFormulesReference(input);
     }),
   
-  create: publicProcedure
+  create: adminProcedure
     .input(z.object({
       name: z.string().min(1),
       category: z.enum(["tabac", "resine", "resine_cbd", "cone", "parfum", "encens", "extrait"]),
@@ -113,7 +113,7 @@ export const recettesInlineRouter = router({
       return result;
     }),
   
-  update: publicProcedure
+  update: adminProcedure
     .input(z.object({
       id: z.number(),
       name: z.string().min(1).optional(),
@@ -147,7 +147,7 @@ export const recettesInlineRouter = router({
       return result;
     }),
   
-  delete: publicProcedure
+  delete: adminProcedure
     .input(z.number())
     .mutation(async ({ input }) => {
       const result = await db.deleteRecette(input);
@@ -157,7 +157,7 @@ export const recettesInlineRouter = router({
     }),
   
   // Enrichir les associations molécules-recettes pour une gamme
-  enrichGamme: publicProcedure
+  enrichGamme: adminProcedure
     .input(z.object({
       gamme: z.enum(['volcanique', 'glaciaire', 'biolab', 'petrichor']),
     }))
@@ -166,7 +166,7 @@ export const recettesInlineRouter = router({
     }),
   
   // Ajouter une association molécule-recette
-  addMoleculeAssociation: publicProcedure
+  addMoleculeAssociation: adminProcedure
     .input(z.object({
       recetteId: z.number(),
       moleculeId: z.number(),

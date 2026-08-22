@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import * as db from "../db";
 import { eq, or, lt } from "drizzle-orm";
@@ -49,7 +49,7 @@ export const moleculesRouter = router({
           CACHE_TTL.MEDIUM
         );
       }),
-    create: publicProcedure
+    create: adminProcedure
       .input((val: unknown) => {
         if (typeof val !== "object" || val === null) throw new Error("Expected object");
         return val as unknown;
@@ -59,7 +59,7 @@ export const moleculesRouter = router({
         invalidateMoleculeCache(); // Invalider le cache après création
         return result;
       }),
-    updateRadar: publicProcedure
+    updateRadar: adminProcedure
       .input(z.object({
         id: z.number(),
         radarIntensity: z.number().min(0).max(100),
@@ -184,7 +184,7 @@ export const moleculesRouter = router({
         
         return sorted;
       }),
-    updateReferences: publicProcedure
+    updateReferences: adminProcedure
       .input(z.object({
         id: z.number(),
         references: z.string(),
@@ -244,7 +244,7 @@ export const moleculesRouter = router({
       }),
 
     // Liaison molécules-recettes
-    linkToRecette: publicProcedure
+    linkToRecette: adminProcedure
       .input(z.object({
         recetteId: z.number(),
         molecules: z.array(z.object({

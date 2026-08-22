@@ -4,7 +4,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import {
   molecules, plants,
@@ -434,7 +434,7 @@ export const duplicatesRouter = router({
   /**
    * Fusionner deux molécules
    */
-  mergeMolecules: publicProcedure
+  mergeMolecules: adminProcedure
     .input(
       z.object({
         keepId: z.number(),
@@ -448,7 +448,7 @@ export const duplicatesRouter = router({
   /**
    * Fusionner deux plantes
    */
-  mergePlants: publicProcedure
+  mergePlants: adminProcedure
     .input(
       z.object({
         keepId: z.number(),

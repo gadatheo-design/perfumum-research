@@ -6,7 +6,7 @@
  */
 
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { 
   searchCOCONUT, 
   getCOCONUTMolecule, 
@@ -132,7 +132,7 @@ export const coconutRouter = router({
   /**
    * Enrich a single molecule with COCONUT data
    */
-  enrichMolecule: publicProcedure
+  enrichMolecule: adminProcedure
     .input(z.object({
       moleculeId: z.number(),
     }))
@@ -190,7 +190,7 @@ export const coconutRouter = router({
   /**
    * Batch enrich molecules with COCONUT data
    */
-  enrichBatch: publicProcedure
+  enrichBatch: adminProcedure
     .input(z.object({
       limit: z.number().min(1).max(5000).optional().default(50),
     }))

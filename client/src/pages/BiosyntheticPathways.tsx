@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useEffect, useRef } from "react";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -172,7 +171,7 @@ function TpsNetworkGraph({
     const nodes: any[] = [
       ...tpsGenes.slice(0, 30).map(gene => ({
         id: `tps-${gene.id}`,
-        name: gene.gene_name,
+        name: gene.name,
         type: 'tps',
         subfamily: gene.subfamily,
         color: getSubfamilyColor(gene.subfamily)
@@ -187,8 +186,8 @@ function TpsNetworkGraph({
 
     // Create links
     const graphLinks = links.slice(0, 50).map(link => ({
-      source: `tps-${link.tps_gene_id}`,
-      target: `mol-${link.molecule_id}`
+      source: `tps-${link.tpsGeneId}`,
+      target: `mol-${link.moleculeId}`
     })).filter(link => 
       nodes.find(n => n.id === link.source) && 
       nodes.find(n => n.id === link.target)
@@ -319,21 +318,32 @@ export default function BiosyntheticPathways() {
   
   // Récupérer les données TPS
   const { data: tpsData, isLoading: tpsLoading } = trpc.research.getTpsGenes.useQuery();
-  const { data: linksData, isLoading: linksLoading } = trpc.research.getTpsMoleculeLinks.useQuery();
-  const { data: moleculesData } = trpc.molecules.list.useQuery({ limit: 100 });
+  // La procédure s'appelle `getTpsGeneMoleculeLinks` (server/routers/research.ts).
+  // Sous l'ancien nom, tRPC construisait un chemin inexistant : la requête
+  // échouait systématiquement et l'onglet restait vide, sans message d'erreur.
+  const { data: linksData, isLoading: linksLoading } = trpc.research.getTpsGeneMoleculeLinks.useQuery();
+  // `molecules.list` ne prend aucun argument : le `{ limit: 100 }` passé ici
+  // était ignoré côté serveur.
+  const { data: moleculesData } = trpc.molecules.list.useQuery();
+
+  // Ces trois procédures renvoient directement un tableau, jamais une
+  // enveloppe { success, data }. Toute la page était conditionnée à
+  // `tpsData?.success` — donc toujours `undefined` : listes vides, graphe
+  // absent, compteurs à zéro, sans le moindre message d'erreur.
+  const tpsGenes = tpsData ?? [];
+  const links = linksData ?? [];
+  const moleculesList = moleculesData ?? [];
 
   // Filtrer les gènes TPS
-  const filteredTpsGenes = tpsData?.success ? tpsData?.data.filter((gene: any) => {
-    const matchesSearch = gene.gene_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          gene.product?.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredTpsGenes = tpsGenes.filter((gene: any) => {
+    const matchesSearch = gene.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          gene.main_product?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesSubfamily = selectedSubfamily === "all" || gene.subfamily === selectedSubfamily;
     return matchesSearch && matchesSubfamily;
-  }) : [];
+  });
 
   // Obtenir les sous-familles uniques
-  const subfamilies = tpsData?.success 
-    ? [...new Set(tpsData?.data.map((g: any) => g.subfamily).filter(Boolean))]
-    : [];
+  const subfamilies = [...new Set(tpsGenes.map((g: any) => g.subfamily).filter(Boolean))] as string[];
 
   return (
     <div className="container py-8 space-y-8">
@@ -514,12 +524,12 @@ export default function BiosyntheticPathways() {
                 <div className="flex items-center justify-center h-[600px]">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                 </div>
-              ) : tpsData?.success && linksData?.success && moleculesData?.success ? (
+              ) : tpsGenes.length > 0 ? (
                 <>
                   <TpsNetworkGraph
-                    tpsGenes={tpsData?.data}
-                    molecules={moleculesData?.data}
-                    links={linksData?.data}
+                    tpsGenes={tpsGenes}
+                    molecules={moleculesList}
+                    links={links}
                     width={800}
                     height={600}
                   />
@@ -603,7 +613,7 @@ export default function BiosyntheticPathways() {
                           className="w-3 h-3 rounded-full"
                           style={{ backgroundColor: getSubfamilyColor(gene.subfamily) }}
                         />
-                        {gene.gene_name}
+                        {gene.name}
                       </CardTitle>
                       <Badge variant="outline" className="text-xs">
                         {gene.subfamily}
@@ -612,10 +622,10 @@ export default function BiosyntheticPathways() {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-2 text-sm">
-                      {gene.product && (
+                      {gene.main_product && (
                         <div>
                           <span className="text-muted-foreground">Produit: </span>
-                          <span className="font-medium">{gene.product}</span>
+                          <span className="font-medium">{gene.main_product}</span>
                         </div>
                       )}
                       {gene.species && (
@@ -631,8 +641,8 @@ export default function BiosyntheticPathways() {
                         </div>
                       )}
                     </div>
-                    {gene.product && (
-                      <Link href={`/molecules?search=${encodeURIComponent(gene.product)}`}>
+                    {gene.main_product && (
+                      <Link href={`/molecules?search=${encodeURIComponent(gene.main_product)}`}>
                         <Button variant="ghost" size="sm" className="mt-2 w-full">
                           <ExternalLink className="h-3 w-3 mr-2" />
                           Voir la molécule
@@ -652,7 +662,7 @@ export default function BiosyntheticPathways() {
           </div>
 
           {/* Statistiques */}
-          {tpsData?.success && (
+          {tpsGenes.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Statistiques</CardTitle>
@@ -660,7 +670,7 @@ export default function BiosyntheticPathways() {
               <CardContent>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
-                    <p className="text-2xl font-bold text-primary">{tpsData?.data.length}</p>
+                    <p className="text-2xl font-bold text-primary">{tpsGenes.length}</p>
                     <p className="text-sm text-muted-foreground">Gènes TPS</p>
                   </div>
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
@@ -669,7 +679,7 @@ export default function BiosyntheticPathways() {
                   </div>
                   <div className="text-center p-4 bg-muted/50 rounded-lg">
                     <p className="text-2xl font-bold text-amber-600">
-                      {linksData?.success ? linksData?.data.length : 0}
+                      {links.length}
                     </p>
                     <p className="text-sm text-muted-foreground">Liaisons</p>
                   </div>

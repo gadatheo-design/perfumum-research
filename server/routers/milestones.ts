@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
@@ -25,7 +25,7 @@ export const milestonesRouter = router({
       return await db.getMilestoneById(input);
     }),
   
-  create: publicProcedure
+  create: adminProcedure
     .input(z.object({
       date: z.date(),
       title: z.string().min(1).max(255),
@@ -41,7 +41,7 @@ export const milestonesRouter = router({
       });
     }),
   
-  update: publicProcedure
+  update: adminProcedure
     .input(z.object({
       id: z.number(),
       date: z.date().optional(),
@@ -56,7 +56,7 @@ export const milestonesRouter = router({
       return await db.updateMilestone(id, data);
     }),
   
-  delete: publicProcedure
+  delete: adminProcedure
     .input(z.number())
     .mutation(async ({ input, ctx }) => {
       if (!ctx.user) throw new Error("Not authenticated");

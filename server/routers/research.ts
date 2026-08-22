@@ -3,9 +3,10 @@
  * Provides tRPC procedures for research claims and sources
  */
 
-import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
+import { adminProcedure, router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import { z } from "zod";
 import { getDb } from "../db";
+import { sqlLike, sqlLiteral } from "../db/sqlEscape";
 import { sql } from "drizzle-orm";
 
 // Import the tables from schema
@@ -48,16 +49,16 @@ export const researchRouter = router({
         let queryParts: string[] = [`SELECT * FROM research_claims WHERE 1=1`];
         
         if (input.type) {
-          queryParts.push(` AND claimType = '${input.type}'`);
+          queryParts.push(` AND claimType = ${sqlLiteral(input.type)}`);
         }
         
         if (input.status) {
-          queryParts.push(` AND status = '${input.status}'`);
+          queryParts.push(` AND status = ${sqlLiteral(input.status)}`);
         }
         
         if (input.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          queryParts.push(` AND (claim LIKE '%${searchTerm}%' OR claimId LIKE '%${searchTerm}%')`);
+          const searchTerm = sqlLike(input.search);
+          queryParts.push(` AND (claim LIKE ${searchTerm} OR claimId LIKE ${searchTerm})`);
         }
         
         queryParts.push(` LIMIT ${input.limit} OFFSET ${input.offset}`);
@@ -110,16 +111,16 @@ export const researchRouter = router({
         let queryParts: string[] = [`SELECT * FROM research_sources WHERE 1=1`];
         
         if (input.quality) {
-          queryParts.push(` AND quality = '${input.quality}'`);
+          queryParts.push(` AND quality = ${sqlLiteral(input.quality)}`);
         }
         
         if (input.status) {
-          queryParts.push(` AND status = '${input.status}'`);
+          queryParts.push(` AND status = ${sqlLiteral(input.status)}`);
         }
         
         if (input.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          queryParts.push(` AND (reference LIKE '%${searchTerm}%' OR sourceId LIKE '%${searchTerm}%')`);
+          const searchTerm = sqlLike(input.search);
+          queryParts.push(` AND (reference LIKE ${searchTerm} OR sourceId LIKE ${searchTerm})`);
         }
         
         queryParts.push(` LIMIT ${input.limit} OFFSET ${input.offset}`);
@@ -287,8 +288,12 @@ export const researchRouter = router({
       return {
         success: true,
         data: {
-          totalClaims: ((claimsResult as CountRow[])[0]?.total || 0),
-          totalSources: ((sourcesResult as CountRow[])[0]?.total || 0),
+          // `Number(...)` : selon la configuration du pilote, un COUNT(*) peut
+          // revenir sous forme de chaîne. Sans conversion, le client comparait
+          // et divisait des chaînes — la moyenne « sources par claim »
+          // devenait fausse.
+          totalClaims: Number((claimsResult as CountRow[])[0]?.total ?? 0),
+          totalSources: Number((sourcesResult as CountRow[])[0]?.total ?? 0),
           claimsByType: claimsByType as SqlRow[],
           sourcesByQuality: sourcesByQuality as SqlRow[],
         },
@@ -368,14 +373,19 @@ export const researchRouter = router({
         
         let query = `SELECT * FROM tps_genes WHERE 1=1`;
         
+        // Les trois filtres arrivaient bruts dans la requête : une chaîne
+        // contenant une quote suffisait à sortir du littéral. La procédure est
+        // publique, donc l'entrée n'est contrainte par rien d'autre que zod,
+        // qui n'accepte ici qu'un `string` quelconque.
         if (input?.productClass) {
-          query += ` AND product_class = '${input.productClass}'`;
+          query += ` AND product_class = ${sqlLiteral(input.productClass)}`;
         }
         if (input?.pathway) {
-          query += ` AND pathway = '${input.pathway}'`;
+          query += ` AND pathway = ${sqlLiteral(input.pathway)}`;
         }
         if (input?.search) {
-          query += ` AND (name LIKE '%${input.search}%' OR main_product LIKE '%${input.search}%' OR olfactory_notes LIKE '%${input.search}%')`;
+          const pattern = sqlLike(input.search);
+          query += ` AND (name LIKE ${pattern} OR main_product LIKE ${pattern} OR olfactory_notes LIKE ${pattern})`;
         }
         
         query += ` ORDER BY product_class, name`;
@@ -503,17 +513,23 @@ export const researchRouter = router({
         if (input?.moleculeId) {
           query += ` AND tgm.molecule_id = ${input.moleculeId}`;
         }
+        // `tpsGeneId` et `moleculeId` sont des `z.number()` : rien à échapper.
+        // Les deux filtres suivants sont des chaînes libres, et arrivaient
+        // brutes dans la requête.
         if (input?.relationshipType) {
-          query += ` AND tgm.relationship_type = '${input.relationshipType}'`;
+          query += ` AND tgm.relationship_type = ${sqlLiteral(input.relationshipType)}`;
         }
         if (input?.confidenceLevel) {
-          query += ` AND tgm.confidence_level = '${input.confidenceLevel}'`;
+          query += ` AND tgm.confidence_level = ${sqlLiteral(input.confidenceLevel)}`;
         }
-        
+
         query += ` ORDER BY tg.name, m.name`;
-        
+
         const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
-        return (result as SqlRow[])[0] || [];
+        // `result` EST déjà la liste des lignes : renvoyer `result[0]` ne
+        // rendait que la première, sous forme d'objet là où le client attend
+        // un tableau.
+        return Array.isArray(result) ? result : [];
       } catch (error: unknown) {
         console.error("Error fetching TPS gene-molecule links:", error);
         return [];
@@ -523,7 +539,7 @@ export const researchRouter = router({
   /**
    * Create a TPS gene-molecule link
    */
-  createTpsGeneMoleculeLink: publicProcedure
+  createTpsGeneMoleculeLink: adminProcedure
     .input(
       z.object({
         tpsGeneId: z.number(),
@@ -542,7 +558,7 @@ export const researchRouter = router({
         const query = `
           INSERT INTO tps_gene_molecules 
             (tps_gene_id, molecule_id, relationship_type, confidence_level, evidence_source, notes)
-          VALUES (${input.tpsGeneId}, ${input.moleculeId}, '${input.relationshipType}', '${input.confidenceLevel}', ${input.evidenceSource ? `'${input.evidenceSource}'` : 'NULL'}, ${input.notes ? `'${input.notes}'` : 'NULL'})
+          VALUES (${input.tpsGeneId}, ${input.moleculeId}, ${sqlLiteral(input.relationshipType)}, ${sqlLiteral(input.confidenceLevel)}, ${sqlLiteral(input.evidenceSource ?? null)}, ${sqlLiteral(input.notes ?? null)})
         `;
         
         const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
@@ -559,7 +575,7 @@ export const researchRouter = router({
   /**
    * Delete a TPS gene-molecule link
    */
-  deleteTpsGeneMoleculeLink: publicProcedure
+  deleteTpsGeneMoleculeLink: adminProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
       try {
@@ -773,7 +789,7 @@ export const researchRouter = router({
           geneFilter = ` AND tg.id = ${input.geneId}`;
         }
         if (input.pathway !== "all") {
-          geneFilter += ` AND tg.pathway = '${input.pathway}'`;
+          geneFilter += ` AND tg.pathway = ${sqlLiteral(input.pathway)}`;
         }
 
         const pathsQuery = `
@@ -925,15 +941,15 @@ export const researchRouter = router({
         `;
 
         if (input.transformationType && input.transformationType !== 'all') {
-          query += ` AND mt.transformation_type = '${input.transformationType}'`;
+          query += ` AND mt.transformation_type = ${sqlLiteral(input.transformationType)}`;
         }
         if (input.relevanceContext && input.relevanceContext !== 'all') {
-          query += ` AND mt.relevance_context = '${input.relevanceContext}'`;
+          query += ` AND mt.relevance_context = ${sqlLiteral(input.relevanceContext)}`;
         }
         if (input.sourceMoleculeName) {
           // Search in both source and product molecule names, case-insensitive
-          const searchTerm = input.sourceMoleculeName.replace(/'/g, "''");
-          query += ` AND (LOWER(mt.source_molecule_name) LIKE LOWER('%${searchTerm}%') OR LOWER(mt.product_molecule_name) LIKE LOWER('%${searchTerm}%'))`;
+          const searchTerm = sqlLike(input.sourceMoleculeName);
+          query += ` AND (LOWER(mt.source_molecule_name) LIKE LOWER(${searchTerm}) OR LOWER(mt.product_molecule_name) LIKE LOWER(${searchTerm}))`;
         }
 
         query += ` ORDER BY mt.source_molecule_name LIMIT ${input.limit} OFFSET ${input.offset}`;
@@ -985,7 +1001,7 @@ export const researchRouter = router({
   /**
    * Create a new molecular transformation
    */
-  createMolecularTransformation: publicProcedure
+  createMolecularTransformation: adminProcedure
     .input(
       z.object({
         sourceMoleculeName: z.string(),
@@ -1020,9 +1036,8 @@ export const researchRouter = router({
           return { success: false, error: "Database connection failed" };
         }
 
-        const escapeSql = (str: string) => str.replace(/'/g, "''");
-
-        const [result] = await db.execute(sql.raw(`
+        // Requête paramétrée (template `sql` = placeholders liés).
+        const [result] = await db.execute(sql`
           INSERT INTO molecular_transformations (
             source_molecule_name, product_molecule_name, transformation_type,
             source_molecule_id, product_molecule_id,
@@ -1031,23 +1046,23 @@ export const researchRouter = router({
             source_olfactory_notes, product_olfactory_notes,
             relevance_context, source_reference, notes
           ) VALUES (
-            '${escapeSql(input.sourceMoleculeName)}',
-            '${escapeSql(input.productMoleculeName)}',
-            '${input.transformationType}',
-            ${input.sourceMoleculeId || 'NULL'},
-            ${input.productMoleculeId || 'NULL'},
-            ${input.temperatureMin || 'NULL'},
-            ${input.temperatureMax || 'NULL'},
-            ${input.temperatureOptimal || 'NULL'},
-            ${input.yieldPercent || 'NULL'},
-            ${input.olfactoryChangeDescription ? `'${escapeSql(input.olfactoryChangeDescription)}'` : 'NULL'},
-            ${input.sourceOlfactoryNotes ? `'${escapeSql(input.sourceOlfactoryNotes)}'` : 'NULL'},
-            ${input.productOlfactoryNotes ? `'${escapeSql(input.productOlfactoryNotes)}'` : 'NULL'},
-            '${input.relevanceContext}',
-            ${input.sourceReference ? `'${escapeSql(input.sourceReference)}'` : 'NULL'},
-            ${input.notes ? `'${escapeSql(input.notes)}'` : 'NULL'}
+            ${input.sourceMoleculeName},
+            ${input.productMoleculeName},
+            ${input.transformationType},
+            ${input.sourceMoleculeId ?? null},
+            ${input.productMoleculeId ?? null},
+            ${input.temperatureMin ?? null},
+            ${input.temperatureMax ?? null},
+            ${input.temperatureOptimal ?? null},
+            ${input.yieldPercent ?? null},
+            ${input.olfactoryChangeDescription ?? null},
+            ${input.sourceOlfactoryNotes ?? null},
+            ${input.productOlfactoryNotes ?? null},
+            ${input.relevanceContext},
+            ${input.sourceReference ?? null},
+            ${input.notes ?? null}
           )
-        `)) as unknown as [SqlRow[]];
+        `) as unknown as [SqlRow[]];
 
         return { success: true, message: "Transformation created successfully" };
       } catch (error: unknown) {
@@ -1115,7 +1130,7 @@ export const researchRouter = router({
           conditions.push(`tri.recette_id = ${input.recetteId}`);
         }
         if (input?.impactType) {
-          conditions.push(`tri.impact_type = '${input.impactType}'`);
+          conditions.push(`tri.impact_type = ${sqlLiteral(input.impactType)}`);
         }
         
         if (conditions.length > 0) {
@@ -1304,7 +1319,7 @@ export const researchRouter = router({
   /**
    * Create a transformation-recipe impact link
    */
-  createTransformationRecipeImpact: publicProcedure
+  createTransformationRecipeImpact: adminProcedure
     .input(
       z.object({
         transformationId: z.number(),
@@ -1325,9 +1340,8 @@ export const researchRouter = router({
           return { success: false, error: "Database connection failed" };
         }
 
-        const escapeSql = (str: string) => str.replace(/'/g, "''");
-
-        const [result] = await db.execute(sql.raw(`
+        // Requête paramétrée (template `sql` = placeholders liés).
+        const [result] = await db.execute(sql`
           INSERT INTO transformation_recipe_impacts (
             transformation_id, recette_id, impact_type,
             impact_description, olfactory_contribution,
@@ -1336,15 +1350,15 @@ export const researchRouter = router({
           ) VALUES (
             ${input.transformationId},
             ${input.recetteId},
-            '${input.impactType}',
-            ${input.impactDescription ? `'${escapeSql(input.impactDescription)}'` : 'NULL'},
-            ${input.olfactoryContribution ? `'${escapeSql(input.olfactoryContribution)}'` : 'NULL'},
-            ${input.percentageContribution || 'NULL'},
-            ${input.temperatureRange ? `'${escapeSql(input.temperatureRange)}'` : 'NULL'},
-            ${input.notes ? `'${escapeSql(input.notes)}'` : 'NULL'},
-            ${input.sourceReference ? `'${escapeSql(input.sourceReference)}'` : 'NULL'}
+            ${input.impactType},
+            ${input.impactDescription ?? null},
+            ${input.olfactoryContribution ?? null},
+            ${input.percentageContribution ?? null},
+            ${input.temperatureRange ?? null},
+            ${input.notes ?? null},
+            ${input.sourceReference ?? null}
           )
-        `)) as unknown as [SqlRow[]];
+        `) as unknown as [SqlRow[]];
 
         return { success: true, message: "Impact link created successfully" };
       } catch (error: unknown) {
@@ -1359,7 +1373,7 @@ export const researchRouter = router({
   /**
    * Delete a transformation-recipe impact link
    */
-  deleteTransformationRecipeImpact: publicProcedure
+  deleteTransformationRecipeImpact: adminProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
       try {
@@ -1411,10 +1425,10 @@ export const researchRouter = router({
         `;
 
         if (input?.startMolecule) {
-          query += ` AND (mt.source_molecule_name LIKE '%${input.startMolecule}%' OR mt.product_molecule_name LIKE '%${input.startMolecule}%')`;
+          query += ` AND (mt.source_molecule_name LIKE ${sqlLike(input.startMolecule)} OR mt.product_molecule_name LIKE ${sqlLike(input.startMolecule)})`;
         }
         if (input?.transformationType && input.transformationType !== 'all') {
-          query += ` AND mt.transformation_type = '${input.transformationType}'`;
+          query += ` AND mt.transformation_type = ${sqlLiteral(input.transformationType)}`;
         }
 
         query += ` ORDER BY mt.source_molecule_name`;
@@ -1569,9 +1583,9 @@ export const researchRouter = router({
           sourceCondition = `mt.source_molecule_id = ${input.moleculeId}`;
           productCondition = `mt.product_molecule_id = ${input.moleculeId}`;
         } else if (input.moleculeName) {
-          const name = input.moleculeName.replace(/'/g, "''");
-          sourceCondition = `LOWER(mt.source_molecule_name) = LOWER('${name}')`;
-          productCondition = `LOWER(mt.product_molecule_name) = LOWER('${name}')`;
+          const name = sqlLiteral(input.moleculeName);
+          sourceCondition = `LOWER(mt.source_molecule_name) = LOWER(${name})`;
+          productCondition = `LOWER(mt.product_molecule_name) = LOWER(${name})`;
         }
 
         // Get transformations where molecule is source
@@ -1664,14 +1678,14 @@ export const researchRouter = router({
         let query = `SELECT * FROM research_publications WHERE 1=1`;
         
         if (input?.focus) {
-          query += ` AND research_focus = '${input.focus}'`;
+          query += ` AND research_focus = ${sqlLiteral(input.focus)}`;
         }
         if (input?.subject) {
-          query += ` AND subject_matter = '${input.subject}'`;
+          query += ` AND subject_matter = ${sqlLiteral(input.subject)}`;
         }
         if (input?.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          query += ` AND (title LIKE '%${searchTerm}%' OR authors LIKE '%${searchTerm}%' OR key_findings LIKE '%${searchTerm}%')`;
+          const searchTerm = sqlLike(input.search);
+          query += ` AND (title LIKE ${searchTerm} OR authors LIKE ${searchTerm} OR key_findings LIKE ${searchTerm})`;
         }
         
         query += ` ORDER BY citations DESC LIMIT ${input?.limit || 50} OFFSET ${input?.offset || 0}`;
@@ -1735,11 +1749,11 @@ export const researchRouter = router({
         let query = `SELECT * FROM analytical_methods WHERE 1=1`;
         
         if (input?.category) {
-          query += ` AND category = '${input.category}'`;
+          query += ` AND category = ${sqlLiteral(input.category)}`;
         }
         if (input?.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          query += ` AND (name LIKE '%${searchTerm}%' OR code LIKE '%${searchTerm}%' OR description LIKE '%${searchTerm}%')`;
+          const searchTerm = sqlLike(input.search);
+          query += ` AND (name LIKE ${searchTerm} OR code LIKE ${searchTerm} OR description LIKE ${searchTerm})`;
         }
         
         query += ` ORDER BY performance_score DESC`;
@@ -1777,11 +1791,11 @@ export const researchRouter = router({
         let query = `SELECT * FROM researchers WHERE 1=1`;
         
         if (input?.status) {
-          query += ` AND status = '${input.status}'`;
+          query += ` AND status = ${sqlLiteral(input.status)}`;
         }
         if (input?.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          query += ` AND (name LIKE '%${searchTerm}%' OR bio LIKE '%${searchTerm}%')`;
+          const searchTerm = sqlLike(input.search);
+          query += ` AND (name LIKE ${searchTerm} OR bio LIKE ${searchTerm})`;
         }
         
         query += ` ORDER BY total_citations DESC`;
@@ -1820,14 +1834,14 @@ export const researchRouter = router({
         let query = `SELECT * FROM research_institutions WHERE 1=1`;
         
         if (input?.country) {
-          query += ` AND country = '${input.country}'`;
+          query += ` AND country = ${sqlLiteral(input.country)}`;
         }
         if (input?.type) {
-          query += ` AND institution_type = '${input.type}'`;
+          query += ` AND institution_type = ${sqlLiteral(input.type)}`;
         }
         if (input?.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          query += ` AND (name LIKE '%${searchTerm}%' OR description LIKE '%${searchTerm}%')`;
+          const searchTerm = sqlLike(input.search);
+          query += ` AND (name LIKE ${searchTerm} OR description LIKE ${searchTerm})`;
         }
         
         query += ` ORDER BY total_citations DESC`;
@@ -1985,12 +1999,12 @@ export const researchRouter = router({
         let query = `SELECT * FROM analytical_methods WHERE 1=1`;
         
         if (input?.category) {
-          query += ` AND category = '${input.category.replace(/'/g, "''")}'`;
+          query += ` AND category = ${sqlLiteral(input.category)}`;
         }
         
         if (input?.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          query += ` AND (name LIKE '%${searchTerm}%' OR description LIKE '%${searchTerm}%' OR acronym LIKE '%${searchTerm}%')`;
+          const searchTerm = sqlLike(input.search);
+          query += ` AND (name LIKE ${searchTerm} OR description LIKE ${searchTerm} OR acronym LIKE ${searchTerm})`;
         }
         
         query += ` ORDER BY name ASC`;
@@ -2032,12 +2046,12 @@ export const researchRouter = router({
         let query = `SELECT * FROM molecular_transformations WHERE 1=1`;
         
         if (input?.type) {
-          query += ` AND transformation_type = '${input.type.replace(/'/g, "''")}'`;
+          query += ` AND transformation_type = ${sqlLiteral(input.type)}`;
         }
         
         if (input?.search) {
-          const searchTerm = input.search.replace(/'/g, "''");
-          query += ` AND (source_molecule_name LIKE '%${searchTerm}%' OR product_molecule_name LIKE '%${searchTerm}%' OR notes LIKE '%${searchTerm}%')`;
+          const searchTerm = sqlLike(input.search);
+          query += ` AND (source_molecule_name LIKE ${searchTerm} OR product_molecule_name LIKE ${searchTerm} OR notes LIKE ${searchTerm})`;
         }
         
         query += ` ORDER BY id DESC`;
@@ -2102,7 +2116,7 @@ export const researchRouter = router({
           query += ` AND pml.molecule_id = ${input.moleculeId}`;
         }
         if (input?.relationshipType) {
-          query += ` AND pml.relationship_type = '${input.relationshipType.replace(/'/g, "''")}'`;
+          query += ` AND pml.relationship_type = ${sqlLiteral(input.relationshipType)}`;
         }
         
         query += ` ORDER BY rp.year DESC, m.name ASC`;

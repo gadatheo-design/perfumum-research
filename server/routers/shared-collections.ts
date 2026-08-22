@@ -5,7 +5,7 @@ import * as db from "../db";
 import { SQL } from "drizzle-orm";
 
 export const sharedCollectionsRouter = router({
-  create: publicProcedure
+  create: protectedProcedure
     .input(z.object({
       title: z.string(),
       description: z.string().optional(),

@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
 
 export const citationsRouter = router({
-  generate: publicProcedure
+  generate: adminProcedure
     .input(z.object({
       entityType: z.enum(["molecule", "recipe", "prototype", "accord"]),
       entityId: z.number(),

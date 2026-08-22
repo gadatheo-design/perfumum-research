@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import * as db from "../db";
 import { sql } from "drizzle-orm";
@@ -108,7 +108,7 @@ export const plantsRouter = router({
       };
     }),
 
-    create: publicProcedure
+    create: adminProcedure
       .input(z.object({
         name: z.string().min(1),
         latinName: z.string().optional(),
@@ -136,7 +136,7 @@ export const plantsRouter = router({
       .mutation(async ({ input }) => {
         return await db.createPlant(input);
       }),
-    update: publicProcedure
+    update: adminProcedure
       .input(z.object({
         id: z.number(),
         data: z.object({
@@ -179,7 +179,7 @@ export const plantsRouter = router({
       .mutation(async ({ input }) => {
         return await db.updatePlant(input.id, input.data);
       }),
-    delete: publicProcedure
+    delete: adminProcedure
       .input(z.number())
       .mutation(async ({ input }) => {
         await db.deletePlant(input);

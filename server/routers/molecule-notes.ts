@@ -12,7 +12,7 @@ export const moleculeNotesRouter = router({
       return await db.getMoleculeNote(ctx.user.id, input);
     }),
   
-  upsert: publicProcedure
+  upsert: protectedProcedure
     .input(z.object({
       moleculeId: z.number(),
       note: z.string(),
@@ -34,7 +34,7 @@ export const moleculeNotesRouter = router({
       return await db.getUserMoleculeNotes(ctx.user.id);
     }),
   
-  delete: publicProcedure
+  delete: protectedProcedure
     .input(z.number()) // moleculeId
     .mutation(async ({ input, ctx }) => {
       if (!ctx.user) throw new Error("Not authenticated");

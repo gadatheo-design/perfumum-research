@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
@@ -36,7 +36,7 @@ export const geographicOriginsRouter = router({
     .query(async ({ input }) => {
       return await db.getOriginMolecules(input);
     }),
-  create: publicProcedure
+  create: adminProcedure
     .input(z.object({
       name: z.string().min(1),
       country: z.string().min(1),
@@ -58,7 +58,7 @@ export const geographicOriginsRouter = router({
     .mutation(async ({ input }) => {
       return await db.createGeographicOrigin(input);
     }),
-  update: publicProcedure
+  update: adminProcedure
     .input(z.object({
       id: z.number(),
       data: z.object({
@@ -83,14 +83,14 @@ export const geographicOriginsRouter = router({
     .mutation(async ({ input }) => {
       return await db.updateGeographicOrigin(input.id, input.data);
     }),
-  delete: publicProcedure
+  delete: adminProcedure
     .input(z.number())
     .mutation(async ({ input }) => {
       await db.deleteGeographicOrigin(input);
       return { success: true };
     }),
   // Géocodage automatique d'un terroir
-  geocode: publicProcedure
+  geocode: adminProcedure
     .input(z.object({
       id: z.number(),
       address: z.string().optional(), // Si non fourni, utilise name + country + region
