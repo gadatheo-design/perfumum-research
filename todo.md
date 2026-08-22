@@ -411,7 +411,8 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 ## Août 2026 — CI d’intégration et dette TypeScript
 
 - [x] Auditer les tests dépendants de `DATABASE_URL`, le workflow GitHub et l’inventaire réel des directives `@ts-nocheck`.
-- [ ] Préparer l’exécution CI avec une base de test isolée via le secret GitHub `CI_DATABASE_URL`.
+- [x] Préparer l’exécution CI avec une base de test isolée via le secret GitHub `CI_DATABASE_URL` (workflow prêt ; saisie du secret reportée à la demande de l’utilisateur).
+- CI_DATABASE_URL — action manuelle différée : créer une base MySQL de test isolée puis enregistrer son URL dans les secrets GitHub Actions.
 - [x] Retirer un premier lot sûr de directives `@ts-nocheck` et corriger les types associés (Input, Textarea, usePersistFn et AnalyticsDashboard).
 - [x] Valider les tests, la compilation TypeScript et le build après chaque réduction de dette (131 fichiers de test, 1 903 réussites, 2 ignorés ; contrôle TypeScript et HTTP 200).
 
@@ -438,3 +439,8 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Migrer les overrides pnpm ignorés depuis package.json vers pnpm-workspace.yaml afin de rendre les résolutions de sécurité effectives.
 - [x] Appliquer uniquement les résolutions compatibles validées, sans mise à niveau majeure du framework (ws 8.21.0, overrides qs 6.15.2 et path-to-regexp 0.1.13).
 - [x] Vérifier la réduction des alertes et les régressions TypeScript, Vitest et de démarrage (3 critiques, 26 hautes, 54 modérées ; 1 908 tests et HTTP 200).
+
+## Août 2026 — Contrôle administratif des associations
+
+- [x] Ajouter dans l’administration un panneau de lecture des liens plante-descripteur et molécule-descripteur orphelins.
+- [x] Vérifier le panneau d’intégrité avec les données réelles, les tests tRPC existants et un contrôle visuel bureau.

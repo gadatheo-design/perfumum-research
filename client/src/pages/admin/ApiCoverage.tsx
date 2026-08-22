@@ -5,6 +5,7 @@ import { EnrichTab } from "./EnrichTab";
 import { OlfactoryDescriptors } from "./OlfactoryDescriptors";
 import { PredO3Associations } from "./PredO3Associations";
 import { TerritoriesManagement } from "./TerritoriesManagement";
+import { DataIntegrityTab } from "./DataIntegrityTab";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -29,6 +30,7 @@ import {
   RefreshCw,
   Zap,
   MapPin,
+  Link2Off,
 } from "lucide-react";
 
 type FilterType = "all" | "missing_gbif" | "missing_powo" | "missing_ncbi" | "missing_wikidata" | "missing_itis" | "incomplete" | "complete";
@@ -61,7 +63,7 @@ export default function ApiCoverage() {
   const [genus, setGenus] = useState("");
   const [genusInput, setGenusInput] = useState("");
   const [category, setCategory] = useState("");
-  const [activeTab, setActiveTab] = useState<"plants" | "genres" | "enrich" | "batch" | "olfactory" | "pred-o3" | "territories">("plants");
+  const [activeTab, setActiveTab] = useState<"plants" | "genres" | "enrich" | "batch" | "olfactory" | "pred-o3" | "territories" | "integrity">("plants");
 
   const { data, isLoading, refetch } = trpc.apiCoverage.getGlobalCoverage.useQuery({
     filter,
@@ -175,6 +177,7 @@ export default function ApiCoverage() {
             { key: "batch", label: "Enrichir en lot", icon: <Zap className="h-4 w-4" /> },
             { key: "olfactory", label: "Descripteurs Olfactifs", icon: <Database className="h-4 w-4" /> },
             { key: "pred-o3", label: "Associations Pred-O3", icon: <Globe className="h-4 w-4" /> },
+            { key: "integrity", label: "Intégrité", icon: <Link2Off className="h-4 w-4" /> },
             { key: "territories", label: "Gestion Terroirs", icon: <MapPin className="h-4 w-4" /> },
           ].map(({ key, label, icon }) => (
             <button
@@ -337,6 +340,9 @@ export default function ApiCoverage() {
 
         {/* Onglet Associations Pred-O3 */}
         {activeTab === "pred-o3" && <PredO3Associations />}
+
+        {/* Onglet Intégrité des données */}
+        {activeTab === "integrity" && <DataIntegrityTab />}
 
         {/* Onglet Gestion Terroirs */}
         {activeTab === "territories" && <TerritoriesManagement />}
