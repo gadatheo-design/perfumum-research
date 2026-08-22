@@ -75,7 +75,7 @@ export function MoleculeNomenclatureTab({
                     Identité Chimique
                   </h2>
                   {!mol.pubchemCid && (
-                    <PubChemEnrichButton moleculeId={id} moleculeName={molecule?.name} />
+                    <PubChemEnrichButton moleculeId={id} moleculeName={molecule?.name ?? ''} />
                   )}
                 </div>
 

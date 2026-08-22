@@ -154,7 +154,7 @@ export function MoleculeScientificTab({
               {/* Classification assistée par IA */}
               <AIClassificationSuggestion
                 molecule={{
-                  name: molecule?.name,
+                  name: molecule?.name ?? '',
                   iupacName: molecule?.iupacName,
                   casNumber: molecule?.casNumber,
                   chemicalFormula: molecule?.chemicalFormula,

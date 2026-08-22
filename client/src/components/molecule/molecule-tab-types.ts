@@ -1,57 +1,43 @@
-import type { MoleculeExtended, MoleculeReference } from '../../../../shared/domain-types';
+/**
+ * Props partagées par les six onglets de la fiche molécule.
+ *
+ * Ces types étaient auparavant écrits à la main et ne correspondaient à
+ * aucune procédure réelle : `IfraRestriction` déclarait `category` et
+ * `maxConcentration` alors que la table a des colonnes `category1`…`category11`,
+ * `TpsGene` inventait `accession` / `substrate` / `product`, et
+ * `ResearchTransformation` ne ressemblait pas au retour de
+ * `research.getTransformationsByMolecule`. Résultat : trente et une erreurs
+ * aux six points de passage des props, et aucune vérification utile à
+ * l'intérieur des onglets.
+ *
+ * On les dérive maintenant du routeur. Si une procédure change de forme, ce
+ * sont les onglets qui échouent à la compilation — ce qu'on veut — au lieu de
+ * lire des champs absents en silence.
+ */
+import type { inferRouterOutputs } from "@trpc/server";
+import type { AppRouter } from "../../../../server/routers";
+import type { MoleculeExtended, MoleculeReference } from "../../../../shared/domain-types";
 
-// Types locaux pour les données tRPC
-export interface IfraRestriction {
-  id: number;
-  moleculeId: number;
-  category: string;
-  maxConcentration?: number | null;
-  notes?: string | null;
-  source?: string | null;
-  updatedAt?: Date | null;
-}
+type RouterOutput = inferRouterOutputs<AppRouter>;
 
-export interface MoleculeOrigin {
-  id: number;
-  moleculeId: number;
-  country?: string | null;
-  region?: string | null;
-  plantName?: string | null;
-  notes?: string | null;
-}
+/** Restriction IFRA telle que `ifraRestrictions.getByMolecule` la renvoie. */
+export type IfraRestriction = RouterOutput["ifraRestrictions"]["getByMolecule"][number];
 
-export interface TpsGene {
-  id: number;
-  geneName: string;
-  species?: string | null;
-  accession?: string | null;
-  function?: string | null;
-  substrate?: string | null;
-  product?: string | null;
-}
+/** Origine géographique, depuis `moleculeOrigins.getByMolecule`. */
+export type MoleculeOrigin = RouterOutput["moleculeOrigins"]["getByMolecule"][number];
 
-export interface ResearchTransformation {
-  id: number;
-  sourceMolecule?: string | null;
-  productMolecule?: string | null;
-  reactionType?: string | null;
-  conditions?: string | null;
-  yield?: string | null;
-  notes?: string | null;
-}
+/** Gène TPS, depuis `molecules.getTpsGenes`. */
+export type TpsGene = RouterOutput["molecules"]["getTpsGenes"][number];
 
-export interface TransformationsResult {
-  success: boolean;
-  asSource: ResearchTransformation[];
-  asProduct: ResearchTransformation[];
-  stats?: {
-    total: number;
-    totalAsSource: number;
-    totalAsProduct: number;
-  };
-  error?: string;
-}
+/** Retour complet de `research.getTransformationsByMolecule`. */
+export type TransformationsResult = RouterOutput["research"]["getTransformationsByMolecule"];
 
+/** Une transformation isolée, extraite du retour ci-dessus. */
+export type ResearchTransformation = TransformationsResult extends { asSource: (infer T)[] }
+  ? T
+  : never;
+
+/** Point du diagramme radar, construit côté page. */
 export interface RadarDataPoint {
   axis: string;
   value: number;
@@ -59,7 +45,8 @@ export interface RadarDataPoint {
 
 export interface MoleculeTabProps {
   mol: MoleculeExtended;
-  molecule: MoleculeExtended;
+  /** Vient de `molecules.getById` : peut être absent le temps du chargement. */
+  molecule: RouterOutput["molecules"]["getById"];
   id: number;
   normOlfactiveProfile: string[];
   normOlfactiveProfileStr: string;
