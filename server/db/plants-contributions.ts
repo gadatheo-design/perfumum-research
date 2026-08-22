@@ -593,7 +593,19 @@ export async function reviewPlantContribution(
   }
 }
 
-export async function getContributionStats() {
+/** Compteurs renvoyés par `getContributionStats`. */
+export interface ContributionStats {
+  total: number;
+  pending: number;
+  approved: number;
+  rejected: number;
+  images?: number;
+  molecules?: number;
+  terroirs?: number;
+  notes?: number;
+}
+
+export async function getContributionStats(): Promise<ContributionStats> {
   try {
     const conn = await getMysqlConnection();
     const [rows] = await conn.execute(`
@@ -609,7 +621,7 @@ export async function getContributionStats() {
       FROM plant_contributions
     `);
     await conn.end();
-    return (rows as unknown[])[0] || { total: 0, pending: 0, approved: 0, rejected: 0 };
+    return (rows as ContributionStats[])[0] || { total: 0, pending: 0, approved: 0, rejected: 0 };
   } catch (error: unknown) {
     console.error('Error getting contribution stats:', error);
     return { total: 0, pending: 0, approved: 0, rejected: 0 };

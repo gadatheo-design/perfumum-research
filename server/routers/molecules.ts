@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getMysqlConnection } from "../db/mysqlPool";
 import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import * as db from "../db";
@@ -549,8 +550,7 @@ export const moleculesRouter = router({
         limit: z.number().min(1).max(20).default(10),
       }))
       .query(async ({ input }) => {
-        const mysql2 = await import('mysql2/promise');
-        const conn = await mysql2.createConnection(process.env.DATABASE_URL!);
+        const conn = await getMysqlConnection();
         const [rows] = await conn.query(`
           SELECT 
             m2.id, m2.name, m2.family, m2.chemicalFamily,
@@ -585,8 +585,7 @@ export const moleculesRouter = router({
         limit: z.number().min(1).max(100).default(30),
       }))
       .query(async ({ input }) => {
-        const mysql2 = await import('mysql2/promise');
-        const conn = await mysql2.createConnection(process.env.DATABASE_URL!);
+        const conn = await getMysqlConnection();
         const placeholders = input.families.map(() => '?').join(', ');
         const likeConditions = input.families.map(() => 'LOWER(family) LIKE ?').join(' OR ');
         const likeParams = input.families.flatMap(f => [`%${f.toLowerCase()}%`]);

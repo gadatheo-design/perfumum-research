@@ -1,8 +1,16 @@
 import { z } from "zod";
+import { getMysqlConnection } from "../db/mysqlPool";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
+
+/** Compteurs renvoyés par `traditionStats`. */
+interface TraditionStats {
+  total: number;
+  withGetty: number;
+  withWikidata: number;
+}
 
 export const olfactiveArchivesRouter = router({
   // Liste des archives avec filtres
@@ -133,8 +141,7 @@ export const olfactiveArchivesRouter = router({
       offset: z.number().default(0),
     }).optional())
     .query(async ({ input }) => {
-      const mysql2 = await import('mysql2/promise');
-      const conn = await mysql2.createConnection(process.env.DATABASE_URL!);
+      const conn = await getMysqlConnection();
       const { withGettyOnly = false, search = '', limit = 100, offset = 0 } = input || {};
       let where = '1=1';
       if (withGettyOnly) where += " AND getty_aat_id IS NOT NULL";
@@ -154,8 +161,7 @@ export const olfactiveArchivesRouter = router({
 
   // Statistiques traditions olfactives
   traditionStats: publicProcedure.query(async () => {
-    const mysql2 = await import('mysql2/promise');
-    const conn = await mysql2.createConnection(process.env.DATABASE_URL!);
+    const conn = await getMysqlConnection();
     const [rows] = await conn.query(
       `SELECT COUNT(*) as total,
               SUM(CASE WHEN getty_aat_id IS NOT NULL THEN 1 ELSE 0 END) as withGetty,
@@ -163,6 +169,6 @@ export const olfactiveArchivesRouter = router({
        FROM traditions_olfactives`
     );
     await conn.end();
-    return (rows as Record<string,unknown>[])[0] || { total: 0, withGetty: 0, withWikidata: 0 };
+    return (rows as TraditionStats[])[0] || { total: 0, withGetty: 0, withWikidata: 0 };
   }),
 });

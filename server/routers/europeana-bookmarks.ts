@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getMysqlConnection } from "../db/mysqlPool";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { europeanaBookmarks } from "../../drizzle/schema";
@@ -155,9 +156,7 @@ export const europeanaBookmarksRouter = router({
 
       const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
-      const conn = await import("mysql2/promise").then((m) =>
-        m.createConnection(process.env.DATABASE_URL!)
-      );
+      const conn = await getMysqlConnection();
 
       try {
         const items = await db
@@ -200,9 +199,7 @@ export const europeanaBookmarksRouter = router({
     const db = await getDb();
     if (!db) return { total: 0, byTheme: [], withPlant: 0, withMolecule: 0 };
 
-    const conn = await import("mysql2/promise").then((m) =>
-      m.createConnection(process.env.DATABASE_URL!)
-    );
+    const conn = await getMysqlConnection();
 
     try {
       const [[totalRow]] = await conn.query(

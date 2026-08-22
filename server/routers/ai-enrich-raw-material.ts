@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getMysqlConnection } from "../db/mysqlPool";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
@@ -11,8 +12,7 @@ export const aiEnrichRawMaterialRouter = router({
     .mutation(async ({ input }) => {
       const { invokeLLM } = await import('../_core/llm');
 
-      const { createConnection } = await import('mysql2/promise');
-      const _conn = await createConnection(process.env.DATABASE_URL!);
+      const _conn = await getMysqlConnection();
       const [rows] = await _conn.query(`SELECT * FROM raw_materials WHERE id = ?`, [input.rawMaterialId]);
       await _conn.end();
       const rm = (rows as Record<string, unknown>[])[0];
@@ -90,8 +90,7 @@ Réponds UNIQUEMENT avec le JSON.`;
     .mutation(async ({ input }) => {
       const { invokeLLM } = await import('../_core/llm');
 
-      const { createConnection } = await import('mysql2/promise');
-      const _conn = await createConnection(process.env.DATABASE_URL!);
+      const _conn = await getMysqlConnection();
       const [rows] = await _conn.query(`SELECT * FROM raw_materials WHERE id = ?`, [input.rawMaterialId]);
       await _conn.end();
       const rm = (rows as Record<string, unknown>[])[0];

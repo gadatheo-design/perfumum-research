@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { getMysqlConnection } from "../db/mysqlPool";
 import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import * as db from "../db";
@@ -366,8 +367,7 @@ export const plantsRouter = router({
         if (input.filter === 'missingDescription') where = "(notes IS NULL OR notes = '')";
         if (input.filter === 'missingOlfactiveProfile') where = "(olfactive_signature IS NULL OR olfactive_signature = '')";
         if (input.filter === 'missingTherapeutic') where = "(traditional_use IS NULL OR traditional_use = '')";
-        const mysql2 = await import('mysql2/promise');
-        const conn = await mysql2.createConnection(process.env.DATABASE_URL!);
+        const conn = await getMysqlConnection();
         const limit = Number(input.limit);
         const offset = Number(input.offset);
         const [rows] = await conn.query(`SELECT id, name, latin_name, family FROM plants WHERE ${where} ORDER BY name LIMIT ${limit} OFFSET ${offset}`);
@@ -390,8 +390,7 @@ export const plantsRouter = router({
         useWikidata: z.boolean().default(true),
       }))
       .query(async ({ input }) => {
-        const mysql2 = await import('mysql2/promise');
-        const conn = await mysql2.createConnection(process.env.DATABASE_URL!);
+        const conn = await getMysqlConnection();
 
         try {
           // 1. Récupérer la plante cible avec ses métadonnées taxonomiques
