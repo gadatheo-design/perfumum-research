@@ -421,3 +421,13 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Réaliser un audit général de l’architecture, de la qualité des données, de la sécurité, de l’UX et de l’exploitabilité.
 - [x] Produire une feuille de route priorisée des améliorations à court, moyen et long terme (voir `docs/audits/2026-08-22-audit-general.md`).
 - [x] Corriger le traitement du résultat SQL des transformations moléculaires afin d’éliminer l’erreur runtime `length` sur les fiches molécules (test de régression tRPC ajouté).
+
+## Août 2026 — Sécurité des dépendances et intégrité relationnelle
+
+- [x] Examiner les mises à niveau de dépendances proposées par l’audit de sécurité sans changement de version majeur non validé (correctif nanoid 5.1.16 appliqué ; mises à niveau majeures isolées).
+- [x] Ajouter un test d’intégrité qui détecte les liens de descripteurs orphelins sans modifier les données existantes.
+- [x] Aligner le routeur `descriptor-links` sur les colonnes réelles en snake_case et vérifier l’existence des plantes ou molécules avant insertion.
+- [x] Aligner les déclarations Drizzle des tables de liens de descripteurs sur le schéma MySQL réel, sans générer de migration (génération Drizzle annulée avant toute écriture SQL).
+- [x] Corriger la pré-optimisation Vite qui référence une dépendance absente et fragilise l’aperçu de développement.
+- [x] Valider les correctifs par tests, compilation et nouvel audit des dépendances (133 fichiers, 1 908 réussites ; TypeScript vert ; nanoid corrigé, alertes résiduelles documentées).
+- [ ] Planifier la mise à niveau testée des dépendances majeures ou transitives encore vulnérables (axios, mermaid, react-force-graph, jsPDF) dans une branche de sécurité dédiée.

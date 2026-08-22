@@ -17,19 +17,19 @@ export const descriptorLinksRouter = router({
         const query = sql`
           SELECT 
             dpl.id,
-            dpl.plantId,
-            dpl.descriptorId,
-            dpl.strength,
+            dpl.plant_id AS plantId,
+            dpl.descriptor_id AS descriptorId,
+            dpl.force_level AS strength,
             dpl.notes,
             dpl.source,
-            dpl.createdAt,
-            p.name as plantName,
-            p.latinName,
+            dpl.created_at AS createdAt,
+            COALESCE(p.name, dpl.common_name, dpl.latin_name) AS plantName,
+            COALESCE(p.latin_name, dpl.latin_name) AS latinName,
             p.family
           FROM descriptor_plant_links dpl
-          LEFT JOIN plants p ON dpl.plantId = p.id
-          WHERE dpl.descriptorId = ${input.descriptorId}
-          ORDER BY dpl.strength DESC, p.name ASC
+          LEFT JOIN plants p ON dpl.plant_id = p.id
+          WHERE dpl.descriptor_id = ${input.descriptorId}
+          ORDER BY dpl.force_level DESC, plantName ASC
         `;
 
         const [rows] = await db.execute(query) as any;
@@ -53,19 +53,19 @@ export const descriptorLinksRouter = router({
         const query = sql`
           SELECT 
             dml.id,
-            dml.moleculeId,
-            dml.descriptorId,
-            dml.strength,
+            dml.molecule_id AS moleculeId,
+            dml.descriptor_id AS descriptorId,
+            dml.force_level AS strength,
             dml.notes,
             dml.source,
-            dml.createdAt,
-            m.name as moleculeName,
-            m.iupacName,
-            m.casNumber
+            dml.created_at AS createdAt,
+            COALESCE(m.name, dml.molecule_name) AS moleculeName,
+            COALESCE(m.iupac_name, dml.iupac_name) AS iupacName,
+            COALESCE(m.cas_number, dml.cas_number) AS casNumber
           FROM descriptor_molecule_links dml
-          LEFT JOIN molecules m ON dml.moleculeId = m.id
-          WHERE dml.descriptorId = ${input.descriptorId}
-          ORDER BY dml.strength DESC, m.name ASC
+          LEFT JOIN molecules m ON dml.molecule_id = m.id
+          WHERE dml.descriptor_id = ${input.descriptorId}
+          ORDER BY dml.force_level DESC, moleculeName ASC
         `;
 
         const [rows] = await db.execute(query) as any;
@@ -97,13 +97,31 @@ export const descriptorLinksRouter = router({
         // Vérifier que l'utilisateur est authentifié
         if (!ctx.user) throw new Error("Unauthorized");
 
+        const [descriptorRows] = await db.execute(sql`
+          SELECT name FROM odor_descriptors WHERE descriptor_id = ${input.descriptorId} LIMIT 1
+        `) as any;
+        const [plantRows] = await db.execute(sql`
+          SELECT id, latin_name, name FROM plants WHERE id = ${input.plantId} LIMIT 1
+        `) as any;
+        const descriptor = descriptorRows?.[0];
+        const plant = plantRows?.[0];
+
+        if (!descriptor) throw new Error("Descriptor not found");
+        if (!plant) throw new Error("Plant not found");
+
         const query = sql`
-          INSERT INTO descriptor_plant_links (descriptorId, plantId, strength, notes, source, createdAt, updatedAt)
-          VALUES (${input.descriptorId}, ${input.plantId}, ${input.strength}, ${input.notes || null}, ${input.source}, NOW(), NOW())
+          INSERT INTO descriptor_plant_links
+            (descriptor_id, descriptor_name, plant_id, latin_name, common_name, force_level, notes, source, created_at, updated_at)
+          VALUES
+            (${input.descriptorId}, ${descriptor.name}, ${plant.id}, ${plant.latin_name}, ${plant.name}, ${input.strength}, ${input.notes || null}, ${input.source}, NOW(), NOW())
           ON DUPLICATE KEY UPDATE
-          strength = ${input.strength},
-          notes = ${input.notes || null},
-          updatedAt = NOW()
+            descriptor_name = VALUES(descriptor_name),
+            latin_name = VALUES(latin_name),
+            common_name = VALUES(common_name),
+            force_level = VALUES(force_level),
+            notes = VALUES(notes),
+            source = VALUES(source),
+            updated_at = NOW()
         `;
 
         await db.execute(query);
@@ -139,13 +157,32 @@ export const descriptorLinksRouter = router({
         // Vérifier que l'utilisateur est authentifié
         if (!ctx.user) throw new Error("Unauthorized");
 
+        const [descriptorRows] = await db.execute(sql`
+          SELECT name FROM odor_descriptors WHERE descriptor_id = ${input.descriptorId} LIMIT 1
+        `) as any;
+        const [moleculeRows] = await db.execute(sql`
+          SELECT id, name, iupac_name, cas_number FROM molecules WHERE id = ${input.moleculeId} LIMIT 1
+        `) as any;
+        const descriptor = descriptorRows?.[0];
+        const molecule = moleculeRows?.[0];
+
+        if (!descriptor) throw new Error("Descriptor not found");
+        if (!molecule) throw new Error("Molecule not found");
+
         const query = sql`
-          INSERT INTO descriptor_molecule_links (descriptorId, moleculeId, strength, notes, source, createdAt, updatedAt)
-          VALUES (${input.descriptorId}, ${input.moleculeId}, ${input.strength}, ${input.notes || null}, ${input.source}, NOW(), NOW())
+          INSERT INTO descriptor_molecule_links
+            (descriptor_id, descriptor_name, molecule_id, molecule_name, iupac_name, cas_number, force_level, notes, source, created_at, updated_at)
+          VALUES
+            (${input.descriptorId}, ${descriptor.name}, ${molecule.id}, ${molecule.name}, ${molecule.iupac_name}, ${molecule.cas_number}, ${input.strength}, ${input.notes || null}, ${input.source}, NOW(), NOW())
           ON DUPLICATE KEY UPDATE
-          strength = ${input.strength},
-          notes = ${input.notes || null},
-          updatedAt = NOW()
+            descriptor_name = VALUES(descriptor_name),
+            molecule_name = VALUES(molecule_name),
+            iupac_name = VALUES(iupac_name),
+            cas_number = VALUES(cas_number),
+            force_level = VALUES(force_level),
+            notes = VALUES(notes),
+            source = VALUES(source),
+            updated_at = NOW()
         `;
 
         await db.execute(query);
@@ -242,8 +279,8 @@ export const descriptorLinksRouter = router({
 
         const query = sql`
           SELECT 
-            (SELECT COUNT(*) FROM descriptor_plant_links WHERE descriptorId = ${input.descriptorId}) as totalPlants,
-            (SELECT COUNT(*) FROM descriptor_molecule_links WHERE descriptorId = ${input.descriptorId}) as totalMolecules
+            (SELECT COUNT(*) FROM descriptor_plant_links WHERE descriptor_id = ${input.descriptorId}) as totalPlants,
+            (SELECT COUNT(*) FROM descriptor_molecule_links WHERE descriptor_id = ${input.descriptorId}) as totalMolecules
         `;
 
         const [rows] = await db.execute(query) as any;
@@ -253,6 +290,53 @@ export const descriptorLinksRouter = router({
         return { totalPlants: 0, totalMolecules: 0 };
       }
     }),
+
+  /**
+   * Signale les anciennes associations dont la cible a été supprimée.
+   * La procédure est volontairement en lecture seule : la résolution ou la
+   * suppression d’un lien reste une décision éditoriale en administration.
+   */
+  getIntegrityReport: protectedProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) throw new Error("Database connection failed");
+
+    const [orphanPlantLinks] = await db.execute(sql`
+      SELECT
+        dpl.id,
+        dpl.descriptor_id AS descriptorId,
+        dpl.descriptor_name AS descriptorName,
+        dpl.plant_id AS plantId,
+        dpl.latin_name AS latinName,
+        dpl.common_name AS commonName,
+        dpl.source,
+        dpl.created_at AS createdAt
+      FROM descriptor_plant_links dpl
+      LEFT JOIN plants p ON p.id = dpl.plant_id
+      WHERE dpl.plant_id IS NOT NULL AND p.id IS NULL
+      ORDER BY dpl.created_at DESC, dpl.id DESC
+    `) as any;
+
+    const [orphanMoleculeLinks] = await db.execute(sql`
+      SELECT
+        dml.id,
+        dml.descriptor_id AS descriptorId,
+        dml.descriptor_name AS descriptorName,
+        dml.molecule_id AS moleculeId,
+        dml.molecule_name AS moleculeName,
+        dml.cas_number AS casNumber,
+        dml.source,
+        dml.created_at AS createdAt
+      FROM descriptor_molecule_links dml
+      LEFT JOIN molecules m ON m.id = dml.molecule_id
+      WHERE dml.molecule_id IS NOT NULL AND m.id IS NULL
+      ORDER BY dml.created_at DESC, dml.id DESC
+    `) as any;
+
+    return {
+      orphanPlantLinks: orphanPlantLinks ?? [],
+      orphanMoleculeLinks: orphanMoleculeLinks ?? [],
+    };
+  }),
 });
 
 /**
@@ -261,16 +345,16 @@ export const descriptorLinksRouter = router({
 async function updateDescriptorOccurrences(db: any, descriptorId: string) {
   try {
     const query = sql`
-      INSERT INTO descriptor_occurrences (descriptorId, totalPlants, totalMolecules, lastUpdated)
+      INSERT INTO descriptor_occurrences (descriptor_id, total_plants, total_molecules, last_updated)
       SELECT 
         ${descriptorId},
-        COALESCE((SELECT COUNT(*) FROM descriptor_plant_links WHERE descriptorId = ${descriptorId}), 0),
-        COALESCE((SELECT COUNT(*) FROM descriptor_molecule_links WHERE descriptorId = ${descriptorId}), 0),
+        COALESCE((SELECT COUNT(*) FROM descriptor_plant_links WHERE descriptor_id = ${descriptorId}), 0),
+        COALESCE((SELECT COUNT(*) FROM descriptor_molecule_links WHERE descriptor_id = ${descriptorId}), 0),
         NOW()
       ON DUPLICATE KEY UPDATE
-      totalPlants = VALUES(totalPlants),
-      totalMolecules = VALUES(totalMolecules),
-      lastUpdated = NOW()
+      total_plants = VALUES(total_plants),
+      total_molecules = VALUES(total_molecules),
+      last_updated = NOW()
     `;
 
     await db.execute(query);

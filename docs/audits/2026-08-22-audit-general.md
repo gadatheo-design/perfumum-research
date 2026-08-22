@@ -18,12 +18,14 @@ Cet audit couvre la stabilité applicative, la dette TypeScript, l’architectur
 | Bibliographie | 1 499 références ; 576 années et 1 208 DOI manquent. | Normalisation bibliographique nécessaire. |
 | Intégrité | Deux liens descripteur→plante et deux liens descripteur→molécule sont orphelins. | Correction simple et prioritaire. |
 | Sécurité applicative | Les protections de mutations tRPC et l’usage du pool MySQL sont couverts par tests. | Socle nettement amélioré. |
-| Dépendances | `pnpm audit --prod` signale 3 vulnérabilités critiques, 28 hautes et 55 modérées dans 859 dépendances de production. | Action de sécurité prioritaire. |
+| Dépendances | `pnpm audit --prod` signale 3 vulnérabilités critiques, 27 hautes et 55 modérées dans 863 dépendances de production après correctif nanoid 5.1.16. | Action de sécurité prioritaire. |
 | CI | TypeScript et build passent sur GitHub ; les tests d’intégration attendent un secret `CI_DATABASE_URL`. | Contrôle distant incomplet. |
 
 ## Correctif inclus dans cette itération
 
 La procédure `research.getTransformationsByMolecule` traitait une ligne SQL comme un tableau de lignes, ce qui provoquait l’erreur `Cannot read properties of undefined (reading 'length')` sur certaines fiches molécules. Le résultat est maintenant normalisé en tableau avant le calcul des statistiques. Le test `server/research-transformations.test.ts` verrouille ce comportement.
+
+Le routeur `descriptor-links` et les déclarations Drizzle associées ont également été réalignés sur les colonnes MySQL réelles (`descriptor_id`, `plant_id`, `molecule_id`, `force_level` et métadonnées archivées). Les mutations refusent désormais explicitement les plantes et molécules absentes avant l’insertion. Un rapport tRPC de liens orphelins reste disponible pour la revue administrative, sans suppression automatique de données.
 
 ## Priorités de mise en œuvre
 

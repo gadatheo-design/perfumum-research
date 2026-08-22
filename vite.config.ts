@@ -91,7 +91,6 @@ export default defineConfig({
       "@trpc/client",
       "@trpc/react-query",
       "reactflow",
-      "use-sync-external-store/with-selector",
     ],
     exclude: [],
     force: false,

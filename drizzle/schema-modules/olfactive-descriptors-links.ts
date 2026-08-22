@@ -1,4 +1,4 @@
-import { mysqlTable, varchar, int, timestamp, index, foreignKey } from "drizzle-orm/mysql-core";
+import { mysqlTable, varchar, int, text, timestamp, index } from "drizzle-orm/mysql-core";
 
 /**
  * Liaison entre descripteurs olfactifs Pred-O3 et plantes
@@ -8,17 +8,19 @@ export const descriptorPlantLinks = mysqlTable(
   {
     id: int().primaryKey().autoincrement(),
     descriptorId: varchar("descriptor_id", { length: 100 }).notNull(),
-    plantId: int().notNull(),
-    strength: int().default(1), // 1-5 : force de l'association
-    notes: varchar("notes", { length: 500 }),
+    descriptorName: varchar("descriptor_name", { length: 255 }).notNull(),
+    plantId: int("plant_id"),
+    latinName: varchar("latin_name", { length: 255 }),
+    commonName: varchar("common_name", { length: 255 }),
+    strength: int("force_level").default(3), // 1-5 : force de l'association
+    notes: text("notes"),
     source: varchar("source", { length: 100 }), // "manual", "pred-o3", "user", etc.
-    createdAt: timestamp().defaultNow(),
-    updatedAt: timestamp().defaultNow().onUpdateNow(),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
   },
   (table) => ({
     descriptorIdx: index("idx_descriptor_id").on(table.descriptorId),
     plantIdx: index("idx_plant_id").on(table.plantId),
-    uniqueLink: index("unique_descriptor_plant").on(table.descriptorId, table.plantId),
   })
 );
 
@@ -30,17 +32,20 @@ export const descriptorMoleculeLinks = mysqlTable(
   {
     id: int().primaryKey().autoincrement(),
     descriptorId: varchar("descriptor_id", { length: 100 }).notNull(),
-    moleculeId: int().notNull(),
-    strength: int().default(1), // 1-5 : force de l'association
-    notes: varchar("notes", { length: 500 }),
+    descriptorName: varchar("descriptor_name", { length: 255 }).notNull(),
+    moleculeId: int("molecule_id"),
+    moleculeName: varchar("molecule_name", { length: 255 }),
+    iupacName: varchar("iupac_name", { length: 500 }),
+    casNumber: varchar("cas_number", { length: 50 }),
+    strength: int("force_level").default(3), // 1-5 : force de l'association
+    notes: text("notes"),
     source: varchar("source", { length: 100 }), // "manual", "pred-o3", "user", etc.
-    createdAt: timestamp().defaultNow(),
-    updatedAt: timestamp().defaultNow().onUpdateNow(),
+    createdAt: timestamp("created_at").defaultNow(),
+    updatedAt: timestamp("updated_at").defaultNow().onUpdateNow(),
   },
   (table) => ({
     descriptorIdx: index("idx_descriptor_id").on(table.descriptorId),
     moleculeIdx: index("idx_molecule_id").on(table.moleculeId),
-    uniqueLink: index("unique_descriptor_molecule").on(table.descriptorId, table.moleculeId),
   })
 );
 
@@ -52,9 +57,9 @@ export const descriptorOccurrences = mysqlTable(
   {
     id: int().primaryKey().autoincrement(),
     descriptorId: varchar("descriptor_id", { length: 100 }).notNull(),
-    totalPlants: int().default(0),
-    totalMolecules: int().default(0),
-    lastUpdated: timestamp().defaultNow().onUpdateNow(),
+    totalPlants: int("total_plants").default(0),
+    totalMolecules: int("total_molecules").default(0),
+    lastUpdated: timestamp("last_updated").defaultNow().onUpdateNow(),
   },
   (table) => ({
     descriptorIdx: index("idx_descriptor_id").on(table.descriptorId),
