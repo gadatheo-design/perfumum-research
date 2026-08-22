@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -117,7 +116,7 @@ export default function DataQuality() {
   // Mutations
   const mergeMutation = trpc.dataCleanup.executeMergeDuplicates.useMutation({
     onSuccess: (data) => {
-      toast.success(`Fusion terminée: ${data.merged?.length || 0} groupes traités`);
+      toast.success(`Fusion terminée: ${'merged' in data ? data.merged.length : 0} groupes traités`);
       refetchDuplicates();
       refetchLinks();
       setIsExecutingMerge(false);
@@ -130,7 +129,7 @@ export default function DataQuality() {
   
   const enrichMutation = trpc.dataCleanup.executeEnrichFormulas.useMutation({
     onSuccess: (data) => {
-      toast.success(`Enrichissement terminé: ${data.updated?.length || 0} molécules enrichies`);
+      toast.success(`Enrichissement terminé: ${'updated' in data ? data.updated.length : 0} molécules enrichies`);
       refetchEnrich();
       setIsExecutingEnrich(false);
     },
@@ -142,12 +141,12 @@ export default function DataQuality() {
   
   const handleMergeDuplicates = () => {
     setIsExecutingMerge(true);
-    mergeMutation.mutate({});
+    mergeMutation.mutate();
   };
   
   const handleEnrichFormulas = () => {
     setIsExecutingEnrich(true);
-    enrichMutation.mutate({});
+    enrichMutation.mutate();
   };
   
   const refreshAll = () => {

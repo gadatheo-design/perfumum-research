@@ -22,7 +22,7 @@ interface SynergyData {
   molecule2Name: string | null;
   molecule1Family?: string | null;
   molecule2Family?: string | null;
-  type: "potentialisation" | "stabilisation" | "transformation" | "masquage";
+  type: "potentialisation" | "stabilisation" | "transformation" | "masquage" | "neutralisation";
   description: string;
   applications?: string | null;
   intensity?: number;
@@ -56,6 +56,7 @@ const TYPE_COLORS = {
   stabilisation: { main: "oklch(0.60 0.20 250)", light: "oklch(0.85 0.10 250)" },
   transformation: { main: "oklch(0.65 0.20 300)", light: "oklch(0.85 0.10 300)" },
   masquage: { main: "oklch(0.65 0.20 30)", light: "oklch(0.85 0.10 30)" },
+  neutralisation: { main: "oklch(0.55 0.05 0)", light: "oklch(0.85 0.03 0)" },
 };
 
 const TYPE_LABELS = {
@@ -63,6 +64,7 @@ const TYPE_LABELS = {
   stabilisation: { short: "S", full: "Stabilisation" },
   transformation: { short: "T", full: "Transformation" },
   masquage: { short: "M", full: "Masquage" },
+  neutralisation: { short: "N", full: "Neutralisation" },
 };
 
 // Couleurs pour les familles chimiques
@@ -610,6 +612,7 @@ export function EnhancedHeatmap({
       stabilisation: 0,
       transformation: 0,
       masquage: 0,
+      neutralisation: 0,
     };
     
     filteredSynergies.forEach(s => {
@@ -661,6 +664,7 @@ export function EnhancedHeatmap({
               <SelectItem value="stabilisation">Stabilisation</SelectItem>
               <SelectItem value="transformation">Transformation</SelectItem>
               <SelectItem value="masquage">Masquage</SelectItem>
+              <SelectItem value="neutralisation">Neutralisation</SelectItem>
             </SelectContent>
           </Select>
           {uniqueFamilies.length > 0 && (

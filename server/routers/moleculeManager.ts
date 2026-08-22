@@ -149,7 +149,7 @@ export const moleculeManagerRouter = router({
     `) as unknown as [SqlRow[]];
     
     return (rows as SqlRow[]).map(r => ({
-      category: r.category || 'null',
+      category: String(r.category ?? 'null'),
       count: Number(r.cnt),
     }));
   }),
@@ -495,10 +495,12 @@ export const moleculeManagerRouter = router({
 
     return (rows as SqlRow[]).map(r => ({
       id: Number(r.id),
-      name: r.name,
-      latinName: r.latin_name || null,
-      category: r.category || null,
-      wikidataQid: r.wikidata_qid || null,
+      // Ces quatre colonnes sortaient en `unknown` : la page les affiche
+      // directement et appelle `.substring()` sur le nom.
+      name: String(r.name ?? ''),
+      latinName: r.latin_name == null ? null : String(r.latin_name),
+      category: r.category == null ? null : String(r.category),
+      wikidataQid: r.wikidata_qid == null ? null : String(r.wikidata_qid),
     }));
   }),
 

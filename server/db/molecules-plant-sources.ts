@@ -443,6 +443,8 @@ export async function createPlantMoleculeLink(data: {
   percentageTypical?: number;
   isSignature?: number;
   role?: string;
+  /** Référence bibliographique saisie dans l'écran d'administration. */
+  source?: string;
 }) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
@@ -455,6 +457,7 @@ export async function createPlantMoleculeLink(data: {
     percentageTypical: data.percentageTypical,
     isSignature: data.isSignature || 0,
     role: data.role as any,
+    source: data.source,
   });
   
   return { id: Number(result[0].insertId), ...data };
