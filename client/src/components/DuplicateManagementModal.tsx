@@ -286,6 +286,11 @@ export function DuplicateManagementModal({
     if (!data || !selectedId) return null;
 
     const selectedEntry = data.find((d: any) => d.id === selectedId);
+    // `find` peut ne rien trouver si la liste a été rechargée depuis la
+    // sélection — une autre fusion ayant supprimé la ligne, par exemple.
+    // Sans ce garde, l'étape de confirmation d'une opération irréversible
+    // plantait sur `selectedEntry.id`.
+    if (!selectedEntry) return null;
     const otherEntries = data.filter((d: any) => d.id !== selectedId);
 
     return (

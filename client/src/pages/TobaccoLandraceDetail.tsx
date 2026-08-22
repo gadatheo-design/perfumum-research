@@ -331,7 +331,10 @@ export default function TobaccoLandraceDetail() {
   const landraceName = params?.name ? decodeURIComponent(params.name) : '';
   
   // Récupérer les données de la landrace
-  const { data: landraces } = trpc.tobacco.getLandraces.useQuery();
+  // `getLandraces` renvoie une enveloppe { success, data } : le `.find(...)`
+  // plus bas s'appliquait à l'enveloppe et levait un TypeError.
+  const { data: landracesResponse } = trpc.tobacco.getLandraces.useQuery();
+  const landraces = landracesResponse?.data;
   const { data: chromatograms } = trpc.tobacco.getChromatograms.useQuery();
   const { data: peaks } = trpc.tobacco.getChromatogramPeaks.useQuery(
     { landraceName },

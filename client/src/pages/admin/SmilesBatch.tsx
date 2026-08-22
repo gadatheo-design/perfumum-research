@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useRef, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";
@@ -11,6 +10,16 @@ import {
   XCircle, AlertCircle, FlaskConical, Clock, Eye, EyeOff
 } from "lucide-react";
 
+/** Une ligne du journal d'exécution affichée sous les compteurs. */
+type LogEntry = {
+  id: number;
+  name: string;
+  identifier: string;
+  status: "success" | "not_found" | "error";
+  message: string;
+  smiles?: string;
+};
+
 export default function SmilesBatch() {
   const [isRunning, setIsRunning] = useState(false);
   const [isDryRun, setIsDryRun] = useState(true);
@@ -19,11 +28,11 @@ export default function SmilesBatch() {
   const [succeeded, setSucceeded] = useState(0);
   const [notFound, setNotFound] = useState(0);
   const [errors, setErrors] = useState(0);
-  const [logs, setLogs] = useState([]);
+  const [logs, setLogs] = useState<(LogEntry & { timestamp: Date })[]>([]);
   const [batchSize, setBatchSize] = useState(20);
   const [hasMore, setHasMore] = useState(true);
   const [totalRemaining, setTotalRemaining] = useState(0);
-  const [startTime, setStartTime] = useState(null);
+  const [startTime, setStartTime] = useState<Date | null>(null);
   const abortRef = useRef(false);
   const logIdRef = useRef(0);
 
@@ -31,7 +40,7 @@ export default function SmilesBatch() {
   const enrichByCidMutation = trpc.smilesEnrichment.enrichSmilesByCid.useMutation();
   const enrichByCasMutation = trpc.smilesEnrichment.enrichSmilesByCas.useMutation();
 
-  const addLog = useCallback((entry) => {
+  const addLog = useCallback((entry: LogEntry) => {
     setLogs(prev => [{ ...entry, timestamp: new Date() }, ...prev].slice(0, 300));
   }, []);
 

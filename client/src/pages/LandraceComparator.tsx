@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useEffect, useRef } from 'react';
 import { trpc } from '@/lib/trpc';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -150,7 +149,11 @@ function LandraceSelector({
   onRemove: (id: number) => void;
   maxSelections?: number;
 }) {
-  const { data: landraces, isLoading } = trpc.tobacco.getLandraces.useQuery();
+  // `getLandraces` renvoie une enveloppe { success, data }, contrairement à
+  // ses voisines. `landraces.filter(...)` s'appliquait donc à l'enveloppe :
+  // TypeError, sélecteur inutilisable.
+  const { data: landracesResponse, isLoading } = trpc.tobacco.getLandraces.useQuery();
+  const landraces = landracesResponse?.data;
   
   if (isLoading) {
     return (
@@ -219,7 +222,9 @@ function LandraceSelector({
 
 export default function LandraceComparator() {
   const [selectedIds, setSelectedIds] = useState<number[]>([]);
-  const { data: landraces } = trpc.tobacco.getLandraces.useQuery();
+  // Même enveloppe { success, data } que plus haut.
+  const { data: landracesResponse } = trpc.tobacco.getLandraces.useQuery();
+  const landraces = landracesResponse?.data;
   const { data: allProfiles } = trpc.tobacco.getTerpeneProfiles.useQuery();
   
   // Organiser les profils par landrace

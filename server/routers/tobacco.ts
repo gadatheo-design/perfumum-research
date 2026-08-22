@@ -16,6 +16,95 @@ type SqlRow = Record<string, unknown>;
 type CountRow = { count?: number | string; total?: number | string; cnt?: number | string; name?: string };
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * Chromatogramme GC-MS.
+ *
+ * ⚠ `gcms_chromatograms` et `gcms_peaks` ne sont déclarées NI dans les modules
+ * Drizzle NI dans aucune des 96 migrations : ce sont deux tables fantômes de
+ * plus, du même ordre que celles recensées par l'audit. Les champs ci-dessous
+ * sont ceux que les requêtes de ce fichier sélectionnent et que la page
+ * GCMSChromatograms lit — ils décrivent l'attente du code, pas une définition
+ * vérifiée. À confirmer par un `SHOW CREATE TABLE`.
+ */
+export interface GcmsChromatogramRow {
+  id: number;
+  landrace_name: string | null;
+  tobacco: string | null;
+  instrument: string | null;
+  column_type: string | null;
+  carrier_gas: string | null;
+  flow_rate: string | null;
+  split_ratio: string | null;
+  injection_volume: string | null;
+  oven_program: string | null;
+  analysis_date: string | Date | null;
+  total_peaks: number | null;
+  identified_peaks: number | null;
+  notes: string | null;
+}
+
+/** Pic d'un chromatogramme. */
+export interface GcmsPeakRow {
+  id: number;
+  chromatogram_id: number;
+  compound_name: string | null;
+  cas_number: string | null;
+  retention_time: string | number | null;
+  peak_area: string | number | null;
+  concentration_ppm: string | number | null;
+  match_quality: string | number | null;
+}
+
+/** Pic joint au nom de la landrace, pour la vue « tous les pics ». */
+export interface GcmsPeakWithLandraceRow extends GcmsPeakRow {
+  landrace_name: string | null;
+}
+
+/**
+ * Variété de tabac traditionnelle.
+ *
+ * ⚠ Comme `gcms_*`, `tobacco_landraces` et `landrace_terpene_profiles` ne sont
+ * déclarées ni dans les modules Drizzle ni dans aucune migration. Champs
+ * relevés dans les requêtes de ce fichier et dans les trois pages qui les
+ * consomment — à confirmer par un `SHOW CREATE TABLE`.
+ */
+export interface TobaccoLandraceRow {
+  id: number;
+  name: string | null;
+  alternate_names: string | null;
+  species: string | null;
+  genetic_type: string | null;
+  country: string | null;
+  region: string | null;
+  status: string | null;
+  curing_method: string | null;
+  molecular_profile_type: string | null;
+  olfactory_profile: string | null;
+  aromatic_profile: string | null;
+  aromatic_intensity: string | number | null;
+  dominant_notes: string | null;
+  secondary_notes: string | null;
+  combustion_profile: string | null;
+  perfumery_applications: string | null;
+  perfumery_potential_score: string | number | null;
+  rarity_score: string | number | null;
+  data_certainty: string | null;
+  historical_notes: string | null;
+  terpenes_floraux_ppm: string | number | null;
+  lactones_ppm: string | number | null;
+  indoles_ppm: string | number | null;
+}
+
+/** Profil terpénique d'une landrace. */
+export interface LandraceTerpeneProfileRow {
+  id: number;
+  landrace_name: string | null;
+  terpene_name: string | null;
+  relative_abundance: string | number | null;
+  concentration_ppm: string | number | null;
+  olfactory_note: string | null;
+}
+
 export const tobaccoRouter = router({
   /**
    * Get all tobacco varieties with optional filtering
@@ -238,7 +327,7 @@ export const tobaccoRouter = router({
       const [result] = await db.execute(sql`
         SELECT * FROM tobacco_landraces ORDER BY perfumery_potential_score DESC
       `) as unknown as [SqlRow[]];
-      return { success: true, data: result as SqlRow[] };
+      return { success: true, data: result as unknown as TobaccoLandraceRow[] };
     } catch (error) {
       console.error("Error fetching landraces:", error);
       return { success: false, data: [], error: (error as Error).message };
@@ -260,7 +349,7 @@ export const tobaccoRouter = router({
           WHERE molecular_profile_type = ${input.profile}
           ORDER BY perfumery_potential_score DESC
         `) as unknown as [SqlRow[]];
-        return { success: true, data: result as SqlRow[] };
+        return { success: true, data: result as unknown as TobaccoLandraceRow[] };
       } catch (error) {
         console.error("Error fetching landraces by profile:", error);
         return { success: false, data: [], error: (error as Error).message };
@@ -280,7 +369,7 @@ export const tobaccoRouter = router({
         const [result] = await db.execute(sql`
           SELECT * FROM tobacco_landraces WHERE id = ${input.id}
         `) as unknown as [SqlRow[]];
-        const rows = result as SqlRow[];
+        const rows = result as unknown as TobaccoLandraceRow[];
         return { success: true, data: rows[0] || null };
       } catch (error) {
         console.error("Error fetching landrace:", error);
@@ -514,7 +603,7 @@ export const tobaccoRouter = router({
       const [result] = await db.execute(sql`
         SELECT * FROM landrace_terpene_profiles ORDER BY landrace_name, relative_abundance DESC
       `) as unknown as [SqlRow[]];
-      return result as SqlRow[];
+      return result as unknown as LandraceTerpeneProfileRow[];
     } catch (error) {
       console.error("Error fetching terpene profiles:", error);
       return [];
@@ -536,7 +625,7 @@ export const tobaccoRouter = router({
           WHERE landrace_name = ${input.landraceName}
           ORDER BY relative_abundance DESC
         `) as unknown as [SqlRow[]];
-        return result as SqlRow[];
+        return result as unknown as LandraceTerpeneProfileRow[];
       } catch (error) {
         console.error("Error fetching terpene profiles by landrace:", error);
         return [];
@@ -572,7 +661,7 @@ export const tobaccoRouter = router({
       const [result] = await db.execute(sql`
         SELECT * FROM gcms_chromatograms ORDER BY landrace_name
       `) as unknown as [SqlRow[]];
-      return result as SqlRow[];
+      return result as unknown as GcmsChromatogramRow[];
     } catch (error) {
       console.error("Error fetching chromatograms:", error);
       return [];
@@ -595,7 +684,7 @@ export const tobaccoRouter = router({
           WHERE c.landrace_name = ${input.landraceName}
           ORDER BY p.retention_time
         `) as unknown as [SqlRow[]];
-        return result as SqlRow[];
+        return result as unknown as GcmsPeakRow[];
       } catch (error) {
         console.error("Error fetching chromatogram peaks:", error);
         return [];
@@ -622,7 +711,7 @@ export const tobaccoRouter = router({
         JOIN gcms_chromatograms c ON p.chromatogram_id = c.id
         ORDER BY p.concentration_ppm DESC
       `) as unknown as [SqlRow[]];
-      return result as SqlRow[];
+      return result as unknown as GcmsPeakWithLandraceRow[];
     } catch (error) {
       console.error("Error fetching all chromatogram peaks:", error);
       return [];
