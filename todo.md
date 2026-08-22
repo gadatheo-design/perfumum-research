@@ -407,3 +407,17 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Identifier les graphes présents dans les fiches plantes et molécules et définir les informations prioritaires à exposer (radar olfactif Recharts et arbre taxonomique D3).
 - [x] Ajouter des infobulles interactives et accessibles aux graphes des fiches plantes et molécules (radar olfactif Recharts et arbre taxonomique D3).
 - [x] Vérifier les interactions au survol, au focus clavier et sur écran mobile (contrôle TypeScript, test de régression des contrats d’accessibilité, serveur HTTP 200 ; visualisation manuelle différée car l’aperçu navigateur est indisponible dans le sandbox).
+
+## Août 2026 — CI d’intégration et dette TypeScript
+
+- [x] Auditer les tests dépendants de `DATABASE_URL`, le workflow GitHub et l’inventaire réel des directives `@ts-nocheck`.
+- [ ] Préparer l’exécution CI avec une base de test isolée via le secret GitHub `CI_DATABASE_URL`.
+- [x] Retirer un premier lot sûr de directives `@ts-nocheck` et corriger les types associés (Input, Textarea, usePersistFn et AnalyticsDashboard).
+- [x] Valider les tests, la compilation TypeScript et le build après chaque réduction de dette (131 fichiers de test, 1 903 réussites, 2 ignorés ; contrôle TypeScript et HTTP 200).
+
+## Août 2026 — Audit général et dette TypeScript continue
+
+- [x] Sélectionner et traiter un second lot à faible risque de fichiers `@ts-nocheck` (RecentActivity et SankeyDiagram, en plus du premier lot déjà validé).
+- [x] Réaliser un audit général de l’architecture, de la qualité des données, de la sécurité, de l’UX et de l’exploitabilité.
+- [x] Produire une feuille de route priorisée des améliorations à court, moyen et long terme (voir `docs/audits/2026-08-22-audit-general.md`).
+- [x] Corriger le traitement du résultat SQL des transformations moléculaires afin d’éliminer l’erreur runtime `length` sur les fiches molécules (test de régression tRPC ajouté).

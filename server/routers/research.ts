@@ -1673,8 +1673,11 @@ export const researchRouter = router({
           ORDER BY mt.transformation_type, mt.source_molecule_name
         `)) as unknown as [SqlRow[]];
 
-        const asSource = (asSourceResult[0] as unknown) as SqlRow[];
-        const asProduct = (asProductResult[0] as unknown) as SqlRow[];
+        // `db.execute()` is destructured above as `[rows, fields]`. The first
+        // value is already the complete row array; indexing it once more would
+        // turn it into a single row object and make `.length` undefined.
+        const asSource = Array.isArray(asSourceResult) ? asSourceResult : [];
+        const asProduct = Array.isArray(asProductResult) ? asProductResult : [];
 
         return {
           success: true,
