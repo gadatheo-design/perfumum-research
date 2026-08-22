@@ -190,6 +190,13 @@ export interface PlantExtended {
   kingdom?: string | null;
   division?: string | null;
   orderName?: string | null;
+  // ⚠ `class` fait exception : la mutation `plants.update` l'accepte, la fiche
+  // plante l'affiche, mais AUCUNE requête SQL du dépôt ne le sélectionne et il
+  // n'est déclaré dans aucune migration. Contrairement aux cinq rangs
+  // ci-dessus, rien ne prouve que la colonne existe — donc pas de déclaration
+  // Drizzle, et ce champ reste `undefined` tant que la question n'est pas
+  // tranchée avec Ted.
+  class?: string | null;
   // Colonnes de `plants` que ce type omettait, alors que la fiche plante les
   // lit : elles ressortaient en `undefined` à la vérification de types.
   category?: string | null;
