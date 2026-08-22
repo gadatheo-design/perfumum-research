@@ -1,5 +1,5 @@
-// @ts-nocheck
 import { safeJsonParse } from "@/lib/utils";
+
 import { useRoute } from "wouter";
 import { Header } from "@/components/layout/Header";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -11,6 +11,14 @@ import { Loader2, ArrowLeft } from "lucide-react";
 import { LinkedReferences } from "@/components/LinkedReferences";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
+
+/** Colonne JSON `prototypes.composition`, telle que cette page la lit. */
+interface PrototypeComposition {
+  base?: string;
+  ingredients?: { name?: string; quantity?: string }[];
+  protocol?: string[];
+  characteristics?: { tactile?: string; emotional?: string; stability?: string };
+}
 
 export default function PrototypeDetail() {
   const [, params] = useRoute("/prototypes/:code");
@@ -46,7 +54,9 @@ export default function PrototypeDetail() {
     );
   }
 
-  const composition = safeJsonParse(prototype?.composition, null);
+  // Le repli reste `null` — l'affichage est déjà conditionné à `composition` —
+  // mais le paramètre de type évite que tout ce qui en dérive soit `never`.
+  const composition = safeJsonParse<PrototypeComposition | null>(prototype?.composition, null);
 
   return (
     <div className="min-h-screen flex flex-col">

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState } from 'react';
 import { trpc } from '@/lib/trpc';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -76,8 +75,11 @@ export default function ReferenceEntityLinkManager() {
 
   // Fetch data
   const { data: references } = trpc.v3References.getAll.useQuery();
-  const { data: links, isLoading: loadingLinks, refetch: refetchLinks } = trpc.referenceEntityLinks.getStats.useQuery();
-  const { data: molecules } = trpc.molecules?.getAll.useQuery();
+  // `getStats` renvoie { total, byEntityType, byLinkType } : le `.filter()`
+  // appliqué plus bas levait un TypeError et rendait la page inutilisable.
+  // `getAll` renvoie la liste des liaisons, avec la référence jointe.
+  const { data: links, isLoading: loadingLinks, refetch: refetchLinks } = trpc.referenceEntityLinks.getAll.useQuery();
+  const { data: molecules } = trpc.molecules.list.useQuery();
   const { data: plants } = trpc.plants.list.useQuery();
   
   // Mutations
@@ -146,7 +148,7 @@ export default function ReferenceEntityLinkManager() {
     }
   };
 
-  const filteredLinks = links?.filter((link: any) => {
+  const filteredLinks = links?.filter((link) => {
     const matchesSearch = searchQuery === '' ||
       link.reference?.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
       link.reference?.authors?.toLowerCase().includes(searchQuery.toLowerCase());
@@ -191,7 +193,7 @@ export default function ReferenceEntityLinkManager() {
               </div>
               <div>
                 <p className="text-2xl font-bold">
-                  {links?.filter((l: any) => l.entityType === 'molecule').length || 0}
+                  {links?.filter((l) => l.entityType === 'molecule').length || 0}
                 </p>
                 <p className="text-sm text-muted-foreground">Molecule Links</p>
               </div>
@@ -207,7 +209,7 @@ export default function ReferenceEntityLinkManager() {
               </div>
               <div>
                 <p className="text-2xl font-bold">
-                  {links?.filter((l: any) => l.entityType === 'plant').length || 0}
+                  {links?.filter((l) => l.entityType === 'plant').length || 0}
                 </p>
                 <p className="text-sm text-muted-foreground">Plant Links</p>
               </div>
@@ -223,7 +225,7 @@ export default function ReferenceEntityLinkManager() {
               </div>
               <div>
                 <p className="text-2xl font-bold">
-                  {links?.filter((l: any) => l.entityType === 'prototype').length || 0}
+                  {links?.filter((l) => l.entityType === 'prototype').length || 0}
                 </p>
                 <p className="text-sm text-muted-foreground">Prototype Links</p>
               </div>
@@ -284,7 +286,7 @@ export default function ReferenceEntityLinkManager() {
             </div>
           ) : (
             <div className="space-y-3">
-              {filteredLinks.map((link: any) => (
+              {filteredLinks.map((link) => (
                 <div key={link.id} className="p-4 border rounded-lg hover:bg-muted/50 transition-colors">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
@@ -302,7 +304,7 @@ export default function ReferenceEntityLinkManager() {
                           {ENTITY_TYPES[link.entityType]?.label}
                         </Badge>
                         <Badge variant="secondary" className="text-xs">
-                          {LINK_TYPES[link.linkType]}
+                          {link.linkType ? LINK_TYPES[link.linkType] : '—'}
                         </Badge>
                         <Badge variant="outline" className="text-xs">
                           Relevance: {link.relevanceScore}%

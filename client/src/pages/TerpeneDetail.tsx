@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { safeJsonParse } from "@/lib/utils";
 import { useParams, Link } from "wouter";
 import { Header } from "@/components/layout/Header";
@@ -38,7 +37,7 @@ export default function TerpeneDetail() {
   const handleCompare = () => {
     // Récupérer la sélection actuelle depuis localStorage
     const stored = localStorage.getItem("compare-terpenes");
-    const currentSelection = stored ? safeJsonParse(stored, []) : [];
+    const currentSelection = stored ? safeJsonParse<number[]>(stored, []) : [];
     
     // Ajouter le terpène actuel s'il n'est pas déjà sélectionné
     if (!currentSelection.includes(id)) {

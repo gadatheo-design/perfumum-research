@@ -1903,6 +1903,48 @@ export async function createReferenceEntityLink(data: {
 }
 
 /**
+ * Toutes les liaisons référence ↔ entité, avec la référence jointe.
+ *
+ * La page `ReferenceEntityLinkManager` appelait `getStats` pour obtenir cette
+ * liste : elle recevait `{ total, byEntityType, byLinkType }` et faisait
+ * `.filter()` dessus, ce qui levait un TypeError et rendait la page
+ * inutilisable. Aucune procédure ne renvoyait la liste complète — d'où cette
+ * fonction.
+ *
+ * Une seule requête jointe, contrairement à `getLinksForReference` qui
+ * enrichit ligne par ligne : ici on peut en avoir plusieurs milliers.
+ */
+export async function getAllReferenceEntityLinks(limit = 500) {
+  const db = await getDb();
+  if (!db) return [];
+
+  const rows = await db
+    .select({
+      id: referenceEntityLinks.id,
+      referenceId: referenceEntityLinks.referenceId,
+      entityType: referenceEntityLinks.entityType,
+      entityId: referenceEntityLinks.entityId,
+      linkType: referenceEntityLinks.linkType,
+      relevanceScore: referenceEntityLinks.relevanceScore,
+      notes: referenceEntityLinks.notes,
+      referenceTitle: v3References.title,
+      referenceAuthors: v3References.authors,
+      referenceYear: v3References.year,
+    })
+    .from(referenceEntityLinks)
+    .leftJoin(v3References, eq(referenceEntityLinks.referenceId, v3References.id))
+    .orderBy(desc(referenceEntityLinks.relevanceScore))
+    .limit(limit);
+
+  // La page lit `link.reference?.title` : on regroupe les colonnes jointes
+  // plutôt que de lui faire changer de forme.
+  return rows.map(({ referenceTitle, referenceAuthors, referenceYear, ...link }) => ({
+    ...link,
+    reference: { title: referenceTitle, authors: referenceAuthors, year: referenceYear },
+  }));
+}
+
+/**
  * Get all links for a reference with entity names
  */
 export async function getLinksForReference(referenceId: number) {
