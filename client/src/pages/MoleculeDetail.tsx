@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React from 'react';
 import { Link, useParams } from "wouter";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -35,7 +34,7 @@ import { PerfumesTab, Structure3DTab, SynergiesTab, RecetteSynergiesSection, Pyr
 
 // Composant carte article PubMed avec bouton d'import dans PERFUMUM
 function PubMedArticleCard({ art, moleculeId, moleculeName }: {
-  art: { pmid: string; title?: string; firstAuthor?: string; year?: number; journal?: string; doi?: string | null; url: string };
+  art: { pmid: number; title?: string; firstAuthor?: string; year?: number | null; journal?: string; doi?: string | null; url: string };
   moleculeId: number;
   moleculeName: string;
 }) {
@@ -84,7 +83,7 @@ function PubMedArticleCard({ art, moleculeId, moleculeName }: {
             className="h-6 text-xs gap-1 border-green-300 text-green-700 hover:bg-green-50 dark:border-green-700 dark:text-green-400"
             disabled={importMutation.isPending}
             onClick={() => importMutation.mutate({
-              pmid: art.pmid,
+              pmid: String(art.pmid),
               title: art.title || 'Sans titre',
               firstAuthor: art.firstAuthor,
               year: art.year,
@@ -1083,7 +1082,7 @@ export default function MoleculeDetail() {
   const hasRadarData = radarData.some(d => d.value !== 50);
 
   // Vérifier si la molécule a des restrictions IFRA
-  const hasIfraRestrictions = ifraRestrictions && ifraRestrictions?.length > 0;
+  const hasIfraRestrictions = !!ifraRestrictions && ifraRestrictions.length > 0;
   const primaryRestriction = hasIfraRestrictions ? ifraRestrictions[0] : null;
 
   return (
@@ -1171,7 +1170,7 @@ export default function MoleculeDetail() {
                   />
                   {/* Badge IFRA pour le statut réglementaire */}
                   <IFRAStatusBadge 
-                    status={mol.ifraStatus ?? undefined} 
+                    status={mol.ifraStatus ?? null} 
                     maxPercent={mol.ifraData?.maxPercent}
                     reason={mol.ifraData?.reason}
                   />
@@ -1718,7 +1717,7 @@ export default function MoleculeDetail() {
                                     <TooltipTrigger asChild>
                                       <div className="p-2 bg-muted/50 rounded border text-sm flex justify-between items-center cursor-help">
                                         <span className="text-muted-foreground truncate mr-2">{key.replace('category', 'Cat. ')}</span>
-                                        <span className="font-mono font-semibold">{value}</span>
+                                        <span className="font-mono font-semibold">{String(value)}</span>
                                       </div>
                                     </TooltipTrigger>
                                     <TooltipContent>

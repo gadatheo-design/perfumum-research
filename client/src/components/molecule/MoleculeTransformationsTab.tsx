@@ -184,7 +184,7 @@ export function MoleculeTransformationsTab({
                             Explorez toutes les transformations en cascade de cette molécule
                           </p>
                         </div>
-                        <Link href={`/molecular-transformations?molecule=${encodeURIComponent(molecule?.name)}&mode=cascade`}>
+                        <Link href={`/molecular-transformations?molecule=${encodeURIComponent(molecule?.name ?? '')}&mode=cascade`}>
                           <Button variant="outline" className="border-amber-500 text-amber-700 hover:bg-amber-100 dark:hover:bg-amber-900">
                             <GitBranch className="h-4 w-4 mr-2" />
                             Voir la cascade
