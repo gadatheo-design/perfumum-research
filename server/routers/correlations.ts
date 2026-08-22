@@ -7,6 +7,40 @@ import { z } from "zod";
 import { getDb } from "../db";
 import { sql } from "drizzle-orm";
 
+/** Les trois domaines croisés par ce routeur. */
+export type CorrelationDomain = "cannabis" | "tabac" | "parfum";
+
+/** Molécule présente dans au moins deux des trois domaines. */
+export interface CrossDomainMolecule {
+  id: number;
+  name: string;
+  family: string | null;
+  casNumber: string | null;
+  formula: string | null;
+  therapeuticProperties: string | null;
+  /** Colonne JSON, déjà décodée côté serveur. */
+  olfactiveProfile: string[];
+  domains: CorrelationDomain[];
+  domainCount: number;
+  plantCount: number;
+  plantNames: string[];
+}
+
+/** Synergie documentée entre deux molécules communes à plusieurs domaines. */
+export interface CrossDomainSynergy {
+  id: number;
+  molecule1_id: number;
+  molecule2_id: number;
+  type: string | null;
+  description: string | null;
+  chemicalMechanism: string | null;
+  applications: string | null;
+  molecule1Name: string | null;
+  molecule1Family: string | null;
+  molecule2Name: string | null;
+  molecule2Family: string | null;
+}
+
 export const correlationsRouter = router({
   /**
    * Molécules présentes dans plusieurs domaines (cannabis, tabac, parfum)
@@ -58,7 +92,7 @@ export const correlationsRouter = router({
         LIMIT ${input.limit}
       `) as unknown as [any[]];
 
-      const molecules = (rows as any[]).map((r) => ({
+      const molecules: CrossDomainMolecule[] = (rows as any[]).map((r) => ({
         id: r.id,
         name: r.name,
         family: r.family,
@@ -169,7 +203,7 @@ export const correlationsRouter = router({
         LIMIT 100
       `) as unknown as [any[]];
 
-      return rows as any[];
+      return rows as unknown as CrossDomainSynergy[];
     }),
 
   /**

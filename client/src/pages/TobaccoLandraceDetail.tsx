@@ -391,10 +391,10 @@ export default function TobaccoLandraceDetail() {
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
                 <h1 className="text-3xl font-bold">{landrace.name}</h1>
-                <Badge className={statusColors[landrace.status] || statusColors.unknown}>
+                <Badge className={statusColors[landrace.status ?? 'unknown'] || statusColors.unknown}>
                   {landrace.status}
                 </Badge>
-                <Badge className={profileColors[landrace.molecular_profile_type] || profileColors.unknown}>
+                <Badge className={profileColors[landrace.molecular_profile_type ?? 'unknown'] || profileColors.unknown}>
                   {landrace.molecular_profile_type}
                 </Badge>
               </div>
@@ -450,7 +450,7 @@ export default function TobaccoLandraceDetail() {
                   </div>
                   <div>
                     <p className="text-sm text-muted-foreground mb-2">Intensité</p>
-                    <Progress value={landrace.aromatic_intensity * 10} className="h-2" />
+                    <Progress value={Number(landrace.aromatic_intensity ?? 0) * 10} className="h-2" />
                     <p className="text-xs text-muted-foreground mt-1">{landrace.aromatic_intensity}/10</p>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
@@ -483,7 +483,7 @@ export default function TobaccoLandraceDetail() {
                     <div>
                       <p className="text-sm text-muted-foreground mb-1">Score de rareté</p>
                       <div className="flex items-center gap-2">
-                        <Progress value={landrace.rarity_score * 10} className="h-2 flex-1" />
+                        <Progress value={Number(landrace.rarity_score ?? 0) * 10} className="h-2 flex-1" />
                         <span className="text-sm font-medium">{landrace.rarity_score}/10</span>
                       </div>
                     </div>
@@ -725,7 +725,7 @@ export default function TobaccoLandraceDetail() {
                 <div>
                   <p className="text-sm text-muted-foreground mb-2">Score de potentiel</p>
                   <div className="flex items-center gap-3">
-                    <Progress value={landrace.perfumery_potential_score * 10} className="h-3 flex-1" />
+                    <Progress value={Number(landrace.perfumery_potential_score ?? 0) * 10} className="h-3 flex-1" />
                     <span className="text-lg font-bold">{landrace.perfumery_potential_score}/10</span>
                   </div>
                 </div>

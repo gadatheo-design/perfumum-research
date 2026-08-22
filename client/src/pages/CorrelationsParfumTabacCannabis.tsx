@@ -27,15 +27,20 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { TabErrorBoundary } from "@/components/TabErrorBoundary";
+import type {
+  CorrelationDomain,
+  CrossDomainMolecule,
+  CrossDomainSynergy,
+} from "../../../server/routers/correlations";
 
 // ─── Couleurs domaines ───────────────────────────────────────────────────────
-const DOMAIN_COLORS = {
+const DOMAIN_COLORS: Record<string, { bg: string; text: string; border: string; hex: string }> = {
   cannabis: { bg: "bg-emerald-500/20", text: "text-emerald-400", border: "border-emerald-500/40", hex: "#10b981" },
   tabac: { bg: "bg-amber-500/20", text: "text-amber-400", border: "border-amber-500/40", hex: "#f59e0b" },
   parfum: { bg: "bg-violet-500/20", text: "text-violet-400", border: "border-violet-500/40", hex: "#8b5cf6" },
 };
 
-const DOMAIN_ICONS = {
+const DOMAIN_ICONS: Record<string, typeof Leaf> = {
   cannabis: Leaf,
   tabac: Cigarette,
   parfum: Flower2,
@@ -62,7 +67,12 @@ function DomainBadge({ domain }: { domain: string }) {
 }
 
 // ─── Composant : Carte molécule ──────────────────────────────────────────────
-function MoleculeCard({ mol, synergies, onSelect, isSelected }) {
+function MoleculeCard({ mol, synergies, onSelect, isSelected }: {
+  mol: CrossDomainMolecule;
+  synergies: CrossDomainSynergy[];
+  onSelect: (mol: CrossDomainMolecule) => void;
+  isSelected: boolean;
+}) {
   const [expanded, setExpanded] = useState(false);
   const domainSet = [...new Set(mol.domains)];
   const isTriple = domainSet.length === 3;
@@ -139,7 +149,15 @@ function MoleculeCard({ mol, synergies, onSelect, isSelected }) {
 }
 
 // ─── Composant : Visualisation Venn D3-like ──────────────────────────────────
-function VennDiagram({ stats }) {
+function VennDiagram({ stats }: {
+  stats?: {
+    tripleDomain: number;
+    doubleDomain: number;
+    cannabisTabac: number;
+    cannabisParfum: number;
+    tabacParfum: number;
+  } | null;
+}) {
   if (!stats) return null;
   const { tripleDomain, cannabisTabac, cannabisParfum, tabacParfum } = stats;
   const total = tripleDomain + cannabisTabac + cannabisParfum + tabacParfum;
@@ -173,7 +191,11 @@ function VennDiagram({ stats }) {
 }
 
 // ─── Composant : Graphe réseau SVG simplifié ─────────────────────────────────
-function NetworkGraph({ molecules, selectedMol, onSelect }) {
+function NetworkGraph({ molecules, selectedMol, onSelect }: {
+  molecules: CrossDomainMolecule[];
+  selectedMol: CrossDomainMolecule | null;
+  onSelect: (mol: CrossDomainMolecule) => void;
+}) {
   const top = molecules.slice(0, 20);
   const cx = 400, cy = 300;
   const r = 220;

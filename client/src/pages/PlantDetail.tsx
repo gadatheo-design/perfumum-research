@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState } from "react";
 import { safeJsonParse } from "@/lib/utils";
 import { useParams, Link } from "wouter";
@@ -391,10 +390,10 @@ export default function PlantDetail() {
               <span className="hidden sm:inline">Traçabilité ({plt.certifications!.length})</span>
             </TabsTrigger>
           )}
-          {plantStorylines && (plantStorylines as unknown[]).length > 0 && (
+          {plantStorylines && plantStorylines.length > 0 && (
             <TabsTrigger value="storylines" className="flex items-center gap-1">
               <BookOpen className="h-3 w-3 text-emerald-600" />
-              <span className="hidden sm:inline">Fils narratifs ({(plantStorylines as unknown[]).length})</span>
+              <span className="hidden sm:inline">Fils narratifs ({plantStorylines.length})</span>
             </TabsTrigger>
           )}
         </TabsList>
@@ -714,7 +713,7 @@ export default function PlantDetail() {
                           Molécules dominantes
                         </h4>
                         <div className="flex flex-wrap gap-1">
-                          {(state as { molecules?: unknown[] }).molecules?.map((mol, molIdx: number) => (
+                          {(state as { molecules?: string[] }).molecules?.map((mol, molIdx: number) => (
                             <Badge key={molIdx} variant="secondary" className="text-xs">
                               {mol}
                             </Badge>
@@ -1014,7 +1013,7 @@ export default function PlantDetail() {
                                 {marker.tradeRoutes && marker.tradeRoutes.length > 0 && (
                                   <div className="pt-2 border-t">
                                     <p className="text-xs font-medium mb-1">Routes commerciales</p>
-                                    {(marker as { tradeRoutes?: unknown[] }).tradeRoutes?.map((route, idx: number) => (
+                                    {(marker as { tradeRoutes?: { route?: string }[] }).tradeRoutes?.map((route, idx: number) => (
                                       <p key={idx} className="text-xs text-muted-foreground">
                                         {route.route}
                                       </p>
@@ -1543,8 +1542,11 @@ export default function PlantDetail() {
                               </td>
                               <td className="py-2 pr-4 text-muted-foreground text-xs">{e.chemical_family || '—'}</td>
                               <td className="py-2 pr-4 text-right font-mono">
+                                {/* `percentage` est un DECIMAL : le pilote le rend
+                                    en chaîne. On convertit avant de comparer,
+                                    comme l'affichage le fait déjà plus bas. */}
                                 {e.percentage != null ? (
-                                  <span className={e.percentage >= 10 ? 'text-emerald-600 font-semibold' : e.percentage >= 1 ? 'text-blue-600' : 'text-muted-foreground'}>
+                                  <span className={Number(e.percentage) >= 10 ? 'text-emerald-600 font-semibold' : Number(e.percentage) >= 1 ? 'text-blue-600' : 'text-muted-foreground'}>
                                     {Number(e.percentage).toFixed(2)}%
                                   </span>
                                 ) : e.concentration_ppm != null ? (
@@ -1726,7 +1728,7 @@ export default function PlantDetail() {
                         {pub.journal && <span className="italic line-clamp-1">{pub.journal}</span>}
                         {pub.notes && (
                           <span className="text-muted-foreground/70">
-                            {pub.notes.match(/(\d+) citations/)?.[1] ? `${pub.notes.match(/(\d+) citations/)[1]} cit.` : ''}
+                            {pub.notes.match(/(\d+) citations/)?.[1] ? `${pub.notes.match(/(\d+) citations/)?.[1]} cit.` : ''}
                           </span>
                         )}
                       </div>
@@ -1755,7 +1757,7 @@ export default function PlantDetail() {
         </TabsContent>
 
         {/* Onglet Fils Narratifs */}
-        {plantStorylines && (plantStorylines as unknown[]).length > 0 && (
+        {plantStorylines && plantStorylines.length > 0 && (
           <TabsContent value="storylines" className="space-y-4">
             <TabErrorBoundary tabLabel="Fils narratifs">
               <div className="space-y-4">
@@ -1763,7 +1765,7 @@ export default function PlantDetail() {
                   <div>
                     <h3 className="text-base font-semibold">Fils narratifs</h3>
                     <p className="text-sm text-muted-foreground mt-0.5">
-                      Cette plante apparaît dans {(plantStorylines as unknown[]).length} fil{(plantStorylines as unknown[]).length > 1 ? 's' : ''} narratif{(plantStorylines as unknown[]).length > 1 ? 's' : ''} du projet PERFUMUM.
+                      Cette plante apparaît dans {plantStorylines.length} fil{plantStorylines.length > 1 ? 's' : ''} narratif{plantStorylines.length > 1 ? 's' : ''} du projet PERFUMUM.
                     </p>
                   </div>
                   <Link href="/admin/storylines">
@@ -1773,7 +1775,7 @@ export default function PlantDetail() {
                     </Button>
                   </Link>
                 </div>
-                {(plantStorylines as unknown[]).map((storyline) => (
+                {plantStorylines.map((storyline) => (
                   <Card key={storyline.id} className="hover:shadow-sm transition-shadow">
                     <CardContent className="p-4">
                       <div className="flex items-start justify-between gap-3">
@@ -2130,7 +2132,7 @@ function NomenclatureTab({ plant }: { plant: PlantExtended }) {
                 <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Nom latin (binomial)</p>
                 <div className="flex items-center gap-2">
                   <p className="text-lg font-semibold italic text-emerald-600 dark:text-emerald-400">{plant.latinName}</p>
-                  <button onClick={() => copyToClipboard(plant.latinName, 'latin')} className="text-muted-foreground hover:text-foreground transition-colors">
+                  <button onClick={() => copyToClipboard(plant.latinName ?? '', 'latin')} className="text-muted-foreground hover:text-foreground transition-colors">
                     {copied === 'latin' ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}
                   </button>
                 </div>
@@ -2181,7 +2183,7 @@ function NomenclatureTab({ plant }: { plant: PlantExtended }) {
                 <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Genre</p>
                 <div className="flex items-center gap-2">
                   <p className="text-sm font-medium italic">{plant.genus}</p>
-                  <button onClick={() => copyToClipboard(plant.genus, 'genus')} className="text-muted-foreground hover:text-foreground transition-colors">
+                  <button onClick={() => copyToClipboard(plant.genus ?? '', 'genus')} className="text-muted-foreground hover:text-foreground transition-colors">
                     {copied === 'genus' ? <Check className="h-3 w-3 text-emerald-500" /> : <Copy className="h-3 w-3" />}
                   </button>
                 </div>
