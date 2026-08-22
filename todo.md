@@ -396,8 +396,8 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 
 ## Août 2026 — Intégration graduelle de la branche d’audit GitHub
 
-- [ ] Lot 1 : intégrer les correctifs fonctionnels, les procédures tRPC reconnectées et les protections SQL de la branche `claude/perfumum-manus-audit-iu0c7t`.
-- [ ] Lot 2 : auditer et intégrer sans migration destructive le pool MySQL et les déclarations de schéma Drizzle manquantes.
-- [ ] Vérifier les parcours anonymes, utilisateur et administrateur affectés par le durcissement des mutations tRPC.
-- [ ] Générer et examiner un rapport de divergence schéma Drizzle / base MySQL avant toute migration.
+- [x] Lot 1 : intégrer les correctifs fonctionnels, les procédures tRPC reconnectées et les protections SQL de la branche `claude/perfumum-manus-audit-iu0c7t`.
+- [x] Lot 2 : auditer et intégrer sans migration destructive le pool MySQL et les déclarations de schéma Drizzle manquantes.
+- [x] Vérifier les parcours anonymes, utilisateur et administrateur affectés par le durcissement des mutations tRPC.
+- [x] Générer et examiner un rapport de divergence schéma Drizzle / base MySQL avant toute migration.
 - [ ] Exécuter les tests TypeScript, Vitest et build de production après intégration des deux lots.

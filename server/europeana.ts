@@ -270,6 +270,7 @@ export const THEMATIC_QUERIES: Record<
     relatedPlants: ["Humulus lupulus"],
     relatedMolecules: ["Myrcène", "Humulone", "Lupulone", "Linalol"],
     color: "#16a34a",
+    europeanaTheme: "nature",
     // NOTE: objectTypeFilter supprimé — incompatible avec media=true (0 résultats)
     facetsEnabled: true,
   },
@@ -319,6 +320,7 @@ export const THEMATIC_QUERIES: Record<
     relatedPlants: ["Rosa damascena", "Lavandula angustifolia", "Jasminum grandiflorum"],
     relatedMolecules: ["Linalol", "Géraniol", "Benzyl acétate"],
     color: "#059669",
+    europeanaTheme: "nature",
     // NOTE: typeFilter IMAGE et objectTypeFilter supprimés — causent 0 résultats
     facetsEnabled: true,
   },
@@ -330,6 +332,7 @@ export const THEMATIC_QUERIES: Record<
     relatedPlants: ["Boswellia sacra", "Commiphora myrrha", "Nardostachys jatamansi"],
     relatedMolecules: ["α-Pinène", "Eugenol", "Cinnamaldéhyde"],
     color: "#f59e0b",
+    europeanaTheme: "map",
     // NOTE: theme=map incompatible avec facets multiples → requête libre
     facetsEnabled: true,
   },
@@ -341,6 +344,7 @@ export const THEMATIC_QUERIES: Record<
     relatedPlants: ["Lavandula angustifolia", "Rosa damascena", "Boswellia sacra"],
     relatedMolecules: ["Linalol", "Géraniol", "α-Pinène"],
     color: "#6366f1",
+    europeanaTheme: "manuscript",
     // NOTE: theme=manuscript incompatible avec facets multiples → requête libre
     facetsEnabled: true,
   },
@@ -352,6 +356,7 @@ export const THEMATIC_QUERIES: Record<
     relatedPlants: ["Lavandula angustifolia", "Rosa damascena", "Jasminum grandiflorum"],
     relatedMolecules: ["Linalol", "Géraniol", "Benzyl acétate"],
     color: "#10b981",
+    europeanaTheme: "photography",
     typeFilter: "IMAGE",
     // NOTE: theme=photography incompatible avec facets multiples → requête libre
     facetsEnabled: true,

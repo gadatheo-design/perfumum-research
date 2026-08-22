@@ -1,59 +1,70 @@
-import { describe, it, expect, beforeAll, afterAll } from "vitest";
-import { db } from "../_core/db";
-import { plants, apiEnrichments } from "../../drizzle/schema";
-import { eq } from "drizzle-orm";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { sql } from "drizzle-orm";
+import { appRouter } from "../routers";
+import { getDb } from "../db";
+import type { TrpcContext } from "../_core/context";
+
+function createAuthenticatedContext(): TrpcContext {
+  return {
+    user: {
+      id: 1,
+      openId: "api-enrichments-test-user",
+      name: "Utilisateur de test",
+      role: "user",
+    } as TrpcContext["user"],
+    req: { protocol: "https", headers: {} } as TrpcContext["req"],
+    res: { clearCookie: () => {}, cookie: () => {} } as TrpcContext["res"],
+  };
+}
 
 describe("API Enrichments Router", () => {
+  const caller = appRouter.createCaller(createAuthenticatedContext());
+  const testPlantName = `PERFUMUM Vitest API Enrichment ${Date.now()}`;
   let testPlantId: number;
 
   beforeAll(async () => {
-    // Créer une plante de test
-    const result = await db
-      .insert(plants)
-      .values({
-        name: "Test Plant",
-        latin_name: "Rosa damascena",
-        family: "Rosaceae",
-        genus: "Rosa",
-        created_at: new Date(),
-        updated_at: new Date(),
-      })
-      .returning();
-    testPlantId = result[0].id;
+    const db = await getDb();
+    if (!db) throw new Error("Connexion base de données indisponible");
+
+    await db.execute(sql`
+      INSERT INTO plants (name, latin_name, family, created_at, updated_at)
+      VALUES (${testPlantName}, 'Rosa damascena', 'Rosaceae', NOW(), NOW())
+    `);
+
+    const [rows] = await db.execute(
+      sql`SELECT id FROM plants WHERE name = ${testPlantName} LIMIT 1`
+    ) as [{ id: number }[]];
+    testPlantId = rows[0]?.id;
+    if (!testPlantId) throw new Error("Création de plante de test échouée");
   });
 
   afterAll(async () => {
-    // Nettoyer les données de test
-    await db.delete(apiEnrichments).where(eq(apiEnrichments.plant_id, testPlantId));
-    await db.delete(plants).where(eq(plants.id, testPlantId));
+    const db = await getDb();
+    if (!db || !testPlantId) return;
+    await db.execute(sql`DELETE FROM api_enrichments WHERE plant_id = ${testPlantId}`);
+    await db.execute(sql`DELETE FROM plants WHERE id = ${testPlantId}`);
   });
 
-  it("should save enrichment successfully", async () => {
-    const result = await db
-      .insert(apiEnrichments)
-      .values({
-        plant_id: testPlantId,
-        api_type: "wikidata",
-        identifier: "Q18469235",
-        source_url: "https://www.wikidata.org/entity/Q18469235",
-        notes: "Test enrichment",
-        created_at: new Date(),
-        updated_at: new Date(),
-      })
-      .returning();
+  it("enregistre un identifiant Wikidata pour une plante", async () => {
+    const result = await caller.apiEnrichments.saveEnrichment({
+      plant_id: testPlantId,
+      api_type: "wikidata",
+      identifier: "Q18469235",
+      source_url: "https://www.wikidata.org/entity/Q18469235",
+      notes: "Test d'intégration Vitest",
+    });
 
-    expect(result).toHaveLength(1);
-    expect(result[0].identifier).toBe("Q18469235");
-    expect(result[0].api_type).toBe("wikidata");
+    expect(result).toEqual({ success: true });
   });
 
-  it("should retrieve enrichments for a plant", async () => {
-    const results = await db
-      .select()
-      .from(apiEnrichments)
-      .where(eq(apiEnrichments.plant_id, testPlantId));
+  it("retrouve les enrichissements enregistrés pour la plante", async () => {
+    const results = await caller.apiEnrichments.getEnrichments({ plant_id: testPlantId });
 
-    expect(results.length).toBeGreaterThan(0);
-    expect(results[0].plant_id).toBe(testPlantId);
+    expect(results).toHaveLength(1);
+    expect(results[0]).toMatchObject({
+      plant_id: testPlantId,
+      api_type: "wikidata",
+      identifier: "Q18469235",
+    });
   });
 });

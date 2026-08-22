@@ -2,7 +2,7 @@
   "_comment": "Configuration TypeScript allégée pour tsc --watch en développement.",
   "_reason": "Le tsconfig.json principal inclut 728 fichiers (dont 311 pages frontend avec @ts-nocheck),",
   "_reason2": "ce qui provoque une consommation mémoire de 2,28 Go. Ce fichier réduit la portée",
-  "_reason3": "à l'essentiel : serveur, schéma DB, types partagés et composants critiques.",
+  "_reason3": "à l'essentiel vérifiable : serveur, schéma DB, types partagés et primitives UI isolées.",
   "_usage": "Utilisé automatiquement par `pnpm check` via package.json.",
   "include": [
     "server/**/*",
@@ -12,9 +12,7 @@
     "client/src/hooks/**/*",
     "client/src/contexts/**/*",
     "client/src/components/ui/**/*",
-    "client/src/components/layout/**/*",
-    "client/src/App.tsx",
-    "client/src/main.tsx"
+    "client/src/components/layout/**/*"
   ],
   "exclude": [
     "node_modules",

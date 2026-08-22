@@ -17,7 +17,7 @@ export const apiEnrichmentsRouter = router({
       if (!db) return [];
       const q = `%${input.query}%`;
       const [rows] = await db.execute(
-        sql`SELECT id, name, latinName, family FROM plants WHERE name LIKE ${q} OR latinName LIKE ${q} ORDER BY name LIMIT 20`
+        sql`SELECT id, name, latin_name AS latinName, family FROM plants WHERE name LIKE ${q} OR latin_name LIKE ${q} ORDER BY name LIMIT 20`
       ) as any;
       return (rows || []) as { id: number; name: string; latinName: string; family: string }[];
     }),
@@ -81,7 +81,7 @@ export const apiEnrichmentsRouter = router({
 
       // Récupérer la plante
       const [plantRows] = await db.execute(
-        sql`SELECT id, name, latinName, gbifId, wikidataQid FROM plants WHERE id = ${input.plant_id} LIMIT 1`
+        sql`SELECT id, name, latin_name AS latinName, gbif_id AS gbifId, wikidata_qid AS wikidataQid FROM plants WHERE id = ${input.plant_id} LIMIT 1`
       ) as any;
       const plantArr = plantRows as { id: number; name: string; latinName: string; gbifId: string | null; wikidataQid: string | null }[];
       if (!plantArr || plantArr.length === 0) {

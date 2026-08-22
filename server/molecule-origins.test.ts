@@ -17,8 +17,21 @@ function createTestContext(): TrpcContext {
   };
 }
 
+function createAdminTestContext(): TrpcContext {
+  return {
+    ...createTestContext(),
+    user: {
+      id: 1,
+      openId: "test-admin",
+      name: "Administrateur de test",
+      role: "admin",
+    } as TrpcContext["user"],
+  };
+}
+
 describe('Molecule Origins API', () => {
   const caller = appRouter.createCaller(createTestContext());
+  const adminCaller = appRouter.createCaller(createAdminTestContext());
 
   describe('moleculeOrigins.getByMolecule', () => {
     it('should return origins for a molecule with origins', async () => {
@@ -44,6 +57,17 @@ describe('Molecule Origins API', () => {
   describe('moleculeOrigins CRUD operations', () => {
     let createdId: number | null = null;
 
+    it('refuses une écriture à un visiteur anonyme', async () => {
+      await expect(
+        caller.moleculeOrigins.add({
+          moleculeId: 30001,
+          originId: 20,
+          isPrimaryOrigin: 0,
+          qualityRating: 3,
+        })
+      ).rejects.toThrow('required permission');
+    });
+
     it('should add a new molecule-origin association', async () => {
       const testData = {
         moleculeId: 30001, // Une molécule existante
@@ -54,7 +78,7 @@ describe('Molecule Origins API', () => {
       };
 
       try {
-        const result = await caller.moleculeOrigins.add(testData);
+        const result = await adminCaller.moleculeOrigins.add(testData);
         expect(result).toHaveProperty('id');
         expect(result.moleculeId).toBe(testData.moleculeId);
         expect(result.originId).toBe(testData.originId);
@@ -75,7 +99,7 @@ describe('Molecule Origins API', () => {
         return;
       }
 
-      const updateResult = await caller.moleculeOrigins.update({
+        const updateResult = await adminCaller.moleculeOrigins.update({
         id: createdId,
         data: {
           qualityRating: 5,
@@ -92,7 +116,7 @@ describe('Molecule Origins API', () => {
         return;
       }
 
-      const result = await caller.moleculeOrigins.remove(createdId);
+      const result = await adminCaller.moleculeOrigins.remove(createdId);
       expect(result).toHaveProperty('success', true);
     });
   });
@@ -100,6 +124,7 @@ describe('Molecule Origins API', () => {
 
 describe('Geographic Origins API', () => {
   const caller = appRouter.createCaller(createTestContext());
+  const adminCaller = appRouter.createCaller(createAdminTestContext());
 
   describe('geographicOrigins.list', () => {
     it('should return list of geographic origins', async () => {
@@ -161,14 +186,14 @@ describe('Geographic Origins API', () => {
   describe('geographicOrigins.geocode', () => {
     it('should throw error for non-existent origin', async () => {
       await expect(
-        caller.geographicOrigins.geocode({ id: 999999 })
+        adminCaller.geographicOrigins.geocode({ id: 999999 })
       ).rejects.toThrow('Origine non trouvée');
     });
 
     it('should geocode an origin with custom address', async () => {
       // Test avec une adresse connue - Rose de Bulgarie
       try {
-        const result = await caller.geographicOrigins.geocode({
+        const result = await adminCaller.geographicOrigins.geocode({
           id: 1,
           address: 'Kazanlak, Bulgaria',
         });

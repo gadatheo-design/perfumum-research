@@ -80,6 +80,12 @@ export const periqueMoleculeLinks = mysqlTable("perique_molecule_links", {
   confidence: decimal("confidence", { precision: 3, scale: 2 }).default("1.00"),
   notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow(),
+  // Colonnes de validation déjà présentes dans la base historique. Aucune
+  // contrainte FK n’existe sur verified_by : le schéma reflète donc le DDL réel.
+  matchScore: decimal("match_score", { precision: 5, scale: 4 }),
+  isVerified: boolean("is_verified").default(false),
+  verifiedBy: int("verified_by"),
+  verifiedAt: timestamp("verified_at"),
 }, (table) => ({
   uniqueLink: uniqueIndex("perique_molecule_links_unique_link").on(table.periqueCompoundId, table.moleculeId),
 }));

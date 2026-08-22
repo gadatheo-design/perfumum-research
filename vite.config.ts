@@ -20,16 +20,19 @@ const noHmrReload = (): import('vite').Plugin => ({
   },
 });
 
-const plugins = [
+const createPlugins = (command: "serve" | "build") => [
   react(),
   tailwindcss(),
-  jsxLocPlugin(),
+  // Les informations de localisation JSX sont utiles dans l’éditeur et en
+  // développement, mais le plugin génère une chaîne de sourcemaps très lourde
+  // sur les centaines de composants de PERFUMUM lors d’un build production.
+  ...(command === "serve" ? [jsxLocPlugin()] : []),
   vitePluginManusRuntime({ injectTo: "body" }),
   noHmrReload(),
 ];
 
-export default defineConfig({
-  plugins,
+export default defineConfig(({ command }) => ({
+  plugins: createPlugins(command),
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
@@ -121,4 +124,4 @@ export default defineConfig({
   },
 
   cacheDir: ".vite",
-});
+}));
