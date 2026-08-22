@@ -316,7 +316,7 @@ export async function listThreatenedPlants(filters: {
   iucn?: string;
   cites?: string;
   region?: string;
-}) {
+}): Promise<Plant[]> {
   const { iucn, cites, region } = filters;
   const db = await getDb();
   if (!db) return [];
@@ -336,7 +336,10 @@ export async function listThreatenedPlants(filters: {
   if (region) {
     conditions.push(like(plants.origin, `%${region}%`));
   }
-  return await (query as any).where(and(...conditions));
+  // Le `as any` reste nécessaire pour composer les conditions, mais le type
+  // de retour est déclaré : sans lui, la page Patrimoine menacé recevait `any`
+  // et tous ses callbacks perdaient leur type.
+  return await (query as any).where(and(...conditions)) as Plant[];
 }
 
 export async function getPlantConservationStatus(plantId: number) {

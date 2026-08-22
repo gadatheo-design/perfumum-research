@@ -65,6 +65,15 @@ export const referenceEntityLinksRouter = router({
   getStats: publicProcedure.query(async () => {
     return db.getReferenceEntityLinkStats();
   }),
+
+  // Liste complète des liaisons, avec la référence jointe.
+  // Manquait au routeur : la page de gestion appelait `getStats` faute de
+  // mieux, et plantait en tentant de filtrer un objet de statistiques.
+  getAll: publicProcedure
+    .input(z.object({ limit: z.number().min(1).max(2000).default(500) }).optional())
+    .query(async ({ input }) => {
+      return db.getAllReferenceEntityLinks(input?.limit ?? 500);
+    }),
   
   // Bulk import from CSV
   bulkImportFromCSV: protectedProcedure

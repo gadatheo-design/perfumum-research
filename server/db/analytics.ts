@@ -1000,7 +1000,11 @@ export async function getSimilarMolecules(moleculeId: number, limit: number = 3)
   const withSimilarity = allMolecules
     .filter((mol) => mol.id !== moleculeId)
     .map((mol) => ({
-      ...parseMoleculeJsonFields(mol as Record<string, unknown>),
+      // Sans remise en type, l'étalement d'un `Record<string, unknown>`
+      // n'apporte aucune propriété connue : le résultat sortait comme
+      // `{ similarityScore }` seul, et la fiche terpène lisait `.name`,
+      // `.family`, `.olfactiveProfile` sur un type qui ne les déclarait pas.
+      ...(parseMoleculeJsonFields(mol as Record<string, unknown>) as typeof mol),
       similarityScore: calculateRadarSimilarity(reference[0], mol),
     }))
     .sort((a, b) => b.similarityScore - a.similarityScore)

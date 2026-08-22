@@ -1,5 +1,5 @@
-// @ts-nocheck
 import { safeJsonParse } from "@/lib/utils";
+
 import { Link, useParams } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,6 +8,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, Beaker, Clock, Target, Wrench, DollarSign, ShieldAlert, CheckCircle2, FileText, ChevronRight } from "lucide-react";
+
+/** Étape de la colonne JSON `molecular_protocols.steps`. */
+interface ProtocolStep {
+  title?: string;
+  description?: string;
+  duration?: string;
+  temperature?: string;
+  note?: string;
+}
 
 export default function ProtocolDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -46,8 +55,8 @@ export default function ProtocolDetail() {
     );
   }
 
-  const equipmentList = safeJsonParse(protocol?.equipment_required, null);
-  const steps = safeJsonParse(protocol?.steps, null);
+  const equipmentList = safeJsonParse<string[] | null>(protocol?.equipment_required, null);
+  const steps = safeJsonParse<ProtocolStep[] | null>(protocol?.steps, null);
 
   return (
     <div className="container py-8 max-w-4xl">

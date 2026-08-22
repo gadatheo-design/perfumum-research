@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useMemo } from "react";
 import { trpc } from "@/lib/trpc";
 import DashboardLayout from "@/components/DashboardLayout";
@@ -13,31 +12,10 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { toast } from "sonner";
 import BiosyntheticPathwayViz from "@/components/BiosyntheticPathwayViz";
 import BiosyntheticPathwayFlow from "@/components/BiosyntheticPathwayFlow";
-
-interface TpsGene {
-  id: number;
-  name: string;
-  subfamily: string | null;
-  product_class: string;
-  main_product: string | null;
-  olfactory_notes: string | null;
-  pathway: string | null;
-  regulation_factors: string | null;
-  expression_conditions: string | null;
-  source_reference: string | null;
-}
-
-interface BiosyntheticPathway {
-  id: number;
-  name: string;
-  abbreviation: string | null;
-  location: string;
-  main_products: string | null;
-  key_enzymes: string | null;
-  precursors: string | null;
-  description: string | null;
-  source_reference: string | null;
-}
+import type {
+  TpsGeneRow as TpsGene,
+  BiosyntheticPathwayRow as BiosyntheticPathway,
+} from "../../../server/routers/research";
 
 const productClassColors: Record<string, string> = {
   monoterpene: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
@@ -70,7 +48,7 @@ export default function TpsGenesExplorer() {
   const { data: stats } = trpc.research.getGenomicStats.useQuery();
 
   const filteredGenes = useMemo(() => {
-    return (tpsGenes as TpsGene[]).filter((gene) => {
+    return (tpsGenes).filter((gene) => {
       const matchesSearch =
         !searchTerm ||
         gene.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -274,11 +252,11 @@ export default function TpsGenesExplorer() {
 
             {pathwaysLoading ? (
               <div className="text-center py-12 text-muted-foreground">Chargement des voies biosynthétiques...</div>
-            ) : (pathways as BiosyntheticPathway[]).length === 0 ? (
+            ) : (pathways).length === 0 ? (
               <div className="text-center py-12 text-muted-foreground">Aucune voie biosynthétique trouvée</div>
             ) : (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {(pathways as BiosyntheticPathway[]).map((pathway) => (
+                {(pathways).map((pathway) => (
                   <Card key={pathway.id} className="bg-card/50 border-border/50 hover:border-blue-500/50 transition-colors">
                     <CardHeader>
                       <div className="flex items-start justify-between gap-2">
@@ -358,7 +336,7 @@ export default function TpsGenesExplorer() {
 
           {/* Molecule Links Tab */}
           <TabsContent value="links" className="space-y-4">
-            <TpsGeneMoleculeLinksTab tpsGenes={tpsGenes as TpsGene[]} />
+            <TpsGeneMoleculeLinksTab tpsGenes={tpsGenes} />
           </TabsContent>
 
           {/* Biosynthetic Pathways Flow Tab */}

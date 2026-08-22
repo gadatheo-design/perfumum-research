@@ -19,6 +19,45 @@ type SqlRow = Record<string, unknown>;
 type CountRow = { count?: number | string; total?: number | string; cnt?: number | string; name?: string };
 // ─────────────────────────────────────────────────────────────────────────────
 
+/**
+ * Ligne de `tps_genes` (voir la migration 0000_small_steve_rogers.sql).
+ * Noms SQL : ces requêtes sont écrites à la main.
+ */
+export interface TpsGeneRow {
+  id: number;
+  name: string;
+  subfamily: string | null;
+  product_class: string;
+  main_product: string | null;
+  olfactory_notes: string | null;
+  pathway: string | null;
+  regulation_factors: string | null;
+  expression_conditions: string | null;
+  source_reference: string | null;
+}
+
+/** Ligne de `biosynthetic_pathways`. */
+export interface BiosyntheticPathwayRow {
+  id: number;
+  name: string;
+  abbreviation: string | null;
+  location: string;
+  main_products: string | null;
+  key_enzymes: string | null;
+  precursors: string | null;
+  description: string | null;
+  source_reference: string | null;
+}
+
+/** Compteurs renvoyés par `getBiosyntheticPathwayFlow`. */
+export interface BiosyntheticPathwayFlowStats {
+  total_genes: number;
+  linked_genes: number;
+  linked_molecules: number;
+  linked_recipes: number;
+  pathways_count: number;
+}
+
 export const researchRouter = router({
   /**
    * Get all research claims with optional filtering
@@ -391,7 +430,7 @@ export const researchRouter = router({
         query += ` ORDER BY product_class, name`;
         
         const [result] = await db.execute(sql.raw(query)) as unknown as [SqlRow[]];
-        return Array.isArray(result) ? result : [];
+        return (Array.isArray(result) ? result : []) as unknown as TpsGeneRow[];
       } catch (error: unknown) {
         console.error("Error fetching TPS genes:", error);
         return [];
@@ -410,7 +449,7 @@ export const researchRouter = router({
       const [result] = await db.execute(
         sql.raw(`SELECT * FROM biosynthetic_pathways ORDER BY name`)
       ) as unknown as [SqlRow[]];
-      return Array.isArray(result) ? result : [];
+      return (Array.isArray(result) ? result : []) as unknown as BiosyntheticPathwayRow[];
     } catch (error: unknown) {
       console.error("Error fetching biosynthetic pathways:", error);
       return [];
@@ -634,7 +673,9 @@ export const researchRouter = router({
       const lMols = Number(linkedMolecules[0]?.count || 0);
       
       return {
-        totalLinks: totalLinks[0]?.count || 0,
+        // `count` sort en `unknown` d'une requête brute : la page l'affiche
+        // directement, il faut donc un nombre.
+        totalLinks: Number(totalLinks[0]?.count || 0),
         byRelationship: byRelationship || [],
         byConfidence: byConfidence || [],
         linkedGenes: lGenes,
@@ -837,7 +878,7 @@ export const researchRouter = router({
         `;
         const [statsResult] = await db.execute(sql.raw(statsQuery)) as unknown as [SqlRow[]];
         const statsRows = (statsResult[0] as unknown) as SqlRow[];
-        const stats = statsRows[0] || null;
+        const stats = (statsRows[0] as unknown as BiosyntheticPathwayFlowStats | undefined) || null;
 
         // Group paths by gene for visualization
         const groupedPaths: Record<number, {
