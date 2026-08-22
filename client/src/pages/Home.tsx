@@ -118,7 +118,7 @@ export default function Home() {
                       </div>
                     </div>
                     <div className="pt-2 border-t border-border/30">
-                      <Link href="/admin/sparql" className="flex items-center gap-2 text-[11px] text-primary/70 hover:text-primary transition-colors group">
+                      <Link href="/admin/sparql-explorer" className="flex items-center gap-2 text-[11px] text-primary/70 hover:text-primary transition-colors group">
                         <span>Explorateur SPARQL complet</span>
                         <ArrowRight className="w-3 h-3 ml-auto group-hover:translate-x-0.5 transition-transform" />
                       </Link>

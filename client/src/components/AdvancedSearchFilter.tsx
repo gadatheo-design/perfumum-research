@@ -577,7 +577,7 @@ export function AdvancedSearchFilter({ onResults, compact = false }: AdvancedSea
             {/* Lien vers l'explorateur SPARQL */}
             <div className="mt-4 pt-3 border-t border-border/30">
               <Link
-                href="/admin/sparql"
+                href="/admin/sparql-explorer"
                 className="flex items-center gap-2 text-xs text-primary/70 hover:text-primary transition-colors group"
               >
                 <Zap className="w-3.5 h-3.5" />
@@ -585,7 +585,7 @@ export function AdvancedSearchFilter({ onResults, compact = false }: AdvancedSea
                 <ArrowRight className="w-3 h-3 ml-auto group-hover:translate-x-0.5 transition-transform" />
               </Link>
               <Link
-                href="/knowledge-graph"
+                href="/admin/knowledge-graph"
                 className="flex items-center gap-2 text-xs text-primary/70 hover:text-primary transition-colors group mt-2"
               >
                 <Network className="w-3.5 h-3.5" />

@@ -563,6 +563,7 @@ function Router() {
 
       <Route path="/admin/molecules" component={AdminMoleculesIndex} />
       <Route path="/admin/plants-manage" component={AdminPlantsIndex} />
+      <Route path="/admin/plants/new" component={AdminPlantsIndex} />
       <Route path="/admin/molecules/new" component={AdminMoleculeNew} />
       <Route path="/admin/accords" component={AdminAccords} />
       <Route path="/admin/familles" component={AdminFamilles} />

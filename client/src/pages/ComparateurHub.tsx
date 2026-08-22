@@ -160,7 +160,7 @@ const comparators: ComparatorEntry[] = [
     title: "Muscs — Guide Comparatif",
     description: "Tableau comparatif des muscs synthétiques et naturels : odeur, persistance, réglementation.",
     icon: Layers,
-    href: "/muscs-comparatif",
+    href: "/muscs",
     color: "text-pink-600",
     bgColor: "bg-pink-50",
   },
