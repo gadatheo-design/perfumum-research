@@ -27,6 +27,8 @@ export * from "./schema-modules/molecular-transformations";
 export * from "./schema-modules/molecules";
 export * from "./schema-modules/olfactive-archives";
 export * from "./schema-modules/olfactive-descriptors-links";
+export * from "./schema-modules/descriptor-link-audit";
+export * from "./schema-modules/olfactory-term-pilot";
 export * from "./schema-modules/plants";
 export * from "./schema-modules/prototypes";
 export * from "./schema-modules/raw-materials";

@@ -26,6 +26,7 @@ function EmptyState() {
 
 export function DataIntegrityTab() {
   const integrityQuery = trpc.descriptorLinks.getIntegrityReport.useQuery();
+  const auditQuery = trpc.descriptorLinks.getReassignmentAudit.useQuery();
   const [reassociationTarget, setReassociationTarget] = useState<ReassociationTarget | null>(null);
   const report = integrityQuery.data;
   const plantLinks = report?.orphanPlantLinks ?? [];
@@ -149,10 +150,24 @@ export function DataIntegrityTab() {
           </Card>
         </div>
       )}
+      <Card>
+        <CardHeader>
+          <CardTitle className="text-base">Journal des réassociations</CardTitle>
+          <CardDescription>Historique immuable des décisions administratives, avec l’ancienne cible, la nouvelle cible et la justification utilisée.</CardDescription>
+        </CardHeader>
+        <CardContent className="p-0">
+          {auditQuery.isLoading ? <div className="flex justify-center py-8"><RefreshCw className="h-5 w-5 animate-spin text-muted-foreground" /></div> :
+            (auditQuery.data?.length ?? 0) === 0 ? <p className="px-6 pb-6 text-sm text-muted-foreground">Aucune réassociation n’a encore été enregistrée.</p> : (
+              <div className="overflow-x-auto"><table className="w-full text-sm"><thead className="border-y bg-muted/30 text-left text-xs text-muted-foreground"><tr><th className="px-4 py-2.5">Date</th><th className="px-4 py-2.5">Lien</th><th className="px-4 py-2.5">Décision</th><th className="px-4 py-2.5">Administrateur</th></tr></thead><tbody>
+                {auditQuery.data?.map((entry) => <tr key={entry.id} className="border-b last:border-0"><td className="px-4 py-3 whitespace-nowrap text-xs text-muted-foreground">{new Date(entry.createdAt).toLocaleString("fr-FR")}</td><td className="px-4 py-3"><p className="font-medium">{entry.descriptorId}</p><p className="text-xs text-muted-foreground">{entry.linkType === "plant" ? "Plante" : "Molécule"}</p></td><td className="px-4 py-3"><p><span className="text-muted-foreground">{entry.archivedTargetName || "Cible archivée"}</span> <span aria-hidden="true">→</span> <strong>{entry.targetEntityName}</strong></p><p className="text-xs text-muted-foreground">{entry.suggestionReason || "Sélection manuelle"}{entry.confidence ? ` · ${entry.confidence}` : ""}</p></td><td className="px-4 py-3 text-xs">{entry.actorName || `Utilisateur ${entry.actorUserId}`}</td></tr>)}
+              </tbody></table></div>
+            )}
+        </CardContent>
+      </Card>
       <OrphanReassociationDialog
         target={reassociationTarget}
         onClose={() => setReassociationTarget(null)}
-        onSuccess={() => integrityQuery.refetch()}
+        onSuccess={() => { integrityQuery.refetch(); auditQuery.refetch(); }}
       />
     </div>
   );

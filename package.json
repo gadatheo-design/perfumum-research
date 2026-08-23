@@ -13,7 +13,11 @@
     "test": "vitest run",
     "db:push": "drizzle-kit generate && drizzle-kit migrate",
     "import:pred-o3": "node --import tsx server/scripts/pred-o3-import.mjs",
-    "import:pred-o3:dry-run": "node --import tsx server/scripts/pred-o3-import.mjs --dry-run"
+    "import:pred-o3:dry-run": "node --import tsx server/scripts/pred-o3-import.mjs --dry-run",
+    "pilot:zenodo:prepare": "python3 server/scripts/prepare-zenodo-olfactory-pilot.py --input /home/ubuntu/article_analysis/zenodo/Olfactory_Lexcion.xlsx --output data/pilots/zenodo_cocd_pilot_50.csv",
+    "pilot:zenodo:dry-run": "node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --input data/pilots/zenodo_cocd_pilot_50.csv --dry-run",
+    "pilot:zenodo:stage": "node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --input data/pilots/zenodo_cocd_pilot_50.csv --stage",
+    "pilot:zenodo:preannotate": "node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --batch zenodo-cocd-50-v1 --preannotate"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.693.0",

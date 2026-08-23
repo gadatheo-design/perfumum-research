@@ -338,18 +338,107 @@ export const descriptorLinksRouter = router({
     };
   }),
 
+  /** Propose des cibles existantes sans jamais appliquer de correction automatique. */
+  getReassociationSuggestions: adminProcedure
+    .input(z.object({ kind: z.enum(["plant", "molecule"]), linkId: z.number().int().positive() }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database connection failed");
+
+      if (input.kind === "plant") {
+        const [orphanRows] = await db.execute(sql`
+          SELECT dpl.id, dpl.plant_id AS archivedTargetId, dpl.latin_name AS latinName, dpl.common_name AS commonName
+          FROM descriptor_plant_links dpl
+          LEFT JOIN plants previous_plant ON previous_plant.id = dpl.plant_id
+          WHERE dpl.id = ${input.linkId} AND previous_plant.id IS NULL
+          LIMIT 1
+        `) as any;
+        const orphan = orphanRows?.[0];
+        if (!orphan) throw new Error("Orphan plant link not found");
+
+        const searchTerm = String(orphan.latinName || orphan.commonName || "").trim();
+        if (searchTerm.length < 2) return { archived: orphan, suggestions: [] };
+        const [candidateRows] = await db.execute(sql`
+          SELECT id, name, latin_name AS latinName, family, wikidata_qid AS wikidataQid
+          FROM plants
+          WHERE name LIKE ${`%${searchTerm}%`} OR latin_name LIKE ${`%${searchTerm}%`}
+          ORDER BY name ASC
+          LIMIT 20
+        `) as any;
+        return {
+          archived: orphan,
+          suggestions: rankPlantSuggestions(candidateRows ?? [], orphan),
+        };
+      }
+
+      const [orphanRows] = await db.execute(sql`
+        SELECT dml.id, dml.molecule_id AS archivedTargetId, dml.molecule_name AS moleculeName,
+               dml.iupac_name AS iupacName, dml.cas_number AS casNumber
+        FROM descriptor_molecule_links dml
+        LEFT JOIN molecules previous_molecule ON previous_molecule.id = dml.molecule_id
+        WHERE dml.id = ${input.linkId} AND previous_molecule.id IS NULL
+        LIMIT 1
+      `) as any;
+      const orphan = orphanRows?.[0];
+      if (!orphan) throw new Error("Orphan molecule link not found");
+
+      const searchTerm = String(orphan.moleculeName || orphan.iupacName || orphan.casNumber || "").trim();
+      if (searchTerm.length < 2) return { archived: orphan, suggestions: [] };
+      const [candidateRows] = await db.execute(sql`
+        SELECT id, name, iupac_name AS iupacName, cas_number AS casNumber, formula
+        FROM molecules
+        WHERE cas_number = ${orphan.casNumber || "__no_cas_match__"}
+           OR name LIKE ${`%${searchTerm}%`}
+           OR iupac_name LIKE ${`%${searchTerm}%`}
+        ORDER BY name ASC
+        LIMIT 20
+      `) as any;
+      return {
+        archived: orphan,
+        suggestions: rankMoleculeSuggestions(candidateRows ?? [], orphan),
+      };
+    }),
+
+  /** Historique des décisions administratives, en lecture seule. */
+  getReassignmentAudit: adminProcedure
+    .input(z.object({ limit: z.number().int().min(1).max(100).default(30) }).optional())
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database connection failed");
+      const limit = input?.limit ?? 30;
+      const [rows] = await db.execute(sql`
+        SELECT id, link_type AS linkType, link_id AS linkId, descriptor_id AS descriptorId,
+               archived_target_id AS archivedTargetId, archived_target_name AS archivedTargetName,
+               target_entity_id AS targetEntityId, target_entity_name AS targetEntityName,
+               suggestion_reason AS suggestionReason, confidence, actor_user_id AS actorUserId,
+               actor_name AS actorName, created_at AS createdAt
+        FROM descriptor_link_audit_log
+        ORDER BY created_at DESC, id DESC
+        LIMIT ${limit}
+      `) as any;
+      return rows ?? [];
+    }),
+
   /**
    * Réassocie une association plante-descripteur devenue orpheline à une plante existante.
    * Les données éditoriales (descripteur, force, notes et source) restent inchangées.
    */
   reassignOrphanPlantLink: adminProcedure
-    .input(z.object({ linkId: z.number().int().positive(), targetPlantId: z.number().int().positive() }))
-    .mutation(async ({ input }) => {
+    .input(z.object({
+      linkId: z.number().int().positive(),
+      targetPlantId: z.number().int().positive(),
+      suggestionReason: z.string().max(255).optional(),
+      confidence: z.enum(["high", "medium", "low"]).optional(),
+    }))
+    .mutation(async ({ input, ctx }) => {
       const db = await getDb();
       if (!db) throw new Error("Database connection failed");
 
       const [orphanRows] = await db.execute(sql`
-        SELECT dpl.id, dpl.descriptor_id AS descriptorId
+        SELECT dpl.id,
+               dpl.descriptor_id AS descriptorId,
+               dpl.plant_id AS archivedTargetId,
+               COALESCE(dpl.common_name, dpl.latin_name) AS archivedTargetName
         FROM descriptor_plant_links dpl
         LEFT JOIN plants previous_plant ON previous_plant.id = dpl.plant_id
         WHERE dpl.id = ${input.linkId} AND previous_plant.id IS NULL
@@ -375,6 +464,14 @@ export const descriptorLinksRouter = router({
             updated_at = NOW()
         WHERE id = ${input.linkId}
       `);
+      await db.execute(sql`
+        INSERT INTO descriptor_link_audit_log
+          (link_type, link_id, descriptor_id, archived_target_id, archived_target_name,
+           target_entity_id, target_entity_name, suggestion_reason, confidence, actor_user_id, actor_name)
+        VALUES
+          ("plant", ${input.linkId}, ${orphanLink.descriptorId}, ${orphanLink.archivedTargetId}, ${orphanLink.archivedTargetName},
+           ${targetPlant.id}, ${targetPlant.name}, ${input.suggestionReason || null}, ${input.confidence || null}, ${ctx.user.id}, ${ctx.user.name || null})
+      `);
       await updateDescriptorOccurrences(db, orphanLink.descriptorId);
 
       return {
@@ -389,13 +486,21 @@ export const descriptorLinksRouter = router({
    * Les données éditoriales (descripteur, force, notes et source) restent inchangées.
    */
   reassignOrphanMoleculeLink: adminProcedure
-    .input(z.object({ linkId: z.number().int().positive(), targetMoleculeId: z.number().int().positive() }))
-    .mutation(async ({ input }) => {
+    .input(z.object({
+      linkId: z.number().int().positive(),
+      targetMoleculeId: z.number().int().positive(),
+      suggestionReason: z.string().max(255).optional(),
+      confidence: z.enum(["high", "medium", "low"]).optional(),
+    }))
+    .mutation(async ({ input, ctx }) => {
       const db = await getDb();
       if (!db) throw new Error("Database connection failed");
 
       const [orphanRows] = await db.execute(sql`
-        SELECT dml.id, dml.descriptor_id AS descriptorId
+        SELECT dml.id,
+               dml.descriptor_id AS descriptorId,
+               dml.molecule_id AS archivedTargetId,
+               COALESCE(dml.molecule_name, dml.cas_number) AS archivedTargetName
         FROM descriptor_molecule_links dml
         LEFT JOIN molecules previous_molecule ON previous_molecule.id = dml.molecule_id
         WHERE dml.id = ${input.linkId} AND previous_molecule.id IS NULL
@@ -421,6 +526,14 @@ export const descriptorLinksRouter = router({
             cas_number = ${targetMolecule.casNumber},
             updated_at = NOW()
         WHERE id = ${input.linkId}
+      `);
+      await db.execute(sql`
+        INSERT INTO descriptor_link_audit_log
+          (link_type, link_id, descriptor_id, archived_target_id, archived_target_name,
+           target_entity_id, target_entity_name, suggestion_reason, confidence, actor_user_id, actor_name)
+        VALUES
+          ("molecule", ${input.linkId}, ${orphanLink.descriptorId}, ${orphanLink.archivedTargetId}, ${orphanLink.archivedTargetName},
+           ${targetMolecule.id}, ${targetMolecule.name}, ${input.suggestionReason || null}, ${input.confidence || null}, ${ctx.user.id}, ${ctx.user.name || null})
       `);
       await updateDescriptorOccurrences(db, orphanLink.descriptorId);
 
@@ -454,4 +567,80 @@ async function updateDescriptorOccurrences(db: any, descriptorId: string) {
   } catch (err) {
     console.error("Error updating descriptor occurrences:", err);
   }
+}
+
+function normalizeSuggestionText(value: unknown): string {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function confidenceForScore(score: number): "high" | "medium" | "low" {
+  if (score >= 90) return "high";
+  if (score >= 65) return "medium";
+  return "low";
+}
+
+function rankPlantSuggestions(candidates: any[], archived: any) {
+  const archivedLatin = normalizeSuggestionText(archived.latinName);
+  const archivedCommon = normalizeSuggestionText(archived.commonName);
+
+  return candidates
+    .map((candidate) => {
+      const latinName = normalizeSuggestionText(candidate.latinName);
+      const name = normalizeSuggestionText(candidate.name);
+      let score = 45;
+      let reason = "Correspondance textuelle partielle";
+      if (archivedLatin && latinName === archivedLatin) {
+        score = 100;
+        reason = "Nom latin strictement identique";
+      } else if (archivedCommon && name === archivedCommon) {
+        score = 95;
+        reason = "Nom commun strictement identique";
+      } else if (archivedLatin && (latinName.includes(archivedLatin) || archivedLatin.includes(latinName))) {
+        score = 75;
+        reason = "Nom latin très proche";
+      } else if (archivedCommon && (name.includes(archivedCommon) || archivedCommon.includes(name))) {
+        score = 65;
+        reason = "Nom commun proche";
+      }
+      return { ...candidate, score, confidence: confidenceForScore(score), reason };
+    })
+    .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
+}
+
+function rankMoleculeSuggestions(candidates: any[], archived: any) {
+  const archivedCas = String(archived.casNumber ?? "").trim();
+  const archivedName = normalizeSuggestionText(archived.moleculeName);
+  const archivedIupac = normalizeSuggestionText(archived.iupacName);
+
+  return candidates
+    .map((candidate) => {
+      const candidateCas = String(candidate.casNumber ?? "").trim();
+      const name = normalizeSuggestionText(candidate.name);
+      const iupacName = normalizeSuggestionText(candidate.iupacName);
+      let score = 45;
+      let reason = "Correspondance textuelle partielle";
+      if (archivedCas && candidateCas === archivedCas) {
+        score = 100;
+        reason = "Numéro CAS strictement identique";
+      } else if (archivedName && name === archivedName) {
+        score = 95;
+        reason = "Nom de molécule strictement identique";
+      } else if (archivedIupac && iupacName === archivedIupac) {
+        score = 90;
+        reason = "Nom IUPAC strictement identique";
+      } else if (archivedName && (name.includes(archivedName) || archivedName.includes(name))) {
+        score = 70;
+        reason = "Nom de molécule proche";
+      } else if (archivedIupac && (iupacName.includes(archivedIupac) || archivedIupac.includes(iupacName))) {
+        score = 65;
+        reason = "Nom IUPAC proche";
+      }
+      return { ...candidate, score, confidence: confidenceForScore(score), reason };
+    })
+    .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
 }

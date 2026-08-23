@@ -451,3 +451,18 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Corriger les lectures de `descriptor_id` dans les mutations de suppression existantes afin de préserver le recalcul d’occurrences.
 - [x] Ajouter dans l’onglet Intégrité des sélecteurs avec recherche, prévisualisation et confirmation explicite.
 - [x] Tester le refus des cibles absentes, la réassociation et la préservation des métadonnées du lien (1910 tests réussis, dont les garde-fous administrateur et de non-orphelinat).
+
+## Août 2026 — Suggestions et audit de réassociation
+
+- [ ] Définir des suggestions de réassociation explicables à partir des noms archivés, CAS et noms latins.
+- [ ] Créer une table de journal d’audit et des mutations traçables pour chaque réassociation validée.
+- [ ] Afficher la suggestion, son niveau de confiance et l’historique des décisions dans l’onglet Intégrité.
+- [ ] Vérifier la traçabilité, les permissions, les suggestions et l’expérience mobile.
+
+## Août 2026 — Pilote multilingue Zenodo
+
+- [x] Rédiger le protocole contrôlé de sélection, pré-annotation et revue humaine de 50 termes Zenodo (voir `docs/protocols/pilote-zenodo-50-termes.md`).
+- [x] Définir le format CSV réversible des propositions de termes olfactifs multilingues.
+- [x] Créer des tables de transit pour les propositions et revues humaines, séparées des descripteurs et liens scientifiques de production.
+- [x] Écrire le script d’importation en mode simulation et le flux de validation humaine.
+- [x] Exécuter une simulation sur un échantillon réel sans écrire dans les tables de production (50 propositions validées ; tables de transit toujours vides).
