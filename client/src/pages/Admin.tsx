@@ -351,6 +351,14 @@ export default function Admin() {
       bgColor: "bg-cyan-50",
     },
     {
+      title: "Cockpit de remédiation des données",
+      description: "Prioriser les conflits CAS, liens orphelins, profils olfactifs, relations plante–molécule et bibliographie dans une file non destructive avec preuves, décision humaine et journal d’audit.",
+      icon: FileSearch,
+      href: "/admin/data-quality-remediation",
+      color: "text-amber-700",
+      bgColor: "bg-amber-50",
+    },
+    {
       title: "Enrichissement Taxonomique — Plantes (Rapport 16)",
       description: "Compléter la famille botanique des 126 plantes sans family via Wikidata (QID direct ou recherche) et GBIF. Batch automatique avec score de confiance + validation manuelle individuelle.",
       icon: Leaf,

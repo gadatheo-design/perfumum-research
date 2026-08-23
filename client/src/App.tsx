@@ -137,6 +137,7 @@ const QidCasValidator = React.lazy(() => import('./pages/admin/QidCasValidator')
 const MoleculeKGEnrichment = React.lazy(() => import('./pages/admin/MoleculeKGEnrichment'));
 const ZenodoTermReview = React.lazy(() => import('./pages/admin/ZenodoTermReview'));
 const ZenodoTermComparator = React.lazy(() => import('./pages/admin/ZenodoTermComparator'));
+const DataQualityRemediation = React.lazy(() => import('./pages/admin/DataQualityRemediation'));
 const TaxonomyEnrichment = React.lazy(() => import('./pages/admin/TaxonomyEnrichment'));
 const EuropeanaExplorer = React.lazy(() => import('./pages/admin/EuropeanaExplorer'));
 const EuropeanaMap = React.lazy(() => import('./pages/admin/EuropeanaMap'));
@@ -605,6 +606,7 @@ function Router() {
       <Route path="/admin/molecule-kg-enrichment" component={MoleculeKGEnrichment} />
       <Route path="/admin/zenodo-term-review" component={ZenodoTermReview} />
       <Route path="/admin/zenodo-term-comparator" component={ZenodoTermComparator} />
+      <Route path="/admin/data-quality-remediation" component={DataQualityRemediation} />
       <Route path="/admin/taxonomy-enrichment" component={TaxonomyEnrichment} />
       <Route path="/admin/europeana" component={EuropeanaExplorer} />
       <Route path="/europeana-map" component={EuropeanaMap} />
