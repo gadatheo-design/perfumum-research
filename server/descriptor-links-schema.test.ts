@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { appRouter } from "./routers";
 import type { TrpcContext } from "./_core/context";
+import { descriptorLinkSuggestionUtils } from "./routers/descriptor-links";
 
 function createPublicTestContext(): TrpcContext {
   return {
@@ -106,5 +107,25 @@ describe("descriptorLinks : contrat du schéma relationnel", () => {
     await expect(
       authenticatedCaller.descriptorLinks.reassignOrphanMoleculeLink({ linkId: 2147483647, targetMoleculeId: 1 })
     ).rejects.toThrow("Orphan molecule link not found");
+  });
+
+  it("classe les suggestions en indiquant une justification et un niveau de confiance", () => {
+    const plants = descriptorLinkSuggestionUtils.rankPlantSuggestions(
+      [
+        { id: 2, name: "Citronnelle", latinName: "Cymbopogon citratus" },
+        { id: 3, name: "Rose", latinName: "Rosa damascena" },
+      ],
+      { latinName: "Cymbopogon citratus", commonName: "Citronnelle" }
+    );
+    const molecules = descriptorLinkSuggestionUtils.rankMoleculeSuggestions(
+      [
+        { id: 5, name: "Linalool", casNumber: "78-70-6", iupacName: "linalool" },
+        { id: 6, name: "Géosmine", casNumber: "19700-21-1", iupacName: "geosmin" },
+      ],
+      { moleculeName: "Linalool", casNumber: "78-70-6", iupacName: "linalool" }
+    );
+
+    expect(plants[0]).toMatchObject({ id: 2, score: 100, confidence: "high", reason: "Nom latin strictement identique" });
+    expect(molecules[0]).toMatchObject({ id: 5, score: 100, confidence: "high", reason: "Numéro CAS strictement identique" });
   });
 });

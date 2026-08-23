@@ -644,3 +644,9 @@ function rankMoleculeSuggestions(candidates: any[], archived: any) {
     })
     .sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
 }
+
+/** Utilitaires purs exportés uniquement pour garantir le classement explicable par tests. */
+export const descriptorLinkSuggestionUtils = {
+  rankPlantSuggestions,
+  rankMoleculeSuggestions,
+};

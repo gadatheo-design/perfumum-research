@@ -454,10 +454,10 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 
 ## Août 2026 — Suggestions et audit de réassociation
 
-- [ ] Définir des suggestions de réassociation explicables à partir des noms archivés, CAS et noms latins.
-- [ ] Créer une table de journal d’audit et des mutations traçables pour chaque réassociation validée.
-- [ ] Afficher la suggestion, son niveau de confiance et l’historique des décisions dans l’onglet Intégrité.
-- [ ] Vérifier la traçabilité, les permissions, les suggestions et l’expérience mobile.
+- [x] Définir des suggestions de réassociation explicables à partir des noms archivés, CAS et noms latins.
+- [x] Créer une table de journal d’audit et des mutations traçables pour chaque réassociation validée.
+- [x] Afficher la suggestion, son niveau de confiance et l’historique des décisions dans l’onglet Intégrité.
+- [x] Vérifier la traçabilité, les permissions, les suggestions et l’expérience mobile (134 fichiers de test, 1 913 réussites, 2 ignorés ; contrôle mobile effectué).
 
 ## Août 2026 — Pilote multilingue Zenodo
 
