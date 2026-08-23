@@ -230,6 +230,40 @@ export const dataQualityRemediationRouter = router({
     }
   }),
 
+  getCaseDetails: adminProcedure.input(z.object({ caseId: z.number().int().positive() })).query(async ({ input }) => {
+    const conn = await getMysqlConnection();
+    try {
+      const [caseRows] = await conn.execute("SELECT * FROM data_quality_remediation_cases WHERE id=?", [input.caseId]);
+      const qualityCase = (caseRows as any[])[0];
+      if (!qualityCase) throw new TRPCError({ code: "NOT_FOUND", message: "Cas de remédiation introuvable" });
+      if (qualityCase.case_type !== "cas_conflict") return { qualityCase, records: [], comparison: null };
+
+      const casNumber = String(qualityCase.group_key).replace(/^cas:/, "");
+      const [records] = await conn.execute(
+        `SELECT id, name, cas_number, formula, chemicalFamily, iupac_name, pubchem_cid, inchi, inchi_key, wikidata_qid, status
+         FROM molecules WHERE cas_number=? ORDER BY id`,
+        [casNumber]
+      );
+      const values = records as any[];
+      const distinct = (field: string) => new Set(values.map((row) => String(row[field] ?? "").trim()).filter(Boolean)).size;
+      return {
+        qualityCase,
+        records: values,
+        comparison: {
+          casNumber,
+          recordCount: values.length,
+          distinctInchiKeys: distinct("inchi_key"),
+          distinctPubchemCids: distinct("pubchem_cid"),
+          distinctFormulas: distinct("formula"),
+          distinctWikidataQids: distinct("wikidata_qid"),
+          instruction: "Ces divergences sont des signaux de revue. Elles ne déterminent ni une fusion ni une suppression automatiques.",
+        },
+      };
+    } finally {
+      await conn.end();
+    }
+  }),
+
   decideCase: adminProcedure.input(z.object({
     caseId: z.number().int().positive(), decision: caseStatus.exclude(["open"]), rationale: z.string().max(4000).optional(),
   })).mutation(async ({ ctx, input }) => {

@@ -507,3 +507,9 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [ ] Tester les règles, prévisualiser les lots et n’appliquer que des décisions humaines explicitement confirmées.
 - [x] Créer des tables de file de revue et de journal de remédiation séparées des entités scientifiques de production.
 - [x] Ajouter une page administrative de pilotage affichant les lots, preuves et décisions de remédiation.
+
+## Août 2026 — Ordre de traitement validé par l’utilisateur
+
+- [ ] Phase séquentielle 1 : qualifier les conflits CAS avec preuves chimiques complètes et revue humaine, avant tout autre domaine.
+- [ ] Phase séquentielle 2 : traiter uniquement après clôture CAS les liens orphelins de descripteurs et de terroirs.
+- [ ] Phase séquentielle 3 : traiter uniquement après clôture des liens les profils olfactifs, relations plantes–molécules et bibliographie, dans cet ordre.

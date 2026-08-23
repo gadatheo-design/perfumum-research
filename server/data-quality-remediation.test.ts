@@ -56,6 +56,19 @@ describe("file de remédiation de qualité", () => {
     expect(dashboard.cases.reduce((total, item) => total + item.count, 0)).toBeGreaterThanOrEqual(cases.length);
   });
 
+  it("expose les preuves chimiques d’un conflit CAS sans modifier les molécules", async () => {
+    const admin = appRouter.createCaller(createContext("admin"));
+    const [casCase] = await admin.dataQualityRemediation.listCases({ caseType: "cas_conflict", limit: 1 });
+    const before = await productionCounts();
+    const details = await admin.dataQualityRemediation.getCaseDetails({ caseId: casCase.id });
+    const after = await productionCounts();
+
+    expect(details.comparison).toMatchObject({ casNumber: casCase.group_key.replace("cas:", "") });
+    expect(details.records.length).toBeGreaterThan(1);
+    expect(details.records[0]).toHaveProperty("inchi_key");
+    expect(after).toEqual(before);
+  });
+
   it("journalise une décision humaine sans appliquer de correction aux entités scientifiques", async () => {
     const admin = appRouter.createCaller(createContext("admin"));
     const conn = await getMysqlConnection();

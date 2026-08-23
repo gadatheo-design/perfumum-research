@@ -42,20 +42,24 @@ function parseEvidence(value: unknown) {
 export default function DataQualityRemediation() {
   const { toast } = useToast();
   const [statusFilter, setStatusFilter] = useState<CaseStatus | "all">("open");
-  const [typeFilter, setTypeFilter] = useState<string>("all");
+  const [typeFilter, setTypeFilter] = useState<string>("cas_conflict");
   const [selected, setSelected] = useState<QualityCase | null>(null);
   const [decision, setDecision] = useState<Exclude<CaseStatus, "open">>("reviewed");
   const [rationale, setRationale] = useState("");
   const input = useMemo(() => ({
     status: statusFilter === "all" ? undefined : statusFilter,
     caseType: typeFilter === "all" ? undefined : typeFilter as any,
-    limit: 150,
+    limit: 500,
   }), [statusFilter, typeFilter]);
   const dashboardQuery = trpc.dataQualityRemediation.getDashboard.useQuery();
   const casesQuery = trpc.dataQualityRemediation.listCases.useQuery(input);
   const actionsQuery = trpc.dataQualityRemediation.listActions.useQuery(
     selected ? { caseId: selected.id } : undefined,
     { enabled: Boolean(selected) },
+  );
+  const casDetailsQuery = trpc.dataQualityRemediation.getCaseDetails.useQuery(
+    selected ? { caseId: selected.id } : { caseId: 1 },
+    { enabled: selected?.case_type === "cas_conflict" },
   );
   const utils = trpc.useUtils();
   const scanMutation = trpc.dataQualityRemediation.scan.useMutation({
@@ -88,7 +92,7 @@ export default function DataQualityRemediation() {
     <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6">
       <header className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
         <div>
-          <p className="text-sm font-medium text-amber-700">Contrôle de qualité · revue humaine obligatoire</p>
+          <p className="text-sm font-medium text-amber-700">Phase 1 active · conflits CAS · revue humaine obligatoire</p>
           <h1 className="mt-1 flex items-center gap-3 text-2xl font-bold tracking-tight"><ShieldCheck className="h-7 w-7 text-amber-700" />Cockpit de remédiation des données</h1>
           <p className="mt-2 max-w-4xl text-sm text-muted-foreground">Cette file centralise les signaux issus de l’audit. Chaque cas expose ses preuves et sa proposition ; ni fusion CAS, ni suppression, ni enrichissement scientifique ne sont exécutés depuis cette page.</p>
         </div>
@@ -113,10 +117,10 @@ export default function DataQualityRemediation() {
 
       <Card>
         <CardHeader className="gap-3 lg:flex-row lg:items-start lg:justify-between">
-          <div><CardTitle className="text-lg">File de preuves et propositions</CardTitle><CardDescription>Les cartes sont volontairement séparées des opérations d’application afin de préserver la réversibilité et l’attribution des décisions.</CardDescription></div>
+          <div><CardTitle className="text-lg">File de preuves et propositions</CardTitle><CardDescription>La première vague est limitée aux conflits CAS. Les autres domaines restent disponibles en lecture mais sont traités uniquement après la clôture explicite de cette phase.</CardDescription></div>
           <div className="grid gap-2 sm:grid-cols-2 lg:w-[480px]">
             <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as CaseStatus | "all")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">Tous les statuts</SelectItem>{Object.entries(statusMeta).map(([value, meta]) => <SelectItem key={value} value={value}>{meta.label}</SelectItem>)}</SelectContent></Select>
-            <Select value={typeFilter} onValueChange={setTypeFilter}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">Tous les domaines</SelectItem>{Object.entries(typeMeta).map(([value, meta]) => <SelectItem key={value} value={value}>{meta.label}</SelectItem>)}</SelectContent></Select>
+            <Select value={typeFilter} onValueChange={setTypeFilter}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">Vue transversale (lecture)</SelectItem>{Object.entries(typeMeta).map(([value, meta]) => <SelectItem key={value} value={value}>{meta.label}{value !== "cas_conflict" ? " · phase ultérieure" : " · phase active"}</SelectItem>)}</SelectContent></Select>
           </div>
         </CardHeader>
         <CardContent>
@@ -137,6 +141,7 @@ export default function DataQualityRemediation() {
           <DialogHeader><DialogTitle className="flex items-center gap-2">{selectedMeta && <selectedMeta.icon className={`h-5 w-5 ${selectedMeta.tone}`} />}{selected?.title}</DialogTitle><DialogDescription>Cas #{selected?.id} · groupe immuable <code className="rounded bg-muted px-1 py-0.5">{selected?.group_key}</code></DialogDescription></DialogHeader>
           {selected && <div className="space-y-5">
             <div className="grid gap-3 text-sm sm:grid-cols-3"><div><p className="text-xs font-medium uppercase text-muted-foreground">Domaine</p><p className="mt-1">{selectedMeta?.label ?? selected.case_type}</p></div><div><p className="text-xs font-medium uppercase text-muted-foreground">Gravité</p><p className="mt-1">{severityLabel(selected.severity)}</p></div><div><p className="text-xs font-medium uppercase text-muted-foreground">État</p><Badge className="mt-1" variant={(statusMeta[selected.status as CaseStatus] ?? statusMeta.open).variant}>{(statusMeta[selected.status as CaseStatus] ?? statusMeta.open).label}</Badge></div></div>
+            {selected.case_type === "cas_conflict" && <section className="rounded-lg border border-rose-200 bg-rose-50/40 p-4 dark:border-rose-950 dark:bg-rose-950/10"><h3 className="text-sm font-semibold text-rose-950 dark:text-rose-100">Comparaison structurelle des enregistrements</h3><p className="mt-1 text-xs text-muted-foreground">Les écarts ci-dessous servent à qualifier le cas. Ils n’autorisent pas une fusion automatique.</p>{casDetailsQuery.isLoading ? <Loader2 className="mt-4 h-4 w-4 animate-spin" /> : casDetailsQuery.data?.comparison ? <><div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">{[["Enregistrements", casDetailsQuery.data.comparison.recordCount], ["InChIKey distincts", casDetailsQuery.data.comparison.distinctInchiKeys], ["CID PubChem distincts", casDetailsQuery.data.comparison.distinctPubchemCids], ["Formules distinctes", casDetailsQuery.data.comparison.distinctFormulas]].map(([label, value]) => <div key={String(label)} className="rounded-md border bg-background/70 p-2"><p className="text-[11px] text-muted-foreground">{String(label)}</p><p className="text-lg font-semibold">{Number(value)}</p></div>)}</div><div className="mt-3 overflow-x-auto rounded-md border bg-background/70"><table className="min-w-[760px] text-left text-xs"><thead className="bg-muted/60 text-muted-foreground"><tr><th className="px-3 py-2">ID</th><th className="px-3 py-2">Nom</th><th className="px-3 py-2">InChIKey</th><th className="px-3 py-2">PubChem</th><th className="px-3 py-2">Formule</th><th className="px-3 py-2">Wikidata</th></tr></thead><tbody>{casDetailsQuery.data.records.map((record: any) => <tr key={record.id} className="border-t align-top"><td className="px-3 py-2 font-mono">{record.id}</td><td className="max-w-56 px-3 py-2 font-medium">{record.name}</td><td className="px-3 py-2 font-mono">{record.inchi_key || "—"}</td><td className="px-3 py-2">{record.pubchem_cid || "—"}</td><td className="px-3 py-2">{record.formula || "—"}</td><td className="px-3 py-2">{record.wikidata_qid || "—"}</td></tr>)}</tbody></table></div></> : <p className="mt-3 text-sm text-muted-foreground">Les détails structuraux ne sont pas disponibles.</p>}</section>}
             <div className="grid gap-4 md:grid-cols-2"><section><h3 className="text-sm font-semibold">Valeur ou constat actuel</h3><pre className="mt-2 max-h-48 overflow-auto whitespace-pre-wrap rounded-md border bg-muted/25 p-3 text-xs">{selected.current_value ?? "—"}</pre></section><section><h3 className="text-sm font-semibold">Proposition à examiner</h3><pre className="mt-2 max-h-48 overflow-auto whitespace-pre-wrap rounded-md border bg-muted/25 p-3 text-xs">{selected.proposed_value ?? "—"}</pre></section></div>
             <section><h3 className="text-sm font-semibold">Éléments de preuve</h3><pre className="mt-2 max-h-48 overflow-auto whitespace-pre-wrap rounded-md border bg-muted/25 p-3 text-xs">{parseEvidence(selected.evidence) ?? "Aucune preuve sérialisée."}</pre></section>
             <section className="rounded-lg border bg-muted/15 p-4"><h3 className="text-sm font-semibold">Décision de revue</h3><p className="mt-1 text-xs text-muted-foreground">Cette décision est append-only. Elle n’applique aucune correction dans les tables scientifiques.</p><div className="mt-3 grid gap-3 sm:grid-cols-[220px_1fr]"><Select value={decision} onValueChange={(value) => setDecision(value as Exclude<CaseStatus, "open">)}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="reviewed">Marquer en revue</SelectItem><SelectItem value="accepted">Accepter pour préparation</SelectItem><SelectItem value="rejected">Écarter</SelectItem></SelectContent></Select><Textarea value={rationale} onChange={(event) => setRationale(event.target.value)} placeholder="Justification, sources à vérifier, réserves…" rows={3} /></div></section>
