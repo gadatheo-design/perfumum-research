@@ -335,6 +335,14 @@ export default function Admin() {
       bgColor: "bg-cyan-50",
     },
     {
+      title: "Revue humaine Zenodo — 50 termes",
+      description: "Revoir les termes olfactifs multilingues du pilote Zenodo : contexte source, proposition LLM, décision linguistique et décision scientifique séparées avant toute intégration.",
+      icon: CheckSquare,
+      href: "/admin/zenodo-term-review",
+      color: "text-indigo-600",
+      bgColor: "bg-indigo-50",
+    },
+    {
       title: "Enrichissement Taxonomique — Plantes (Rapport 16)",
       description: "Compléter la famille botanique des 126 plantes sans family via Wikidata (QID direct ou recherche) et GBIF. Batch automatique avec score de confiance + validation manuelle individuelle.",
       icon: Leaf,

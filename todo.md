@@ -466,3 +466,11 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Créer des tables de transit pour les propositions et revues humaines, séparées des descripteurs et liens scientifiques de production.
 - [x] Écrire le script d’importation en mode simulation et le flux de validation humaine.
 - [x] Exécuter une simulation sur un échantillon réel sans écrire dans les tables de production (50 propositions validées ; tables de transit toujours vides).
+
+## Août 2026 — Page de revue humaine Zenodo
+
+- [x] Créer les procédures administrateur de liste, progression et décision pour les propositions Zenodo en transit.
+- [x] Créer la page de revue humaine avec contexte source, proposition LLM, décisions linguistique et de domaine.
+- [x] Ajouter la route et l’entrée administrative vers la revue Zenodo.
+- [x] Vérifier les permissions, les états de décision, le bureau et le mobile (contrôles tRPC, route mobile et 1 914 tests réussis ; la vue détaillée exige une session administrateur).
+- [x] Corriger le test CSV de doublon qui dépend implicitement d’une donnée de test non créée.

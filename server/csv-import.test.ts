@@ -52,9 +52,12 @@ describe("CSV Import", () => {
     });
 
     it("should skip duplicate molecules", async () => {
+      const existingSearch = await caller.molecules.search({ query: "linalool", limit: 1 });
+      expect(existingSearch.molecules.length).toBeGreaterThan(0);
+      const existingMolecule = existingSearch.molecules[0];
       const duplicateMolecule = [
         {
-          name: "alpha-pinene", // Already exists from CSV import
+          name: existingMolecule.name,
           family: "terpene",
           odorKey: "pine",
           role: "diffusion",

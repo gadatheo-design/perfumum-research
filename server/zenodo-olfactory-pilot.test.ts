@@ -1,8 +1,18 @@
 import fs from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
+import { appRouter } from "./routers";
+import type { TrpcContext } from "./_core/context";
 
 const root = path.resolve(import.meta.dirname, "..");
+
+function createContext(role: "admin" | null): TrpcContext {
+  return {
+    user: role ? { id: 1, openId: "zenodo-review-test", name: "Revue Zenodo", role } as TrpcContext["user"] : null,
+    req: { protocol: "https", headers: {} } as TrpcContext["req"],
+    res: { clearCookie: () => {}, cookie: () => {} } as TrpcContext["res"],
+  };
+}
 
 describe("pilote Zenodo de termes olfactifs", () => {
   it("conserve les propositions et les revues hors des tables scientifiques de production", () => {
@@ -21,5 +31,20 @@ describe("pilote Zenodo de termes olfactifs", () => {
     expect(script).toContain("Both reviews are required");
     expect(script).toContain("No production descriptor or association was modified");
     expect(script).toContain("zenodo-cocd-50-v1");
+  });
+
+  it("réserve la revue aux administrateurs et expose les cinquante propositions de transit", async () => {
+    const publicCaller = appRouter.createCaller(createContext(null));
+    const adminCaller = appRouter.createCaller(createContext("admin"));
+
+    await expect(publicCaller.zenodoOlfactoryPilot.getOverview()).rejects.toMatchObject({ code: "FORBIDDEN" });
+    const [overview, proposals] = await Promise.all([
+      adminCaller.zenodoOlfactoryPilot.getOverview(),
+      adminCaller.zenodoOlfactoryPilot.listProposals({}),
+    ]);
+
+    expect(overview.total).toBe(50);
+    expect(proposals).toHaveLength(50);
+    expect(proposals[0]).toMatchObject({ sourceBatchId: "zenodo-cocd-50-v1", status: "proposed" });
   });
 });
