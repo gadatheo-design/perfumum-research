@@ -489,3 +489,10 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Ajouter la route et l’accès administratif au comparateur multilingue.
 - [x] Vérifier les permissions, les résultats, les liens et le rendu mobile (capture mobile contrôlée, 1 916 tests réussis, 2 ignorés).
 - [x] Restaurer le script Zenodo référencé dans package.json afin de supprimer la régression de test et conserver le flux de pilote documenté.
+
+## Août 2026 — Audit qualité des données
+
+- [x] Mesurer la complétude des données moléculaires, botaniques, bibliographiques, olfactives et territoriales.
+- [x] Détecter les doublons, relations orphelines, identifiants incohérents et lacunes de provenance.
+- [x] Évaluer la couverture des relations inter-entités et les lacunes sémantiques prioritaires.
+- [x] Produire un rapport d’audit avec indicateurs, risques et feuille de route d’amélioration (voir `docs/audits/2026-08-23-audit-qualite-donnees.md`).
