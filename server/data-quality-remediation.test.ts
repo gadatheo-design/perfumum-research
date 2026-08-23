@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { appRouter } from "./routers";
 import type { TrpcContext } from "./_core/context";
 import { getMysqlConnection } from "./db/mysqlPool";
+import { qualifyHighConfidenceCas } from "./routers/data-quality-remediation";
 
 function createContext(role: "admin" | null): TrpcContext {
   return {
@@ -67,6 +68,20 @@ describe("file de remédiation de qualité", () => {
     expect(details.records.length).toBeGreaterThan(1);
     expect(details.records[0]).toHaveProperty("inchi_key");
     expect(after).toEqual(before);
+  });
+
+  it("réserve la confirmation aux groupes dont les identifiants structurels sont tous convergents", () => {
+    const certain = qualifyHighConfidenceCas([
+      { id: 1, name: "Synonyme A", cas_number: "7732-18-5", formula: "H2O", inchi_key: "XLYOFNOQVPJJNP-UHFFFAOYSA-N", pubchem_cid: "962", wikidata_qid: "Q283" },
+      { id: 2, name: "Synonyme B", cas_number: "7732-18-5", formula: "H2O", inchi_key: "XLYOFNOQVPJJNP-UHFFFAOYSA-N", pubchem_cid: "962", wikidata_qid: "Q283" },
+    ]);
+    const divergent = qualifyHighConfidenceCas([
+      { id: 1, name: "A", cas_number: "7732-18-5", formula: "H2O", inchi_key: "XLYOFNOQVPJJNP-UHFFFAOYSA-N", pubchem_cid: "962", wikidata_qid: "Q283" },
+      { id: 2, name: "B", cas_number: "7732-18-5", formula: "H2O", inchi_key: "DIFFERENT", pubchem_cid: "962", wikidata_qid: "Q283" },
+    ]);
+
+    expect(certain.eligible).toBe(true);
+    expect(divergent.eligible).toBe(false);
   });
 
   it("journalise une décision humaine sans appliquer de correction aux entités scientifiques", async () => {

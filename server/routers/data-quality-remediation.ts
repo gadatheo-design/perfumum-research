@@ -30,6 +30,78 @@ function json(value: unknown) {
   return JSON.stringify(value);
 }
 
+type MoleculeIdentityRecord = {
+  id: number;
+  name: string;
+  cas_number: string;
+  formula: string | null;
+  inchi_key: string | null;
+  pubchem_cid: string | null;
+  wikidata_qid: string | null;
+};
+
+function normalized(value: unknown) {
+  return String(value ?? "").trim();
+}
+
+function isValidCasNumber(value: string) {
+  const match = value.match(/^(\d{2,7})-(\d{2})-(\d)$/);
+  if (!match) return false;
+  const digits = `${match[1]}${match[2]}`.split("").reverse();
+  const checksum = digits.reduce((sum, digit, index) => sum + Number(digit) * (index + 1), 0) % 10;
+  return checksum === Number(match[3]);
+}
+
+/**
+ * Qualification strictement conservatrice : les synonymes de nom sont admis,
+ * mais chaque identifiant structurel doit être présent et identique.
+ */
+export function qualifyHighConfidenceCas(records: MoleculeIdentityRecord[]) {
+  const distinctValues = (field: keyof MoleculeIdentityRecord) => new Set(records.map((record) => normalized(record[field])).filter(Boolean));
+  const casNumbers = distinctValues("cas_number");
+  const inchiKeys = distinctValues("inchi_key");
+  const pubchemCids = distinctValues("pubchem_cid");
+  const formulas = distinctValues("formula");
+  const wikidataQids = distinctValues("wikidata_qid");
+  const allComplete = records.every((record) => [record.inchi_key, record.pubchem_cid, record.formula, record.wikidata_qid].every((value) => Boolean(normalized(value))));
+  const casNumber = [...casNumbers][0] ?? "";
+  const eligible = records.length > 1 && casNumbers.size === 1 && isValidCasNumber(casNumber) && allComplete
+    && inchiKeys.size === 1 && pubchemCids.size === 1 && formulas.size === 1 && wikidataQids.size === 1;
+  return {
+    eligible,
+    casNumber,
+    criteria: {
+      validCasChecksum: casNumbers.size === 1 && isValidCasNumber(casNumber),
+      completeStructuralIdentifiers: allComplete,
+      sameInchiKey: inchiKeys.size === 1,
+      samePubchemCid: pubchemCids.size === 1,
+      sameFormula: formulas.size === 1,
+      sameWikidataQid: wikidataQids.size === 1,
+    },
+  };
+}
+
+async function listHighConfidenceCasCandidates(conn: any) {
+  const [caseRows] = await conn.execute(
+    `SELECT * FROM data_quality_remediation_cases
+     WHERE case_type='cas_conflict' AND status IN ('open','reviewed')
+     ORDER BY id`
+  );
+  const candidates: Array<{ qualityCase: any; records: MoleculeIdentityRecord[]; qualification: ReturnType<typeof qualifyHighConfidenceCas> }> = [];
+  for (const qualityCase of caseRows as any[]) {
+    const casNumber = String(qualityCase.group_key).replace(/^cas:/, "");
+    const [records] = await conn.execute(
+      `SELECT id, name, cas_number, formula, inchi_key, pubchem_cid, wikidata_qid
+       FROM molecules WHERE cas_number=? ORDER BY id`,
+      [casNumber]
+    );
+    const typedRecords = records as MoleculeIdentityRecord[];
+    const qualification = qualifyHighConfidenceCas(typedRecords);
+    if (qualification.eligible) candidates.push({ qualityCase, records: typedRecords, qualification });
+  }
+  return candidates;
+}
+
 async function upsertCase(conn: any, item: CaseSeed) {
   await conn.execute(
     `INSERT INTO data_quality_remediation_cases
@@ -259,6 +331,52 @@ export const dataQualityRemediationRouter = router({
           instruction: "Ces divergences sont des signaux de revue. Elles ne déterminent ni une fusion ni une suppression automatiques.",
         },
       };
+    } finally {
+      await conn.end();
+    }
+  }),
+
+  previewHighConfidenceCas: adminProcedure.query(async () => {
+    const conn = await getMysqlConnection();
+    try {
+      const candidates = await listHighConfidenceCasCandidates(conn);
+      return candidates.map(({ qualityCase, records, qualification }) => ({
+        caseId: qualityCase.id,
+        groupKey: qualityCase.group_key,
+        title: qualityCase.title,
+        records,
+        qualification,
+        proposedDecision: "accepted",
+        limitation: "Accepté pour préparer une résolution ultérieure ; aucune fusion, redirection de relation ou suppression n’est appliquée.",
+      }));
+    } finally {
+      await conn.end();
+    }
+  }),
+
+  confirmHighConfidenceCas: adminProcedure.input(z.object({
+    confirmation: z.literal("CONFIRMER LES CAS CERTAINS"),
+  })).mutation(async ({ ctx }) => {
+    const conn = await getMysqlConnection();
+    try {
+      const candidates = await listHighConfidenceCasCandidates(conn);
+      const confirmed: Array<{ caseId: number; groupKey: string }> = [];
+      for (const candidate of candidates) {
+        const [result] = await conn.execute(
+          `UPDATE data_quality_remediation_cases SET status='accepted'
+           WHERE id=? AND status IN ('open','reviewed')`,
+          [candidate.qualityCase.id]
+        );
+        if (Number((result as any).affectedRows ?? 0) !== 1) continue;
+        const rationale = "Confirmation autorisée par le propriétaire : checksum CAS valide et convergence complète sur InChIKey, CID PubChem, formule et QID Wikidata. Cette décision ne fusionne ni ne supprime aucune molécule.";
+        await conn.execute(
+          `INSERT INTO data_quality_remediation_actions (case_id, action_type, decision, rationale, snapshot, actor_user_id, actor_name)
+           VALUES (?, 'high_confidence_structural_confirmation', 'accepted', ?, ?, ?, ?)`,
+          [candidate.qualityCase.id, rationale, json({ qualification: candidate.qualification, records: candidate.records }), ctx.user.id, ctx.user.name ?? "Confirmation à certitude élevée"]
+        );
+        confirmed.push({ caseId: candidate.qualityCase.id, groupKey: candidate.qualityCase.group_key });
+      }
+      return { confirmed, productionWrites: 0 };
     } finally {
       await conn.end();
     }

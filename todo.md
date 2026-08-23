@@ -511,5 +511,6 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 ## Août 2026 — Ordre de traitement validé par l’utilisateur
 
 - [ ] Phase séquentielle 1 : qualifier les conflits CAS avec preuves chimiques complètes et revue humaine, avant tout autre domaine.
+- [x] Phase séquentielle 1a : confirmer seulement les groupes CAS dont tous les enregistrements convergent sur CAS valide, InChIKey, CID PubChem, formule et QID, avec justification append-only (2 groupes : 1405-86-3 et 473-98-3 ; aucune écriture dans `molecules`).
 - [ ] Phase séquentielle 2 : traiter uniquement après clôture CAS les liens orphelins de descripteurs et de terroirs.
 - [ ] Phase séquentielle 3 : traiter uniquement après clôture des liens les profils olfactifs, relations plantes–molécules et bibliographie, dans cet ordre.
