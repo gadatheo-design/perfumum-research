@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { sql } from "drizzle-orm";
 
@@ -212,7 +212,7 @@ export const descriptorLinksRouter = router({
 
         // Récupérer le descriptorId avant suppression
         const [rows] = await db.execute(
-          sql`SELECT descriptorId FROM descriptor_plant_links WHERE id = ${input.linkId}`
+          sql`SELECT descriptor_id AS descriptorId FROM descriptor_plant_links WHERE id = ${input.linkId}`
         ) as any;
 
         const descriptorId = (rows as any[])?.[0]?.descriptorId;
@@ -247,7 +247,7 @@ export const descriptorLinksRouter = router({
 
         // Récupérer le descriptorId avant suppression
         const [rows] = await db.execute(
-          sql`SELECT descriptorId FROM descriptor_molecule_links WHERE id = ${input.linkId}`
+          sql`SELECT descriptor_id AS descriptorId FROM descriptor_molecule_links WHERE id = ${input.linkId}`
         ) as any;
 
         const descriptorId = (rows as any[])?.[0]?.descriptorId;
@@ -337,6 +337,99 @@ export const descriptorLinksRouter = router({
       orphanMoleculeLinks: orphanMoleculeLinks ?? [],
     };
   }),
+
+  /**
+   * Réassocie une association plante-descripteur devenue orpheline à une plante existante.
+   * Les données éditoriales (descripteur, force, notes et source) restent inchangées.
+   */
+  reassignOrphanPlantLink: adminProcedure
+    .input(z.object({ linkId: z.number().int().positive(), targetPlantId: z.number().int().positive() }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database connection failed");
+
+      const [orphanRows] = await db.execute(sql`
+        SELECT dpl.id, dpl.descriptor_id AS descriptorId
+        FROM descriptor_plant_links dpl
+        LEFT JOIN plants previous_plant ON previous_plant.id = dpl.plant_id
+        WHERE dpl.id = ${input.linkId} AND previous_plant.id IS NULL
+        LIMIT 1
+      `) as any;
+      const orphanLink = orphanRows?.[0];
+      if (!orphanLink) throw new Error("Orphan plant link not found");
+
+      const [plantRows] = await db.execute(sql`
+        SELECT id, latin_name AS latinName, name
+        FROM plants
+        WHERE id = ${input.targetPlantId}
+        LIMIT 1
+      `) as any;
+      const targetPlant = plantRows?.[0];
+      if (!targetPlant) throw new Error("Target plant not found");
+
+      await db.execute(sql`
+        UPDATE descriptor_plant_links
+        SET plant_id = ${targetPlant.id},
+            latin_name = ${targetPlant.latinName},
+            common_name = ${targetPlant.name},
+            updated_at = NOW()
+        WHERE id = ${input.linkId}
+      `);
+      await updateDescriptorOccurrences(db, orphanLink.descriptorId);
+
+      return {
+        success: true,
+        descriptorId: orphanLink.descriptorId,
+        target: { id: targetPlant.id, name: targetPlant.name, latinName: targetPlant.latinName },
+      };
+    }),
+
+  /**
+   * Réassocie une association molécule-descripteur devenue orpheline à une molécule existante.
+   * Les données éditoriales (descripteur, force, notes et source) restent inchangées.
+   */
+  reassignOrphanMoleculeLink: adminProcedure
+    .input(z.object({ linkId: z.number().int().positive(), targetMoleculeId: z.number().int().positive() }))
+    .mutation(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database connection failed");
+
+      const [orphanRows] = await db.execute(sql`
+        SELECT dml.id, dml.descriptor_id AS descriptorId
+        FROM descriptor_molecule_links dml
+        LEFT JOIN molecules previous_molecule ON previous_molecule.id = dml.molecule_id
+        WHERE dml.id = ${input.linkId} AND previous_molecule.id IS NULL
+        LIMIT 1
+      `) as any;
+      const orphanLink = orphanRows?.[0];
+      if (!orphanLink) throw new Error("Orphan molecule link not found");
+
+      const [moleculeRows] = await db.execute(sql`
+        SELECT id, name, iupac_name AS iupacName, cas_number AS casNumber
+        FROM molecules
+        WHERE id = ${input.targetMoleculeId}
+        LIMIT 1
+      `) as any;
+      const targetMolecule = moleculeRows?.[0];
+      if (!targetMolecule) throw new Error("Target molecule not found");
+
+      await db.execute(sql`
+        UPDATE descriptor_molecule_links
+        SET molecule_id = ${targetMolecule.id},
+            molecule_name = ${targetMolecule.name},
+            iupac_name = ${targetMolecule.iupacName},
+            cas_number = ${targetMolecule.casNumber},
+            updated_at = NOW()
+        WHERE id = ${input.linkId}
+      `);
+      await updateDescriptorOccurrences(db, orphanLink.descriptorId);
+
+      return {
+        success: true,
+        descriptorId: orphanLink.descriptorId,
+        target: { id: targetMolecule.id, name: targetMolecule.name, casNumber: targetMolecule.casNumber },
+      };
+    }),
 });
 
 /**

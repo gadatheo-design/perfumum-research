@@ -89,4 +89,22 @@ describe("descriptorLinks : contrat du schéma relationnel", () => {
       })
     ).rejects.toThrow("Molecule not found");
   });
+
+  it("réserve la réassociation des liens orphelins aux administrateurs", async () => {
+    await expect(
+      caller.descriptorLinks.reassignOrphanPlantLink({ linkId: -1, targetPlantId: 1 })
+    ).rejects.toMatchObject({ code: "FORBIDDEN" });
+    await expect(
+      caller.descriptorLinks.reassignOrphanMoleculeLink({ linkId: -1, targetMoleculeId: 1 })
+    ).rejects.toMatchObject({ code: "FORBIDDEN" });
+  });
+
+  it("refuse la réassociation d’un lien qui n’est pas orphelin", async () => {
+    await expect(
+      authenticatedCaller.descriptorLinks.reassignOrphanPlantLink({ linkId: 2147483647, targetPlantId: 1 })
+    ).rejects.toThrow("Orphan plant link not found");
+    await expect(
+      authenticatedCaller.descriptorLinks.reassignOrphanMoleculeLink({ linkId: 2147483647, targetMoleculeId: 1 })
+    ).rejects.toThrow("Orphan molecule link not found");
+  });
 });

@@ -3,6 +3,16 @@ import { AlertTriangle, Database, FlaskConical, Leaf, Link2Off, RefreshCw } from
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { OrphanReassociationDialog } from "./OrphanReassociationDialog";
+import { useState } from "react";
+
+type ReassociationTarget = {
+  kind: "plant" | "molecule";
+  linkId: number;
+  descriptorId: string;
+  descriptorName: string | null;
+  archivedName: string;
+};
 
 function EmptyState() {
   return (
@@ -16,6 +26,7 @@ function EmptyState() {
 
 export function DataIntegrityTab() {
   const integrityQuery = trpc.descriptorLinks.getIntegrityReport.useQuery();
+  const [reassociationTarget, setReassociationTarget] = useState<ReassociationTarget | null>(null);
   const report = integrityQuery.data;
   const plantLinks = report?.orphanPlantLinks ?? [];
   const moleculeLinks = report?.orphanMoleculeLinks ?? [];
@@ -91,7 +102,7 @@ export function DataIntegrityTab() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead className="border-y bg-muted/30 text-left text-xs text-muted-foreground">
-                      <tr><th className="px-4 py-2.5 font-medium">Descripteur</th><th className="px-4 py-2.5 font-medium">Plante archivée</th><th className="px-4 py-2.5 font-medium">Source</th></tr>
+                      <tr><th className="px-4 py-2.5 font-medium">Descripteur</th><th className="px-4 py-2.5 font-medium">Plante archivée</th><th className="px-4 py-2.5 font-medium">Source</th><th className="px-4 py-2.5 font-medium">Action</th></tr>
                     </thead>
                     <tbody>
                       {plantLinks.map((link) => (
@@ -99,6 +110,7 @@ export function DataIntegrityTab() {
                           <td className="px-4 py-3"><p className="font-medium">{link.descriptorName || link.descriptorId}</p><p className="font-mono text-xs text-muted-foreground">{link.descriptorId}</p></td>
                           <td className="px-4 py-3"><p>{link.commonName || "Nom non archivé"}</p><p className="italic text-xs text-muted-foreground">{link.latinName || `ID ${link.plantId}`}</p></td>
                           <td className="px-4 py-3"><Badge variant="outline" className="text-xs">{link.source || "inconnue"}</Badge></td>
+                          <td className="px-4 py-3"><Button size="sm" variant="outline" onClick={() => setReassociationTarget({ kind: "plant", linkId: link.id, descriptorId: link.descriptorId, descriptorName: link.descriptorName, archivedName: link.commonName || link.latinName || `ID ${link.plantId}` })}>Réassocier</Button></td>
                         </tr>
                       ))}
                     </tbody>
@@ -118,7 +130,7 @@ export function DataIntegrityTab() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                     <thead className="border-y bg-muted/30 text-left text-xs text-muted-foreground">
-                      <tr><th className="px-4 py-2.5 font-medium">Descripteur</th><th className="px-4 py-2.5 font-medium">Molécule archivée</th><th className="px-4 py-2.5 font-medium">Source</th></tr>
+                      <tr><th className="px-4 py-2.5 font-medium">Descripteur</th><th className="px-4 py-2.5 font-medium">Molécule archivée</th><th className="px-4 py-2.5 font-medium">Source</th><th className="px-4 py-2.5 font-medium">Action</th></tr>
                     </thead>
                     <tbody>
                       {moleculeLinks.map((link) => (
@@ -126,6 +138,7 @@ export function DataIntegrityTab() {
                           <td className="px-4 py-3"><p className="font-medium">{link.descriptorName || link.descriptorId}</p><p className="font-mono text-xs text-muted-foreground">{link.descriptorId}</p></td>
                           <td className="px-4 py-3"><p>{link.moleculeName || "Nom non archivé"}</p><p className="font-mono text-xs text-muted-foreground">{link.casNumber || `ID ${link.moleculeId}`}</p></td>
                           <td className="px-4 py-3"><Badge variant="outline" className="text-xs">{link.source || "inconnue"}</Badge></td>
+                          <td className="px-4 py-3"><Button size="sm" variant="outline" onClick={() => setReassociationTarget({ kind: "molecule", linkId: link.id, descriptorId: link.descriptorId, descriptorName: link.descriptorName, archivedName: link.moleculeName || link.casNumber || `ID ${link.moleculeId}` })}>Réassocier</Button></td>
                         </tr>
                       ))}
                     </tbody>
@@ -136,6 +149,11 @@ export function DataIntegrityTab() {
           </Card>
         </div>
       )}
+      <OrphanReassociationDialog
+        target={reassociationTarget}
+        onClose={() => setReassociationTarget(null)}
+        onSuccess={() => integrityQuery.refetch()}
+      />
     </div>
   );
 }

@@ -444,3 +444,10 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 
 - [x] Ajouter dans l’administration un panneau de lecture des liens plante-descripteur et molécule-descripteur orphelins.
 - [x] Vérifier le panneau d’intégrité avec les données réelles, les tests tRPC existants et un contrôle visuel bureau.
+
+## Août 2026 — Réassociation guidée des liens orphelins
+
+- [x] Ajouter des mutations administrateur pour réassocier sans perte un lien orphelin vers une plante ou molécule existante.
+- [x] Corriger les lectures de `descriptor_id` dans les mutations de suppression existantes afin de préserver le recalcul d’occurrences.
+- [x] Ajouter dans l’onglet Intégrité des sélecteurs avec recherche, prévisualisation et confirmation explicite.
+- [x] Tester le refus des cibles absentes, la réassociation et la préservation des métadonnées du lien (1910 tests réussis, dont les garde-fous administrateur et de non-orphelinat).
