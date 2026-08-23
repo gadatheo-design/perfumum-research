@@ -474,3 +474,10 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Ajouter la route et l’entrée administrative vers la revue Zenodo.
 - [x] Vérifier les permissions, les états de décision, le bureau et le mobile (contrôles tRPC, route mobile et 1 914 tests réussis ; la vue détaillée exige une session administrateur).
 - [x] Corriger le test CSV de doublon qui dépend implicitement d’une donnée de test non créée.
+
+## Août 2026 — Transit finale après double acceptation Zenodo
+
+- [x] Créer une prévisualisation administrateur des propositions éligibles après double acceptation.
+- [x] Créer une mutation de transit finale traçable, sans écriture dans les descripteurs ou associations de production.
+- [x] Ajouter une confirmation explicite et un export CSV des propositions finalisées.
+- [x] Tester les refus, les doubles acceptations et l’isolement des données scientifiques de production (134 fichiers, 1 915 tests réussis, 2 ignorés ; la capture mobile requiert une session administrateur active).

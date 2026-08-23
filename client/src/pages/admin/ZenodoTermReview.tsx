@@ -8,7 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { BookOpenCheck, BrainCircuit, CheckCircle2, CircleHelp, ExternalLink, Languages, Loader2, Microscope, RefreshCw, ShieldCheck, XCircle } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { BookOpenCheck, BrainCircuit, CheckCircle2, CircleHelp, Download, ExternalLink, Languages, Loader2, Microscope, RefreshCw, Send, ShieldCheck } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 type ReviewerRole = "linguistic" | "domain";
@@ -71,8 +72,13 @@ export default function ZenodoTermReview() {
   const { toast } = useToast();
   const [statusFilter, setStatusFilter] = useState("all");
   const [search, setSearch] = useState("");
+  const [selectedFinalizationIds, setSelectedFinalizationIds] = useState<number[]>([]);
+  const [isFinalizationDialogOpen, setIsFinalizationDialogOpen] = useState(false);
+  const [confirmation, setConfirmation] = useState("");
   const overviewQuery = trpc.zenodoOlfactoryPilot.getOverview.useQuery();
   const proposalsQuery = trpc.zenodoOlfactoryPilot.listProposals.useQuery({});
+  const finalizationPreviewQuery = trpc.zenodoOlfactoryPilot.getFinalizationPreview.useQuery({});
+  const finalizedExportQuery = trpc.zenodoOlfactoryPilot.exportFinalizations.useQuery({});
   const submitReview = trpc.zenodoOlfactoryPilot.submitReview.useMutation({
     onSuccess: (result) => {
       toast({ title: "Décision enregistrée", description: `Statut de la proposition : ${statusLabel(result.status)}.` });
@@ -81,6 +87,19 @@ export default function ZenodoTermReview() {
     },
     onError: (error) => toast({ title: "Décision non enregistrée", description: error.message, variant: "destructive" }),
   });
+  const finalizeProposals = trpc.zenodoOlfactoryPilot.finalizeApprovedProposals.useMutation({
+    onSuccess: (result) => {
+      toast({ title: "Transit final enregistré", description: `${result.finalized} proposition(s) ont été versées dans le registre final, sans écriture scientifique de production.` });
+      setSelectedFinalizationIds([]);
+      setConfirmation("");
+      setIsFinalizationDialogOpen(false);
+      overviewQuery.refetch();
+      proposalsQuery.refetch();
+      finalizationPreviewQuery.refetch();
+      finalizedExportQuery.refetch();
+    },
+    onError: (error) => toast({ title: "Transit final refusé", description: error.message, variant: "destructive" }),
+  });
 
   const proposals = useMemo(() => (proposalsQuery.data ?? []).filter((proposal: any) => {
     const matchesStatus = statusFilter === "all" || proposal.status === statusFilter;
@@ -88,8 +107,34 @@ export default function ZenodoTermReview() {
     return matchesStatus && searchable.includes(search.trim().toLowerCase());
   }), [proposalsQuery.data, search, statusFilter]);
   const overview = overviewQuery.data;
+  const eligibleFinalizations = finalizationPreviewQuery.data ?? [];
+  const finalizedExport = finalizedExportQuery.data ?? [];
   const reviewed = (overview?.accepted ?? 0) + (overview?.acceptedWithContext ?? 0) + (overview?.needsResearch ?? 0) + (overview?.rejected ?? 0);
   const progress = overview?.total ? Math.round((reviewed / overview.total) * 100) : 0;
+  const toggleFinalizationSelection = (proposalId: number) => setSelectedFinalizationIds((current) => current.includes(proposalId) ? current.filter((id) => id !== proposalId) : [...current, proposalId]);
+  const downloadFinalizationsCsv = () => {
+    const rows = finalizedExport.map((entry: any) => ({
+      proposal_id: entry.proposalId,
+      term_original: entry.snapshot?.termOriginal ?? "",
+      language_code: entry.snapshot?.languageCode ?? "",
+      english_gloss_source: entry.snapshot?.englishGlossSource ?? "",
+      french_gloss_proposed: entry.snapshot?.frenchGlossProposed ?? "",
+      source_category: entry.snapshot?.sourceCategory ?? "",
+      source_doi: entry.snapshot?.sourceDoi ?? "",
+      license: entry.snapshot?.license ?? "",
+      finalized_at: entry.createdAt,
+      finalized_by: entry.finalizedByName ?? "",
+    }));
+    const headers = Object.keys(rows[0] ?? { proposal_id: "" });
+    const escape = (value: unknown) => `"${String(value ?? "").replaceAll('"', '""')}"`;
+    const csv = [headers.join(","), ...rows.map((row) => headers.map((header) => escape(row[header as keyof typeof row])).join(","))].join("\n");
+    const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "perfumum-zenodo-transit-final.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+  };
 
   if (overviewQuery.isLoading || proposalsQuery.isLoading) return <div className="flex justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-muted-foreground" /></div>;
   if (overviewQuery.error || proposalsQuery.error) return <Card className="border-destructive/40"><CardContent className="flex gap-3 pt-6 text-destructive"><CircleHelp className="h-5 w-5 shrink-0" /><p>La revue Zenodo requiert un compte administrateur et les tables de transit du pilote.</p></CardContent></Card>;
@@ -116,6 +161,22 @@ export default function ZenodoTermReview() {
         </CardContent>
       </Card>
 
+      <Card className="border-emerald-200/80">
+        <CardHeader className="gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <CardTitle className="flex items-center gap-2 text-base"><Send className="h-4 w-4 text-emerald-600" />Transit final contrôlé</CardTitle>
+            <CardDescription className="mt-1 max-w-3xl">La mise en transit finale exige une dernière décision acceptée ou acceptée avec contexte pour chacun des deux rôles. Elle crée seulement un registre exportable, jamais un descripteur scientifique.</CardDescription>
+          </div>
+          <Button variant="outline" size="sm" className="gap-2" disabled={finalizedExport.length === 0} onClick={downloadFinalizationsCsv}><Download className="h-4 w-4" />Exporter le transit</Button>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {finalizationPreviewQuery.isLoading ? <div className="flex justify-center py-4"><Loader2 className="h-5 w-5 animate-spin text-muted-foreground" /></div> : eligibleFinalizations.length === 0 ? <p className="rounded-lg border border-dashed p-4 text-sm text-muted-foreground">Aucune proposition n’est encore éligible : deux acceptations indépendantes sont nécessaires avant le transit final.</p> : <>
+            <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-center"><p className="text-sm"><strong>{eligibleFinalizations.length}</strong> proposition(s) doublement acceptée(s) sont prêtes à être versées dans le registre final.</p><div className="flex gap-2"><Button size="sm" variant="outline" onClick={() => setSelectedFinalizationIds(eligibleFinalizations.map((proposal: any) => proposal.proposalId))}>Tout sélectionner</Button><Button size="sm" onClick={() => setIsFinalizationDialogOpen(true)} disabled={selectedFinalizationIds.length === 0} className="gap-2"><Send className="h-4 w-4" />Prévisualiser ({selectedFinalizationIds.length})</Button></div></div>
+            <div className="max-h-52 overflow-y-auto rounded-lg border"><table className="w-full text-sm"><thead className="sticky top-0 bg-muted/80 text-left text-xs text-muted-foreground"><tr><th className="px-3 py-2"><span className="sr-only">Sélection</span></th><th className="px-3 py-2">Terme</th><th className="px-3 py-2">Gloss français</th><th className="px-3 py-2">Décisions</th></tr></thead><tbody>{eligibleFinalizations.map((proposal: any) => <tr key={proposal.proposalId} className="border-t"><td className="px-3 py-2"><input type="checkbox" className="h-4 w-4" checked={selectedFinalizationIds.includes(proposal.proposalId)} onChange={() => toggleFinalizationSelection(proposal.proposalId)} aria-label={`Sélectionner ${proposal.termOriginal}`} /></td><td className="px-3 py-2 font-medium" lang="zh">{proposal.termOriginal}</td><td className="px-3 py-2">{proposal.frenchGlossProposed || "—"}</td><td className="px-3 py-2"><Badge variant="outline">Ling. : {statusLabel(proposal.linguisticDecision)}</Badge> <Badge variant="outline">Domaine : {statusLabel(proposal.domainDecision)}</Badge></td></tr>)}</tbody></table></div>
+          </>}
+        </CardContent>
+      </Card>
+
       {overview?.total === 0 ? <Card className="border-dashed"><CardContent className="py-12 text-center"><BrainCircuit className="mx-auto h-8 w-8 text-muted-foreground" /><h2 className="mt-3 font-semibold">Aucune proposition encore en transit</h2><p className="mx-auto mt-2 max-w-xl text-sm text-muted-foreground">Le fichier pilote est prêt. Lancez la mise en transit contrôlée avec <code className="rounded bg-muted px-1 py-0.5">pnpm pilot:zenodo:stage</code> ; cette étape alimente uniquement les tables de revue, jamais les descripteurs de production.</p></CardContent></Card> : <>
         <div className="flex flex-col gap-3 sm:flex-row"><Input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Rechercher un terme, pinyin, gloss anglais ou français…" /><Select value={statusFilter} onValueChange={setStatusFilter}><SelectTrigger className="sm:w-56"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">Tous les statuts</SelectItem>{["proposed", "preannotated", "under_review", "accepted", "accepted_with_context", "needs_research", "rejected"].map((status) => <SelectItem key={status} value={status}>{statusLabel(status)}</SelectItem>)}</SelectContent></Select></div>
         <div className="space-y-4">{proposals.map((proposal: any) => <Card key={proposal.id}><CardHeader className="gap-3 sm:flex-row sm:items-start sm:justify-between"><div><CardTitle className="flex flex-wrap items-center gap-2 text-lg"><span lang="zh">{proposal.termOriginal}</span><Badge variant={statusVariant(proposal.status)}>{statusLabel(proposal.status)}</Badge></CardTitle><CardDescription className="mt-1">{proposal.pinyin && `${proposal.pinyin} · `}{proposal.englishGlossSource || "Gloss anglais absent"}</CardDescription></div><a href={proposal.sourceUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 text-xs text-indigo-600 hover:underline">Zenodo <ExternalLink className="h-3 w-3" /></a></CardHeader><CardContent className="space-y-5">
@@ -125,6 +186,13 @@ export default function ZenodoTermReview() {
           {proposal.reviews.length > 0 && <div className="border-t pt-3"><p className="mb-2 text-xs font-medium uppercase text-muted-foreground">Historique de revue</p><div className="space-y-2">{proposal.reviews.map((review: any) => <div key={review.id} className="flex flex-col gap-1 rounded-md bg-muted/30 p-2 text-xs sm:flex-row sm:items-center sm:justify-between"><span><strong>{review.reviewerRole === "linguistic" ? "Linguistique" : "Domaine"}</strong> · {statusLabel(review.decision)}{review.notes ? ` — ${review.notes}` : ""}</span><span className="text-muted-foreground">{review.reviewerName || `Utilisateur ${review.reviewerUserId}`}</span></div>)}</div></div>}
         </CardContent></Card>)}</div>
       </>}
+      <Dialog open={isFinalizationDialogOpen} onOpenChange={setIsFinalizationDialogOpen}>
+        <DialogContent>
+          <DialogHeader><DialogTitle>Confirmer le transit final</DialogTitle><DialogDescription>{selectedFinalizationIds.length} proposition(s) doublement acceptée(s) seront inscrites dans le registre final et exportables. Cette action ne crée aucun descripteur ni association de production.</DialogDescription></DialogHeader>
+          <div className="space-y-2"><Label htmlFor="zenodo-finalization-confirmation">Saisissez <strong>METTRE EN TRANSIT</strong> pour confirmer</Label><Input id="zenodo-finalization-confirmation" value={confirmation} onChange={(event) => setConfirmation(event.target.value)} autoComplete="off" /></div>
+          <DialogFooter><Button variant="outline" onClick={() => setIsFinalizationDialogOpen(false)} disabled={finalizeProposals.isPending}>Annuler</Button><Button disabled={confirmation !== "METTRE EN TRANSIT" || finalizeProposals.isPending} onClick={() => finalizeProposals.mutate({ proposalIds: selectedFinalizationIds, confirmation: "METTRE EN TRANSIT" })} className="gap-2">{finalizeProposals.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <ShieldCheck className="h-4 w-4" />}Confirmer le transit</Button></DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

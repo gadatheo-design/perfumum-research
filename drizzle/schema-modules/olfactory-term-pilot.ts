@@ -60,3 +60,28 @@ export const olfactoryTermPilotReviews = mysqlTable(
     decisionIdx: index("idx_olfactory_term_review_decision").on(table.decision),
   })
 );
+
+/**
+ * Registre immuable de transit final : une ligne confirme seulement que deux
+ * acceptations humaines ont été réunies. Aucun descripteur de production n’est
+ * créé ni modifié à ce stade.
+ */
+export const olfactoryTermPilotFinalizations = mysqlTable(
+  "olfactory_term_pilot_finalizations",
+  {
+    id: int().primaryKey().autoincrement(),
+    proposalId: int("proposal_id").notNull(),
+    sourceBatchId: varchar("source_batch_id", { length: 80 }).notNull(),
+    linguisticReviewId: int("linguistic_review_id").notNull(),
+    domainReviewId: int("domain_review_id").notNull(),
+    finalizedByUserId: int("finalized_by_user_id"),
+    finalizedByName: varchar("finalized_by_name", { length: 255 }),
+    snapshot: json("snapshot").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+  },
+  (table) => ({
+    proposalUnique: uniqueIndex("uq_olfactory_term_finalization_proposal").on(table.proposalId),
+    batchIdx: index("idx_olfactory_term_finalization_batch").on(table.sourceBatchId),
+    finalizedByIdx: index("idx_olfactory_term_finalization_user").on(table.finalizedByUserId),
+  })
+);
