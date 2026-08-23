@@ -496,3 +496,12 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Détecter les doublons, relations orphelines, identifiants incohérents et lacunes de provenance.
 - [x] Évaluer la couverture des relations inter-entités et les lacunes sémantiques prioritaires.
 - [x] Produire un rapport d’audit avec indicateurs, risques et feuille de route d’amélioration (voir `docs/audits/2026-08-23-audit-qualite-donnees.md`).
+
+## Août 2026 — Remédiation contrôlée de la qualité des données
+
+- [ ] Créer une file auditable de résolution des 169 conflits CAS, sans fusion automatique.
+- [ ] Réassocier ou documenter les liens orphelins de descripteurs et de terroirs avec validation humaine.
+- [ ] Proposer des profils olfactifs sourcés pour les molécules incomplètes, sans publication automatique.
+- [ ] Proposer des relations plantes–molécules sourcées pour les plantes non liées, avec seuils de confiance.
+- [ ] Normaliser DOI, auteurs, années, résumés et mots-clés, puis préparer les doublons bibliographiques à la revue.
+- [ ] Tester les règles, prévisualiser les lots et n’appliquer que des décisions humaines explicitement confirmées.
