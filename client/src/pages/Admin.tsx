@@ -343,6 +343,14 @@ export default function Admin() {
       bgColor: "bg-indigo-50",
     },
     {
+      title: "Comparateur terminologique Zenodo",
+      description: "Comparer termes source, pinyin et glosses aux descripteurs olfactifs PERFUMUM, avec des suggestions expliquées pour soutenir la revue humaine.",
+      icon: Link2,
+      href: "/admin/zenodo-term-comparator",
+      color: "text-cyan-700",
+      bgColor: "bg-cyan-50",
+    },
+    {
       title: "Enrichissement Taxonomique — Plantes (Rapport 16)",
       description: "Compléter la famille botanique des 126 plantes sans family via Wikidata (QID direct ou recherche) et GBIF. Batch automatique avec score de confiance + validation manuelle individuelle.",
       icon: Leaf,

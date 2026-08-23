@@ -5,6 +5,7 @@ import { appRouter } from "./routers";
 import type { TrpcContext } from "./_core/context";
 import { getDb } from "./db";
 import { sql } from "drizzle-orm";
+import { rankZenodoDescriptorSuggestions } from "./routers/zenodo-term-comparator";
 
 const root = path.resolve(import.meta.dirname, "..");
 
@@ -88,5 +89,23 @@ describe("pilote Zenodo de termes olfactifs", () => {
         await db.execute(sql`DELETE FROM olfactory_term_pilot_proposals WHERE id = ${proposalId}`);
       }
     }
+  });
+
+  it("réserve le comparateur aux administrateurs et classe les correspondances exactes en premier", async () => {
+    const publicCaller = appRouter.createCaller(createContext(null));
+    const adminCaller = appRouter.createCaller(createContext("admin"));
+    await expect(publicCaller.zenodoTermComparator.getOverview({})).rejects.toMatchObject({ code: "FORBIDDEN" });
+    const comparisons = await adminCaller.zenodoTermComparator.listComparisons({ search: "", status: undefined });
+    expect(comparisons).toHaveLength(50);
+
+    const ranked = rankZenodoDescriptorSuggestions(
+      { id: 1, termOriginal: "木质", languageCode: "zh", englishGlossSource: "woody", pinyin: "mu zhi", frenchGlossProposed: "boisé", canonicalDescriptorCandidate: "boisé", sourceCategory: "test", status: "proposed" },
+      [
+        { descriptorId: "fresh", name: "Frais", description: "Sensation fraîche", category: "olfactif", frequency: 10 },
+        { descriptorId: "woody", name: "Boisé", description: "Accord de bois sec", category: "olfactif", frequency: 1 },
+      ],
+    );
+    expect(ranked[0]).toMatchObject({ descriptorId: "woody", confidence: "élevée" });
+    expect(ranked[0].reasons.join(" ")).toMatch(/correspondance exacte/i);
   });
 });

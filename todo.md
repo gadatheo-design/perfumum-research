@@ -481,3 +481,11 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Créer une mutation de transit finale traçable, sans écriture dans les descripteurs ou associations de production.
 - [x] Ajouter une confirmation explicite et un export CSV des propositions finalisées.
 - [x] Tester les refus, les doubles acceptations et l’isolement des données scientifiques de production (134 fichiers, 1 915 tests réussis, 2 ignorés ; la capture mobile requiert une session administrateur active).
+
+## Août 2026 — Comparateur terminologique multilingue
+
+- [x] Créer des suggestions expliquées entre les propositions Zenodo et les descripteurs ou synonymes PERFUMUM existants.
+- [x] Créer une page de comparaison avec termes source, pinyin, glosses, historique de revue et liens hypertextes associés.
+- [x] Ajouter la route et l’accès administratif au comparateur multilingue.
+- [x] Vérifier les permissions, les résultats, les liens et le rendu mobile (capture mobile contrôlée, 1 916 tests réussis, 2 ignorés).
+- [x] Restaurer le script Zenodo référencé dans package.json afin de supprimer la régression de test et conserver le flux de pilote documenté.

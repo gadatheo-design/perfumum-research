@@ -127,6 +127,7 @@ import { apiEnrichmentsRouter } from "./routers/api-enrichments";
 import { predO3Router } from "./routers/pred-o3";
 import { descriptorLinksRouter } from "./routers/descriptor-links";
 import { zenodoOlfactoryPilotRouter } from "./routers/zenodo-olfactory-pilot";
+import { zenodoTermComparatorRouter } from "./routers/zenodo-term-comparator";
 import { predO3AssociationsRouter } from "./routers/pred-o3-associations";
 import { predO3BulkImportRouter } from "./routers/pred-o3-bulk-import";
 import { territoriesAdminRouter } from "./routers/territories-admin";
@@ -1051,6 +1052,7 @@ export const appRouter = router({
   // Descriptor Links — Associations descripteur-plante et descripteur-molécule
   descriptorLinks: descriptorLinksRouter,
   zenodoOlfactoryPilot: zenodoOlfactoryPilotRouter,
+  zenodoTermComparator: zenodoTermComparatorRouter,
   // Pred-O3 Associations — Données brutes Pred-O3 avec associations
   predO3Associations: predO3AssociationsRouter,
   // Pred-O3 Bulk Import — Import en lot des associations Pred-O3
