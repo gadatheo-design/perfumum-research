@@ -525,3 +525,10 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Approfondir 10 territoires avec état du savoir, précédents scientifiques, industriels, artistiques et appréciation de saturation (voir `docs/research/2026-09-approfondissement-10-territoires.md` et `.csv`, avec distinction vérifié / à corroborer / hypothèse).
 - [x] Sélectionner 5 à 8 pistes exceptionnelles, trois territoires de rupture et leurs protocoles expérimentaux falsifiables (6 pistes, 3 ruptures et 4 protocoles documentaires dans `docs/research/2026-09-selection-pistes-rupture-et-protocoles.md` et `.csv`).
 - [x] Produire un dossier de recherche critique, une matrice comparative, les questions orphelines et une bibliographie traçable avec export CSV (dossier consolidé : `docs/research/2026-09-dossier-enquete-territoires-olfactifs.md`).
+
+## Septembre 2026 — Analyse Notion et applications artistiques
+
+- [x] Cartographier le corpus Notion accessible de PERFUMUM, ses pages, bases, références, méthodes et travaux en cours (voir `docs/research/2026-09-cartographie-notion-applications-artistiques.md`).
+- [x] Identifier les thèmes, contradictions, matériaux et formes artistiques latentes à partir du corpus Notion (voir `docs/research/2026-09-hypotheses-applications-artistiques-notion.md`).
+- [x] Vérifier les précédents et contraintes des applications artistiques les plus prometteuses (voir `docs/research/2026-09-sources-archive-provenance-applications.md`).
+- [x] Produire un portefeuille priorisé d’applications artistiques, avec niveaux de preuve, risques, partenaires et premières étapes sûres (voir `docs/research/2026-09-portefeuille-applications-artistiques-notion.md`).
