@@ -1,0 +1,16 @@
+id;type;author_or_institution;year;title;url;territories;verification_status;note
+S01;article;Bembibre C. et Strlič M.;2017;Smell of heritage a framework for the identification analysis and archival of historic odours;https://www.nature.com/articles/s40494-016-0114-1;T01|T17;A;Cadre central pour preuve chimique analyse sensorielle et archivage
+S02;project;Odeuropa;2023;Smell Heritage Sensory Mining;https://odeuropa.eu/;T17;A;Explorer encyclopédie bibliothèque d’odeurs et modèle sémantique
+S03;article;Bouwmeester et al.;2019;Plant volatile mediated interactions;https://pmc.ncbi.nlm.nih.gov/articles/PMC6899487/;T07|T08;A;Interactions multitrophiques et contexte des mélanges
+S04;article;Celani Villermaux et Vergassola;2014;Odor Landscapes in Turbulent Environments;https://journals.aps.org/prx/abstract/10.1103/PhysRevX.4.041015;T12;A;Paysages odorants intermittents
+S05;article;Zaroubi et al.;2022;The Ubiquitous Soil Terpene Geosmin Acts as a Warning Signal;https://pmc.ncbi.nlm.nih.gov/articles/PMC9004350/;T16;A;Fonction de la géosmine dans un système modèle
+S06;law;République française;2021;Loi 2021-85 patrimoine sensoriel des campagnes françaises;https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000043080343;T13;A;Cadre juridique français à interpréter avec prudence
+S07;article;Joung et Buie;2015;Aerosol generation by raindrop impact on soil;https://www.nature.com/articles/ncomms7083;T15;A;Impact de pluie et surfaces poreuses
+S08;institution;Institut canadien de conservation;2021;Control of Pollutants in Museums and Archives Technical Bulletin 37;https://www.canada.ca/en/conservation-institute/services/conservation-preservation-publications/technical-bulletins/pollutants-museums-archives.html;T03|T04|T18;A;Conservation préventive et polluants atmosphériques
+S09;article;Xie Strom et Suuberg;2023;Building materials as sources and sinks of volatile organic compounds;https://pmc.ncbi.nlm.nih.gov/articles/PMC10151019/;T01|T02;A;Sorption et désorption dans les matériaux intérieurs
+S10;article;Goyert et al.;2007;Characteristic component odors emerge from mixtures after selective adaptation;https://pubmed.ncbi.nlm.nih.gov/17303501/;T11;A;Adaptation sélective et émergence de composant
+S11;artwork;Hans Haacke et MACBA;1963-1967;Condensation Cube;https://www.macba.cat/en/obra/r1523-condensation-cube/;T03;A;Précédent vérifié de système physique dépendant de l’environnement
+S12;artwork;Anicka Yi et Tate;2021-2022;In Love With The World;https://www.tate.org.uk/whats-on/tate-modern/hyundai-commission-anicka-yi;T12;A;Scentscapes associés à l’histoire de Bankside
+S13;artwork;Maki Ueda;2018;Tangible Scents Composition of Rose in the Air;https://ueda.nl/english-uk/space-installations-en/tangible-scents/tangible-scents-composition-of-rose-in-the-air/;T11;A;Déconstruction et reconstruction spatiale de composants de rose
+S14;artwork;Michael Pinsky;2018;Pollution Pods;https://www.michaelpinsky.com/portfolio/pollution-pods-2/;T13;A;Installation artistique de progression d’atmosphères polluées
+S15;article;Chen et al.;2022;Mixture effects in secondary organic aerosol formation;https://www.nature.com/articles/s41612-022-00321-y;T09;A;Transformation non additive de mélanges de COV

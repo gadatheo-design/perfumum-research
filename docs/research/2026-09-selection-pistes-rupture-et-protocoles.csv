@@ -1,0 +1,14 @@
+id;type;intitule;territoires_sources;hypothese;sortie_initiale;risque_principal;statut
+P1;piste;Atlas des traces différées;T01|T17;Une fiche matière-trace-condition améliore la traçabilité d’une odeur;Schéma de métadonnées et 20 dossiers;Confusion de preuves et faux historique;documentaire
+P2;piste;Chronotopes de l’enclosure;T03|T04|T18;Le régime d’échanges rend le contenant descriptible comme temporalité matérielle;Carte de vitrines filtres et contenants;Confinement polluants humidité ou vivant;documentaire
+P3;piste;Grammaire des interprétations concurrentes;T07|T08|T16;Le modèle relationnel réduit les formulations anthropomorphiques;Ontologie et corpus de 30 faits;Perturbation écologique si transposé matériellement;documentaire
+P4;piste;Atlas des apparitions et des lacunes;T11|T12;Les représentations événementielles rendent mieux visibles les limites de modèle;Visualisation de simulation ou données;Essais humains ou diffusion non encadrés;documentaire
+P5;piste;Géosmine sans pétrichor;T15|T16;La contextualisation réduit les usages universalisants de géosmine;Généalogie et carte de confiance;Culture microbiologique aérosolisation ou appropriation;documentaire
+P6;piste;Droit de décrire droit de ne pas être réduit;T13|T14|T17;Séparer récit mesure contexte et droit de réponse réduit les faux diagnostics;Charte et prototype de journal;Vie privée conflits d’usage et surveillance;co-conception requise
+R1;rupture;Odeur comme dossier de preuve à couches multiples;T01|T17;Source contexte et incertitude limitent confusion donné-reconstitué-imaginé;PR-01;Dérive archivistique ou culturellement extractive;prioritaire
+R2;rupture;Atmosphère comme partition d’apparitions;T03|T12;La représentation événementielle clarifie mieux les limites qu’une moyenne;PR-02;Modèle opaque ou diffusion prématurée;prioritaire
+R3;rupture;Géosmine comme nœud de relations;T15|T16;L’indexation par milieu et source réduit le cliché pétrichor;PR-03;Simplification écologique et biosécurité;prioritaire
+PR-01;protocole;Dossier de trace à couches multiples;P1|R1;90 pour cent des assertions ont une source et un statut;20 dossiers pilotes;Provenance ou licence absente;documentaire
+PR-02;protocole;Partition d’apparitions atmosphériques;P4|R2;Les lecteurs repèrent mieux connus estimés et inconnus;Une visualisation auditée;Hypothèses de modèle non déclarées;documentaire
+PR-03;protocole;Généalogie critique de la géosmine;P5|R3;Chaque relation organisme-composé est sourcée;50 assertions structurées;Assertion universelle non soutenue;documentaire
+PR-04;protocole;Charte archive atmosphérique située;P6;La charte garantit retrait recours et minimisation;Charte et modèle de consentement;Absence de partenaire local;pré-déploiement

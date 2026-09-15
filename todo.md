@@ -514,3 +514,12 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Phase séquentielle 1a : confirmer seulement les groupes CAS dont tous les enregistrements convergent sur CAS valide, InChIKey, CID PubChem, formule et QID, avec justification append-only (2 groupes : 1405-86-3 et 473-98-3 ; aucune écriture dans `molecules`).
 - [ ] Phase séquentielle 2 : traiter uniquement après clôture CAS les liens orphelins de descripteurs et de terroirs.
 - [ ] Phase séquentielle 3 : traiter uniquement après clôture des liens les profils olfactifs, relations plantes–molécules et bibliographie, dans cet ordre.
+
+## Septembre 2026 — Enquête « territoires périphériques de l’olfaction »
+
+- [x] Cartographier le corpus PERFUMUM afin d’identifier obsessions, zones peu développées, connexions latentes, contradictions et pistes abandonnées (voir `docs/research/2026-09-cartographie-corpus-territoires-olfactifs.md`).
+- [x] Collecter plus de 50 graines de recherche interdisciplinaires avec sources scientifiques, techniques et culturelles vérifiables (54 graines consignées dans `docs/research/2026-09-journal-sources-territoires-olfactifs.md`).
+- [x] Regrouper les graines en 15 à 20 territoires, puis prioriser 10 territoires selon rareté, profondeur, potentiel artistique, expérimental et risque (18 territoires comparés dans `docs/research/2026-09-matrice-territoires-olfactifs.md` et `.csv`).
+- [x] Approfondir 10 territoires avec état du savoir, précédents scientifiques, industriels, artistiques et appréciation de saturation (voir `docs/research/2026-09-approfondissement-10-territoires.md` et `.csv`, avec distinction vérifié / à corroborer / hypothèse).
+- [x] Sélectionner 5 à 8 pistes exceptionnelles, trois territoires de rupture et leurs protocoles expérimentaux falsifiables (6 pistes, 3 ruptures et 4 protocoles documentaires dans `docs/research/2026-09-selection-pistes-rupture-et-protocoles.md` et `.csv`).
+- [x] Produire un dossier de recherche critique, une matrice comparative, les questions orphelines et une bibliographie traçable avec export CSV (dossier consolidé : `docs/research/2026-09-dossier-enquete-territoires-olfactifs.md`).

@@ -1,0 +1,19 @@
+id;territoire;graines_fondatrices;rarete_relative_1_5;profondeur_sources_1_5;potentiel_artistique_1_5;faisabilite_sure_1_5;risque_materiel_ethique_1_5;priorite_1_5;statut_initial;prochaine_preuve_recherchee
+T01;Mémoire différée des matériaux;matériau-capacitance|retard après retrait|hétérogénéité des matrices;4;5;5;4;2;5;approfondir;Relevé des précédents artistiques sur réémission et persistance
+T02;Humidité comme co-auteur de la trace;vapeur d’eau cofacteur|pression de vapeur|phase lag poreux;4;4;4;3;3;4;documenter;Précédents sûrs sur humidité porosité et olfaction
+T03;Enclosure temps atmosphérique autonome;vitrine-réacteur|archive de réactions secondaires|filtre-source;4;5;5;4;3;5;approfondir;Précédents artistiques des enceintes et confinement déclaré
+T04;Coexistence matérielle objet-source objet-capteur;contaminant-polluant|objets qui émettent et absorbent|seuils situés;4;5;4;4;3;4;documenter;Cas matière-matière sans assimilation des seuils de conservation
+T05;Succession volatilique sans culture;succession plutôt que signature|température-temps|volatilome relationnel;4;4;5;2;5;4;recherche_documentaire;Jeux de données et analogues non vivants
+T06;Distance pore et signal sans contact;signalisation sans contact|racine-air-sol|biofilm comme seuil;4;4;5;2;4;4;recherche_documentaire;Modèles et systèmes inertes de séparation
+T07;Indice signal leurre et lecteur;indice-signal|eavesdropping|perturbation minimale;3;5;5;4;3;4;approfondir;Précédents qui évitent l’anthropomorphisation végétale
+T08;Chiralité ratio et condition d’adresse;mélange comme unité d’information|spécificité stéréochimique|ratios;4;5;4;3;3;4;approfondir;Cas chimiques et sources analytiques reliés à PERFUMUM
+T09;Fumée comme archive de transformation;fumée non identique|phase de combustion|oxydation;4;5;5;1;5;4;partenariat_requis;Cartographie des laboratoires et précédents sans combustion artistique
+T10;Charbon et résidu comme mémoire de processus;char comme mémoire|matériaux poreux|objets en transformation;4;4;5;3;4;4;documenter;Provenance contaminants et précédents artistiques
+T11;Soustraction perceptive et traces émergentes;soustraction|adaptation|objet olfactif;3;5;5;3;3;4;approfondir;Cadres éthiques et précédents perceptifs
+T12;Intermittence turbulence et apparition;plume intermittente|cinétique source-surface|cascade de reconnaissance;4;4;5;4;2;4;approfondir;Méthodes de visualisation et capteurs non intrusifs
+T13;Droit de décrire les atmosphères;odeur comme alerte|inégalité d’exposition|empreinte urbaine;4;5;5;3;5;5;co-conception_requise;Partenaire territorial et gouvernance éthique
+T14;Archive citoyenne hybride récit vent capteur;journal d’odeurs|carte hybride|empreinte urbaine;3;5;5;4;4;5;co-conception_requise;Standards de confidentialité et gouvernance participative
+T15;Sol poreux et micro-événement de pluie;pluie-extraction|histoire hydrique|échelle micro-événement;4;5;5;2;5;4;partenariat_requis;Imagerie modélisation et corpus de phénomènes
+T16;Géosmine odeur-relation plutôt qu’odeur-icône;pétrichor pluriel|géosmine-signal|aérosol transporteur de milieu;4;4;5;2;5;4;recherche_documentaire;Généalogie documentaire de sources espèces et situations
+T17;Archive à double entrée molécule et récit;odeur patrimoniale|archive double entrée|authenticité située;3;5;5;5;2;5;approfondir;Standards de provenance incertitude et description sensorielle
+T18;Conserver l’émission sans figer l’objet;objet qui émet|conservation par indices faibles|air de collection;4;5;5;3;4;4;partenariat_requis;Simulation de dossiers de provenance avec institution consentante
