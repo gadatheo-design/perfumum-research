@@ -1,5 +1,5 @@
-import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 import { adminProcedure, router } from "../_core/trpc";
 import { getMysqlConnection } from "../db/mysqlPool";
 
@@ -81,6 +81,44 @@ export function qualifyHighConfidenceCas(records: MoleculeIdentityRecord[]) {
   };
 }
 
+/**
+ * Niveau intermédiaire, réservé à la revue humaine : l'InChIKey est complet
+ * et converge, au moins un second identifiant converge, et aucun identifiant
+ * renseigné ne diverge. Les lacunes interdisent toute acceptation automatique.
+ */
+export function qualifyIntermediateConfidenceCas(records: MoleculeIdentityRecord[]) {
+  const distinctValues = (field: keyof MoleculeIdentityRecord) => new Set(records.map((record) => normalized(record[field])).filter(Boolean));
+  const completeAndSame = (field: keyof MoleculeIdentityRecord) => records.every((record) => Boolean(normalized(record[field]))) && distinctValues(field).size === 1;
+  const casNumbers = distinctValues("cas_number");
+  const casNumber = [...casNumbers][0] ?? "";
+  const identifiers: Array<keyof MoleculeIdentityRecord> = ["inchi_key", "pubchem_cid", "formula", "wikidata_qid"];
+  const conflicts = identifiers.filter((field) => distinctValues(field).size > 1);
+  const missingFields = identifiers.filter((field) => !records.every((record) => Boolean(normalized(record[field]))));
+  const sameInchiKey = completeAndSame("inchi_key");
+  const corroborators = ["pubchem_cid", "formula", "wikidata_qid"]
+    .filter((field) => completeAndSame(field as keyof MoleculeIdentityRecord));
+  const highConfidence = qualifyHighConfidenceCas(records).eligible;
+  const eligible = records.length > 1
+    && casNumbers.size === 1
+    && isValidCasNumber(casNumber)
+    && sameInchiKey
+    && corroborators.length >= 1
+    && conflicts.length === 0
+    && !highConfidence;
+  return {
+    eligible,
+    casNumber,
+    criteria: {
+      validCasChecksum: casNumbers.size === 1 && isValidCasNumber(casNumber),
+      sameInchiKey,
+      corroborators,
+      noConflictingPopulatedIdentifiers: conflicts.length === 0,
+      missingFields,
+      highConfidence,
+    },
+  };
+}
+
 async function listHighConfidenceCasCandidates(conn: any) {
   const [caseRows] = await conn.execute(
     `SELECT * FROM data_quality_remediation_cases
@@ -97,6 +135,27 @@ async function listHighConfidenceCasCandidates(conn: any) {
     );
     const typedRecords = records as MoleculeIdentityRecord[];
     const qualification = qualifyHighConfidenceCas(typedRecords);
+    if (qualification.eligible) candidates.push({ qualityCase, records: typedRecords, qualification });
+  }
+  return candidates;
+}
+
+async function listIntermediateConfidenceCasCandidates(conn: any) {
+  const [caseRows] = await conn.execute(
+    `SELECT * FROM data_quality_remediation_cases
+     WHERE case_type='cas_conflict' AND status IN ('open','reviewed')
+     ORDER BY id`
+  );
+  const candidates: Array<{ qualityCase: any; records: MoleculeIdentityRecord[]; qualification: ReturnType<typeof qualifyIntermediateConfidenceCas> }> = [];
+  for (const qualityCase of caseRows as any[]) {
+    const casNumber = String(qualityCase.group_key).replace(/^cas:/, "");
+    const [records] = await conn.execute(
+      `SELECT id, name, cas_number, formula, inchi_key, pubchem_cid, wikidata_qid
+       FROM molecules WHERE cas_number=? ORDER BY id`,
+      [casNumber]
+    );
+    const typedRecords = records as MoleculeIdentityRecord[];
+    const qualification = qualifyIntermediateConfidenceCas(typedRecords);
     if (qualification.eligible) candidates.push({ qualityCase, records: typedRecords, qualification });
   }
   return candidates;
@@ -348,6 +407,24 @@ export const dataQualityRemediationRouter = router({
         qualification,
         proposedDecision: "accepted",
         limitation: "Accepté pour préparer une résolution ultérieure ; aucune fusion, redirection de relation ou suppression n’est appliquée.",
+      }));
+    } finally {
+      await conn.end();
+    }
+  }),
+
+  previewIntermediateConfidenceCas: adminProcedure.query(async () => {
+    const conn = await getMysqlConnection();
+    try {
+      const candidates = await listIntermediateConfidenceCasCandidates(conn);
+      return candidates.map(({ qualityCase, records, qualification }) => ({
+        caseId: qualityCase.id,
+        groupKey: qualityCase.group_key,
+        title: qualityCase.title,
+        records,
+        qualification,
+        proposedDecision: "reviewed",
+        limitation: "Convergence intermédiaire uniquement : les identifiants renseignés ne divergent pas, mais des éléments structurels manquent. Une revue humaine est requise ; aucune acceptation, fusion, redirection ou suppression n’est proposée.",
       }));
     } finally {
       await conn.end();

@@ -53,6 +53,7 @@ export default function DataQualityRemediation() {
   }), [statusFilter, typeFilter]);
   const dashboardQuery = trpc.dataQualityRemediation.getDashboard.useQuery();
   const casesQuery = trpc.dataQualityRemediation.listCases.useQuery(input);
+  const intermediateCasQuery = trpc.dataQualityRemediation.previewIntermediateConfidenceCas.useQuery();
   const actionsQuery = trpc.dataQualityRemediation.listActions.useQuery(
     selected ? { caseId: selected.id } : undefined,
     { enabled: Boolean(selected) },
@@ -104,6 +105,11 @@ export default function DataQualityRemediation() {
 
       <Card className="border-amber-200 bg-amber-50/40 dark:border-amber-950 dark:bg-amber-950/10">
         <CardContent className="flex gap-3 pt-6 text-sm"><AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-700" /><p><strong>Portée contrôlée :</strong> accepter un cas signifie seulement le retenir pour une future prévisualisation d’application. Toute modification de relation, profil, référence ou molécule exige un mécanisme séparé, une confirmation explicite et un journal d’audit supplémentaire.</p></CardContent>
+      </Card>
+
+      <Card className="border-indigo-200 bg-indigo-50/40 dark:border-indigo-950 dark:bg-indigo-950/10">
+        <CardHeader><CardTitle className="text-base">Seconde vague CAS · convergence intermédiaire</CardTitle><CardDescription>Cette prévisualisation ne retient que des groupes avec checksum CAS valide, InChIKey identique et au moins un second identifiant identique, sans divergence parmi les identifiants renseignés. Une lacune subsiste dans chaque groupe : ils ne peuvent pas être acceptés automatiquement.</CardDescription></CardHeader>
+        <CardContent>{intermediateCasQuery.isLoading ? <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" /> : intermediateCasQuery.error ? <p className="text-sm text-destructive">La prévisualisation intermédiaire ne peut pas être chargée.</p> : (intermediateCasQuery.data?.length ?? 0) === 0 ? <p className="text-sm text-muted-foreground">Aucun candidat intermédiaire ne répond actuellement à ces critères conservateurs.</p> : <div className="space-y-2">{intermediateCasQuery.data?.map((candidate: any) => <div key={candidate.caseId} className="flex flex-col gap-2 rounded-md border bg-background/70 p-3 sm:flex-row sm:items-center sm:justify-between"><div><p className="font-medium text-sm">{candidate.title}</p><p className="mt-1 text-xs text-muted-foreground">Lacunes : {candidate.qualification.criteria.missingFields.join(", ") || "aucune"} · corroborateurs : {candidate.qualification.criteria.corroborators.join(", ")}</p></div><Badge variant="secondary">Revue humaine requise</Badge></div>)}</div>}</CardContent>
       </Card>
 
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">

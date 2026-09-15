@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { appRouter } from "./routers";
 import type { TrpcContext } from "./_core/context";
 import { getMysqlConnection } from "./db/mysqlPool";
-import { qualifyHighConfidenceCas } from "./routers/data-quality-remediation";
+import { qualifyHighConfidenceCas, qualifyIntermediateConfidenceCas } from "./routers/data-quality-remediation";
 
 function createContext(role: "admin" | null): TrpcContext {
   return {
@@ -33,6 +33,7 @@ describe("file de remédiation de qualité", () => {
     const anonymous = appRouter.createCaller(createContext(null));
     await expect(anonymous.dataQualityRemediation.getDashboard()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.scan()).rejects.toMatchObject({ code: "FORBIDDEN" });
+    await expect(anonymous.dataQualityRemediation.previewIntermediateConfidenceCas()).rejects.toMatchObject({ code: "FORBIDDEN" });
   });
 
   it("produit une file idempotente sans altérer les données scientifiques de production", async () => {
@@ -82,6 +83,20 @@ describe("file de remédiation de qualité", () => {
 
     expect(certain.eligible).toBe(true);
     expect(divergent.eligible).toBe(false);
+  });
+
+  it("prévisualise seulement les CAS intermédiaires sans conflit renseigné ni décision automatique", () => {
+    const incompleteButConvergent = qualifyIntermediateConfidenceCas([
+      { id: 1, name: "Synonyme A", cas_number: "7732-18-5", formula: null, inchi_key: "XLYOFNOQVPJJNP-UHFFFAOYSA-N", pubchem_cid: "962", wikidata_qid: "Q283" },
+      { id: 2, name: "Synonyme B", cas_number: "7732-18-5", formula: null, inchi_key: "XLYOFNOQVPJJNP-UHFFFAOYSA-N", pubchem_cid: "962", wikidata_qid: "Q283" },
+    ]);
+    const conflictingQid = qualifyIntermediateConfidenceCas([
+      { id: 1, name: "A", cas_number: "7732-18-5", formula: null, inchi_key: "XLYOFNOQVPJJNP-UHFFFAOYSA-N", pubchem_cid: "962", wikidata_qid: "Q283" },
+      { id: 2, name: "B", cas_number: "7732-18-5", formula: null, inchi_key: "XLYOFNOQVPJJNP-UHFFFAOYSA-N", pubchem_cid: "962", wikidata_qid: "Q999" },
+    ]);
+
+    expect(incompleteButConvergent).toMatchObject({ eligible: true, criteria: { missingFields: ["formula"], corroborators: ["pubchem_cid", "wikidata_qid"] } });
+    expect(conflictingQid).toMatchObject({ eligible: false, criteria: { noConflictingPopulatedIdentifiers: false } });
   });
 
   it("journalise une décision humaine sans appliquer de correction aux entités scientifiques", async () => {
