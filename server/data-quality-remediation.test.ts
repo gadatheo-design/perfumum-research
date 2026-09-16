@@ -34,6 +34,7 @@ describe("file de remédiation de qualité", () => {
     await expect(anonymous.dataQualityRemediation.getDashboard()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.getLiveOrphanAudit()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.previewSourcedOlfactoryProfiles()).rejects.toMatchObject({ code: "FORBIDDEN" });
+    await expect(anonymous.dataQualityRemediation.previewSourcedPlantMoleculeRelations()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.scan()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.previewIntermediateConfidenceCas()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.exportCasEvidence()).rejects.toMatchObject({ code: "FORBIDDEN" });
@@ -139,6 +140,25 @@ describe("file de remédiation de qualité", () => {
     for (const proposal of preview.proposals) {
       expect(proposal.evidence.sourceUrl).toBe("http://www.flavornet.org/");
       expect(proposal.status).toBe("proposed_for_human_review");
+    }
+    expect(after).toEqual(before);
+  });
+
+  it("prévisualise les relations plante–molécule seulement lorsque la source GC-MS et la cible CAS sont non ambiguës", async () => {
+    const admin = appRouter.createCaller(createContext("admin"));
+    const before = await productionCounts();
+    const preview = await admin.dataQualityRemediation.previewSourcedPlantMoleculeRelations();
+    const after = await productionCounts();
+
+    expect(preview.productionWrites).toBe(0);
+    expect(preview.proposalCount).toBe(preview.proposals.length);
+    expect(preview.proposalCount).toBeGreaterThan(0);
+    expect(preview.withheld.some((reason) => reason.includes("1,8-cinéole"))).toBe(true);
+    for (const proposal of preview.proposals) {
+      expect(proposal.evidence.evidenceLevel).toBe("Confirmé GC-MS");
+      expect(proposal.evidence.sourceUrl).toBe("https://doi.org/10.1002/cbdv.202403478");
+      expect(proposal.molecule.casNumber).toBeTruthy();
+      expect(proposal.range.min).toBeLessThan(proposal.range.max);
     }
     expect(after).toEqual(before);
   });

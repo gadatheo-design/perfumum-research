@@ -2,6 +2,7 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { adminProcedure, router } from "../_core/trpc";
 import { getMysqlConnection } from "../db/mysqlPool";
+import { plantMoleculeEvidenceLot1, withheldPlantMoleculeEvidenceLot1 } from "../data/plant-molecule-evidence-lot-1";
 
 const caseStatus = z.enum(["open", "reviewed", "accepted", "rejected"]);
 const caseType = z.enum([
@@ -314,6 +315,66 @@ export const dataQualityRemediationRouter = router({
         },
         productionWrites: 0,
       };
+    } finally {
+      await conn.end();
+    }
+  }),
+
+  /**
+   * Renvoie un lot fixe de preuves primaires déjà vérifiées. Il ne crée aucune
+   * relation ; une cible moléculaire doit être unique par CAS local, sinon elle
+   * est retenue hors proposition.
+   */
+  previewSourcedPlantMoleculeRelations: adminProcedure.query(async () => {
+    const conn = await getMysqlConnection();
+    try {
+      const proposals: any[] = [];
+      const withheld = [...withheldPlantMoleculeEvidenceLot1];
+      for (const evidence of plantMoleculeEvidenceLot1) {
+        const [plantRows] = await conn.execute(
+          "SELECT id, name, latin_name, dominant_molecules FROM plants WHERE id=?",
+          [evidence.plantId]
+        );
+        const plant = (plantRows as any[])[0];
+        if (!plant || !normalized(plant.latin_name).toLowerCase().includes(evidence.expectedLatinName.toLowerCase())) {
+          withheld.push(`${evidence.plantLabel} : la cible taxonomique locale n’est plus compatible avec le lot de preuve.`);
+          continue;
+        }
+        const [moleculeRows] = await conn.execute(
+          "SELECT id, name, cas_number, inchi_key, pubchem_cid FROM molecules WHERE cas_number=? ORDER BY id",
+          [evidence.moleculeCasNumber]
+        );
+        const molecules = moleculeRows as any[];
+        if (molecules.length !== 1) {
+          withheld.push(`${evidence.plantLabel} → ${evidence.moleculeLabel} : ${molecules.length} cible(s) locale(s) pour le CAS ${evidence.moleculeCasNumber}; proposition retenue.`);
+          continue;
+        }
+        const molecule = molecules[0];
+        const [existing] = await conn.execute(
+          "SELECT COUNT(*) AS count FROM plant_molecules WHERE plant_id=? AND molecule_id=?",
+          [plant.id, molecule.id]
+        );
+        if (Number((existing as any[])?.[0]?.count ?? 0) > 0) {
+          withheld.push(`${evidence.plantLabel} → ${evidence.moleculeLabel} : relation déjà présente ; aucune duplication proposée.`);
+          continue;
+        }
+        proposals.push({
+          plant: { id: Number(plant.id), name: plant.name, latinName: plant.latin_name },
+          molecule: { id: Number(molecule.id), name: molecule.name, casNumber: molecule.cas_number, inchiKey: molecule.inchi_key, pubchemCid: molecule.pubchem_cid },
+          range: { min: evidence.percentageMin, max: evidence.percentageMax, unit: "% relatif dans l’échantillon analytique" },
+          evidence: {
+            sourceCitation: evidence.sourceCitation,
+            sourceUrl: evidence.sourceUrl,
+            method: evidence.method,
+            evidenceLevel: evidence.evidenceLevel,
+            sampleContext: evidence.sampleContext,
+            caveat: evidence.caveat,
+          },
+          status: "proposed_for_human_review" as const,
+          productionWrites: 0,
+        });
+      }
+      return { observedAt: new Date().toISOString(), proposalCount: proposals.length, proposals, withheld, productionWrites: 0 };
     } finally {
       await conn.end();
     }

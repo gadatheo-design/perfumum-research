@@ -502,7 +502,7 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Créer une file auditable de résolution des 169 conflits CAS, sans fusion automatique.
 - [x] Réassocier ou documenter les liens orphelins de descripteurs et de terroirs avec validation humaine (0 lien descripteur vivant ; 22 liens plante–terroir sans contexte conservé, maintenus explicitement comme historiques non résolus sans suppression).
 - [x] Proposer des profils olfactifs sourcés pour les molécules incomplètes, sans publication automatique (prévisualisation lecture seule : 1 candidat Flavornet horodaté ; 4 profils JSON historiques retenus faute de provenance explicite).
-- [ ] Proposer des relations plantes–molécules sourcées pour les plantes non liées, avec seuils de confiance.
+- [x] Proposer des relations plantes–molécules sourcées pour les plantes non liées, avec seuils de confiance (7 propositions GC-MS pour deux lavandes ; source, méthode, plage et limites affichées ; aucun lien appliqué).
 - [ ] Normaliser DOI, auteurs, années, résumés et mots-clés, puis préparer les doublons bibliographiques à la revue.
 - [ ] Tester les règles, prévisualiser les lots et n’appliquer que des décisions humaines explicitement confirmées.
 - [x] Créer des tables de file de revue et de journal de remédiation séparées des entités scientifiques de production.
@@ -520,6 +520,7 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Phase séquentielle 2a.i : auditer l’état vivant des liens orphelins (0 descripteur–plante, 0 descripteur–molécule, 22 plante–terroir avec plante absente) et documenter la règle de non-réassociation sans contexte conservé.
 - [ ] Phase séquentielle 3 : traiter uniquement après clôture des liens les profils olfactifs, relations plantes–molécules et bibliographie, dans cet ordre.
 - [x] Phase séquentielle 3a : inventorier les profils olfactifs déjà sourcés et produire une prévisualisation de candidats, sans écrire dans `olfactiveProfile` (chavicol CAS 501-92-8 proposé avec source et réserve ; données non sourcées retenues).
+- [x] Phase séquentielle 3b : inventorier les plantes sans relation structurée, qualifier les indices `dominant_molecules` et préparer seulement des propositions plante–molécule sourcées et notées (7 propositions GC-MS pour les deux lavandes, avec molécules retrouvées par CAS unique ; les cibles ambiguës ou taxonomiquement insuffisantes sont retenues).
 
 ## Septembre 2026 — Enquête « territoires périphériques de l’olfaction »
 
