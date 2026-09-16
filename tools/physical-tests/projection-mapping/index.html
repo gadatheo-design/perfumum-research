@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PERFUMUM — Graphe anamorphique</title><link rel="stylesheet" href="../shared.css"></head>
+<body><main>
+  <h1>A — Graphe anamorphique</h1>
+  <p class="notice">Projection locale, sans appel à la base ni commande de matière. Les quatre poignées définissent un masque quadrilatère sur une peinture ou un volume : ce test ne prétend pas corriger une géométrie 3D complexe.</p>
+  <div class="grid"><section class="stage" id="stage"><canvas id="canvas" aria-label="Graphe projetable de Fleur Fantôme"></canvas><div class="corner" data-corner="0"></div><div class="corner" data-corner="1"></div><div class="corner" data-corner="2"></div><div class="corner" data-corner="3"></div></section>
+  <aside class="panel"><div class="small">Export chargé</div><div class="metric" id="exportDate">—</div><p id="summary"></p><button id="reset">Réinitialiser les quatre coins</button><button class="secondary" id="log">Journaliser la calibration</button><button class="secondary" id="download">Télécharger le CSV local</button><p class="small">Critère : quatre repères physiques et quatre poignées écran coïncident ; six nœuds restent lisibles.</p><table id="table"></table></aside></div>
+  <script type="module" src="./app.js"></script>
+</main></body></html>

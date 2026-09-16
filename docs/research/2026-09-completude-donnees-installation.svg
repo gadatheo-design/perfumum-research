@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">PERFUMUM — complétude des données utiles aux essais physiques</title>
+  <desc id="desc">Barres horizontales indiquant la part des enregistrements remplissant chaque critère. La barre noire représente l’absence totale de stéréochimie dans les SMILES.</desc>
+  <rect width="1200" height="700" fill="#f8fafc"/>
+  <text x="58" y="52" fill="#111827" font-family="Noto Sans, DejaVu Sans, sans-serif" font-size="24" font-weight="700">PERFUMUM — Complétude des données utiles aux essais physiques</text>
+  <text x="58" y="80" fill="#475569" font-family="Noto Sans, DejaVu Sans, sans-serif" font-size="14">Lecture seule au 15 septembre 2026 · noir = absence totale du critère · les axes radar et IFRA restent à valider par source</text>
+  <g stroke="#cbd5e1" stroke-width="1">
+    <line x1="430" y1="110" x2="430" y2="640"/><line x1="530" y1="110" x2="530" y2="640"/><line x1="630" y1="110" x2="630" y2="640"/><line x1="730" y1="110" x2="730" y2="640"/><line x1="830" y1="110" x2="830" y2="640"/><line x1="930" y1="110" x2="930" y2="640"/>
+  </g>
+  <g fill="#64748b" font-family="Noto Sans, DejaVu Sans, sans-serif" font-size="12"><text x="424" y="104">0 %</text><text x="516" y="104">20 %</text><text x="616" y="104">40 %</text><text x="716" y="104">60 %</text><text x="816" y="104">80 %</text><text x="916" y="104">100 %</text></g>
+  <g font-family="Noto Sans, DejaVu Sans, sans-serif" font-size="14" fill="#1e293b">
+    <text x="58" y="144">Point d’ébullition renseigné</text><rect x="430" y="126" width="499.9" height="22" fill="#4f46e5"/><text x="945" y="144">7 477/7 478 · 99,98 %</text>
+    <text x="58" y="192">Volatilité renseignée</text><rect x="430" y="174" width="495.5" height="22" fill="#4f46e5"/><text x="940" y="192">7 411/7 478 · 99,10 %</text>
+    <text x="58" y="240">Intensité renseignée</text><rect x="430" y="222" width="495.4" height="22" fill="#4f46e5"/><text x="940" y="240">7 409/7 478 · 99,07 %</text>
+    <text x="58" y="288">Six axes radar renseignés</text><rect x="430" y="270" width="500" height="22" fill="#4f46e5"/><text x="945" y="288">7 478/7 478 · 100 %</text>
+    <text x="58" y="336">PubChem CID renseigné</text><rect x="430" y="318" width="487.6" height="22" fill="#4f46e5"/><text x="932" y="336">7 292/7 478 · 97,51 %</text>
+    <text x="58" y="384">Statut IFRA renseigné</text><rect x="430" y="366" width="500" height="22" fill="#4f46e5"/><text x="945" y="384">7 478/7 478 · 100 %</text>
+    <text x="58" y="432">SMILES avec stéréochimie @</text><rect x="430" y="414" width="5" height="22" fill="#111827"/><text x="445" y="432">0/7 478 · 0 %</text>
+    <text x="58" y="480">InChI avec couche /t</text><rect x="430" y="462" width="165.6" height="22" fill="#4f46e5"/><text x="610" y="480">2 476/7 478 · 33,11 %</text>
+    <text x="58" y="528">Recettes avec ≥ 6 points d’ébullition</text><rect x="430" y="510" width="10.2" height="22" fill="#4f46e5"/><text x="455" y="528">10/492 · 2,03 %</text>
+    <text x="58" y="576">Synergies avec deux entités liées</text><rect x="430" y="558" width="171.1" height="22" fill="#4f46e5"/><text x="616" y="576">26/76 · 34,21 %</text>
+    <text x="58" y="624">Synergies avec entités + pourcentage en note</text><rect x="430" y="606" width="85.5" height="22" fill="#4f46e5"/><text x="530" y="624">13/76 · 17,10 %</text>
+  </g>
+  <text x="58" y="675" fill="#475569" font-family="Noto Sans, DejaVu Sans, sans-serif" font-size="12">Source : requête de lecture seule conservée dans server/scripts/report-data-completeness-installation.sql. Les pourcentages dans les notes de synergie sont détectés par expression régulière et exigent une vérification humaine.</text>
+</svg>

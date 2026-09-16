@@ -1,0 +1,24 @@
+:root { color-scheme: dark; font-family: "Noto Sans", Arial, sans-serif; background: #08111f; color: #edf4ff; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(circle at 20% 0%, #172b53, #08111f 60%); }
+main { max-width: 1320px; margin: auto; padding: 24px; }
+h1 { margin: 0 0 8px; font-size: clamp(1.5rem, 3vw, 2.5rem); }
+p, li { line-height: 1.5; color: #c7d4e8; }
+.notice { border: 1px solid #8da5cf; background: #122643; padding: 12px 14px; border-radius: 10px; }
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 18px; align-items: start; }
+.stage { background: #020617; border: 1px solid #263750; border-radius: 14px; overflow: hidden; min-height: 600px; position: relative; }
+canvas { width: 100%; height: 600px; display: block; background: #030712; }
+.panel { background: rgba(13, 28, 51, .9); border: 1px solid #2b4266; padding: 16px; border-radius: 14px; }
+button, input { font: inherit; }
+button { background: #79a6ff; color: #051121; border: 0; border-radius: 8px; padding: 10px 12px; cursor: pointer; margin: 4px 4px 4px 0; font-weight: 700; }
+button.secondary { background: #223a60; color: #e7f0ff; }
+button:focus-visible { outline: 3px solid #ffe084; outline-offset: 2px; }
+label { display: block; margin-top: 12px; color: #dbeafe; }
+input[type="range"] { width: 100%; }
+.metric { font-size: 1.4rem; font-weight: 700; color: #91b8ff; }
+.small { font-size: .82rem; color: #9fb3cc; }
+table { border-collapse: collapse; width: 100%; margin-top: 12px; font-size: .82rem; }
+td, th { border-bottom: 1px solid #2a3d58; padding: 6px; text-align: left; }
+.corner { position: absolute; width: 20px; height: 20px; border: 2px solid #ffdf7e; border-radius: 50%; transform: translate(-50%, -50%); touch-action: none; cursor: grab; }
+.key { display: inline-block; background: #1c3252; padding: 2px 6px; border-radius: 4px; color: #e6f0ff; font-family: monospace; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } .stage { min-height: 440px; } canvas { height: 440px; } }

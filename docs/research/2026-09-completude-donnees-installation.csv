@@ -1,0 +1,12 @@
+groupe,indicateur,complets,total,statut
+Molécules,Point d’ébullition renseigné,7477,7478,champ technique déclaré
+Molécules,Volatilité renseignée,7411,7478,champ technique déclaré
+Molécules,Intensité renseignée,7409,7478,champ technique déclaré
+Molécules,Six axes radar renseignés,7478,7478,assertions perceptives non vérifiées
+Molécules,PubChem CID renseigné,7292,7478,identifiant externe
+Molécules,Statut IFRA renseigné,7478,7478,champ à valider par source
+Molécules,SMILES avec stéréochimie @,0,7478,non exploitable pour stéréochimie
+Molécules,InChI avec couche stéréochimique /t,2476,7478,stéréochimie lisible
+Recettes,Au moins six molécules avec point d’ébullition,10,492,préparation possible à étudier
+Synergies,Deux entités liées,26,76,liaison structurelle
+Synergies,Deux entités liées et pourcentage dans les notes,13,76,heuristique textuelle à vérifier

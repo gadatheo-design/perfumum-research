@@ -532,3 +532,13 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Identifier les thèmes, contradictions, matériaux et formes artistiques latentes à partir du corpus Notion (voir `docs/research/2026-09-hypotheses-applications-artistiques-notion.md`).
 - [x] Vérifier les précédents et contraintes des applications artistiques les plus prometteuses (voir `docs/research/2026-09-sources-archive-provenance-applications.md`).
 - [x] Produire un portefeuille priorisé d’applications artistiques, avec niveaux de preuve, risques, partenaires et premières étapes sûres (voir `docs/research/2026-09-portefeuille-applications-artistiques-notion.md`).
+
+## Septembre 2026 — Investigation technique pour essais physiques
+
+- [x] Vérifier les accès effectifs au code, à la base, au réseau et aux outils d’exécution avant toute recommandation matérielle (voir `docs/research/2026-09-acces-investigation-installation-physique.md`).
+- [x] Inventorier les visualisations, procédures de lecture, prototypes p5.js et sorties de données raccordables sans écriture dans la base (carte vérifiée : `docs/research/2026-09-carte-exploitabilite-installation-physique.md` ; complétude : CSV, SQL et SVG associés).
+- [x] Sélectionner les raccordements physiques compatibles avec le matériel déjà possédé et les tester sur des données réelles ou explicitement étiquetées comme indicatives (trois essais retenus et pistes thermiques/combustion écartées : `docs/research/2026-09-selection-raccordements-physiques.md`).
+- [x] Rédiger des protocoles d’essai de une à trois heures, des listes de matériel justifiées et les limites d’exploitation (voir `docs/research/2026-09-protocoles-essais-physiques.md`).
+- [x] Préparer seulement les connecteurs locaux nécessaires, sans matériel de contrôle d’émission ni collecte non consentie (trois prototypes servis localement, export JSON daté, CSV append-only et Web Serial à consentement explicite dans `tools/physical-tests/`).
+- [x] Restaurer le garde-fou de script Zenodo référencé par les commandes et les tests, sans introduire d’écriture vers les données scientifiques de production.
+- [x] Vérifier les parcours de test et livrer un dossier opérationnel, sans publier ni déployer de mécanisme d’émission (voir `docs/research/2026-09-dossier-operationnel-essais-physiques.md` ; 1 924 tests réussis, 2 ignorés ; TypeScript validé).

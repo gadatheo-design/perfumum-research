@@ -1,0 +1,19 @@
+{
+  "exportedAt": "2026-09-15",
+  "source": "Lecture SQL locale de recettes, recette_molecules et molecules ; aucun appel réseau au moment de l’essai.",
+  "dataStatus": "Données documentaires pour visualisation uniquement, sans émission. Elles ne commandent aucune chauffe, diffusion ou formulation.",
+  "recipe": {
+    "id": 150025,
+    "name": "Fleur Fantôme"
+  },
+  "molecules": [
+    {"id":120009,"name":"Aldéhyde C-11","cas":"112-44-7","formula":"C11H22O","boilingPointC":194,"volatility":67,"intensity":79,"proportion":11,"role":"ingredient"},
+    {"id":120010,"name":"Aldéhyde C-12","cas":"112-54-9","formula":"C12H24O","boilingPointC":195,"volatility":67,"intensity":80,"proportion":11,"role":"ingredient"},
+    {"id":30002,"name":"Linalol","cas":"78-70-6","formula":"C10H18O","boilingPointC":196,"volatility":66,"intensity":55,"proportion":11,"role":"ingredient"},
+    {"id":210011,"name":"Benzyl acetate","cas":"140-11-4","formula":"C9H10O2","boilingPointC":213,"volatility":5,"intensity":6,"proportion":11,"role":"ingredient"},
+    {"id":330016,"name":"Hedione","cas":"24851-98-7","formula":"C13H22O3","boilingPointC":280,"volatility":40,"intensity":45,"proportion":11,"role":"ingredient"},
+    {"id":90078,"name":"Iso E Super","cas":"59056-94-9","formula":"C16H26O","boilingPointC":290,"volatility":37,"intensity":74,"proportion":11,"role":"ingredient"},
+    {"id":3,"name":"Ambroxan","cas":"6790-58-5","formula":"C16H28O","boilingPointC":310,"volatility":23,"intensity":79,"proportion":11,"role":"ingredient"},
+    {"id":90080,"name":"Galaxolide","cas":"1222-05-5","formula":"C18H26O","boilingPointC":327,"volatility":27,"intensity":58,"proportion":11,"role":"ingredient"}
+  ]
+}
