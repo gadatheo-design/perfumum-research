@@ -42,7 +42,7 @@ function parseEvidence(value: unknown) {
 export default function DataQualityRemediation() {
   const { toast } = useToast();
   const [statusFilter, setStatusFilter] = useState<CaseStatus | "all">("open");
-  const [typeFilter, setTypeFilter] = useState<string>("cas_conflict");
+  const [typeFilter, setTypeFilter] = useState<string>("olfactive_profile");
   const [selected, setSelected] = useState<QualityCase | null>(null);
   const [decision, setDecision] = useState<Exclude<CaseStatus, "open">>("reviewed");
   const [rationale, setRationale] = useState("");
@@ -54,6 +54,8 @@ export default function DataQualityRemediation() {
   const dashboardQuery = trpc.dataQualityRemediation.getDashboard.useQuery();
   const casesQuery = trpc.dataQualityRemediation.listCases.useQuery(input);
   const intermediateCasQuery = trpc.dataQualityRemediation.previewIntermediateConfidenceCas.useQuery();
+  const liveOrphansQuery = trpc.dataQualityRemediation.getLiveOrphanAudit.useQuery();
+  const sourcedProfilesQuery = trpc.dataQualityRemediation.previewSourcedOlfactoryProfiles.useQuery();
   const casEvidenceQuery = trpc.dataQualityRemediation.exportCasEvidence.useQuery(undefined, { enabled: false });
   const actionsQuery = trpc.dataQualityRemediation.listActions.useQuery(
     selected ? { caseId: selected.id } : undefined,
@@ -109,12 +111,12 @@ export default function DataQualityRemediation() {
     <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6">
       <header className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
         <div>
-          <p className="text-sm font-medium text-amber-700">Phase 1 active · conflits CAS · revue humaine obligatoire</p>
+          <p className="text-sm font-medium text-amber-700">Phase 3 active · profils olfactifs sourcés · revue humaine obligatoire</p>
           <h1 className="mt-1 flex items-center gap-3 text-2xl font-bold tracking-tight"><ShieldCheck className="h-7 w-7 text-amber-700" />Cockpit de remédiation des données</h1>
           <p className="mt-2 max-w-4xl text-sm text-muted-foreground">Cette file centralise les signaux issus de l’audit. Chaque cas expose ses preuves et sa proposition ; ni fusion CAS, ni suppression, ni enrichissement scientifique ne sont exécutés depuis cette page.</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button variant="outline" className="gap-2" onClick={() => { dashboardQuery.refetch(); casesQuery.refetch(); }}><RefreshCw className="h-4 w-4" />Actualiser</Button>
+          <Button variant="outline" className="gap-2" onClick={() => { dashboardQuery.refetch(); casesQuery.refetch(); liveOrphansQuery.refetch(); sourcedProfilesQuery.refetch(); }}><RefreshCw className="h-4 w-4" />Actualiser</Button>
           <Button variant="outline" className="gap-2" onClick={downloadCasEvidence} disabled={casEvidenceQuery.isFetching}><Download className="h-4 w-4" />{casEvidenceQuery.isFetching ? "Préparation…" : "Exporter les preuves CAS"}</Button>
           <Button className="gap-2" onClick={() => scanMutation.mutate()} disabled={scanMutation.isPending}><DatabaseZap className="h-4 w-4" />{scanMutation.isPending ? "Analyse en cours…" : "Actualiser la file"}</Button>
         </div>
@@ -129,6 +131,16 @@ export default function DataQualityRemediation() {
         <CardContent>{intermediateCasQuery.isLoading ? <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" /> : intermediateCasQuery.error ? <p className="text-sm text-destructive">La prévisualisation intermédiaire ne peut pas être chargée.</p> : (intermediateCasQuery.data?.length ?? 0) === 0 ? <p className="text-sm text-muted-foreground">Aucun candidat intermédiaire ne répond actuellement à ces critères conservateurs.</p> : <div className="space-y-2">{intermediateCasQuery.data?.map((candidate: any) => <div key={candidate.caseId} className="flex flex-col gap-2 rounded-md border bg-background/70 p-3 sm:flex-row sm:items-center sm:justify-between"><div><p className="font-medium text-sm">{candidate.title}</p><p className="mt-1 text-xs text-muted-foreground">Lacunes : {candidate.qualification.criteria.missingFields.join(", ") || "aucune"} · corroborateurs : {candidate.qualification.criteria.corroborators.join(", ")}</p></div><Badge variant="secondary">Revue humaine requise</Badge></div>)}</div>}</CardContent>
       </Card>
 
+      <Card className="border-amber-200 bg-amber-50/30 dark:border-amber-950 dark:bg-amber-950/10">
+        <CardHeader><CardTitle className="text-base">État actuel des liens orphelins</CardTitle><CardDescription>Lecture directe des relations de production au moment du chargement. Ce tableau n’archive, ne supprime et ne réassocie aucun lien.</CardDescription></CardHeader>
+        <CardContent>{liveOrphansQuery.isLoading ? <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" /> : liveOrphansQuery.error ? <p className="text-sm text-destructive">L’état courant des liens n’a pas pu être chargé.</p> : <div className="space-y-3 text-sm"><div className="grid gap-3 sm:grid-cols-3"><div className="rounded-md border bg-background/60 p-3"><p className="text-xs text-muted-foreground">Descripteur → plante</p><p className="mt-1 text-xl font-semibold">{liveOrphansQuery.data?.summary.descriptorPlant ?? 0}</p></div><div className="rounded-md border bg-background/60 p-3"><p className="text-xs text-muted-foreground">Descripteur → molécule</p><p className="mt-1 text-xl font-semibold">{liveOrphansQuery.data?.summary.descriptorMolecule ?? 0}</p></div><div className="rounded-md border bg-background/60 p-3"><p className="text-xs text-muted-foreground">Plante → terroir</p><p className="mt-1 text-xl font-semibold">{liveOrphansQuery.data?.summary.plantTerroir ?? 0}</p></div></div>{(liveOrphansQuery.data?.summary.plantTerroir ?? 0) > 0 && <p className="rounded-md border border-amber-200 bg-background/60 p-3 text-muted-foreground"><strong className="text-foreground">Réassociation bloquée par prudence :</strong> {liveOrphansQuery.data?.summary.plantTerroirWithoutRetainedPlantName} lien(s) plante–terroir ne conservent aucun nom de plante. Ils requièrent une source historique ou une sélection humaine explicite ; aucun rapprochement fondé sur l’ancien identifiant seul ne sera proposé.</p>}<details className="rounded-md border bg-background/60 p-3"><summary className="cursor-pointer font-medium">Voir le contexte conservé des liens plante–terroir ({liveOrphansQuery.data?.plantTerroir.length ?? 0})</summary><div className="mt-3 max-h-64 overflow-auto text-xs"><table className="min-w-[650px] text-left"><thead className="text-muted-foreground"><tr><th className="p-2">Lien</th><th className="p-2">Plante absente</th><th className="p-2">Terroir conservé</th><th className="p-2">Contexte</th></tr></thead><tbody>{liveOrphansQuery.data?.plantTerroir.map((link: any) => <tr key={link.link_id} className="border-t"><td className="p-2 font-mono">{link.link_id}</td><td className="p-2 font-mono">{link.archived_plant_id}</td><td className="p-2">{link.retained_terroir_name ?? `ID ${link.terroir_id}`}</td><td className="p-2">{link.local_name || link.notes || "Aucun nom ni contexte exploitable"}</td></tr>)}</tbody></table></div></details></div>}</CardContent>
+      </Card>
+
+      <Card className="border-emerald-200 bg-emerald-50/30 dark:border-emerald-950 dark:bg-emerald-950/10">
+        <CardHeader><CardTitle className="text-base">Profils olfactifs disposant d’une provenance</CardTitle><CardDescription>Seules les données Flavornet déjà horodatées dans PERFUMUM sont affichées comme propositions. Aucun profil n’est copié dans la production depuis cette vue.</CardDescription></CardHeader>
+        <CardContent>{sourcedProfilesQuery.isLoading ? <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" /> : sourcedProfilesQuery.error ? <p className="text-sm text-destructive">Les propositions sourcées n’ont pas pu être chargées.</p> : <div className="space-y-3"><div className="flex flex-wrap gap-3 text-sm"><Badge variant="secondary">{sourcedProfilesQuery.data?.proposalCount ?? 0} proposition(s) sourcée(s)</Badge><Badge variant="outline">{sourcedProfilesQuery.data?.withheld.legacyProfileJsonWithoutProvenance ?? 0} profil(s) historique(s) retenu(s) sans provenance</Badge></div>{sourcedProfilesQuery.data?.proposals.map((proposal: any) => <div key={proposal.molecule.id} className="rounded-md border bg-background/70 p-3"><div className="flex flex-wrap items-start justify-between gap-2"><div><p className="font-medium">{proposal.molecule.name} <span className="font-normal text-muted-foreground">· CAS {proposal.molecule.casNumber ?? "absent"}</span></p><p className="mt-1 text-sm">Proposition : <strong>{proposal.proposedProfile.join(" · ") || "termes à relire"}</strong></p></div><Badge variant="secondary">Revue requise</Badge></div><p className="mt-2 text-xs text-muted-foreground">{proposal.evidence.caveat}</p><a className="mt-2 inline-block text-xs font-medium text-primary underline underline-offset-2" href={proposal.evidence.sourceUrl} target="_blank" rel="noreferrer">Consulter la source Flavornet</a></div>)}</div>}</CardContent>
+      </Card>
+
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {[
           ["Cas enregistrés", total, ClipboardCheck, "text-slate-700"],
@@ -140,10 +152,10 @@ export default function DataQualityRemediation() {
 
       <Card>
         <CardHeader className="gap-3 lg:flex-row lg:items-start lg:justify-between">
-          <div><CardTitle className="text-lg">File de preuves et propositions</CardTitle><CardDescription>La première vague est limitée aux conflits CAS. Les autres domaines restent disponibles en lecture mais sont traités uniquement après la clôture explicite de cette phase.</CardDescription></div>
+          <div><CardTitle className="text-lg">File de preuves et propositions</CardTitle><CardDescription>La phase active porte sur les profils olfactifs sourcés. Les CAS intermédiaires et les liens historiques restent ouverts en revue ; les autres domaines restent disponibles en lecture uniquement.</CardDescription></div>
           <div className="grid gap-2 sm:grid-cols-2 lg:w-[480px]">
             <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as CaseStatus | "all")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">Tous les statuts</SelectItem>{Object.entries(statusMeta).map(([value, meta]) => <SelectItem key={value} value={value}>{meta.label}</SelectItem>)}</SelectContent></Select>
-            <Select value={typeFilter} onValueChange={setTypeFilter}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">Vue transversale (lecture)</SelectItem>{Object.entries(typeMeta).map(([value, meta]) => <SelectItem key={value} value={value}>{meta.label}{value !== "cas_conflict" ? " · phase ultérieure" : " · phase active"}</SelectItem>)}</SelectContent></Select>
+            <Select value={typeFilter} onValueChange={setTypeFilter}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">Vue transversale (lecture)</SelectItem>{Object.entries(typeMeta).map(([value, meta]) => <SelectItem key={value} value={value}>{meta.label}{value === "olfactive_profile" ? " · phase active" : " · phase ultérieure"}</SelectItem>)}</SelectContent></Select>
           </div>
         </CardHeader>
         <CardContent>

@@ -32,6 +32,8 @@ describe("file de remédiation de qualité", () => {
   it("réserve le scan et la lecture des cas aux administrateurs", async () => {
     const anonymous = appRouter.createCaller(createContext(null));
     await expect(anonymous.dataQualityRemediation.getDashboard()).rejects.toMatchObject({ code: "FORBIDDEN" });
+    await expect(anonymous.dataQualityRemediation.getLiveOrphanAudit()).rejects.toMatchObject({ code: "FORBIDDEN" });
+    await expect(anonymous.dataQualityRemediation.previewSourcedOlfactoryProfiles()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.scan()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.previewIntermediateConfidenceCas()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.exportCasEvidence()).rejects.toMatchObject({ code: "FORBIDDEN" });
@@ -110,6 +112,34 @@ describe("file de remédiation de qualité", () => {
     expect(exportResult.productionWrites).toBe(0);
     expect(exportResult.cases[0]).toMatchObject({ qualityCase: { case_type: "cas_conflict" }, comparison: { limitation: expect.stringContaining("aucune fusion") } });
     expect(exportResult.cases[0]?.records.length).toBeGreaterThan(1);
+    expect(after).toEqual(before);
+  });
+
+  it("expose l’état courant des orphelins sans modifier les entités de production", async () => {
+    const admin = appRouter.createCaller(createContext("admin"));
+    const before = await productionCounts();
+    const audit = await admin.dataQualityRemediation.getLiveOrphanAudit();
+    const after = await productionCounts();
+
+    expect(audit.productionWrites).toBe(0);
+    expect(audit.summary).toHaveProperty("plantTerroir");
+    expect(audit.plantTerroir).toHaveLength(audit.summary.plantTerroir);
+    expect(after).toEqual(before);
+  });
+
+  it("prévisualise uniquement les profils olfactifs munis d’une provenance interne explicite", async () => {
+    const admin = appRouter.createCaller(createContext("admin"));
+    const before = await productionCounts();
+    const preview = await admin.dataQualityRemediation.previewSourcedOlfactoryProfiles();
+    const after = await productionCounts();
+
+    expect(preview.productionWrites).toBe(0);
+    expect(preview.proposalCount).toBe(preview.proposals.length);
+    expect(preview.withheld.legacyProfileJsonWithoutProvenance).toBeGreaterThanOrEqual(0);
+    for (const proposal of preview.proposals) {
+      expect(proposal.evidence.sourceUrl).toBe("http://www.flavornet.org/");
+      expect(proposal.status).toBe("proposed_for_human_review");
+    }
     expect(after).toEqual(before);
   });
 

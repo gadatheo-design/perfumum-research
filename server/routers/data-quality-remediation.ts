@@ -205,6 +205,120 @@ export const dataQualityRemediationRouter = router({
     }
   }),
 
+  /** État réel et courant des liens orphelins ; aucune correction n'est déclenchée. */
+  getLiveOrphanAudit: adminProcedure.query(async () => {
+    const conn = await getMysqlConnection();
+    try {
+      const [descriptorPlantRows] = await conn.execute(
+        `SELECT dpl.id AS link_id, dpl.descriptor_id, dpl.descriptor_name,
+                dpl.plant_id AS archived_target_id, dpl.latin_name AS retained_latin_name,
+                dpl.common_name AS retained_name, dpl.source, dpl.created_at
+         FROM descriptor_plant_links dpl
+         LEFT JOIN plants p ON p.id=dpl.plant_id
+         WHERE dpl.plant_id IS NOT NULL AND p.id IS NULL
+         ORDER BY dpl.id`
+      );
+      const [descriptorMoleculeRows] = await conn.execute(
+        `SELECT dml.id AS link_id, dml.descriptor_id, dml.descriptor_name,
+                dml.molecule_id AS archived_target_id, dml.iupac_name AS retained_iupac_name,
+                dml.molecule_name AS retained_name, dml.cas_number, dml.source, dml.created_at
+         FROM descriptor_molecule_links dml
+         LEFT JOIN molecules m ON m.id=dml.molecule_id
+         WHERE dml.molecule_id IS NOT NULL AND m.id IS NULL
+         ORDER BY dml.id`
+      );
+      const [terroirRows] = await conn.execute(
+        `SELECT pt.id AS link_id, pt.plant_id AS archived_plant_id, pt.terroir_id,
+                pt.local_name, pt.cultivation_start, pt.annual_production,
+                pt.quality_notes, pt.notes, pt.created_at,
+                t.name AS retained_terroir_name, t.country AS retained_terroir_country
+         FROM plant_terroirs pt
+         LEFT JOIN plants p ON p.id=pt.plant_id
+         LEFT JOIN terroirs t ON t.id=pt.terroir_id
+         WHERE p.id IS NULL OR t.id IS NULL
+         ORDER BY pt.id`
+      );
+      const descriptorPlant = descriptorPlantRows as any[];
+      const descriptorMolecule = descriptorMoleculeRows as any[];
+      const plantTerroir = terroirRows as any[];
+      return {
+        observedAt: new Date().toISOString(),
+        productionWrites: 0,
+        summary: {
+          descriptorPlant: descriptorPlant.length,
+          descriptorMolecule: descriptorMolecule.length,
+          plantTerroir: plantTerroir.length,
+          plantTerroirWithoutRetainedPlantName: plantTerroir.filter((row) => !normalized(row.local_name)).length,
+        },
+        descriptorPlant,
+        descriptorMolecule,
+        plantTerroir,
+        limitation: "Les suggestions éventuelles nécessitent un nom, un taxon ou une source conservée. En leur absence, aucun rapprochement par identifiant historique ne doit être proposé.",
+      };
+    } finally {
+      await conn.end();
+    }
+  }),
+
+  /**
+   * Prévisualise seulement les termes déjà stockés avec une provenance
+   * Flavornet explicite. Les profils JSON historiques dépourvus de source
+   * ne sont pas proposés et restent des lacunes à documenter.
+   */
+  previewSourcedOlfactoryProfiles: adminProcedure.query(async () => {
+    const conn = await getMysqlConnection();
+    try {
+      const [candidateRows] = await conn.execute(
+        `SELECT id, name, cas_number, flavornet_percepts, flavornet_kovats_ri, flavornet_enriched_at
+         FROM molecules
+         WHERE (olfactiveProfile IS NULL OR TRIM(olfactiveProfile)='')
+           AND flavornet_percepts IS NOT NULL AND TRIM(flavornet_percepts)<>''
+         ORDER BY id
+         LIMIT 300`
+      );
+      const [legacyRows] = await conn.execute(
+        `SELECT COUNT(*) AS count FROM molecules
+         WHERE (olfactiveProfile IS NULL OR TRIM(olfactiveProfile)='')
+           AND olfactive_profile_json IS NOT NULL AND TRIM(olfactive_profile_json)<>''
+           AND (flavornet_percepts IS NULL OR TRIM(flavornet_percepts)='')`
+      );
+      const proposals = (candidateRows as any[]).map((row) => {
+        let descriptors: string[] = [];
+        try {
+          const parsed = JSON.parse(String(row.flavornet_percepts));
+          descriptors = Array.isArray(parsed) ? parsed.map((value) => normalized(value)).filter(Boolean) : [];
+        } catch {
+          descriptors = [];
+        }
+        return {
+          molecule: { id: Number(row.id), name: row.name, casNumber: row.cas_number },
+          proposedProfile: descriptors,
+          evidence: {
+            source: "Flavornet — donnée interne horodatée",
+            sourceUrl: "http://www.flavornet.org/",
+            storedAt: row.flavornet_enriched_at,
+            kovatsIndices: row.flavornet_kovats_ri,
+            caveat: "Flavornet rassemble des odorants détectés par GC-olfactométrie dans des produits naturels ou environnements réels. Les descripteurs restent dépendants du contexte et ne constituent ni une mesure de composition de l’air ni une allégation de sécurité.",
+          },
+          status: "proposed_for_human_review" as const,
+          productionWrites: 0,
+        };
+      });
+      return {
+        observedAt: new Date().toISOString(),
+        proposalCount: proposals.length,
+        proposals,
+        withheld: {
+          legacyProfileJsonWithoutProvenance: Number((legacyRows as any[])?.[0]?.count ?? 0),
+          rationale: "Les profils JSON historiques sans provenance explicite ne sont pas proposés pour publication ou copie ; ils exigent une source primaire ou une réattribution vérifiable.",
+        },
+        productionWrites: 0,
+      };
+    } finally {
+      await conn.end();
+    }
+  }),
+
   scan: adminProcedure.mutation(async () => {
     const conn = await getMysqlConnection();
     const summary: Record<string, number> = {};
