@@ -18,6 +18,7 @@ A	docs/audits/2026-09-audit-bibliographie-normalisation.md
 A	docs/audits/2026-09-audit-liens-orphelins-phase-2.md
 A	docs/audits/2026-09-bilan-remediation-controlee.md
 A	docs/audits/2026-09-decision-revue-lot-plante-molecule-1.md
+A	docs/audits/2026-09-inventaire-fichiers-tache.txt
 A	docs/audits/2026-09-premiers-cas-cas-intermediaires.md
 A	docs/manual/2026-09-revue-humaine-remediation.md
 A	docs/protocols/normalisation-bibliographique-propositions.md
