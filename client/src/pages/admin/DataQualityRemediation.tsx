@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { AlertTriangle, CheckCircle2, ClipboardCheck, DatabaseZap, Download, FileWarning, FlaskConical, Leaf, Loader2, RefreshCw, ShieldCheck, XCircle } from "lucide-react";
+import { AlertTriangle, BookOpen, CheckCircle2, ClipboardCheck, DatabaseZap, Download, FileWarning, FlaskConical, Leaf, Loader2, RefreshCw, ShieldCheck, XCircle } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
@@ -42,7 +42,7 @@ function parseEvidence(value: unknown) {
 export default function DataQualityRemediation() {
   const { toast } = useToast();
   const [statusFilter, setStatusFilter] = useState<CaseStatus | "all">("open");
-  const [typeFilter, setTypeFilter] = useState<string>("plant_molecule");
+  const [typeFilter, setTypeFilter] = useState<string>("bibliography_duplicate");
   const [selected, setSelected] = useState<QualityCase | null>(null);
   const [decision, setDecision] = useState<Exclude<CaseStatus, "open">>("reviewed");
   const [rationale, setRationale] = useState("");
@@ -57,6 +57,7 @@ export default function DataQualityRemediation() {
   const liveOrphansQuery = trpc.dataQualityRemediation.getLiveOrphanAudit.useQuery();
   const sourcedProfilesQuery = trpc.dataQualityRemediation.previewSourcedOlfactoryProfiles.useQuery();
   const sourcedPlantMoleculeQuery = trpc.dataQualityRemediation.previewSourcedPlantMoleculeRelations.useQuery();
+  const bibliographyPreviewQuery = trpc.dataQualityRemediation.previewBibliographyNormalization.useQuery();
   const casEvidenceQuery = trpc.dataQualityRemediation.exportCasEvidence.useQuery(undefined, { enabled: false });
   const actionsQuery = trpc.dataQualityRemediation.listActions.useQuery(
     selected ? { caseId: selected.id } : undefined,
@@ -112,12 +113,12 @@ export default function DataQualityRemediation() {
     <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6">
       <header className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
         <div>
-          <p className="text-sm font-medium text-amber-700">Phase 4 active · relations plante–molécule sourcées · revue humaine obligatoire</p>
+          <p className="text-sm font-medium text-amber-700">Phase 5 active · normalisation bibliographique · revue humaine obligatoire</p>
           <h1 className="mt-1 flex items-center gap-3 text-2xl font-bold tracking-tight"><ShieldCheck className="h-7 w-7 text-amber-700" />Cockpit de remédiation des données</h1>
           <p className="mt-2 max-w-4xl text-sm text-muted-foreground">Cette file centralise les signaux issus de l’audit. Chaque cas expose ses preuves et sa proposition ; ni fusion CAS, ni suppression, ni enrichissement scientifique ne sont exécutés depuis cette page.</p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <Button variant="outline" className="gap-2" onClick={() => { dashboardQuery.refetch(); casesQuery.refetch(); liveOrphansQuery.refetch(); sourcedProfilesQuery.refetch(); sourcedPlantMoleculeQuery.refetch(); }}><RefreshCw className="h-4 w-4" />Actualiser</Button>
+          <Button variant="outline" className="gap-2" onClick={() => { dashboardQuery.refetch(); casesQuery.refetch(); liveOrphansQuery.refetch(); sourcedProfilesQuery.refetch(); sourcedPlantMoleculeQuery.refetch(); bibliographyPreviewQuery.refetch(); }}><RefreshCw className="h-4 w-4" />Actualiser</Button>
           <Button variant="outline" className="gap-2" onClick={downloadCasEvidence} disabled={casEvidenceQuery.isFetching}><Download className="h-4 w-4" />{casEvidenceQuery.isFetching ? "Préparation…" : "Exporter les preuves CAS"}</Button>
           <Button className="gap-2" onClick={() => scanMutation.mutate()} disabled={scanMutation.isPending}><DatabaseZap className="h-4 w-4" />{scanMutation.isPending ? "Analyse en cours…" : "Actualiser la file"}</Button>
         </div>
@@ -147,6 +148,11 @@ export default function DataQualityRemediation() {
         <CardContent>{sourcedPlantMoleculeQuery.isLoading ? <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" /> : sourcedPlantMoleculeQuery.error ? <p className="text-sm text-destructive">Les relations sourcées n’ont pas pu être chargées.</p> : <div className="space-y-3"><div className="flex flex-wrap gap-3 text-sm"><Badge variant="secondary">{sourcedPlantMoleculeQuery.data?.proposalCount ?? 0} proposition(s) GC-MS</Badge><Badge variant="outline">{sourcedPlantMoleculeQuery.data?.withheld.length ?? 0} retenue(s) par prudence</Badge></div>{sourcedPlantMoleculeQuery.data?.proposals.map((proposal: any) => <article key={`${proposal.plant.id}-${proposal.molecule.id}`} className="rounded-md border bg-background/70 p-3"><div className="flex flex-wrap items-start justify-between gap-2"><div><p className="font-medium">{proposal.plant.name} <span className="font-normal text-muted-foreground">· {proposal.plant.latinName}</span></p><p className="mt-1 text-sm"><strong>{proposal.molecule.name}</strong> · CAS {proposal.molecule.casNumber} · {proposal.range.min.toFixed(2)}–{proposal.range.max.toFixed(2)} {proposal.range.unit}</p></div><Badge variant="secondary">{proposal.evidence.evidenceLevel}</Badge></div><p className="mt-2 text-xs text-muted-foreground">{proposal.evidence.sampleContext} {proposal.evidence.caveat}</p><a className="mt-2 inline-block text-xs font-medium text-primary underline underline-offset-2" href={proposal.evidence.sourceUrl} target="_blank" rel="noreferrer">{proposal.evidence.sourceCitation}</a></article>)}<details className="rounded-md border bg-background/60 p-3 text-sm"><summary className="cursor-pointer font-medium">Voir les relations retenues hors proposition</summary><ul className="mt-2 list-disc space-y-1 pl-5 text-xs text-muted-foreground">{sourcedPlantMoleculeQuery.data?.withheld.map((reason: string, index: number) => <li key={index}>{reason}</li>)}</ul></details></div>}</CardContent>
       </Card>
 
+      <Card className="border-sky-200 bg-sky-50/30 dark:border-sky-950 dark:bg-sky-950/10">
+        <CardHeader><CardTitle className="flex items-center gap-2 text-base"><BookOpen className="h-4 w-4" />Normalisation bibliographique à prévisualiser</CardTitle><CardDescription>Les DOI sont comparés en minuscules sans espaces périphériques, tandis que les groupes identiques et les lacunes restent à examiner. Aucune notice n’est corrigée, fusionnée ou supprimée.</CardDescription></CardHeader>
+        <CardContent>{bibliographyPreviewQuery.isLoading ? <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" /> : bibliographyPreviewQuery.error ? <p className="text-sm text-destructive">La prévisualisation bibliographique n’a pas pu être chargée.</p> : <div className="space-y-3"><div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">{[["Notices", bibliographyPreviewQuery.data?.summary.totalEntries], ["DOI à normaliser", bibliographyPreviewQuery.data?.summary.doiRequiresLowerTrim], ["Groupes DOI à comparer", bibliographyPreviewQuery.data?.duplicateGroups.length], ["DOI absents (conservés)", bibliographyPreviewQuery.data?.summary.missingDoi]].map(([label, value]) => <div key={String(label)} className="rounded-md border bg-background/60 p-3"><p className="text-xs text-muted-foreground">{String(label)}</p><p className="mt-1 text-xl font-semibold">{Number(value ?? 0)}</p></div>)}</div><details className="rounded-md border bg-background/60 p-3 text-sm"><summary className="cursor-pointer font-medium">Voir les DOI dont seule la forme diffère ({bibliographyPreviewQuery.data?.doiNormalizations.length ?? 0})</summary><div className="mt-3 max-h-56 overflow-auto text-xs">{bibliographyPreviewQuery.data?.doiNormalizations.map((item: any) => <div key={item.id} className="border-t py-2 first:border-t-0"><p className="font-medium">#{item.id} · {item.title}</p><p className="mt-1 font-mono text-muted-foreground">{item.currentDoi} → {item.proposedDoi}</p></div>)}</div></details><details className="rounded-md border bg-background/60 p-3 text-sm"><summary className="cursor-pointer font-medium">Voir les groupes DOI candidats ({bibliographyPreviewQuery.data?.duplicateGroups.length ?? 0})</summary><div className="mt-3 space-y-3">{bibliographyPreviewQuery.data?.duplicateGroups.slice(0, 10).map((group: any) => <div key={group.normalizedDoi} className="rounded-md border p-3"><p className="font-mono text-xs">{group.normalizedDoi} · {group.recordCount} notices</p><ul className="mt-2 list-disc space-y-1 pl-4 text-xs text-muted-foreground">{group.records.map((record: any) => <li key={record.id}>#{record.id} · {record.title || "sans titre"} · {record.year ?? "année absente"}</li>)}</ul><p className="mt-2 text-xs text-muted-foreground">{group.limitation}</p></div>)}</div></details><p className="text-xs text-muted-foreground">Échantillon de lacunes : {bibliographyPreviewQuery.data?.metadataSamples.length ?? 0} notices affichées sur les auteurs, années, résumés ou mots-clés absents. Les sources sans DOI restent valides dans le corpus.</p></div>}</CardContent>
+      </Card>
+
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {[
           ["Cas enregistrés", total, ClipboardCheck, "text-slate-700"],
@@ -158,10 +164,10 @@ export default function DataQualityRemediation() {
 
       <Card>
         <CardHeader className="gap-3 lg:flex-row lg:items-start lg:justify-between">
-          <div><CardTitle className="text-lg">File de preuves et propositions</CardTitle><CardDescription>La phase active porte sur les relations plante–molécule sourcées. Les CAS intermédiaires, liens historiques et profils non publiés restent ouverts en revue ; les autres domaines sont disponibles en lecture uniquement.</CardDescription></div>
+          <div><CardTitle className="text-lg">File de preuves et propositions</CardTitle><CardDescription>La phase active porte sur la prévisualisation bibliographique. Les CAS intermédiaires, liens historiques, profils non publiés et relations GC-MS restent en revue ; les autres domaines sont disponibles en lecture uniquement.</CardDescription></div>
           <div className="grid gap-2 sm:grid-cols-2 lg:w-[480px]">
             <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value as CaseStatus | "all")}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">Tous les statuts</SelectItem>{Object.entries(statusMeta).map(([value, meta]) => <SelectItem key={value} value={value}>{meta.label}</SelectItem>)}</SelectContent></Select>
-            <Select value={typeFilter} onValueChange={setTypeFilter}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">Vue transversale (lecture)</SelectItem>{Object.entries(typeMeta).map(([value, meta]) => <SelectItem key={value} value={value}>{meta.label}{value === "plant_molecule" ? " · phase active" : " · phase ultérieure"}</SelectItem>)}</SelectContent></Select>
+            <Select value={typeFilter} onValueChange={setTypeFilter}><SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="all">Vue transversale (lecture)</SelectItem>{Object.entries(typeMeta).map(([value, meta]) => <SelectItem key={value} value={value}>{meta.label}{value === "bibliography_duplicate" ? " · phase active" : " · phase ultérieure"}</SelectItem>)}</SelectContent></Select>
           </div>
         </CardHeader>
         <CardContent>

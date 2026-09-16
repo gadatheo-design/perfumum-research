@@ -35,6 +35,7 @@ describe("file de remédiation de qualité", () => {
     await expect(anonymous.dataQualityRemediation.getLiveOrphanAudit()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.previewSourcedOlfactoryProfiles()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.previewSourcedPlantMoleculeRelations()).rejects.toMatchObject({ code: "FORBIDDEN" });
+    await expect(anonymous.dataQualityRemediation.previewBibliographyNormalization()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.scan()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.previewIntermediateConfidenceCas()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.exportCasEvidence()).rejects.toMatchObject({ code: "FORBIDDEN" });
@@ -159,6 +160,25 @@ describe("file de remédiation de qualité", () => {
       expect(proposal.evidence.sourceUrl).toBe("https://doi.org/10.1002/cbdv.202403478");
       expect(proposal.molecule.casNumber).toBeTruthy();
       expect(proposal.range.min).toBeLessThan(proposal.range.max);
+    }
+    expect(after).toEqual(before);
+  });
+
+  it("prévisualise les normalisations DOI et les groupes bibliographiques sans modifier les notices", async () => {
+    const admin = appRouter.createCaller(createContext("admin"));
+    const before = await productionCounts();
+    const preview = await admin.dataQualityRemediation.previewBibliographyNormalization();
+    const after = await productionCounts();
+
+    expect(preview.productionWrites).toBe(0);
+    expect(preview.summary.totalEntries).toBeGreaterThan(0);
+    expect(preview.summary.missingDoi).toBeGreaterThan(0);
+    expect(preview.duplicateGroups.length).toBeGreaterThan(0);
+    expect(preview.duplicateGroups[0]?.recordCount).toBeGreaterThan(1);
+    expect(preview.duplicateGroups[0]?.limitation).toContain("Aucune fusion");
+    for (const normalization of preview.doiNormalizations) {
+      expect(normalization.status).toBe("proposed_for_human_review");
+      expect(normalization.currentDoi).not.toBe(normalization.proposedDoi);
     }
     expect(after).toEqual(before);
   });

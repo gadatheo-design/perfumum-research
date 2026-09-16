@@ -504,6 +504,7 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Proposer des profils olfactifs sourcés pour les molécules incomplètes, sans publication automatique (prévisualisation lecture seule : 1 candidat Flavornet horodaté ; 4 profils JSON historiques retenus faute de provenance explicite).
 - [x] Proposer des relations plantes–molécules sourcées pour les plantes non liées, avec seuils de confiance (7 propositions GC-MS pour deux lavandes ; source, méthode, plage et limites affichées ; aucun lien appliqué).
 - [ ] Normaliser DOI, auteurs, années, résumés et mots-clés, puis préparer les doublons bibliographiques à la revue.
+- [x] Phase séquentielle 4a : inventorier les DOI, auteurs, années, résumés et mots-clés manquants ou divergents en lecture seule, puis exposer des propositions non appliquées (23 DOI à normaliser en forme, 36 groupes candidats, 1 208 DOI absents conservés ; carte de revue et 11 tests ciblés validés, y compris mobile).
 - [ ] Tester les règles, prévisualiser les lots et n’appliquer que des décisions humaines explicitement confirmées.
 - [x] Créer des tables de file de revue et de journal de remédiation séparées des entités scientifiques de production.
 - [x] Ajouter une page administrative de pilotage affichant les lots, preuves et décisions de remédiation.
@@ -521,6 +522,7 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [ ] Phase séquentielle 3 : traiter uniquement après clôture des liens les profils olfactifs, relations plantes–molécules et bibliographie, dans cet ordre.
 - [x] Phase séquentielle 3a : inventorier les profils olfactifs déjà sourcés et produire une prévisualisation de candidats, sans écrire dans `olfactiveProfile` (chavicol CAS 501-92-8 proposé avec source et réserve ; données non sourcées retenues).
 - [x] Phase séquentielle 3b : inventorier les plantes sans relation structurée, qualifier les indices `dominant_molecules` et préparer seulement des propositions plante–molécule sourcées et notées (7 propositions GC-MS pour les deux lavandes, avec molécules retrouvées par CAS unique ; les cibles ambiguës ou taxonomiquement insuffisantes sont retenues).
+- [x] Phase séquentielle 3b.i : inscrire les sept propositions GC-MS comme lot « en revue » dans le journal documentaire, avec le mandat utilisateur de ne pas les appliquer (aucune insertion dans les tables scientifiques).
 
 ## Septembre 2026 — Enquête « territoires périphériques de l’olfaction »
 

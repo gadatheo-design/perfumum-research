@@ -380,6 +380,99 @@ export const dataQualityRemediationRouter = router({
     }
   }),
 
+  /**
+   * Calcule des écarts de forme et des groupes bibliographiques à comparer.
+   * Le résultat est strictement en lecture seule : aucune notice n'est
+   * normalisée, fusionnée, complétée ou supprimée par cette procédure.
+   */
+  previewBibliographyNormalization: adminProcedure.query(async () => {
+    const conn = await getMysqlConnection();
+    try {
+      const [summaryRows] = await conn.execute(
+        `SELECT
+          COUNT(*) AS total_entries,
+          SUM(CASE WHEN doi IS NULL OR TRIM(doi)='' THEN 1 ELSE 0 END) AS missing_doi,
+          SUM(CASE WHEN doi IS NOT NULL AND TRIM(doi)<>'' AND doi<>LOWER(TRIM(doi)) THEN 1 ELSE 0 END) AS doi_requires_lower_trim,
+          SUM(CASE WHEN doi IS NOT NULL AND TRIM(doi)<>'' AND LOWER(TRIM(doi)) NOT REGEXP '^10\\.[0-9]{4,9}/.+' THEN 1 ELSE 0 END) AS doi_noncanonical_format,
+          SUM(CASE WHEN authors IS NULL OR TRIM(authors)='' THEN 1 ELSE 0 END) AS missing_authors,
+          SUM(CASE WHEN year IS NULL OR TRIM(CAST(year AS CHAR))='' THEN 1 ELSE 0 END) AS missing_year,
+          SUM(CASE WHEN abstract IS NULL OR TRIM(abstract)='' THEN 1 ELSE 0 END) AS missing_abstract,
+          SUM(CASE WHEN keywords IS NULL OR TRIM(CAST(keywords AS CHAR))='' OR TRIM(CAST(keywords AS CHAR))='[]' THEN 1 ELSE 0 END) AS missing_keywords
+         FROM bibliography_entries`
+      );
+      const summary = (summaryRows as any[])[0] ?? {};
+      const [normalizationRows] = await conn.execute(
+        `SELECT id, title, doi, LOWER(TRIM(doi)) AS normalized_doi
+         FROM bibliography_entries
+         WHERE doi IS NOT NULL AND TRIM(doi)<>'' AND doi<>LOWER(TRIM(doi))
+         ORDER BY id LIMIT 100`
+      );
+      const [duplicateGroupRows] = await conn.execute(
+        `SELECT LOWER(TRIM(doi)) AS normalized_doi, COUNT(*) AS record_count
+         FROM bibliography_entries
+         WHERE doi IS NOT NULL AND TRIM(doi)<>''
+         GROUP BY LOWER(TRIM(doi)) HAVING COUNT(*)>1
+         ORDER BY record_count DESC, normalized_doi LIMIT 50`
+      );
+      const duplicateGroups: any[] = [];
+      for (const group of duplicateGroupRows as any[]) {
+        const [records] = await conn.execute(
+          `SELECT id, title, authors, year, journal, entry_type, doi, abstract, keywords
+           FROM bibliography_entries
+           WHERE LOWER(TRIM(doi))=? ORDER BY id`,
+          [group.normalized_doi]
+        );
+        duplicateGroups.push({
+          normalizedDoi: group.normalized_doi,
+          recordCount: Number(group.record_count),
+          records: records as any[],
+          limitation: "Même DOI normalisé : comparer type, titre, auteurs, année, provenance et liens avant toute décision. Aucune fusion ou notice principale n’est déduite.",
+        });
+      }
+      const [metadataRows] = await conn.execute(
+        `SELECT id, title, doi, authors, year, abstract, keywords
+         FROM bibliography_entries
+         WHERE (authors IS NULL OR TRIM(authors)='')
+            OR year IS NULL
+            OR (abstract IS NULL OR TRIM(abstract)='')
+            OR (keywords IS NULL OR TRIM(CAST(keywords AS CHAR))='' OR TRIM(CAST(keywords AS CHAR))='[]')
+         ORDER BY id LIMIT 25`
+      );
+      return {
+        observedAt: new Date().toISOString(),
+        summary: {
+          totalEntries: Number(summary.total_entries ?? 0),
+          missingDoi: Number(summary.missing_doi ?? 0),
+          doiRequiresLowerTrim: Number(summary.doi_requires_lower_trim ?? 0),
+          doiNoncanonicalFormat: Number(summary.doi_noncanonical_format ?? 0),
+          missingAuthors: Number(summary.missing_authors ?? 0),
+          missingYear: Number(summary.missing_year ?? 0),
+          missingAbstract: Number(summary.missing_abstract ?? 0),
+          missingKeywords: Number(summary.missing_keywords ?? 0),
+        },
+        doiNormalizations: (normalizationRows as any[]).map((row) => ({
+          id: Number(row.id), title: row.title, currentDoi: row.doi, proposedDoi: row.normalized_doi,
+          status: "proposed_for_human_review" as const,
+          limitation: "Proposition de forme uniquement ; le DOI stocké n’est pas modifié.",
+        })),
+        duplicateGroups,
+        metadataSamples: (metadataRows as any[]).map((row) => ({
+          id: Number(row.id), title: row.title, doi: row.doi,
+          missing: [
+            !normalized(row.authors) ? "auteurs" : null,
+            !normalized(row.year) ? "année" : null,
+            !normalized(row.abstract) ? "résumé" : null,
+            !normalized(row.keywords) || normalized(row.keywords) === "[]" ? "mots-clés" : null,
+          ].filter(Boolean),
+        })),
+        productionWrites: 0,
+        limitation: "Prévisualisation exclusivement. Les notices sans DOI sont conservées ; les candidats Crossref/OpenAlex devront être comparés puis confirmés individuellement avant toute application.",
+      };
+    } finally {
+      await conn.end();
+    }
+  }),
+
   scan: adminProcedure.mutation(async () => {
     const conn = await getMysqlConnection();
     const summary: Record<string, number> = {};
