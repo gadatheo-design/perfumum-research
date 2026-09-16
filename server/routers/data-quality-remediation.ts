@@ -431,6 +431,62 @@ export const dataQualityRemediationRouter = router({
     }
   }),
 
+  /**
+   * Dossier de preuves exportable : lecture seule de la file CAS, de chaque
+   * identité structurale encore présente et de son journal de décision.
+   * Ce résultat n'établit pas une fusion et n’écrit dans aucune table.
+   */
+  exportCasEvidence: adminProcedure.query(async () => {
+    const conn = await getMysqlConnection();
+    try {
+      const [caseRows] = await conn.execute(
+        `SELECT * FROM data_quality_remediation_cases
+         WHERE case_type='cas_conflict'
+         ORDER BY FIELD(severity,'critical','high','medium','low'), id`
+      );
+      const exported = [];
+      for (const qualityCase of caseRows as any[]) {
+        const casNumber = String(qualityCase.group_key).replace(/^cas:/, "");
+        const [records] = await conn.execute(
+          `SELECT id, name, cas_number, formula, chemicalFamily, iupac_name, pubchem_cid, inchi, inchi_key, wikidata_qid, status
+           FROM molecules WHERE cas_number=? ORDER BY id`,
+          [casNumber]
+        );
+        const [actions] = await conn.execute(
+          `SELECT id, action_type, decision, rationale, snapshot, actor_user_id, actor_name, created_at
+           FROM data_quality_remediation_actions WHERE case_id=? ORDER BY created_at DESC, id DESC`,
+          [qualityCase.id]
+        );
+        const structuralRecords = records as any[];
+        const distinct = (field: string) => new Set(structuralRecords.map((row) => String(row[field] ?? "").trim()).filter(Boolean)).size;
+        exported.push({
+          exportedAt: new Date().toISOString(),
+          qualityCase,
+          comparison: {
+            casNumber,
+            recordCount: structuralRecords.length,
+            distinctInchiKeys: distinct("inchi_key"),
+            distinctPubchemCids: distinct("pubchem_cid"),
+            distinctFormulas: distinct("formula"),
+            distinctWikidataQids: distinct("wikidata_qid"),
+            limitation: "Dossier de revue uniquement : aucune fusion, suppression, redirection de relation ni correction scientifique n’est déduite de cet export.",
+          },
+          records: structuralRecords,
+          actions,
+        });
+      }
+      return {
+        exportedAt: new Date().toISOString(),
+        caseCount: exported.length,
+        productionWrites: 0,
+        limitation: "Lecture seule. Les décisions restent humaines et append-only ; les molécules de production ne sont pas modifiées.",
+        cases: exported,
+      };
+    } finally {
+      await conn.end();
+    }
+  }),
+
   confirmHighConfidenceCas: adminProcedure.input(z.object({
     confirmation: z.literal("CONFIRMER LES CAS CERTAINS"),
   })).mutation(async ({ ctx }) => {

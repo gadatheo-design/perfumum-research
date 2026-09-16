@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { AlertTriangle, CheckCircle2, ClipboardCheck, DatabaseZap, FileWarning, FlaskConical, Leaf, Loader2, RefreshCw, ShieldCheck, XCircle } from "lucide-react";
+import { AlertTriangle, CheckCircle2, ClipboardCheck, DatabaseZap, Download, FileWarning, FlaskConical, Leaf, Loader2, RefreshCw, ShieldCheck, XCircle } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { useToast } from "@/hooks/use-toast";
 import { Badge } from "@/components/ui/badge";
@@ -54,6 +54,7 @@ export default function DataQualityRemediation() {
   const dashboardQuery = trpc.dataQualityRemediation.getDashboard.useQuery();
   const casesQuery = trpc.dataQualityRemediation.listCases.useQuery(input);
   const intermediateCasQuery = trpc.dataQualityRemediation.previewIntermediateConfidenceCas.useQuery();
+  const casEvidenceQuery = trpc.dataQualityRemediation.exportCasEvidence.useQuery(undefined, { enabled: false });
   const actionsQuery = trpc.dataQualityRemediation.listActions.useQuery(
     selected ? { caseId: selected.id } : undefined,
     { enabled: Boolean(selected) },
@@ -88,6 +89,21 @@ export default function DataQualityRemediation() {
   const open = dashboardQuery.data?.cases.filter((entry) => entry.status === "open").reduce((sum, entry) => sum + entry.count, 0) ?? 0;
   const reviewed = dashboardQuery.data?.cases.filter((entry) => entry.status === "reviewed").reduce((sum, entry) => sum + entry.count, 0) ?? 0;
   const selectedMeta = selected ? typeMeta[selected.case_type] : undefined;
+  const downloadCasEvidence = async () => {
+    const result = await casEvidenceQuery.refetch();
+    if (result.error || !result.data) {
+      toast({ title: "Export indisponible", description: result.error?.message ?? "Le dossier de preuves n’a pas pu être généré.", variant: "destructive" });
+      return;
+    }
+    const blob = new Blob([JSON.stringify(result.data, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `perfumum-preuves-cas-${new Date().toISOString().slice(0, 10)}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+    toast({ title: "Dossier de preuves téléchargé", description: `${result.data.caseCount} cas CAS exportés en lecture seule ; aucune molécule n’a été modifiée.` });
+  };
 
   return (
     <div className="mx-auto max-w-7xl space-y-6 px-4 py-6 sm:px-6">
@@ -99,6 +115,7 @@ export default function DataQualityRemediation() {
         </div>
         <div className="flex flex-wrap gap-2">
           <Button variant="outline" className="gap-2" onClick={() => { dashboardQuery.refetch(); casesQuery.refetch(); }}><RefreshCw className="h-4 w-4" />Actualiser</Button>
+          <Button variant="outline" className="gap-2" onClick={downloadCasEvidence} disabled={casEvidenceQuery.isFetching}><Download className="h-4 w-4" />{casEvidenceQuery.isFetching ? "Préparation…" : "Exporter les preuves CAS"}</Button>
           <Button className="gap-2" onClick={() => scanMutation.mutate()} disabled={scanMutation.isPending}><DatabaseZap className="h-4 w-4" />{scanMutation.isPending ? "Analyse en cours…" : "Actualiser la file"}</Button>
         </div>
       </header>

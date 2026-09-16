@@ -34,6 +34,7 @@ describe("file de remédiation de qualité", () => {
     await expect(anonymous.dataQualityRemediation.getDashboard()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.scan()).rejects.toMatchObject({ code: "FORBIDDEN" });
     await expect(anonymous.dataQualityRemediation.previewIntermediateConfidenceCas()).rejects.toMatchObject({ code: "FORBIDDEN" });
+    await expect(anonymous.dataQualityRemediation.exportCasEvidence()).rejects.toMatchObject({ code: "FORBIDDEN" });
   });
 
   it("produit une file idempotente sans altérer les données scientifiques de production", async () => {
@@ -97,6 +98,19 @@ describe("file de remédiation de qualité", () => {
 
     expect(incompleteButConvergent).toMatchObject({ eligible: true, criteria: { missingFields: ["formula"], corroborators: ["pubchem_cid", "wikidata_qid"] } });
     expect(conflictingQid).toMatchObject({ eligible: false, criteria: { noConflictingPopulatedIdentifiers: false } });
+  });
+
+  it("exporte un dossier CAS de lecture seule avec preuves et journal sans altérer la production", async () => {
+    const admin = appRouter.createCaller(createContext("admin"));
+    const before = await productionCounts();
+    const exportResult = await admin.dataQualityRemediation.exportCasEvidence();
+    const after = await productionCounts();
+
+    expect(exportResult.caseCount).toBeGreaterThan(0);
+    expect(exportResult.productionWrites).toBe(0);
+    expect(exportResult.cases[0]).toMatchObject({ qualityCase: { case_type: "cas_conflict" }, comparison: { limitation: expect.stringContaining("aucune fusion") } });
+    expect(exportResult.cases[0]?.records.length).toBeGreaterThan(1);
+    expect(after).toEqual(before);
   });
 
   it("journalise une décision humaine sans appliquer de correction aux entités scientifiques", async () => {

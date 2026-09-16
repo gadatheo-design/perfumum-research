@@ -511,6 +511,7 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 ## Août 2026 — Ordre de traitement validé par l’utilisateur
 
 - [ ] Phase séquentielle 1 : qualifier les conflits CAS avec preuves chimiques complètes et revue humaine, avant tout autre domaine.
+- [x] Phase séquentielle 1c : exporter les preuves structurales des conflits CAS ouverts pour une revue humaine lot par lot, sans proposition de fusion (bouton administrateur et procédure lecture seule testée, avec identités, comparaisons et journal append-only).
 - [x] Phase séquentielle 1a : confirmer seulement les groupes CAS dont tous les enregistrements convergent sur CAS valide, InChIKey, CID PubChem, formule et QID, avec justification append-only (2 groupes : 1405-86-3 et 473-98-3 ; aucune écriture dans `molecules`).
 - [ ] Phase séquentielle 1b : prévisualiser les conflits CAS à convergence intermédiaire, consigner les preuves et les soumettre à revue humaine sans fusion ni écriture dans `molecules`.
 - [x] Phase séquentielle 1b.a : ajouter une prévisualisation administrateur des CAS intermédiaires (InChIKey convergent, au moins un corroborateur convergent, aucune divergence renseignée, identifiants incomplets) ; 6 tests ciblés validés, aucune décision automatique.
