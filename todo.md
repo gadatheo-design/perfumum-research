@@ -505,7 +505,9 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Proposer des relations plantes–molécules sourcées pour les plantes non liées, avec seuils de confiance (7 propositions GC-MS pour deux lavandes ; source, méthode, plage et limites affichées ; aucun lien appliqué).
 - [ ] Normaliser DOI, auteurs, années, résumés et mots-clés, puis préparer les doublons bibliographiques à la revue.
 - [x] Phase séquentielle 4a : inventorier les DOI, auteurs, années, résumés et mots-clés manquants ou divergents en lecture seule, puis exposer des propositions non appliquées (23 DOI à normaliser en forme, 36 groupes candidats, 1 208 DOI absents conservés ; carte de revue et 11 tests ciblés validés, y compris mobile).
-- [ ] Tester les règles, prévisualiser les lots et n’appliquer que des décisions humaines explicitement confirmées.
+- [x] Phase séquentielle 4b : consigner le maintien en revue des candidats DOI et des lacunes bibliographiques, sans normalisation ni fusion appliquée.
+- [x] Phase séquentielle 5 : consolider le bilan des cinq domaines, les retenues et les décisions humaines nécessaires (voir `docs/audits/2026-09-bilan-remediation-controlee.md`).
+- [x] Tester les règles, prévisualiser les lots et n’appliquer que des décisions humaines explicitement confirmées (1 932 tests réussis, 2 ignorés, TypeScript valide ; aucune application scientifique sans confirmation distincte).
 - [x] Créer des tables de file de revue et de journal de remédiation séparées des entités scientifiques de production.
 - [x] Ajouter une page administrative de pilotage affichant les lots, preuves et décisions de remédiation.
 
@@ -514,12 +516,12 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [ ] Phase séquentielle 1 : qualifier les conflits CAS avec preuves chimiques complètes et revue humaine, avant tout autre domaine (revue intermédiaire explicitement reportée par l’utilisateur ; cas conservés ouverts, sans fusion).
 - [x] Phase séquentielle 1c : exporter les preuves structurales des conflits CAS ouverts pour une revue humaine lot par lot, sans proposition de fusion (bouton administrateur et procédure lecture seule testée, avec identités, comparaisons et journal append-only).
 - [x] Phase séquentielle 1a : confirmer seulement les groupes CAS dont tous les enregistrements convergent sur CAS valide, InChIKey, CID PubChem, formule et QID, avec justification append-only (2 groupes : 1405-86-3 et 473-98-3 ; aucune écriture dans `molecules`).
-- [ ] Phase séquentielle 1b : prévisualiser les conflits CAS à convergence intermédiaire, consigner les preuves et les soumettre à revue humaine sans fusion ni écriture dans `molecules`.
+- [x] Phase séquentielle 1b : prévisualiser les conflits CAS à convergence intermédiaire, consigner les preuves et les soumettre à revue humaine sans fusion ni écriture dans `molecules` (revue explicitement reportée ; cas conservés ouverts).
 - [x] Phase séquentielle 1b.a : ajouter une prévisualisation administrateur des CAS intermédiaires (InChIKey convergent, au moins un corroborateur convergent, aucune divergence renseignée, identifiants incomplets) ; 6 tests ciblés validés, aucune décision automatique.
 - [x] Phase séquentielle 2 : traiter les liens orphelins de descripteurs et de terroirs après le report explicite de la revue CAS intermédiaire, sans clôture ni fusion CAS (audit vivant documenté ; 22 liens historiques conservés ouverts).
-- [ ] Phase séquentielle 2a : auditer les liens descripteurs et plante–terroir orphelins, puis produire des suggestions de réassociation prévisualisables et journalisées.
+- [x] Phase séquentielle 2a : auditer les liens descripteurs et plante–terroir orphelins, puis produire des suggestions de réassociation prévisualisables et journalisées (aucune suggestion sûre sans contexte ; retenue documentée et liens historiques conservés).
 - [x] Phase séquentielle 2a.i : auditer l’état vivant des liens orphelins (0 descripteur–plante, 0 descripteur–molécule, 22 plante–terroir avec plante absente) et documenter la règle de non-réassociation sans contexte conservé.
-- [ ] Phase séquentielle 3 : traiter uniquement après clôture des liens les profils olfactifs, relations plantes–molécules et bibliographie, dans cet ordre.
+- [x] Phase séquentielle 3 : traiter après le report des liens les profils olfactifs, relations plantes–molécules et bibliographie, dans cet ordre (propositions prévisualisées et maintenues en revue, sans application).
 - [x] Phase séquentielle 3a : inventorier les profils olfactifs déjà sourcés et produire une prévisualisation de candidats, sans écrire dans `olfactiveProfile` (chavicol CAS 501-92-8 proposé avec source et réserve ; données non sourcées retenues).
 - [x] Phase séquentielle 3b : inventorier les plantes sans relation structurée, qualifier les indices `dominant_molecules` et préparer seulement des propositions plante–molécule sourcées et notées (7 propositions GC-MS pour les deux lavandes, avec molécules retrouvées par CAS unique ; les cibles ambiguës ou taxonomiquement insuffisantes sont retenues).
 - [x] Phase séquentielle 3b.i : inscrire les sept propositions GC-MS comme lot « en revue » dans le journal documentaire, avec le mandat utilisateur de ne pas les appliquer (aucune insertion dans les tables scientifiques).
