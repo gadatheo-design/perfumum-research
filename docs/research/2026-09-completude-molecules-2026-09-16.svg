@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="760" viewBox="0 0 1280 760" role="img" aria-labelledby="title desc">
+  <title id="title">Complétude des champs moléculaires PERFUMUM au 16 septembre 2026</title>
+  <desc id="desc">Histogramme montrant les comptes non nuls pour 7 478 molécules. Les six axes radar et le statut IFRA sont renseignés pour toutes les molécules, l'InChI avec couche t pour 2 476.</desc>
+  <rect width="1280" height="760" fill="#07111f"/>
+  <text x="64" y="62" fill="#f1f5f9" font-family="Noto Sans, Arial, sans-serif" font-size="30" font-weight="700">PERFUMUM — complétude moléculaire</text>
+  <text x="64" y="92" fill="#b6c7df" font-family="Noto Sans, Arial, sans-serif" font-size="16">Relevé lecture seule — 16 septembre 2026 — base courante : 7 478 molécules</text>
+  <line x1="330" y1="134" x2="1170" y2="134" stroke="#31435e"/><text x="64" y="140" fill="#c7d6e9" font-family="Noto Sans, Arial, sans-serif" font-size="16">Champ</text><text x="1040" y="140" fill="#c7d6e9" font-family="Noto Sans, Arial, sans-serif" font-size="16">Compte / 7 478</text>
+  <g font-family="Noto Sans, Arial, sans-serif" font-size="16">
+    <text x="64" y="188" fill="#e2e8f0">boilingPoint</text><rect x="330" y="166" width="840" height="24" rx="5" fill="#18304f"/><rect x="330" y="166" width="840" height="24" rx="5" fill="#66a6ff"/><text x="1040" y="186" fill="#f8fafc">7 477 · 99,98 %</text>
+    <text x="64" y="232" fill="#e2e8f0">volatility</text><rect x="330" y="210" width="840" height="24" rx="5" fill="#18304f"/><rect x="330" y="210" width="832" height="24" rx="5" fill="#66a6ff"/><text x="1040" y="230" fill="#f8fafc">7 411 · 99,10 %</text>
+    <text x="64" y="276" fill="#e2e8f0">intensity</text><rect x="330" y="254" width="840" height="24" rx="5" fill="#18304f"/><rect x="330" y="254" width="832" height="24" rx="5" fill="#66a6ff"/><text x="1040" y="274" fill="#f8fafc">7 409 · 99,07 %</text>
+    <text x="64" y="320" fill="#e2e8f0">six axes radar</text><rect x="330" y="298" width="840" height="24" rx="5" fill="#18304f"/><rect x="330" y="298" width="840" height="24" rx="5" fill="#9ee6a1"/><text x="1040" y="318" fill="#f8fafc">7 478 · 100,00 %</text>
+    <text x="64" y="364" fill="#e2e8f0">pubchem_cid</text><rect x="330" y="342" width="840" height="24" rx="5" fill="#18304f"/><rect x="330" y="342" width="819" height="24" rx="5" fill="#66a6ff"/><text x="1040" y="362" fill="#f8fafc">7 292 · 97,51 %</text>
+    <text x="64" y="408" fill="#e2e8f0">ifra_status</text><rect x="330" y="386" width="840" height="24" rx="5" fill="#18304f"/><rect x="330" y="386" width="840" height="24" rx="5" fill="#9ee6a1"/><text x="1040" y="406" fill="#f8fafc">7 478 · 100,00 %</text>
+    <text x="64" y="452" fill="#e2e8f0">InChI avec /t</text><rect x="330" y="430" width="840" height="24" rx="5" fill="#18304f"/><rect x="330" y="430" width="278" height="24" rx="5" fill="#f6c76c"/><text x="1040" y="450" fill="#f8fafc">2 476 · 33,11 %</text>
+  </g>
+  <rect x="64" y="510" width="1106" height="156" rx="12" fill="#10233d" stroke="#2d4e77"/>
+  <text x="88" y="546" fill="#f1f5f9" font-family="Noto Sans, Arial, sans-serif" font-size="18" font-weight="700">Lecture correcte des indicateurs</text>
+  <text x="88" y="578" fill="#c9d8eb" font-family="Noto Sans, Arial, sans-serif" font-size="15">« Non nul » signifie IS NOT NULL. La présence d’un point d’ébullition, d’un radar ou d’un statut IFRA n’évalue ni la validité scientifique, ni l’actualité réglementaire, ni la composition de l’air.</text>
+  <text x="88" y="608" fill="#c9d8eb" font-family="Noto Sans, Arial, sans-serif" font-size="15">Les six axes représentent chacun 7 478 valeurs non nulles : intensity, freshness, warmth, sweetness, spiciness et earthiness. La couche /t est détectée textuellement dans InChI.</text>
+  <text x="88" y="638" fill="#9fb4cf" font-family="Noto Sans, Arial, sans-serif" font-size="14">Source reproductible : server/scripts/report-data-completeness-installation.sql · Export tabulaire : 2026-09-completude-molecules-2026-09-16.csv</text>
+</svg>

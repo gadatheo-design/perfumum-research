@@ -28,9 +28,15 @@ describe("pilote Zenodo de termes olfactifs", () => {
     expect(schema).not.toContain("descriptor_molecule_links");
   });
 
-  it("impose une simulation explicite et une double revue avant tout statut final", () => {
+  it("propose des modes de transit cohérents, une simulation explicite et une double revue avant tout statut final", () => {
     const script = fs.readFileSync(path.join(root, "server/scripts/zenodo-olfactory-pilot.mjs"), "utf8");
     expect(script).toContain("--dry-run");
+    expect(script).toContain("--stage");
+    expect(script).toContain("--preannotate");
+    expect(script).toContain("--export-review");
+    expect(script).toContain("--apply-review");
+    expect(script).toContain("--confirm-stage");
+    expect(script).toContain("--confirm-apply");
     expect(script).toContain("Both reviews are required");
     expect(script).toContain("No production descriptor or association was modified");
     expect(script).toContain("zenodo-cocd-50-v1");

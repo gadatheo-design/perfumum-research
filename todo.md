@@ -542,3 +542,13 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Préparer seulement les connecteurs locaux nécessaires, sans matériel de contrôle d’émission ni collecte non consentie (trois prototypes servis localement, export JSON daté, CSV append-only et Web Serial à consentement explicite dans `tools/physical-tests/`).
 - [x] Restaurer le garde-fou de script Zenodo référencé par les commandes et les tests, sans introduire d’écriture vers les données scientifiques de production.
 - [x] Vérifier les parcours de test et livrer un dossier opérationnel, sans publier ni déployer de mécanisme d’émission (voir `docs/research/2026-09-dossier-operationnel-essais-physiques.md` ; 1 924 tests réussis, 2 ignorés ; TypeScript validé).
+
+## Septembre 2026 — Corrections de livraison et cohérence des essais physiques
+
+- [x] Vérifier et corriger la disponibilité de la commande `pnpm physical-tests` dans le manifeste du projet (`pnpm physical-tests` lance le serveur local ; `pnpm physical-tests:zip` reconstruit l’archive).
+- [x] Produire les trois prototypes comme dossiers autonomes ouvrables directement dans Chromium, puis fournir une archive ZIP contrôlée (quatre dossiers, dont la partition thermique, dans `deliverables/essais-physiques-autonomes/` ; archive testée).
+- [x] Livrer le CSV, le SVG et la requête SQL de complétude avec les comptes demandés sur les 7 478 molécules (relevé lecture seule du 16 septembre 2026, voir `docs/research/2026-09-completude-molecules-2026-09-16.*`).
+- [x] Construire une partition thermique de lecture seule, comparant une mesure entrée manuellement ou lue par série avec les points d’ébullition documentés, sans aucune commande de chauffage (`04-partition-thermique/`, cartel affiché et sortie CSV locale).
+- [x] Réconcilier le protocole et le script Zenodo afin que les modes documentés aient un comportement cohérent et sécurisé (simulation validée, confirmations explicites, tables de transit uniquement).
+- [x] Documenter les questions, décisions et mesures qui exigent une intervention de l’utilisateur avant la prochaine itération (voir `docs/research/2026-09-corrections-livraison-essais-physiques.md`).
+- [x] Diagnostiquer et corriger l’écart entre la carte des terroirs et les statistiques Köppen, puis documenter la source de vérité (58 terroirs GPS valides ; 1 814 affectations Köppen sur 16 zones, mesure distincte).

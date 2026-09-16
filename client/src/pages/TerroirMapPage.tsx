@@ -4,7 +4,7 @@
  * Utilise Leaflet/OpenStreetMap pour une meilleure fiabilité
  */
 
-import { useState, Suspense, lazy } from "react";
+import { useMemo, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ import { MapPin, Leaf, Globe, TrendingUp, Map, List, RefreshCw } from "lucide-re
 import { Skeleton } from "@/components/ui/skeleton";
 import { TerroirMapLeaflet } from "@/components/TerroirMapLeaflet";
 import { Link } from "wouter";
+import { countKoppenAssignments, countValidTerroirCoordinates } from "@/lib/terroirMapMetrics";
 
 // Couleurs par climat pour les badges
 const CLIMATE_COLORS: Record<string, string> = {
@@ -32,8 +33,9 @@ export default function TerroirMapPage() {
   const [activeTab, setActiveTab] = useState("carte");
   
   // Statistiques des terroirs
-  const { data: stats, isLoading: statsLoading, refetch: refetchStats } = trpc.plantTerroirs.getNetworkStats.useQuery();
-  const { data: terroirs, isLoading: terroirsLoading, refetch: refetchTerroirs } = trpc.terroirs?.getAll.useQuery();
+  const { data: stats, isLoading: statsLoading, isError: statsError, refetch: refetchStats } = trpc.plantTerroirs.getNetworkStats.useQuery();
+  const { data: terroirs, isLoading: terroirsLoading, isError: terroirsError, refetch: refetchTerroirs } = trpc.terroirs.getAll.useQuery();
+  const { data: koppenStats, isLoading: koppenLoading, isError: koppenError, refetch: refetchKoppen } = trpc.dashboard.getKoppenStats.useQuery();
 
   // Compter les terroirs par climat
   const climateStats = terroirs?.reduce((acc, t) => {
@@ -54,11 +56,13 @@ export default function TerroirMapPage() {
     .slice(0, 8);
 
   // Terroirs avec coordonnées
-  const terroirsWithCoords = terroirs?.filter(t => t.latitude && t.longitude) || [];
+  const terroirsWithCoords = useMemo(() => countValidTerroirCoordinates(terroirs), [terroirs]);
+  const koppenAssignments = useMemo(() => countKoppenAssignments(koppenStats), [koppenStats]);
 
   const handleRefresh = () => {
     refetchStats();
     refetchTerroirs();
+    refetchKoppen();
   };
 
   return (
@@ -103,7 +107,7 @@ export default function TerroirMapPage() {
               <div className="text-2xl font-bold">{terroirs?.length || 0}</div>
             )}
             <p className="text-xs text-muted-foreground">
-              {terroirsWithCoords.length} géolocalisés
+              {terroirsLoading ? "Chargement des coordonnées…" : terroirsError ? "Coordonnées indisponibles" : `${terroirsWithCoords} géolocalisés (GPS valides)`}
             </p>
           </CardContent>
         </Card>
@@ -150,11 +154,25 @@ export default function TerroirMapPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{Object.keys(countryStats).length}</div>
-            <p className="text-xs text-muted-foreground">pays représentés</p>
+              {terroirsLoading ? <Skeleton className="h-8 w-16" /> : <div className="text-2xl font-bold">{Object.keys(countryStats).length}</div>}
+              <p className="text-xs text-muted-foreground">pays représentés</p>
           </CardContent>
         </Card>
       </div>
+
+      <Card className="border-dashed">
+        <CardContent className="pt-5 text-sm text-muted-foreground">
+          {koppenLoading ? (
+            <Skeleton className="h-10 w-full" />
+          ) : koppenError ? (
+            <p>Les affectations Köppen sont temporairement indisponibles. La carte reste fondée exclusivement sur les coordonnées des terroirs.</p>
+          ) : (
+            <p>
+              <strong className="text-foreground">Deux sources, deux mesures :</strong> la carte affiche <strong className="text-foreground">{terroirsWithCoords} terroirs avec coordonnées GPS valides</strong> dans la table <code>terroirs</code>. Les <strong className="text-foreground">{koppenAssignments.toLocaleString("fr-FR")} affectations Köppen</strong> réparties sur <strong className="text-foreground">{koppenStats?.length ?? 0} zones</strong> proviennent de <code>plants.koppen_zone</code> ; une plante peut appartenir à plusieurs zones et cette valeur ne représente donc pas des marqueurs cartographiques.
+            </p>
+          )}
+        </CardContent>
+      </Card>
 
       {/* Onglets Carte / Liste */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>

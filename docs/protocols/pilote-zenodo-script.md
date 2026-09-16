@@ -4,13 +4,13 @@ Le flux est volontairement scindé en quatre étapes. Aucune commande ne modifie
 
 | Étape | Commande | Écriture autorisée |
 |---|---|---|
-| Préparer | `python3 server/scripts/prepare-zenodo-olfactory-pilot.py --input <lexique.xlsx> --output data/pilots/zenodo_cocd_pilot_50.csv` | CSV uniquement |
-| Simuler | `node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --input data/pilots/zenodo_cocd_pilot_50.csv --dry-run` | aucune |
-| Mettre en transit | `node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --input data/pilots/zenodo_cocd_pilot_50.csv --stage` | tables de transit uniquement |
-| Pré-annoter | `node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --batch zenodo-cocd-50-v1 --preannotate` | propositions LLM dans la zone de transit |
-| Réviser | `node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --batch zenodo-cocd-50-v1 --export-review data/pilots/zenodo_review.csv` | CSV de revue uniquement |
-| Appliquer la revue | `node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --apply-review data/pilots/zenodo_review.csv` | décisions humaines dans les tables de transit |
+| Préparer | Produire un CSV conforme depuis le lexique source, hors base | CSV uniquement |
+| Simuler | `node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --input <pilot.csv> --dry-run` | aucune |
+| Mettre en transit | `node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --input <pilot.csv> --stage --confirm-stage` | tables de transit uniquement ; idempotent sur `external_term_id` |
+| Pré-annoter | `node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --batch zenodo-cocd-50-v1 --preannotate --allow-llm --limit 10` | propositions LLM dans la zone de transit, seulement après consentement explicite ; aucun lien scientifique |
+| Réviser | `node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --batch zenodo-cocd-50-v1 --export-review <review.csv>` | CSV de revue uniquement |
+| Appliquer la revue | `node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --batch zenodo-cocd-50-v1 --apply-review <review.csv> --reviewer-name <nom> --confirm-apply` | deux décisions append-only par ligne, dans les tables de transit uniquement |
 
-Les deux rôles requis dans le CSV de revue sont `linguistic` et `domain`. Les décisions autorisées sont `accepted`, `accepted_with_context`, `needs_research` et `rejected`. Toute absence de double revue, de licence ou de provenance bloque la transaction.
+Les deux rôles requis dans le CSV de revue sont `linguistic` et `domain`. Les décisions autorisées sont `accepted`, `accepted_with_context`, `needs_research` et `rejected`. Toute absence de double revue, de licence ou de provenance bloque la transaction. Le CLI ne peut pas finaliser un transit : la dernière confirmation `METTRE EN TRANSIT` reste réservée au parcours administrateur authentifié.
 
 La dernière étape **ne crée aucune association de production**. Une future étape d’intégration devra cibler une table de termes attestés et être déclenchée explicitement par un administrateur.

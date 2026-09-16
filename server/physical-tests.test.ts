@@ -25,4 +25,17 @@ describe("prototypes physiques locaux", () => {
     expect(darkField).toContain("Champ noir");
     expect(server).toContain('server.listen(port, "127.0.0.1"');
   });
+
+  it("déclare la commande pnpm physical-tests et les livrables autonomes sans dépendance réseau", async () => {
+    const [manifest, standaloneReadme, thermal] = await Promise.all([
+      readFile(resolve(process.cwd(), "package.json"), "utf8"),
+      readFile(resolve(process.cwd(), "deliverables/essais-physiques-autonomes/README.md"), "utf8"),
+      readFile(resolve(process.cwd(), "deliverables/essais-physiques-autonomes/04-partition-thermique/index.html"), "utf8"),
+    ]);
+    expect(JSON.parse(manifest).scripts["physical-tests"]).toContain("serve-physical-tests");
+    expect(JSON.parse(manifest).scripts["physical-tests:zip"]).toContain("zip");
+    expect(standaloneReadme).toContain("double-cliquez");
+    expect(thermal).toContain("Ce n’est pas une mesure de composition de l’air");
+    expect(thermal).not.toMatch(/fetch\(|WebSocket|http:\/\//);
+  });
 });

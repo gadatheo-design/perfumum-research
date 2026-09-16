@@ -1,0 +1,13 @@
+champ,definition,compte_non_nul,total_molecules,pourcentage,date_releve,notes
+boilingPoint,IS NOT NULL,7477,7478,99.98,2026-09-16,Point d'ébullition renseigné ; ne permet pas d'inférer la composition de l'air.
+volatility,IS NOT NULL,7411,7478,99.10,2026-09-16,Valeur présente dans la table molecules.
+intensity,IS NOT NULL,7409,7478,99.07,2026-09-16,Valeur présente dans la table molecules.
+radar_intensity,IS NOT NULL,7478,7478,100.00,2026-09-16,Axe radar renseigné.
+radar_freshness,IS NOT NULL,7478,7478,100.00,2026-09-16,Axe radar renseigné.
+radar_warmth,IS NOT NULL,7478,7478,100.00,2026-09-16,Axe radar renseigné.
+radar_sweetness,IS NOT NULL,7478,7478,100.00,2026-09-16,Axe radar renseigné.
+radar_spiciness,IS NOT NULL,7478,7478,100.00,2026-09-16,Axe radar renseigné.
+radar_earthiness,IS NOT NULL,7478,7478,100.00,2026-09-16,Axe radar renseigné.
+pubchem_cid,IS NOT NULL,7292,7478,97.51,2026-09-16,Identifiant PubChem présent.
+ifra_status,IS NOT NULL,7478,7478,100.00,2026-09-16,Statut IFRA présent ; sa validité réglementaire n'est pas évaluée par ce comptage.
+inchi_with_t_layer,inchi IS NOT NULL AND inchi LIKE '%/t%',2476,7478,33.11,2026-09-16,Présence textuelle d'une couche stéréochimique InChI /t.
