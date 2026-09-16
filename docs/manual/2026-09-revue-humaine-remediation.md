@@ -2,6 +2,8 @@
 
 **Objet :** décisions à prendre par le propriétaire ou l’équipe scientifique. Elles ne sont pas automatisables sans risquer de rendre les données ambiguës ou inexactes.
 
+**Disposition confirmée le 16 septembre 2026 :** les éléments ci-dessous restent en attente dans ce registre. Aucun traitement de production, aucune application de proposition et aucune fermeture automatique de cas ne doit être engagé avant une nouvelle instruction explicite.
+
 ## À examiner quand vous le souhaiterez
 
 - [ ] **CAS intermédiaires :** examiner les huit premiers groupes documentés dans `docs/audits/2026-09-premiers-cas-cas-intermediaires.md`. Ils doivent rester ouverts tant que la stéréochimie, la provenance et les relations dépendantes n’ont pas été comparées.

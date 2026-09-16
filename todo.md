@@ -507,6 +507,7 @@ NOTE: Les return [] dans les routeurs sont des fallbacks catch — pattern corre
 - [x] Phase séquentielle 4a : inventorier les DOI, auteurs, années, résumés et mots-clés manquants ou divergents en lecture seule, puis exposer des propositions non appliquées (23 DOI à normaliser en forme, 36 groupes candidats, 1 208 DOI absents conservés ; carte de revue et 11 tests ciblés validés, y compris mobile).
 - [x] Phase séquentielle 4b : consigner le maintien en revue des candidats DOI et des lacunes bibliographiques, sans normalisation ni fusion appliquée.
 - [x] Phase séquentielle 5 : consolider le bilan des cinq domaines, les retenues et les décisions humaines nécessaires (voir `docs/audits/2026-09-bilan-remediation-controlee.md`).
+- [x] Consigner le maintien en attente, dans le registre manuel, des cas CAS intermédiaires et des propositions bibliographiques non appliquées.
 - [x] Tester les règles, prévisualiser les lots et n’appliquer que des décisions humaines explicitement confirmées (1 932 tests réussis, 2 ignorés, TypeScript valide ; aucune application scientifique sans confirmation distincte).
 - [x] Créer des tables de file de revue et de journal de remédiation séparées des entités scientifiques de production.
 - [x] Ajouter une page administrative de pilotage affichant les lots, preuves et décisions de remédiation.
