@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PERFUMUM — 03 Trois horloges</title>
+  <link rel="stylesheet" href="../shared/pm.css">
+</head>
+<body>
+  <div id="pm-viewport"><div id="pm-stage"><canvas id="canvas" width="1600" height="1000" aria-label="Photos placées selon trois horloges"></canvas></div></div>
+  <aside id="pm-panel">
+    <section class="pm-section">
+      <h1>03 · Trois horloges</h1>
+      <p class="pm-small">Chaque photo de terrain est placée trois fois : selon l’appareil (EXIF), selon le système de fichiers (dernière modification) et selon la déclaration de l’opérateur. Les écarts sont mesurés, jamais tranchés. Un fuseau horaire inconnu devient un intervalle ; une métadonnée absente place la photo dans la marge « non datable ».</p>
+      <p class="pm-notice">Les fichiers ne quittent pas l’ordinateur : seuls l’empreinte sha256 et les métadonnées lues sont journalisées. Une coordonnée GPS peut être une donnée personnelle — à décider avant toute présentation publique.</p>
+    </section>
+    <section class="pm-section">
+      <h2>Photos</h2>
+      <label class="pm-file">Photos de terrain (JPEG avec EXIF de préférence) <input type="file" id="photo-input" accept="image/*" multiple></label>
+      <ul class="pm-list" id="photo-list"></ul>
+    </section>
+    <section class="pm-section" id="declare-section" hidden>
+      <h2>Déclaration de l’opérateur pour <span id="declare-target"></span></h2>
+      <label>Date <input type="date" id="d-date"></label>
+      <label>Heure (facultatif) <input type="time" id="d-time"></label>
+      <label>Fuseau
+        <select id="d-tz">
+          <option value="">inconnu</option>
+          <option value="+00:00">UTC±00:00 (Burkina Faso)</option>
+          <option value="+01:00">UTC+01:00 (Berne, hiver)</option>
+          <option value="+02:00">UTC+02:00 (Berne, été)</option>
+          <option value="-05:00">UTC−05:00 (Colombie)</option>
+        </select>
+      </label>
+      <label>Lieu déclaré <input type="text" id="d-place" placeholder="ex. Altiplano cundiboyacense"></label>
+      <div class="pm-row"><label style="flex:1">Latitude <input type="number" step="any" id="d-lat"></label><label style="flex:1;margin-left:6px">Longitude <input type="number" step="any" id="d-lon"></label></div>
+      <label>Sujet / matière <input type="text" id="d-subject" placeholder="ex. écorce après pluie"></label>
+      <button id="declare-button">Journaliser la déclaration</button>
+      <p class="pm-small">Redéclarer crée une nouvelle ligne : l’ancienne déclaration reste dans l’historique.</p>
+    </section>
+  </aside>
+  <script src="../shared/pm-core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

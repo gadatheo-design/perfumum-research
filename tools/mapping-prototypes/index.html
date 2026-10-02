@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PERFUMUM — Prototypes de mapping</title>
+  <style>
+    :root { color-scheme: dark; }
+    body { margin: 0; background: #05080d; color: #e6ecf5; font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    main { max-width: 1040px; margin: 0 auto; padding: 32px 20px 60px; }
+    h1 { font-size: 26px; margin: 0 0 6px; }
+    p.lead { color: #9aa7bb; max-width: 760px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; margin-top: 22px; }
+    a.card { display: block; padding: 16px 18px; border: 1px solid #2a3648; border-radius: 10px; background: #0e141d; color: inherit; text-decoration: none; }
+    a.card:hover { border-color: #8fb8ff; }
+    .tag { font: 600 12px ui-monospace, Menlo, monospace; color: #8fb8ff; }
+    .card h2 { margin: 4px 0 6px; font-size: 18px; }
+    .card p { margin: 0 0 6px; color: #c9d3e3; font-size: 14px; }
+    .card .data { color: #9aa7bb; font-size: 12px; }
+    .rules { margin-top: 28px; padding: 14px 18px; border: 1px solid #2a3648; border-radius: 10px; color: #c9d3e3; font-size: 14px; }
+    .rules li { margin: 4px 0; }
+    kbd { background: #1d2939; border: 1px solid #2a3648; border-radius: 3px; padding: 0 4px; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>PERFUMUM — prototypes de mapping image × données</h1>
+    <p class="lead">Quatre confrontations entre une image (photo de terrain, reproduction d’œuvre, ou l’œuvre réelle sous le projecteur) et les données du dépôt. Chaque geste est écrit dans un run NDJSON chaîné par sha256 avant d’apparaître ; le même run se rejoue à l’identique. Phase 0 : aucune émission.</p>
+    <div class="grid">
+      <a class="card" href="01-calque-de-preuve/index.html">
+        <div class="tag">01 · contradiction · preuve · absence</div>
+        <h2>Calque de preuve</h2>
+        <p>Des zones tracées sur l’image sont reliées à des preuves GC-MS ou à des relations de recette. Les trois dimensions de preuve restent séparées ; la surface non documentée, les mesures superposées et les écarts de taxon s’affichent.</p>
+        <div class="data">server/data/plant-molecule-evidence-lot-1.ts · fleur-fantome-2026-09-15.json</div>
+      </a>
+      <a class="card" href="02-purge/index.html">
+        <div class="tag">02 · horloge d’archive · purge</div>
+        <h2>Purge</h2>
+        <p>L’image n’apparaît que là où l’archive a travaillé, jour par jour et table par table. Les purges effacent, hachurent ou échouent ; à chacune, l’opérateur dit s’il en connaît le motif.</p>
+        <div class="data">.manus/db (2 006 journaux, expurgés de l’hôte et du SQL)</div>
+      </a>
+      <a class="card" href="03-trois-horloges/index.html">
+        <div class="tag">03 · provenance · temporalité · incertitude</div>
+        <h2>Trois horloges</h2>
+        <p>Chaque photo est placée selon l’appareil (EXIF), le fichier et la déclaration de l’opérateur. Le fuseau inconnu devient un intervalle ; aucune horloge ne l’emporte.</p>
+        <div class="data">vos photos (lues localement, seules l’empreinte et les métadonnées sont journalisées)</div>
+      </a>
+      <a class="card" href="04-erosion/index.html">
+        <div class="tag">04 · oracle à trous · épuisement</div>
+        <h2>Érosion</h2>
+        <p>L’œuvre est découpée en autant de tuiles que d’absences documentées. Chaque tirage pondéré par le manque retire une tuile pour toujours et la remplace par sa fiche « ceci interdit de conclure… ».</p>
+        <div class="data">docs/data/* · preuves retenues du lot GC-MS 1 · 4 absences contredites signalées</div>
+      </a>
+    </div>
+    <div class="rules">
+      <strong>Commandes communes</strong>
+      <ul>
+        <li><kbd>C</kbd> calibrer les 4 coins sur la surface réelle · <kbd>R</kbd> réinitialiser · <kbd>I</kbd> masquer l’image (projection sur l’œuvre réelle) · <kbd>H</kbd> masquer le panneau · <kbd>F</kbd> plein écran.</li>
+        <li>« Démarrer un run » avant d’agir ; « Écrire sur disque… » (Chromium) écrit chaque ligne au fil de l’eau, sinon « Télécharger NDJSON ».</li>
+        <li>« Charger un .ndjson » rejoue un run après vérification de sa chaîne ; une seule ligne modifiée rompt la chaîne.</li>
+      </ul>
+    </div>
+  </main>
+</body>
+</html>

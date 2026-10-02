@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PERFUMUM — 01 Calque de preuve</title>
+  <link rel="stylesheet" href="../shared/pm.css">
+</head>
+<body>
+  <div id="pm-viewport"><div id="pm-stage"><canvas id="canvas" width="1600" height="1000" aria-label="Image confrontée aux preuves"></canvas></div></div>
+  <aside id="pm-panel">
+    <section class="pm-section">
+      <h1>01 · Calque de preuve</h1>
+      <p class="pm-small">Une photo ou une œuvre est découpée en zones ; chaque zone est reliée à une assertion du dépôt (preuve GC-MS, relation de recette) ou à une attribution libre, explicitement non probante. Rien n’est déduit de l’image : c’est l’opérateur qui attribue, et chaque attribution est journalisée.</p>
+      <p class="pm-notice">Phase 0 · aucune émission. Les plages GC-MS décrivent un échantillon publié, pas l’objet représenté.</p>
+    </section>
+    <section class="pm-section" id="image-section">
+      <h2>Image</h2>
+      <label class="pm-file">Photo ou reproduction d’œuvre <input type="file" id="image-input" accept="image/*"></label>
+      <button class="secondary" id="demo-button">Utiliser la mire de démonstration</button>
+      <div class="pm-small" id="image-meta">Aucune image journalisée.</div>
+    </section>
+    <section class="pm-section">
+      <h2>Déclaration de l’image (témoignage, à vérifier)</h2>
+      <label>Sujet / taxon représenté <input type="text" id="declared-subject" placeholder="ex. Lavandula vera"></label>
+      <label>Auteur·e, source <input type="text" id="declared-author" placeholder="ex. planche, atelier, photographe"></label>
+      <label>Date déclarée <input type="text" id="declared-date" placeholder="ex. 1887, 2026-06-14"></label>
+      <button class="secondary" id="declare-button">Journaliser la déclaration</button>
+    </section>
+    <section class="pm-section">
+      <h2>Zones</h2>
+      <p class="pm-small"><kbd>D</kbd> tracer · <kbd>S</kbd> sélectionner · clic = point · <kbd>Entrée</kbd> ou double-clic = fermer · <kbd>Retour</kbd> = annuler le dernier point · <kbd>Échap</kbd> = abandonner.</p>
+      <div class="pm-row"><button class="secondary" id="mode-draw">Tracer (D)</button><button class="secondary" id="mode-select">Sélectionner (S)</button></div>
+      <div class="pm-small" id="mode-label"></div>
+      <ul class="pm-list" id="region-list"></ul>
+      <div id="region-detail"></div>
+    </section>
+    <section class="pm-section">
+      <h2>Mesures dérivées (recalculées, non journalisées)</h2>
+      <div id="measures" class="pm-small"></div>
+    </section>
+    <section class="pm-section">
+      <h2>Légende — trois dimensions séparées (N5)</h2>
+      <p class="pm-small">Couleur du trait = vérification (ambre à vérifier · vert vérifié · rouge contesté · gris obsolète · blanc non renseigné).<br>Motif du trait = niveau de preuve (plein primaire · tirets secondaire · points tertiaire · pointillé épars non renseigné).<br>Remplissage = confiance (dense haute · moyen · léger basse · aucun non renseignée).<br>Violet pointillé = marge artistique, jamais probante.</p>
+    </section>
+  </aside>
+  <script src="../data/perfumum-data.js"></script>
+  <script src="../shared/pm-core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PERFUMUM — 02 Purge</title>
+  <link rel="stylesheet" href="../shared/pm.css">
+</head>
+<body>
+  <div id="pm-viewport"><div id="pm-stage"><canvas id="canvas" width="1600" height="1000" aria-label="Image révélée par le journal de la base"></canvas></div></div>
+  <aside id="pm-panel">
+    <section class="pm-section">
+      <h1>02 · Purge</h1>
+      <p class="pm-small">L’image n’apparaît que là où l’archive a réellement travaillé : une colonne par jour (02/12/2025 → 22/03/2026), une ligne par table, d’après les 2 006 journaux <code>.manus/db</code>. Une purge totale efface l’histoire visible de sa table ; une purge partielle la hachure (étendue inconnue) ; une purge refusée est cerclée. L’image est l’état, le journal est l’histoire.</p>
+      <p class="pm-notice">Source expurgée : ni hôte, ni utilisateur, ni texte SQL. Journal de l’outil Manus, pas de la base : un DELETE peut précéder une réimportation.</p>
+    </section>
+    <section class="pm-section">
+      <h2>Image</h2>
+      <label class="pm-file">Photo ou reproduction d’œuvre <input type="file" id="image-input" accept="image/*"></label>
+      <button class="secondary" id="demo-button">Mire de démonstration</button>
+      <div class="pm-small" id="image-meta">Aucune image journalisée.</div>
+    </section>
+    <section class="pm-section">
+      <h2>Lecture de l’archive</h2>
+      <div class="pm-row"><button id="play-button">Lire</button><button class="secondary" id="pause-button">Pause</button><button class="secondary" id="restart-button">Revenir au début</button></div>
+      <label>Vitesse (temps d’archive par seconde réelle)
+        <select id="speed-select">
+          <option value="20000">×20 000 — 111 jours ≈ 8 min</option>
+          <option value="100000" selected>×100 000 — ≈ 1 min 36 s</option>
+          <option value="500000">×500 000 — ≈ 19 s</option>
+        </select>
+      </label>
+      <label>Arrêts aux purges
+        <select id="stop-select">
+          <option value="executed" selected>purges exécutées</option>
+          <option value="all">toutes (y compris refusées)</option>
+          <option value="none">aucun arrêt</option>
+        </select>
+      </label>
+      <label>Position dans l’archive <input type="range" id="seek" min="0" max="1000" value="0"></label>
+      <div class="pm-small" id="cursor-label"></div>
+    </section>
+    <section class="pm-section" id="motive-section" hidden>
+      <h2>Purge atteinte — motif ?</h2>
+      <div id="motive-detail" class="pm-small"></div>
+      <input type="text" id="motive-text" placeholder="motif, si connu (texte libre)">
+      <div class="pm-row"><button id="motive-known">Motif connu</button><button class="secondary" id="motive-unknown">Motif inconnu</button></div>
+      <div class="pm-small" id="motive-timer"></div>
+    </section>
+    <section class="pm-section">
+      <h2>Purges rencontrées dans ce run</h2>
+      <ul class="pm-list" id="purge-list"></ul>
+    </section>
+  </aside>
+  <script src="../data/manus-db-timeline.js"></script>
+  <script src="../shared/pm-core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

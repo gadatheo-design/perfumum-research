@@ -18,7 +18,7 @@
 ## 1. Synthèse
 
 1. **[F]** Le dépôt est une plateforme web de recherche (React/Express/tRPC) adossée à une base TiDB distante. Elle ne fonctionne pas hors ligne. Il ne contient **ni TouchDesigner, ni OSC/MIDI/DMX, ni asset média**.
-2. **[F]** Sa vraie richesse pour V1/V2 est **épistémique** : journaux append-only (remédiation, pilote Zenodo), 169 conflits CAS, 80,6 % de molécules sans profil olfactif, 7 preuves GC-MS sourcées avec plages, et 2 006 journaux SQL horodatés comportant 11 purges.
+2. **[F]** Sa vraie richesse pour V1/V2 est **épistémique** : journaux append-only (remédiation, pilote Zenodo), 169 conflits CAS, 80,6 % de molécules sans profil olfactif, 7 preuves GC-MS sourcées avec plages, et 2 006 journaux SQL horodatés comportant des purges (27 instructions exécutées, 33 refusées ; correction du 2 octobre 2026, voir C01).
 3. **[F]** Quatre prototypes physiques existent (projection, proximité Web Serial, champ noir, partition thermique). Ils sont non émissifs et journalisent en CSV local, mais avec des schémas divergents, sans `run_id` et sans écriture sur disque.
 4. **[F]** Fragilités majeures : `server/scripts/` est exclu par `.gitignore`, ce qui casse `pnpm physical-tests` ; `.manus/db` expose des identifiants d'infrastructure ; `p5data.gcms` est non reproductible (`Math.random`).
 5. **[F-Notion]** Le modèle canonique existe déjà dans N6 : run immuable, blancs = runs, corrections par annotation, `replay_of`. Il n'est **pas implémenté** dans le dépôt.
@@ -296,7 +296,11 @@ Chaque fiche décrit ses champs propres, ajoutés à l'enveloppe commune suivant
 - **Capteurs / actionneurs.** Encodeur rotatif ; bouton double ; micro piézo collé à la plaque (pour **vérifier que la frappe a eu lieu** : un actionneur non confirmé est un incident) ; solénoïde 12 V ; imprimante thermique ; afficheur 7 segments.
 - **Donnée produite.** En-tête : `source_manifest_sha256` (empreinte des 2 006 fichiers), `speed`. Par tick : `source_file`, `query_kind`, `table`, `original_ts`, `replay_ts`, `is_error`, `strike_confirmed`, `purge_motive` (`connu` / `inconnu` / `absent`).
   Types : **temporalité** (séquence, intervalle, purge), **provenance** (fichier source), **absence** (erreurs, motifs manquants), **incertitude** (frappe non confirmée).
-- **Ancrage dépôt [F].** `.manus/db/` : 2 006 requêtes sur 46 jours actifs, 283 erreurs, 11 `DELETE` et 1 `DROP`. Parmi elles, `DELETE FROM recette_molecules;` (06/12/2025), la table qui porte les relations de *Fleur Fantôme* exportées le 15/09/2026. **[I]** Ces relations ont donc été reconstruites après cette purge.
+- **Ancrage dépôt [F].** `.manus/db/` : 2 006 requêtes sur 46 jours actifs, 283 erreurs.
+  - *Correction du 2 octobre 2026* : le premier relevé (11 `DELETE` + 1 `DROP`) ne comptait que le premier mot-clé de chaque fichier. Instruction par instruction, il y a **27 purges exécutées dans 15 fichiers** et **33 purges refusées dans 6 fichiers**.
+  - Parmi les refus, `DROP TABLE molecules` a été bloqué par une contrainte de clé étrangère.
+  - **Deux purges totales seulement** ont été exécutées : `installations` (02/12/2025) et `recette_molecules` (06/12/2025). Cette dernière table porte les relations de *Fleur Fantôme* exportées le 15/09/2026. **[I]** Ces relations ont donc été reconstruites après la purge.
+  - Prototype : `tools/mapping-prototypes/02-purge/`.
 - **Rendu.** Son acoustique réel (solénoïde, sans TD). TD : frise murale compressée sur les 46 jours actifs ; chaque purge est une bande noire sur la ligne de sa table, avec le pointeur `db-query-<epoch>`. En complément, un rouleau de tickets.
 - **Pourquoi PERFUMUM-native.** C'est la vie réelle de l'archive, pas une métaphore. Le principe add-only est confronté à ses propres suppressions passées. La purge devient un médium.
 - **Anti-ornement.** Sans le journal, il reste un métronome qui cliquette. Chaque frappe n'existe que comme rejeu d'un fichier daté. ✔
@@ -310,7 +314,7 @@ Chaque fiche décrit ses champs propres, ajoutés à l'enveloppe commune suivant
   3. Il envoie un octet par requête à l'Arduino (LED ou buzzer si pas de solénoïde).
   4. TD lit le fichier et trace la frise.
 
-  **Résultat attendu :** 2 006 lignes, 283 silences, 12 tickets de purge ; à ×10 000, environ 16 min pour 110 jours calendaires.
+  **Résultat attendu :** 2 006 lignes, 283 silences, 21 tickets de purge (15 fichiers exécutés + 6 refusés) ; à ×10 000, environ 16 min pour 110 jours calendaires.
 - **Coût et logistique [H].** 150–400 CHF. Logistique faible ; bruit à cadrer.
 - **V1 → V2.**
   - Change : en V1, le résident rejoue et annote (runs `replay_of` + annotations). En V2, l'horloge rejoue en boucle et chaque boucle est un run `public_performance` lié.

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>PERFUMUM — 04 Érosion</title>
+  <link rel="stylesheet" href="../shared/pm.css">
+</head>
+<body>
+  <div id="pm-viewport"><div id="pm-stage"><canvas id="canvas" width="1600" height="1000" aria-label="Œuvre érodée par les absences de l’archive"></canvas></div></div>
+  <aside id="pm-panel">
+    <section class="pm-section">
+      <h1>04 · Érosion</h1>
+      <p class="pm-small">L’œuvre est découpée en autant de tuiles que d’absences documentées dans le dépôt (références sans DOI, molécules manquantes, plantes non géocodées, variations saisonnières sans source, preuves retenues). Chaque tirage, pondéré par le manque et rejouable par sa graine, retire une tuile pour toujours et la remplace par sa fiche : <em>ceci interdit de conclure que…</em></p>
+      <p class="pm-notice">L’érosion est irréversible dans un run : une absence consultée ne peut pas être retirée deux fois. Les phrases « ceci interdit de conclure » sont rédigées par catégorie (texte fixe), jamais générées.</p>
+    </section>
+    <section class="pm-section">
+      <h2>Œuvre</h2>
+      <label class="pm-file">Photo ou reproduction d’œuvre <input type="file" id="image-input" accept="image/*"></label>
+      <button class="secondary" id="demo-button">Mire de démonstration</button>
+      <div class="pm-small" id="image-meta">Aucune image journalisée.</div>
+    </section>
+    <section class="pm-section">
+      <h2>Tirage</h2>
+      <button id="draw-button">Tirer une absence (Espace)</button>
+      <div class="pm-small" id="draw-info"></div>
+      <div id="decision" hidden>
+        <div class="pm-row"><button id="keep-button">Garder — enquête ouverte (G)</button><button class="secondary" id="leave-button">Laisser (L)</button></div>
+      </div>
+      <p class="pm-small">Poids = 1 + dimensions manquantes de l’enregistrement source. Graine = 16 premiers caractères hexadécimaux d’un sha256 tiré à l’ouverture du run (journalisée dans l’en-tête).</p>
+    </section>
+    <section class="pm-section">
+      <h2>Absences consultées</h2>
+      <ul class="pm-list" id="drawn-list"></ul>
+    </section>
+  </aside>
+  <script src="../data/perfumum-data.js"></script>
+  <script src="../shared/pm-core.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
