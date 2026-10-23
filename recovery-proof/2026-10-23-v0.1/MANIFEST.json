@@ -1,0 +1,49 @@
+{
+  "format": "PERFUMUM Recovery Proof v0.1",
+  "status": "micro-export read-only; not a complete backup",
+  "created_at_utc": "2026-10-23T13:28:45.626Z",
+  "git_commit": "7213aaf2a3bf1e1c67e574272a3282359a68a65e",
+  "source_database": {
+    "engine": "TiDB/MySQL-compatible",
+    "server_version": "8.0.11-TiDB-v8.5.3-serverless",
+    "database_name": "H2pjHHJbH276XmnbNcJhCp",
+    "production_mutated": false
+  },
+  "selected_corpus": {
+    "plant_id": 480029,
+    "label": "Ferula galbaniflua (galbanum)",
+    "table_counts": {
+      "plants": 1,
+      "plant_molecules": 3,
+      "plant_terroirs": 1,
+      "molecules": 3,
+      "terroirs": 1,
+      "bibliography_entity_links": 6,
+      "bibliography_entries": 6
+    },
+    "total_rows": 21,
+    "exclusions": [
+      "users",
+      "cookies",
+      "tokens",
+      "secrets",
+      "analytics_events",
+      "media binaries",
+      "all unselected production rows"
+    ]
+  },
+  "schema_reality": {
+    "real_base_tables": 293,
+    "views_excluded_from_matrix": 3,
+    "real_columns_in_base_tables": 4143,
+    "real_constraints": 558,
+    "constraint_column_rows": 627,
+    "drizzle_declarations_observed": 199,
+    "migrations_sql_observed": 98
+  },
+  "assets": {
+    "inventory": "assets/variety-images-reference-inventory.csv",
+    "downloaded_media": false
+  },
+  "download": "All files are ordinary filesystem artifacts and can be downloaded from the delivered archive or copied with standard tools."
+}

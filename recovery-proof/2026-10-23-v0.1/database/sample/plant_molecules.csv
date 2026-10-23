@@ -1,0 +1,4 @@
+plant_id,molecule_id,percentage_min,percentage_max,percentage_typical,percentage,is_signature,role,variability_factor,source,notes,created_at,updated_at
+"480029","30008",,,,"15.00","0",,,,,"2026-02-01T14:08:39.000Z","2026-02-01T14:48:22.000Z"
+"480029","630001",,,"6.00","6.00","0","majeur",,,"Auto-liaison: Famille botanique apiaceae associée à Carvone (confiance: 52%)","2026-02-14T14:43:37.000Z","2026-03-04T17:28:07.000Z"
+"480029","1907427",,,,,"0",,,"KNApSAcK","KNApSAcK ID: C00011067 | CAS: 508-32-7","2026-04-07T14:02:14.000Z","2026-04-07T14:02:14.000Z"

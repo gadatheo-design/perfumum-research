@@ -1,0 +1,18 @@
+local_restore_engine=10.11.14-MariaDB-0ubuntu0.24.04.1
+plants	1
+molecules	3
+terroirs	1
+plant_molecules	3
+plant_terroirs	1
+bibliography_entries	6
+bibliography_entity_links	6
+plant=Ferula galbaniflua (galbanum) | latin=Ferula galbaniflua
+molecules_for_plant=3
+terroirs_for_plant=1
+bibliography_for_plant=6
+Restore completed in local database: perfumum_recovery_proof_v01
+--- post-restore control ---
+1
+3
+6
+--- restore test completed; local data directory removed ---

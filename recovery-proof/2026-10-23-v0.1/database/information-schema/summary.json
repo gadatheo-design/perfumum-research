@@ -1,0 +1,11 @@
+{
+  "source": "information_schema, read-only",
+  "captured_at_utc": "2026-10-23T13:28:41.175Z",
+  "database": "H2pjHHJbH276XmnbNcJhCp",
+  "server_version": "8.0.11-TiDB-v8.5.3-serverless",
+  "base_tables": 293,
+  "views_excluded_from_matrix": 3,
+  "columns_in_base_tables": 4143,
+  "constraints": 558,
+  "constraint_column_rows": 627
+}

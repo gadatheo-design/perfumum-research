@@ -1,0 +1,628 @@
+table_name,constraint_name,constraint_type,column_name,referenced_table_name,referenced_column_name
+"__drizzle_migrations","PRIMARY","PRIMARY KEY","id",,
+"__drizzle_migrations","id","UNIQUE","id",,
+"absorbe_profiles","PRIMARY","PRIMARY KEY","id",,
+"accord_civilisations","PRIMARY","PRIMARY KEY","accord_id",,
+"accord_civilisations","PRIMARY","PRIMARY KEY","civilisation_id",,
+"accords","PRIMARY","PRIMARY KEY","id",,
+"accords","accords_familyId_families_id_fk","FOREIGN KEY","familyId","families","id"
+"analytical_methods","PRIMARY","PRIMARY KEY","id",,
+"analytical_methods","analytical_methods_method_id_unique","UNIQUE","method_id",,
+"analytics_events","PRIMARY","PRIMARY KEY","id",,
+"api_enrichments","PRIMARY","PRIMARY KEY","id",,
+"api_enrichments","fk_1","FOREIGN KEY","plant_id","plants","id"
+"api_enrichments","unique_plant_api","UNIQUE","plant_id",,
+"api_enrichments","unique_plant_api","UNIQUE","api_type",,
+"aromatic_accords","PRIMARY","PRIMARY KEY","id",,
+"aromatic_accords","accord_id","UNIQUE","accord_id",,
+"aromatic_rarities","PRIMARY","PRIMARY KEY","id",,
+"aromatic_rarities","aromatic_rarities_rarity_id_unique","UNIQUE","rarity_id",,
+"axis_connections","PRIMARY","PRIMARY KEY","id",,
+"axis_connections","unique_axis_connection","UNIQUE","source_axis_id",,
+"axis_connections","unique_axis_connection","UNIQUE","target_axis_id",,
+"axis_reference_links","PRIMARY","PRIMARY KEY","id",,
+"axis_reference_links","fk_1","FOREIGN KEY","axis_id","research_axes","id"
+"axis_reference_links","fk_2","FOREIGN KEY","reference_id","v3_references","id"
+"axis_reference_links","unique_axis_reference","UNIQUE","axis_id",,
+"axis_reference_links","unique_axis_reference","UNIQUE","reference_id",,
+"axis_source_nez","PRIMARY","PRIMARY KEY","id",,
+"axis_source_nez","fk_1","FOREIGN KEY","axis_id","research_axis_nez","axis_id"
+"axis_source_nez","fk_2","FOREIGN KEY","source_id","source_article_nez","source_id"
+"axis_source_nez","unique_axis_source","UNIQUE","axis_id",,
+"axis_source_nez","unique_axis_source","UNIQUE","source_id",,
+"bibliographie","PRIMARY","PRIMARY KEY","id",,
+"bibliography_author_links","PRIMARY","PRIMARY KEY","id",,
+"bibliography_author_links","bal_bib_entry_fk","FOREIGN KEY","bibliography_entry_id","bibliography_entries","id"
+"bibliography_author_links","bib_author_link_unique_entry","UNIQUE","author_id",,
+"bibliography_author_links","bib_author_link_unique_entry","UNIQUE","bibliography_entry_id",,
+"bibliography_author_links","bib_author_link_unique_v3ref","UNIQUE","author_id",,
+"bibliography_author_links","bib_author_link_unique_v3ref","UNIQUE","v3_reference_id",,
+"bibliography_author_links","bibliography_author_links_author_id_bibliography_authors_id_fk","FOREIGN KEY","author_id","bibliography_authors","id"
+"bibliography_author_links","bibliography_author_links_v3_reference_id_v3_references_id_fk","FOREIGN KEY","v3_reference_id","v3_references","id"
+"bibliography_authors","PRIMARY","PRIMARY KEY","id",,
+"bibliography_authors","bib_author_orcid_idx","UNIQUE","orcid",,
+"bibliography_axis_links","PRIMARY","PRIMARY KEY","id",,
+"bibliography_axis_links","unique_bibliography_axis","UNIQUE","bibliography_id",,
+"bibliography_axis_links","unique_bibliography_axis","UNIQUE","axis_id",,
+"bibliography_cross_citations","PRIMARY","PRIMARY KEY","id",,
+"bibliography_cross_citations","bcc_unique_citation_idx","UNIQUE","source_id",,
+"bibliography_cross_citations","bcc_unique_citation_idx","UNIQUE","target_doi",,
+"bibliography_cross_citations","bcc_unique_citation_idx","UNIQUE","relation_type",,
+"bibliography_entity_links","PRIMARY","PRIMARY KEY","id",,
+"bibliography_entity_links","unique_bibliography_entity","UNIQUE","bibliography_id",,
+"bibliography_entity_links","unique_bibliography_entity","UNIQUE","entity_type",,
+"bibliography_entity_links","unique_bibliography_entity","UNIQUE","entity_id",,
+"bibliography_entries","PRIMARY","PRIMARY KEY","id",,
+"bibliography_entries","bibliography_entries_entry_key_unique","UNIQUE","entry_key",,
+"bibliography_sources","PRIMARY","PRIMARY KEY","id",,
+"biosynthetic_pathways","PRIMARY","PRIMARY KEY","id",,
+"biotech_molecules","PRIMARY","PRIMARY KEY","id",,
+"biotech_molecules","molecule_id","UNIQUE","molecule_id",,
+"botanical_states","PRIMARY","PRIMARY KEY","id",,
+"botanical_states","botanical_states_plant_id_fk","FOREIGN KEY","plant_id","plants","id"
+"botanical_states","state_id","UNIQUE","state_id",,
+"cannabis_landraces","PRIMARY","PRIMARY KEY","id",,
+"cannabis_landraces","slug","UNIQUE","slug",,
+"cannabis_strains","PRIMARY","PRIMARY KEY","id",,
+"chemical_families","PRIMARY","PRIMARY KEY","id",,
+"chemotypes","PRIMARY","PRIMARY KEY","id",,
+"cigarillo_molecule_links","PRIMARY","PRIMARY KEY","id",,
+"cigarillo_molecule_links","cml_unique","UNIQUE","cigarillo_recipe_id",,
+"cigarillo_molecule_links","cml_unique","UNIQUE","molecule_id",,
+"cigarillo_recipe_ingredients","PRIMARY","PRIMARY KEY","id",,
+"cigarillo_recipes","PRIMARY","PRIMARY KEY","id",,
+"cigarillo_recipes","slug","UNIQUE","slug",,
+"cinema_smellscapes","PRIMARY","PRIMARY KEY","id",,
+"citations","PRIMARY","PRIMARY KEY","id",,
+"citizen_observations","PRIMARY","PRIMARY KEY","id",,
+"citizen_observations","obs_id","UNIQUE","obs_id",,
+"civilizational_markers","PRIMARY","PRIMARY KEY","id",,
+"civilizational_timeline","PRIMARY","PRIMARY KEY","id",,
+"classification_reviews","PRIMARY","PRIMARY KEY","id",,
+"classification_snapshots","PRIMARY","PRIMARY KEY","id",,
+"climate_axis_matrix","PRIMARY","PRIMARY KEY","id",,
+"climate_studies","PRIMARY","PRIMARY KEY","id",,
+"curated_journeys","PRIMARY","PRIMARY KEY","id",,
+"curated_journeys","journey_code_idx","UNIQUE","code",,
+"data_quality_remediation_actions","PRIMARY","PRIMARY KEY","id",,
+"data_quality_remediation_cases","PRIMARY","PRIMARY KEY","id",,
+"data_quality_remediation_cases","uq_quality_case_type_group","UNIQUE","case_type",,
+"data_quality_remediation_cases","uq_quality_case_type_group","UNIQUE","group_key",,
+"descriptor_link_audit_log","PRIMARY","PRIMARY KEY","id",,
+"descriptor_molecule_links","PRIMARY","PRIMARY KEY","id",,
+"descriptor_plant_links","PRIMARY","PRIMARY KEY","id",,
+"entourage_rules","PRIMARY","PRIMARY KEY","id",,
+"entourage_rules","rule_id","UNIQUE","rule_id",,
+"europeana_bookmarks","PRIMARY","PRIMARY KEY","id",,
+"evidence_bibliography_links","PRIMARY","PRIMARY KEY","id",,
+"evidence_bibliography_links","evidence_bibliography_bibliography_fk","FOREIGN KEY","bibliography_id","bibliography_entries","id"
+"evidence_bibliography_links","evidence_bibliography_created_by_fk","FOREIGN KEY","created_by","users","id"
+"evidence_bibliography_links","evidence_bibliography_evidence_fk","FOREIGN KEY","evidence_id","molecule_evidence","id"
+"evidence_bibliography_links","evidence_bibliography_verified_by_fk","FOREIGN KEY","verified_by","users","id"
+"evidence_bibliography_links","unique_evidence_bibliography","UNIQUE","evidence_id",,
+"evidence_bibliography_links","unique_evidence_bibliography","UNIQUE","bibliography_id",,
+"experimental_accord_civilisations","PRIMARY","PRIMARY KEY","experimentalAccordId",,
+"experimental_accord_civilisations","PRIMARY","PRIMARY KEY","civilisationId",,
+"experimental_accord_civilisations","fk_1","FOREIGN KEY","experimentalAccordId","experimental_accords","id"
+"experimental_accord_civilisations","fk_2","FOREIGN KEY","civilisationId","traditions_olfactives","id"
+"experimental_accords","PRIMARY","PRIMARY KEY","id",,
+"extended_supplier_materials","PRIMARY","PRIMARY KEY","id",,
+"extended_suppliers","PRIMARY","PRIMARY KEY","id",,
+"extended_suppliers","supplier_id","UNIQUE","supplier_id",,
+"extraction_methods","PRIMARY","PRIMARY KEY","id",,
+"extraction_methods","method_id","UNIQUE","method_id",,
+"extraction_tests","PRIMARY","PRIMARY KEY","id",,
+"families","PRIMARY","PRIMARY KEY","id",,
+"field_archive_molecule_links","PRIMARY","PRIMARY KEY","id",,
+"field_archive_molecule_links","unique_archive_molecule","UNIQUE","field_archive_id",,
+"field_archive_molecule_links","unique_archive_molecule","UNIQUE","molecule_id",,
+"field_archives","PRIMARY","PRIMARY KEY","id",,
+"final_recipe_terp_profiles","fk_1","FOREIGN KEY","final_recipe_id","final_recipes","id"
+"final_recipe_terp_profiles","fk_2","FOREIGN KEY","terp_profile_id","terp_profiles","id"
+"final_recipes","PRIMARY","PRIMARY KEY","id",,
+"final_recipes","recipe_id","UNIQUE","recipe_id",,
+"formulation_suggestions","PRIMARY","PRIMARY KEY","id",,
+"formulation_suggestions","suggestion_id","UNIQUE","suggestion_id",,
+"gcms_chromatograms","PRIMARY","PRIMARY KEY","id",,
+"gcms_peaks","PRIMARY","PRIMARY KEY","id",,
+"gcms_peaks","fk_1","FOREIGN KEY","chromatogram_id","gcms_chromatograms","id"
+"gene_terpene_links","PRIMARY","PRIMARY KEY","id",,
+"gene_terpene_links","gene_id","UNIQUE","gene_id",,
+"genealogy_extended","PRIMARY","PRIMARY KEY","id",,
+"genome_samples","PRIMARY","PRIMARY KEY","id",,
+"genome_samples","sample_id","UNIQUE","sample_id",,
+"genome_sequences","PRIMARY","PRIMARY KEY","id",,
+"genome_sequences","sequence_id","UNIQUE","sequence_id",,
+"genomic_molecule_links","PRIMARY","PRIMARY KEY","id",,
+"genomic_molecule_links","unique_genomic_ref_mol","UNIQUE","reference_id",,
+"genomic_molecule_links","unique_genomic_ref_mol","UNIQUE","molecule_id",,
+"genomic_plant_links","PRIMARY","PRIMARY KEY","id",,
+"genomic_plant_links","unique_genomic_ref_plant","UNIQUE","reference_id",,
+"genomic_plant_links","unique_genomic_ref_plant","UNIQUE","plant_id",,
+"geographic_origins","PRIMARY","PRIMARY KEY","id",,
+"geographic_zones","PRIMARY","PRIMARY KEY","id",,
+"gestion_agenda","PRIMARY","PRIMARY KEY","id",,
+"gestion_budget","PRIMARY","PRIMARY KEY","id",,
+"gestion_mentorat","PRIMARY","PRIMARY KEY","id",,
+"ghost_varieties","PRIMARY","PRIMARY KEY","id",,
+"ghost_variety_images","PRIMARY","PRIMARY KEY","id",,
+"ghost_variety_molecule_links","PRIMARY","PRIMARY KEY","id",,
+"ghost_variety_molecule_links","unique_gv_molecule","UNIQUE","ghost_variety_id",,
+"ghost_variety_molecule_links","unique_gv_molecule","UNIQUE","molecule_id",,
+"ghost_variety_plant_links","PRIMARY","PRIMARY KEY","id",,
+"ghost_variety_plant_links","unique_gv_plant","UNIQUE","ghost_variety_id",,
+"ghost_variety_plant_links","unique_gv_plant","UNIQUE","plant_id",,
+"glossary","PRIMARY","PRIMARY KEY","id",,
+"glossary","term","UNIQUE","term",,
+"glossary_terms","PRIMARY","PRIMARY KEY","id",,
+"glossary_terms","unique_term","UNIQUE","term",,
+"heritage_chemotypes_timeline","PRIMARY","PRIMARY KEY","id",,
+"historic_cigarettes","PRIMARY","PRIMARY KEY","id",,
+"historical_cigarettes","PRIMARY","PRIMARY KEY","id",,
+"historical_trade_routes","PRIMARY","PRIMARY KEY","id",,
+"ifra_categories","PRIMARY","PRIMARY KEY","id",,
+"ifra_categories","code","UNIQUE","code",,
+"ifra_restrictions","PRIMARY","PRIMARY KEY","id",,
+"ifra_restrictions","fk_1","FOREIGN KEY","molecule_id","molecules","id"
+"impact_metrics","PRIMARY","PRIMARY KEY","id",,
+"impact_metrics","year","UNIQUE","year",,
+"installation_families","installation_families_familyId_families_id_fk","FOREIGN KEY","familyId","families","id"
+"installation_families","installation_families_installationId_installations_id_fk","FOREIGN KEY","installationId","installations","id"
+"installation_recettes","installation_recettes_installationId_installations_id_fk","FOREIGN KEY","installationId","installations","id"
+"installation_recettes","installation_recettes_recetteId_recettes_id_fk","FOREIGN KEY","recetteId","recettes","id"
+"installations","PRIMARY","PRIMARY KEY","id",,
+"inventory_entries","PRIMARY","PRIMARY KEY","id",,
+"inventory_entries","entry_id","UNIQUE","entry_id",,
+"journey_items","PRIMARY","PRIMARY KEY","id",,
+"laboratoire","PRIMARY","PRIMARY KEY","id",,
+"laboratoire_molecules","laboratoire_molecules_laboratoireId_laboratoire_id_fk","FOREIGN KEY","laboratoireId","laboratoire","id"
+"laboratoire_molecules","laboratoire_molecules_moleculeId_molecules_id_fk","FOREIGN KEY","moleculeId","molecules","id"
+"laboratoire_recettes","laboratoire_recettes_laboratoireId_laboratoire_id_fk","FOREIGN KEY","laboratoireId","laboratoire","id"
+"laboratoire_recettes","laboratoire_recettes_recetteId_recettes_id_fk","FOREIGN KEY","recetteId","recettes","id"
+"landrace_pyrolysis_profiles","PRIMARY","PRIMARY KEY","id",,
+"landrace_terpene_profiles","PRIMARY","PRIMARY KEY","id",,
+"landrace_terpene_profiles","fk_1","FOREIGN KEY","landrace_id","tobacco_landraces","id"
+"landrace_terpenes","PRIMARY","PRIMARY KEY","id",,
+"landraces","PRIMARY","PRIMARY KEY","id",,
+"leaf_economies","PRIMARY","PRIMARY KEY","id",,
+"leaf_economies","leaf_economies_sample_id_unique","UNIQUE","sample_id",,
+"leaf_economy_molecules","leaf_economy_molecules_leaf_economy_id_leaf_economies_id_fk","FOREIGN KEY","leaf_economy_id","leaf_economies","id"
+"leaf_economy_molecules","leaf_economy_molecules_molecule_id_molecules_id_fk","FOREIGN KEY","molecule_id","molecules","id"
+"lost_molecules","PRIMARY","PRIMARY KEY","id",,
+"lost_molecules","lost_molecules_molecule_id_unique","UNIQUE","molecule_id",,
+"lost_varieties","PRIMARY","PRIMARY KEY","id",,
+"lost_varieties","lost_variety_id","UNIQUE","lost_variety_id",,
+"material_sources","PRIMARY","PRIMARY KEY","id",,
+"material_sources","ms_unique_link","UNIQUE","material_id",,
+"material_sources","ms_unique_link","UNIQUE","plant_id",,
+"memory_olfaction_concepts","PRIMARY","PRIMARY KEY","id",,
+"memory_olfaction_concepts","slug","UNIQUE","slug",,
+"milestones","PRIMARY","PRIMARY KEY","id",,
+"modification_history","PRIMARY","PRIMARY KEY","id",,
+"molecular_comparisons","PRIMARY","PRIMARY KEY","id",,
+"molecular_comparisons","comparison_id","UNIQUE","comparison_id",,
+"molecular_interactions","PRIMARY","PRIMARY KEY","id",,
+"molecular_interactions","interaction_id","UNIQUE","interaction_id",,
+"molecular_markers","PRIMARY","PRIMARY KEY","id",,
+"molecular_markers","marker_id","UNIQUE","marker_id",,
+"molecular_protocols","PRIMARY","PRIMARY KEY","id",,
+"molecular_transformations","PRIMARY","PRIMARY KEY","id",,
+"molecular_transformations","fk_1","FOREIGN KEY","source_molecule_id","molecules","id"
+"molecular_transformations","fk_2","FOREIGN KEY","product_molecule_id","molecules","id"
+"molecule_accords","molecule_accords_accordId_accords_id_fk","FOREIGN KEY","accordId","accords","id"
+"molecule_accords","molecule_accords_moleculeId_molecules_id_fk","FOREIGN KEY","moleculeId","molecules","id"
+"molecule_analytical_methods","PRIMARY","PRIMARY KEY","id",,
+"molecule_analytical_methods","unique_molecule_method","UNIQUE","molecule_id",,
+"molecule_analytical_methods","unique_molecule_method","UNIQUE","method_id",,
+"molecule_chemical_families","PRIMARY","PRIMARY KEY","moleculeId",,
+"molecule_chemical_families","PRIMARY","PRIMARY KEY","chemicalFamilyId",,
+"molecule_chemical_families","fk_1","FOREIGN KEY","moleculeId","molecules","id"
+"molecule_chemical_families","fk_2","FOREIGN KEY","chemicalFamilyId","chemical_families","id"
+"molecule_contributions","PRIMARY","PRIMARY KEY","id",,
+"molecule_evidence","PRIMARY","PRIMARY KEY","id",,
+"molecule_evidence","molecule_evidence_evidence_id_unique","UNIQUE","evidence_id",,
+"molecule_families","molecule_families_familyId_families_id_fk","FOREIGN KEY","familyId","families","id"
+"molecule_families","molecule_families_moleculeId_molecules_id_fk","FOREIGN KEY","moleculeId","molecules","id"
+"molecule_notes","PRIMARY","PRIMARY KEY","id",,
+"molecule_notes","fk_1","FOREIGN KEY","user_id","users","id"
+"molecule_notes","fk_2","FOREIGN KEY","molecule_id","molecules","id"
+"molecule_notes","unique_user_molecule_note","UNIQUE","user_id",,
+"molecule_notes","unique_user_molecule_note","UNIQUE","molecule_id",,
+"molecule_origins","PRIMARY","PRIMARY KEY","id",,
+"molecule_origins","fk_1","FOREIGN KEY","molecule_id","molecules","id"
+"molecule_origins","fk_2","FOREIGN KEY","origin_id","geographic_origins","id"
+"molecule_origins","unique_molecule_origin","UNIQUE","molecule_id",,
+"molecule_origins","unique_molecule_origin","UNIQUE","origin_id",,
+"molecule_perfumes","PRIMARY","PRIMARY KEY","id",,
+"molecule_perfumes","fk_1","FOREIGN KEY","molecule_id","molecules","id"
+"molecule_perfumes","unique_molecule_perfume","UNIQUE","molecule_id",,
+"molecule_perfumes","unique_molecule_perfume","UNIQUE","perfume_name",,
+"molecule_plant_sources","PRIMARY","PRIMARY KEY","id",,
+"molecule_plant_sources","fk_1","FOREIGN KEY","molecule_id","molecules","id"
+"molecule_plant_sources","fk_2","FOREIGN KEY","plant_id","plants","id"
+"molecule_recettes","molecule_recettes_moleculeId_molecules_id_fk","FOREIGN KEY","moleculeId","molecules","id"
+"molecule_recettes","molecule_recettes_recetteId_recettes_id_fk","FOREIGN KEY","recetteId","recettes","id"
+"molecule_synergies","PRIMARY","PRIMARY KEY","id",,
+"molecule_synergies","fk_1","FOREIGN KEY","molecule1_id","molecules","id"
+"molecule_synergies","fk_2","FOREIGN KEY","molecule2_id","molecules","id"
+"molecule_synergies","unique_molecule_pair","UNIQUE","molecule1_id",,
+"molecule_synergies","unique_molecule_pair","UNIQUE","molecule2_id",,
+"molecules","PRIMARY","PRIMARY KEY","id",,
+"molecules_recettes","PRIMARY","PRIMARY KEY","id",,
+"molecules_recettes","unique_molecule_recette","UNIQUE","molecule_id",,
+"molecules_recettes","unique_molecule_recette","UNIQUE","recette_id",,
+"ms_spectra","PRIMARY","PRIMARY KEY","id",,
+"notifications","PRIMARY","PRIMARY KEY","id",,
+"odor_descriptors","PRIMARY","PRIMARY KEY","id",,
+"odor_descriptors","descriptor_id","UNIQUE","descriptor_id",,
+"olfaction_memory","PRIMARY","PRIMARY KEY","id",,
+"olfaction_memory","slug","UNIQUE","slug",,
+"olfaction_memory_article_concepts","PRIMARY","PRIMARY KEY","id",,
+"olfaction_memory_article_concepts","article_concept_unique","UNIQUE","article_id",,
+"olfaction_memory_article_concepts","article_concept_unique","UNIQUE","concept_id",,
+"olfaction_memory_article_sources","PRIMARY","PRIMARY KEY","id",,
+"olfaction_memory_article_sources","article_source_unique","UNIQUE","article_id",,
+"olfaction_memory_article_sources","article_source_unique","UNIQUE","source_id",,
+"olfaction_memory_sources","PRIMARY","PRIMARY KEY","id",,
+"olfactive_archives","PRIMARY","PRIMARY KEY","id",,
+"olfactive_emissions","PRIMARY","PRIMARY KEY","id",,
+"olfactive_experiences","PRIMARY","PRIMARY KEY","id",,
+"olfactive_experiences","fk_1","FOREIGN KEY","plant_id","plants","id"
+"olfactive_experiences","fk_2","FOREIGN KEY","molecule_id","molecules","id"
+"olfactive_experiences","fk_3","FOREIGN KEY","emission_id","olfactive_emissions","id"
+"olfactory_memories","PRIMARY","PRIMARY KEY","id",,
+"olfactory_term_pilot_finalizations","PRIMARY","PRIMARY KEY","id",,
+"olfactory_term_pilot_finalizations","uq_olfactory_term_finalization_proposal","UNIQUE","proposal_id",,
+"olfactory_term_pilot_proposals","PRIMARY","PRIMARY KEY","id",,
+"olfactory_term_pilot_proposals","uq_olfactory_term_pilot_external","UNIQUE","external_term_id",,
+"olfactory_term_pilot_reviews","PRIMARY","PRIMARY KEY","id",,
+"olfactory_traditions","PRIMARY","PRIMARY KEY","id",,
+"olfactory_traditions","code","UNIQUE","code",,
+"olfactory_traditions","fk_1","FOREIGN KEY","created_by","users","id"
+"olfactory_traditions","tradition_code_idx","UNIQUE","code",,
+"partner_institutions","PRIMARY","PRIMARY KEY","id",,
+"partner_institutions","partner_id","UNIQUE","partner_id",,
+"perfumum_fellowships","PRIMARY","PRIMARY KEY","id",,
+"perfumum_fellowships","fellowship_id","UNIQUE","fellowship_id",,
+"perfumum_fermentation_runs","PRIMARY","PRIMARY KEY","id",,
+"perfumum_fermentation_runs","run_id","UNIQUE","run_id",,
+"perfumum_gcms_runs","PRIMARY","PRIMARY KEY","id",,
+"perfumum_gcms_runs","run_id","UNIQUE","run_id",,
+"perfumum_glossary","PRIMARY","PRIMARY KEY","id",,
+"perfumum_glossary","term_id","UNIQUE","term_id",,
+"perfumum_herbarium_samples","PRIMARY","PRIMARY KEY","id",,
+"perfumum_herbarium_samples","herbarium_id","UNIQUE","herbarium_id",,
+"perfumum_manuscripts","PRIMARY","PRIMARY KEY","id",,
+"perfumum_manuscripts","manuscript_id","UNIQUE","manuscript_id",,
+"perfumum_molecules","PRIMARY","PRIMARY KEY","id",,
+"perfumum_molecules","molecule_name","UNIQUE","molecule_name",,
+"perfumum_plant_molecules","PRIMARY","PRIMARY KEY","id",,
+"perfumum_plants","PRIMARY","PRIMARY KEY","id",,
+"perfumum_plants","latin_name","UNIQUE","latin_name",,
+"perfumum_research_axes","PRIMARY","PRIMARY KEY","id",,
+"perfumum_research_axes","axis_id","UNIQUE","axis_id",,
+"perfumum_research_axes","slug","UNIQUE","slug",,
+"perique_compounds","PRIMARY","PRIMARY KEY","id",,
+"perique_fermentation_stages","PRIMARY","PRIMARY KEY","id",,
+"perique_molecule_links","PRIMARY","PRIMARY KEY","id",,
+"perique_molecule_links","unique_link","UNIQUE","perique_compound_id",,
+"perique_molecule_links","unique_link","UNIQUE","molecule_id",,
+"petrichor","PRIMARY","PRIMARY KEY","id",,
+"petrichor_experimental_accords","fk_1","FOREIGN KEY","petrichorId","petrichor","id"
+"petrichor_experimental_accords","fk_2","FOREIGN KEY","experimentalAccordId","experimental_accords","id"
+"petrichor_molecules","petrichor_molecules_moleculeId_molecules_id_fk","FOREIGN KEY","moleculeId","molecules","id"
+"petrichor_molecules","petrichor_molecules_petrichorId_petrichor_id_fk","FOREIGN KEY","petrichorId","petrichor","id"
+"petrichor_recettes","petrichor_recettes_petrichorId_petrichor_id_fk","FOREIGN KEY","petrichorId","petrichor","id"
+"petrichor_recettes","petrichor_recettes_recetteId_recettes_id_fk","FOREIGN KEY","recetteId","recettes","id"
+"petrichor_tabacs","petrichor_tabacs_petrichorId_petrichor_id_fk","FOREIGN KEY","petrichorId","petrichor","id"
+"petrichor_tabacs","petrichor_tabacs_tabacId_tabacs_id_fk","FOREIGN KEY","tabacId","tabacs","id"
+"plant_analyses","PRIMARY","PRIMARY KEY","id",,
+"plant_analyses","analysis_id","UNIQUE","analysis_id",,
+"plant_contributions","PRIMARY","PRIMARY KEY","id",,
+"plant_extractions","PRIMARY","PRIMARY KEY","id",,
+"plant_extractions","unique_plant_extraction","UNIQUE","plant_id",,
+"plant_extractions","unique_plant_extraction","UNIQUE","extraction_method_id",,
+"plant_geographic_zones","PRIMARY","PRIMARY KEY","id",,
+"plant_geographic_zones","fk_1","FOREIGN KEY","plant_id","plants","id"
+"plant_geographic_zones","fk_2","FOREIGN KEY","zone_id","geographic_zones","id"
+"plant_geographic_zones","unique_plant_zone","UNIQUE","plant_id",,
+"plant_geographic_zones","unique_plant_zone","UNIQUE","zone_id",,
+"plant_molecules","fk_1","FOREIGN KEY","plant_id","plants","id"
+"plant_molecules","fk_2","FOREIGN KEY","molecule_id","molecules","id"
+"plant_molecules","unique_plant_molecule","UNIQUE","plant_id",,
+"plant_molecules","unique_plant_molecule","UNIQUE","molecule_id",,
+"plant_perfumes","PRIMARY","PRIMARY KEY","id",,
+"plant_perfumes","fk_1","FOREIGN KEY","plant_id","plants","id"
+"plant_perfumes","unique_plant_perfume","UNIQUE","plant_id",,
+"plant_perfumes","unique_plant_perfume","UNIQUE","perfume_name",,
+"plant_perfumes","unique_plant_perfume","UNIQUE","perfume_house",,
+"plant_samples","PRIMARY","PRIMARY KEY","id",,
+"plant_samples","sample_id","UNIQUE","sample_id",,
+"plant_terroirs","PRIMARY","PRIMARY KEY","id",,
+"plant_terroirs","unique_plant_terroir","UNIQUE","plant_id",,
+"plant_terroirs","unique_plant_terroir","UNIQUE","terroir_id",,
+"plant_varieties","PRIMARY","PRIMARY KEY","id",,
+"plant_varieties","variety_id","UNIQUE","variety_id",,
+"plants","PRIMARY","PRIMARY KEY","id",,
+"projets_artistiques","PRIMARY","PRIMARY KEY","id",,
+"protocol_steps","PRIMARY","PRIMARY KEY","id",,
+"prototype_chemical_families","PRIMARY","PRIMARY KEY","prototypeId",,
+"prototype_chemical_families","PRIMARY","PRIMARY KEY","chemicalFamilyId",,
+"prototype_chemical_families","fk_1","FOREIGN KEY","prototypeId","prototypes","id"
+"prototype_chemical_families","fk_2","FOREIGN KEY","chemicalFamilyId","chemical_families","id"
+"prototype_laboratoire","prototype_laboratoire_laboratoireId_laboratoire_id_fk","FOREIGN KEY","laboratoireId","laboratoire","id"
+"prototype_laboratoire","prototype_laboratoire_prototypeId_prototypes_id_fk","FOREIGN KEY","prototypeId","prototypes","id"
+"prototype_molecules","prototype_molecules_moleculeId_molecules_id_fk","FOREIGN KEY","moleculeId","molecules","id"
+"prototype_molecules","prototype_molecules_prototypeId_prototypes_id_fk","FOREIGN KEY","prototypeId","prototypes","id"
+"prototypes","PRIMARY","PRIMARY KEY","id",,
+"prototypes","prototypes_code_unique","UNIQUE","code",,
+"publication_extraction_methods","PRIMARY","PRIMARY KEY","id",,
+"publication_extraction_methods","fk_1","FOREIGN KEY","publication_id","research_publications","id"
+"publication_extraction_methods","fk_2","FOREIGN KEY","extraction_method_id","extraction_methods","id"
+"publication_extraction_methods","unique_pub_extraction","UNIQUE","publication_id",,
+"publication_extraction_methods","unique_pub_extraction","UNIQUE","extraction_method_id",,
+"publication_methods","PRIMARY","PRIMARY KEY","id",,
+"publication_methods","fk_1","FOREIGN KEY","publication_id","research_publications","id"
+"publication_methods","fk_2","FOREIGN KEY","method_id","analytical_methods","id"
+"publication_methods","unique_pub_method","UNIQUE","publication_id",,
+"publication_methods","unique_pub_method","UNIQUE","method_id",,
+"publication_molecule_links","PRIMARY","PRIMARY KEY","id",,
+"publication_molecule_links","unique_link","UNIQUE","publication_id",,
+"publication_molecule_links","unique_link","UNIQUE","molecule_id",,
+"publication_molecules","PRIMARY","PRIMARY KEY","id",,
+"publication_molecules","fk_1","FOREIGN KEY","publication_id","research_publications","id"
+"publication_molecules","fk_2","FOREIGN KEY","molecule_id","molecules","id"
+"publication_molecules","unique_pub_molecule","UNIQUE","publication_id",,
+"publication_molecules","unique_pub_molecule","UNIQUE","molecule_id",,
+"publication_researchers","PRIMARY","PRIMARY KEY","id",,
+"publication_researchers","fk_1","FOREIGN KEY","publication_id","research_publications","id"
+"publication_researchers","fk_2","FOREIGN KEY","researcher_id","researchers","id"
+"publication_researchers","unique_pub_researcher","UNIQUE","publication_id",,
+"publication_researchers","unique_pub_researcher","UNIQUE","researcher_id",,
+"publication_transformations","PRIMARY","PRIMARY KEY","id",,
+"publication_transformations","fk_1","FOREIGN KEY","publication_id","research_publications","id"
+"publication_transformations","fk_2","FOREIGN KEY","transformation_id","molecular_transformations","id"
+"publication_transformations","unique_pub_transformation","UNIQUE","publication_id",,
+"publication_transformations","unique_pub_transformation","UNIQUE","transformation_id",,
+"pyrazines","PRIMARY","PRIMARY KEY","id",,
+"pyrfume_datasets","PRIMARY","PRIMARY KEY","id",,
+"pyrfume_embeddings","PRIMARY","PRIMARY KEY","id",,
+"pyrfume_ifra_restrictions","PRIMARY","PRIMARY KEY","id",,
+"pyrfume_molecule_mapping","PRIMARY","PRIMARY KEY","id",,
+"pyrfume_olfactory_descriptors","PRIMARY","PRIMARY KEY","id",,
+"pyrolysis_transformations","PRIMARY","PRIMARY KEY","id",,
+"raw_material_molecules","PRIMARY","PRIMARY KEY","id",,
+"raw_material_molecules","fk_1","FOREIGN KEY","raw_material_id","raw_materials","id"
+"raw_material_molecules","fk_2","FOREIGN KEY","molecule_id","molecules","id"
+"raw_material_plants","PRIMARY","PRIMARY KEY","id",,
+"raw_material_plants","unique_rm_plant","UNIQUE","raw_material_id",,
+"raw_material_plants","unique_rm_plant","UNIQUE","plant_id",,
+"raw_materials","PRIMARY","PRIMARY KEY","id",,
+"raw_materials","fk_1","FOREIGN KEY","plant_id","plants","id"
+"raw_materials","fk_2","FOREIGN KEY","terroir_id","terroirs","id"
+"raw_materials","fk_3","FOREIGN KEY","extraction_method_id","extraction_methods","id"
+"raw_materials","material_id","UNIQUE","material_id",,
+"recette_molecules","PRIMARY","PRIMARY KEY","id",,
+"recette_molecules","fk_1","FOREIGN KEY","recette_id","recettes","id"
+"recette_molecules","fk_2","FOREIGN KEY","molecule_id","molecules","id"
+"recette_molecules","unique_recette_molecule","UNIQUE","recette_id",,
+"recette_molecules","unique_recette_molecule","UNIQUE","molecule_id",,
+"recette_raw_materials","PRIMARY","PRIMARY KEY","id",,
+"recette_raw_materials","rrm_unique_link","UNIQUE","recette_id",,
+"recette_raw_materials","rrm_unique_link","UNIQUE","raw_material_id",,
+"recette_tabac_associations","PRIMARY","PRIMARY KEY","id",,
+"recette_tabac_associations","fk_1","FOREIGN KEY","recette_id","recettes","id"
+"recette_tabac_associations","fk_2","FOREIGN KEY","tabac_id","tabacs","id"
+"recette_tabac_associations","unique_recette_tabac","UNIQUE","recette_id",,
+"recette_tabac_associations","unique_recette_tabac","UNIQUE","tabac_id",,
+"recettes","PRIMARY","PRIMARY KEY","id",,
+"recettes","recettes_accordId_accords_id_fk","FOREIGN KEY","accordId","accords","id"
+"recettes","recettes_civilisationId_civilisations_id_fk","FOREIGN KEY","civilisationId","traditions_olfactives","id"
+"recettes","recettes_familyId_families_id_fk","FOREIGN KEY","familyId","families","id"
+"recettes","recettes_tabacId_tabacs_id_fk","FOREIGN KEY","tabacId","tabacs","id"
+"recettes_formules_reference","PRIMARY","PRIMARY KEY","id",,
+"recettes_formules_reference","recettes_formules_reference_recette_id_fk","FOREIGN KEY","recette_id","recettes","id"
+"recettes_formules_reference","unique_recette_formule","UNIQUE","recette_id",,
+"recettes_formules_reference","unique_recette_formule","UNIQUE","formule_reference_name",,
+"recherche_radicale","PRIMARY","PRIMARY KEY","id",,
+"recipe_contributions","PRIMARY","PRIMARY KEY","id",,
+"recipe_versions","PRIMARY","PRIMARY KEY","id",,
+"recipe_versions","fk_1","FOREIGN KEY","recette_id","recettes","id"
+"reference_citations","PRIMARY","PRIMARY KEY","id",,
+"reference_citations","fk_cited","FOREIGN KEY","cited_id","bibliography_entries","id"
+"reference_citations","fk_citing","FOREIGN KEY","citing_id","bibliography_entries","id"
+"reference_citations","unique_reference_citation","UNIQUE","citing_id",,
+"reference_citations","unique_reference_citation","UNIQUE","cited_id",,
+"reference_entity_links","PRIMARY","PRIMARY KEY","id",,
+"reference_entity_links","fk_1","FOREIGN KEY","reference_id","v3_references","id"
+"reference_entity_links","fk_2","FOREIGN KEY","created_by","users","id"
+"reference_entity_links","unique_ref_entity_link","UNIQUE","reference_id",,
+"reference_entity_links","unique_ref_entity_link","UNIQUE","entity_type",,
+"reference_entity_links","unique_ref_entity_link","UNIQUE","entity_id",,
+"reference_notes","PRIMARY","PRIMARY KEY","id",,
+"reference_tags","PRIMARY","PRIMARY KEY","id",,
+"reference_tags","ref_tag_slug_idx","UNIQUE","slug",,
+"regions","PRIMARY","PRIMARY KEY","id",,
+"regions","unique_code","UNIQUE","code",,
+"research_axes","PRIMARY","PRIMARY KEY","id",,
+"research_axes","research_axis_code_idx","UNIQUE","code",,
+"research_axes_innovants","PRIMARY","PRIMARY KEY","id",,
+"research_axes_innovants","axis_code","UNIQUE","axis_code",,
+"research_axis_nez","PRIMARY","PRIMARY KEY","id",,
+"research_axis_nez","axis_id","UNIQUE","axis_id",,
+"research_axis_nez","slug","UNIQUE","slug",,
+"research_claims","PRIMARY","PRIMARY KEY","id",,
+"research_claims","claimId","UNIQUE","claimId",,
+"research_content","PRIMARY","PRIMARY KEY","id",,
+"research_content","content_id","UNIQUE","content_id",,
+"research_edges","PRIMARY","PRIMARY KEY","id",,
+"research_entries","PRIMARY","PRIMARY KEY","id",,
+"research_entries","idx_research_entries_code","UNIQUE","entry_code",,
+"research_entries","research_entry_slug_idx","UNIQUE","slug",,
+"research_entry_axes","PRIMARY","PRIMARY KEY","id",,
+"research_entry_axes","entry_axes_unique","UNIQUE","entry_id",,
+"research_entry_axes","entry_axes_unique","UNIQUE","axis_id",,
+"research_entry_sources","PRIMARY","PRIMARY KEY","id",,
+"research_entry_sources","entry_sources_unique","UNIQUE","entry_id",,
+"research_entry_sources","entry_sources_unique","UNIQUE","source_id",,
+"research_entry_tags","PRIMARY","PRIMARY KEY","id",,
+"research_entry_tags","entry_tags_unique","UNIQUE","entry_id",,
+"research_entry_tags","entry_tags_unique","UNIQUE","tag_id",,
+"research_institutions","PRIMARY","PRIMARY KEY","id",,
+"research_publications","PRIMARY","PRIMARY KEY","id",,
+"research_publications","ref_code","UNIQUE","ref_code",,
+"research_sources","PRIMARY","PRIMARY KEY","id",,
+"research_sources","sourceId","UNIQUE","sourceId",,
+"research_tags","PRIMARY","PRIMARY KEY","id",,
+"research_tags","research_tag_name_idx","UNIQUE","name",,
+"research_tags","research_tag_slug_idx","UNIQUE","slug",,
+"research_timeline","PRIMARY","PRIMARY KEY","id",,
+"researcher_institutions","PRIMARY","PRIMARY KEY","id",,
+"researcher_institutions","fk_1","FOREIGN KEY","researcher_id","researchers","id"
+"researcher_institutions","fk_2","FOREIGN KEY","institution_id","research_institutions","id"
+"researcher_institutions","unique_researcher_institution","UNIQUE","researcher_id",,
+"researcher_institutions","unique_researcher_institution","UNIQUE","institution_id",,
+"researchers","PRIMARY","PRIMARY KEY","id",,
+"sample_images","PRIMARY","PRIMARY KEY","id",,
+"saved_formulas","PRIMARY","PRIMARY KEY","id",,
+"scent_blends","PRIMARY","PRIMARY KEY","id",,
+"scent_blends","blend_id","UNIQUE","blend_id",,
+"seasonal_variations","PRIMARY","PRIMARY KEY","id",,
+"seasonal_variations","fk_1","FOREIGN KEY","plant_id","plants","id"
+"sensory_scales","PRIMARY","PRIMARY KEY","id",,
+"shared_collections","PRIMARY","PRIMARY KEY","id",,
+"shared_collections","fk_1","FOREIGN KEY","creator_id","users","id"
+"shared_collections","token","UNIQUE","token",,
+"situated_smells","PRIMARY","PRIMARY KEY","id",,
+"soil_analyses","PRIMARY","PRIMARY KEY","id",,
+"source_article_nez","PRIMARY","PRIMARY KEY","id",,
+"source_article_nez","source_id","UNIQUE","source_id",,
+"source_article_nez","url","UNIQUE","url",,
+"sparql_cache","PRIMARY","PRIMARY KEY","id",,
+"sparql_cache","sparql_cache_hash_idx","UNIQUE","query_hash",,
+"sparql_cache","sparql_cache_query_hash_unique","UNIQUE","query_hash",,
+"sparql_saved_queries","PRIMARY","PRIMARY KEY","id",,
+"story_elements","PRIMARY","PRIMARY KEY","id",,
+"story_elements","fk_1","FOREIGN KEY","storyline_id","storylines","id"
+"storylines","PRIMARY","PRIMARY KEY","id",,
+"storylines","slug","UNIQUE","slug",,
+"supplier_alternative_links","PRIMARY","PRIMARY KEY","id",,
+"supplier_alternative_links","supplier_alt_link_unique","UNIQUE","supplier_id",,
+"supplier_alternative_links","supplier_alt_link_unique","UNIQUE","alternative_id",,
+"sustainable_alternatives","PRIMARY","PRIMARY KEY","id",,
+"synergies","PRIMARY","PRIMARY KEY","id",,
+"synergies","fk_1","FOREIGN KEY","tabac_id","tabacs","id"
+"synergies","fk_2","FOREIGN KEY","molecule_id","molecules","id"
+"tabac_accords","tabac_accords_accordId_accords_id_fk","FOREIGN KEY","accordId","accords","id"
+"tabac_accords","tabac_accords_tabacId_tabacs_id_fk","FOREIGN KEY","tabacId","tabacs","id"
+"tabac_civilisations","tabac_civilisations_civilisationId_civilisations_id_fk","FOREIGN KEY","civilisationId","traditions_olfactives","id"
+"tabac_civilisations","tabac_civilisations_tabacId_tabacs_id_fk","FOREIGN KEY","tabacId","tabacs","id"
+"tabac_molecule_links","PRIMARY","PRIMARY KEY","id",,
+"tabac_molecule_links","unique_tabac_molecule","UNIQUE","tabac_id",,
+"tabac_molecule_links","unique_tabac_molecule","UNIQUE","molecule_id",,
+"tabac_molecules","tabac_molecules_moleculeId_molecules_id_fk","FOREIGN KEY","moleculeId","molecules","id"
+"tabac_molecules","tabac_molecules_tabacId_tabacs_id_fk","FOREIGN KEY","tabacId","tabacs","id"
+"tabac_terroir_links","PRIMARY","PRIMARY KEY","id",,
+"tabac_terroir_links","unique_tabac_terroir","UNIQUE","tabac_id",,
+"tabac_terroir_links","unique_tabac_terroir","UNIQUE","terroir_id",,
+"tabacs","PRIMARY","PRIMARY KEY","id",,
+"tasting_notes","PRIMARY","PRIMARY KEY","id",,
+"tasting_notes","fk_1","FOREIGN KEY","recette_id","recettes","id"
+"tasting_notes","fk_2","FOREIGN KEY","version_id","recipe_versions","id"
+"technical_protocols","PRIMARY","PRIMARY KEY","id",,
+"technical_protocols","slug","UNIQUE","slug",,
+"temperature_zones","PRIMARY","PRIMARY KEY","id",,
+"terp_profile_molecules","fk_1","FOREIGN KEY","terp_profile_id","terp_profiles","id"
+"terp_profile_molecules","fk_2","FOREIGN KEY","molecule_id","molecules","id"
+"terp_profile_plants","fk_1","FOREIGN KEY","terp_profile_id","terp_profiles","id"
+"terp_profile_plants","fk_2","FOREIGN KEY","plant_id","plants","id"
+"terp_profiles","PRIMARY","PRIMARY KEY","id",,
+"terp_profiles","profile_id","UNIQUE","profile_id",,
+"terpene_comparison_profiles","PRIMARY","PRIMARY KEY","id",,
+"terpene_comparison_profiles","profile_id","UNIQUE","profile_id",,
+"terpene_synergies","PRIMARY","PRIMARY KEY","id",,
+"terpene_synergies","fk_1","FOREIGN KEY","terpene1_id","molecules","id"
+"terpene_synergies","fk_2","FOREIGN KEY","terpene2_id","molecules","id"
+"terpene_synergies","unique_pair","UNIQUE","terpene1_id",,
+"terpene_synergies","unique_pair","UNIQUE","terpene2_id",,
+"terroir_contributions","PRIMARY","PRIMARY KEY","id",,
+"terroir_specialties","PRIMARY","PRIMARY KEY","id",,
+"terroir_specialties","fk_1","FOREIGN KEY","terroir_id","terroirs","id"
+"terroir_specialties","fk_2","FOREIGN KEY","plant_id","plants","id"
+"terroir_specialties","fk_3","FOREIGN KEY","raw_material_id","raw_materials","id"
+"terroirs","PRIMARY","PRIMARY KEY","id",,
+"terroirs","terroir_id","UNIQUE","terroir_id",,
+"text_fragments","PRIMARY","PRIMARY KEY","id",,
+"text_fragments","fragment_id","UNIQUE","fragment_id",,
+"thematic_axes","PRIMARY","PRIMARY KEY","id",,
+"thematic_axes","thematic_axis_code_idx","UNIQUE","axis_code",,
+"tissue_culture_lines","PRIMARY","PRIMARY KEY","id",,
+"tissue_culture_lines","line_id","UNIQUE","line_id",,
+"tobacco_additives","PRIMARY","PRIMARY KEY","id",,
+"tobacco_blends","PRIMARY","PRIMARY KEY","id",,
+"tobacco_cannabis_accord_recettes","PRIMARY","PRIMARY KEY","id",,
+"tobacco_cannabis_accord_recettes","unique_accord_recette","UNIQUE","accord_id",,
+"tobacco_cannabis_accord_recettes","unique_accord_recette","UNIQUE","recette_id",,
+"tobacco_cannabis_accords","PRIMARY","PRIMARY KEY","id",,
+"tobacco_cigarettes","PRIMARY","PRIMARY KEY","id",,
+"tobacco_compounds","PRIMARY","PRIMARY KEY","id",,
+"tobacco_extinct_varieties","PRIMARY","PRIMARY KEY","id",,
+"tobacco_formula_installations","PRIMARY","PRIMARY KEY","tobaccoFormulaId",,
+"tobacco_formula_installations","PRIMARY","PRIMARY KEY","installationId",,
+"tobacco_formula_installations","fk_1","FOREIGN KEY","tobaccoFormulaId","tobacco_formulas","id"
+"tobacco_formula_installations","fk_2","FOREIGN KEY","installationId","installations","id"
+"tobacco_formulas","PRIMARY","PRIMARY KEY","id",,
+"tobacco_formulas","code","UNIQUE","code",,
+"tobacco_hybrids","PRIMARY","PRIMARY KEY","id",,
+"tobacco_landraces","PRIMARY","PRIMARY KEY","id",,
+"tobacco_varieties","PRIMARY","PRIMARY KEY","id",,
+"tps_gene_molecules","PRIMARY","PRIMARY KEY","id",,
+"tps_gene_molecules","unique_tps_gene_molecule","UNIQUE","tps_gene_id",,
+"tps_gene_molecules","unique_tps_gene_molecule","UNIQUE","molecule_id",,
+"tps_genes","PRIMARY","PRIMARY KEY","id",,
+"tps_molecule_links","PRIMARY","PRIMARY KEY","id",,
+"tps_molecule_links","unique_link","UNIQUE","tps_gene_id",,
+"tps_molecule_links","unique_link","UNIQUE","molecule_id",,
+"trade_routes","PRIMARY","PRIMARY KEY","id",,
+"trade_routes","route_id","UNIQUE","route_id",,
+"traditions_olfactives","PRIMARY","PRIMARY KEY","id",,
+"traditions_olfactives","civilisations_signatureAccordId_accords_id_fk","FOREIGN KEY","signatureAccordId","accords","id"
+"transformation_recipe_impacts","PRIMARY","PRIMARY KEY","id",,
+"transformation_recipe_impacts","fk_1","FOREIGN KEY","transformation_id","molecular_transformations","id"
+"transformation_recipe_impacts","fk_2","FOREIGN KEY","recette_id","recettes","id"
+"transformation_recipe_impacts","unique_transformation_recipe","UNIQUE","transformation_id",,
+"transformation_recipe_impacts","unique_transformation_recipe","UNIQUE","recette_id",,
+"user_favorites","PRIMARY","PRIMARY KEY","id",,
+"user_favorites","unique_user_molecule","UNIQUE","user_id",,
+"user_favorites","unique_user_molecule","UNIQUE","molecule_id",,
+"user_notes","PRIMARY","PRIMARY KEY","id",,
+"users","PRIMARY","PRIMARY KEY","id",,
+"users","users_openId_unique","UNIQUE","openId",,
+"v3_reference_tag_links","PRIMARY","PRIMARY KEY","id",,
+"v3_reference_tag_links","unique_v3_ref_tag","UNIQUE","reference_id",,
+"v3_reference_tag_links","unique_v3_ref_tag","UNIQUE","tag_id",,
+"v3_references","PRIMARY","PRIMARY KEY","id",,
+"v3_references","v3_ref_entry_key_idx","UNIQUE","entry_key",,
+"varieties","PRIMARY","PRIMARY KEY","id",,
+"varieties","unique_variety_code","UNIQUE","code",,
+"variety_genealogy","PRIMARY","PRIMARY KEY","id",,
+"variety_historical_records","PRIMARY","PRIMARY KEY","id",,
+"variety_historical_records","record_id","UNIQUE","record_id",,
+"variety_images","PRIMARY","PRIMARY KEY","id",,
+"variety_molecular_profiles","PRIMARY","PRIMARY KEY","id",,
+"variety_molecular_profiles","profile_id","UNIQUE","profile_id",,
+"variety_molecules","PRIMARY","PRIMARY KEY","id",,
+"variety_molecules","unique_variety_molecule","UNIQUE","variety_id",,
+"variety_molecules","unique_variety_molecule","UNIQUE","molecule_id",,
+"verified_suppliers","PRIMARY","PRIMARY KEY","id",,
+"volcanique","PRIMARY","PRIMARY KEY","id",,
+"volcanique_experimental_accords","fk_1","FOREIGN KEY","volcaniqueId","volcanique","id"
+"volcanique_experimental_accords","fk_2","FOREIGN KEY","experimentalAccordId","experimental_accords","id"
+"volcanique_molecules","volcanique_molecules_moleculeId_molecules_id_fk","FOREIGN KEY","moleculeId","molecules","id"
+"volcanique_molecules","volcanique_molecules_volcaniqueId_volcanique_id_fk","FOREIGN KEY","volcaniqueId","volcanique","id"
+"volcanique_recettes","volcanique_recettes_recetteId_recettes_id_fk","FOREIGN KEY","recetteId","recettes","id"
+"volcanique_recettes","volcanique_recettes_volcaniqueId_volcanique_id_fk","FOREIGN KEY","volcaniqueId","volcanique","id"
+"volcanique_tabacs","volcanique_tabacs_tabacId_tabacs_id_fk","FOREIGN KEY","tabacId","tabacs","id"
+"volcanique_tabacs","volcanique_tabacs_volcaniqueId_volcanique_id_fk","FOREIGN KEY","volcaniqueId","volcanique","id"
+"vr_scenes","PRIMARY","PRIMARY KEY","id",,
+"vr_scenes","scene_id","UNIQUE","scene_id",,
