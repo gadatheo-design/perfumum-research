@@ -1,0 +1,2419 @@
+{
+  "format": "PERFUMUM Phase 1B — proposed full-recovery scope",
+  "status": "PREPARATION ONLY — no full export executed; explicit owner approval required",
+  "generated_from": "read-only information_schema inventory",
+  "captured_at_utc": "2026-10-23T13:48:00.536Z",
+  "source": {
+    "database_name": "H2pjHHJbH276XmnbNcJhCp",
+    "server_version": "8.0.11-TiDB-v8.5.3-serverless",
+    "session_time_zone": "SYSTEM",
+    "system_time_zone": "UTC"
+  },
+  "matrix_sha256": "14b8082214b88e1c7f5594420a4f8b436d2091c38b2f632ea7e603225d72d6b7",
+  "database_reality": {
+    "base_tables": 293,
+    "views_excluded_from_matrix": [
+      "molecule_links_unified",
+      "molecule_notes_view",
+      "molecule_synergies_view"
+    ],
+    "columns": 4143,
+    "constraints": 558,
+    "estimated_data_plus_indexes_bytes": 25259373,
+    "drizzle_declared_tables": 199,
+    "drizzle_intersection": 193,
+    "migration_sql_files": 98,
+    "tables_without_primary_key": [
+      "final_recipe_terp_profiles",
+      "installation_families",
+      "installation_recettes",
+      "laboratoire_molecules",
+      "laboratoire_recettes",
+      "leaf_economy_molecules",
+      "molecule_accords",
+      "molecule_families",
+      "molecule_recettes",
+      "petrichor_experimental_accords",
+      "petrichor_molecules",
+      "petrichor_recettes",
+      "petrichor_tabacs",
+      "plant_molecules",
+      "prototype_laboratoire",
+      "prototype_molecules",
+      "tabac_accords",
+      "tabac_civilisations",
+      "tabac_molecules",
+      "terp_profile_molecules",
+      "terp_profile_plants",
+      "volcanique_experimental_accords",
+      "volcanique_molecules",
+      "volcanique_recettes",
+      "volcanique_tabacs"
+    ]
+  },
+  "approval_gates": [
+    "approved destination controlled by owner",
+    "public encryption key fingerprint verified out of band",
+    "scope for potentially personal/private tables decided",
+    "TiDB consistent snapshot method preflight succeeds",
+    "Forge media read and rights permission decided"
+  ],
+  "proposed_table_decisions": {
+    "inclure": [
+      {
+        "table": "__drizzle_migrations",
+        "category": "historique",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 3,
+        "estimated_data_plus_indexes_bytes": 204,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "accord_civilisations",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "axis_source_nez",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 13,
+        "estimated_data_plus_indexes_bytes": 3008,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "biosynthetic_pathways",
+        "category": "inconnue",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 4,
+        "estimated_data_plus_indexes_bytes": 1928,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "cannabis_strains",
+        "category": "application",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 3,
+        "estimated_data_plus_indexes_bytes": 72,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "chemical_families",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 32,
+        "estimated_data_plus_indexes_bytes": 7826,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "cigarillo_recipe_ingredients",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 127,
+        "estimated_data_plus_indexes_bytes": 13374,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "citations",
+        "category": "bibliographie",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 741,
+        "estimated_data_plus_indexes_bytes": 163472,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "climate_axis_matrix",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 12,
+        "estimated_data_plus_indexes_bytes": 2036,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "climate_studies",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 4,
+        "estimated_data_plus_indexes_bytes": 5523,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "data_quality_remediation_cases",
+        "category": "historique",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 259,
+        "estimated_data_plus_indexes_bytes": 10360,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "europeana_bookmarks",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 6,
+        "estimated_data_plus_indexes_bytes": 1866,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "experimental_accord_civilisations",
+        "category": "inconnue",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 44,
+        "estimated_data_plus_indexes_bytes": 1760,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "experimental_accords",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 20,
+        "estimated_data_plus_indexes_bytes": 4091,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "families",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 13,
+        "estimated_data_plus_indexes_bytes": 2559,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "gcms_peaks",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 60,
+        "estimated_data_plus_indexes_bytes": 4955,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "gene_terpene_links",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 24,
+        "estimated_data_plus_indexes_bytes": 2906,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "geographic_origins",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 20,
+        "estimated_data_plus_indexes_bytes": 10737,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "glossary",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 108,
+        "estimated_data_plus_indexes_bytes": 31262,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "glossary_terms",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 68,
+        "estimated_data_plus_indexes_bytes": 1632,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "historical_cigarettes",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 21,
+        "estimated_data_plus_indexes_bytes": 8474,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "installation_families",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "installation_recettes",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "installations",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 7,
+        "estimated_data_plus_indexes_bytes": 6444,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "journey_items",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 27,
+        "estimated_data_plus_indexes_bytes": 3198,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "laboratoire_molecules",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "laboratoire_recettes",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "landrace_terpenes",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 112,
+        "estimated_data_plus_indexes_bytes": 7968,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "molecule_accords",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "molecule_chemical_families",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 27,
+        "estimated_data_plus_indexes_bytes": 1080,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "molecule_evidence",
+        "category": "bibliographie",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 64,
+        "estimated_data_plus_indexes_bytes": 40671,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "molecule_families",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "molecule_perfumes",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 150,
+        "estimated_data_plus_indexes_bytes": 8400,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "molecule_recettes",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "molecule_synergies",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 134,
+        "estimated_data_plus_indexes_bytes": 41359,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "odor_descriptors",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 25,
+        "estimated_data_plus_indexes_bytes": 800,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "olfaction_memory_article_concepts",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "olfaction_memory_article_sources",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "perfumum_molecules",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 62,
+        "estimated_data_plus_indexes_bytes": 6759,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "perique_fermentation_stages",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 7,
+        "estimated_data_plus_indexes_bytes": 4035,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "petrichor",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 60,
+        "estimated_data_plus_indexes_bytes": 4119,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "petrichor_experimental_accords",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 120,
+        "estimated_data_plus_indexes_bytes": 3840,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "petrichor_molecules",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "petrichor_recettes",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "petrichor_tabacs",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "plant_perfumes",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 58,
+        "estimated_data_plus_indexes_bytes": 2784,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "prototype_chemical_families",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 11,
+        "estimated_data_plus_indexes_bytes": 528,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "prototype_laboratoire",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "prototype_molecules",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "prototypes",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 4,
+        "estimated_data_plus_indexes_bytes": 6698,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "pyrfume_molecule_mapping",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 1258,
+        "estimated_data_plus_indexes_bytes": 135878,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "pyrfume_olfactory_descriptors",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 44864,
+        "estimated_data_plus_indexes_bytes": 5851421,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "recette_molecules",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 406,
+        "estimated_data_plus_indexes_bytes": 26397,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "recherche_radicale",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 5,
+        "estimated_data_plus_indexes_bytes": 5476,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "reference_tags",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 137,
+        "estimated_data_plus_indexes_bytes": 11983,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "research_claims",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 17,
+        "estimated_data_plus_indexes_bytes": 5537,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "research_entry_axes",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "research_entry_sources",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "research_entry_tags",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "research_sources",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 24,
+        "estimated_data_plus_indexes_bytes": 4570,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "research_tags",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "sensory_scales",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 18,
+        "estimated_data_plus_indexes_bytes": 1909,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "situated_smells",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 6,
+        "estimated_data_plus_indexes_bytes": 1586,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "soil_analyses",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 9,
+        "estimated_data_plus_indexes_bytes": 2988,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "story_elements",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 89,
+        "estimated_data_plus_indexes_bytes": 5731,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "storylines",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 8,
+        "estimated_data_plus_indexes_bytes": 400,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "tabac_accords",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "tabac_civilisations",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "tabac_molecules",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "tabac_terroir_links",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 39,
+        "estimated_data_plus_indexes_bytes": 3023,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "tabacs",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 38,
+        "estimated_data_plus_indexes_bytes": 10309,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "tasting_notes",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "temperature_zones",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 6,
+        "estimated_data_plus_indexes_bytes": 440,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "terpene_synergies",
+        "category": "inconnue",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 6,
+        "estimated_data_plus_indexes_bytes": 1847,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "thematic_axes",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 27,
+        "estimated_data_plus_indexes_bytes": 3374,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "tobacco_compounds",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 252,
+        "estimated_data_plus_indexes_bytes": 40424,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "tobacco_landraces",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 20,
+        "estimated_data_plus_indexes_bytes": 4824,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "tobacco_varieties",
+        "category": "application",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 66,
+        "estimated_data_plus_indexes_bytes": 1584,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "tps_genes",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 307,
+        "estimated_data_plus_indexes_bytes": 44225,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "traditions_olfactives",
+        "category": "référentiel",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 70,
+        "estimated_data_plus_indexes_bytes": 23898,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "v3_reference_tag_links",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "volcanique",
+        "category": "recherche",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 36,
+        "estimated_data_plus_indexes_bytes": 2286,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "volcanique_experimental_accords",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 72,
+        "estimated_data_plus_indexes_bytes": 2304,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "volcanique_molecules",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "volcanique_recettes",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      },
+      {
+        "table": "volcanique_tabacs",
+        "category": "relation",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "donnée nécessaire au corpus ou à sa structure, sans signal structurel de sensibilité"
+      }
+    ],
+    "inclure_métadonnées ; binaires_après_permission": [
+      {
+        "table": "absorbe_profiles",
+        "category": "média",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 4,
+        "estimated_data_plus_indexes_bytes": 1187,
+        "rationale": "l’URL ou la clé ne prouve ni l’accès ni le droit de copie"
+      },
+      {
+        "table": "landrace_pyrolysis_profiles",
+        "category": "média",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 22,
+        "estimated_data_plus_indexes_bytes": 3630,
+        "rationale": "l’URL ou la clé ne prouve ni l’accès ni le droit de copie"
+      },
+      {
+        "table": "landrace_terpene_profiles",
+        "category": "média",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 38,
+        "estimated_data_plus_indexes_bytes": 4412,
+        "rationale": "l’URL ou la clé ne prouve ni l’accès ni le droit de copie"
+      },
+      {
+        "table": "terp_profiles",
+        "category": "média",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 16,
+        "estimated_data_plus_indexes_bytes": 20078,
+        "rationale": "l’URL ou la clé ne prouve ni l’accès ni le droit de copie"
+      },
+      {
+        "table": "terpene_comparison_profiles",
+        "category": "média",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "l’URL ou la clé ne prouve ni l’accès ni le droit de copie"
+      },
+      {
+        "table": "variety_molecular_profiles",
+        "category": "média",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "l’URL ou la clé ne prouve ni l’accès ni le droit de copie"
+      }
+    ],
+    "révision_humaine": [
+      {
+        "table": "accords",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 32,
+        "estimated_data_plus_indexes_bytes": 9455,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "aromatic_accords",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "aromatic_rarities",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 39,
+        "estimated_data_plus_indexes_bytes": 936,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "axis_connections",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 48,
+        "estimated_data_plus_indexes_bytes": 3072,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "bibliographie",
+        "category": "bibliographie",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 21,
+        "estimated_data_plus_indexes_bytes": 2081,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "bibliography_axis_links",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 129,
+        "estimated_data_plus_indexes_bytes": 7224,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "biotech_molecules",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 13,
+        "estimated_data_plus_indexes_bytes": 4080,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "botanical_states",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "cannabis_landraces",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 14,
+        "estimated_data_plus_indexes_bytes": 16899,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "chemotypes",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 28,
+        "estimated_data_plus_indexes_bytes": 24408,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "cigarillo_molecule_links",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 2,
+        "estimated_data_plus_indexes_bytes": 134,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "cigarillo_recipes",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 32,
+        "estimated_data_plus_indexes_bytes": 16657,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "cinema_smellscapes",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 2,
+        "estimated_data_plus_indexes_bytes": 160,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "citizen_observations",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 20,
+        "estimated_data_plus_indexes_bytes": 2750,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "civilizational_markers",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 15,
+        "estimated_data_plus_indexes_bytes": 11532,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "civilizational_timeline",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "descriptor_molecule_links",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 37,
+        "estimated_data_plus_indexes_bytes": 1776,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "descriptor_plant_links",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 11,
+        "estimated_data_plus_indexes_bytes": 528,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "entourage_rules",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 5,
+        "estimated_data_plus_indexes_bytes": 3180,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "extended_supplier_materials",
+        "category": "application",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "extraction_methods",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 7,
+        "estimated_data_plus_indexes_bytes": 1304,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "extraction_tests",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 6,
+        "estimated_data_plus_indexes_bytes": 2608,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "field_archive_molecule_links",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 22,
+        "estimated_data_plus_indexes_bytes": 3324,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "field_archives",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 5,
+        "estimated_data_plus_indexes_bytes": 5042,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "final_recipe_terp_profiles",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "final_recipes",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 9,
+        "estimated_data_plus_indexes_bytes": 6080,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "formulation_suggestions",
+        "category": "application",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "gcms_chromatograms",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 6,
+        "estimated_data_plus_indexes_bytes": 1473,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "genealogy_extended",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "genome_samples",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 8,
+        "estimated_data_plus_indexes_bytes": 1310,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "genome_sequences",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "geographic_zones",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 15,
+        "estimated_data_plus_indexes_bytes": 14918,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "gestion_agenda",
+        "category": "application",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 2,
+        "estimated_data_plus_indexes_bytes": 235,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "gestion_budget",
+        "category": "application",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 5,
+        "estimated_data_plus_indexes_bytes": 476,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "gestion_mentorat",
+        "category": "application",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 4,
+        "estimated_data_plus_indexes_bytes": 490,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "heritage_chemotypes_timeline",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 20,
+        "estimated_data_plus_indexes_bytes": 18812,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "historic_cigarettes",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 11,
+        "estimated_data_plus_indexes_bytes": 4036,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "historical_trade_routes",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "ifra_restrictions",
+        "category": "application",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 31,
+        "estimated_data_plus_indexes_bytes": 9911,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "inventory_entries",
+        "category": "application",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "laboratoire",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 103,
+        "estimated_data_plus_indexes_bytes": 16562,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "landraces",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 54,
+        "estimated_data_plus_indexes_bytes": 29187,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "leaf_economy_molecules",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "lost_molecules",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 37,
+        "estimated_data_plus_indexes_bytes": 6588,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "lost_varieties",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "material_sources",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "molecular_comparisons",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "molecular_interactions",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 8,
+        "estimated_data_plus_indexes_bytes": 6878,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "molecular_markers",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 30,
+        "estimated_data_plus_indexes_bytes": 5123,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "molecular_protocols",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 3,
+        "estimated_data_plus_indexes_bytes": 8560,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "molecular_transformations",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 36,
+        "estimated_data_plus_indexes_bytes": 9150,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "molecule_analytical_methods",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 1906,
+        "estimated_data_plus_indexes_bytes": 306064,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "molecule_origins",
+        "category": "relation",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 46,
+        "estimated_data_plus_indexes_bytes": 6039,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "molecule_plant_sources",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 194,
+        "estimated_data_plus_indexes_bytes": 21603,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "molecules_recettes",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 4302,
+        "estimated_data_plus_indexes_bytes": 614550,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "ms_spectra",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 67,
+        "estimated_data_plus_indexes_bytes": 57033,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "olfactive_archives",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 16,
+        "estimated_data_plus_indexes_bytes": 11591,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "olfactive_emissions",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 500,
+        "estimated_data_plus_indexes_bytes": 114202,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "olfactive_experiences",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 26,
+        "estimated_data_plus_indexes_bytes": 4160,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "olfactory_term_pilot_proposals",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 50,
+        "estimated_data_plus_indexes_bytes": 1600,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "perfumum_fellowships",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 1,
+        "estimated_data_plus_indexes_bytes": 292,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "perfumum_fermentation_runs",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 1,
+        "estimated_data_plus_indexes_bytes": 161,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "perfumum_gcms_runs",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 8,
+        "estimated_data_plus_indexes_bytes": 2710,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "perfumum_glossary",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 7,
+        "estimated_data_plus_indexes_bytes": 1367,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "perfumum_herbarium_samples",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 12,
+        "estimated_data_plus_indexes_bytes": 1925,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "perfumum_manuscripts",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 26,
+        "estimated_data_plus_indexes_bytes": 7393,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "perfumum_plant_molecules",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "perfumum_plants",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 30,
+        "estimated_data_plus_indexes_bytes": 14247,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "perfumum_research_axes",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 6,
+        "estimated_data_plus_indexes_bytes": 2645,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "perique_compounds",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 278,
+        "estimated_data_plus_indexes_bytes": 47069,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "plant_analyses",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "plant_extractions",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "plant_geographic_zones",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 13,
+        "estimated_data_plus_indexes_bytes": 1415,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "plant_molecules",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 30561,
+        "estimated_data_plus_indexes_bytes": 4253897,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "plant_samples",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "plant_terroirs",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 1789,
+        "estimated_data_plus_indexes_bytes": 222516,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "plant_varieties",
+        "category": "application",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 105,
+        "estimated_data_plus_indexes_bytes": 71987,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "projets_artistiques",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "protocol_steps",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "publication_extraction_methods",
+        "category": "bibliographie",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "publication_methods",
+        "category": "bibliographie",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "publication_molecule_links",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 113,
+        "estimated_data_plus_indexes_bytes": 12195,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "publication_molecules",
+        "category": "bibliographie",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "publication_transformations",
+        "category": "bibliographie",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "pyrazines",
+        "category": "application",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 19,
+        "estimated_data_plus_indexes_bytes": 7161,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "pyrfume_embeddings",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 1042,
+        "estimated_data_plus_indexes_bytes": 75024,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "pyrfume_ifra_restrictions",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "pyrolysis_transformations",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 161,
+        "estimated_data_plus_indexes_bytes": 14596,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "raw_material_molecules",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 82,
+        "estimated_data_plus_indexes_bytes": 7900,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "raw_material_plants",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 16,
+        "estimated_data_plus_indexes_bytes": 1429,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "raw_materials",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 631,
+        "estimated_data_plus_indexes_bytes": 153704,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "recette_raw_materials",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 56,
+        "estimated_data_plus_indexes_bytes": 5376,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "recette_tabac_associations",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 32,
+        "estimated_data_plus_indexes_bytes": 4979,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "recettes",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 492,
+        "estimated_data_plus_indexes_bytes": 193878,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "recettes_formules_reference",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 232,
+        "estimated_data_plus_indexes_bytes": 23304,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "regions",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 8,
+        "estimated_data_plus_indexes_bytes": 1027,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "research_axes_innovants",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 6,
+        "estimated_data_plus_indexes_bytes": 4224,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "research_axis_nez",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 10,
+        "estimated_data_plus_indexes_bytes": 7464,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "research_content",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 43,
+        "estimated_data_plus_indexes_bytes": 65725,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "research_edges",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 12,
+        "estimated_data_plus_indexes_bytes": 2156,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "research_institutions",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 5,
+        "estimated_data_plus_indexes_bytes": 2642,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "research_timeline",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 30,
+        "estimated_data_plus_indexes_bytes": 12431,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "scent_blends",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 12,
+        "estimated_data_plus_indexes_bytes": 2689,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "seasonal_variations",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 23,
+        "estimated_data_plus_indexes_bytes": 1334,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "sparql_saved_queries",
+        "category": "application",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "supplier_alternative_links",
+        "category": "relation",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "synergies",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 76,
+        "estimated_data_plus_indexes_bytes": 16220,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "tabac_molecule_links",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 237,
+        "estimated_data_plus_indexes_bytes": 17151,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "technical_protocols",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 11,
+        "estimated_data_plus_indexes_bytes": 22448,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "terp_profile_molecules",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "terp_profile_plants",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "terroir_specialties",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "terroirs",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 93,
+        "estimated_data_plus_indexes_bytes": 23114,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "text_fragments",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 29,
+        "estimated_data_plus_indexes_bytes": 23984,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "tissue_culture_lines",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 10,
+        "estimated_data_plus_indexes_bytes": 1586,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "tobacco_additives",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 13,
+        "estimated_data_plus_indexes_bytes": 9789,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "tobacco_blends",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 15,
+        "estimated_data_plus_indexes_bytes": 8785,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "tobacco_cannabis_accord_recettes",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 23,
+        "estimated_data_plus_indexes_bytes": 2481,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "tobacco_cannabis_accords",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 15,
+        "estimated_data_plus_indexes_bytes": 11367,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "tobacco_cigarettes",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 5,
+        "estimated_data_plus_indexes_bytes": 1556,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "tobacco_extinct_varieties",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 5,
+        "estimated_data_plus_indexes_bytes": 13000,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "tobacco_formula_installations",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 9,
+        "estimated_data_plus_indexes_bytes": 360,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "tobacco_formulas",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement privée",
+        "estimated_rows_information_schema": 5,
+        "estimated_data_plus_indexes_bytes": 5348,
+        "rationale": "risque de contenu interne ou commercial"
+      },
+      {
+        "table": "tobacco_hybrids",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 12,
+        "estimated_data_plus_indexes_bytes": 10398,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "tps_gene_molecules",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 127,
+        "estimated_data_plus_indexes_bytes": 20294,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "tps_molecule_links",
+        "category": "relation",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 682,
+        "estimated_data_plus_indexes_bytes": 43648,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "trade_routes",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 10,
+        "estimated_data_plus_indexes_bytes": 7973,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "transformation_recipe_impacts",
+        "category": "application",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 81,
+        "estimated_data_plus_indexes_bytes": 23374,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "user_notes",
+        "category": "application",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 1,
+        "estimated_data_plus_indexes_bytes": 89,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "varieties",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 9,
+        "estimated_data_plus_indexes_bytes": 1864,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "variety_genealogy",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 70,
+        "estimated_data_plus_indexes_bytes": 6033,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "variety_molecules",
+        "category": "recherche",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "champs libres ou JSON non qualifiés"
+      },
+      {
+        "table": "vr_scenes",
+        "category": "référentiel",
+        "potential_sensitivity": "à vérifier",
+        "estimated_rows_information_schema": 1,
+        "estimated_data_plus_indexes_bytes": 314,
+        "rationale": "champs libres ou JSON non qualifiés"
+      }
+    ],
+    "inclure_chiffré_après_approbation": [
+      {
+        "table": "analytical_methods",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 21,
+        "estimated_data_plus_indexes_bytes": 15261,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "analytics_events",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 713,
+        "estimated_data_plus_indexes_bytes": 63976,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "api_enrichments",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "axis_reference_links",
+        "category": "relation",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "bibliography_author_links",
+        "category": "relation",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "bibliography_authors",
+        "category": "bibliographie",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "bibliography_cross_citations",
+        "category": "bibliographie",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 622,
+        "estimated_data_plus_indexes_bytes": 59712,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "bibliography_entity_links",
+        "category": "relation",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 9171,
+        "estimated_data_plus_indexes_bytes": 953784,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "bibliography_entries",
+        "category": "bibliographie",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 1335,
+        "estimated_data_plus_indexes_bytes": 519642,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "bibliography_sources",
+        "category": "relation",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 64,
+        "estimated_data_plus_indexes_bytes": 5632,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "classification_reviews",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "classification_snapshots",
+        "category": "historique",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 57,
+        "estimated_data_plus_indexes_bytes": 10032,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "curated_journeys",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 8,
+        "estimated_data_plus_indexes_bytes": 4822,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "data_quality_remediation_actions",
+        "category": "historique",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 2,
+        "estimated_data_plus_indexes_bytes": 96,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "descriptor_link_audit_log",
+        "category": "historique",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "evidence_bibliography_links",
+        "category": "relation",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 133,
+        "estimated_data_plus_indexes_bytes": 26436,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "extended_suppliers",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 26,
+        "estimated_data_plus_indexes_bytes": 2288,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "genomic_molecule_links",
+        "category": "relation",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "genomic_plant_links",
+        "category": "relation",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "ghost_varieties",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 8,
+        "estimated_data_plus_indexes_bytes": 5024,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "ghost_variety_images",
+        "category": "média",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "ghost_variety_molecule_links",
+        "category": "relation",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 33,
+        "estimated_data_plus_indexes_bytes": 3993,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "ghost_variety_plant_links",
+        "category": "relation",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 4,
+        "estimated_data_plus_indexes_bytes": 416,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "ifra_categories",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 17,
+        "estimated_data_plus_indexes_bytes": 4753,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "impact_metrics",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 5,
+        "estimated_data_plus_indexes_bytes": 500,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "leaf_economies",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 11,
+        "estimated_data_plus_indexes_bytes": 2537,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "memory_olfaction_concepts",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 24,
+        "estimated_data_plus_indexes_bytes": 26852,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "milestones",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 21,
+        "estimated_data_plus_indexes_bytes": 4339,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "modification_history",
+        "category": "historique",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "molecule_contributions",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "molecule_notes",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 2,
+        "estimated_data_plus_indexes_bytes": 170,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "molecules",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 7473,
+        "estimated_data_plus_indexes_bytes": 7001906,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "notifications",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 4,
+        "estimated_data_plus_indexes_bytes": 939,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "olfaction_memory",
+        "category": "bibliographie",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 8,
+        "estimated_data_plus_indexes_bytes": 26404,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "olfaction_memory_sources",
+        "category": "bibliographie",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 12,
+        "estimated_data_plus_indexes_bytes": 4131,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "olfactory_memories",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "olfactory_term_pilot_finalizations",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "olfactory_term_pilot_reviews",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 2,
+        "estimated_data_plus_indexes_bytes": 96,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "olfactory_traditions",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "partner_institutions",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 16,
+        "estimated_data_plus_indexes_bytes": 2719,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "perique_molecule_links",
+        "category": "relation",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 213,
+        "estimated_data_plus_indexes_bytes": 22467,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "plant_contributions",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "plants",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 3782,
+        "estimated_data_plus_indexes_bytes": 2548354,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "publication_researchers",
+        "category": "bibliographie",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "pyrfume_datasets",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 13,
+        "estimated_data_plus_indexes_bytes": 832,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "recipe_contributions",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "recipe_versions",
+        "category": "historique",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "reference_citations",
+        "category": "bibliographie",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 2,
+        "estimated_data_plus_indexes_bytes": 256,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "reference_entity_links",
+        "category": "relation",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 251,
+        "estimated_data_plus_indexes_bytes": 47720,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "reference_notes",
+        "category": "bibliographie",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "research_axes",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 11,
+        "estimated_data_plus_indexes_bytes": 5869,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "research_entries",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 150,
+        "estimated_data_plus_indexes_bytes": 24844,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "research_publications",
+        "category": "bibliographie",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 12,
+        "estimated_data_plus_indexes_bytes": 8346,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "researcher_institutions",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "researchers",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 11,
+        "estimated_data_plus_indexes_bytes": 4734,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "sample_images",
+        "category": "média",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 17,
+        "estimated_data_plus_indexes_bytes": 3614,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "saved_formulas",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "source_article_nez",
+        "category": "inconnue",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 13,
+        "estimated_data_plus_indexes_bytes": 5876,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "sustainable_alternatives",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 25,
+        "estimated_data_plus_indexes_bytes": 13572,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "terroir_contributions",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "user_favorites",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "users",
+        "category": "référentiel",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 7,
+        "estimated_data_plus_indexes_bytes": 911,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "v3_references",
+        "category": "bibliographie",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 291,
+        "estimated_data_plus_indexes_bytes": 105357,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "variety_historical_records",
+        "category": "recherche",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "variety_images",
+        "category": "média",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 32,
+        "estimated_data_plus_indexes_bytes": 3584,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      },
+      {
+        "table": "verified_suppliers",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 0,
+        "estimated_data_plus_indexes_bytes": 0,
+        "rationale": "données de compte, attribution ou contact potentiellement présents"
+      }
+    ],
+    "exclure_du_premier_export": [
+      {
+        "table": "shared_collections",
+        "category": "application",
+        "potential_sensitivity": "potentiellement personnelle",
+        "estimated_rows_information_schema": 1407,
+        "estimated_data_plus_indexes_bytes": 182853,
+        "rationale": "risque de secret ou de session"
+      }
+    ],
+    "différer": [
+      {
+        "table": "sparql_cache",
+        "category": "cache",
+        "potential_sensitivity": "aucune apparente",
+        "estimated_rows_information_schema": 48,
+        "estimated_data_plus_indexes_bytes": 3456,
+        "rationale": "cache non requis pour restaurer le noyau relationnel"
+      }
+    ]
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "generated_at_utc": "2026-10-23T13:48:00.536Z",
+  "method": "information_schema read-only; table_rows and data/index lengths are database estimates, not full COUNT(*) measurements",
+  "source": {
+    "database_name": "H2pjHHJbH276XmnbNcJhCp",
+    "server_version": "8.0.11-TiDB-v8.5.3-serverless",
+    "session_time_zone": "SYSTEM",
+    "system_time_zone": "UTC"
+  },
+  "base_tables": 293,
+  "views_excluded_from_matrix": [
+    "molecule_links_unified",
+    "molecule_notes_view",
+    "molecule_synergies_view"
+  ],
+  "columns": 4143,
+  "constraints": 558,
+  "foreign_key_column_rows": 139,
+  "estimated_database_bytes_data_plus_indexes": 25259373,
+  "estimated_database_mib_data_plus_indexes": 24.089,
+  "drizzle_declared_tables": 199,
+  "drizzle_intersection": 193,
+  "migration_sql_files": 98,
+  "tables_without_primary_key": [
+    "final_recipe_terp_profiles",
+    "installation_families",
+    "installation_recettes",
+    "laboratoire_molecules",
+    "laboratoire_recettes",
+    "leaf_economy_molecules",
+    "molecule_accords",
+    "molecule_families",
+    "molecule_recettes",
+    "petrichor_experimental_accords",
+    "petrichor_molecules",
+    "petrichor_recettes",
+    "petrichor_tabacs",
+    "plant_molecules",
+    "prototype_laboratoire",
+    "prototype_molecules",
+    "tabac_accords",
+    "tabac_civilisations",
+    "tabac_molecules",
+    "terp_profile_molecules",
+    "terp_profile_plants",
+    "volcanique_experimental_accords",
+    "volcanique_molecules",
+    "volcanique_recettes",
+    "volcanique_tabacs"
+  ],
+  "category_counts": {
+    "application": 30,
+    "bibliographie": 17,
+    "cache": 1,
+    "historique": 7,
+    "inconnue": 4,
+    "média": 9,
+    "recherche": 80,
+    "relation": 66,
+    "référentiel": 79
+  },
+  "sensitivity_counts": {
+    "aucune apparente": 88,
+    "potentiellement personnelle": 67,
+    "potentiellement privée": 25,
+    "à vérifier": 113
+  },
+  "inclusion_counts": {
+    "différer": 1,
+    "exclure_du_premier_export": 1,
+    "inclure": 86,
+    "inclure_chiffré_après_approbation": 66,
+    "inclure_métadonnées ; binaires_après_permission": 6,
+    "révision_humaine": 133
+  }
+}
