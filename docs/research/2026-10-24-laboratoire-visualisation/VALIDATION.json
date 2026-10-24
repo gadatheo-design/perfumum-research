@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "scope": "Documentation, JSON, CSV et archive seulement; pas de test applicatif ni expérimental",
+  "references": 26,
+  "concepts": 12,
+  "notion_pages": 25,
+  "matrix_counts": {
+    "donnees-phenomenes.csv": {
+      "rows": 15,
+      "columns": 9,
+      "delimiter": ";"
+    },
+    "references.csv": {
+      "rows": 26,
+      "columns": 12,
+      "delimiter": ","
+    },
+    "concepts-mediums.csv": {
+      "rows": 12,
+      "columns": 10,
+      "delimiter": ","
+    }
+  },
+  "production_changes": false,
+  "prototypes_built": false,
+  "database_export_performed": false
+}
