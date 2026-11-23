@@ -6,6 +6,12 @@
 
 import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, lte, inArray, notInArray, count, type SQL } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
+import {
+  MAX_COMPARED,
+  RADAR_DEFAULT_VALUE,
+  computeSynergySuggestions,
+  type SynergySuggestionResult,
+} from "./synergySuggestions";
 import { 
   InsertUser, 
   users, 
@@ -573,126 +579,78 @@ export async function getSynergiesGraphData() {
 // ============================================================================
 
 /**
- * Calcule la distance euclidienne entre deux profils radar (6 dimensions)
- * Retourne une valeur entre 0 (identiques) et ~245 (opposés complets)
- */
-function calculateRadarDistance(mol1: Record<string, any>, mol2: Record<string, any>): number {
-  const sumSquares = 
-    Math.pow((mol1.radarIntensity || 0) - (mol2.radarIntensity || 0), 2) +
-    Math.pow((mol1.radarFreshness || 0) - (mol2.radarFreshness || 0), 2) +
-    Math.pow((mol1.radarWarmth || 0) - (mol2.radarWarmth || 0), 2) +
-    Math.pow((mol1.radarSweetness || 0) - (mol2.radarSweetness || 0), 2) +
-    Math.pow((mol1.radarSpiciness || 0) - (mol2.radarSpiciness || 0), 2) +
-    Math.pow((mol1.radarEarthiness || 0) - (mol2.radarEarthiness || 0), 2);
-  
-  return Math.sqrt(sumSquares);
-}
-
-/**
- * Convertit la distance euclidienne en score de similarité (0-100%)
- * Distance 0 = 100% similaire
- * Distance 245 (max théorique) = 0% similaire
- */
-function distanceToSimilarity(distance: number): number {
-  const maxDistance = Math.sqrt(6 * Math.pow(100, 2)); // ~245
-  return Math.max(0, Math.min(100, 100 * (1 - distance / maxDistance)));
-}
-
-/**
  * Génère des suggestions de synergies potentielles basées sur la similarité des profils radar
  * @param minSimilarity Seuil minimum de similarité (0-100), défaut 70%
  * @param limit Nombre maximum de suggestions, défaut 10
+ *
+ * Le calcul lui-même est dans ./synergySuggestions.ts (mémoire bornée, profil
+ * par défaut 50 × 6 exclu). Ici, la requête ne ramène que les colonnes utiles
+ * et écarte déjà les profils par défaut : au lieu de 7 473 lignes complètes,
+ * seules les molécules réellement renseignées quittent la base.
  */
-export async function getSynergySuggestions(minSimilarity: number = 70, limit: number = 10) {
+export async function getSynergySuggestions(
+  minSimilarity: number = 70,
+  limit: number = 10
+): Promise<SynergySuggestionResult> {
   const db = await getDb();
-  if (!db) return [];
-  
-  // Récupérer toutes les molécules avec profils radar complets
-  const allMolecules = await db
-    .select()
-    .from(molecules)
-    .where(
-      and(
-        not(isNull(molecules.radarIntensity)),
-        not(isNull(molecules.radarFreshness)),
-        not(isNull(molecules.radarWarmth)),
-        not(isNull(molecules.radarSweetness)),
-        not(isNull(molecules.radarSpiciness)),
-        not(isNull(molecules.radarEarthiness))
-      )
-    );
-  
-  if (allMolecules.length < 2) return [];
-  
-  // Calculer toutes les paires possibles avec leur similarité
-  const suggestions: Array<{
-    molecule1Id: number;
-    molecule1Name: string;
-    molecule2Id: number;
-    molecule2Name: string;
-    similarity: number;
-    distance: number;
-    radarProfile1: Record<string, number | null>;
-    radarProfile2: Record<string, number | null>;
-    explanation: string;
-  }> = [];
-  
-  for (let i = 0; i < allMolecules.length; i++) {
-    for (let j = i + 1; j < allMolecules.length; j++) {
-      const mol1 = allMolecules[i];
-      const mol2 = allMolecules[j];
-      
-      const distance = calculateRadarDistance(mol1, mol2);
-      const similarity = distanceToSimilarity(distance);
-      
-      if (similarity >= minSimilarity) {
-        // Identifier les axes similaires (différence < 20)
-        const similarAxes: string[] = [];
-        // Vérifier chaque axe individuellement
-        if (Math.abs((mol1.radarIntensity || 0) - (mol2.radarIntensity || 0)) < 20) similarAxes.push('Intensité');
-        if (Math.abs((mol1.radarFreshness || 0) - (mol2.radarFreshness || 0)) < 20) similarAxes.push('Fraîcheur');
-        if (Math.abs((mol1.radarWarmth || 0) - (mol2.radarWarmth || 0)) < 20) similarAxes.push('Chaleur');
-        if (Math.abs((mol1.radarSweetness || 0) - (mol2.radarSweetness || 0)) < 20) similarAxes.push('Douceur');
-        if (Math.abs((mol1.radarSpiciness || 0) - (mol2.radarSpiciness || 0)) < 20) similarAxes.push('Épices');
-        if (Math.abs((mol1.radarEarthiness || 0) - (mol2.radarEarthiness || 0)) < 20) similarAxes.push('Terreux');
-        
-        const explanation = similarAxes.length > 0
-          ? `Profils similaires sur ${similarAxes.join(', ')}`
-          : 'Profils complémentaires';
-        
-        suggestions.push({
-          molecule1Id: mol1.id,
-          molecule1Name: mol1.name,
-          molecule2Id: mol2.id,
-          molecule2Name: mol2.name,
-          similarity: Math.round(similarity * 10) / 10,
-          distance: Math.round(distance * 10) / 10,
-          radarProfile1: {
-            intensity: mol1.radarIntensity,
-            freshness: mol1.radarFreshness,
-            warmth: mol1.radarWarmth,
-            sweetness: mol1.radarSweetness,
-            spiciness: mol1.radarSpiciness,
-            earthiness: mol1.radarEarthiness
-          },
-          radarProfile2: {
-            intensity: mol2.radarIntensity,
-            freshness: mol2.radarFreshness,
-            warmth: mol2.radarWarmth,
-            sweetness: mol2.radarSweetness,
-            spiciness: mol2.radarSpiciness,
-            earthiness: mol2.radarEarthiness
-          },
-          explanation
-        });
-      }
-    }
+  if (!db) {
+    return {
+      suggestions: [],
+      message: "Base de données indisponible : les suggestions ne peuvent pas être calculées.",
+      moleculesWithProfile: 0,
+      moleculesCompared: 0,
+    };
   }
-  
-  // Trier par similarité décroissante et limiter
-  return suggestions
-    .sort((a, b) => b.similarity - a.similarity)
-    .slice(0, limit);
+
+  const informedProfile = and(
+    not(isNull(molecules.radarIntensity)),
+    not(isNull(molecules.radarFreshness)),
+    not(isNull(molecules.radarWarmth)),
+    not(isNull(molecules.radarSweetness)),
+    not(isNull(molecules.radarSpiciness)),
+    not(isNull(molecules.radarEarthiness)),
+    not(
+      and(
+        eq(molecules.radarIntensity, RADAR_DEFAULT_VALUE),
+        eq(molecules.radarFreshness, RADAR_DEFAULT_VALUE),
+        eq(molecules.radarWarmth, RADAR_DEFAULT_VALUE),
+        eq(molecules.radarSweetness, RADAR_DEFAULT_VALUE),
+        eq(molecules.radarSpiciness, RADAR_DEFAULT_VALUE),
+        eq(molecules.radarEarthiness, RADAR_DEFAULT_VALUE)
+      )!
+    )
+  );
+
+  const [{ total }] = await db.select({ total: count() }).from(molecules).where(informedProfile);
+
+  const rows = await db
+    .select({
+      id: molecules.id,
+      name: molecules.name,
+      radarIntensity: molecules.radarIntensity,
+      radarFreshness: molecules.radarFreshness,
+      radarWarmth: molecules.radarWarmth,
+      radarSweetness: molecules.radarSweetness,
+      radarSpiciness: molecules.radarSpiciness,
+      radarEarthiness: molecules.radarEarthiness,
+    })
+    .from(molecules)
+    .where(informedProfile)
+    .orderBy(asc(molecules.id))
+    .limit(MAX_COMPARED);
+
+  const result = computeSynergySuggestions(rows, { minSimilarity, limit });
+
+  // La requête est déjà plafonnée : le total réel vient du décompte.
+  const moleculesWithProfile = Number(total);
+  if (moleculesWithProfile > result.moleculesCompared && result.moleculesCompared > 0) {
+    return {
+      ...result,
+      moleculesWithProfile,
+      message: `Calcul limité aux ${result.moleculesCompared} premières molécules sur ${moleculesWithProfile} dont le profil radar est renseigné.`,
+    };
+  }
+  return result;
 }
 
 

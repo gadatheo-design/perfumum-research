@@ -11,10 +11,14 @@ export default function SuggestionsSynergies() {
   const [minSimilarity, setMinSimilarity] = useState(70);
   const [limit, setLimit] = useState(10);
   
-  const { data: suggestions, isLoading, refetch } = trpc.synergies.getSuggestions.useQuery({
+  const { data, isLoading, refetch } = trpc.synergies.getSuggestions.useQuery({
     minSimilarity,
     limit
   });
+  // Le serveur renvoie la liste et, quand il n'y a rien à proposer ou qu'un
+  // plafond s'applique, un message qui l'explique.
+  const suggestions = data?.suggestions;
+  const serverMessage = data?.message;
 
   if (isLoading) {
     return (
@@ -99,12 +103,20 @@ export default function SuggestionsSynergies() {
             <CardContent className="py-12 text-center">
               <Beaker className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
               <p className="text-muted-foreground">
-                Aucune suggestion trouvée avec ces paramètres.
-                <br />
-                Essayez de réduire le seuil de similarité.
+                {serverMessage ?? (
+                  <>
+                    Aucune suggestion trouvée avec ces paramètres.
+                    <br />
+                    Essayez de réduire le seuil de similarité.
+                  </>
+                )}
               </p>
             </CardContent>
           </Card>
+        )}
+
+        {serverMessage && suggestions && suggestions.length > 0 && (
+          <p className="text-sm text-muted-foreground">{serverMessage}</p>
         )}
 
         {suggestions?.map((suggestion, index) => (
