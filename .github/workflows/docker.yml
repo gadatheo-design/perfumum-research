@@ -9,10 +9,19 @@ name: Image Docker
 #
 # Sur une pull request, l'image est construite mais PAS publiée : on veut
 # détecter une rupture du Dockerfile sans polluer le registre.
+#
+# Les branches de travail (`autonomie` et `claude/**`) sont publiées elles
+# aussi, pour pouvoir déployer une image d'essai avant la bascule de main.
+# Chaque image porte deux étiquettes :
+#   - le nom de la branche, où « / » devient « - »
+#     (claude/ma-branche → claude-ma-branche) ;
+#   - sha-<commit complet>, qui ne bouge jamais : c'est elle qu'il faut
+#     utiliser pour un retour en arrière.
+# `latest` reste réservée à main.
 
 on:
   push:
-    branches: [main]
+    branches: [main, autonomie, "claude/**"]
     tags: ["v*"]
   pull_request:
     branches: [main]
@@ -67,6 +76,11 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          # Render et la plupart des hébergeurs exécutent du linux/amd64.
+          platforms: linux/amd64
+          # Renvoyé par GET /healthz : permet de savoir quel commit tourne.
+          build-args: |
+            GIT_COMMIT=${{ github.sha }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
