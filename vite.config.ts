@@ -5,6 +5,7 @@ import path from "path";
 import { defineConfig } from "vite";
 import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
 import { isManusPlatform } from "./server/_core/platform";
+import { analyticsScriptPlugin } from "./server/_core/analyticsScript";
 
 // Plugin qui supprime les location.reload() du client Vite HMR
 // Le proxy Manus ne supporte pas les WebSockets → les reconnexions HMR
@@ -29,6 +30,9 @@ const plugins = [
   react(),
   tailwindcss(),
   jsxLocPlugin(),
+  // Retire la balise umami du gabarit si VITE_ANALYTICS_ENDPOINT n'est pas
+  // défini à la construction (voir server/_core/analyticsScript.ts).
+  analyticsScriptPlugin(),
   ...(isManusPlatform ? [vitePluginManusRuntime({ injectTo: "body" }), noHmrReload()] : []),
 ];
 
