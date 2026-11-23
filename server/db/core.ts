@@ -8,6 +8,7 @@ import { drizzle } from "drizzle-orm/mysql2";
 import * as schema from "../../drizzle/schema";
 import { ENV } from '../_core/env';
 import { logger } from '../_core/logger';
+import { createAppPool } from './mysqlPool';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
 import { expandWithScientificNames, getScientificDictionaryStats } from '../../shared/botanicalLatinNames';
 
@@ -21,10 +22,16 @@ export async function getDb() {
       // pas seulement les 39 précédemment listées à la main). Sans risque connu :
       // aucun fichier du dépôt n'utilise l'API relationnelle db.query.*, qui est la
       // seule à dépendre de ce schema; .select().from(table) fonctionne indépendamment.
-      _db = drizzle(process.env.DATABASE_URL, {
+      // Drizzle reçoit un pool créé par createAppPool plutôt que l'URL : avec
+      // l'URL, il ouvrait un pool aux réglages par défaut de mysql2, dont les
+      // connexions inactives ne sont jamais fermées (TiDB Cloud les coupe au
+      // bout de 340 s, et la requête suivante échouait).
+      // Le type exposé reste celui d'avant (schéma non précisé), pour ne rien
+      // changer chez les appelants de getDb().
+      _db = drizzle(createAppPool(process.env.DATABASE_URL), {
         mode: "default",
         schema,
-      });
+      }) as unknown as ReturnType<typeof drizzle>;
     } catch (error) {
       // Le plus important à voir en production : sans base, l'application
       // répond mais ne sert plus rien d'utile.

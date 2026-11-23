@@ -5,13 +5,9 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 let _pool: import('mysql2/promise').Pool | null = null;
 async function getPool() {
   if (!_pool) {
-    const mysql2 = await import('mysql2/promise');
-    _pool = mysql2.createPool({
-      uri: process.env.DATABASE_URL!,
-      connectionLimit: 5,
-      waitForConnections: true,
-      queueLimit: 0,
-    });
+    // Mêmes protections que le pool principal (connexions inactives, âge).
+    const { createAppPool, requireDatabaseUrl } = await import('../db/mysqlPool');
+    _pool = createAppPool(requireDatabaseUrl(), 5);
   }
   return _pool;
 }
