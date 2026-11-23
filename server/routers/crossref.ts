@@ -11,6 +11,7 @@ import { z } from "zod";
 import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import mysql from "mysql2/promise";
 import { getMysqlConnection } from "../db/mysqlPool";
+import { sqlInt } from "../db/sqlInt";
 
 const CROSSREF_BASE = "https://api.crossref.org/works";
 const CROSSREF_EMAIL = "perfumum-research@contact.fr"; // Polite pool CrossRef
@@ -201,8 +202,8 @@ export const crossrefRouter = router({
            LEFT JOIN bibliography_entries be ON be.id = bcc.target_id
            WHERE bcc.source_id = ?
            ORDER BY bcc.cited_by_count DESC
-           LIMIT ?`,
-          [input.bibliographyEntryId, input.limit]
+           LIMIT ${sqlInt(input.limit, { min: 1, max: 100 })}`,
+          [input.bibliographyEntryId]
         );
 
         // Construire les nœuds et liens

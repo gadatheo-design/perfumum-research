@@ -37,6 +37,7 @@ import {
 } from "../europeana";
 import mysql from "mysql2/promise";
 import { getMysqlConnection } from "../db/mysqlPool";
+import { sqlInt, SQL_OFFSET_MAX } from "../db/sqlInt";
 
 async function getDbConn() {
   return getMysqlConnection();
@@ -428,8 +429,7 @@ export const europeanaRouter = router({
 
         // Récupérer les plantes sans QID (paginées)
         const [plants] = await conn.execute<any[]>(
-          "SELECT id, name, latin_name, family FROM plants WHERE wikidata_qid IS NULL OR wikidata_qid = '' LIMIT ? OFFSET ?",
-          [input.limit, input.offset]
+          `SELECT id, name, latin_name, family FROM plants WHERE wikidata_qid IS NULL OR wikidata_qid = '' LIMIT ${sqlInt(input.limit, { min: 1, max: 50 })} OFFSET ${sqlInt(input.offset, { min: 0, max: SQL_OFFSET_MAX })}`
         );
 
         const results: Array<{

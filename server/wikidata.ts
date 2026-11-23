@@ -1,3 +1,4 @@
+import { sqlInt, SQL_LIMIT_MAX } from "./db/sqlInt";
 /**
  * NOSE Phase 4 — Service d'enrichissement Wikidata
  * Récupère les QIDs Wikidata pour les molécules et plantes aromatiques
@@ -207,8 +208,7 @@ export async function enrichMoleculesWikidata(
      AND name NOT LIKE '%fumée%'
      AND name NOT LIKE '%terre%'
      ORDER BY id
-     LIMIT ?`,
-    [limit]
+     LIMIT ${sqlInt(limit, { min: 1, max: SQL_LIMIT_MAX })}`
   );
 
   let enriched = 0, failed = 0, skipped = 0;
@@ -256,8 +256,7 @@ export async function enrichPlantsWikidata(
      WHERE wikidata_qid IS NULL 
      AND latin_name IS NOT NULL
      ORDER BY id
-     LIMIT ?`,
-    [limit]
+     LIMIT ${sqlInt(limit, { min: 1, max: SQL_LIMIT_MAX })}`
   );
 
   let enriched = 0, failed = 0, skipped = 0;
