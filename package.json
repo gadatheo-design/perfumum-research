@@ -5,12 +5,15 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development NODE_OPTIONS=--max-old-space-size=4096 tsx watch server/_core/index.ts",
-    "build": "NODE_OPTIONS=--max-old-space-size=4096 vite build && NODE_OPTIONS=--max-old-space-size=4096 esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "build": "NODE_OPTIONS=--max-old-space-size=4096 vite build && NODE_OPTIONS=--max-old-space-size=4096 esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist --splitting",
+    "build:standalone": "PERFUMUM_PLATFORM=standalone NODE_OPTIONS=--max-old-space-size=4096 vite build && NODE_OPTIONS=--max-old-space-size=4096 esbuild server/_core/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist --splitting",
     "start": "NODE_ENV=production node dist/index.js",
     "check": "NODE_OPTIONS=--max-old-space-size=8192 tsc --noEmit --project tsconfig.check.json",
     "check:full": "NODE_OPTIONS=--max-old-space-size=8192 tsc --noEmit",
     "format": "prettier --write .",
     "test": "vitest run",
+    "test:integration": "vitest run --config vitest.integration.config.ts",
+    "test:all": "vitest run --config vitest.all.config.ts",
     "db:push": "drizzle-kit generate && drizzle-kit migrate",
     "import:pred-o3": "node --import tsx server/scripts/pred-o3-import.mjs",
     "import:pred-o3:dry-run": "node --import tsx server/scripts/pred-o3-import.mjs --dry-run",
@@ -89,6 +92,7 @@
     "jszip": "^3.10.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.453.0",
+    "mysql2": "^3.16.0",
     "nanoid": "^5.1.16",
     "next-themes": "^0.4.6",
     "papaparse": "^5.5.3",
@@ -138,7 +142,6 @@
     "drizzle-kit": "^0.31.4",
     "esbuild": "^0.25.0",
     "lighthouse": "^13.0.1",
-    "mysql2": "^3.16.0",
     "pnpm": "^10.15.1",
     "postcss": "^8.4.47",
     "prettier": "^3.6.2",
@@ -152,5 +155,19 @@
     "vite-plugin-manus-runtime": "^0.0.56",
     "vitest": "^2.1.4"
   },
-  "packageManager": "pnpm@10.4.1+sha512.c753b6c3ad7afa13af388fa6d808035a008e30ea9993f58c6663e2bc5ff21679aa834db094987129aa4d488b86df57f7b634981b2f827cdcacc698cc0cfb88af"
+  "packageManager": "pnpm@10.4.1+sha512.c753b6c3ad7afa13af388fa6d808035a008e30ea9993f58c6663e2bc5ff21679aa834db094987129aa4d488b86df57f7b634981b2f827cdcacc698cc0cfb88af",
+  "pnpm": {
+    "overrides": {
+      "tailwindcss>nanoid": "3.3.7",
+      "vite-plugin-manus-runtime>react": "18.3.1",
+      "vite-plugin-manus-runtime>react-dom": "18.3.1",
+      "classcat": "5.0.5",
+      "path-to-regexp": "0.1.13",
+      "qs": "6.15.2",
+      "three-bmfont-text": "^3.0.1"
+    },
+    "onlyBuiltDependencies": [
+      "better-sqlite3"
+    ]
+  }
 }

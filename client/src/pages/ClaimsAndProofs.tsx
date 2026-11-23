@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { Breadcrumbs } from '@/components/Breadcrumbs';
@@ -132,10 +131,10 @@ export default function ClaimsAndProofs() {
       <Header />
       
       <main className="flex-1 container mx-auto px-4 py-8">
-        <Breadcrumbs items={[
-          { label: 'Accueil', href: '/' },
-          { label: 'Recherche', href: '/recherche' },
-          { label: 'Claims & Preuves', href: '/claims-and-proofs' }
+        <Breadcrumbs customItems={[
+          { label: 'Accueil', path: '/' },
+          { label: 'Recherche', path: '/recherche' },
+          { label: 'Claims & Preuves', path: '/claims-and-proofs' }
         ]} />
 
         {/* Header */}

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useMemo } from 'react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -156,10 +155,10 @@ export default function AromaticRarities() {
       <main className="flex-1 container mx-auto px-4 py-8">
         {/* Breadcrumbs */}
         <Breadcrumbs 
-          items={[
-            { label: 'Accueil', href: '/' },
-            { label: 'Recherche', href: '/recherche' },
-            { label: 'Matières Premières Rares', href: '/aromatic-rarities' },
+          customItems={[
+            { label: 'Accueil', path: '/' },
+            { label: 'Recherche', path: '/recherche' },
+            { label: 'Matières Premières Rares', path: '/aromatic-rarities' },
           ]}
         />
 

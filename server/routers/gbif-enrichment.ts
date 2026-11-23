@@ -13,6 +13,7 @@ import { TRPCError } from "@trpc/server";
 import { getDb } from "../db/core";
 import { plants } from "../../drizzle/schema";
 import { eq, like, sql } from 'drizzle-orm';
+import { OUTBOUND_USER_AGENT } from "../_core/env";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONSTANTS
@@ -20,7 +21,7 @@ import { eq, like, sql } from 'drizzle-orm';
 
 const GBIF_API = "https://api.gbif.org/v1";
 const GBIF_TIMEOUT_MS = 18000;
-const GBIF_USER_AGENT = "PERFUMUM-Research/1.0 (https://perfumum.manus.space; olfactory-research) Node.js/fetch";
+const GBIF_USER_AGENT = OUTBOUND_USER_AGENT;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TYPES

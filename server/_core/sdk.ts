@@ -6,6 +6,7 @@ import type { Request } from "express";
 import { SignJWT, jwtVerify } from "jose";
 import type { User } from "../../drizzle/schema";
 import * as db from "../db";
+import { isStandalonePlatform } from "./platform";
 import { ENV } from "./env";
 import type {
   ExchangeTokenRequest,
@@ -269,6 +270,17 @@ class SDKServer {
     const sessionUserId = session.openId;
     const signedInAt = new Date();
     let user = await db.getUserByOpenId(sessionUserId);
+
+    // En mode standalone il n'existe aucun serveur OAuth : la synchronisation
+    // ci-dessous échouerait systématiquement (ERR_INVALID_URL) et masquerait
+    // la cause réelle derrière une erreur technique. La session est valide
+    // mais l'utilisateur a disparu de la base — le comportement attendu est
+    // de redemander une connexion.
+    if (!user && isStandalonePlatform) {
+      throw ForbiddenError(
+        "Session valide mais utilisateur introuvable — reconnectez-vous."
+      );
+    }
 
     // If user not in DB, sync from OAuth server automatically
     if (!user) {

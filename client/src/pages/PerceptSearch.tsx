@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * PerceptSearch - Page de recherche par percept olfactif
  * 
@@ -128,9 +127,9 @@ export default function PerceptSearch() {
   return (
     <div className="container py-8">
       <Breadcrumbs
-        items={[
-          { label: "Accueil", href: "/" },
-          { label: "Analyse", href: "/analysis-hub" },
+        customItems={[
+          { label: "Accueil", path: "/" },
+          { label: "Analyse", path: "/analysis-hub" },
           { label: "Recherche par Percept" },
         ]}
       />

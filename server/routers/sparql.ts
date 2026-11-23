@@ -72,6 +72,7 @@ import {
 import mysql from "mysql2/promise";
 import crypto from "crypto";
 import { getMysqlConnection } from "../db/mysqlPool";
+import { OUTBOUND_USER_AGENT } from "../_core/env";
 
 async function getDb() {
   return getMysqlConnection();
@@ -1094,7 +1095,7 @@ LIMIT 15`,
 
       // 2. Fallback : si pas de QID, tenter de résoudre via nom latin (plante) ou CAS/IUPAC (molécule)
       const WIKIDATA_SPARQL = "https://query.wikidata.org/sparql";
-      const WD_HEADERS = { "Accept": "application/sparql-results+json", "User-Agent": "PERFUMUM-Research/1.0 (https://perfumum-h2pjhhjb.manus.space)" };
+      const WD_HEADERS = { "Accept": "application/sparql-results+json", "User-Agent": OUTBOUND_USER_AGENT };
 
       // Helper : résoudre un QID via CAS (molécule) ou nom latin (plante)
       const resolveQidFromIdentifiers = async (): Promise<string | null> => {

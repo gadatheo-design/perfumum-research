@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { BookOpen, FileText, GraduationCap, Database, ExternalLink, Loader2, BookMarked, Link2 } from "lucide-react";

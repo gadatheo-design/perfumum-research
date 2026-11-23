@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useRef, useCallback, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { Button } from "@/components/ui/button";

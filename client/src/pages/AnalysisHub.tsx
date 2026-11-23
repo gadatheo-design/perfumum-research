@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useEffect, useRef } from 'react';
 import { trpc } from '@/lib/trpc';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -62,7 +61,10 @@ function QuickAccessCard({ href, icon: Icon, title, description, color, badge }:
 export default function AnalysisHub() {
   const { data: chromatograms } = trpc.tobacco.getChromatograms.useQuery();
   const { data: msSpectra } = trpc.tobacco.getMsSpectra.useQuery();
-  const { data: landraces } = trpc.tobacco.getAll.useQuery();
+  // `tobacco` n'expose pas de `getAll` : la procédure des landraces est
+  // `getLandraces`, et elle renvoie une enveloppe { success, data }.
+  const { data: landracesResponse } = trpc.tobacco.getLandraces.useQuery();
+  const landraces = landracesResponse?.data;
   
   const stats = {
     chromatograms: chromatograms?.length || 0,

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { safeJsonParse } from "@/lib/utils";
 import { useState } from 'react';
 import { trpc } from '@/lib/trpc';

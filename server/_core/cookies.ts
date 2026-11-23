@@ -1,4 +1,5 @@
 import type { CookieOptions, Request } from "express";
+import { isStandalonePlatform } from "./platform";
 
 const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "::1"]);
 
@@ -39,10 +40,17 @@ export function getSessionCookieOptions(
   //       ? hostname
   //       : undefined;
 
+  // En mode standalone, la connexion se fait sur la même origine que le site :
+  // `lax` suffit et protège des requêtes inter-sites (CSRF). `none` n'était
+  // imposé que par le flux OAuth externe du mode "manus" — et pose un problème
+  // concret en développement local, les navigateurs refusant `SameSite=None`
+  // sans `Secure`, donc sans HTTPS.
+  const sameSite: "none" | "lax" = isStandalonePlatform ? "lax" : "none";
+
   return {
     httpOnly: true,
     path: "/",
-    sameSite: "none",
+    sameSite,
     secure: isSecureRequest(req),
   };
 }
