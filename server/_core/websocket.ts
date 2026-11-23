@@ -3,6 +3,7 @@ import { WebSocketServer, WebSocket, RawData } from "ws";
 import { parse as parseCookie } from "cookie";
 import { COOKIE_NAME } from "@shared/const";
 import { sdk } from "./sdk";
+import { getAccessGate } from "./accessGate";
 
 // Types pour la collaboration temps réel
 interface CollaboratorPresence {
@@ -149,9 +150,23 @@ function addActivity(activity: Omit<ActivityRecord, "id" | "timestamp">) {
 
 // Initialiser le serveur WebSocket
 export function initWebSocket(server: HttpServer) {
-  const wss = new WebSocketServer({ 
+  // Porte d'accès privée : sans laissez-passer, la poignée de main est
+  // refusée (401) avant toute ouverture de socket. Inactive : aucun contrôle.
+  const gate = getAccessGate();
+  const wss = new WebSocketServer({
     server,
     path: "/ws/collaboration",
+    ...(gate
+      ? {
+          verifyClient: (
+            info: { req: IncomingMessage },
+            done: (ok: boolean, code?: number, message?: string) => void
+          ) => {
+            const ok = gate.isAuthorizedCookieHeader(info.req.headers.cookie);
+            done(ok, ok ? undefined : 401, ok ? undefined : "Unauthorized");
+          },
+        }
+      : {}),
   });
   
   console.log("[WebSocket] Collaboration WebSocket server initialized on /ws/collaboration");

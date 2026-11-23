@@ -69,6 +69,12 @@ services:
       ADMIN_PASSWORD_HASH: ${ADMIN_PASSWORD_HASH:-}
       ADMIN_NAME: ${ADMIN_NAME:-}
       SESSION_LIFETIME_DAYS: ${SESSION_LIFETIME_DAYS:-}
+      # Porte d'accès privée (voir server/_core/accessGate.ts). Vide : site
+      # ouvert. Défini : tout le site exige ce mot de passe, saisi sur /acces.
+      SITE_ACCESS_PASSWORD: ${SITE_ACCESS_PASSWORD:-}
+      # Caddy est le seul chemin vers l'application : on lui fait confiance
+      # pour l'adresse du visiteur (limites de débit et d'essais par IP).
+      TRUST_PROXY: ${TRUST_PROXY:-1}
       # Stockage de fichiers (voir server/storage.ts).
       STORAGE_PROVIDER: ${STORAGE_PROVIDER:-local}
       STORAGE_LOCAL_DIR: /app/uploads

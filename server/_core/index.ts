@@ -13,6 +13,7 @@ import { initWebSocket } from "./websocket";
 import { trpcRateLimiter } from "./rateLimiter";
 import { logger } from "./logger";
 import { registerHealthRoute } from "./health";
+import { registerAccessGate } from "./accessGate";
 import {
   registerErrorHandler,
   registerHttpLogging,
@@ -51,6 +52,23 @@ async function startServer() {
   // Journalisation ensuite : on veut voir même les requêtes rejetées
   // par les middlewares suivants (corps trop volumineux, quota atteint…).
   registerHttpLogging(app);
+
+  // Derrière un proxy (Render, Caddy…), l'adresse du visiteur arrive dans
+  // X-Forwarded-For. Sans ce réglage, tous les visiteurs partagent l'adresse
+  // du proxy, donc un seul compteur pour les limites de débit et d'essais.
+  // Non défini : comportement inchangé. Valeur : nombre de proxys de confiance.
+  const trustProxy = Number(process.env.TRUST_PROXY);
+  if (Number.isInteger(trustProxy) && trustProxy > 0) {
+    app.set("trust proxy", trustProxy);
+  }
+
+  // Porte d'accès privée (SITE_ACCESS_PASSWORD). Placée avant les analyseurs
+  // de corps et toutes les routes : sans laissez-passer, rien d'autre que
+  // /healthz, /acces et /robots.txt n'est atteint. Sans la variable, cet
+  // appel ne monte rien.
+  if (registerAccessGate(app)) {
+    logger.info("porte d'accès privée active");
+  }
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
