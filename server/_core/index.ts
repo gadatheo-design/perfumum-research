@@ -14,6 +14,7 @@ import { trpcRateLimiter } from "./rateLimiter";
 import { logger } from "./logger";
 import { registerHealthRoute } from "./health";
 import { registerAccessGate } from "./accessGate";
+import { registerMediaFallback } from "./mediaFallback";
 import {
   registerErrorHandler,
   registerHttpLogging,
@@ -109,6 +110,11 @@ async function startServer() {
       createContext,
     })
   );
+  // Images de l'interface (/media) : redirection vers leur ancienne adresse
+  // tant que le fichier n'est pas dans client/public/media. Avant le serveur
+  // statique, qui sert le fichier dès qu'il existe.
+  registerMediaFallback(app);
+
   // development mode uses Vite, production mode uses static files.
   // L'import de ./vite est DYNAMIQUE et volontairement placé ici : ce module
   // dépend de Vite (dépendance de développement). Un import statique le

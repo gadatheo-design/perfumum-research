@@ -1,0 +1,25 @@
+{
+  "_commentaire": "Images de l'interface autrefois chargées depuis le stockage Manus. Elles doivent se trouver dans ce dossier (client/public/media). Tant qu'un fichier manque, le serveur redirige vers son adresse d'origine (server/_core/mediaFallback.ts). Pour les récupérer : node deploy/fetch-media.mjs",
+  "origine": "https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/",
+  "fichiers": [
+    "cacao-colombien_751ffe66.svg",
+    "cafe-geisha_44cf0d72.svg",
+    "calycolpus-moritzianus_24c03479.svg",
+    "fleur-cafe_85a32f13.svg",
+    "grid_02c43ba1.svg",
+    "icon-192x192-maskable_68067827.png",
+    "icon-192x192_0a243a0b.png",
+    "icon-512x512-maskable_9d5655eb.png",
+    "icon-512x512_85c7de29.png",
+    "lippia-origanoides_11468d3c.svg",
+    "noise_cee97612.png",
+    "petrichor-fantome_33a572fd.webp",
+    "petrichor-urbain_76971875.webp",
+    "piper-aduncum_52adaab3.svg",
+    "steiractinia-aspera_868c0fb3.svg",
+    "tagetes-lucida-botanical_4f6fe682.jpg",
+    "tagetes-lucida-flowers_32658c81.jpg",
+    "terrain-musee-1_ccbd158a.webp",
+    "turnera-diffusa_4e53c0cc.svg"
+  ]
+}
