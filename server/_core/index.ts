@@ -12,6 +12,7 @@ import { serveStatic } from "./static";
 import { initWebSocket } from "./websocket";
 import { trpcRateLimiter } from "./rateLimiter";
 import { logger } from "./logger";
+import { registerHealthRoute } from "./health";
 import {
   registerErrorHandler,
   registerHttpLogging,
@@ -42,7 +43,12 @@ async function startServer() {
   const app = express();
   const server = createServer(app);
 
-  // Journalisation en tout premier : on veut voir même les requêtes rejetées
+  // Vérification de santé, avant tout le reste : elle ne dépend de rien
+  // (ni base, ni session) et n'encombre pas le journal des requêtes, alors
+  // que l'hébergeur l'appelle toutes les 30 secondes.
+  registerHealthRoute(app);
+
+  // Journalisation ensuite : on veut voir même les requêtes rejetées
   // par les middlewares suivants (corps trop volumineux, quota atteint…).
   registerHttpLogging(app);
   // Configure body parser with larger size limit for file uploads
