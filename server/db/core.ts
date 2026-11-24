@@ -12,7 +12,17 @@ import { createAppPool } from './mysqlPool';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
 import { expandWithScientificNames, getScientificDictionaryStats } from '../../shared/botanicalLatinNames';
 
-let _db: ReturnType<typeof drizzle> | null = null;
+/**
+ * Instance Drizzle de l'application. Son `$client` est le pool PROMESSE créé
+ * par createAppPool (mysql2/promise) : `db.$client.query(...)` renvoie une
+ * promesse, et `db.$client.promise()` n'existe pas. Pour une requête SQL
+ * brute, passer par `queryRows()` (./rawQuery.ts).
+ */
+export type AppDb = Omit<ReturnType<typeof drizzle>, "$client"> & {
+  $client: import("mysql2/promise").Pool;
+};
+
+let _db: AppDb | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
@@ -31,7 +41,7 @@ export async function getDb() {
       _db = drizzle(createAppPool(process.env.DATABASE_URL), {
         mode: "default",
         schema,
-      }) as unknown as ReturnType<typeof drizzle>;
+      }) as unknown as AppDb;
     } catch (error) {
       // Le plus important à voir en production : sans base, l'application
       // répond mais ne sert plus rien d'utile.
