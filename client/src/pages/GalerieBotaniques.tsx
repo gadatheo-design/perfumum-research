@@ -32,7 +32,6 @@ const BOTANICAL_IMAGES: BotanicalImage[] = [
     latinName: "Humulus lupulus",
     commonName: "Houblon",
     description: "Plante grimpante vivace de la famille des Cannabaceae, cultivée pour ses cônes aromatiques utilisés dans le brassage de la bière. Riche en myrcène, elle possède des propriétés sédatives et relaxantes.",
-    imagePath: "/images/terpenes/myrcene-botanical.png",
     family: "Cannabaceae",
     category: "terpene"
   },
@@ -42,7 +41,6 @@ const BOTANICAL_IMAGES: BotanicalImage[] = [
     latinName: "Citrus limon",
     commonName: "Citronnier",
     description: "Arbuste fruitier de la famille des Rutaceae, cultivé pour ses fruits acides riches en vitamine C. Le zeste contient de fortes concentrations de limonène, terpène aux propriétés antioxydantes et stimulantes.",
-    imagePath: "/images/terpenes/limonene-botanical.png",
     family: "Rutaceae",
     category: "terpene"
   },
@@ -52,7 +50,6 @@ const BOTANICAL_IMAGES: BotanicalImage[] = [
     latinName: "Pinus sylvestris",
     commonName: "Pin sylvestre",
     description: "Conifère de la famille des Pinaceae, caractérisé par son écorce orangée et ses longues aiguilles. La résine et les aiguilles sont riches en pinène, terpène aux propriétés bronchodilatatrices et anti-inflammatoires.",
-    imagePath: "/images/terpenes/pinene-botanical.png",
     family: "Pinaceae",
     category: "terpene"
   },
@@ -62,7 +59,6 @@ const BOTANICAL_IMAGES: BotanicalImage[] = [
     latinName: "Petroselinum crispum",
     commonName: "Persil frisé",
     description: "Plante herbacée bisannuelle de la famille des Apiaceae, cultivée comme aromate culinaire. Les feuilles et tiges contiennent du β-pinène, contribuant à son arôme frais et ses propriétés digestives.",
-    imagePath: "/images/terpenes/beta-pinene-botanical.png",
     family: "Apiaceae",
     category: "terpene"
   },
@@ -72,7 +68,6 @@ const BOTANICAL_IMAGES: BotanicalImage[] = [
     latinName: "Piper nigrum",
     commonName: "Poivrier noir",
     description: "Liane ligneuse de la famille des Piperaceae, cultivée pour ses baies séchées (poivre). Le β-caryophyllène confère au poivre son piquant caractéristique et possède de puissantes propriétés anti-inflammatoires.",
-    imagePath: "/images/terpenes/caryophyllene-botanical.png",
     family: "Piperaceae",
     category: "terpene"
   },
@@ -82,7 +77,6 @@ const BOTANICAL_IMAGES: BotanicalImage[] = [
     latinName: "Lavandula angustifolia",
     commonName: "Lavande vraie",
     description: "Sous-arbrisseau vivace de la famille des Lamiaceae, cultivé pour ses fleurs aromatiques. Le linalool est le principal composant de l'huile essentielle de lavande, reconnue pour ses propriétés calmantes et anxiolytiques.",
-    imagePath: "/images/terpenes/linalool-botanical.png",
     family: "Lamiaceae",
     category: "terpene"
   },
@@ -92,7 +86,6 @@ const BOTANICAL_IMAGES: BotanicalImage[] = [
     latinName: "Zingiber officinale",
     commonName: "Gingembre",
     description: "Plante herbacée tropicale de la famille des Zingiberaceae, cultivée pour son rhizome aromatique. L'humulène contribue aux notes épicées du gingembre et possède des propriétés anti-inflammatoires et antibactériennes.",
-    imagePath: "/images/terpenes/humulene-botanical.png",
     family: "Zingiberaceae",
     category: "terpene"
   }
@@ -371,15 +364,12 @@ export default function GalerieBotaniques() {
           </CardHeader>
           <CardContent className="space-y-3 text-xs md:text-sm text-muted-foreground">
             <p>
-              Ces illustrations botaniques ont été créées dans un style scientifique pour illustrer les principales plantes sources des terpènes étudiés dans le cadre du projet PERFUMUM.
+              Ces fiches présentent les principales plantes sources des terpènes étudiés dans le cadre du projet PERFUMUM.
+              Leurs illustrations botaniques ne sont plus disponibles : les fiches sont présentées sans image.
             </p>
             <p>
-              La collection inclut désormais une section dédiée à <strong>Tagetes lucida</strong>, plante clé du système Absorbe pour l'axe climatique "Vent", 
+              La collection inclut une section dédiée à <strong>Tagetes lucida</strong>, plante clé du système Absorbe pour l'axe climatique "Vent", 
               avec ses 4 molécules principales (Estragole, Anéthole, Méthyl-eugénol, β-Ocimène).
-              Ces fiches sont présentées sans illustration.
-            </p>
-            <p>
-              Les images sont disponibles en haute résolution pour un usage dans vos documents de recherche, présentations ou supports pédagogiques.
             </p>
           </CardContent>
         </Card>

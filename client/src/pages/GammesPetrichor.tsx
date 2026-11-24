@@ -20,7 +20,6 @@ export default function GammesPetrichor() {
       icon: Mountain,
       atmosphere: "Humus. Racines. Terre noire gorgée d'eau. Profondeur tellurique.",
       notes: "géosmine, spikenard, vétiver humide, bois mouillé, angélique, mitti attar, patchouli terre, mousse chêne",
-      imageUrl: "/petrichor-souterrain.webp",
       image: "sol fracturé, condensation basse, racines exposées",
       sensation: "profonde, lente, organique, enveloppante",
       color: "from-amber-900/20 to-stone-900/20",
@@ -60,7 +59,6 @@ export default function GammesPetrichor() {
       icon: Droplets,
       atmosphere: "Forêt après l'orage. Feuilles mouillées, écorce gorgée, champignons.",
       notes: "cis-3-hexénol, feuille violette, mousse chêne, cèdre, pin humide, champignon, sous-bois",
-      imageUrl: "/petrichor-forestier.webp",
       image: "sous-bois dense, vapeur montante, lumière filtrée",
       sensation: "vivante, fraîche, verte, humide",
       color: "from-green-800/20 to-emerald-900/20",
@@ -74,7 +72,6 @@ export default function GammesPetrichor() {
       icon: Mountain,
       atmosphere: "Pierre calcaire, craie mouillée, carrière après la pluie. Silence minéral.",
       notes: "pierre humide, craie, silex, encens froid, ambrox, cèdre Atlas, vétiver sec",
-      imageUrl: "/petrichor-mineral.webp",
       image: "roche calcaire, gouttes suspendues, texture poreuse",
       sensation: "froide, dure, cristalline, austere",
       color: "from-gray-400/20 to-stone-600/20",
@@ -88,7 +85,6 @@ export default function GammesPetrichor() {
       icon: Droplets,
       atmosphere: "Rivière après l'orage. Galets mouillés, algues, eau trouble.",
       notes: "calone, algues, galets humides, cis-3-hexénol, vétiver eau, encens aquatique",
-      imageUrl: "/petrichor-aquatique.webp",
       image: "rivière trouble, galets lisses, vapeur d'eau",
       sensation: "fluide, fraîche, mouvante, transparente",
       color: "from-cyan-400/20 to-blue-600/20",
@@ -102,7 +98,6 @@ export default function GammesPetrichor() {
       icon: Ghost,
       atmosphere: "Nuit après la pluie. Silence humide, brume basse, lune voilée.",
       notes: "encens froid, vétiver nuit, muscs blancs, iris, violette, ambrox, mousse",
-      imageUrl: "/petrichor-nocturne.webp",
       image: "brume nocturne, reflets lunaires, silence profond",
       sensation: "sombre, calme, enveloppante, mystérieuse",
       color: "from-indigo-900/20 to-slate-800/20",
@@ -184,16 +179,6 @@ export default function GammesPetrichor() {
                         </div>
                       </CardHeader>
                       <CardContent className="space-y-6">
-                        {axe.imageUrl && (
-                          <div className="w-full h-64 rounded-lg overflow-hidden">
-                            <img 
-                              src={axe.imageUrl} 
-                              alt={`${axe.name} - ${axe.atmosphere}`}
-                              className="w-full h-full object-cover"
-                              loading="lazy"
-                            />
-                          </div>
-                        )}
                         <div>
                           <h4 className="text-sm font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
                             Atmosphère
