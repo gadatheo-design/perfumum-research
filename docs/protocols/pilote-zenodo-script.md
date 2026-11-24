@@ -1,5 +1,7 @@
 # Script du pilote Zenodo : exécution sûre et validation humaine
 
+> **Script perdu — ces commandes n'existent plus.** Le script `server/scripts/zenodo-olfactory-pilot.mjs` a été perdu à la sortie de Manus : il n'avait jamais été versionné (la ligne `scripts/` du `.gitignore` masquait le dossier) et il n'existe plus dans l'espace de travail Manus. Les commandes `pnpm pilot:zenodo:*` ont été retirées de `package.json` le 24 novembre 2026. Ce document est conservé pour mémoire : il décrit le protocole, pas un outil disponible. Le routeur et les tables du pilote, eux, sont intacts.
+
 Le flux est volontairement scindé en quatre étapes. Aucune commande ne modifie les descripteurs, les plantes, les molécules ou les associations scientifiques de production.
 
 | Étape | Commande | Écriture autorisée |

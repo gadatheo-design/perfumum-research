@@ -44,13 +44,16 @@ describe("prototypes physiques locaux", () => {
     }
   );
 
-  it("déclare la commande pnpm physical-tests et les livrables autonomes sans dépendance réseau", async () => {
+  // La commande `pnpm physical-tests` a été retirée de package.json le
+  // 24/11/2026 : son script est perdu. Le test vérifie désormais qu'elle n'y
+  // est plus, et que `physical-tests:zip`, qui ne dépend pas du script, reste.
+  it("ne déclare plus la commande pnpm physical-tests, garde le zip et les livrables autonomes sans dépendance réseau", async () => {
     const [manifest, standaloneReadme, thermal] = await Promise.all([
       readFile(resolve(process.cwd(), "package.json"), "utf8"),
       readFile(resolve(process.cwd(), "deliverables/essais-physiques-autonomes/README.md"), "utf8"),
       readFile(resolve(process.cwd(), "deliverables/essais-physiques-autonomes/04-partition-thermique/index.html"), "utf8"),
     ]);
-    expect(JSON.parse(manifest).scripts["physical-tests"]).toContain("serve-physical-tests");
+    expect(JSON.parse(manifest).scripts["physical-tests"]).toBeUndefined();
     expect(JSON.parse(manifest).scripts["physical-tests:zip"]).toContain("zip");
     expect(standaloneReadme).toContain("double-cliquez");
     expect(thermal).toContain("Ce n’est pas une mesure de composition de l’air");

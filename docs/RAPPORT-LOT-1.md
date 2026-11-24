@@ -32,7 +32,8 @@ Rien n'a été poussé sur `main`. Aucune connexion à la base de production ni 
 | `32d12fd0` | 7 | `deploy/migrate-media-urls.mjs` pour les adresses enregistrées en base. |
 | `2c7e013a` | 8 | `docs/DEPLOIEMENT.md`, `CLAUDE.md`, ce rapport. |
 | `e4acabc2` | — | `server/scripts/` perdu : `.gitignore` corrigé, deux tests ignorés tant que les fichiers sont absents, perte consignée ici. |
-| (24 novembre) | 7 | Les 19 images de l'interface sont retirées au lieu d'être recopiées ; filet de sécurité, dossier `client/public/media/` et `deploy/fetch-media.mjs` supprimés. |
+| `989b133d` | 7 | Les 19 images de l'interface sont retirées au lieu d'être recopiées ; filet de sécurité, dossier `client/public/media/` et `deploy/fetch-media.mjs` supprimés. |
+| (24 novembre) | — | Commandes `pnpm` des scripts perdus retirées de `package.json`, leur documentation annotée ; workflow Datadog supprimé. |
 
 ## Comment chaque conflit a été résolu
 
@@ -147,11 +148,11 @@ Rien n'a été poussé sur `main`. Aucune connexion à la base de production ni 
 
 ### Fichiers perdus : `server/scripts/`
 
-La ligne `scripts/` du `.gitignore` masquait tout dossier de ce nom, donc aussi `server/scripts/` : son contenu n'a jamais été versionné. Manus a confirmé le 24 novembre 2026 que le dossier n'existe plus dans son espace de travail. Trois scripts, que `package.json` appelle, sont donc perdus, ainsi que leurs fichiers de données :
+La ligne `scripts/` du `.gitignore` masquait tout dossier de ce nom, donc aussi `server/scripts/` : son contenu n'a jamais été versionné. Manus a confirmé le 24 novembre 2026 que le dossier n'existe plus dans son espace de travail. Trois scripts, que `package.json` appelait, sont donc perdus, ainsi que leurs fichiers de données :
 
-| Fichier perdu | Commandes `pnpm` qui ne fonctionnent plus | Ce qu'il en reste |
+| Fichier perdu | Commandes `pnpm` retirées | Ce qu'il en reste |
 |---|---|---|
-| `server/scripts/serve-physical-tests.mjs` | `physical-tests` | Les pages elles-mêmes sont intactes (`tools/physical-tests/`, `deliverables/essais-physiques-autonomes/`) et s'ouvrent sans serveur. Seul le petit serveur local manque. |
+| `server/scripts/serve-physical-tests.mjs` | `physical-tests` | Les pages et leurs données sont intactes. Celles de `deliverables/essais-physiques-autonomes/` s'ouvrent sans serveur ; celles de `tools/physical-tests/` chargent des modules et un fichier JSON, donc demandent un serveur web local, quel qu'il soit. Seul ce petit serveur manque. `physical-tests:zip`, qui ne dépend pas du script, est gardée. |
 | `server/scripts/zenodo-olfactory-pilot.mjs` | `pilot:zenodo:dry-run`, `pilot:zenodo:stage`, `pilot:zenodo:preannotate` | Le protocole et les options de la ligne de commande sont décrits dans `docs/protocols/pilote-zenodo-script.md`, sans le code. Le routeur et les tables du pilote sont intacts. |
 | `server/scripts/pred-o3-import.mjs` et `pred-o3-data.json` | `import:pred-o3`, `import:pred-o3:dry-run` | `PRED-O3-IMPORT.md` contient un listing, mais ce n'est pas le script perdu (voir ci-dessous). Les routeurs `pred-o3.ts` et `pred-o3-bulk-import.ts` sont intacts. |
 
@@ -160,7 +161,9 @@ Ce qui a été fait :
 - `.gitignore` : `scripts/` devient `/scripts/`. Seul le dossier `scripts/` de la racine reste ignoré ; `server/scripts/` sera suivi à l'avenir.
 - `server/physical-tests.test.ts` : le test qui lisait d'un bloc trois pages et le serveur est scindé. Les trois pages restent vérifiées ; la vérification du serveur est ignorée (`skipIf`) tant que le fichier est absent, avec la raison dans son intitulé. Elle se réactive d'elle-même si le fichier revient.
 - `server/zenodo-olfactory-pilot.test.ts` (suite d'intégration) : même traitement pour le test qui lit le script Zenodo. Ce second cas n'était pas demandé ; c'est la même perte.
-- Aucun des deux scripts n'a été réinventé. Les commandes de `package.json` sont laissées en place : elles échouent avec « fichier introuvable », ce qui est exact.
+- Aucun script n'a été réinventé.
+- Décision du 24 novembre : les commandes `physical-tests`, `pilot:zenodo:*` et `import:pred-o3*` sont retirées de `package.json`. Leur documentation est gardée (`docs/protocols/pilote-zenodo-script.md`, `PRED-O3-IMPORT.md`, et `tools/physical-tests/README.md`, qui décrivait aussi `pnpm physical-tests`), avec en tête une note : script perdu à la sortie de Manus, commande disparue. Le troisième test de `server/physical-tests.test.ts` vérifiait la présence de `physical-tests` dans `package.json` ; il vérifie désormais son absence.
+- La page d'administration `admin/ZenodoTermReview` affiche encore, quand la zone de transit est vide, « mise en transit contrôlée avec `pnpm pilot:zenodo:stage` ». Ce texte de l'interface n'est pas modifié ; il renvoie à une commande qui n'existe plus.
 
 **`pred-o3-import.mjs` n'a pas été reconstitué.** `PRED-O3-IMPORT.md` contient bien un listing complet (135 lignes), mais :
 
@@ -170,7 +173,11 @@ Ce qui a été fait :
 - les colonnes qu'il écrit ne correspondent pas à celles que lit `server/routers/pred-o3.ts` (`descriptor_id`, `source`) ;
 - son fichier de données est perdu lui aussi.
 
-Le remettre dans le dépôt aurait donné l'apparence d'une restauration à un fichier qui ne fonctionne pas. Écrire une version qui marche est possible, mais c'est un script neuf : il faut la définition réelle de la table `odor_descriptors` (colonnes et clé unique), que le dépôt ne contient pas.
+Le remettre dans le dépôt aurait donné l'apparence d'une restauration à un fichier qui ne fonctionne pas. Décision du 24 novembre : pas de nouveau script pour l'instant, les 25 descripteurs importés étant déjà dans la table `odor_descriptors`. S'il en faut un un jour, il faudra la définition réelle de cette table (colonnes et clé unique), que le dépôt ne contient pas.
+
+### Workflow Datadog supprimé
+
+`.github/workflows/datadog-synthetics.yml` est supprimé (décision du 24 novembre). C'était le modèle fourni par GitHub, jamais configuré : aucune clé Datadog dans le dépôt, échec à chaque commit, sur `main` comme sur cette branche. Ce n'était pas un contrôle de qualité du code.
 
 ### Relevé en passant, non corrigé
 

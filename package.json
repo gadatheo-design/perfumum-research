@@ -15,12 +15,6 @@
     "test:integration": "vitest run --config vitest.integration.config.ts",
     "test:all": "vitest run --config vitest.all.config.ts",
     "db:push": "drizzle-kit generate && drizzle-kit migrate",
-    "import:pred-o3": "node --import tsx server/scripts/pred-o3-import.mjs",
-    "import:pred-o3:dry-run": "node --import tsx server/scripts/pred-o3-import.mjs --dry-run",
-    "pilot:zenodo:dry-run": "node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --dry-run",
-    "pilot:zenodo:stage": "node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --stage",
-    "pilot:zenodo:preannotate": "node --import tsx server/scripts/zenodo-olfactory-pilot.mjs --preannotate",
-    "physical-tests": "node server/scripts/serve-physical-tests.mjs",
     "physical-tests:zip": "zip -qr deliverables/perfumum-essais-physiques-autonomes.zip deliverables/essais-physiques-autonomes"
   },
   "dependencies": {

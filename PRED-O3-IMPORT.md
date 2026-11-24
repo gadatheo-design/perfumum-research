@@ -1,5 +1,7 @@
 # Import des données Pred-O3 — Guide complet
 
+> **Script perdu — ces commandes n'existent plus.** Le script `server/scripts/pred-o3-import.mjs` et son fichier `pred-o3-data.json` ont été perdus à la sortie de Manus : ils n'avaient jamais été versionnés (la ligne `scripts/` du `.gitignore` masquait le dossier) et n'existent plus dans l'espace de travail Manus. Les commandes `pnpm import:pred-o3*` ont été retirées de `package.json` le 24 novembre 2026. Le code reproduit plus bas n'est pas le script perdu et ne fonctionne pas en l'état (voir `docs/RAPPORT-LOT-1.md`) ; il est conservé pour mémoire. Les 25 descripteurs importés sont toujours dans la table `odor_descriptors`.
+
 ## Vue d'ensemble
 
 Ce guide explique comment importer les données olfactives de **Pred-O3** (Université Paris Cité) dans la base de données PERFUMUM. L'approche utilisée est un **script Node.js standalone** qui garantit zéro risque de casser la compilation du serveur.

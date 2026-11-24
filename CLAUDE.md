@@ -24,7 +24,7 @@ PERFUMUM est hébergé par Manus et doit pouvoir tourner ailleurs : un service w
 | `pnpm build:standalone` | Construction en mode autonome. `pnpm build` : mode Manus. |
 | `docker build --platform linux/amd64 -t perfumum .` | Image de production. |
 
-`server/scripts/` est perdu (jamais versionné, absent de l'espace Manus) : `serve-physical-tests.mjs`, `zenodo-olfactory-pilot.mjs`, `pred-o3-import.mjs`. Les deux tests qui lisent ces fichiers sont ignorés tant qu'ils sont absents. Ne pas réinventer ces scripts sans demande ; détail dans `docs/RAPPORT-LOT-1.md`.
+`server/scripts/` est perdu (jamais versionné, absent de l'espace Manus) : `serve-physical-tests.mjs`, `zenodo-olfactory-pilot.mjs`, `pred-o3-import.mjs`. Leurs commandes `pnpm` ont été retirées ; leur documentation est gardée, annotée. Les deux tests qui lisaient ces fichiers sont ignorés tant qu'ils sont absents. Ne pas réinventer ces scripts sans demande ; détail dans `docs/RAPPORT-LOT-1.md`.
 
 ## À savoir avant de modifier
 

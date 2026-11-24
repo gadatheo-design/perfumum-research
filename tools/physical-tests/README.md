@@ -1,5 +1,7 @@
 # Essais physiques locaux — PERFUMUM
 
+> **Script perdu — cette commande n'existe plus.** Le serveur local `server/scripts/serve-physical-tests.mjs` a été perdu à la sortie de Manus (jamais versionné, absent de l'espace de travail Manus). La commande `pnpm physical-tests` a été retirée de `package.json` le 24 novembre 2026. Les trois pages ci-dessous et leurs données sont intactes ; la version autonome de `deliverables/essais-physiques-autonomes/` s'ouvre sans serveur.
+
 Ces trois pages sont des supports d’atelier en lecture seule. Elles chargent l’export local daté `data/fleur-fantome-2026-09-15.json` et écrivent seulement des CSV téléchargés par l’opérateur. Elles n’appellent ni API de production, ni actionneur, ni dispositif de chauffe, de diffusion ou de combustion.
 
 ## Démarrage
