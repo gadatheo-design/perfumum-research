@@ -8,7 +8,7 @@ Rien n'a été poussé sur `main`. Aucune connexion à la base de production ni 
 
 - Les huit étapes du brief sont faites.
 - `pnpm build:standalone`, `pnpm build` (mode Manus) et `pnpm check` passent.
-- `pnpm test` : vert depuis le 24 novembre (1 463 tests réussis, 1 ignoré). Le test ignoré lit un script perdu, voir « Fichiers perdus : `server/scripts/` ».
+- `pnpm test` : vert depuis le 24 novembre (1 469 tests réussis, 1 ignoré). Le test ignoré lit un script perdu, voir « Fichiers perdus : `server/scripts/` ».
 - L'image Docker a été construite et lancée ; la porte d'accès, `/healthz`, les requêtes corrigées et les suggestions de synergies ont été essayées dans l'image, sur MySQL 8.0.46 avec des données synthétiques.
 - **Une chose demande votre intervention** : faire un premier essai sur TiDB Cloud et Render, que je n'ai pas pu joindre.
 - **Les 19 images de l'interface** qui venaient du stockage Manus ont été retirées, sur décision du 24 novembre : voir l'étape 7.
@@ -39,6 +39,7 @@ Rien n'a été poussé sur `main`. Aucune connexion à la base de production ni 
 | `05ef2d39` | 4 | Régression de `8e11e402` : `db.$client.promise()` n'existe plus avec le nouveau pool ; quatre appels corrigés, test anti-retour. |
 | `d505adfb` | 4 | Pool : fermeture des connexions avec COM_QUIT et sans rafale ; arrêt propre du serveur sur SIGTERM. |
 | `d1c894c3` | 4 | Sept connexions ouvertes hors du pool, parfois jamais refermées, passent par le pool. |
+| (24 novembre) | 4 | 38 prises de connexion rendues hors d'un `finally` : la connexion est rendue au pool même en cas d'erreur. |
 
 ## Comment chaque conflit a été résolu
 
@@ -216,14 +217,18 @@ Mesures (base locale synthétique, serveur compilé, 1 020 procédures de lectur
 - Les écarts entre variantes restent dans le bruit. En séquentiel, les 374 réponses 200 qui n'appellent pas d'API externe font 9 s au total pour toutes les variantes (médiane 3 ms, 95e centile 130 à 150 ms).
 - Les trois quarts du temps séquentiel (34 à 39 s) viennent de trois procédures qui interrogent Wikidata ou d'autres services en ligne : `wikidataSync.getStats`, `lotusEnrichment.getStats`, `ai.getUnclassifiedStats`. Leur durée dépend du réseau, pas du code de la branche.
 - `molecules.list` (25,6 Mo sur la base synthétique, contre 19,6 Mo sur la vraie) : 0,39 à 0,43 s sans gzip, 0,48 à 0,53 s avec. La compression coûte donc de l'ordre de 0,05 à 0,1 s sur une réponse de cette taille ; elle réduit le transfert à 0,38 Mo, mais ce rapport (68 fois) est flatteur, le texte synthétique étant très répétitif. Sur de vraies données, attendre plutôt un facteur 5 à 10.
-- 614 procédures sur 1 020 répondent 4xx dans ce balayage, faute d'entrée ; votre balayage, avec de vraies entrées, fait bien plus de travail. Ma base est locale et sans TLS : une reconnexion y coûte quelques millisecondes, contre bien plus vers un serveur distant.
+- 614 procédures sur 1 020 répondent 4xx dans ce balayage, faute d'entrée (votre balayage procède de même, voir plus bas). Ma base est synthétique : elle ne contient pas vos données, et la plupart des tables autres que celles des molécules et des recettes y sont vides. Elle est locale et sans TLS : une reconnexion y coûte quelques millisecondes.
 
-Pistes non vérifiées, faute d'accès à votre essai :
+Précisions reçues le 24 novembre, qui écartent deux de mes hypothèses : votre balayage appelle lui aussi chaque procédure avec une entrée vide, dans un réseau Docker sans accès à Internet ; et le 16 novembre le serveur n'était pas arrêté (les mêmes 470 procédures avaient répondu avec des données). Les appels les plus lents de votre essai : `referenceCitations.*` (44 s), `molecules.getUnenrichedForChEBI` / `moleculesQid` (20 s), `advancedSearch.getSparqlTemplates` (15 s), `iucnEnrichment` / `lotusEnrichment` et `tropicosEnrichment` / `wikidata` (14 s chacun). Recherche suspendue à votre demande : le prochain essai local mesurera la durée de chaque procédure.
 
-- Le 16 novembre, `synergies.getSuggestions` faisait tomber le serveur (mémoire épuisée). Si votre balayage s'est poursuivi contre un serveur à terre, les appels suivants ont échoué en quelques millisecondes, ce qui raccourcit artificiellement les 160 s. Avec `5dfcd36f`, le serveur tient et toutes les procédures s'exécutent réellement.
-- Les procédures qui appellent des services en ligne (Wikidata, GBIF, Europeana…) varient d'un jour à l'autre.
-- **Connexions empruntées et jamais rendues.** 36 prises de connexion sur 87 (dans 14 fichiers) font `conn.end()` sans `finally` : si la requête échoue, la connexion n'est jamais rendue au pool. Après mon balayage, 2 connexions restaient empruntées. Le pool en compte 10 : s'il s'épuise, les requêtes suivantes qui en ont besoin attendent sans fin. Avec de vraies entrées, plus de chemins d'erreur peuvent être empruntés. Non corrigé : la cause de vos 792 s n'est pas établie, et la correction touche 14 fichiers. C'est la prochaine chose que je regarderais.
-- Pour trancher : le temps de chaque procédure dans votre balayage, comparé à celui du 16 novembre, montrerait lesquelles ont ralenti.
+**Connexions jamais rendues au pool : corrigé.** 38 prises de connexion dans 14 fichiers rendaient la connexion par `conn.end()` hors d'un `finally` : à la première erreur, elle n'était jamais rendue. Le pool en compte 10 ; quelques visites sur des procédures qui échouent suffisaient à le vider, et toute requête qui en avait ensuite besoin attendait sans fin. Le relevé du 24 novembre en comptait 36 ; le test syntaxique en a trouvé 2 de plus dans `sparql.ts` (`getCacheStats`, `clearSparqlCache`), qui écrivent `execute<…>(`.
+
+- Chaque site est entouré d'un `try … finally { await conn.end(); }` couvrant la suite de son bloc. Les restitutions anticipées existantes sont gardées : une connexion rendue avant un long traitement (appel au modèle de langage, par exemple) n'est pas retenue plus longtemps.
+- `end()` et `release()` sont désormais à restitution unique : le second appel ne fait rien. Sans cela, mysql2 remettrait deux fois la même connexion dans la liste libre.
+- Transformation faite par l'analyseur syntaxique de TypeScript, pas par expressions régulières ; le texte de toutes les chaînes (SQL, invites) a été vérifié identique avant et après, dans les 14 fichiers.
+- `server/pool-release.test.ts` : vérifie sur l'arbre syntaxique de tout le serveur qu'aucune connexion n'est rendue hors d'un `finally`.
+- `server/pool-release-runtime.test.ts` : un vrai pool mysql2 de 10 connexions face au serveur MySQL simulé de mysql2, qui fait échouer toute requête ; 40 vagues de 5 appels à des fonctions et procédures corrigées ; ensuite le pool doit avoir toutes ses connexions libres et en céder 10 à la fois. Avec l'ancien code des 14 fichiers, ce test échoue dès la troisième vague (« pas de réponse en 5000 ms ») : le pool est épuisé.
+- Balayage sur la base locale après correction : les 1 020 procédures donnent exactement les mêmes codes de réponse qu'avant (377 × 200, 614 × 4xx, 29 × 5xx) ; 0 connexion encore empruntée 70 s après (2 avant).
 
 ### Compression des réponses HTTP
 
