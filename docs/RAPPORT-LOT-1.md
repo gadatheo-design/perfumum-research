@@ -8,7 +8,7 @@ Rien n'a été poussé sur `main`. Aucune connexion à la base de production ni 
 
 - Les huit étapes du brief sont faites.
 - `pnpm build:standalone`, `pnpm build` (mode Manus) et `pnpm check` passent.
-- `pnpm test` : vert depuis le 24 novembre (1 447 tests réussis, 1 ignoré). Le test ignoré lit un script perdu, voir « Fichiers perdus : `server/scripts/` ».
+- `pnpm test` : vert depuis le 24 novembre (1 454 tests réussis, 1 ignoré). Le test ignoré lit un script perdu, voir « Fichiers perdus : `server/scripts/` ».
 - L'image Docker a été construite et lancée ; la porte d'accès, `/healthz`, les requêtes corrigées et les suggestions de synergies ont été essayées dans l'image, sur MySQL 8.0.46 avec des données synthétiques.
 - **Une chose demande votre intervention** : faire un premier essai sur TiDB Cloud et Render, que je n'ai pas pu joindre.
 - **Les 19 images de l'interface** qui venaient du stockage Manus ont été retirées, sur décision du 24 novembre : voir l'étape 7.
@@ -33,7 +33,9 @@ Rien n'a été poussé sur `main`. Aucune connexion à la base de production ni 
 | `2c7e013a` | 8 | `docs/DEPLOIEMENT.md`, `CLAUDE.md`, ce rapport. |
 | `e4acabc2` | — | `server/scripts/` perdu : `.gitignore` corrigé, deux tests ignorés tant que les fichiers sont absents, perte consignée ici. |
 | `989b133d` | 7 | Les 19 images de l'interface sont retirées au lieu d'être recopiées ; filet de sécurité, dossier `client/public/media/` et `deploy/fetch-media.mjs` supprimés. |
-| (24 novembre) | — | Commandes `pnpm` des scripts perdus retirées de `package.json`, leur documentation annotée ; workflow Datadog supprimé. |
+| `2b7cd592` | — | Commandes `pnpm` des scripts perdus retirées de `package.json`, leur documentation annotée ; workflow Datadog supprimé. |
+| (24 novembre) | 7 | `Projets` : quatre photos de terrain restaurées depuis l'historique Git. `GalerieBotaniques`, `GammesPetrichor` : références aux images absentes retirées. `ZenodoTermReview` : renvoi à la commande disparue remplacé. |
+| (24 novembre) | — | Compression gzip des réponses HTTP. |
 
 ## Comment chaque conflit a été résolu
 
@@ -163,7 +165,7 @@ Ce qui a été fait :
 - `server/zenodo-olfactory-pilot.test.ts` (suite d'intégration) : même traitement pour le test qui lit le script Zenodo. Ce second cas n'était pas demandé ; c'est la même perte.
 - Aucun script n'a été réinventé.
 - Décision du 24 novembre : les commandes `physical-tests`, `pilot:zenodo:*` et `import:pred-o3*` sont retirées de `package.json`. Leur documentation est gardée (`docs/protocols/pilote-zenodo-script.md`, `PRED-O3-IMPORT.md`, et `tools/physical-tests/README.md`, qui décrivait aussi `pnpm physical-tests`), avec en tête une note : script perdu à la sortie de Manus, commande disparue. Le troisième test de `server/physical-tests.test.ts` vérifiait la présence de `physical-tests` dans `package.json` ; il vérifie désormais son absence.
-- La page d'administration `admin/ZenodoTermReview` affiche encore, quand la zone de transit est vide, « mise en transit contrôlée avec `pnpm pilot:zenodo:stage` ». Ce texte de l'interface n'est pas modifié ; il renvoie à une commande qui n'existe plus.
+- La page d'administration `admin/ZenodoTermReview` renvoyait, quand la zone de transit est vide, à `pnpm pilot:zenodo:stage`. Le texte dit maintenant que la préparation d'un nouveau lot n'est plus disponible, l'outil ayant été perdu à la sortie de Manus.
 
 **`pred-o3-import.mjs` n'a pas été reconstitué.** `PRED-O3-IMPORT.md` contient bien un listing complet (135 lignes), mais :
 
@@ -175,13 +177,24 @@ Ce qui a été fait :
 
 Le remettre dans le dépôt aurait donné l'apparence d'une restauration à un fichier qui ne fonctionne pas. Décision du 24 novembre : pas de nouveau script pour l'instant, les 25 descripteurs importés étant déjà dans la table `odor_descriptors`. S'il en faut un un jour, il faudra la définition réelle de cette table (colonnes et clé unique), que le dépôt ne contient pas.
 
+### Compression des réponses HTTP
+
+Ajoutée le 24 novembre (paquet `compression`, gzip ou deflate selon le navigateur), dans `server/_core/compression.ts`. Elle est enregistrée après `/healthz` et avant la porte d'accès et toutes les routes : l'API, le client compilé et le formulaire `/acces` sont compressés. Les images déjà compressées (WebP, PNG, JPEG) et les réponses de moins de 1 Ko ne le sont pas ; le WebSocket n'est pas concerné.
+
+Vérifié dans l'image Docker, porte active : `/healthz` répond 200 avec son JSON ; page sans cookie redirigée vers `/acces`, API en 401, formulaire servi compressé, connexion en 303 ; une fois connecté, le JavaScript principal passe de 834 Ko à 220 Ko, la page HTML de 3,3 Ko à 1,2 Ko ; une photo WebP est transmise telle quelle, à l'octet près. `server/compression.test.ts` reprend ces vérifications.
+
 ### Workflow Datadog supprimé
 
 `.github/workflows/datadog-synthetics.yml` est supprimé (décision du 24 novembre). C'était le modèle fourni par GitHub, jamais configuré : aucune clé Datadog dans le dépôt, échec à chaque commit, sur `main` comme sur cette branche. Ce n'était pas un contrôle de qualité du code.
 
 ### Relevé en passant, non corrigé
 
-- **Seize autres images locales manquent au dépôt.** Les pages touchées à l'étape 7 citent aussi des images servies par l'application elle-même, et aucune n'est dans `client/public` : `GalerieBotaniques` (7 illustrations de terpènes, `/images/terpenes/…`), `GammesPetrichor` (5 photos d'axes, `/petrichor-….webp`), `Projets` (4 photos de terrain, `/terrain-….webp`). Elles s'affichent sans doute chez Manus, qui les sert d'ailleurs ; hors de Manus, ce seront des images cassées. Non traité : ce n'était pas dans la consigne. Si elles sont retirées à leur tour, les mêmes remplacements (rien, ou un bloc de même format) conviennent.
+- **Seize autres images locales manquaient au dépôt** (relevé du 24 novembre), sur les pages touchées à l'étape 7. Traitées le même jour :
+  - `Projets`, page branchée : les quatre photos de terrain (`terrain-foret-alpine-1` et `2`, `terrain-friche-1` et `2`) ont été supprimées du dépôt par le commit Manus `66b07ea1` du 3 mars 2026 (« outil admin molecule-manager »), sans que la page cesse de les citer. Elles sont restaurées telles qu'elles étaient juste avant ce commit : WebP 1200 × 670, 829 Ko au total. Vérifié dans le navigateur, derrière la porte d'accès : les quatre s'affichent.
+  - `GalerieBotaniques` (7 illustrations de terpènes) et `GammesPetrichor` (5 photos d'axes), pages non branchées : références retirées, rien de restauré. La galerie affiche toutes ses fiches dans le bloc sans illustration déjà utilisé pour *Tagetes* ; son texte « À propos » ne promet plus d'images en haute résolution. Son titre (« Galerie Botanique », « Collection d'illustrations scientifiques ») est laissé tel quel. Leur sort est renvoyé au lot 2.
+  - `GammesMossi` ne citait plus aucune image.
+  - Le même commit `66b07ea1` a supprimé d'autres fichiers de `client/public` (dont `petrichor-souterrain.webp`, `terrain-musee-2.webp`, `absorbe-gammes.png`, des captures d'écran). Ils n'ont pas été restaurés : aucune page branchée ne les cite, sauf `petrichor-souterrain.webp`, cité par les balises Open Graph de `client/index.html` sur le domaine Manus (voir plus haut).
+  - `server/client-assets.test.ts` vérifie désormais que chaque image locale citée par ces quatre pages existe.
 
 - **Mentions de Manus dans la page.** `client/index.html` cite `https://perfumum.manus.space` quatre fois (balises Open Graph et Twitter), dont une image `petrichor-souterrain.webp` servie par ce domaine. `server/_core/env.ts` prend aussi ce domaine comme adresse publique par défaut : d'où `PUBLIC_BASE_URL` dans le guide.
 - **Polices Google.** La page charge ses polices depuis `fonts.googleapis.com` : dépendance externe, sans rapport avec Manus.

@@ -14,6 +14,7 @@ import { trpcRateLimiter } from "./rateLimiter";
 import { logger } from "./logger";
 import { registerHealthRoute } from "./health";
 import { registerAccessGate } from "./accessGate";
+import { registerCompression } from "./compression";
 import {
   registerErrorHandler,
   registerHttpLogging,
@@ -61,6 +62,10 @@ async function startServer() {
   if (Number.isInteger(trustProxy) && trustProxy > 0) {
     app.set("trust proxy", trustProxy);
   }
+
+  // Compression gzip des réponses : avant la porte d'accès et toutes les
+  // routes, pour couvrir aussi bien l'API que le client compilé.
+  registerCompression(app);
 
   // Porte d'accès privée (SITE_ACCESS_PASSWORD). Placée avant les analyseurs
   // de corps et toutes les routes : sans laissez-passer, rien d'autre que
