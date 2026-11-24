@@ -200,15 +200,20 @@ export const rawMaterialsInlineRouter = router({
       if (input.filter === 'missingOlfactiveNotes') where = "(olfactive_profile IS NULL OR olfactive_profile = '')";
       if (input.filter === 'missingUsages') where = "(usage_notes IS NULL OR usage_notes = '')";
       const conn = await getMysqlConnection();
-      const limit = Number(input.limit);
-      const offset = Number(input.offset);
-      const [rows] = await conn.query(`SELECT id, name, category, olfactive_family FROM raw_materials WHERE ${where} ORDER BY name LIMIT ${limit} OFFSET ${offset}`);
-      const [countRows] = await conn.query(`SELECT COUNT(*) as total FROM raw_materials WHERE ${where}`);
-      await conn.end();
-      return {
-        materials: (rows as Record<string,unknown>[]),
-        total: Number((countRows as Record<string, unknown>[])[0]?.total ?? 0),
-      };
+      try {
+        const limit = Number(input.limit);
+        const offset = Number(input.offset);
+        const [rows] = await conn.query(`SELECT id, name, category, olfactive_family FROM raw_materials WHERE ${where} ORDER BY name LIMIT ${limit} OFFSET ${offset}`);
+        const [countRows] = await conn.query(`SELECT COUNT(*) as total FROM raw_materials WHERE ${where}`);
+        await conn.end();
+        return {
+          materials: (rows as Record<string,unknown>[]),
+          total: Number((countRows as Record<string, unknown>[])[0]?.total ?? 0),
+        };
+      } finally {
+        // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+        await conn.end();
+      }
     }),
   getThermalMatrix: publicProcedure.query(async () => {
     const [rows] = await withMysqlConnection(conn => conn.query(

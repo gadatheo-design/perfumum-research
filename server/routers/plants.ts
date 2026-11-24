@@ -368,15 +368,20 @@ export const plantsRouter = router({
         if (input.filter === 'missingOlfactiveProfile') where = "(olfactive_signature IS NULL OR olfactive_signature = '')";
         if (input.filter === 'missingTherapeutic') where = "(traditional_use IS NULL OR traditional_use = '')";
         const conn = await getMysqlConnection();
-        const limit = Number(input.limit);
-        const offset = Number(input.offset);
-        const [rows] = await conn.query(`SELECT id, name, latin_name, family FROM plants WHERE ${where} ORDER BY name LIMIT ${limit} OFFSET ${offset}`);
-        const [countRows] = await conn.query(`SELECT COUNT(*) as total FROM plants WHERE ${where}`);
-        await conn.end();
-        return {
-          plants: (rows as Record<string, unknown>[]),
-          total: Number((countRows as Record<string, unknown>[])[0]?.total ?? 0),
-        };
+        try {
+          const limit = Number(input.limit);
+          const offset = Number(input.offset);
+          const [rows] = await conn.query(`SELECT id, name, latin_name, family FROM plants WHERE ${where} ORDER BY name LIMIT ${limit} OFFSET ${offset}`);
+          const [countRows] = await conn.query(`SELECT COUNT(*) as total FROM plants WHERE ${where}`);
+          await conn.end();
+          return {
+            plants: (rows as Record<string, unknown>[]),
+            total: Number((countRows as Record<string, unknown>[])[0]?.total ?? 0),
+          };
+        } finally {
+          // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+          await conn.end();
+        }
       }),
 
     /**

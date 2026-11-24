@@ -26,7 +26,8 @@ export const recipeContributionsRouter = router({
     }))
     .mutation(async ({ input, ctx }) => {
       const conn = await getMysqlConnection();
-      await conn.execute(`
+      try {
+        await conn.execute(`
         INSERT INTO recipe_contributions
           (recipe_id, user_id, user_name, contribution_type,
            ingredient_name, ingredient_quantity, ingredient_unit, ingredient_notes,
@@ -35,42 +36,56 @@ export const recipeContributionsRouter = router({
            note_content, note_category, description, bibliography_refs)
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
       `, [
-        input.recipeId, ctx.user.openId, ctx.user.name || null, input.contributionType,
-        input.ingredientName || null, input.ingredientQuantity || null,
-        input.ingredientUnit || null, input.ingredientNotes || null,
-        input.variantName || null, input.variantDescription || null,
-        input.imageUrl || null, input.imageCaption || null,
-        input.noteContent || null, input.noteCategory || null,
-        input.description || null, input.bibliographyRefs || null,
-      ]);
-      await conn.end();
-      return { success: true };
+          input.recipeId, ctx.user.openId, ctx.user.name || null, input.contributionType,
+          input.ingredientName || null, input.ingredientQuantity || null,
+          input.ingredientUnit || null, input.ingredientNotes || null,
+          input.variantName || null, input.variantDescription || null,
+          input.imageUrl || null, input.imageCaption || null,
+          input.noteContent || null, input.noteCategory || null,
+          input.description || null, input.bibliographyRefs || null,
+        ]);
+        await conn.end();
+        return { success: true };
+      } finally {
+        // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+        await conn.end();
+      }
     }),
   getAll: protectedProcedure
     .input(z.object({ status: z.enum(['pending','approved','rejected']).optional() }).optional())
     .query(async ({ input, ctx }) => {
       if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
       const conn = await getMysqlConnection();
-      const [rows] = await conn.execute(
-        `SELECT rc.* FROM recipe_contributions rc
+      try {
+        const [rows] = await conn.execute(
+          `SELECT rc.* FROM recipe_contributions rc
          ${input?.status ? 'WHERE rc.status = ?' : ''}
          ORDER BY rc.created_at DESC`,
-        input?.status ? [input.status] : []
-      );
-      await conn.end();
-      return rows as Record<string, unknown>[];
+          input?.status ? [input.status] : []
+        );
+        await conn.end();
+        return rows as Record<string, unknown>[];
+      } finally {
+        // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+        await conn.end();
+      }
     }),
   review: protectedProcedure
     .input(z.object({ id: z.number(), status: z.enum(['approved','rejected']), adminNotes: z.string().optional() }))
     .mutation(async ({ input, ctx }) => {
       if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
       const conn = await getMysqlConnection();
-      await conn.execute(
-        `UPDATE recipe_contributions SET status=?, admin_notes=?, reviewed_by=?, reviewed_at=NOW() WHERE id=?`,
-        [input.status, input.adminNotes || null, ctx.user.name || ctx.user.openId, input.id]
-      );
-      await conn.end();
-      return { success: true };
+      try {
+        await conn.execute(
+          `UPDATE recipe_contributions SET status=?, admin_notes=?, reviewed_by=?, reviewed_at=NOW() WHERE id=?`,
+          [input.status, input.adminNotes || null, ctx.user.name || ctx.user.openId, input.id]
+        );
+        await conn.end();
+        return { success: true };
+      } finally {
+        // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+        await conn.end();
+      }
     }),
 })
 

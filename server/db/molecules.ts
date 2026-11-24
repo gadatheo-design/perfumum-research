@@ -858,16 +858,21 @@ export async function getPlantPerfumes(plantId: number) {
     const dbConn = await getDb();
     if (!dbConn) return [];
     const conn = await getMysqlConnection();
-    const [rows] = await conn.execute(
-      `SELECT id, plant_id, perfume_name, perfume_house, perfumer, year,
+    try {
+      const [rows] = await conn.execute(
+        `SELECT id, plant_id, perfume_name, perfume_house, perfumer, year,
               role_in_perfume, ingredient_type, description, created_at
        FROM plant_perfumes
        WHERE plant_id = ?
        ORDER BY year ASC, perfume_name ASC`,
-      [plantId]
-    );
-    await conn.end();
-    return rows as unknown[];
+        [plantId]
+      );
+      await conn.end();
+      return rows as unknown[];
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
+    }
   } catch (error: unknown) {
     console.error('Error getting plant perfumes:', error);
     return [];

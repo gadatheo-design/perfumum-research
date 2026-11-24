@@ -233,8 +233,20 @@ function getPool(): mysql.Pool {
  * vraie `PoolConnection` hors connexion réelle.
  */
 export function releaseOnEnd<T extends { end: unknown; release: () => void }>(conn: T): T {
+  // Restitution unique : un second appel (end() puis le release() d'un
+  // `finally`, par exemple) ne fait rien. Sans ce garde-fou, mysql2
+  // remettrait deux fois la même connexion dans la liste des connexions
+  // libres, et deux requêtes la recevraient en même temps.
+  const releaseToPool = conn.release.bind(conn);
+  let released = false;
+  const releaseOnce = () => {
+    if (released) return;
+    released = true;
+    releaseToPool();
+  };
+  conn.release = releaseOnce;
   conn.end = async () => {
-    conn.release();
+    releaseOnce();
   };
   return conn;
 }
@@ -300,6 +312,24 @@ export async function getMysqlConnection(): Promise<mysql.PoolConnection> {
     { maxAttempts: (pool.pool.config.connectionLimit ?? DEFAULT_CONNECTION_LIMIT) + 1 }
   );
   return releaseOnEnd(conn);
+}
+
+/**
+ * État du pool principal : connexions ouvertes, libres, et demandes en
+ * attente. `null` tant que le pool n'a pas été créé. Sert aux tests et au
+ * diagnostic : si `free` reste durablement inférieur à `total` au repos, une
+ * connexion a été prise sans être rendue.
+ */
+export function mainPoolStats(): { total: number; free: number; waiting: number } | null {
+  if (!_pool) return null;
+  const core = (_pool as unknown as {
+    pool: { _allConnections: { length: number }; _freeConnections: { length: number }; _connectionQueue: { length: number } };
+  }).pool;
+  return {
+    total: core._allConnections.length,
+    free: core._freeConnections.length,
+    waiting: core._connectionQueue.length,
+  };
 }
 
 /**

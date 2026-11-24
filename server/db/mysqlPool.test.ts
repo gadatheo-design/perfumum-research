@@ -60,6 +60,17 @@ describe("releaseOnEnd", () => {
     const conn = { end: () => {}, release: () => {} };
     expect(releaseOnEnd(conn)).toBe(conn);
   });
+
+  it("ne rend la connexion qu'une fois, quel que soit l'ordre des appels", async () => {
+    // end() puis release() du `finally`, ou l'inverse : une seule restitution.
+    // Deux restitutions mettraient deux fois la connexion dans la liste libre.
+    for (const order of [["end", "release", "end"], ["release", "end", "release"]] as const) {
+      const release = vi.fn();
+      const conn = releaseOnEnd({ end: () => {}, release });
+      for (const call of order) await (conn[call] as () => unknown)();
+      expect(release, order.join(" puis ")).toHaveBeenCalledTimes(1);
+    }
+  });
 });
 
 // ── Connexions inactives, trop vieilles ou coupées ──────────────────────────

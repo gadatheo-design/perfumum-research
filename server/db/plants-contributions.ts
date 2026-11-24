@@ -270,16 +270,21 @@ import { getMysqlConnection } from "./mysqlPool";
 export async function getPlantContributions(plantId: number, status?: string) {
   try {
     const conn = await getMysqlConnection();
-    let query = `SELECT * FROM plant_contributions WHERE plant_id = ?`;
-    const params: (string | number | null)[] = [plantId];
-    if (status) {
-      query += ` AND status = ?`;
-      params.push(status);
+    try {
+      let query = `SELECT * FROM plant_contributions WHERE plant_id = ?`;
+      const params: (string | number | null)[] = [plantId];
+      if (status) {
+        query += ` AND status = ?`;
+        params.push(status);
+      }
+      query += ` ORDER BY created_at DESC`;
+      const [rows] = await conn.execute(query, params);
+      await conn.end();
+      return rows as unknown[];
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
     }
-    query += ` ORDER BY created_at DESC`;
-    const [rows] = await conn.execute(query, params);
-    await conn.end();
-    return rows as unknown[];
   } catch (error: unknown) {
     console.error('Error getting plant contributions:', error);
     return [];
@@ -289,7 +294,8 @@ export async function getPlantContributions(plantId: number, status?: string) {
 export async function getAllPendingContributionsForAdmin() {
   try {
     const conn = await getMysqlConnection();
-    const [rows] = await conn.execute(`
+    try {
+      const [rows] = await conn.execute(`
       SELECT pc.*, p.name as plant_name, p.latin_name as plant_latin_name,
              p.family as plant_family
       FROM plant_contributions pc
@@ -297,8 +303,12 @@ export async function getAllPendingContributionsForAdmin() {
       WHERE pc.status = 'pending'
       ORDER BY pc.created_at DESC
     `);
-    await conn.end();
-    return rows as unknown[];
+      await conn.end();
+      return rows as unknown[];
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
+    }
   } catch (error: unknown) {
     console.error('Error getting pending contributions:', error);
     return [];
@@ -308,20 +318,25 @@ export async function getAllPendingContributionsForAdmin() {
 export async function getAllContributionsForAdmin(status?: string) {
   try {
     const conn = await getMysqlConnection();
-    let query = `
+    try {
+      let query = `
       SELECT pc.*, p.name as plant_name, p.latin_name as plant_latin_name
       FROM plant_contributions pc
       LEFT JOIN plants p ON pc.plant_id = p.id
     `;
-    const params: (string | number | null)[] = [];
-    if (status) {
-      query += ` WHERE pc.status = ?`;
-      params.push(status);
+      const params: (string | number | null)[] = [];
+      if (status) {
+        query += ` WHERE pc.status = ?`;
+        params.push(status);
+      }
+      query += ` ORDER BY pc.created_at DESC LIMIT 200`;
+      const [rows] = await conn.execute(query, params);
+      await conn.end();
+      return rows as unknown[];
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
     }
-    query += ` ORDER BY pc.created_at DESC LIMIT 200`;
-    const [rows] = await conn.execute(query, params);
-    await conn.end();
-    return rows as unknown[];
   } catch (error: unknown) {
     console.error('Error getting contributions:', error);
     return [];
@@ -368,7 +383,8 @@ export async function submitPlantContribution(data: {
 }) {
   try {
     const conn = await getMysqlConnection();
-    const [result] = await conn.execute(`
+    try {
+      const [result] = await conn.execute(`
       INSERT INTO plant_contributions
         (plant_id, user_id, user_name, contribution_type,
          image_url, image_caption, image_source,
@@ -382,19 +398,23 @@ export async function submitPlantContribution(data: {
          status)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')
     `, [
-      data.plantId, data.userId, data.userName || null, data.contributionType,
-      data.imageUrl || null, data.imageCaption || null, data.imageSource || null,
-      data.moleculeId || null, data.moleculeName || null, data.moleculeConcentration || null, data.moleculeSource || null,
-      data.terroir || null, data.region || null, data.country || null, data.terroirNotes || null,
-      data.noteContent || null, data.noteCategory || null,
-      data.description || null, data.references || null,
-      data.bibTitle || null, data.bibAuthors || null, data.bibYear || null, data.bibJournal || null,
-      data.bibDoi || null, data.bibUrl || null, data.bibType || null,
-      data.gcmsMethod || null, data.gcmsMolecules ? JSON.stringify(data.gcmsMolecules) : null, data.gcmsConditions || null,
-      data.traditionPeriod || null, data.traditionCulture || null, data.traditionUsage || null, data.traditionSources || null,
-    ]);
-    await conn.end();
-    return { success: true, id: (result as unknown as Record<string,unknown>).insertId as number };
+        data.plantId, data.userId, data.userName || null, data.contributionType,
+        data.imageUrl || null, data.imageCaption || null, data.imageSource || null,
+        data.moleculeId || null, data.moleculeName || null, data.moleculeConcentration || null, data.moleculeSource || null,
+        data.terroir || null, data.region || null, data.country || null, data.terroirNotes || null,
+        data.noteContent || null, data.noteCategory || null,
+        data.description || null, data.references || null,
+        data.bibTitle || null, data.bibAuthors || null, data.bibYear || null, data.bibJournal || null,
+        data.bibDoi || null, data.bibUrl || null, data.bibType || null,
+        data.gcmsMethod || null, data.gcmsMolecules ? JSON.stringify(data.gcmsMolecules) : null, data.gcmsConditions || null,
+        data.traditionPeriod || null, data.traditionCulture || null, data.traditionUsage || null, data.traditionSources || null,
+      ]);
+      await conn.end();
+      return { success: true, id: (result as unknown as Record<string,unknown>).insertId as number };
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
+    }
   } catch (error: unknown) {
     console.error('Error submitting plant contribution:', error);
     throw error;
@@ -409,184 +429,189 @@ export async function reviewPlantContribution(
 ) {
   try {
     const conn = await getMysqlConnection();
+    try {
 
-    // Récupérer la contribution AVANT de la mettre à jour
-    const [rows] = await conn.execute(
-      `SELECT * FROM plant_contributions WHERE id = ?`,
-      [contributionId]
-    ) as unknown as Record<string,unknown>[];
-    const contribution = rows[0] as Record<string, unknown>;
-    if (!contribution) {
-      await conn.end();
-      throw new Error(`Contribution #${contributionId} not found`);
-    }
+      // Récupérer la contribution AVANT de la mettre à jour
+      const [rows] = await conn.execute(
+        `SELECT * FROM plant_contributions WHERE id = ?`,
+        [contributionId]
+      ) as unknown as Record<string,unknown>[];
+      const contribution = rows[0] as Record<string, unknown>;
+      if (!contribution) {
+        await conn.end();
+        throw new Error(`Contribution #${contributionId} not found`);
+      }
 
-    // Mettre à jour le statut
-    await conn.execute(`
+      // Mettre à jour le statut
+      await conn.execute(`
       UPDATE plant_contributions
       SET status = ?, reviewed_by = ?, reviewed_at = NOW(), admin_notes = ?, updated_at = NOW()
       WHERE id = ?
     `, [action, reviewedBy, adminNotes || null, contributionId]);
 
-    const integrationResults: string[] = [];
+      const integrationResults: string[] = [];
 
-    // ====================================================
-    // INTÉGRATION AUTOMATIQUE LORS DE L'APPROBATION
-    // ====================================================
-    if (action === 'approved') {
+      // ====================================================
+      // INTÉGRATION AUTOMATIQUE LORS DE L'APPROBATION
+      // ====================================================
+      if (action === 'approved') {
 
-      // --- TYPE IMAGE : mettre à jour image_url de la plante ou créer une entrée galerie ---
-      if (contribution.contribution_type === 'image' && contribution.image_url) {
-        // Vérifier si la plante a déjà une image principale
-        const [plantRows] = await conn.execute(
-          `SELECT id, image_url FROM plants WHERE id = ?`,
-          [contribution.plant_id]
-        ) as unknown as Record<string,unknown>[];
-        const plant = plantRows[0] as Record<string, unknown> | undefined;
-        if (plant && !plant.image_url) {
-          // Pas d'image principale : définir cette image comme image principale
-          await conn.execute(
-            `UPDATE plants SET image_url = ?, updated_at = NOW() WHERE id = ?`,
-            [contribution.image_url, contribution.plant_id]
-          );
-          integrationResults.push(`Image définie comme image principale de la plante #${contribution.plant_id}`);
-        } else {
-          // La plante a déjà une image : enregistrer dans les notes botaniques
-          const caption = contribution.image_caption ? ` — ${contribution.image_caption}` : '';
-          const source = contribution.image_source ? ` (Source: ${contribution.image_source})` : '';
-          await conn.execute(
-            `UPDATE plants SET notes = CONCAT(COALESCE(notes, ''), ?) WHERE id = ?`,
-            [`\n[Image contributée] ${contribution.image_url}${caption}${source}`, contribution.plant_id]
-          );
-          integrationResults.push(`Image ajoutée aux notes de la plante #${contribution.plant_id}`);
-        }
-      }
-
-      // --- TYPE MOLECULE : créer le lien plant_molecules ---
-      if (contribution.contribution_type === 'molecule') {
-        if (contribution.molecule_id) {
-          // Molécule existante en base : créer le lien plant_molecules
-          const [existing] = await conn.execute(
-            `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
-            [contribution.plant_id, contribution.molecule_id]
+        // --- TYPE IMAGE : mettre à jour image_url de la plante ou créer une entrée galerie ---
+        if (contribution.contribution_type === 'image' && contribution.image_url) {
+          // Vérifier si la plante a déjà une image principale
+          const [plantRows] = await conn.execute(
+            `SELECT id, image_url FROM plants WHERE id = ?`,
+            [contribution.plant_id]
           ) as unknown as Record<string,unknown>[];
-          if ((existing as unknown as Record<string,unknown>[]).length === 0) {
-            await conn.execute(`
+          const plant = plantRows[0] as Record<string, unknown> | undefined;
+          if (plant && !plant.image_url) {
+            // Pas d'image principale : définir cette image comme image principale
+            await conn.execute(
+              `UPDATE plants SET image_url = ?, updated_at = NOW() WHERE id = ?`,
+              [contribution.image_url, contribution.plant_id]
+            );
+            integrationResults.push(`Image définie comme image principale de la plante #${contribution.plant_id}`);
+          } else {
+            // La plante a déjà une image : enregistrer dans les notes botaniques
+            const caption = contribution.image_caption ? ` — ${contribution.image_caption}` : '';
+            const source = contribution.image_source ? ` (Source: ${contribution.image_source})` : '';
+            await conn.execute(
+              `UPDATE plants SET notes = CONCAT(COALESCE(notes, ''), ?) WHERE id = ?`,
+              [`\n[Image contributée] ${contribution.image_url}${caption}${source}`, contribution.plant_id]
+            );
+            integrationResults.push(`Image ajoutée aux notes de la plante #${contribution.plant_id}`);
+          }
+        }
+
+        // --- TYPE MOLECULE : créer le lien plant_molecules ---
+        if (contribution.contribution_type === 'molecule') {
+          if (contribution.molecule_id) {
+            // Molécule existante en base : créer le lien plant_molecules
+            const [existing] = await conn.execute(
+              `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
+              [contribution.plant_id, contribution.molecule_id]
+            ) as unknown as Record<string,unknown>[];
+            if ((existing as unknown as Record<string,unknown>[]).length === 0) {
+              await conn.execute(`
               INSERT INTO plant_molecules
                 (plant_id, molecule_id, source, notes, role, created_at, updated_at)
               VALUES (?, ?, 'contribution_utilisateur', ?, 'secondaire', NOW(), NOW())
             `, [
-              contribution.plant_id,
-              contribution.molecule_id,
-              [contribution.molecule_source, contribution.description].filter(Boolean).join(' — ') || null
-            ]);
-            integrationResults.push(`Lien plant_molecules créé : plante #${contribution.plant_id} ↔ molécule #${contribution.molecule_id}`);
-          } else {
-            integrationResults.push(`Lien plant_molecules déjà existant pour molécule #${contribution.molecule_id}`);
-          }
-        } else if (contribution.molecule_name) {
-          // Molécule non trouvée en base : chercher par nom exact
-          const [molRows] = await conn.execute(
-            `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
-            [contribution.molecule_name]
-          ) as unknown as Record<string,unknown>[];
-          const mol = molRows[0] as Record<string, unknown> | undefined;
-          if (mol) {
-            const [existing] = await conn.execute(
-              `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
-              [contribution.plant_id, mol.id]
+                contribution.plant_id,
+                contribution.molecule_id,
+                [contribution.molecule_source, contribution.description].filter(Boolean).join(' — ') || null
+              ]);
+              integrationResults.push(`Lien plant_molecules créé : plante #${contribution.plant_id} ↔ molécule #${contribution.molecule_id}`);
+            } else {
+              integrationResults.push(`Lien plant_molecules déjà existant pour molécule #${contribution.molecule_id}`);
+            }
+          } else if (contribution.molecule_name) {
+            // Molécule non trouvée en base : chercher par nom exact
+            const [molRows] = await conn.execute(
+              `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
+              [contribution.molecule_name]
             ) as unknown as Record<string,unknown>[];
-            if ((existing as unknown as Record<string,unknown>[]).length === 0) {
-              await conn.execute(`
+            const mol = molRows[0] as Record<string, unknown> | undefined;
+            if (mol) {
+              const [existing] = await conn.execute(
+                `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
+                [contribution.plant_id, mol.id]
+              ) as unknown as Record<string,unknown>[];
+              if ((existing as unknown as Record<string,unknown>[]).length === 0) {
+                await conn.execute(`
                 INSERT INTO plant_molecules
                   (plant_id, molecule_id, source, notes, role, created_at, updated_at)
                 VALUES (?, ?, 'contribution_utilisateur', ?, 'secondaire', NOW(), NOW())
               `, [
-                contribution.plant_id,
-                mol.id,
-                [contribution.molecule_source, contribution.description].filter(Boolean).join(' — ') || null
-              ]);
-              integrationResults.push(`Lien plant_molecules créé via nom : plante #${contribution.plant_id} ↔ molécule #${mol.id} (${contribution.molecule_name})`);
+                  contribution.plant_id,
+                  mol.id,
+                  [contribution.molecule_source, contribution.description].filter(Boolean).join(' — ') || null
+                ]);
+                integrationResults.push(`Lien plant_molecules créé via nom : plante #${contribution.plant_id} ↔ molécule #${mol.id} (${contribution.molecule_name})`);
+              }
+            } else {
+              // Molécule inconnue : enregistrer dans les notes de la plante
+              await conn.execute(
+                `UPDATE plants SET notes = CONCAT(COALESCE(notes, ''), ?) WHERE id = ?`,
+                [`\n[Molécule contributée, non trouvée en base] ${contribution.molecule_name}${contribution.molecule_concentration ? ' (' + contribution.molecule_concentration + ')' : ''}${contribution.molecule_source ? ' — Source: ' + contribution.molecule_source : ''}`, contribution.plant_id]
+              );
+              integrationResults.push(`Molécule "${contribution.molecule_name}" non trouvée en base — enregistrée dans les notes`);
             }
-          } else {
-            // Molécule inconnue : enregistrer dans les notes de la plante
-            await conn.execute(
-              `UPDATE plants SET notes = CONCAT(COALESCE(notes, ''), ?) WHERE id = ?`,
-              [`\n[Molécule contributée, non trouvée en base] ${contribution.molecule_name}${contribution.molecule_concentration ? ' (' + contribution.molecule_concentration + ')' : ''}${contribution.molecule_source ? ' — Source: ' + contribution.molecule_source : ''}`, contribution.plant_id]
-            );
-            integrationResults.push(`Molécule "${contribution.molecule_name}" non trouvée en base — enregistrée dans les notes`);
           }
         }
-      }
 
-      // --- TYPE TERROIR : créer le lien plant_terroirs ---
-      if (contribution.contribution_type === 'terroir') {
-        const terroirName = [contribution.terroir, contribution.region, contribution.country].filter(Boolean).join(', ');
-        if (terroirName) {
-          // Chercher un terroir correspondant par nom ou région
-          const [terroirRows] = await conn.execute(
-            `SELECT id FROM terroirs WHERE LOWER(name) LIKE LOWER(?) OR LOWER(region) LIKE LOWER(?) LIMIT 1`,
-            [`%${contribution.terroir || contribution.region}%`, `%${contribution.region || contribution.terroir}%`]
-          ) as unknown as Record<string,unknown>[];
-          const terroir = terroirRows[0] as Record<string, unknown> | undefined;
-          if (terroir) {
-            // Vérifier si le lien n'existe pas déjà
-            const [existingLink] = await conn.execute(
-              `SELECT id FROM plant_terroirs WHERE plant_id = ? AND terroir_id = ?`,
-              [contribution.plant_id, terroir.id]
+        // --- TYPE TERROIR : créer le lien plant_terroirs ---
+        if (contribution.contribution_type === 'terroir') {
+          const terroirName = [contribution.terroir, contribution.region, contribution.country].filter(Boolean).join(', ');
+          if (terroirName) {
+            // Chercher un terroir correspondant par nom ou région
+            const [terroirRows] = await conn.execute(
+              `SELECT id FROM terroirs WHERE LOWER(name) LIKE LOWER(?) OR LOWER(region) LIKE LOWER(?) LIMIT 1`,
+              [`%${contribution.terroir || contribution.region}%`, `%${contribution.region || contribution.terroir}%`]
             ) as unknown as Record<string,unknown>[];
-            if ((existingLink as unknown as Record<string,unknown>[]).length === 0) {
-              await conn.execute(`
+            const terroir = terroirRows[0] as Record<string, unknown> | undefined;
+            if (terroir) {
+              // Vérifier si le lien n'existe pas déjà
+              const [existingLink] = await conn.execute(
+                `SELECT id FROM plant_terroirs WHERE plant_id = ? AND terroir_id = ?`,
+                [contribution.plant_id, terroir.id]
+              ) as unknown as Record<string,unknown>[];
+              if ((existingLink as unknown as Record<string,unknown>[]).length === 0) {
+                await conn.execute(`
                 INSERT INTO plant_terroirs (plant_id, terroir_id, quality_notes, notes, created_at)
                 VALUES (?, ?, ?, 'Lien créé via contribution utilisateur', NOW())
               `, [contribution.plant_id, terroir.id, contribution.terroir_notes || null]);
-              integrationResults.push(`Lien plant_terroirs créé : plante #${contribution.plant_id} ↔ terroir #${terroir.id} (${terroirName})`);
+                integrationResults.push(`Lien plant_terroirs créé : plante #${contribution.plant_id} ↔ terroir #${terroir.id} (${terroirName})`);
+              } else {
+                integrationResults.push(`Lien plant_terroirs déjà existant pour terroir #${terroir.id}`);
+              }
             } else {
-              integrationResults.push(`Lien plant_terroirs déjà existant pour terroir #${terroir.id}`);
+              // Terroir non trouvé : enregistrer dans les notes de la plante
+              await conn.execute(
+                `UPDATE plants SET notes = CONCAT(COALESCE(notes, ''), ?) WHERE id = ?`,
+                [`\n[Terroir contribué, non trouvé en base] ${terroirName}${contribution.terroir_notes ? ' — ' + contribution.terroir_notes : ''}`, contribution.plant_id]
+              );
+              integrationResults.push(`Terroir "${terroirName}" non trouvé en base — enregistré dans les notes`);
             }
-          } else {
-            // Terroir non trouvé : enregistrer dans les notes de la plante
+          }
+        }
+
+        // --- TYPE NOTE : ajouter dans les notes ou propriétés ethnobotaniques de la plante ---
+        if (contribution.contribution_type === 'note' && contribution.note_content) {
+          const category = contribution.note_category || 'observation';
+          const noteText = `\n[Note ${category} — ${new Date().toISOString().split('T')[0]}] ${contribution.note_content}${contribution.references ? ' (Réf: ' + contribution.references + ')' : ''}`;
+          if (category === 'ethnobotanique') {
+            // Ajouter aux usages ethnobotaniques (champ JSON)
+            const [plantRows] = await conn.execute(
+              `SELECT ethnobotanical_uses FROM plants WHERE id = ?`,
+              [contribution.plant_id]
+            ) as unknown as Record<string,unknown>[];
+            const plant = plantRows[0] as Record<string, unknown>;
+            let uses: Record<string,unknown>[] = [];
+            try { uses = JSON.parse((plant?.ethnobotanical_uses as string) || '[]'); } catch { uses = []; }
+            uses.push({ source: 'contribution', date: new Date().toISOString().split('T')[0], content: contribution.note_content, references: contribution.references || null });
             await conn.execute(
-              `UPDATE plants SET notes = CONCAT(COALESCE(notes, ''), ?) WHERE id = ?`,
-              [`\n[Terroir contribué, non trouvé en base] ${terroirName}${contribution.terroir_notes ? ' — ' + contribution.terroir_notes : ''}`, contribution.plant_id]
+              `UPDATE plants SET ethnobotanical_uses = ?, updated_at = NOW() WHERE id = ?`,
+              [JSON.stringify(uses), contribution.plant_id]
             );
-            integrationResults.push(`Terroir "${terroirName}" non trouvé en base — enregistré dans les notes`);
+            integrationResults.push(`Note ethnobotanique intégrée dans ethnobotanical_uses de la plante #${contribution.plant_id}`);
+          } else {
+            // Ajouter dans les notes textuelles
+            await conn.execute(
+              `UPDATE plants SET notes = CONCAT(COALESCE(notes, ''), ?), updated_at = NOW() WHERE id = ?`,
+              [noteText, contribution.plant_id]
+            );
+            integrationResults.push(`Note (${category}) intégrée dans les notes de la plante #${contribution.plant_id}`);
           }
         }
       }
 
-      // --- TYPE NOTE : ajouter dans les notes ou propriétés ethnobotaniques de la plante ---
-      if (contribution.contribution_type === 'note' && contribution.note_content) {
-        const category = contribution.note_category || 'observation';
-        const noteText = `\n[Note ${category} — ${new Date().toISOString().split('T')[0]}] ${contribution.note_content}${contribution.references ? ' (Réf: ' + contribution.references + ')' : ''}`;
-        if (category === 'ethnobotanique') {
-          // Ajouter aux usages ethnobotaniques (champ JSON)
-          const [plantRows] = await conn.execute(
-            `SELECT ethnobotanical_uses FROM plants WHERE id = ?`,
-            [contribution.plant_id]
-          ) as unknown as Record<string,unknown>[];
-          const plant = plantRows[0] as Record<string, unknown>;
-          let uses: Record<string,unknown>[] = [];
-          try { uses = JSON.parse((plant?.ethnobotanical_uses as string) || '[]'); } catch { uses = []; }
-          uses.push({ source: 'contribution', date: new Date().toISOString().split('T')[0], content: contribution.note_content, references: contribution.references || null });
-          await conn.execute(
-            `UPDATE plants SET ethnobotanical_uses = ?, updated_at = NOW() WHERE id = ?`,
-            [JSON.stringify(uses), contribution.plant_id]
-          );
-          integrationResults.push(`Note ethnobotanique intégrée dans ethnobotanical_uses de la plante #${contribution.plant_id}`);
-        } else {
-          // Ajouter dans les notes textuelles
-          await conn.execute(
-            `UPDATE plants SET notes = CONCAT(COALESCE(notes, ''), ?), updated_at = NOW() WHERE id = ?`,
-            [noteText, contribution.plant_id]
-          );
-          integrationResults.push(`Note (${category}) intégrée dans les notes de la plante #${contribution.plant_id}`);
-        }
-      }
+      await conn.end();
+      return { success: true, integrationResults };
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
     }
-
-    await conn.end();
-    return { success: true, integrationResults };
   } catch (error: unknown) {
     console.error('Error reviewing plant contribution:', error);
     throw error;
@@ -608,7 +633,8 @@ export interface ContributionStats {
 export async function getContributionStats(): Promise<ContributionStats> {
   try {
     const conn = await getMysqlConnection();
-    const [rows] = await conn.execute(`
+    try {
+      const [rows] = await conn.execute(`
       SELECT
         COUNT(*) as total,
         SUM(CASE WHEN status = 'pending' THEN 1 ELSE 0 END) as pending,
@@ -620,8 +646,12 @@ export async function getContributionStats(): Promise<ContributionStats> {
         SUM(CASE WHEN contribution_type = 'note' THEN 1 ELSE 0 END) as notes
       FROM plant_contributions
     `);
-    await conn.end();
-    return (rows as ContributionStats[])[0] || { total: 0, pending: 0, approved: 0, rejected: 0 };
+      await conn.end();
+      return (rows as ContributionStats[])[0] || { total: 0, pending: 0, approved: 0, rejected: 0 };
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
+    }
   } catch (error: unknown) {
     console.error('Error getting contribution stats:', error);
     return { total: 0, pending: 0, approved: 0, rejected: 0 };

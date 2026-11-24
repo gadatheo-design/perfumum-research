@@ -601,44 +601,59 @@ export async function exportMoleculeChemicalFamilyLinksJSON() {
 export async function searchPlantsForGcms(query: string) {
   try {
     const conn = await getMysqlConnection();
-    const [rows] = await conn.execute(
-      `SELECT id, name, latin_name, category FROM plants
+    try {
+      const [rows] = await conn.execute(
+        `SELECT id, name, latin_name, category FROM plants
        WHERE name LIKE ? OR latin_name LIKE ?
        ORDER BY category, name LIMIT 20`,
-      [`%${query}%`, `%${query}%`]
-    );
-    await conn.end();
-    return rows as unknown[];
+        [`%${query}%`, `%${query}%`]
+      );
+      await conn.end();
+      return rows as unknown[];
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
+    }
   } catch (e: unknown) { console.error(e); return []; }
 }
 
 export async function searchMoleculesForGcms(query: string) {
   try {
     const conn = await getMysqlConnection();
-    const [rows] = await conn.execute(
-      `SELECT id, name, cas_number, olfactive_family FROM molecules
+    try {
+      const [rows] = await conn.execute(
+        `SELECT id, name, cas_number, olfactive_family FROM molecules
        WHERE name LIKE ? OR cas_number LIKE ?
        ORDER BY name LIMIT 20`,
-      [`%${query}%`, `%${query}%`]
-    );
-    await conn.end();
-    return rows as unknown[];
+        [`%${query}%`, `%${query}%`]
+      );
+      await conn.end();
+      return rows as unknown[];
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
+    }
   } catch (e: unknown) { console.error(e); return []; }
 }
 
 export async function getGcmsProfile(plantId: number) {
   try {
     const conn = await getMysqlConnection();
-    const [rows] = await conn.execute(
-      `SELECT pm.*, m.name as molecule_name, m.cas_number, m.olfactive_family
+    try {
+      const [rows] = await conn.execute(
+        `SELECT pm.*, m.name as molecule_name, m.cas_number, m.olfactive_family
        FROM plant_molecules pm
        JOIN molecules m ON pm.molecule_id = m.id
        WHERE pm.plant_id = ?
        ORDER BY COALESCE(pm.percentage_typical, pm.percentage_max, pm.percentage_min, 0) DESC`,
-      [plantId]
-    );
-    await conn.end();
-    return rows as unknown[];
+        [plantId]
+      );
+      await conn.end();
+      return rows as unknown[];
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
+    }
   } catch (e: unknown) { console.error(e); return []; }
 }
 
@@ -661,61 +676,66 @@ export async function previewGcmsImport(
 ) {
   try {
     const conn = await getMysqlConnection();
+    try {
 
-    const results: Array<{ moleculeName: string; moleculeDbName: string; moleculeId: number | undefined; percentageTypical: number | undefined; percentageMin: number | undefined; percentageMax: number | undefined; role: string; isSignature: boolean; source: string | undefined; status: string }> = [];
-    for (const mol of molecules) {
-      let moleculeId = mol.moleculeId;
-      let moleculeDbName = mol.moleculeName;
-      let status = 'new_link';
+      const results: Array<{ moleculeName: string; moleculeDbName: string; moleculeId: number | undefined; percentageTypical: number | undefined; percentageMin: number | undefined; percentageMax: number | undefined; role: string; isSignature: boolean; source: string | undefined; status: string }> = [];
+      for (const mol of molecules) {
+        let moleculeId = mol.moleculeId;
+        let moleculeDbName = mol.moleculeName;
+        let status = 'new_link';
 
-      // Résoudre l'ID si non fourni
-      if (!moleculeId) {
-        const [found] = await conn.execute(
-          `SELECT id, name FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
-          [mol.moleculeName]
-        ) as unknown as Array<Record<string, unknown>>[];
-        if ((found as Record<string, unknown>[]).length > 0) {
-          moleculeId = (found as Record<string, unknown>[])[0].id as number;
-          moleculeDbName = (found as Record<string, unknown>[])[0].name as string;
-        } else {
-          status = 'molecule_not_found';
+        // Résoudre l'ID si non fourni
+        if (!moleculeId) {
+          const [found] = await conn.execute(
+            `SELECT id, name FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
+            [mol.moleculeName]
+          ) as unknown as Array<Record<string, unknown>>[];
+          if ((found as Record<string, unknown>[]).length > 0) {
+            moleculeId = (found as Record<string, unknown>[])[0].id as number;
+            moleculeDbName = (found as Record<string, unknown>[])[0].name as string;
+          } else {
+            status = 'molecule_not_found';
+          }
         }
+
+        if (moleculeId) {
+          const [existing] = await conn.execute(
+            `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
+            [plantId, moleculeId]
+          ) as unknown as Array<Record<string, unknown>>[];
+          if ((existing as Record<string, unknown>[]).length > 0) {
+            status = overwriteExisting ? 'will_update' : 'already_exists_skip';
+          }
+        }
+
+        results.push({
+          moleculeName: mol.moleculeName,
+          moleculeDbName,
+          moleculeId,
+          percentageTypical: mol.percentageTypical,
+          percentageMin: mol.percentageMin,
+          percentageMax: mol.percentageMax,
+          role: mol.role || 'secondaire',
+          isSignature: mol.isSignature || false,
+          source: mol.source,
+          status,
+        });
       }
 
-      if (moleculeId) {
-        const [existing] = await conn.execute(
-          `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
-          [plantId, moleculeId]
-        ) as unknown as Array<Record<string, unknown>>[];
-        if ((existing as Record<string, unknown>[]).length > 0) {
-          status = overwriteExisting ? 'will_update' : 'already_exists_skip';
-        }
-      }
-
-      results.push({
-        moleculeName: mol.moleculeName,
-        moleculeDbName,
-        moleculeId,
-        percentageTypical: mol.percentageTypical,
-        percentageMin: mol.percentageMin,
-        percentageMax: mol.percentageMax,
-        role: mol.role || 'secondaire',
-        isSignature: mol.isSignature || false,
-        source: mol.source,
-        status,
-      });
+      await conn.end();
+      return {
+        plantId,
+        totalMolecules: molecules.length,
+        newLinks: results.filter(r => r.status === 'new_link').length,
+        updates: results.filter(r => r.status === 'will_update').length,
+        skipped: results.filter(r => r.status === 'already_exists_skip').length,
+        notFound: results.filter(r => r.status === 'molecule_not_found').length,
+        rows: results,
+      };
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
     }
-
-    await conn.end();
-    return {
-      plantId,
-      totalMolecules: molecules.length,
-      newLinks: results.filter(r => r.status === 'new_link').length,
-      updates: results.filter(r => r.status === 'will_update').length,
-      skipped: results.filter(r => r.status === 'already_exists_skip').length,
-      notFound: results.filter(r => r.status === 'molecule_not_found').length,
-      rows: results,
-    };
   } catch (e: unknown) { console.error(e); throw e; }
 }
 
@@ -727,80 +747,85 @@ export async function importGcmsBatch(
 ) {
   try {
     const conn = await getMysqlConnection();
+    try {
 
-    let created = 0, updated = 0, skipped = 0, notFound = 0;
-    const errors: string[] = [];
+      let created = 0, updated = 0, skipped = 0, notFound = 0;
+      const errors: string[] = [];
 
-    for (const mol of molecules) {
-      try {
-        let moleculeId = mol.moleculeId;
+      for (const mol of molecules) {
+        try {
+          let moleculeId = mol.moleculeId;
 
-        if (!moleculeId) {
-          const [found] = await conn.execute(
-            `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
-            [mol.moleculeName]
-          ) as unknown as Array<Record<string, unknown>>[];
-          if ((found as Record<string, unknown>[]).length > 0) {
-            moleculeId = (found as Record<string, unknown>[])[0].id as number;
-          } else {
-            notFound++;
-            errors.push(`Molécule non trouvée : "${mol.moleculeName}"`);
-            continue;
+          if (!moleculeId) {
+            const [found] = await conn.execute(
+              `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
+              [mol.moleculeName]
+            ) as unknown as Array<Record<string, unknown>>[];
+            if ((found as Record<string, unknown>[]).length > 0) {
+              moleculeId = (found as Record<string, unknown>[])[0].id as number;
+            } else {
+              notFound++;
+              errors.push(`Molécule non trouvée : "${mol.moleculeName}"`);
+              continue;
+            }
           }
-        }
 
-        const [existing] = await conn.execute(
-          `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
-          [plantId, moleculeId]
-        ) as unknown as Array<Record<string, unknown>>[];
+          const [existing] = await conn.execute(
+            `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
+            [plantId, moleculeId]
+          ) as unknown as Array<Record<string, unknown>>[];
 
-        if ((existing as Record<string, unknown>[]).length > 0) {
-          if (overwriteExisting) {
-            await conn.execute(`
+          if ((existing as Record<string, unknown>[]).length > 0) {
+            if (overwriteExisting) {
+              await conn.execute(`
               UPDATE plant_molecules SET
                 percentage_min = ?, percentage_max = ?, percentage_typical = ?,
                 role = ?, is_signature = ?, source = ?, notes = ?, updated_at = NOW()
               WHERE plant_id = ? AND molecule_id = ?
             `, [
-              mol.percentageMin ?? null, mol.percentageMax ?? null, mol.percentageTypical ?? null,
-              mol.role || 'secondaire', mol.isSignature ? 1 : 0,
-              mol.source || 'GC-MS', mol.notes || null,
-              plantId, moleculeId
-            ]);
-            updated++;
+                mol.percentageMin ?? null, mol.percentageMax ?? null, mol.percentageTypical ?? null,
+                mol.role || 'secondaire', mol.isSignature ? 1 : 0,
+                mol.source || 'GC-MS', mol.notes || null,
+                plantId, moleculeId
+              ]);
+              updated++;
+            } else {
+              skipped++;
+            }
           } else {
-            skipped++;
-          }
-        } else {
-          await conn.execute(`
+            await conn.execute(`
             INSERT INTO plant_molecules
               (plant_id, molecule_id, percentage_min, percentage_max, percentage_typical,
                role, is_signature, source, notes, created_at, updated_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
           `, [
-            plantId, moleculeId,
-            mol.percentageMin ?? null, mol.percentageMax ?? null, mol.percentageTypical ?? null,
-            mol.role || 'secondaire', mol.isSignature ? 1 : 0,
-            mol.source || 'GC-MS', mol.notes || null
-          ]);
-          created++;
+              plantId, moleculeId,
+              mol.percentageMin ?? null, mol.percentageMax ?? null, mol.percentageTypical ?? null,
+              mol.role || 'secondaire', mol.isSignature ? 1 : 0,
+              mol.source || 'GC-MS', mol.notes || null
+            ]);
+            created++;
+          }
+        } catch (rowErr: unknown) {
+          errors.push(`Erreur pour "${mol.moleculeName}": ${rowErr instanceof Error ? rowErr.message : String(rowErr)}`);
         }
-      } catch (rowErr: unknown) {
-        errors.push(`Erreur pour "${mol.moleculeName}": ${rowErr instanceof Error ? rowErr.message : String(rowErr)}`);
       }
-    }
 
-    // Enregistrer la bibliographie dans les notes de la plante si fournie
-    if (bibliography && bibliography.length > 0) {
-      const bibText = '\n[Sources GC-MS] ' + bibliography.join(' | ');
-      await conn.execute(
-        `UPDATE plants SET notes = CONCAT(COALESCE(notes, ''), ?), updated_at = NOW() WHERE id = ?`,
-        [bibText, plantId]
-      );
-    }
+      // Enregistrer la bibliographie dans les notes de la plante si fournie
+      if (bibliography && bibliography.length > 0) {
+        const bibText = '\n[Sources GC-MS] ' + bibliography.join(' | ');
+        await conn.execute(
+          `UPDATE plants SET notes = CONCAT(COALESCE(notes, ''), ?), updated_at = NOW() WHERE id = ?`,
+          [bibText, plantId]
+        );
+      }
 
-    await conn.end();
-    return { success: true, created, updated, skipped, notFound, errors };
+      await conn.end();
+      return { success: true, created, updated, skipped, notFound, errors };
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
+    }
   } catch (e: unknown) { console.error(e); throw e; }
 }
 
@@ -820,83 +845,88 @@ export async function importGcmsFromCsv(
 ) {
   try {
     const conn = await getMysqlConnection();
+    try {
 
-    let created = 0, updated = 0, skipped = 0, notFound = 0;
-    const errors: string[] = [];
-    const plantCache: Record<string, number | null> = {};
+      let created = 0, updated = 0, skipped = 0, notFound = 0;
+      const errors: string[] = [];
+      const plantCache: Record<string, number | null> = {};
 
-    for (const row of rows) {
-      try {
-        // Résoudre la plante
-        if (!(row.plantName in plantCache)) {
-          const [plants] = await conn.execute(
-            `SELECT id FROM plants WHERE LOWER(name) = LOWER(?) OR LOWER(latin_name) = LOWER(?) LIMIT 1`,
-            [row.plantName, row.plantName]
+      for (const row of rows) {
+        try {
+          // Résoudre la plante
+          if (!(row.plantName in plantCache)) {
+            const [plants] = await conn.execute(
+              `SELECT id FROM plants WHERE LOWER(name) = LOWER(?) OR LOWER(latin_name) = LOWER(?) LIMIT 1`,
+              [row.plantName, row.plantName]
+            ) as unknown as Array<Record<string, unknown>>[];
+            plantCache[row.plantName] = (plants as Record<string, unknown>[]).length > 0 ? (plants as Record<string, unknown>[])[0].id as number : null;
+          }
+          const plantId = plantCache[row.plantName];
+          if (!plantId) {
+            notFound++;
+            errors.push(`Plante non trouvée : "${row.plantName}"`);
+            continue;
+          }
+
+          // Résoudre la molécule
+          const [mols] = await conn.execute(
+            `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
+            [row.moleculeName]
           ) as unknown as Array<Record<string, unknown>>[];
-          plantCache[row.plantName] = (plants as Record<string, unknown>[]).length > 0 ? (plants as Record<string, unknown>[])[0].id as number : null;
-        }
-        const plantId = plantCache[row.plantName];
-        if (!plantId) {
-          notFound++;
-          errors.push(`Plante non trouvée : "${row.plantName}"`);
-          continue;
-        }
+          if ((mols as Record<string, unknown>[]).length === 0) {
+            notFound++;
+            errors.push(`Molécule non trouvée : "${row.moleculeName}"`);
+            continue;
+          }
+          const moleculeId = (mols as Record<string, unknown>[])[0].id as number;
 
-        // Résoudre la molécule
-        const [mols] = await conn.execute(
-          `SELECT id FROM molecules WHERE LOWER(name) = LOWER(?) LIMIT 1`,
-          [row.moleculeName]
-        ) as unknown as Array<Record<string, unknown>>[];
-        if ((mols as Record<string, unknown>[]).length === 0) {
-          notFound++;
-          errors.push(`Molécule non trouvée : "${row.moleculeName}"`);
-          continue;
-        }
-        const moleculeId = (mols as Record<string, unknown>[])[0].id as number;
+          const [existing] = await conn.execute(
+            `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
+            [plantId, moleculeId]
+          ) as unknown as Array<Record<string, unknown>>[];
 
-        const [existing] = await conn.execute(
-          `SELECT plant_id FROM plant_molecules WHERE plant_id = ? AND molecule_id = ?`,
-          [plantId, moleculeId]
-        ) as unknown as Array<Record<string, unknown>>[];
-
-        if ((existing as Record<string, unknown>[]).length > 0) {
-          if (overwriteExisting) {
-            await conn.execute(`
+          if ((existing as Record<string, unknown>[]).length > 0) {
+            if (overwriteExisting) {
+              await conn.execute(`
               UPDATE plant_molecules SET
                 percentage_min = ?, percentage_max = ?, percentage_typical = ?,
                 role = ?, is_signature = ?, source = ?, notes = ?, updated_at = NOW()
               WHERE plant_id = ? AND molecule_id = ?
             `, [
-              row.percentageMin ?? null, row.percentageMax ?? null, row.percentageTypical ?? null,
-              row.role || 'secondaire', row.isSignature ? 1 : 0,
-              row.source || 'GC-MS', row.notes || null,
-              plantId, moleculeId
-            ]);
-            updated++;
+                row.percentageMin ?? null, row.percentageMax ?? null, row.percentageTypical ?? null,
+                row.role || 'secondaire', row.isSignature ? 1 : 0,
+                row.source || 'GC-MS', row.notes || null,
+                plantId, moleculeId
+              ]);
+              updated++;
+            } else {
+              skipped++;
+            }
           } else {
-            skipped++;
-          }
-        } else {
-          await conn.execute(`
+            await conn.execute(`
             INSERT INTO plant_molecules
               (plant_id, molecule_id, percentage_min, percentage_max, percentage_typical,
                role, is_signature, source, notes, created_at, updated_at)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
           `, [
-            plantId, moleculeId,
-            row.percentageMin ?? null, row.percentageMax ?? null, row.percentageTypical ?? null,
-            row.role || 'secondaire', row.isSignature ? 1 : 0,
-            row.source || 'GC-MS', row.notes || null
-          ]);
-          created++;
+              plantId, moleculeId,
+              row.percentageMin ?? null, row.percentageMax ?? null, row.percentageTypical ?? null,
+              row.role || 'secondaire', row.isSignature ? 1 : 0,
+              row.source || 'GC-MS', row.notes || null
+            ]);
+            created++;
+          }
+        } catch (rowErr: unknown) {
+          errors.push(`Erreur ligne "${row.plantName}/${row.moleculeName}": ${rowErr instanceof Error ? rowErr.message : String(rowErr)}`);
         }
-      } catch (rowErr: unknown) {
-        errors.push(`Erreur ligne "${row.plantName}/${row.moleculeName}": ${rowErr instanceof Error ? rowErr.message : String(rowErr)}`);
       }
-    }
 
-    await conn.end();
-    return { success: true, created, updated, skipped, notFound, errors };
+      await conn.end();
+      return { success: true, created, updated, skipped, notFound, errors };
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
+    }
   } catch (e: unknown) { console.error(e); throw e; }
 }
 

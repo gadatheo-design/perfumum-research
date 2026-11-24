@@ -551,7 +551,8 @@ export const moleculesRouter = router({
       }))
       .query(async ({ input }) => {
         const conn = await getMysqlConnection();
-        const [rows] = await conn.query(`
+        try {
+          const [rows] = await conn.query(`
           SELECT 
             m2.id, m2.name, m2.family, m2.chemicalFamily,
             m2.cas_number, m2.pubchem_cid,
@@ -566,17 +567,21 @@ export const moleculesRouter = router({
           ORDER BY co_occurrences DESC
           LIMIT ?
         `, [input.moleculeId, input.limit]);
-        await conn.end();
-        return (rows as Record<string, unknown>[]).map(r => ({
-          id: Number(r.id),
-          name: r.name as string,
-          family: r.family as string,
-          chemicalFamily: r.chemicalFamily as string | null,
-          cas_number: r.cas_number as string | null,
-          pubchem_cid: r.pubchem_cid ? Number(r.pubchem_cid) : null,
-          co_occurrences: Number(r.co_occurrences),
-          recettes: r.recettes as string,
-        }));
+          await conn.end();
+          return (rows as Record<string, unknown>[]).map(r => ({
+            id: Number(r.id),
+            name: r.name as string,
+            family: r.family as string,
+            chemicalFamily: r.chemicalFamily as string | null,
+            cas_number: r.cas_number as string | null,
+            pubchem_cid: r.pubchem_cid ? Number(r.pubchem_cid) : null,
+            co_occurrences: Number(r.co_occurrences),
+            recettes: r.recettes as string,
+          }));
+        } finally {
+          // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+          await conn.end();
+        }
       }),
 
     getByFamily: publicProcedure
@@ -586,10 +591,11 @@ export const moleculesRouter = router({
       }))
       .query(async ({ input }) => {
         const conn = await getMysqlConnection();
-        const placeholders = input.families.map(() => '?').join(', ');
-        const likeConditions = input.families.map(() => 'LOWER(family) LIKE ?').join(' OR ');
-        const likeParams = input.families.flatMap(f => [`%${f.toLowerCase()}%`]);
-        const [rows] = await conn.query(`
+        try {
+          const placeholders = input.families.map(() => '?').join(', ');
+          const likeConditions = input.families.map(() => 'LOWER(family) LIKE ?').join(' OR ');
+          const likeParams = input.families.flatMap(f => [`%${f.toLowerCase()}%`]);
+          const [rows] = await conn.query(`
           SELECT id, name, family, chemicalFamily, cas_number, pubchem_cid, chebi_id,
                  iupac_name, smiles, olfactiveProfile, therapeuticProperties
           FROM molecules
@@ -597,18 +603,22 @@ export const moleculesRouter = router({
           ORDER BY name ASC
           LIMIT ?
         `, [...likeParams, input.limit]);
-        await conn.end();
-        return (rows as Record<string, unknown>[]).map(r => ({
-          id: Number(r.id),
-          name: r.name as string,
-          family: r.family as string | null,
-          chemicalFamily: r.chemicalFamily as string | null,
-          cas_number: r.cas_number as string | null,
-          pubchem_cid: r.pubchem_cid ? Number(r.pubchem_cid) : null,
-          chebi_id: r.chebi_id as string | null,
-          iupac_name: r.iupac_name as string | null,
-          smiles: r.smiles as string | null,
-        }));
+          await conn.end();
+          return (rows as Record<string, unknown>[]).map(r => ({
+            id: Number(r.id),
+            name: r.name as string,
+            family: r.family as string | null,
+            chemicalFamily: r.chemicalFamily as string | null,
+            cas_number: r.cas_number as string | null,
+            pubchem_cid: r.pubchem_cid ? Number(r.pubchem_cid) : null,
+            chebi_id: r.chebi_id as string | null,
+            iupac_name: r.iupac_name as string | null,
+            smiles: r.smiles as string | null,
+          }));
+        } finally {
+          // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+          await conn.end();
+        }
       }),
 
 });

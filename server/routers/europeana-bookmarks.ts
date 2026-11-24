@@ -157,38 +157,43 @@ export const europeanaBookmarksRouter = router({
       const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
       const conn = await getMysqlConnection();
-
       try {
-        const items = await db
-          .select()
-          .from(europeanaBookmarks)
-          .where(whereClause)
-          .orderBy(desc(europeanaBookmarks.createdAt))
-          .limit(pageSize)
-          .offset(offset);
 
-        const countWhere = buildWhereCondition(input);
-        const [[countRow]] = await conn.query(
-          `SELECT COUNT(*) as total FROM europeana_bookmarks${countWhere.clause}`,
-          countWhere.params
-        ) as any;
+        try {
+          const items = await db
+            .select()
+            .from(europeanaBookmarks)
+            .where(whereClause)
+            .orderBy(desc(europeanaBookmarks.createdAt))
+            .limit(pageSize)
+            .offset(offset);
 
+          const countWhere = buildWhereCondition(input);
+          const [[countRow]] = await conn.query(
+            `SELECT COUNT(*) as total FROM europeana_bookmarks${countWhere.clause}`,
+            countWhere.params
+          ) as any;
+
+          await conn.end();
+
+          const parsedItems = items.map((item: any) => ({
+            ...item,
+            tags: item.tags ? (() => { try { return JSON.parse(item.tags); } catch { return []; } })() : [],
+          }));
+
+          return {
+            items: parsedItems,
+            total: Number(countRow?.total || 0),
+            page,
+            pageSize,
+          };
+        } catch {
+          await conn.end();
+          return { items: [], total: 0, page, pageSize };
+        }
+      } finally {
+        // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
         await conn.end();
-
-        const parsedItems = items.map((item: any) => ({
-          ...item,
-          tags: item.tags ? (() => { try { return JSON.parse(item.tags); } catch { return []; } })() : [],
-        }));
-
-        return {
-          items: parsedItems,
-          total: Number(countRow?.total || 0),
-          page,
-          pageSize,
-        };
-      } catch {
-        await conn.end();
-        return { items: [], total: 0, page, pageSize };
       }
     }),
 
@@ -200,38 +205,43 @@ export const europeanaBookmarksRouter = router({
     if (!db) return { total: 0, byTheme: [], withPlant: 0, withMolecule: 0 };
 
     const conn = await getMysqlConnection();
-
     try {
-      const [[totalRow]] = await conn.query(
-        "SELECT COUNT(*) as total FROM europeana_bookmarks"
-      ) as any;
 
-      const [byTheme] = await conn.query(
-        "SELECT theme, COUNT(*) as count FROM europeana_bookmarks GROUP BY theme ORDER BY count DESC"
-      ) as any;
+      try {
+        const [[totalRow]] = await conn.query(
+          "SELECT COUNT(*) as total FROM europeana_bookmarks"
+        ) as any;
 
-      const [[withPlantRow]] = await conn.query(
-        "SELECT COUNT(*) as total FROM europeana_bookmarks WHERE linked_plant_id IS NOT NULL"
-      ) as any;
+        const [byTheme] = await conn.query(
+          "SELECT theme, COUNT(*) as count FROM europeana_bookmarks GROUP BY theme ORDER BY count DESC"
+        ) as any;
 
-      const [[withMoleculeRow]] = await conn.query(
-        "SELECT COUNT(*) as total FROM europeana_bookmarks WHERE linked_molecule_id IS NOT NULL"
-      ) as any;
+        const [[withPlantRow]] = await conn.query(
+          "SELECT COUNT(*) as total FROM europeana_bookmarks WHERE linked_plant_id IS NOT NULL"
+        ) as any;
 
+        const [[withMoleculeRow]] = await conn.query(
+          "SELECT COUNT(*) as total FROM europeana_bookmarks WHERE linked_molecule_id IS NOT NULL"
+        ) as any;
+
+        await conn.end();
+
+        return {
+          total: Number(totalRow?.total || 0),
+          byTheme: (byTheme as any[]).map((r: any) => ({
+            theme: r.theme || "Non classé",
+            count: Number(r.count),
+          })),
+          withPlant: Number(withPlantRow?.total || 0),
+          withMolecule: Number(withMoleculeRow?.total || 0),
+        };
+      } catch {
+        await conn.end();
+        return { total: 0, byTheme: [], withPlant: 0, withMolecule: 0 };
+      }
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
       await conn.end();
-
-      return {
-        total: Number(totalRow?.total || 0),
-        byTheme: (byTheme as any[]).map((r: any) => ({
-          theme: r.theme || "Non classé",
-          count: Number(r.count),
-        })),
-        withPlant: Number(withPlantRow?.total || 0),
-        withMolecule: Number(withMoleculeRow?.total || 0),
-      };
-    } catch {
-      await conn.end();
-      return { total: 0, byTheme: [], withPlant: 0, withMolecule: 0 };
     }
   }),
 
