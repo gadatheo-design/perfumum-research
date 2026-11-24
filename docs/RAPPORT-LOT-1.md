@@ -8,7 +8,7 @@ Rien n'a été poussé sur `main`. Aucune connexion à la base de production ni 
 
 - Les huit étapes du brief sont faites.
 - `pnpm build:standalone`, `pnpm build` (mode Manus) et `pnpm check` passent.
-- `pnpm test` : vert depuis le 24 novembre (1 454 tests réussis, 1 ignoré). Le test ignoré lit un script perdu, voir « Fichiers perdus : `server/scripts/` ».
+- `pnpm test` : vert depuis le 24 novembre (1 463 tests réussis, 1 ignoré). Le test ignoré lit un script perdu, voir « Fichiers perdus : `server/scripts/` ».
 - L'image Docker a été construite et lancée ; la porte d'accès, `/healthz`, les requêtes corrigées et les suggestions de synergies ont été essayées dans l'image, sur MySQL 8.0.46 avec des données synthétiques.
 - **Une chose demande votre intervention** : faire un premier essai sur TiDB Cloud et Render, que je n'ai pas pu joindre.
 - **Les 19 images de l'interface** qui venaient du stockage Manus ont été retirées, sur décision du 24 novembre : voir l'étape 7.
@@ -35,7 +35,10 @@ Rien n'a été poussé sur `main`. Aucune connexion à la base de production ni 
 | `989b133d` | 7 | Les 19 images de l'interface sont retirées au lieu d'être recopiées ; filet de sécurité, dossier `client/public/media/` et `deploy/fetch-media.mjs` supprimés. |
 | `2b7cd592` | — | Commandes `pnpm` des scripts perdus retirées de `package.json`, leur documentation annotée ; workflow Datadog supprimé. |
 | (24 novembre) | 7 | `Projets` : quatre photos de terrain restaurées depuis l'historique Git. `GalerieBotaniques`, `GammesPetrichor` : références aux images absentes retirées. `ZenodoTermReview` : renvoi à la commande disparue remplacé. |
-| (24 novembre) | — | Compression gzip des réponses HTTP. |
+| `5dfcd36f` | — | Compression gzip des réponses HTTP. |
+| `05ef2d39` | 4 | Régression de `8e11e402` : `db.$client.promise()` n'existe plus avec le nouveau pool ; quatre appels corrigés, test anti-retour. |
+| `d505adfb` | 4 | Pool : fermeture des connexions avec COM_QUIT et sans rafale ; arrêt propre du serveur sur SIGTERM. |
+| `d1c894c3` | 4 | Sept connexions ouvertes hors du pool, parfois jamais refermées, passent par le pool. |
 
 ## Comment chaque conflit a été résolu
 
@@ -176,6 +179,51 @@ Ce qui a été fait :
 - son fichier de données est perdu lui aussi.
 
 Le remettre dans le dépôt aurait donné l'apparence d'une restauration à un fichier qui ne fonctionne pas. Décision du 24 novembre : pas de nouveau script pour l'instant, les 25 descripteurs importés étant déjà dans la table `odor_descriptors`. S'il en faut un un jour, il faudra la définition réelle de cette table (colonnes et clé unique), que le dépôt ne contient pas.
+
+### Essai sur une copie de la vraie base (24 novembre) : trois constats traités
+
+Essai fait par vous sur une copie de la base dans MySQL 8.0, au commit `5dfcd36f`. Je n'ai pas eu accès à cette copie : tout ce qui suit a été reproduit sur MySQL 8.0.46 local, avec le schéma Drizzle complet (199 tables créées par `drizzle-kit push`) et des données synthétiques à l'échelle de la vraie base (7 473 molécules dont 7 245 au profil radar par défaut, 210 recettes, 1 680 liaisons).
+
+**1. `db.$client.promise is not a function` (régression de `8e11e402`).** Drizzle recevait l'adresse de la base et se créait un pool « à callbacks », sur lequel `$client.promise()` existe. Depuis `8e11e402`, il reçoit le pool promesse de `createAppPool`, sur lequel cette méthode n'existe pas. Quatre appels l'utilisaient : `server/db-recettes-radar.ts:84` et `server/db-recommendations.ts:106, 190, 268`.
+
+- Correction : `server/db/rawQuery.ts` (`queryRows()`), seul passage pour le SQL brut ; `getDb()` est typé avec son vrai client.
+- `server/db-client-promise.test.ts` échoue si `.promise()` revient sur `$client`, et vérifie que le client de `getDb()` est bien un pool promesse.
+- Procédures vérifiées sur la base locale, avant et après : `recettes.listWithRadar` (avec et sans filtre), `recommendations.similarRecettes`, `recommendations.similarMolecules`, `recommendations.fromFavorites`. Toutes échouaient avec `5dfcd36f` ; toutes répondent maintenant.
+- Effet inverse, constaté au passage : `research.getAromaticRarities` (et `getAromaticRarityById`) appelaient `$client.execute(...)` en attendant une promesse. Avec l'ancien pool à callbacks, elles échouaient (`(intermediate value) is not iterable`) ; le nouveau pool les a réparées.
+
+**2. `ER_NET_READ_ERROR` (81 pendant votre essai).** Oui, ils venaient de la gestion des connexions. MySQL compte une erreur de lecture (`Aborted_clients`, « Got an error reading communication packets ») chaque fois qu'un client coupe le socket sans envoyer `COM_QUIT`. Trois sources, mesurées une à une :
+
+| Source | Avant correction | Après |
+|---|---|---|
+| Ménage de mysql2 : avec `maxIdle` 4 < `connectionLimit` 10, il refermait chaque seconde, par `destroy()`, toute connexion libre au-delà de 4, même utilisée l'instant d'avant | 1 rafale de 20 requêtes parallèles : 20 connexions ouvertes, 12 fermées sans QUIT. 20 rafales espacées de 1,5 s : 240 ouvertes, 240 fermées sans QUIT | 0 connexion rouverte pendant les rafales, 0 fermeture sans QUIT |
+| Fermeture des connexions inactives (60 s) et d'âge maximal, par `destroy()` | 65 s d'inactivité : 8 fermées sans QUIT | 0 |
+| Arrêt du serveur (aucune gestion de SIGTERM) | Une par connexion ouverte | 20 connexions ouvertes, 0 fermée sans QUIT, sortie en code 0 |
+| Sept procédures qui ouvraient leur propre connexion (`createConnection`) sans la refermer en cas d'erreur ; `ai-enrich-plant` ne la refermait que s'il y avait une mise à jour | 1 par balayage local | 0 |
+
+Corrections : `maxIdle` = `connectionLimit` (le ménage de mysql2 ne tourne plus) ; un ménage propre ferme toutes les 5 s les connexions inactives depuis plus de 60 s, avec `end()` et `gracefulEnd` (COM_QUIT) ; l'âge maximal ferme de même ; à SIGTERM/SIGINT, le serveur cesse d'accepter des requêtes puis ferme tous les pools (`closeAllPools()`) ; les sept connexions directes passent par `withMysqlConnection()`, qui rend la connexion dans tous les cas. La reprise après coupure (connexions tuées côté serveur) a été revérifiée. Le ménage lit un champ privé de mysql2 (`_freeConnections`) : `mysqlPool.test.ts` vérifie dans le paquet installé qu'il existe toujours sous la forme attendue.
+
+**3. Balayage en 792 s contre 160 s.** Je n'ai pas pu trouver la cause : ni le pool ni la compression ne l'expliquent sur ce que j'ai pu mesurer.
+
+Mesures (base locale synthétique, serveur compilé, 1 020 procédures de lecture appelées en GET sans entrée, client annonçant gzip, même code pour les quatre variantes, serveur redémarré à chaque fois) :
+
+| Variante | Séquentiel | 8 en parallèle | Fermetures sans QUIT |
+|---|---|---|---|
+| Gestion des connexions d'avant `8e11e402` (réglages par défaut de mysql2) | 45,6 s | 27,5 s | 1 |
+| Celle de `5dfcd36f` (`maxIdle` 4, `destroy()`) | 49,0 s | 25,5 s | 9 et 11 |
+| Corrigée | 47,6 s | 23,4 s | 0 |
+| Corrigée, sans compression | 44,1 s | 26,6 s | 1 (avant correction des connexions directes) |
+
+- Les écarts entre variantes restent dans le bruit. En séquentiel, les 374 réponses 200 qui n'appellent pas d'API externe font 9 s au total pour toutes les variantes (médiane 3 ms, 95e centile 130 à 150 ms).
+- Les trois quarts du temps séquentiel (34 à 39 s) viennent de trois procédures qui interrogent Wikidata ou d'autres services en ligne : `wikidataSync.getStats`, `lotusEnrichment.getStats`, `ai.getUnclassifiedStats`. Leur durée dépend du réseau, pas du code de la branche.
+- `molecules.list` (25,6 Mo sur la base synthétique, contre 19,6 Mo sur la vraie) : 0,39 à 0,43 s sans gzip, 0,48 à 0,53 s avec. La compression coûte donc de l'ordre de 0,05 à 0,1 s sur une réponse de cette taille ; elle réduit le transfert à 0,38 Mo, mais ce rapport (68 fois) est flatteur, le texte synthétique étant très répétitif. Sur de vraies données, attendre plutôt un facteur 5 à 10.
+- 614 procédures sur 1 020 répondent 4xx dans ce balayage, faute d'entrée ; votre balayage, avec de vraies entrées, fait bien plus de travail. Ma base est locale et sans TLS : une reconnexion y coûte quelques millisecondes, contre bien plus vers un serveur distant.
+
+Pistes non vérifiées, faute d'accès à votre essai :
+
+- Le 16 novembre, `synergies.getSuggestions` faisait tomber le serveur (mémoire épuisée). Si votre balayage s'est poursuivi contre un serveur à terre, les appels suivants ont échoué en quelques millisecondes, ce qui raccourcit artificiellement les 160 s. Avec `5dfcd36f`, le serveur tient et toutes les procédures s'exécutent réellement.
+- Les procédures qui appellent des services en ligne (Wikidata, GBIF, Europeana…) varient d'un jour à l'autre.
+- **Connexions empruntées et jamais rendues.** 36 prises de connexion sur 87 (dans 14 fichiers) font `conn.end()` sans `finally` : si la requête échoue, la connexion n'est jamais rendue au pool. Après mon balayage, 2 connexions restaient empruntées. Le pool en compte 10 : s'il s'épuise, les requêtes suivantes qui en ont besoin attendent sans fin. Avec de vraies entrées, plus de chemins d'erreur peuvent être empruntés. Non corrigé : la cause de vos 792 s n'est pas établie, et la correction touche 14 fichiers. C'est la prochaine chose que je regarderais.
+- Pour trancher : le temps de chaque procédure dans votre balayage, comparé à celui du 16 novembre, montrerait lesquelles ont ralenti.
 
 ### Compression des réponses HTTP
 

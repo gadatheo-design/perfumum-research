@@ -31,7 +31,7 @@ PERFUMUM est hébergé par Manus et doit pouvoir tourner ailleurs : un service w
 - **Overrides pnpm.** pnpm 10.4.1 ignore ceux de `pnpm-workspace.yaml`. Ils sont dans `package.json` (`pnpm.overrides`) ; garder les deux listes identiques.
 - **Tests avec base.** Une nouvelle suite qui interroge la base s'ajoute à `DB_DEPENDENT_TESTS` dans `vitest.config.ts`.
 - **`LIMIT ?` interdit dans `.execute(`.** MySQL 8 le refuse. Utiliser `sqlInt()` (`server/db/sqlInt.ts`) ; `server/sql-limit-placeholder.test.ts` veille.
-- **Connexions à la base.** Toujours `getMysqlConnection()` ou `createAppPool()` (`server/db/mysqlPool.ts`), jamais `mysql.createPool` ni `createConnection` directement : TiDB Cloud coupe les connexions inactives.
+- **Connexions à la base.** Toujours `withMysqlConnection()` (qui rend la connexion même en cas d'erreur), `getMysqlConnection()` avec `finally`, ou `createAppPool()` (`server/db/mysqlPool.ts`) ; jamais `mysql.createPool` ni `createConnection` directement (un test veille). Pour du SQL brut sur l'instance Drizzle : `queryRows()` (`server/db/rawQuery.ts`), jamais `db.$client.promise()`, qui n'existe pas.
 - **Porte d'accès** (`SITE_ACCESS_PASSWORD`, `server/_core/accessGate.ts`). Elle est montée avant toutes les routes ; `/healthz` est enregistré avant elle et doit le rester.
 - **Fichiers.** Les adresses enregistrées sont relatives (`/files/<clé>`). Ne jamais écrire en dur une adresse du stockage Manus. Les 19 images de l'interface qui en venaient ont été retirées, pas recopiées : n'en réintroduire aucune (`server/client-assets.test.ts` veille).
 - **Profil radar 50 × 6.** C'est la valeur par défaut de la colonne, pas une mesure : le traiter comme « non renseigné ».
