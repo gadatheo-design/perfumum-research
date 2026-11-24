@@ -237,15 +237,9 @@ Pour administrer le site, il faut passer cette porte **puis** se connecter avec 
 
 ## 7. Fichiers hérités de Manus
 
-Deux opérations, à faire une fois, avec l'aide d'un développeur si besoin.
+Une opération, à faire une fois, avec l'aide d'un développeur si besoin.
 
-**Images de l'interface.** Dix-neuf images (icônes, illustrations) doivent être ajoutées au dépôt. Depuis le dossier du dépôt :
-
-```bash
-node deploy/fetch-media.mjs
-```
-
-Tant que ce n'est pas fait, le site va encore les chercher à leur ancienne adresse chez Manus : il fonctionne, mais dépend de Manus pour ces images.
+Les dix-neuf images de l'interface qui venaient du stockage Manus (icônes de l'application, quelques illustrations) ont été retirées du code : il n'y a rien à copier pour elles. Conséquence visible : sur un téléphone, l'application installée sur l'écran d'accueil n'a pas d'icône propre.
 
 **Images enregistrées en base.** Les fichiers envoyés du temps de Manus sont référencés par leur ancienne adresse. Le script suivant montre ce qu'il changerait, **sans rien écrire** :
 

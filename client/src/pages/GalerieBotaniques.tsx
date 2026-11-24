@@ -16,7 +16,8 @@ interface BotanicalImage {
   latinName: string;
   commonName: string;
   description: string;
-  imagePath: string;
+  /** Absent : la fiche s'affiche sans illustration. */
+  imagePath?: string;
   family: string;
   category?: "terpene" | "tagetes" | "san-andres";
   climaticAxis?: string;
@@ -105,7 +106,6 @@ const TAGETES_IMAGES: BotanicalImage[] = [
     latinName: "Tagetes lucida",
     commonName: "Estragon mexicain",
     description: "Illustration botanique complète de Tagetes lucida montrant la structure générale de la plante avec ses tiges dressées, ses feuilles opposées lancéolées et ses inflorescences jaune d'or caractéristiques.",
-    imagePath: "/media/tagetes-lucida-botanical_4f6fe682.jpg",
     family: "Asteraceae",
     category: "tagetes",
     climaticAxis: "vent",
@@ -117,7 +117,6 @@ const TAGETES_IMAGES: BotanicalImage[] = [
     latinName: "Tagetes lucida",
     commonName: "Yerba Anís",
     description: "Vue d'ensemble de Tagetes lucida en floraison, montrant son port buissonnant et sa floraison abondante. Plante vivace originaire du Mexique et d'Amérique centrale, utilisée traditionnellement comme substitut de l'estragon français.",
-    imagePath: "/media/tagetes-lucida-botanical_4f6fe682.jpg",
     family: "Asteraceae",
     category: "tagetes",
     climaticAxis: "vent",
@@ -129,7 +128,6 @@ const TAGETES_IMAGES: BotanicalImage[] = [
     latinName: "Tagetes lucida",
     commonName: "Pericón",
     description: "Gros plan sur les capitules floraux de Tagetes lucida. Les fleurs jaune vif, groupées en corymbes terminaux, sont caractéristiques de cette espèce. Elles dégagent un parfum anisé intense dû à leur forte teneur en estragole.",
-    imagePath: "/media/tagetes-lucida-flowers_32658c81.jpg",
     family: "Asteraceae",
     category: "tagetes",
     climaticAxis: "vent",
@@ -141,7 +139,6 @@ const TAGETES_IMAGES: BotanicalImage[] = [
     latinName: "Tagetes lucida",
     commonName: "Hierba de las nubes",
     description: "Détail macro des fleurs et du feuillage de Tagetes lucida. Les feuilles sont simples, opposées, lancéolées avec des glandes oléifères visibles qui contiennent l'huile essentielle riche en composés aromatiques.",
-    imagePath: "/media/tagetes-lucida-botanical_4f6fe682.jpg",
     family: "Asteraceae",
     category: "tagetes",
     climaticAxis: "vent",
@@ -154,6 +151,7 @@ export default function GalerieBotaniques() {
   const [activeTab, setActiveTab] = useState("all");
   
   const handleDownload = (image: BotanicalImage) => {
+    if (!image.imagePath) return;
     const link = document.createElement('a');
     link.href = image.imagePath;
     const extension = image.imagePath.split('.').pop() || 'jpg';
@@ -291,12 +289,25 @@ export default function GalerieBotaniques() {
                     className="relative aspect-square cursor-pointer bg-muted/20"
                     onClick={() => setSelectedImage(image)}
                   >
-                    <img
-                      src={image.imagePath}
-                      alt={`${image.latinName} - ${image.commonName}`}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      loading="lazy"
-                    />
+                    {image.imagePath ? (
+                      <img
+                        src={image.imagePath}
+                        alt={`${image.latinName} - ${image.commonName}`}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                        loading="lazy"
+                      />
+                    ) : (
+                      // Fiche sans illustration : même format que les autres
+                      // cartes, pour que la grille reste alignée.
+                      <div className="flex h-full w-full flex-col justify-end gap-2 bg-muted p-4">
+                        <p className="text-lg italic leading-snug">{image.latinName}</p>
+                        {image.molecules && image.molecules.length > 0 && (
+                          <p className="text-xs text-muted-foreground line-clamp-3">
+                            {image.molecules.join(" · ")}
+                          </p>
+                        )}
+                      </div>
+                    )}
                     <div className="absolute top-2 right-2 flex flex-col gap-1">
                       <Badge variant="secondary" className="text-xs">{image.name.split(' - ')[0]}</Badge>
                       {image.climaticAxis && (
@@ -331,18 +342,20 @@ export default function GalerieBotaniques() {
                     
                     <div className="flex items-center justify-between flex-wrap gap-2">
                       <Badge variant="outline" className="text-xs">{image.family}</Badge>
-                      <Button 
-                        size="sm" 
-                        variant="ghost"
-                        className="h-8 text-xs"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDownload(image);
-                        }}
-                      >
-                        <Download className="w-3 h-3 mr-1" />
-                        <span className="hidden sm:inline">Télécharger</span>
-                      </Button>
+                      {image.imagePath && (
+                        <Button 
+                          size="sm" 
+                          variant="ghost"
+                          className="h-8 text-xs"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDownload(image);
+                          }}
+                        >
+                          <Download className="w-3 h-3 mr-1" />
+                          <span className="hidden sm:inline">Télécharger</span>
+                        </Button>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
@@ -363,6 +376,7 @@ export default function GalerieBotaniques() {
             <p>
               La collection inclut désormais une section dédiée à <strong>Tagetes lucida</strong>, plante clé du système Absorbe pour l'axe climatique "Vent", 
               avec ses 4 molécules principales (Estragole, Anéthole, Méthyl-eugénol, β-Ocimène).
+              Ces fiches sont présentées sans illustration.
             </p>
             <p>
               Les images sont disponibles en haute résolution pour un usage dans vos documents de recherche, présentations ou supports pédagogiques.
@@ -391,13 +405,15 @@ export default function GalerieBotaniques() {
                 </Button>
               </div>
               
-              <div className="bg-muted/20 rounded-lg p-2 md:p-4">
-                <img
-                  src={selectedImage.imagePath}
-                  alt={`${selectedImage.latinName} - ${selectedImage.commonName}`}
-                  className="w-full h-auto max-h-[50vh] md:max-h-[60vh] object-contain"
-                />
-              </div>
+              {selectedImage.imagePath && (
+                <div className="bg-muted/20 rounded-lg p-2 md:p-4">
+                  <img
+                    src={selectedImage.imagePath}
+                    alt={`${selectedImage.latinName} - ${selectedImage.commonName}`}
+                    className="w-full h-auto max-h-[50vh] md:max-h-[60vh] object-contain"
+                  />
+                </div>
+              )}
               
               <div className="space-y-3">
                 <div className="flex flex-wrap items-center gap-2">
@@ -425,10 +441,12 @@ export default function GalerieBotaniques() {
                 <p className="text-sm leading-relaxed">{selectedImage.description}</p>
                 
                 <div className="flex flex-wrap gap-2">
-                  <Button onClick={() => handleDownload(selectedImage)} size="sm">
-                    <Download className="w-4 h-4 mr-2" />
-                    Télécharger HD
-                  </Button>
+                  {selectedImage.imagePath && (
+                    <Button onClick={() => handleDownload(selectedImage)} size="sm">
+                      <Download className="w-4 h-4 mr-2" />
+                      Télécharger HD
+                    </Button>
+                  )}
                   {selectedImage.category === "tagetes" ? (
                     <>
                       <Link href="/plants">

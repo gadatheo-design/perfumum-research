@@ -8,9 +8,10 @@ Rien n'a été poussé sur `main`. Aucune connexion à la base de production ni 
 
 - Les huit étapes du brief sont faites.
 - `pnpm build:standalone`, `pnpm build` (mode Manus) et `pnpm check` passent.
-- `pnpm test` : vert depuis le 24 novembre (1 449 tests réussis, 1 ignoré). Le test ignoré lit un script perdu, voir « Fichiers perdus : `server/scripts/` ».
+- `pnpm test` : vert depuis le 24 novembre (1 447 tests réussis, 1 ignoré). Le test ignoré lit un script perdu, voir « Fichiers perdus : `server/scripts/` ».
 - L'image Docker a été construite et lancée ; la porte d'accès, `/healthz`, les requêtes corrigées et les suggestions de synergies ont été essayées dans l'image, sur MySQL 8.0.46 avec des données synthétiques.
-- **Deux choses demandent votre intervention** : ajouter les 19 images de l'interface (domaine bloqué depuis cette session), et faire un premier essai sur TiDB Cloud et Render, que je n'ai pas pu joindre.
+- **Une chose demande votre intervention** : faire un premier essai sur TiDB Cloud et Render, que je n'ai pas pu joindre.
+- **Les 19 images de l'interface** qui venaient du stockage Manus ont été retirées, sur décision du 24 novembre : voir l'étape 7.
 - **Trois scripts sont définitivement perdus** (`server/scripts/`) : voir la section qui leur est consacrée.
 
 ## Ce qui est fait, commit par commit
@@ -30,7 +31,8 @@ Rien n'a été poussé sur `main`. Aucune connexion à la base de production ni 
 | `243d66f4` | 7 | Les 19 adresses CloudFront du code remplacées par `/media/…`, avec un filet de sécurité. |
 | `32d12fd0` | 7 | `deploy/migrate-media-urls.mjs` pour les adresses enregistrées en base. |
 | `2c7e013a` | 8 | `docs/DEPLOIEMENT.md`, `CLAUDE.md`, ce rapport. |
-| (24 novembre) | — | `server/scripts/` perdu : `.gitignore` corrigé, deux tests ignorés tant que les fichiers sont absents, perte consignée ici. |
+| `e4acabc2` | — | `server/scripts/` perdu : `.gitignore` corrigé, deux tests ignorés tant que les fichiers sont absents, perte consignée ici. |
+| (24 novembre) | 7 | Les 19 images de l'interface sont retirées au lieu d'être recopiées ; filet de sécurité, dossier `client/public/media/` et `deploy/fetch-media.mjs` supprimés. |
 
 ## Comment chaque conflit a été résolu
 
@@ -86,33 +88,32 @@ Rien n'a été poussé sur `main`. Aucune connexion à la base de production ni 
 
 ### 7. Fichiers du stockage Manus
 
-- **Les 19 images n'ont pas pu être téléchargées** : le domaine CloudFront est bloqué par le pare-feu de la session. Le code est prêt ; la liste des fichiers attendus est plus bas.
-- **Ajout non demandé : un filet de sécurité.** Sans les fichiers, remplacer les adresses aurait cassé 19 images, dans les deux modes. Tant qu'un fichier manque, `/media/<fichier>` redirige vers son adresse d'origine (liste fermée de 19 noms). Dès que le fichier est là, l'application le sert elle-même. Ce module (`server/_core/mediaFallback.ts`) est à supprimer une fois les fichiers ajoutés.
-- Le service worker mettait ses ressources en cache par `addAll` : une seule absente annulait son installation. Elles sont maintenant ajoutées une à une. Version du cache passée à `v4`.
+- **Les 19 images de l'interface sont retirées** (décision du 24 novembre), et non recopiées dans le dépôt. Le 23 novembre, elles avaient d'abord été déplacées vers `/media/…`, avec une redirection vers leur ancienne adresse ; ce filet de sécurité (`server/_core/mediaFallback.ts`), le dossier `client/public/media/` et `deploy/fetch-media.mjs` sont supprimés. Il ne reste dans le client ni adresse CloudFront ni chemin `/media/`, ce que vérifie `server/client-assets.test.ts`.
+- Page par page :
+
+  | Page | Images retirées | Ce qui les remplace |
+  |---|---|---|
+  | `ColombieLine` | 8 illustrations de plantes, en tête des cartes de molécules | Rien : la carte commence par son en-tête coloré (marge haute de la carte retirée, sans quoi une bande blanche restait au-dessus). |
+  | `GalerieBotaniques` | 4 illustrations de *Tagetes lucida* (3 fichiers) | Les quatre fiches restent. À la place de l'image, un bloc de même format porte le nom latin et les molécules, pour que la grille reste alignée. Les boutons « Télécharger » et le cadre d'image de la fenêtre de détail ne s'affichent que si la fiche a une image. Une phrase signale ces fiches sans illustration. |
+  | `GammesPetrichor` | 2 photos d'axes (urbain, fantôme) | Rien : l'affichage était déjà conditionnel. La description textuelle de l'image (« bitume mouillé… ») reste. |
+  | `GammesMossi` | Texture de grain sur le bandeau | Rien : le dégradé du bandeau reste. |
+  | `PlantMoleculeNetwork` | Trame en grille sur le bandeau | Rien : le dégradé du bandeau reste. |
+  | `Projets` | 1 photo, utilisée par deux cartes « Musée » | Un bloc de même hauteur qui décrit la scène, pour que la grille reste alignée. |
+
+- **Icônes de l'application** : la référence `apple-touch-icon` de `client/index.html`, les quatre icônes de `manifest.json` et les deux du service worker sont retirées. L'application installée sur un téléphone n'a donc plus d'icône propre.
+- Le service worker met ses ressources en cache une à une : une seule absente n'annule plus son installation. Version du cache passée à `v5`, pour que les navigateurs abandonnent l'ancienne liste.
+- Aucune image n'a été créée.
+- Vérifié à l'écran (construction autonome, Chromium) : `/colombie` en largeur bureau et téléphone, `/projets`, `/reseau-plantes-molecules`. **`GammesMossi`, `GammesPetrichor` et `GalerieBotaniques` ne sont montées sur aucune route** (`App.tsx` : galerie « intégrée dans Plants.tsx », mais `Plants.tsx` ne l'importe pas ; aucune route pour les deux gammes) : elles ne sont pas visibles sur le site, et n'ont été vérifiées que par la compilation et les types.
 - **Clé de stockage vérifiée** dans `server/_core/filesRoute.ts` et `server/storage.ts` : `/files/<clé>` est résolu sous `STORAGE_LOCAL_DIR/<clé>`. L'inventaire de `recovery-preparation/` le confirme : `file_key = variety-images/….jpg` pour une adresse `…/3105…/H2pj…/variety-images/….jpg`.
 - Le script de migration parcourt toutes les colonnes de texte et JSON, ignore les vues, gère les tables sans clé primaire, et ne fait rien la seconde fois.
 
-Fichiers attendus dans `client/public/media/` (commande : `node deploy/fetch-media.mjs`) :
-
-```
-cacao-colombien_751ffe66.svg          icon-512x512_85c7de29.png
-cafe-geisha_44cf0d72.svg              lippia-origanoides_11468d3c.svg
-calycolpus-moritzianus_24c03479.svg   noise_cee97612.png
-fleur-cafe_85a32f13.svg               petrichor-fantome_33a572fd.webp
-grid_02c43ba1.svg                     petrichor-urbain_76971875.webp
-icon-192x192-maskable_68067827.png    piper-aduncum_52adaab3.svg
-icon-192x192_0a243a0b.png             steiractinia-aspera_868c0fb3.svg
-icon-512x512-maskable_9d5655eb.png    tagetes-lucida-botanical_4f6fe682.jpg
-tagetes-lucida-flowers_32658c81.jpg   terrain-musee-1_ccbd158a.webp
-turnera-diffusa_4e53c0cc.svg
-```
 
 ## Résultat de chaque vérification
 
 | Vérification | Résultat |
 |---|---|
 | `pnpm install --frozen-lockfile` (pnpm 10.4.1) | Réussi. |
-| `pnpm test` | Au 23 novembre : 1 448 réussis, 1 échec (`server/physical-tests.test.ts`, identique sur `main` intact). Au 24 novembre, après le traitement de `server/scripts/` : **98 fichiers réussis ; 1 449 tests réussis, 1 ignoré, aucun échec.** |
+| `pnpm test` | Au 23 novembre : 1 448 réussis, 1 échec (`server/physical-tests.test.ts`, identique sur `main` intact). Au 24 novembre, après le traitement de `server/scripts/` : **98 fichiers réussis ; 1 449 tests réussis, 1 ignoré, aucun échec.** Après le retrait des images : 1 447 réussis, 1 ignoré (5 tests du filet de sécurité supprimés, 3 ajoutés). |
 | `pnpm check` | Réussi (la machine avait 15 Go de mémoire). |
 | `pnpm check` étendu à tout le client | 6 erreurs dans 3 pages écrites par Manus : `TerroirMapPage.tsx` (2), `admin/DataIntegrityTab.tsx` (3), `admin/ZenodoTermReview.tsx` (1). Non corrigées. |
 | `pnpm build:standalone` | Réussi. Page produite : ni runtime Manus, ni umami, ni adresse CloudFront. |
@@ -141,9 +142,8 @@ turnera-diffusa_4e53c0cc.svg
 
 ### À faire pour terminer le lot
 
-1. **Ajouter les 19 images** : `node deploy/fetch-media.mjs`, vérifier, `git add client/public/media`. Puis supprimer `server/_core/mediaFallback.ts` et le champ « origine » de `origines.json`.
-2. **Premier déploiement d'essai** sur TiDB Cloud et Render, en suivant `docs/DEPLOIEMENT.md`, pour lever les points « non vérifiés ».
-3. **Migrer les adresses en base** et copier les fichiers correspondants sur le disque (étape 7 du guide). L'inventaire de `recovery-preparation/` en mentionne 32 dans `variety_images`.
+1. **Premier déploiement d'essai** sur TiDB Cloud et Render, en suivant `docs/DEPLOIEMENT.md`, pour lever les points « non vérifiés ».
+2. **Migrer les adresses en base** et copier les fichiers correspondants sur le disque (étape 7 du guide). L'inventaire de `recovery-preparation/` en mentionne 32 dans `variety_images`.
 
 ### Fichiers perdus : `server/scripts/`
 
@@ -173,6 +173,8 @@ Ce qui a été fait :
 Le remettre dans le dépôt aurait donné l'apparence d'une restauration à un fichier qui ne fonctionne pas. Écrire une version qui marche est possible, mais c'est un script neuf : il faut la définition réelle de la table `odor_descriptors` (colonnes et clé unique), que le dépôt ne contient pas.
 
 ### Relevé en passant, non corrigé
+
+- **Seize autres images locales manquent au dépôt.** Les pages touchées à l'étape 7 citent aussi des images servies par l'application elle-même, et aucune n'est dans `client/public` : `GalerieBotaniques` (7 illustrations de terpènes, `/images/terpenes/…`), `GammesPetrichor` (5 photos d'axes, `/petrichor-….webp`), `Projets` (4 photos de terrain, `/terrain-….webp`). Elles s'affichent sans doute chez Manus, qui les sert d'ailleurs ; hors de Manus, ce seront des images cassées. Non traité : ce n'était pas dans la consigne. Si elles sont retirées à leur tour, les mêmes remplacements (rien, ou un bloc de même format) conviennent.
 
 - **Mentions de Manus dans la page.** `client/index.html` cite `https://perfumum.manus.space` quatre fois (balises Open Graph et Twitter), dont une image `petrichor-souterrain.webp` servie par ce domaine. `server/_core/env.ts` prend aussi ce domaine comme adresse publique par défaut : d'où `PUBLIC_BASE_URL` dans le guide.
 - **Polices Google.** La page charge ses polices depuis `fonts.googleapis.com` : dépendance externe, sans rapport avec Manus.
