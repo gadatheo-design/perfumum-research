@@ -8,9 +8,10 @@ Rien n'a été poussé sur `main`. Aucune connexion à la base de production ni 
 
 - Les huit étapes du brief sont faites.
 - `pnpm build:standalone`, `pnpm build` (mode Manus) et `pnpm check` passent.
-- `pnpm test` : 1 448 tests réussis, **1 échec hérité de `main`** (fichier absent du dépôt, voir « Ce qui reste ouvert »).
+- `pnpm test` : vert depuis le 24 novembre (1 449 tests réussis, 1 ignoré). Le test ignoré lit un script perdu, voir « Fichiers perdus : `server/scripts/` ».
 - L'image Docker a été construite et lancée ; la porte d'accès, `/healthz`, les requêtes corrigées et les suggestions de synergies ont été essayées dans l'image, sur MySQL 8.0.46 avec des données synthétiques.
-- **Trois choses demandent votre intervention** : ajouter les 19 images de l'interface (domaine bloqué depuis cette session), ajouter `server/scripts/` au dépôt, et faire un premier essai sur TiDB Cloud et Render, que je n'ai pas pu joindre.
+- **Deux choses demandent votre intervention** : ajouter les 19 images de l'interface (domaine bloqué depuis cette session), et faire un premier essai sur TiDB Cloud et Render, que je n'ai pas pu joindre.
+- **Trois scripts sont définitivement perdus** (`server/scripts/`) : voir la section qui leur est consacrée.
 
 ## Ce qui est fait, commit par commit
 
@@ -28,7 +29,8 @@ Rien n'a été poussé sur `main`. Aucune connexion à la base de production ni 
 | `8c8a4864` | 6 | Script umami inséré seulement si `VITE_ANALYTICS_ENDPOINT` est défini. |
 | `243d66f4` | 7 | Les 19 adresses CloudFront du code remplacées par `/media/…`, avec un filet de sécurité. |
 | `32d12fd0` | 7 | `deploy/migrate-media-urls.mjs` pour les adresses enregistrées en base. |
-| (ce commit) | 8 | `docs/DEPLOIEMENT.md`, `CLAUDE.md`, ce rapport. |
+| `2c7e013a` | 8 | `docs/DEPLOIEMENT.md`, `CLAUDE.md`, ce rapport. |
+| (24 novembre) | — | `server/scripts/` perdu : `.gitignore` corrigé, deux tests ignorés tant que les fichiers sont absents, perte consignée ici. |
 
 ## Comment chaque conflit a été résolu
 
@@ -110,7 +112,7 @@ turnera-diffusa_4e53c0cc.svg
 | Vérification | Résultat |
 |---|---|
 | `pnpm install --frozen-lockfile` (pnpm 10.4.1) | Réussi. |
-| `pnpm test` | 97 fichiers réussis, 1 en échec ; 1 448 tests réussis, **1 échec** : `server/physical-tests.test.ts`, identique sur `main` intact. |
+| `pnpm test` | Au 23 novembre : 1 448 réussis, 1 échec (`server/physical-tests.test.ts`, identique sur `main` intact). Au 24 novembre, après le traitement de `server/scripts/` : **98 fichiers réussis ; 1 449 tests réussis, 1 ignoré, aucun échec.** |
 | `pnpm check` | Réussi (la machine avait 15 Go de mémoire). |
 | `pnpm check` étendu à tout le client | 6 erreurs dans 3 pages écrites par Manus : `TerroirMapPage.tsx` (2), `admin/DataIntegrityTab.tsx` (3), `admin/ZenodoTermReview.tsx` (1). Non corrigées. |
 | `pnpm build:standalone` | Réussi. Page produite : ni runtime Manus, ni umami, ni adresse CloudFront. |
@@ -140,9 +142,35 @@ turnera-diffusa_4e53c0cc.svg
 ### À faire pour terminer le lot
 
 1. **Ajouter les 19 images** : `node deploy/fetch-media.mjs`, vérifier, `git add client/public/media`. Puis supprimer `server/_core/mediaFallback.ts` et le champ « origine » de `origines.json`.
-2. **Ajouter `server/scripts/` au dépôt.** La ligne `scripts/` du `.gitignore` masque tout le dossier : `serve-physical-tests.mjs`, `zenodo-olfactory-pilot.mjs` et `pred-o3-import.mjs`, que `package.json` appelle, n'existent que dans l'espace Manus. C'est la cause de l'unique échec de `pnpm test`, et ces commandes ne fonctionneraient pas ailleurs. Correction : remplacer `scripts/` par `/scripts/` dans `.gitignore` et ajouter les fichiers depuis Manus.
-3. **Premier déploiement d'essai** sur TiDB Cloud et Render, en suivant `docs/DEPLOIEMENT.md`, pour lever les points « non vérifiés ».
-4. **Migrer les adresses en base** et copier les fichiers correspondants sur le disque (étape 7 du guide). L'inventaire de `recovery-preparation/` en mentionne 32 dans `variety_images`.
+2. **Premier déploiement d'essai** sur TiDB Cloud et Render, en suivant `docs/DEPLOIEMENT.md`, pour lever les points « non vérifiés ».
+3. **Migrer les adresses en base** et copier les fichiers correspondants sur le disque (étape 7 du guide). L'inventaire de `recovery-preparation/` en mentionne 32 dans `variety_images`.
+
+### Fichiers perdus : `server/scripts/`
+
+La ligne `scripts/` du `.gitignore` masquait tout dossier de ce nom, donc aussi `server/scripts/` : son contenu n'a jamais été versionné. Manus a confirmé le 24 novembre 2026 que le dossier n'existe plus dans son espace de travail. Trois scripts, que `package.json` appelle, sont donc perdus, ainsi que leurs fichiers de données :
+
+| Fichier perdu | Commandes `pnpm` qui ne fonctionnent plus | Ce qu'il en reste |
+|---|---|---|
+| `server/scripts/serve-physical-tests.mjs` | `physical-tests` | Les pages elles-mêmes sont intactes (`tools/physical-tests/`, `deliverables/essais-physiques-autonomes/`) et s'ouvrent sans serveur. Seul le petit serveur local manque. |
+| `server/scripts/zenodo-olfactory-pilot.mjs` | `pilot:zenodo:dry-run`, `pilot:zenodo:stage`, `pilot:zenodo:preannotate` | Le protocole et les options de la ligne de commande sont décrits dans `docs/protocols/pilote-zenodo-script.md`, sans le code. Le routeur et les tables du pilote sont intacts. |
+| `server/scripts/pred-o3-import.mjs` et `pred-o3-data.json` | `import:pred-o3`, `import:pred-o3:dry-run` | `PRED-O3-IMPORT.md` contient un listing, mais ce n'est pas le script perdu (voir ci-dessous). Les routeurs `pred-o3.ts` et `pred-o3-bulk-import.ts` sont intacts. |
+
+Ce qui a été fait :
+
+- `.gitignore` : `scripts/` devient `/scripts/`. Seul le dossier `scripts/` de la racine reste ignoré ; `server/scripts/` sera suivi à l'avenir.
+- `server/physical-tests.test.ts` : le test qui lisait d'un bloc trois pages et le serveur est scindé. Les trois pages restent vérifiées ; la vérification du serveur est ignorée (`skipIf`) tant que le fichier est absent, avec la raison dans son intitulé. Elle se réactive d'elle-même si le fichier revient.
+- `server/zenodo-olfactory-pilot.test.ts` (suite d'intégration) : même traitement pour le test qui lit le script Zenodo. Ce second cas n'était pas demandé ; c'est la même perte.
+- Aucun des deux scripts n'a été réinventé. Les commandes de `package.json` sont laissées en place : elles échouent avec « fichier introuvable », ce qui est exact.
+
+**`pred-o3-import.mjs` n'a pas été reconstitué.** `PRED-O3-IMPORT.md` contient bien un listing complet (135 lignes), mais :
+
+- ce n'est pas le fichier perdu : `todo.md` décrit un script de 50 lignes, livré avec 25 descripteurs, et `package.json` le lance par `node --import tsx` quand le document écrit `--loader tsx` ;
+- il ne démarre pas. Extrait tel quel et lancé en simulation, il s'arrête au chargement : `The requested module '../../drizzle/schema.ts' does not provide an export named 'odorDescriptors'`. La table `odor_descriptors` a été créée par SQL direct et n'est pas déclarée dans le schéma Drizzle ;
+- il appelle `getDb()` sans l'attendre, alors que la fonction est asynchrone ;
+- les colonnes qu'il écrit ne correspondent pas à celles que lit `server/routers/pred-o3.ts` (`descriptor_id`, `source`) ;
+- son fichier de données est perdu lui aussi.
+
+Le remettre dans le dépôt aurait donné l'apparence d'une restauration à un fichier qui ne fonctionne pas. Écrire une version qui marche est possible, mais c'est un script neuf : il faut la définition réelle de la table `odor_descriptors` (colonnes et clé unique), que le dépôt ne contient pas.
 
 ### Relevé en passant, non corrigé
 
