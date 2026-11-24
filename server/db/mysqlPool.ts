@@ -36,11 +36,8 @@
  * pare-feu ou un proxy fait souvent pareil, parfois sans prévenir. Trois
  * protections, communes à tous les pools de l'application (`createAppPool`) :
  *
- *   1. inactivité — une connexion inutilisée depuis 60 s est fermée par le
- *      pool lui-même. Attention : mysql2 ne lance ce ménage QUE si
- *      `maxIdle < connectionLimit` ; avec les valeurs par défaut (égales),
- *      `idleTimeout` est ignoré et les connexions restent ouvertes sans fin.
- *   2. âge — une connexion de plus de 20 minutes est détruite quand elle est
+ *   1. inactivité — une connexion inutilisée depuis 60 s est fermée.
+ *   2. âge — une connexion de plus de 20 minutes est fermée quand elle est
  *      rendue au pool, donc jamais au milieu d'une requête.
  *   3. reprise — avant de confier une connexion restée au repos plus de 15 s,
  *      `getMysqlConnection()` la teste (ping). Si elle est morte, elle est
@@ -48,6 +45,20 @@
  *
  * S'y ajoute le keep-alive TCP, qui permet au système de détecter une
  * connexion coupée sans préavis.
+ *
+ * ── Fermer proprement, et pas en rafale ─────────────────────────────────────
+ * Première version (8e11e402) : le ménage de mysql2 (`maxIdle` = 4 <
+ * `connectionLimit` = 10, `idleTimeout`). Mesuré sur MySQL 8 : deux défauts.
+ *   - mysql2 ferme chaque seconde toute connexion libre au-delà de `maxIdle`,
+ *     même utilisée l'instant d'avant. Chaque rafale de plus de 4 requêtes
+ *     ouvrait donc des connexions aussitôt refermées (20 rafales : 240).
+ *   - il les ferme par `destroy()`, sans envoyer COM_QUIT : le serveur compte
+ *     chaque fermeture comme une erreur de lecture (ER_NET_READ_ERROR,
+ *     Aborted_clients).
+ * Désormais : `maxIdle` = `connectionLimit` (le ménage de mysql2 ne tourne
+ * plus), et ce module ferme lui-même les connexions inactives depuis plus de
+ * 60 s ou trop vieilles, avec `end()` et `gracefulEnd`, qui envoie COM_QUIT.
+ * À l'arrêt du serveur, `closeAllPools()` ferme tout de la même façon.
  */
 
 import mysql from "mysql2/promise";
@@ -56,6 +67,8 @@ import { logger } from "../_core/logger";
 
 /** Fermeture des connexions inactives : bien avant les 340 s de TiDB Cloud. */
 export const IDLE_TIMEOUT_MS = 60_000;
+/** Fréquence du ménage des connexions inactives. */
+export const IDLE_SWEEP_INTERVAL_MS = 5_000;
 /** Âge maximal d'une connexion : bien avant les 30 minutes de TiDB Cloud. */
 export const MAX_LIFETIME_MS = 20 * 60_000;
 /** Repos au-delà duquel une connexion est testée avant d'être confiée. */
@@ -77,19 +90,22 @@ export function buildPoolOptions(uri: string, connectionLimit?: number): mysql.P
     waitForConnections: true,
     connectionLimit: limit,
     queueLimit: 0,
-    // Strictement inférieur à connectionLimit, sans quoi mysql2 ne ferme
-    // jamais les connexions inactives (voir l'en-tête du fichier).
-    maxIdle: Math.min(4, limit - 1),
-    idleTimeout: IDLE_TIMEOUT_MS,
+    // Égal à connectionLimit : le ménage de mysql2, qui refermait en rafale
+    // des connexions à peine rendues, ne tourne pas. Celui de ce module
+    // (sweepIdleConnections) le remplace. Voir l'en-tête du fichier.
+    maxIdle: limit,
+    // end() envoie COM_QUIT au lieu de couper le socket.
+    gracefulEnd: true,
     enableKeepAlive: true,
     keepAliveInitialDelay: 30_000,
     connectTimeout: 10_000,
   };
 }
 
-/** Ce dont le suivi d'âge a besoin : la connexion « cœur » de mysql2. */
+/** Ce dont le ménage a besoin : la connexion « cœur » de mysql2. */
 interface CoreConnection {
-  destroy(): void;
+  /** Avec gracefulEnd : envoie COM_QUIT et retire la connexion du pool. */
+  end(): void;
   lastActiveTime?: number;
 }
 
@@ -97,10 +113,40 @@ interface PoolEvents {
   on(event: "connection" | "release", listener: (connection: CoreConnection) => void): unknown;
 }
 
+/** Liste des connexions libres de mysql2 (file, la plus ancienne en tête). */
+export interface FreeConnections {
+  length: number;
+  get(index: number): CoreConnection;
+}
+
 const bornAt = new WeakMap<object, number>();
 
 /**
- * Détruit les connexions trop vieilles au moment où elles sont rendues au
+ * Ferme les connexions libres inactives depuis plus de `idleMs`. mysql2 range
+ * les connexions rendues en fin de file et prend la dernière : la tête de
+ * file est donc toujours la moins récemment utilisée.
+ */
+export function sweepIdleConnections(
+  free: FreeConnections,
+  idleMs: number = IDLE_TIMEOUT_MS,
+  now: () => number = Date.now
+): number {
+  let closed = 0;
+  // Garde-fou : end() retire la connexion de la file ; sans cela, on s'arrête.
+  for (let guard = free.length; guard > 0 && free.length > 0; guard--) {
+    const oldest = free.get(0);
+    const last = oldest.lastActiveTime ?? now();
+    if (now() - last <= idleMs) break;
+    const before = free.length;
+    oldest.end();
+    closed += 1;
+    if (free.length >= before) break;
+  }
+  return closed;
+}
+
+/**
+ * Ferme les connexions trop vieilles au moment où elles sont rendues au
  * pool. Extrait pour être testable sans base de données.
  */
 export function enforceMaxLifetime<T extends PoolEvents>(
@@ -114,24 +160,53 @@ export function enforceMaxLifetime<T extends PoolEvents>(
   pool.on("release", connection => {
     const born = bornAt.get(connection);
     if (born !== undefined && now() - born > maxLifetimeMs) {
-      // destroy() retire aussi la connexion de la liste des connexions libres.
-      connection.destroy();
+      // end() (gracefulEnd) retire la connexion de la liste des connexions
+      // libres et envoie COM_QUIT.
+      connection.end();
     }
   });
   return pool;
 }
+
+const appPools = new Set<mysql.Pool>();
 
 /** Crée un pool muni des protections décrites en tête de fichier. */
 export function createAppPool(uri: string, connectionLimit?: number): mysql.Pool {
   const options = buildPoolOptions(uri, connectionLimit);
   logger.info("création du pool MySQL", {
     connectionLimit: options.connectionLimit,
-    maxIdle: options.maxIdle,
-    idleTimeoutMs: options.idleTimeout,
+    idleTimeoutMs: IDLE_TIMEOUT_MS,
   });
   const pool = mysql.createPool(options);
   enforceMaxLifetime(pool as unknown as PoolEvents);
+
+  // `pool.pool` est le pool « cœur » de mysql2 ; `_freeConnections` y est
+  // privé. mysqlPool.test.ts vérifie dans le paquet installé que ce champ
+  // existe et garde la forme attendue.
+  const core = (pool as unknown as { pool: { _freeConnections: FreeConnections; _closed: boolean } }).pool;
+  const timer = setInterval(() => {
+    if (core._closed) return clearInterval(timer);
+    try {
+      sweepIdleConnections(core._freeConnections);
+    } catch (error) {
+      logger.warn("ménage des connexions MySQL inactives en échec", { error });
+    }
+  }, IDLE_SWEEP_INTERVAL_MS);
+  timer.unref();
+
+  appPools.add(pool);
   return pool;
+}
+
+/**
+ * Ferme proprement tous les pools de l'application (COM_QUIT sur chaque
+ * connexion). Appelé à l'arrêt du serveur : sans cela, chaque redéploiement
+ * laisse côté base autant d'erreurs de lecture que de connexions ouvertes.
+ */
+export async function closeAllPools(): Promise<void> {
+  const pools = [...appPools];
+  appPools.clear();
+  await Promise.allSettled(pools.map(pool => pool.end()));
 }
 
 export function requireDatabaseUrl(): string {

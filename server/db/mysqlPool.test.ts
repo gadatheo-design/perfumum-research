@@ -71,31 +71,34 @@ import {
   acquireUsable,
   buildPoolOptions,
   enforceMaxLifetime,
+  sweepIdleConnections,
 } from "./mysqlPool";
 
 describe("buildPoolOptions", () => {
   it("ferme les connexions inactives avant 5 minutes (TiDB Cloud coupe à 340 s)", () => {
-    const options = buildPoolOptions("mysql://u:p@db.invalid:3306/x");
-    expect(options.idleTimeout).toBe(IDLE_TIMEOUT_MS);
     expect(IDLE_TIMEOUT_MS).toBeLessThan(5 * 60_000);
-    expect(options.enableKeepAlive).toBe(true);
+    expect(buildPoolOptions("mysql://u:p@db.invalid:3306/x").enableKeepAlive).toBe(true);
   });
 
-  it("garde maxIdle < connectionLimit, sans quoi mysql2 ignore idleTimeout", () => {
+  it("désactive le ménage de mysql2 (maxIdle = connectionLimit) et ferme avec COM_QUIT", () => {
     for (const limit of [1, 2, 5, 10, 50]) {
       const options = buildPoolOptions("mysql://u:p@db.invalid:3306/x", limit);
       expect(options.connectionLimit).toBe(limit);
-      expect(options.maxIdle as number).toBeLessThan(limit);
-      expect(options.maxIdle as number).toBeGreaterThanOrEqual(0);
+      expect(options.maxIdle).toBe(limit);
+      expect(options.gracefulEnd).toBe(true);
     }
   });
 
-  it("mysql2 ne lance bien son ménage que si maxIdle < connectionLimit", () => {
-    // Le fait sur lequel repose le réglage ci-dessus, vérifié dans le paquet
-    // installé : si mysql2 change cette condition, ce test le signalera.
+  it("mysql2 installé : son ménage ne tourne que si maxIdle < connectionLimit, et gracefulEnd passe par end()", () => {
+    // Les faits sur lesquels reposent ces réglages, vérifiés dans le paquet
+    // installé : si mysql2 change, ce test le signalera.
     const base = path.dirname(require_.resolve("mysql2"));
-    const source = require_("node:fs").readFileSync(path.join(base, "lib/base/pool.js"), "utf8");
-    expect(source).toMatch(/if \(this\.config\.maxIdle < this\.config\.connectionLimit\)/);
+    const read = (f: string) => require_("node:fs").readFileSync(path.join(base, f), "utf8");
+    expect(read("lib/base/pool.js")).toMatch(/if \(this\.config\.maxIdle < this\.config\.connectionLimit\)/);
+    expect(read("lib/base/pool.js")).toMatch(/this\._freeConnections = new Queue\(\)/);
+    expect(read("lib/base/pool.js")).toMatch(/this\._freeConnections\.push\(connection\)/);
+    expect(read("lib/base/pool.js")).toMatch(/connection = this\._freeConnections\.pop\(\)/);
+    expect(read("lib/base/pool_connection.js")).toMatch(/if \(this\.config\.gracefulEnd\) \{\s*this\._removeFromPool\(\);\s*super\.end\(\);/);
   });
 
   it("limite l'âge d'une connexion bien avant 30 minutes", () => {
@@ -103,24 +106,65 @@ describe("buildPoolOptions", () => {
   });
 });
 
+describe("sweepIdleConnections", () => {
+  /** File imitant celle de mysql2 : end() retire la connexion. */
+  function queue(idleTimes: number[], now: number) {
+    const items: Array<{ lastActiveTime: number; end: ReturnType<typeof vi.fn> }> = [];
+    const q = { get length() { return items.length; }, get: (i: number) => items[i] };
+    for (const idle of idleTimes) {
+      const conn = { lastActiveTime: now - idle, end: vi.fn(() => { items.splice(items.indexOf(conn), 1); }) };
+      items.push(conn);
+    }
+    return { q, items };
+  }
+
+  it("ferme, avec end(), les seules connexions inactives depuis plus du délai", () => {
+    const now = 1_000_000;
+    // Tête de file = la moins récemment utilisée.
+    const { q, items } = queue([90_000, 70_000, 30_000, 1_000], now);
+    const [old1, old2, recent1, recent2] = [...items];
+    expect(sweepIdleConnections(q, 60_000, () => now)).toBe(2);
+    expect(old1.end).toHaveBeenCalledTimes(1);
+    expect(old2.end).toHaveBeenCalledTimes(1);
+    expect(recent1.end).not.toHaveBeenCalled();
+    expect(recent2.end).not.toHaveBeenCalled();
+    expect(q.length).toBe(2);
+  });
+
+  it("ne ferme rien après une rafale : c'était le défaut du ménage de mysql2", () => {
+    const now = 1_000_000;
+    const { q } = queue(Array.from({ length: 10 }, () => 500), now);
+    expect(sweepIdleConnections(q, 60_000, () => now)).toBe(0);
+    expect(q.length).toBe(10);
+  });
+
+  it("ne boucle pas si end() ne retire pas la connexion", () => {
+    const now = 1_000_000;
+    const stuck = { lastActiveTime: 0, end: vi.fn() };
+    const q = { length: 1, get: () => stuck };
+    expect(sweepIdleConnections(q, 60_000, () => now)).toBe(1);
+    expect(stuck.end).toHaveBeenCalledTimes(1);
+  });
+});
+
 describe("enforceMaxLifetime", () => {
-  it("détruit une connexion trop vieille quand elle est rendue au pool, pas avant", () => {
+  it("ferme (end) une connexion trop vieille quand elle est rendue au pool, pas avant", () => {
     let clock = 0;
     const pool = enforceMaxLifetime(new EventEmitter(), 1000, () => clock);
-    const young = { destroy: vi.fn() };
-    const old = { destroy: vi.fn() };
+    const young = { end: vi.fn() };
+    const old = { end: vi.fn() };
 
     pool.emit("connection", old);
     clock = 600;
     pool.emit("connection", young);
     pool.emit("release", old);
-    expect(old.destroy).not.toHaveBeenCalled();
+    expect(old.end).not.toHaveBeenCalled();
 
     clock = 1200; // old : 1200 ms, young : 600 ms
     pool.emit("release", young);
     pool.emit("release", old);
-    expect(young.destroy).not.toHaveBeenCalled();
-    expect(old.destroy).toHaveBeenCalledTimes(1);
+    expect(young.end).not.toHaveBeenCalled();
+    expect(old.end).toHaveBeenCalledTimes(1);
   });
 });
 

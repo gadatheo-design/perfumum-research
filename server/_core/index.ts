@@ -15,6 +15,7 @@ import { logger } from "./logger";
 import { registerHealthRoute } from "./health";
 import { registerAccessGate } from "./accessGate";
 import { registerCompression } from "./compression";
+import { closeAllPools } from "../db/mysqlPool";
 import {
   registerErrorHandler,
   registerHttpLogging,
@@ -146,6 +147,22 @@ async function startServer() {
       env: process.env.NODE_ENV ?? "development",
     });
   });
+
+  // Arrêt propre (Render, Docker envoient SIGTERM avant de couper) : plus de
+  // nouvelles requêtes, puis fermeture des connexions MySQL avec COM_QUIT.
+  // Sans cela, chaque redéploiement laissait côté base une erreur de lecture
+  // par connexion ouverte. Au-delà de 10 s, on sort quand même.
+  let stopping = false;
+  const shutdown = (signal: string) => {
+    if (stopping) return;
+    stopping = true;
+    logger.info("arrêt demandé", { signal });
+    setTimeout(() => process.exit(0), 10_000).unref();
+    server.close();
+    void closeAllPools().finally(() => process.exit(0));
+  };
+  process.once("SIGTERM", () => shutdown("SIGTERM"));
+  process.once("SIGINT", () => shutdown("SIGINT"));
 }
 
 registerProcessHandlers();
