@@ -301,3 +301,17 @@ export async function getMysqlConnection(): Promise<mysql.PoolConnection> {
   );
   return releaseOnEnd(conn);
 }
+
+/**
+ * Prend une connexion du pool, exécute `fn`, et la rend au pool dans tous les
+ * cas, erreur comprise. À préférer au couple getMysqlConnection()/end() sans
+ * `finally`, qui ne rend pas la connexion si la requête échoue.
+ */
+export async function withMysqlConnection<T>(fn: (conn: mysql.PoolConnection) => Promise<T>): Promise<T> {
+  const conn = await getMysqlConnection();
+  try {
+    return await fn(conn);
+  } finally {
+    conn.release();
+  }
+}

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { getMysqlConnection } from "../db/mysqlPool";
+import { getMysqlConnection, withMysqlConnection } from "../db/mysqlPool";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
@@ -176,12 +176,9 @@ export const rawMaterialsInlineRouter = router({
 
   // ---- Enrichissement IA par lot ----
   getBatchEnrichStats: publicProcedure.query(async () => {
-    const { createConnection: _ccRmStats } = await import('mysql2/promise');
-    const _connRmStats = await _ccRmStats(process.env.DATABASE_URL!);
-    const [rows] = await _connRmStats.query(
+    const [rows] = await withMysqlConnection(conn => conn.query(
       `SELECT COUNT(*) as total, SUM(CASE WHEN (notes IS NULL OR notes = '') THEN 1 ELSE 0 END) as missingDescription, SUM(CASE WHEN (olfactive_profile IS NULL OR olfactive_profile = '') THEN 1 ELSE 0 END) as missingOlfactiveNotes, SUM(CASE WHEN (usage_notes IS NULL OR usage_notes = '') THEN 1 ELSE 0 END) as missingUsages FROM raw_materials`
-    );
-    await _connRmStats.end();
+    ));
     const r = (rows as Record<string, unknown>[])[0];
     return {
       total: Number(r.total),
@@ -214,9 +211,7 @@ export const rawMaterialsInlineRouter = router({
       };
     }),
   getThermalMatrix: publicProcedure.query(async () => {
-    const { createConnection: _ccThermal } = await import('mysql2/promise');
-    const _connThermal = await _ccThermal(process.env.DATABASE_URL!);
-    const [rows] = await _connThermal.query(
+    const [rows] = await withMysqlConnection(conn => conn.query(
       `SELECT id, name, material_id,
         thermal_tri, thermal_sai, thermal_hpi,
         thermal_volatility, thermal_survival, thermal_transformation,
@@ -226,8 +221,7 @@ export const rawMaterialsInlineRouter = router({
       FROM raw_materials
       WHERE thermal_tri IS NOT NULL
       ORDER BY thermal_tri DESC, thermal_sai DESC`
-    );
-    await _connThermal.end();
+    ));
     return rows as Record<string, unknown>[];
   }),
 });

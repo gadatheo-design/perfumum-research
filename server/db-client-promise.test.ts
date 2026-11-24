@@ -56,3 +56,20 @@ describe("le client de getDb() est un pool promesse", () => {
     expect(fake.$client.query).toHaveBeenCalledWith("SELECT 1", undefined);
   });
 });
+
+describe("pas de connexion MySQL ouverte hors des pools", () => {
+  it("aucun createConnection/createPool direct dans le serveur", () => {
+    // Une connexion ouverte à la main et non refermée (erreur, ou chemin qui
+    // oublie end()) reste ouverte jusqu'à l'arrêt du processus, et MySQL compte
+    // alors une erreur de lecture. Passer par withMysqlConnection().
+    const allowed = new Set(["server/db/mysqlPool.ts"]);
+    const offenders: string[] = [];
+    for (const file of listSources(path.resolve(process.cwd(), "server"))) {
+      const rel = path.relative(process.cwd(), file);
+      if (allowed.has(rel)) continue;
+      const source = fs.readFileSync(file, "utf8").replace(/\/\*[\s\S]*?\*\//g, "").replace(/^\s*\/\/.*$/gm, "");
+      if (/\b(createConnection|createPool)\s*[:(]/.test(source) && /mysql2/.test(source)) offenders.push(rel);
+    }
+    expect(offenders).toEqual([]);
+  });
+});

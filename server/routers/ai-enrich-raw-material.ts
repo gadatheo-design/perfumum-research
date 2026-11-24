@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { getMysqlConnection } from "../db/mysqlPool";
+import { getMysqlConnection, withMysqlConnection } from "../db/mysqlPool";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
@@ -73,13 +73,10 @@ Réponds UNIQUEMENT avec le JSON.`;
         throw new Error(`Erreur IA enrichissement matière "${rm.name}": ${err instanceof Error ? err.message : 'Échec appel LLM'}`);
       }
       if (enriched.description) {
-        const { createConnection: _cc } = await import('mysql2/promise');
-        const _connUpd = await _cc(process.env.DATABASE_URL!);
-        await _connUpd.query(
+        await withMysqlConnection(conn => conn.query(
           `UPDATE raw_materials SET notes = ?, olfactive_profile = ?, usage_notes = ? WHERE id = ?`,
           [enriched.description, enriched.olfactiveNotes ? enriched.olfactiveNotes.join(', ') : null, enriched.usagesInPerfumery || null, input.rawMaterialId]
-        );
-        await _connUpd.end();
+        ));
       }
 
       return { success: true, enriched, materialName: rm.name };
