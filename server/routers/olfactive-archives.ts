@@ -142,33 +142,43 @@ export const olfactiveArchivesRouter = router({
     }).optional())
     .query(async ({ input }) => {
       const conn = await getMysqlConnection();
-      const { withGettyOnly = false, search = '', limit = 100, offset = 0 } = input || {};
-      let where = '1=1';
-      if (withGettyOnly) where += " AND getty_aat_id IS NOT NULL";
-      if (search) where += ` AND (name LIKE ${conn.escape('%' + search + '%')} OR longDescription LIKE ${conn.escape('%' + search + '%')})`;
-      const [rows] = await conn.query(
-        `SELECT id, name, longDescription as description, region, temporality as period,
+      try {
+        const { withGettyOnly = false, search = '', limit = 100, offset = 0 } = input || {};
+        let where = '1=1';
+        if (withGettyOnly) where += " AND getty_aat_id IS NOT NULL";
+        if (search) where += ` AND (name LIKE ${conn.escape('%' + search + '%')} OR longDescription LIKE ${conn.escape('%' + search + '%')})`;
+        const [rows] = await conn.query(
+          `SELECT id, name, longDescription as description, region, temporality as period,
                 getty_aat_id, getty_aat_label, getty_enriched_at,
                 wikidata_qid, europeana_entity_id
          FROM traditions_olfactives
          WHERE ${where}
          ORDER BY name
          LIMIT ${limit} OFFSET ${offset}`
-      );
-      await conn.end();
-      return (rows as Record<string,unknown>[]) || [];
+        );
+        await conn.end();
+        return (rows as Record<string,unknown>[]) || [];
+      } finally {
+        // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+        await conn.end();
+      }
     }),
 
   // Statistiques traditions olfactives
   traditionStats: publicProcedure.query(async () => {
     const conn = await getMysqlConnection();
-    const [rows] = await conn.query(
-      `SELECT COUNT(*) as total,
+    try {
+      const [rows] = await conn.query(
+        `SELECT COUNT(*) as total,
               SUM(CASE WHEN getty_aat_id IS NOT NULL THEN 1 ELSE 0 END) as withGetty,
               SUM(CASE WHEN wikidata_qid IS NOT NULL THEN 1 ELSE 0 END) as withWikidata
        FROM traditions_olfactives`
-    );
-    await conn.end();
-    return (rows as TraditionStats[])[0] || { total: 0, withGetty: 0, withWikidata: 0 };
+      );
+      await conn.end();
+      return (rows as TraditionStats[])[0] || { total: 0, withGetty: 0, withWikidata: 0 };
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
+    }
   }),
 });

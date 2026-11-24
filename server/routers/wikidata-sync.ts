@@ -13,6 +13,7 @@ import { getDb } from "../db/core";
 import { plants, plantVarieties, varietyImages } from "../../drizzle/schema";
 import { and, eq, like, or, sql } from 'drizzle-orm';
 import { sparqlQuery } from "../utils/sparql";
+import { OUTBOUND_USER_AGENT } from "../_core/env";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // CONSTANTS
@@ -364,7 +365,7 @@ export const wikidataSyncRouter = router({
       // Download image from Wikidata and upload to S3
       const { storagePut } = await import('../storage');
       const imageResponse = await fetch(input.imageUrl, {
-        headers: { 'User-Agent': 'PERFUMUM-Research/1.0 (https://perfumum.manus.space)' },
+        headers: { 'User-Agent': OUTBOUND_USER_AGENT },
       });
       if (!imageResponse.ok) {
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: `Impossible de télécharger l'image Wikidata: ${imageResponse.status}` });

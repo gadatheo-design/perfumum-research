@@ -1,4 +1,5 @@
 import { getDb } from './db';
+import { queryRows } from './db/rawQuery';
 import { withCache, invalidateRecetteCache, CACHE_TTL, cache } from './cache';
 
 // Clés de cache pour les profils radar
@@ -81,7 +82,7 @@ export async function getAllRecettesWithRadar(): Promise<RecetteWithRadar[]> {
       const db = await getDb();
       if (!db) return [];
       type RadarRow = Record<string, unknown>;
-      const [rows] = await (db as unknown as { $client: { promise: () => { query: (q: string) => Promise<[RadarRow[], unknown]> } } }).$client.promise().query(RADAR_QUERY);
+      const rows = await queryRows<RadarRow>(db, RADAR_QUERY);
       return rows.map((r: RadarRow): RecetteWithRadar => ({
         id: Number(r.id),
         name: String(r.name || ''),

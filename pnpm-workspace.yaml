@@ -8,6 +8,7 @@ overrides:
   classcat: 5.0.5
   path-to-regexp: 0.1.13
   qs: 6.15.2
+  three-bmfont-text: ^3.0.1
 
 onlyBuiltDependencies:
   - better-sqlite3

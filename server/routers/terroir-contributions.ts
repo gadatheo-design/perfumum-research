@@ -29,7 +29,8 @@ export const terroirContributionsRouter = router({
     }))
     .mutation(async ({ input, ctx }) => {
       const conn = await getMysqlConnection();
-      await conn.execute(`
+      try {
+        await conn.execute(`
         INSERT INTO terroir_contributions
           (terroir_id, user_id, user_name, contribution_type,
            image_url, image_caption, plant_name, plant_id, plant_notes,
@@ -38,43 +39,57 @@ export const terroirContributionsRouter = router({
            note_content, note_category, description, bibliography_refs)
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
       `, [
-        input.terroirId, ctx.user.openId, ctx.user.name || null, input.contributionType,
-        input.imageUrl || null, input.imageCaption || null,
-        input.plantName || null, input.plantId || null, input.plantNotes || null,
-        input.productionYear || null, input.productionQuantity || null, input.productionQuality || null,
-        input.historyPeriod || null, input.historyContent || null,
-        input.noteContent || null, input.noteCategory || null,
-        input.description || null, input.bibliographyRefs || null,
-      ]);
-      await conn.end();
-      return { success: true };
+          input.terroirId, ctx.user.openId, ctx.user.name || null, input.contributionType,
+          input.imageUrl || null, input.imageCaption || null,
+          input.plantName || null, input.plantId || null, input.plantNotes || null,
+          input.productionYear || null, input.productionQuantity || null, input.productionQuality || null,
+          input.historyPeriod || null, input.historyContent || null,
+          input.noteContent || null, input.noteCategory || null,
+          input.description || null, input.bibliographyRefs || null,
+        ]);
+        await conn.end();
+        return { success: true };
+      } finally {
+        // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+        await conn.end();
+      }
     }),
   getAll: protectedProcedure
     .input(z.object({ status: z.enum(['pending','approved','rejected']).optional() }).optional())
     .query(async ({ input, ctx }) => {
       if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
       const conn = await getMysqlConnection();
-      const [rows] = await conn.execute(
-        `SELECT tc.*, t.name as terroir_name FROM terroir_contributions tc
+      try {
+        const [rows] = await conn.execute(
+          `SELECT tc.*, t.name as terroir_name FROM terroir_contributions tc
          LEFT JOIN terroirs t ON tc.terroir_id = t.id
          ${input?.status ? 'WHERE tc.status = ?' : ''}
          ORDER BY tc.created_at DESC`,
-        input?.status ? [input.status] : []
-      );
-      await conn.end();
-      return rows as Record<string, unknown>[];
+          input?.status ? [input.status] : []
+        );
+        await conn.end();
+        return rows as Record<string, unknown>[];
+      } finally {
+        // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+        await conn.end();
+      }
     }),
   review: protectedProcedure
     .input(z.object({ id: z.number(), status: z.enum(['approved','rejected']), adminNotes: z.string().optional() }))
     .mutation(async ({ input, ctx }) => {
       if (ctx.user.role !== 'admin') throw new TRPCError({ code: 'FORBIDDEN' });
       const conn = await getMysqlConnection();
-      await conn.execute(
-        `UPDATE terroir_contributions SET status=?, admin_notes=?, reviewed_by=?, reviewed_at=NOW() WHERE id=?`,
-        [input.status, input.adminNotes || null, ctx.user.name || ctx.user.openId, input.id]
-      );
-      await conn.end();
-      return { success: true };
+      try {
+        await conn.execute(
+          `UPDATE terroir_contributions SET status=?, admin_notes=?, reviewed_by=?, reviewed_at=NOW() WHERE id=?`,
+          [input.status, input.adminNotes || null, ctx.user.name || ctx.user.openId, input.id]
+        );
+        await conn.end();
+        return { success: true };
+      } finally {
+        // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+        await conn.end();
+      }
     }),
 })
 

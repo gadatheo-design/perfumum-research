@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useMemo, useCallback } from "react";
 import { Link } from "wouter";
 import { Header } from "@/components/layout/Header";

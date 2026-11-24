@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { trpc } from '@/lib/trpc';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -667,7 +666,7 @@ export default function SpectraIdentification() {
                                  result.similarity > 60 ? 'hsl(45, 93%, 47%)' : 
                                  'hsl(var(--muted-foreground))'
                         }}>
-                          {(result).toFixed(1)}%
+                          {result.similarity.toFixed(1)}%
                         </div>
                         <div className="text-xs text-muted-foreground">
                           {result.matchedPeaks}/{manualPeaks.length} pics matchés

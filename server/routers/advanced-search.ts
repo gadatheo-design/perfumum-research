@@ -14,6 +14,7 @@ import * as db from "../db";
 import * as mysql from "mysql2/promise";
 import { getMysqlConnection } from "../db/mysqlPool";
 
+import { sqlInt } from "../db/sqlInt";
 export const advancedSearchRouter = router({
   // ── Recherche par plante source ──────────────────────────────────────────
   moleculesByPlant: publicProcedure
@@ -64,21 +65,22 @@ export const advancedSearchRouter = router({
       const conn = await getMysqlConnection();
       try {
         const term = `%${input.query}%`;
-        const lim = input.limit;
+        // Entier validé, écrit dans la requête : MySQL 8 refuse `LIMIT ?` préparé.
+        const lim = sqlInt(input.limit, { min: 1, max: 20 });
 
         // Requêtes parallèles pour les 3 entités
         const [molResult, plantResult, terroirResult] = await Promise.all([
           conn.execute<mysql.RowDataPacket[]>(
-            `SELECT id, name, family FROM molecules WHERE name LIKE ? ORDER BY name LIMIT ?`,
-            [term, lim]
+            `SELECT id, name, family FROM molecules WHERE name LIKE ? ORDER BY name LIMIT ${lim}`,
+            [term]
           ),
           conn.execute<mysql.RowDataPacket[]>(
-            `SELECT id, name, latin_name as latinName, category FROM plants WHERE name LIKE ? OR latin_name LIKE ? ORDER BY name LIMIT ?`,
-            [term, term, lim]
+            `SELECT id, name, latin_name as latinName, category FROM plants WHERE name LIKE ? OR latin_name LIKE ? ORDER BY name LIMIT ${lim}`,
+            [term, term]
           ),
           conn.execute<mysql.RowDataPacket[]>(
-            `SELECT id, name, country, climate_type as climateType FROM terroirs WHERE name LIKE ? OR country LIKE ? ORDER BY name LIMIT ?`,
-            [term, term, lim]
+            `SELECT id, name, country, climate_type as climateType FROM terroirs WHERE name LIKE ? OR country LIKE ? ORDER BY name LIMIT ${lim}`,
+            [term, term]
           ),
         ]);
 

@@ -3,6 +3,7 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
+import { withMysqlConnection } from "../db/mysqlPool";
 import { MoleculeEnrichmentLLM } from "../routers";
 
 export const aiEnrichMoleculeRouter = router({
@@ -10,10 +11,7 @@ export const aiEnrichMoleculeRouter = router({
     .input(z.object({ id: z.number() }))
     .query(async ({ input }) => {
       const { invokeLLM } = await import('../_core/llm');
-      const { createConnection: _ccMol } = await import('mysql2/promise');
-      const _connMol = await _ccMol(process.env.DATABASE_URL!);
-      const [rows] = await _connMol.query(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties, notes FROM molecules WHERE id = ?`, [input.id]);
-      await _connMol.end();
+      const [rows] = await withMysqlConnection(conn => conn.query(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties, notes FROM molecules WHERE id = ?`, [input.id]));
       const mol = (rows as Record<string,unknown>[])[0];
       if (!mol) throw new Error('Molécule non trouvée');
       const prompt = `Tu es un expert en chimie olfactive et phytochimie. Enrichis la fiche de cette molécule avec des données scientifiques précises.
@@ -72,10 +70,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
     .input(z.object({ id: z.number() }))
     .mutation(async ({ input }) => {
       const { invokeLLM } = await import('../_core/llm');
-      const { createConnection: _ccMol } = await import('mysql2/promise');
-      const _connMol = await _ccMol(process.env.DATABASE_URL!);
-      const [rows] = await _connMol.query(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties, notes FROM molecules WHERE id = ?`, [input.id]);
-      await _connMol.end();
+      const [rows] = await withMysqlConnection(conn => conn.query(`SELECT id, name, formula, family, iupac_name, cas_number, olfactiveProfile, therapeuticProperties, notes FROM molecules WHERE id = ?`, [input.id]));
       const mol = (rows as Record<string,unknown>[])[0];
       if (!mol) throw new Error('Molécule non trouvée');
       const prompt = `Tu es un expert en chimie olfactive et phytochimie. Enrichis la fiche de cette molécule avec des données scientifiques précises.
@@ -147,10 +142,7 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
       if (enriched.notes && !mol.notes) { updates.push("notes = ?"); params.push(enriched.notes); }
       if (updates.length > 0) {
         params.push(input.id);
-        const { createConnection: _ccMolUpd } = await import('mysql2/promise');
-        const _connMolUpd = await _ccMolUpd(process.env.DATABASE_URL!);
-        await _connMolUpd.query(`UPDATE molecules SET ${updates.join(', ')} WHERE id = ?`, params);
-        await _connMolUpd.end();
+        await withMysqlConnection(conn => conn.query(`UPDATE molecules SET ${updates.join(', ')} WHERE id = ?`, params));
       }
       return { success: true, fieldsUpdated: updates.length, enriched };
     }),

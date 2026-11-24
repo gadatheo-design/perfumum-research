@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState } from 'react';
 import { trpc } from '@/lib/trpc';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -150,7 +149,7 @@ export default function BulkImportReferences() {
   return (
     <div className="min-h-screen bg-background">
       <div className="container py-8">
-        <Breadcrumbs items={[{ label: 'Accueil', href: '/' }, { label: 'Références', href: '/references-v3' }, { label: 'Importation en masse' }]} />
+        <Breadcrumbs customItems={[{ label: 'Accueil', path: '/' }, { label: 'Références', path: '/references-v3' }, { label: 'Importation en masse' }]} />
 
         <div className="mt-8 space-y-6">
           <div>

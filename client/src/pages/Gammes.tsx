@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { Breadcrumbs } from "@/components/Breadcrumbs";

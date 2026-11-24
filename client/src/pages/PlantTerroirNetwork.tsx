@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { PlantTerroirNetworkGraph, NetworkNode, NetworkLink } from "@/components/charts/PlantTerroirNetworkGraph";

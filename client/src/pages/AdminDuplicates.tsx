@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * Page d'administration pour la gestion des doublons
  * Permet de visualiser et fusionner les molécules et plantes dupliquées

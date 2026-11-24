@@ -26,18 +26,23 @@ function hashQuery(query: string): string {
 async function readDbCache(queryHash: string): Promise<unknown | null> {
   try {
     const conn = await getMysqlConnection();
-    const [rows] = await conn.execute<mysql.RowDataPacket[]>(
-      "SELECT results_json, expires_at FROM sparql_cache WHERE query_hash = ? AND expires_at > NOW() LIMIT 1",
-      [queryHash]
-    );
-    if (rows.length > 0) {
-      // Incrémenter le hit count
-      await conn.execute("UPDATE sparql_cache SET hit_count = hit_count + 1, last_accessed_at = NOW() WHERE query_hash = ?", [queryHash]);
+    try {
+      const [rows] = await conn.execute<mysql.RowDataPacket[]>(
+        "SELECT results_json, expires_at FROM sparql_cache WHERE query_hash = ? AND expires_at > NOW() LIMIT 1",
+        [queryHash]
+      );
+      if (rows.length > 0) {
+        // Incrémenter le hit count
+        await conn.execute("UPDATE sparql_cache SET hit_count = hit_count + 1, last_accessed_at = NOW() WHERE query_hash = ?", [queryHash]);
+        await conn.end();
+        return JSON.parse(rows[0].results_json as string);
+      }
       await conn.end();
-      return JSON.parse(rows[0].results_json as string);
+      return null;
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
     }
-    await conn.end();
-    return null;
   } catch { return null; }
 }
 
@@ -45,19 +50,24 @@ async function readDbCache(queryHash: string): Promise<unknown | null> {
 async function writeDbCache(queryHash: string, queryText: string, queryType: string, result: unknown, executionTimeMs: number): Promise<void> {
   try {
     const conn = await getMysqlConnection();
-    const expiresAt = new Date(Date.now() + SPARQL_CACHE_TTL_MS);
-    const resultsJson = JSON.stringify(result);
-    const resultObj = (result as Record<string, unknown>)?.results;
-    const bindingsArr = resultObj && typeof resultObj === 'object' ? (resultObj as Record<string, unknown>).bindings : undefined;
-    const resultCount = Array.isArray(bindingsArr) ? bindingsArr.length : 0;
-    await conn.execute(
-      `INSERT INTO sparql_cache (query_hash, query_text, query_type, results_json, result_count, execution_time_ms, expires_at)
+    try {
+      const expiresAt = new Date(Date.now() + SPARQL_CACHE_TTL_MS);
+      const resultsJson = JSON.stringify(result);
+      const resultObj = (result as Record<string, unknown>)?.results;
+      const bindingsArr = resultObj && typeof resultObj === 'object' ? (resultObj as Record<string, unknown>).bindings : undefined;
+      const resultCount = Array.isArray(bindingsArr) ? bindingsArr.length : 0;
+      await conn.execute(
+        `INSERT INTO sparql_cache (query_hash, query_text, query_type, results_json, result_count, execution_time_ms, expires_at)
        VALUES (?, ?, ?, ?, ?, ?, ?)
        ON DUPLICATE KEY UPDATE results_json = VALUES(results_json), result_count = VALUES(result_count),
          execution_time_ms = VALUES(execution_time_ms), expires_at = VALUES(expires_at), last_accessed_at = NOW()`,
-      [queryHash, queryText.substring(0, 5000), queryType, resultsJson, resultCount, executionTimeMs, expiresAt]
-    );
-    await conn.end();
+        [queryHash, queryText.substring(0, 5000), queryType, resultsJson, resultCount, executionTimeMs, expiresAt]
+      );
+      await conn.end();
+    } finally {
+      // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+      await conn.end();
+    }
   } catch { /* cache write failure is non-fatal */ }
 }
 import {
@@ -72,6 +82,7 @@ import {
 import mysql from "mysql2/promise";
 import crypto from "crypto";
 import { getMysqlConnection } from "../db/mysqlPool";
+import { OUTBOUND_USER_AGENT } from "../_core/env";
 
 async function getDb() {
   return getMysqlConnection();
@@ -912,23 +923,28 @@ LIMIT 30`,
   getCacheStats: publicProcedure.query(async () => {
     try {
       const conn = await getMysqlConnection();
-      const [total] = await conn.execute<mysql.RowDataPacket[]>("SELECT COUNT(*) as cnt FROM sparql_cache");
-      const [active] = await conn.execute<mysql.RowDataPacket[]>("SELECT COUNT(*) as cnt FROM sparql_cache WHERE expires_at > NOW()");
-      const [expired] = await conn.execute<mysql.RowDataPacket[]>("SELECT COUNT(*) as cnt FROM sparql_cache WHERE expires_at <= NOW()");
-      const [hits] = await conn.execute<mysql.RowDataPacket[]>("SELECT SUM(hit_count) as total_hits, AVG(hit_count) as avg_hits, MAX(hit_count) as max_hits FROM sparql_cache");
-      const [topQueries] = await conn.execute<mysql.RowDataPacket[]>(
-        "SELECT query_text, hit_count, result_count, execution_time_ms, expires_at FROM sparql_cache ORDER BY hit_count DESC LIMIT 5"
-      );
-      await conn.end();
-      return {
-        total: Number(total[0].cnt),
-        active: Number(active[0].cnt),
-        expired: Number(expired[0].cnt),
-        totalHits: Number(hits[0].total_hits ?? 0),
-        avgHits: Number(hits[0].avg_hits ?? 0),
-        maxHits: Number(hits[0].max_hits ?? 0),
-        topQueries: topQueries as Record<string, unknown>[],
-      };
+      try {
+        const [total] = await conn.execute<mysql.RowDataPacket[]>("SELECT COUNT(*) as cnt FROM sparql_cache");
+        const [active] = await conn.execute<mysql.RowDataPacket[]>("SELECT COUNT(*) as cnt FROM sparql_cache WHERE expires_at > NOW()");
+        const [expired] = await conn.execute<mysql.RowDataPacket[]>("SELECT COUNT(*) as cnt FROM sparql_cache WHERE expires_at <= NOW()");
+        const [hits] = await conn.execute<mysql.RowDataPacket[]>("SELECT SUM(hit_count) as total_hits, AVG(hit_count) as avg_hits, MAX(hit_count) as max_hits FROM sparql_cache");
+        const [topQueries] = await conn.execute<mysql.RowDataPacket[]>(
+          "SELECT query_text, hit_count, result_count, execution_time_ms, expires_at FROM sparql_cache ORDER BY hit_count DESC LIMIT 5"
+        );
+        await conn.end();
+        return {
+          total: Number(total[0].cnt),
+          active: Number(active[0].cnt),
+          expired: Number(expired[0].cnt),
+          totalHits: Number(hits[0].total_hits ?? 0),
+          avgHits: Number(hits[0].avg_hits ?? 0),
+          maxHits: Number(hits[0].max_hits ?? 0),
+          topQueries: topQueries as Record<string, unknown>[],
+        };
+      } finally {
+        // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+        await conn.end();
+      }
     } catch (e) {
       return { total: 0, active: 0, expired: 0, totalHits: 0, avgHits: 0, maxHits: 0, topQueries: [], error: String(e) };
     }
@@ -942,17 +958,22 @@ LIMIT 30`,
     .mutation(async ({ input }) => {
       try {
         const conn = await getMysqlConnection();
-        let deleted = 0;
-        if (input.expiredOnly) {
-          const [result] = await conn.execute<mysql.OkPacket>("DELETE FROM sparql_cache WHERE expires_at <= NOW()");
-          deleted = result.affectedRows;
-        } else {
-          const [result] = await conn.execute<mysql.OkPacket>("DELETE FROM sparql_cache");
-          deleted = result.affectedRows;
-          _sparqlCache.clear();
+        try {
+          let deleted = 0;
+          if (input.expiredOnly) {
+            const [result] = await conn.execute<mysql.OkPacket>("DELETE FROM sparql_cache WHERE expires_at <= NOW()");
+            deleted = result.affectedRows;
+          } else {
+            const [result] = await conn.execute<mysql.OkPacket>("DELETE FROM sparql_cache");
+            deleted = result.affectedRows;
+            _sparqlCache.clear();
+          }
+          await conn.end();
+          return { deleted, message: `${deleted} entrée(s) supprimée(s) du cache SPARQL` };
+        } finally {
+          // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+          await conn.end();
         }
-        await conn.end();
-        return { deleted, message: `${deleted} entrée(s) supprimée(s) du cache SPARQL` };
       } catch (e) {
         throw new Error(`Erreur nettoyage cache: ${e}`);
       }
@@ -1094,7 +1115,7 @@ LIMIT 15`,
 
       // 2. Fallback : si pas de QID, tenter de résoudre via nom latin (plante) ou CAS/IUPAC (molécule)
       const WIKIDATA_SPARQL = "https://query.wikidata.org/sparql";
-      const WD_HEADERS = { "Accept": "application/sparql-results+json", "User-Agent": "PERFUMUM-Research/1.0 (https://perfumum-h2pjhhjb.manus.space)" };
+      const WD_HEADERS = { "Accept": "application/sparql-results+json", "User-Agent": OUTBOUND_USER_AGENT };
 
       // Helper : résoudre un QID via CAS (molécule) ou nom latin (plante)
       const resolveQidFromIdentifiers = async (): Promise<string | null> => {

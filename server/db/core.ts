@@ -7,10 +7,22 @@ import { eq, and, or, isNull, isNotNull, not, desc, asc, sql, like, gte, lte, in
 import { drizzle } from "drizzle-orm/mysql2";
 import * as schema from "../../drizzle/schema";
 import { ENV } from '../_core/env';
+import { logger } from '../_core/logger';
+import { createAppPool } from './mysqlPool';
 import { expandSearchQuery, getSynonyms, normalizeSearchTerm, categorizeOlfactiveTerm, getDictionaryStats } from '../../shared/olfactiveSynonyms';
 import { expandWithScientificNames, getScientificDictionaryStats } from '../../shared/botanicalLatinNames';
 
-let _db: ReturnType<typeof drizzle> | null = null;
+/**
+ * Instance Drizzle de l'application. Son `$client` est le pool PROMESSE créé
+ * par createAppPool (mysql2/promise) : `db.$client.query(...)` renvoie une
+ * promesse, et `db.$client.promise()` n'existe pas. Pour une requête SQL
+ * brute, passer par `queryRows()` (./rawQuery.ts).
+ */
+export type AppDb = Omit<ReturnType<typeof drizzle>, "$client"> & {
+  $client: import("mysql2/promise").Pool;
+};
+
+let _db: AppDb | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
 export async function getDb() {
@@ -20,12 +32,20 @@ export async function getDb() {
       // pas seulement les 39 précédemment listées à la main). Sans risque connu :
       // aucun fichier du dépôt n'utilise l'API relationnelle db.query.*, qui est la
       // seule à dépendre de ce schema; .select().from(table) fonctionne indépendamment.
-      _db = drizzle(process.env.DATABASE_URL, {
+      // Drizzle reçoit un pool créé par createAppPool plutôt que l'URL : avec
+      // l'URL, il ouvrait un pool aux réglages par défaut de mysql2, dont les
+      // connexions inactives ne sont jamais fermées (TiDB Cloud les coupe au
+      // bout de 340 s, et la requête suivante échouait).
+      // Le type exposé reste celui d'avant (schéma non précisé), pour ne rien
+      // changer chez les appelants de getDb().
+      _db = drizzle(createAppPool(process.env.DATABASE_URL), {
         mode: "default",
         schema,
-      });
+      }) as unknown as AppDb;
     } catch (error) {
-      console.warn("[Database] Failed to connect:", error);
+      // Le plus important à voir en production : sans base, l'application
+      // répond mais ne sert plus rien d'utile.
+      logger.error("connexion à la base impossible", { error });
       _db = null;
     }
   }
@@ -86,7 +106,7 @@ export async function upsertUser(user: schema.InsertUser): Promise<void> {
       set: updateSet,
     });
   } catch (error) {
-    console.error("[Database] Failed to upsert user:", error);
+    logger.error("échec de l'enregistrement utilisateur", { error });
     throw error;
   }
 }

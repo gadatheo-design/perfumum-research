@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { safeJsonParse } from "@/lib/utils";
 import { useState, useMemo, useEffect } from 'react';
 import { motion } from 'framer-motion';

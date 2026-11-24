@@ -11,6 +11,7 @@ import { z } from "zod";
 import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
 import mysql from "mysql2/promise";
 import { getMysqlConnection } from "../db/mysqlPool";
+import { sqlInt } from "../db/sqlInt";
 
 const CROSSREF_BASE = "https://api.crossref.org/works";
 const CROSSREF_EMAIL = "perfumum-research@contact.fr"; // Polite pool CrossRef
@@ -201,8 +202,8 @@ export const crossrefRouter = router({
            LEFT JOIN bibliography_entries be ON be.id = bcc.target_id
            WHERE bcc.source_id = ?
            ORDER BY bcc.cited_by_count DESC
-           LIMIT ?`,
-          [input.bibliographyEntryId, input.limit]
+           LIMIT ${sqlInt(input.limit, { min: 1, max: 100 })}`,
+          [input.bibliographyEntryId]
         );
 
         // Construire les nœuds et liens
@@ -366,36 +367,41 @@ export const crossrefRouter = router({
             const references = (work.reference as Record<string, unknown>[] ?? []).slice(0, 100);
             let inserted = 0;
             const conn2 = await getDb();
-            for (const ref of references) {
-              const targetDoi = String(ref.DOI ?? ref.doi ?? "").trim();
-              if (!targetDoi) continue;
-              try {
-                const [targetRows] = await conn2.execute<mysql.RowDataPacket[]>(
-                  "SELECT id FROM bibliography_entries WHERE doi = ? LIMIT 1", [targetDoi]
-                );
-                const targetId = targetRows.length > 0 ? targetRows[0].id : null;
-                await conn2.execute(
-                  `INSERT INTO bibliography_cross_citations
+            try {
+              for (const ref of references) {
+                const targetDoi = String(ref.DOI ?? ref.doi ?? "").trim();
+                if (!targetDoi) continue;
+                try {
+                  const [targetRows] = await conn2.execute<mysql.RowDataPacket[]>(
+                    "SELECT id FROM bibliography_entries WHERE doi = ? LIMIT 1", [targetDoi]
+                  );
+                  const targetId = targetRows.length > 0 ? targetRows[0].id : null;
+                  await conn2.execute(
+                    `INSERT INTO bibliography_cross_citations
                     (source_id, target_doi, target_id, target_title, target_year, relation_type, data_source)
                    VALUES (?, ?, ?, ?, ?, 'cites', 'crossref')
                    ON DUPLICATE KEY UPDATE target_id = VALUES(target_id), updated_at = NOW()`,
-                  [
-                    entry.id,
-                    targetDoi.substring(0, 255),
-                    targetId,
-                    String(ref["article-title"] ?? ref.title ?? "").substring(0, 500) || null,
-                    ref.year ? parseInt(String(ref.year)) : null,
-                  ]
-                );
-                inserted++;
-              } catch { /* skip */ }
+                    [
+                      entry.id,
+                      targetDoi.substring(0, 255),
+                      targetId,
+                      String(ref["article-title"] ?? ref.title ?? "").substring(0, 500) || null,
+                      ref.year ? parseInt(String(ref.year)) : null,
+                    ]
+                  );
+                  inserted++;
+                } catch { /* skip */ }
+              }
+              await conn2.end();
+              results.push({ id: entry.id as number, title: String(entry.title ?? "").substring(0, 50), inserted });
+              totalInserted += inserted;
+              processed++;
+              // Délai poli CrossRef (1 req/s)
+              await new Promise(r => setTimeout(r, 1000));
+            } finally {
+              // Rend la connexion au pool même en cas d'erreur (sans effet si déjà rendue).
+              await conn2.end();
             }
-            await conn2.end();
-            results.push({ id: entry.id as number, title: String(entry.title ?? "").substring(0, 50), inserted });
-            totalInserted += inserted;
-            processed++;
-            // Délai poli CrossRef (1 req/s)
-            await new Promise(r => setTimeout(r, 1000));
           } catch (err) {
             results.push({ id: entry.id as number, title: String(entry.title ?? "").substring(0, 50), inserted: 0, error: String(err).substring(0, 100) });
           }

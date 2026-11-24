@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useState } from 'react';
 import { Header } from "@/components/layout/Header";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
@@ -163,7 +162,6 @@ export default function GammesMossi() {
       <div className="flex-1 bg-gradient-to-b from-amber-50 via-stone-50 to-orange-50">
         {/* Hero Section */}
         <div className="relative overflow-hidden bg-gradient-to-r from-amber-900 via-orange-800 to-red-900 text-white">
-          <div className="absolute inset-0 bg-[url('https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/noise_cee97612.png')] opacity-20"></div>
           <div className="container relative py-16 md:py-24">
             <div className="flex items-center gap-3 mb-4">
               <MapPin className="h-6 w-6" />

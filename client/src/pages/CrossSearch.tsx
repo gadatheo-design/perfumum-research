@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * CrossSearch - Page de recherche croisée entre terroirs, plantes et molécules
  * 

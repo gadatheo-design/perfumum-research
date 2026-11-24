@@ -6,16 +6,14 @@
  * de cache obsolète, tout en offrant un mode offline fonctionnel.
  */
 
-const CACHE_VERSION = 'perfumum-v3'; // Incrémenter pour forcer le rafraîchissement
-const RUNTIME_CACHE = 'perfumum-runtime-v3';
+const CACHE_VERSION = 'perfumum-v5'; // Incrémenter pour forcer le rafraîchissement
+const RUNTIME_CACHE = 'perfumum-runtime-v5';
 const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 heures en millisecondes
 
 // Assets critiques à mettre en cache (minimal)
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',
-  'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/icon-192x192_0a243a0b.png',
-  'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/icon-512x512_85c7de29.png',
 ];
 
 // Install event - cache minimal des assets critiques
@@ -25,7 +23,13 @@ self.addEventListener('install', (event) => {
     caches.open(CACHE_VERSION)
       .then((cache) => {
         console.log('[SW v2] Caching critical assets');
-        return cache.addAll(STATIC_ASSETS);
+        // Un par un, sans faire échouer l'installation si l'un manque :
+        // avec addAll, une seule ressource absente annulait tout.
+        return Promise.all(
+          STATIC_ASSETS.map((asset) =>
+            cache.add(asset).catch((error) => console.warn('[SW] Non mis en cache:', asset, error))
+          )
+        );
       })
       .then(() => self.skipWaiting()) // Force activation immédiate
   );

@@ -1,4 +1,3 @@
-// @ts-nocheck
 /**
  * BiosyntheticPathwayFlow - Visualisation D3.js du chemin biosynthétique
  * Affiche le parcours: Gène TPS → Molécule → Recette

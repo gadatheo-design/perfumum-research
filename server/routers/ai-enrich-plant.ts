@@ -3,6 +3,7 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import * as db from "../db";
 import { SQL } from "drizzle-orm";
+import { withMysqlConnection } from "../db/mysqlPool";
 import { PlantEnrichmentLLM } from "../routers";
 
 export const aiEnrichPlantRouter = router({
@@ -69,9 +70,6 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
         throw new Error(`Erreur IA enrichissement plante "${plant.name}": ${err instanceof Error ? err.message : 'Échec appel LLM'}`);
       }
 
-      const { createConnection: _ccPlantUpd } = await import('mysql2/promise');
-      const _connPlant = await _ccPlantUpd(process.env.DATABASE_URL!);
-
       const updates: string[] = [];
       const params: (string | number | null)[] = [];
 
@@ -102,8 +100,10 @@ Réponds UNIQUEMENT avec le JSON, sans texte supplémentaire.`;
 
       if (updates.length > 0) {
         params.push(input.plantId);
-        await _connPlant.query(`UPDATE plants SET ${updates.join(', ')} WHERE id = ?`, params);
-        await _connPlant.end();
+        // La connexion n'est prise que s'il y a quelque chose à écrire, et
+        // rendue au pool même en cas d'erreur. Avant : ouverte à chaque appel,
+        // refermée seulement quand il y avait une mise à jour.
+        await withMysqlConnection(conn => conn.query(`UPDATE plants SET ${updates.join(', ')} WHERE id = ?`, params));
       }
 
       return { success: true, enriched, updatedFields: updates.map(u => u.split(' = ')[0]) };

@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { safeJsonParse } from "@/lib/utils";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { Header } from "@/components/layout/Header";

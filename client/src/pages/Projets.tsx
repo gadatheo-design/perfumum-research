@@ -174,12 +174,9 @@ export default function Projets() {
 
                 {/* Musée 1 */}
                 <div className="group relative overflow-hidden rounded-lg border border-border hover:shadow-xl transition-all duration-300">
-                  <img
-                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/terrain-musee-1_ccbd158a.webp"
-                    alt="Musée - Galerie blanche minimaliste avec béton ciré. Atmosphère stérile et neutre."
-                    loading="lazy"
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                  <div className="flex h-64 w-full items-end bg-muted p-4">
+                    <p className="text-sm italic text-muted-foreground">Galerie blanche minimaliste avec béton ciré. Atmosphère stérile et neutre.</p>
+                  </div>
                   <div className="p-4 bg-background">
                     <h3 className="font-semibold text-sm mb-1">Musée — Salle Blanche</h3>
                     <p className="text-xs text-muted-foreground">Berne, 2024</p>
@@ -191,12 +188,9 @@ export default function Projets() {
 
                 {/* Musée 2 */}
                 <div className="group relative overflow-hidden rounded-lg border border-border hover:shadow-xl transition-all duration-300">
-                  <img
-                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/terrain-musee-1_ccbd158a.webp"
-                    alt="Musée - Archives avec documents anciens, étagères en bois, poussière en suspension."
-                    loading="lazy"
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                  <div className="flex h-64 w-full items-end bg-muted p-4">
+                    <p className="text-sm italic text-muted-foreground">Archives avec documents anciens, étagères en bois, poussière en suspension.</p>
+                  </div>
                   <div className="p-4 bg-background">
                     <h3 className="font-semibold text-sm mb-1">Musée — Archives</h3>
                     <p className="text-xs text-muted-foreground">Berne, 2024</p>

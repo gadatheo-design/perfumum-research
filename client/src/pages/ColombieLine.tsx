@@ -7,17 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Heart, MapPin, Leaf, Coffee, Droplet, ExternalLink, ArrowRight } from 'lucide-react';
 import { Link } from 'wouter';
 
-const moleculeImages: Record<string, string> = {
-  'Lippia Origanoides': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/lippia-origanoides_11468d3c.svg',
-  'Turnera Diffusa': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/turnera-diffusa_4e53c0cc.svg',
-  'Calycolpus Moritzianus': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/calycolpus-moritzianus_24c03479.svg',
-  'Piper Aduncum': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/piper-aduncum_52adaab3.svg',
-  'Steiractinia Aspera': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/steiractinia-aspera_868c0fb3.svg',
-  'Coffea arabica var. Geisha': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/cafe-geisha_44cf0d72.svg',
-  'Coffea arabica flowers': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/fleur-cafe_85a32f13.svg',
-  'Theobroma cacao': 'https://d2xsxph8kpxj0f.cloudfront.net/310519663081881090/H2pjHHJbH276XmnbNcJhCp/cacao-colombien_751ffe66.svg',
-};
-
 export default function ColombieLine() {
   const [, navigate] = useLocation();
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
@@ -245,16 +234,7 @@ export default function ColombieLine() {
           <TabsContent value="molecules" className="space-y-8">
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {molecules.map((mol) => (
-                <Card key={mol.id} className="overflow-hidden transition-all hover:shadow-lg">
-                  {moleculeImages[mol.name] && (
-                    <div className="relative h-48 overflow-hidden bg-slate-100">
-                      <img
-                        src={moleculeImages[mol.name]}
-                        alt={mol.name}
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                  )}
+                <Card key={mol.id} className="overflow-hidden pt-0 transition-all hover:shadow-lg">
                   <CardHeader className={`bg-gradient-to-r ${mol.color} text-white pb-4`}>
                     <div className="flex items-start justify-between">
                       <div>

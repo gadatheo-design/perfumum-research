@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { useEffect, useRef, useState } from "react";
 import * as d3 from "d3";
 import { Button } from "@/components/ui/button";
@@ -233,7 +232,7 @@ export function EnhancedRadarChart({
       }
 
       // Tooltip
-      circle.append("title").text(`${d.axis}: ${(d).toFixed(1)}`);
+      circle.append("title").text(`${d.axis}: ${d.value.toFixed(1)}`);
     });
 
     // Add title if provided

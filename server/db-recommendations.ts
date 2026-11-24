@@ -1,4 +1,6 @@
 import { getDb } from './db';
+import type { AppDb } from './db/core';
+import { queryRows } from './db/rawQuery';
 import { withCache, CACHE_TTL } from './cache';
 
 // Clés de cache
@@ -96,14 +98,14 @@ const ALL_RECETTES_RADAR_SQL = `
   ORDER BY r.id
 `;
 
-type DbWithClient = { $client: { promise: () => { query: (q: string) => Promise<[Record<string, unknown>[], unknown]> } } };
+type DbWithClient = AppDb;
 
 // Récupérer tous les profils radar en 1 requête + cache TTL 5 min
 async function getAllRecettesRadarProfiles(db: DbWithClient): Promise<RecetteWithRadar[]> {
   return withCache<RecetteWithRadar[]>(
     RADAR_PROFILES_CACHE_KEY,
     async () => {
-      const [rows] = await db.$client.promise().query(ALL_RECETTES_RADAR_SQL);
+      const rows = await queryRows(db, ALL_RECETTES_RADAR_SQL);
       return (rows as Record<string, unknown>[]).map((r): RecetteWithRadar => ({
         id: Number(r.id),
         name: String(r.name || ''),
@@ -187,7 +189,7 @@ export async function getSimilarMolecules(
   const allMolecules = await withCache<MoleculeWithRadar[]>(
     MOLECULES_RADAR_CACHE_KEY,
     async () => {
-      const [rows] = await db.$client.promise().query(`
+      const rows = await queryRows(db, `
         SELECT id, name, family, olfactiveProfile,
           COALESCE(radar_intensity, 50) AS radarIntensity,
           COALESCE(radar_freshness, 50) AS radarFreshness,
@@ -265,7 +267,7 @@ export async function getRecommendedRecettesFromFavorites(
   const linkRows = await withCache<Array<{recetteId: number; moleculeId: number}>>(
     RECETTE_MOLECULE_LINKS_CACHE_KEY,
     async () => {
-      const [rows] = await db.$client.promise().query(`
+      const rows = await queryRows(db, `
         SELECT recette_id AS recetteId, molecule_id AS moleculeId
         FROM molecules_recettes
         ORDER BY recette_id
